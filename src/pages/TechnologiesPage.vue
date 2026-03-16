@@ -10,16 +10,6 @@ useSeo({
 
 <template>
   <section class="hero-minimal">
-    <div class="container">
-      <h1>Technologies</h1>
-      <p class="subtitle">TODO: Convert from technologies.html</p>
-    </div>
-  </section>
-  <main id="main-content" aria-label="Main content">
-
-    <!-- TECHNOLOGIES_PAGE_START -->
-    <!-- Hero Section -->
-    <section class="hero-minimal">
       <div class="container">
         <h1>Technologies</h1>
         <p class="subtitle">Production-proven expertise across modern engineering and eLearning systems</p>
@@ -29,6 +19,11 @@ useSeo({
           Project counts and client tags come from verified email archive data.</p>
       </div>
     </section>
+  <main id="main-content" aria-label="Main content">
+
+    <!-- TECHNOLOGIES_PAGE_START -->
+    <!-- Hero Section -->
+   
 
     <section class="tech-category" aria-labelledby="languages-frameworks-heading">
       <div class="container">
