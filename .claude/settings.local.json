@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/main/pattern158-vue -type f \\\\\\(-name *.html -o -name *.css \\\\\\))",
+      "Bash(du -sh /c/main/pattern158.solutions/*)",
+      "Bash(wc -l /c/main/pattern158.solutions/*.html)",
+      "Bash(wsl cat:*)",
+      "Bash(wsl -e bash -c \"cat /home/xhiris/projects/pattern158.solutions/technologies.html\")",
+      "Bash(wsl -e bash -c 'cat /home/xhiris/projects/pattern158.solutions/css/main.css')",
+      "Bash(wsl -e bash -c \"find /home/xhiris/projects/pattern158.solutions -name ''*.css'' -type f\")",
+      "Bash(wsl -e bash -c \"wc -l /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"grep -n ''tech-\\\\|technologies\\\\|page-tech\\\\|expertise-badge\\\\|badge-deep\\\\|badge-working\\\\|badge-aware\\\\|tech-card\\\\|tech-category\\\\|tech-meta\\\\|tech-name\\\\|hero-intro\\\\|hero-minimal'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''3303,3470p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''659,680p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''210,245p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''3500,3535p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''3975,4000p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"sed -n ''1,210p'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"grep -n ''hero-intro'' /home/xhiris/projects/pattern158.solutions/css/main.css\")",
+      "Bash(wsl -e bash -c \"grep -rn ''hero-intro'' /home/xhiris/projects/pattern158.solutions/\")"
+    ]
+  }
+}
