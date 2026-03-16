@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import PatternVisual from '@/components/PatternVisual.vue'
+import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
 
+useBodyClass('page-index')
 useSeo({
   title: 'Pattern 158 | Dan Novak - Systems Architect',
   description: 'Dan Novak - Systems architect with 28+ years rescuing enterprise systems. Specializing in legacy system integration, cross-platform solutions, and AI implementation.',
@@ -10,8 +12,6 @@ useSeo({
 </script>
 
 <template>
-
-  <main id="main-content" aria-label="Main content">
 
     <!-- Hero Section -->
     <section class="hero">
@@ -287,6 +287,4 @@ useSeo({
         <a href="/testimonials.html" class="btn btn-primary">View All Field Reports</a>
       </div>
     </section>
-
-  </main>
 </template>

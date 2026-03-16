@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import TestimonialQuote from '@/components/TestimonialQuote.vue'
+import HeroMinimal from '@/components/HeroMinimal.vue'
+import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
 
+useBodyClass('page-contact')
 useSeo({
   title: 'Contact | Pattern 158 - Dan Novak',
   description: 'Get in touch with Dan Novak for systems architecture, legacy rescue, and AI implementation consulting.',
@@ -11,8 +14,6 @@ useSeo({
 
 <template>
   <HeroMinimal title="Get in Touch" subtitle="Let's talk about your project" />
-
-  <main id="main-content" aria-label="Main content">
 
     <!-- Contact Methods Section -->
     <section class="contact-methods">
@@ -124,6 +125,4 @@ useSeo({
         />
       </div>
     </section>
-
-  </main>
 </template>
