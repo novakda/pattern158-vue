@@ -888,33 +888,6 @@ footer a:hover {
     color: var(--color-inverse);
 }
 
-/* ========== PATTERN VISUAL ========== */
-.page-index .pattern-visual {
-    margin: var(--space-xl) auto;
-    width: 200px;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: var(--space-sm);
-}
-
-.page-index .pattern-bar {
-    background: var(--color-primary);
-    width: 30px;
-    opacity: 0.8;
-    transition: all 0.3s;
-}
-
-.page-index .pattern-bar:nth-child(1) { height: 60px; }
-.page-index .pattern-bar:nth-child(2) { height: 60px; }
-.page-index .pattern-bar:nth-child(3) { height: 80px; }
-
-.page-index .pattern-visual:hover .pattern-bar {
-    opacity: 1;
-    transform: scaleY(1.1);
-}
-
 /* ========== CONTAINER ========== */
 .page-index .container {
     max-width: 1200px;
@@ -3504,7 +3477,7 @@ footer a:hover {
     .page-exhibit .report-section,
     .page-contact .contact-methods,
     .page-contact .guidance,
-    .page-contact .testimonial,
+    .testimonial,
     .page-philosophy .content-section,
     .page-technologies .tech-category,
     .page-portfolio .portfolio-flagships,
@@ -3744,11 +3717,11 @@ footer a:hover {
         padding: var(--space-ms) var(--space-sm);
     }
 
-    .page-contact .quote-text {
+    .quote-text {
         font-size: var(--font-size-md);
     }
 
-    .page-contact .testimonial-quote::before {
+    .testimonial-quote::before {
         font-size: var(--font-size-5xl);
         top: -1rem;
     }
