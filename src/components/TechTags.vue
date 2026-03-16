@@ -2,8 +2,6 @@
 import { computed } from 'vue'
 import type { Tag } from '@/components/TechTags.types'
 
-export { Tag }
-
 const props = defineProps<{
   tags: (Tag | string)[]
 }>()

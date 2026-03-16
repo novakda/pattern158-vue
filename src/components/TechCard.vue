@@ -2,7 +2,7 @@
 import ExpertiseBadge from '@/components/ExpertiseBadge.vue'
 import type { ExpertiseLevel } from '@/components/ExpertiseBadge.types'
 import TechTags from '@/components/TechTags.vue'
-import type { Tag } from '@/components/TechTags.vue'
+import type { Tag } from '@/components/TechTags.types'
 
 defineProps<{
   name: string
