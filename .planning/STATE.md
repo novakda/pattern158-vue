@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-03-16T23:01:59.882Z"
+stopped_at: Completed 02-homepage-extraction-pattern-01-PLAN.md
+last_updated: "2026-03-16T23:38:41.369Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 5
+  completed_plans: 3
   percent: 0
 ---
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 *Updated after each plan completion*
 | Phase 01-foundation-fixes P01 | 10 | 2 tasks | 5 files |
 | Phase 01-foundation-fixes P02 | 3 | 2 tasks | 3 files |
+| Phase 02-homepage-extraction-pattern P01 | 5 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - [Phase 01-foundation-fixes]: Vue 3 fragment pattern confirmed as standard for all page templates (no wrapper div or main)
 - [Phase 01-foundation-fixes]: vitest.config.ts: use projects array (Vitest 4 API) with extends: true on each project for root alias inheritance
 - [Phase 01-foundation-fixes]: Test file naming: *.test.ts = unit (happy-dom), *.browser.test.ts = browser (Playwright)
+- [Phase 02-homepage-extraction-pattern]: Tag interface extracted to TechTags.types.ts for plain tsc compatibility; TechTags.vue re-exports for vue-tsc backward compat
+- [Phase 02-homepage-extraction-pattern]: Influence segments model (InfluenceSegment[]) chosen for type-safe inline-link content rendering
 
 ### Pending Todos
 
@@ -79,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T23:01:59.879Z
-Stopped at: Phase 2 UI-SPEC approved
-Resume file: .planning/phases/02-homepage-extraction-pattern/02-UI-SPEC.md
+Last session: 2026-03-16T23:38:41.367Z
+Stopped at: Completed 02-homepage-extraction-pattern-01-PLAN.md
+Resume file: None
