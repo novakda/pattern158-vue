@@ -29,8 +29,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 01-01-PLAN.md — Fix nested main wrappers + add 404 catch-all route with NotFoundPage
-- [ ] 01-02-PLAN.md — Test infrastructure setup (vitest dual-environment config + smoke test)
+- [x] 01-01-PLAN.md — Fix nested main wrappers + add 404 catch-all route with NotFoundPage
+- [x] 01-02-PLAN.md — Test infrastructure setup (vitest dual-environment config + smoke test)
 
 ### Phase 2: Homepage + Extraction Pattern
 **Goal**: HomePage is fully ported with complete content, zero raw `.html` hrefs, and the named concept components (FindingCard, SpecialtyCard, StatItem) extracted with TypeScript props — establishing the pattern all subsequent pages follow
@@ -41,7 +41,12 @@ Plans:
   2. `grep '\.html"' src/pages/HomePage.vue` returns zero results — all internal links use `<router-link>`
   3. FindingCard, SpecialtyCard, and StatItem components exist with `defineProps<{}>()` TypeScript generic form and named slots where applicable
   4. The HomePage template reads as a scannable outline — section-level components are named, not inline HTML blocks
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Create typed data layer (5 data files) and update existing component contracts (TechTags, TestimonialQuote)
+- [ ] 02-02-PLAN.md — Create all 7 new Vue SFC components (HomeHero, FindingCard, SpecialtyCard, StatItem, StatsSection, InfluencesList, CtaButtons)
+- [ ] 02-03-PLAN.md — Refactor HomePage.vue to compose extracted components + visual parity checkpoint
 
 ### Phase 3: Remaining Pages + Completion
 **Goal**: All nine pages are fully ported with no TODO stubs, every named concept component is extracted and Storybook-documented, and page templates read as outlines
@@ -63,5 +68,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
-| 2. Homepage + Extraction Pattern | 0/TBD | Not started | - |
+| 2. Homepage + Extraction Pattern | 0/3 | Not started | - |
 | 3. Remaining Pages + Completion | 0/TBD | Not started | - |
