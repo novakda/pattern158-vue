@@ -1,7 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   quote: string
-  cite: string
+  cite?: string
   context?: string
   variant?: 'primary' | 'secondary'
 }>()
@@ -10,7 +10,7 @@ defineProps<{
 <template>
   <blockquote class="testimonial-quote" :class="{ 'testimonial-secondary': variant === 'secondary' }">
     <p class="quote-text">{{ quote }}</p>
-    <footer class="quote-attribution">
+    <footer v-if="cite" class="quote-attribution">
       <cite>{{ cite }}</cite>
       <p v-if="context" class="quote-context">{{ context }}</p>
     </footer>
