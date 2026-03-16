@@ -90,7 +90,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-01 | Phase 3 | Pending |
 | COMP-02 | Phase 2 | Pending |
 | COMP-03 | Phase 3 | Pending |
-| COMP-04 | Phase 2 | Pending |
+| COMP-04 | Phase 3 | Pending |
 | A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Pending |
 
@@ -99,6 +99,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 - Mapped to phases: 13
 - Unmapped: 0
 
+**Note:** COMP-04 moved from Phase 2 to Phase 3 during plan revision. Phase 2 components are concept components (FindingCard, SpecialtyCard, etc.) that are props-driven. Named slots for flexible composition applies to layout-level components which Phase 3 will introduce when porting remaining pages.
+
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-16 after roadmap creation*
+*Last updated: 2026-03-16 after plan revision (COMP-04 moved to Phase 3)*

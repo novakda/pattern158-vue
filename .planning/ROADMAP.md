@@ -35,11 +35,11 @@ Plans:
 ### Phase 2: Homepage + Extraction Pattern
 **Goal**: HomePage is fully ported with complete content, zero raw `.html` hrefs, and the named concept components (FindingCard, SpecialtyCard, StatItem) extracted with TypeScript props — establishing the pattern all subsequent pages follow
 **Depends on**: Phase 1
-**Requirements**: PAGE-01, COMP-02, COMP-04
+**Requirements**: PAGE-01, COMP-02
 **Success Criteria** (what must be TRUE):
   1. HomePage renders all sections with content that matches the live 11ty site at 375px, 768px, and 1280px in both light and dark themes (side-by-side comparison passes)
   2. `grep '\.html"' src/pages/HomePage.vue` returns zero results — all internal links use `<router-link>`
-  3. FindingCard, SpecialtyCard, and StatItem components exist with `defineProps<{}>()` TypeScript generic form and named slots where applicable
+  3. FindingCard, SpecialtyCard, and StatItem components exist with `defineProps<{}>()` TypeScript generic form
   4. The HomePage template reads as a scannable outline — section-level components are named, not inline HTML blocks
 **Plans:** 3 plans
 
@@ -51,13 +51,14 @@ Plans:
 ### Phase 3: Remaining Pages + Completion
 **Goal**: All nine pages are fully ported with no TODO stubs, every named concept component is extracted and Storybook-documented, and page templates read as outlines
 **Depends on**: Phase 2
-**Requirements**: PAGE-02, PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, COMP-01, COMP-03, STORY-01
+**Requirements**: PAGE-02, PAGE-03, PAGE-04, PAGE-05, PAGE-06, PAGE-07, COMP-01, COMP-03, COMP-04, STORY-01
 **Success Criteria** (what must be TRUE):
   1. Every page route (FAQ, Portfolio, Contact, Testimonials, Accessibility, Review) renders complete content with no "TODO" or placeholder text visible
   2. All page templates are under 50 lines — a reviewer can scan any template and understand the page structure in 30 seconds
   3. `grep -r '\.html"' src/pages/` returns zero results across all pages
   4. Every extracted component (FindingCard, SpecialtyCard, StatItem, FaqItem, and any others) has a Storybook story demonstrating its prop variants
-  5. Visual parity with the live 11ty site confirmed at 375px, 768px, and 1280px in both light and dark themes for all six ported pages
+  5. Layout components use named slots for flexible composition (COMP-04)
+  6. Visual parity with the live 11ty site confirmed at 375px, 768px, and 1280px in both light and dark themes for all six ported pages
 **Plans**: TBD
 
 ## Progress
