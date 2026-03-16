@@ -26,7 +26,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Opening TechnologiesPage and ContactPage in a browser produces valid HTML with no nested `<main>` elements (verifiable via browser DevTools or W3C validator)
   2. Navigating to a non-existent route (e.g., `/does-not-exist`) shows a NotFoundPage rather than a blank screen or console error
   3. `npm ls vitest-browser-vue` confirms the package is installed and listed in devDependencies
-**Plans**: TBD
+**Plans:** 2 plans
+
+Plans:
+- [ ] 01-01-PLAN.md — Fix nested main wrappers + add 404 catch-all route with NotFoundPage
+- [ ] 01-02-PLAN.md — Test infrastructure setup (vitest dual-environment config + smoke test)
 
 ### Phase 2: Homepage + Extraction Pattern
 **Goal**: HomePage is fully ported with complete content, zero raw `.html` hrefs, and the named concept components (FindingCard, SpecialtyCard, StatItem) extracted with TypeScript props — establishing the pattern all subsequent pages follow
@@ -58,6 +62,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation Fixes | 0/TBD | Not started | - |
+| 1. Foundation Fixes | 0/2 | Planned | - |
 | 2. Homepage + Extraction Pattern | 0/TBD | Not started | - |
 | 3. Remaining Pages + Completion | 0/TBD | Not started | - |
