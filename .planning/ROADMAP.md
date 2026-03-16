@@ -12,7 +12,7 @@ Three phases to take the Vue 3 scaffold from partial conversion to a fully porte
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages
+- [x] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages (completed 2026-03-16)
 - [ ] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model
 - [ ] **Phase 3: Remaining Pages + Completion** - Port all remaining pages, complete component library, finalize Storybook
 
@@ -26,7 +26,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   1. Opening TechnologiesPage and ContactPage in a browser produces valid HTML with no nested `<main>` elements (verifiable via browser DevTools or W3C validator)
   2. Navigating to a non-existent route (e.g., `/does-not-exist`) shows a NotFoundPage rather than a blank screen or console error
   3. `npm ls vitest-browser-vue` confirms the package is installed and listed in devDependencies
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
 - [ ] 01-01-PLAN.md — Fix nested main wrappers + add 404 catch-all route with NotFoundPage
@@ -62,6 +62,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation Fixes | 0/2 | Planned | - |
+| 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
 | 2. Homepage + Extraction Pattern | 0/TBD | Not started | - |
 | 3. Remaining Pages + Completion | 0/TBD | Not started | - |

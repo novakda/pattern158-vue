@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-03-16T21:08:23.911Z"
+stopped_at: Completed 01-foundation-fixes-01-PLAN.md
+last_updated: "2026-03-16T22:12:11.458Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 3
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 2
   percent: 0
 ---
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0%
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01-foundation-fixes P01 | 10 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -60,6 +61,8 @@ Recent decisions affecting current work:
 
 - [Init]: Port-first, extract-second per page — content must exist before component APIs can be designed
 - [Init]: Extract components when they (a) are reused, (b) name a concept, or (c) enforce a pattern — not for abstraction points
+- [Phase 01-foundation-fixes]: Pages must not contain main elements — App.vue owns the single main#main-content landmark
+- [Phase 01-foundation-fixes]: Vue 3 fragment pattern confirmed as standard for all page templates (no wrapper div or main)
 
 ### Pending Todos
 
@@ -73,6 +76,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T21:08:23.908Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-foundation-fixes/01-CONTEXT.md
+Last session: 2026-03-16T22:12:11.456Z
+Stopped at: Completed 01-foundation-fixes-01-PLAN.md
+Resume file: None

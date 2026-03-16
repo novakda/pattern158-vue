@@ -26,7 +26,7 @@ Requirements for conversion milestone. Each maps to roadmap phases.
 
 ### Accessibility Fix
 
-- [ ] **A11Y-01**: Fix nested `<main>` invalid HTML in TechnologiesPage and ContactPage
+- [x] **A11Y-01**: Fix nested `<main>` invalid HTML in TechnologiesPage and ContactPage
 
 ### Storybook
 
@@ -91,7 +91,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-02 | Phase 2 | Pending |
 | COMP-03 | Phase 3 | Pending |
 | COMP-04 | Phase 2 | Pending |
-| A11Y-01 | Phase 1 | Pending |
+| A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Pending |
 
 **Coverage:**
