@@ -1,0 +1,42 @@
+export interface Finding {
+  number: number
+  title: string
+  meta: string
+  analysis: string
+  solution: string
+  outcome: string
+  link?: string
+  tags: string[]
+}
+
+export const findings: Finding[] = [
+  {
+    number: 1,
+    title: 'Cross-Domain SCORM Framework',
+    meta: '2011-2016 | Status: 10+ years in production',
+    analysis: 'Energy utilities needed cross-domain SCORM delivery before browsers or LMS vendors supported it. Same-origin policy blocked the obvious solutions.',
+    solution: 'Engineered cross-domain communication using EasyXDM. Built SCORM API proxy for transparent AICC/SCORM protocol translation. Created automated package generation tooling.',
+    outcome: 'System served ~20 energy utilities (each drawing a curated subset from a ~2,000 course central library). Remained in production 10+ years. Built in 2011\u2014five years before Rustici released Content Controller.',
+    link: '/exhibits/exhibit-e',
+    tags: ['JavaScript', 'EasyXDM', 'SCORM', 'AICC', 'Groovy'],
+  },
+  {
+    number: 2,
+    title: 'Legacy Courseware CMS Rescue',
+    meta: '2004-2016 | Status: Extended system lifespan 10+ years',
+    analysis: 'Inherited undocumented courseware CMS on Macromedia JRun platform when original developer left. No documentation, no source code access, production system serving clients.',
+    solution: 'Decompiled Java/JSP packages to understand system behavior. Built JavaScript workarounds where server-side refactoring wasn\'t practical. Maintained critical system beyond expected EOL.',
+    outcome: 'System remained operational 10+ years. Enabled company to continue serving clients while planning proper migration path.',
+    tags: ['Java/JSP', 'JavaScript', 'Macromedia JRun', 'Forensic Engineering'],
+  },
+  {
+    number: 3,
+    title: 'Enterprise AI Training Agent',
+    meta: '2025-2026 | Status: Production',
+    analysis: 'Needed AI instructor agent in Copilot Studio. Prompt engineering alone couldn\'t establish reliable guardrails for progress tracking and navigation.',
+    solution: 'Built data pipeline converting eLearning course materials into structured JSON. Used AI code interpreter for content transformation, structured data for deterministic control. Created adaptive cards for navigation and assessments.',
+    outcome: 'Reliable course navigation and progress tracking. Demonstrated hybrid AI/structured data architecture pattern.',
+    link: '/exhibits/exhibit-k',
+    tags: ['Microsoft Copilot Studio', 'Adaptive Cards', 'AI Code Interpreter', 'JSON'],
+  },
+]

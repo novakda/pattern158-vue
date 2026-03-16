@@ -1,4 +1,4 @@
-import type { Tag } from '@/components/TechTags.vue'
+import type { Tag } from '@/components/TechTags.types'
 import type { ExpertiseLevel } from '@/components/ExpertiseBadge.types'
 
 export interface TechCardData {
