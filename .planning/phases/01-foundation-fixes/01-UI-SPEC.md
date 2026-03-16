@@ -44,7 +44,15 @@ Declared values — using project's existing `--space-*` CSS custom properties (
 | 4xl | `--space-4xl` | 80px (5rem) | Hero/feature section spacing |
 | 5xl | `--space-5xl` | 96px (6rem) | Maximum vertical spacing (hero backgrounds) |
 
-Exceptions: none for Phase 1. Phase 1 adds one new component (NotFoundPage) — it uses `--space-lg` and `--space-xl` for container padding, consistent with PhilosophyPage reference. No touch-target exceptions needed (no interactive icons added in this phase).
+Exceptions to the standard 4/8/16/24/32/48/64 set:
+
+| Value | Token | Justification |
+|-------|-------|---------------|
+| 12px | `--space-ms` | Half-step (3×4) for mobile horizontal padding; pre-existing in `main.css` |
+| 80px | `--space-4xl` | 20×4 for hero section spacing; pre-existing in `main.css` |
+| 96px | `--space-5xl` | 24×4 for max hero background spacing; pre-existing in `main.css` |
+
+All three exception tokens are pre-existing in the project's established CSS custom property system. Phase 1 introduces no new spacing tokens. NotFoundPage uses `--space-lg` and `--space-xl` for container padding, consistent with PhilosophyPage reference. No touch-target exceptions needed (no interactive icons added in this phase).
 
 Source: `src/assets/css/main.css` lines 86–95.
 
@@ -122,7 +130,7 @@ New components introduced in Phase 1:
 
 | Component | File | Type | Props | Notes |
 |-----------|------|------|-------|-------|
-| NotFoundPage | `src/pages/NotFoundPage.vue` | Page (no props) | none | Uses `useBodyClass('page-not-found')` and `useSeo()`; fragment template with single `<section class="not-found">`; no `<main>` wrapper |
+| NotFoundPage | `src/pages/NotFoundPage.vue` | Page (no props) | none | Uses `useBodyClass('page-not-found')` and `useSeo()`; fragment template with single `<section class="not-found">`; no `<main>` wrapper. **Visual hierarchy:** primary focal point is the `<h1>` "Page Not Found" (Bebas Neue display, `--font-size-4xl`); secondary focal point is the "Back to Home" CTA button. |
 
 Existing components modified in Phase 1:
 
