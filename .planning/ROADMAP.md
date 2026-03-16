@@ -41,7 +41,7 @@ Plans:
   2. `grep '\.html"' src/pages/HomePage.vue` returns zero results — all internal links use `<router-link>`
   3. FindingCard, SpecialtyCard, and StatItem components exist with `defineProps<{}>()` TypeScript generic form
   4. The HomePage template reads as a scannable outline — section-level components are named, not inline HTML blocks
-**Plans:** 1/3 plans executed
+**Plans:** 2/3 plans executed
 
 Plans:
 - [ ] 02-01-PLAN.md — Create typed data layer (5 data files) and update existing component contracts (TechTags, TestimonialQuote)
@@ -69,5 +69,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
-| 2. Homepage + Extraction Pattern | 1/3 | In Progress|  |
+| 2. Homepage + Extraction Pattern | 2/3 | In Progress|  |
 | 3. Remaining Pages + Completion | 0/TBD | Not started | - |

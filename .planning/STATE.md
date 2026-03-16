@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 02-homepage-extraction-pattern-01-PLAN.md
-last_updated: "2026-03-16T23:38:41.369Z"
+stopped_at: Completed 02-homepage-extraction-pattern-02-PLAN.md
+last_updated: "2026-03-16T23:42:41.426Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 5
-  completed_plans: 3
+  completed_plans: 4
   percent: 0
 ---
 
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01-foundation-fixes P01 | 10 | 2 tasks | 5 files |
 | Phase 01-foundation-fixes P02 | 3 | 2 tasks | 3 files |
 | Phase 02-homepage-extraction-pattern P01 | 5 | 2 tasks | 9 files |
+| Phase 02-homepage-extraction-pattern P02 | 2 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,7 @@ Recent decisions affecting current work:
 - [Phase 01-foundation-fixes]: Test file naming: *.test.ts = unit (happy-dom), *.browser.test.ts = browser (Playwright)
 - [Phase 02-homepage-extraction-pattern]: Tag interface extracted to TechTags.types.ts for plain tsc compatibility; TechTags.vue re-exports for vue-tsc backward compat
 - [Phase 02-homepage-extraction-pattern]: Influence segments model (InfluenceSegment[]) chosen for type-safe inline-link content rendering
+- [Phase 02-homepage-extraction-pattern]: HomeHero renders tech pills inline with hero-tech-pills/tech-pill classes (not TechTags) to preserve existing CSS class structure
 
 ### Pending Todos
 
@@ -82,6 +84,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T23:38:41.367Z
-Stopped at: Completed 02-homepage-extraction-pattern-01-PLAN.md
+Last session: 2026-03-16T23:42:41.423Z
+Stopped at: Completed 02-homepage-extraction-pattern-02-PLAN.md
 Resume file: None
