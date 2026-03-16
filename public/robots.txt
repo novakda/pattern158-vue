@@ -1,0 +1,7 @@
+# Pattern 158 Solutions - Dan Novak Portfolio
+# Allow all search engines to crawl all content
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://pattern158.solutions/sitemap.xml

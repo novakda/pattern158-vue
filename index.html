@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="dark light">
+    <!-- Theme detection: MUST run before CSS to prevent flash -->
+    <script>
+    (function() {
+        var STORAGE_KEY = 'theme';
+        var THEME_ATTR = 'data-theme';
+        var prefersDarkQuery = '(prefers-color-scheme: dark)';
+        var mql = window.matchMedia(prefersDarkQuery);
+        var supportsColorScheme = mql.media === prefersDarkQuery;
+        var savedTheme = null;
+        try { savedTheme = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+        if (savedTheme === 'dark') {
+            document.documentElement.setAttribute(THEME_ATTR, 'dark');
+        } else if (savedTheme === null && supportsColorScheme && mql.matches) {
+            document.documentElement.setAttribute(THEME_ATTR, 'dark');
+        }
+    })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="/assets/images/icons/pattern158_favicon_flat.png" type="image/png" sizes="32x32">
+    <link rel="icon" href="/assets/images/icons/pattern158_favicon_flat.png" type="image/png" sizes="192x192">
+    <link rel="apple-touch-icon" href="/assets/images/icons/pattern158_favicon_flat.png" sizes="180x180">
+</head>
+<body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
