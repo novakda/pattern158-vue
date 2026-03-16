@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 01-foundation-fixes-01-PLAN.md
-last_updated: "2026-03-16T22:12:11.458Z"
+stopped_at: Completed 01-foundation-fixes 01-02-PLAN.md
+last_updated: "2026-03-16T22:13:15.620Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 3
@@ -51,6 +51,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 01-foundation-fixes P01 | 10 | 2 tasks | 5 files |
+| Phase 01-foundation-fixes P02 | 3 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -63,6 +64,8 @@ Recent decisions affecting current work:
 - [Init]: Extract components when they (a) are reused, (b) name a concept, or (c) enforce a pattern — not for abstraction points
 - [Phase 01-foundation-fixes]: Pages must not contain main elements — App.vue owns the single main#main-content landmark
 - [Phase 01-foundation-fixes]: Vue 3 fragment pattern confirmed as standard for all page templates (no wrapper div or main)
+- [Phase 01-foundation-fixes]: vitest.config.ts: use projects array (Vitest 4 API) with extends: true on each project for root alias inheritance
+- [Phase 01-foundation-fixes]: Test file naming: *.test.ts = unit (happy-dom), *.browser.test.ts = browser (Playwright)
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-16T22:12:11.456Z
-Stopped at: Completed 01-foundation-fixes-01-PLAN.md
+Last session: 2026-03-16T22:13:15.618Z
+Stopped at: Completed 01-foundation-fixes 01-02-PLAN.md
 Resume file: None
