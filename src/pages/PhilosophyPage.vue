@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TestimonialQuote from '@/components/TestimonialQuote.vue'
 import { useSeo } from '@/composables/useSeo'
 
 useSeo({
@@ -160,20 +161,17 @@ useSeo({
   <section class="testimonial testimonial-divider">
     <div class="container">
       <h2 class="section-heading-styled">What Colleagues Say</h2>
-      <blockquote class="testimonial-quote">
-        <p class="quote-text">Thank you so much for Dan for putting time into thinking this through and writing it up.</p>
-        <footer class="quote-attribution">
-          <cite>Program Manager, Microsoft Account</cite>
-          <p class="quote-context">GP Strategies &mdash; on a SCORM architecture analysis document</p>
-        </footer>
-      </blockquote>
-      <blockquote class="testimonial-quote testimonial-secondary">
-        <p class="quote-text">Dan, thank you for being such a team player with the GP team and the client, and thank you for your incredible knowledge and expertise.</p>
-        <footer class="quote-attribution">
-          <cite>Account Manager, GP Strategies</cite>
-          <p class="quote-context">Entergy engagement &mdash; on cross-team collaboration</p>
-        </footer>
-      </blockquote>
+      <TestimonialQuote
+        quote="Thank you so much for Dan for putting time into thinking this through and writing it up."
+        cite="Program Manager, Microsoft Account"
+        context="GP Strategies — on a SCORM architecture analysis document"
+      />
+      <TestimonialQuote
+        quote="Dan, thank you for being such a team player with the GP team and the client, and thank you for your incredible knowledge and expertise."
+        cite="Account Manager, GP Strategies"
+        context="Entergy engagement — on cross-team collaboration"
+        variant="secondary"
+      />
     </div>
   </section>
 </template>

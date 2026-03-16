@@ -1729,13 +1729,13 @@ footer a:hover {
 }
 
 /* Testimonial section */
-.page-contact .testimonial {
+.testimonial {
     background: var(--color-inverse);
     color: var(--color-inverse-text);
     padding: var(--space-4xl) var(--space-xl);
 }
 
-.page-contact .testimonial-quote {
+.testimonial-quote {
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
@@ -1743,7 +1743,7 @@ footer a:hover {
     padding: var(--space-xl);
 }
 
-.page-contact .testimonial-quote::before {
+.testimonial-quote::before {
     content: '\201C';
     font-size: var(--font-size-5xl);
     color: var(--color-primary-on-dark);
@@ -1754,20 +1754,20 @@ footer a:hover {
     opacity: 0.3;
 }
 
-.page-contact .quote-text {
+.quote-text {
     font-size: var(--font-size-lg);
     line-height: 1.8;
     font-style: italic;
     margin-bottom: var(--space-xl);
 }
 
-.page-contact .quote-attribution {
+.quote-attribution {
     font-style: normal;
     border-top: 2px solid var(--color-primary);
     padding-top: var(--space-md);
 }
 
-.page-contact .quote-attribution cite {
+.quote-attribution cite {
     display: block;
     font-size: var(--font-size-md);
     font-weight: 600;
@@ -1775,18 +1775,18 @@ footer a:hover {
     margin-bottom: var(--space-sm);
 }
 
-.page-contact .quote-context {
+.quote-context {
     font-size: var(--font-size-sm);
     color: var(--color-inverse-text-muted);
 }
 
-.page-contact .testimonial-secondary {
+.testimonial-secondary {
     margin-top: var(--space-2xl);
     padding-top: var(--space-2xl);
     border-top: 1px solid var(--color-border-primary);
 }
 
-.page-contact .testimonial-secondary .quote-text {
+.testimonial-secondary .quote-text {
     font-size: var(--font-size-xl);
 }
 
