@@ -80,25 +80,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PAGE-01 | — | Pending |
-| PAGE-02 | — | Pending |
-| PAGE-03 | — | Pending |
-| PAGE-04 | — | Pending |
-| PAGE-05 | — | Pending |
-| PAGE-06 | — | Pending |
-| PAGE-07 | — | Pending |
-| COMP-01 | — | Pending |
-| COMP-02 | — | Pending |
-| COMP-03 | — | Pending |
-| COMP-04 | — | Pending |
-| A11Y-01 | — | Pending |
-| STORY-01 | — | Pending |
+| PAGE-01 | Phase 2 | Pending |
+| PAGE-02 | Phase 3 | Pending |
+| PAGE-03 | Phase 3 | Pending |
+| PAGE-04 | Phase 3 | Pending |
+| PAGE-05 | Phase 3 | Pending |
+| PAGE-06 | Phase 3 | Pending |
+| PAGE-07 | Phase 3 | Pending |
+| COMP-01 | Phase 3 | Pending |
+| COMP-02 | Phase 2 | Pending |
+| COMP-03 | Phase 3 | Pending |
+| COMP-04 | Phase 2 | Pending |
+| A11Y-01 | Phase 1 | Pending |
+| STORY-01 | Phase 3 | Pending |
 
 **Coverage:**
 - v1 requirements: 13 total
-- Mapped to phases: 0
-- Unmapped: 13
+- Mapped to phases: 13
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-16 after initial definition*
+*Last updated: 2026-03-16 after roadmap creation*
