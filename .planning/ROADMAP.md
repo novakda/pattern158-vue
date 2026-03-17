@@ -80,7 +80,7 @@ Plans:
   2. `exhibits.ts` contains an entry for Exhibit O matching the reference in `portfolioFlagships.ts`
   3. All `/exhibits/exhibit-*` routes are registered in `router.ts`
   4. ExhibitDetailPage has a Storybook story demonstrating prop variants
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 
 Plans:
 - [ ] 04-01-PLAN.md — Test scaffolds (exhibits + router) + Exhibit O data entry + /exhibits/:slug route registration
@@ -97,4 +97,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
 | 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
 | 3. Remaining Pages + Completion | 6/6 | Complete   | 2026-03-17 |
-| 4. Exhibit Detail Pages + Data Fix | 0/3 | Pending | — |
+| 4. Exhibit Detail Pages + Data Fix | 1/3 | In Progress|  |
