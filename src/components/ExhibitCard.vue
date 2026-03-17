@@ -16,16 +16,43 @@ defineProps<{
     </div>
     <h3 class="exhibit-title">{{ exhibit.title }}</h3>
 
-    <slot name="quote" />
+    <slot name="quote">
+      <blockquote v-for="(q, i) in exhibit.quotes" :key="i">
+        {{ q.text }}
+        <div class="attribution">
+          <template v-if="q.attribution">{{ q.attribution }}</template>
+          <span v-if="q.role" class="role">{{ q.role }}</span>
+        </div>
+      </blockquote>
+    </slot>
 
-    <slot name="context" />
+    <slot name="context">
+      <div v-if="exhibit.contextText" class="exhibit-context">
+        <h4>{{ exhibit.contextHeading }}</h4>
+        <p>{{ exhibit.contextText }}</p>
+      </div>
+    </slot>
+
+    <slot name="table">
+      <table v-if="exhibit.resolutionTable" class="resolution-table">
+        <thead>
+          <tr><th>Issue</th><th>Resolution</th></tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, i) in exhibit.resolutionTable" :key="i">
+            <td data-label="Issue">{{ row.issue }}</td>
+            <td data-label="Resolution">{{ row.resolution }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </slot>
 
     <slot name="actions">
       <div class="impact-tags">
         <TechTags :tags="exhibit.impactTags" />
       </div>
-      <router-link v-if="exhibit.exhibitLink" :to="exhibit.exhibitLink" class="exhibit-link">
-        View Full Investigation Report
+      <router-link :to="exhibit.exhibitLink" class="exhibit-link">
+        {{ exhibit.investigationReport ? 'View Investigation Report' : 'View Full Investigation Report' }}
       </router-link>
     </slot>
   </div>
