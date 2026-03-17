@@ -54,10 +54,9 @@ describe('ExhibitDetailPage', () => {
       global: { stubs: { RouterLink: true, TechTags: true } },
     })
 
-    // RouterLink is stubbed — look for the to="/portfolio" prop
-    const links = wrapper.findAllComponents({ name: 'RouterLink' })
-    const portfolioLink = links.find(l => l.props('to') === '/portfolio')
-    expect(portfolioLink).toBeDefined()
+    // RouterLink is stubbed as router-link-stub — find by rendered element
+    const portfolioLink = wrapper.find('[to="/portfolio"]')
+    expect(portfolioLink.exists()).toBe(true)
   })
 
   it('calls router.replace with not-found for unknown slug', () => {

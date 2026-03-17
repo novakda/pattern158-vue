@@ -1,5 +1,95 @@
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useHead } from '@unhead/vue'
+import { useBodyClass } from '@/composables/useBodyClass'
+import { exhibits } from '@/data/exhibits'
+import TechTags from '@/components/TechTags.vue'
+
+const route = useRoute()
+const router = useRouter()
+
+useBodyClass('page-exhibit-detail')
+
+const exhibit = computed(() => {
+  const slug = route.params.slug as string
+  return exhibits.find(e => e.exhibitLink === `/exhibits/${slug}`) ?? null
+})
+
+// Redirect unknown slugs to not-found
+if (!exhibit.value) {
+  router.replace({ name: 'not-found' })
+}
+
+// Dynamic SEO — useHead directly because useSeo takes plain strings, not reactive
+useHead(computed(() => ({
+  title: exhibit.value
+    ? `${exhibit.value.label}: ${exhibit.value.title} | Pattern 158`
+    : 'Exhibit | Pattern 158',
+  meta: [
+    {
+      name: 'description',
+      content: exhibit.value?.contextText ?? exhibit.value?.title ?? '',
+    },
+  ],
+})))
+</script>
+
 <template>
-  <div class="exhibit-detail-page">
-    <p>Exhibit detail coming soon.</p>
+  <div v-if="exhibit" class="exhibit-detail-page">
+    <section class="exhibit-detail-header">
+      <div class="container">
+        <nav class="exhibit-back-nav">
+          <router-link to="/portfolio">&larr; Back to Portfolio</router-link>
+        </nav>
+        <div class="exhibit-meta-header">
+          <span class="exhibit-label">{{ exhibit.label }}</span>
+          <span class="exhibit-client">{{ exhibit.client }}</span>
+          <span class="exhibit-date">{{ exhibit.date }}</span>
+        </div>
+        <h1 class="exhibit-detail-title">{{ exhibit.title }}</h1>
+      </div>
+    </section>
+
+    <section class="exhibit-detail-body">
+      <div class="container">
+
+        <div v-if="exhibit.quotes?.length" class="exhibit-quotes">
+          <blockquote v-for="(q, i) in exhibit.quotes" :key="i" class="exhibit-quote">
+            <p>{{ q.text }}</p>
+            <footer class="attribution">
+              <span v-if="q.attribution">{{ q.attribution }}</span>
+              <span v-if="q.role" class="role">{{ q.role }}</span>
+            </footer>
+          </blockquote>
+        </div>
+
+        <div v-if="exhibit.contextText" class="exhibit-context">
+          <h2 v-if="exhibit.contextHeading">{{ exhibit.contextHeading }}</h2>
+          <p>{{ exhibit.contextText }}</p>
+        </div>
+
+        <div v-if="exhibit.resolutionTable?.length" class="exhibit-resolution">
+          <h2>Resolution</h2>
+          <table class="resolution-table">
+            <thead>
+              <tr><th>Issue</th><th>Resolution</th></tr>
+            </thead>
+            <tbody>
+              <tr v-for="(row, i) in exhibit.resolutionTable" :key="i">
+                <td data-label="Issue">{{ row.issue }}</td>
+                <td data-label="Resolution">{{ row.resolution }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="exhibit-impact-tags">
+          <h2>Skills &amp; Technologies</h2>
+          <TechTags :tags="exhibit.impactTags" />
+        </div>
+
+      </div>
+    </section>
   </div>
 </template>
