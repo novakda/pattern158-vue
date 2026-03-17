@@ -19,10 +19,10 @@ Requirements for conversion milestone. Each maps to roadmap phases.
 
 ### Component Architecture
 
-- [ ] **COMP-01**: Extract named concept components (FindingCard, SpecialtyCard, StatItem, FaqItem, etc.)
+- [x] **COMP-01**: Extract named concept components (FindingCard, SpecialtyCard, StatItem, FaqItem, etc.)
 - [x] **COMP-02**: All extracted components use `defineProps<{}>()` TypeScript generic form
 - [x] **COMP-03**: Page templates read as scannable outlines (target <50 lines per template)
-- [ ] **COMP-04**: Layout components use named slots for flexible composition
+- [x] **COMP-04**: Layout components use named slots for flexible composition
 
 ### Accessibility Fix
 
@@ -87,10 +87,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PAGE-05 | Phase 3 | Complete |
 | PAGE-06 | Phase 3 | Complete |
 | PAGE-07 | Phase 3 | Complete |
-| COMP-01 | Phase 3 | Pending |
+| COMP-01 | Phase 3 | Complete |
 | COMP-02 | Phase 2 | Complete |
 | COMP-03 | Phase 3 | Complete |
-| COMP-04 | Phase 3 | Pending |
+| COMP-04 | Phase 3 | Complete |
 | A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Pending |
 
