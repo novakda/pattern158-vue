@@ -15,6 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages (completed 2026-03-16)
 - [x] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model (completed 2026-03-17)
 - [x] **Phase 3: Remaining Pages + Completion** - Port all remaining pages, complete component library, finalize Storybook (completed 2026-03-17)
+- [ ] **Phase 4: Exhibit Detail Pages + Data Fix** - Close audit gaps: wire exhibit routes, fix data mismatch, complete exhibit navigation flow
 
 ## Phase Details
 
@@ -69,6 +70,21 @@ Plans:
 - [ ] 03-05-PLAN.md — Storybook stories backfill for Phase 2 components (8 components)
 - [ ] 03-06-PLAN.md — Storybook stories for Phase 3 components + page-level viewport stories (375px/768px/1280px)
 
+### Phase 4: Exhibit Detail Pages + Data Fix
+**Goal**: All exhibit router-links resolve to real pages with content, the Exhibit O data gap is fixed, and the "Exhibit detail navigation" E2E flow completes successfully
+**Depends on**: Phase 3
+**Requirements**: PAGE-03, PAGE-05
+**Gap Closure:** Closes integration and flow gaps from v1.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. Navigating any ExhibitCard or FlagshipCard router-link renders an ExhibitDetailPage with exhibit content (not the 404 catch-all)
+  2. `exhibits.ts` contains an entry for Exhibit O matching the reference in `portfolioFlagships.ts`
+  3. All `/exhibits/exhibit-*` routes are registered in `router.ts`
+  4. ExhibitDetailPage has a Storybook story demonstrating prop variants
+**Plans:** 0/0 plans complete
+
+Plans:
+(none yet — run `/gsd:plan-phase 4`)
+
 ## Progress
 
 **Execution Order:**
@@ -79,3 +95,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
 | 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
 | 3. Remaining Pages + Completion | 6/6 | Complete   | 2026-03-17 |
+| 4. Exhibit Detail Pages + Data Fix | 0/0 | Pending | — |

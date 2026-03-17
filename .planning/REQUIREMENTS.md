@@ -82,9 +82,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | PAGE-01 | Phase 2 | Complete |
 | PAGE-02 | Phase 3 | Complete |
-| PAGE-03 | Phase 3 | Complete |
+| PAGE-03 | Phase 3, Phase 4 | Complete (gap closure pending) |
 | PAGE-04 | Phase 3 | Complete |
-| PAGE-05 | Phase 3 | Complete |
+| PAGE-05 | Phase 3, Phase 4 | Complete (gap closure pending) |
 | PAGE-06 | Phase 3 | Complete |
 | PAGE-07 | Phase 3 | Complete |
 | COMP-01 | Phase 3 | Complete |
