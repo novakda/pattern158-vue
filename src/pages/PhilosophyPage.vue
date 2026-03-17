@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import TestimonialQuote from '@/components/TestimonialQuote.vue'
+import HeroMinimal from '@/components/HeroMinimal.vue'
+import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
 
+useBodyClass('page-philosophy')
 useSeo({
   title: 'Philosophy | Pattern 158 - Dan Novak',
   description: 'The philosophy behind Pattern 158 Solutions. How Dan Novak approaches complex system challenges with investigation-driven methodology and five core influences.',
@@ -10,12 +13,7 @@ useSeo({
 </script>
 
 <template>
-  <section class="hero-minimal">
-    <div class="container">
-      <h1>Philosophy</h1>
-      <p class="subtitle">How I think about engineering problems</p>
-    </div>
-  </section>
+  <HeroMinimal title="Philosophy" subtitle="How I think about engineering problems" />
 
   <section id="brand-elements" class="content-section">
     <h2>The Brand Elements</h2>
