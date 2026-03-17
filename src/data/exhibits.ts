@@ -233,4 +233,16 @@ export const exhibits: Exhibit[] = [
     isDetailExhibit: true,
     investigationReport: true,
   },
+  {
+    label: 'Exhibit O',
+    client: 'GP Strategies (Internal Product)',
+    date: '2024\u20132025',
+    title: 'ContentAIQ \u2014 The Integration Thread: Pattern Recognition Across Three Projects',
+    contextHeading: 'Context',
+    contextText: 'Integration expertise forms the connective thread across three GP Strategies projects spanning federated LMS facades, webhook sync pipelines, and AI product interfaces. The progression demonstrates pattern recognition across thirteen years, from CSBB Dispatch (2011) through modern multitenant SaaS architecture. All three projects required coordinating across system boundaries and debugging failures spanning multiple platforms.',
+    impactTags: ['AI Product Frontend', 'Multitenant Architecture', 'Design Translation', 'Integration Patterns', 'Pattern Recognition', 'Cross-System Coordination', 'Federated Systems'],
+    exhibitLink: '/exhibits/exhibit-o',
+    isDetailExhibit: true,
+    investigationReport: false,
+  },
 ]
