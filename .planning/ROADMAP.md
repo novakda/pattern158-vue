@@ -13,7 +13,7 @@ Three phases to take the Vue 3 scaffold from partial conversion to a fully porte
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages (completed 2026-03-16)
-- [ ] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model
+- [x] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model (completed 2026-03-17)
 - [ ] **Phase 3: Remaining Pages + Completion** - Port all remaining pages, complete component library, finalize Storybook
 
 ## Phase Details
@@ -41,7 +41,7 @@ Plans:
   2. `grep '\.html"' src/pages/HomePage.vue` returns zero results — all internal links use `<router-link>`
   3. FindingCard, SpecialtyCard, and StatItem components exist with `defineProps<{}>()` TypeScript generic form
   4. The HomePage template reads as a scannable outline — section-level components are named, not inline HTML blocks
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 02-01-PLAN.md — Create typed data layer (5 data files) and update existing component contracts (TechTags, TestimonialQuote)
@@ -69,5 +69,5 @@ Phases execute in numeric order: 1 → 2 → 3
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
-| 2. Homepage + Extraction Pattern | 2/3 | In Progress|  |
+| 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
 | 3. Remaining Pages + Completion | 0/TBD | Not started | - |
