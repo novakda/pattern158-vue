@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages (completed 2026-03-16)
 - [x] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model (completed 2026-03-17)
 - [x] **Phase 3: Remaining Pages + Completion** - Port all remaining pages, complete component library, finalize Storybook (completed 2026-03-17)
-- [ ] **Phase 4: Exhibit Detail Pages + Data Fix** - Close audit gaps: wire exhibit routes, fix data mismatch, complete exhibit navigation flow
+- [x] **Phase 4: Exhibit Detail Pages + Data Fix** - Close audit gaps: wire exhibit routes, fix data mismatch, complete exhibit navigation flow (completed 2026-03-17)
 
 ## Phase Details
 
@@ -80,7 +80,7 @@ Plans:
   2. `exhibits.ts` contains an entry for Exhibit O matching the reference in `portfolioFlagships.ts`
   3. All `/exhibits/exhibit-*` routes are registered in `router.ts`
   4. ExhibitDetailPage has a Storybook story demonstrating prop variants
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [ ] 04-01-PLAN.md — Test scaffolds (exhibits + router) + Exhibit O data entry + /exhibits/:slug route registration
@@ -97,4 +97,4 @@ Phases execute in numeric order: 1 → 2 → 3
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
 | 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
 | 3. Remaining Pages + Completion | 6/6 | Complete   | 2026-03-17 |
-| 4. Exhibit Detail Pages + Data Fix | 2/3 | In Progress|  |
+| 4. Exhibit Detail Pages + Data Fix | 3/3 | Complete   | 2026-03-17 |
