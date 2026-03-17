@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-stopped_at: Completed 03-01-PLAN.md
-last_updated: "2026-03-17T06:35:23.250Z"
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-03-17T06:43:44.803Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 11
-  completed_plans: 7
+  completed_plans: 8
   percent: 0
 ---
 
@@ -57,6 +57,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 02-homepage-extraction-pattern P03 | 15 | 2 tasks | 1 files |
 | Phase 03-remaining-pages-completion P02 | 25 | 2 tasks | 3 files |
 | Phase 03-remaining-pages-completion P01 | 35 | 3 tasks | 3 files |
+| Phase 03-remaining-pages-completion P03 | 6 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -79,6 +80,8 @@ Recent decisions affecting current work:
 - [Phase 03-remaining-pages-completion]: AccessibilityPage lead paragraph placed in HeroMinimal default slot per component slot interface
 - [Phase 03-remaining-pages-completion]: Static FAQ rendering confirmed: no accordion, no details/summary, no v-show per locked plan decision
 - [Phase 03-remaining-pages-completion]: TestimonialQuote not used for exhibit cards: richer structure (tables, context, tags) does not map to component props
+- [Phase 03-remaining-pages-completion]: FaqItem renders plain text split on double-newline — no v-html, no HTML markup in data strings
+- [Phase 03-remaining-pages-completion]: PortfolioPage directory table kept inline (7 industry sections, 30+ rows) — structured prose per plan decision
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-17T06:35:13.706Z
-Stopped at: Completed 03-01-PLAN.md
+Last session: 2026-03-17T06:43:44.801Z
+Stopped at: Completed 03-03-PLAN.md
 Resume file: None

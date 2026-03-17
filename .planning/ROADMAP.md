@@ -59,7 +59,7 @@ Plans:
   4. Every extracted component (FindingCard, SpecialtyCard, StatItem, FaqItem, and any others) has a Storybook story demonstrating its prop variants
   5. Layout components use named slots for flexible composition (COMP-04)
   6. Visual parity with the live 11ty site confirmed at 375px, 768px, and 1280px in both light and dark themes for all six ported pages
-**Plans:** 2/6 plans executed
+**Plans:** 3/6 plans executed
 
 Plans:
 - [ ] 03-01-PLAN.md — Port FaqPage, PortfolioPage, TestimonialsPage from 11ty HTML (content porting, data-heavy pages)
@@ -78,4 +78,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
 | 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
-| 3. Remaining Pages + Completion | 2/6 | In Progress|  |
+| 3. Remaining Pages + Completion | 3/6 | In Progress|  |
