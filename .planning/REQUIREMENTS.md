@@ -12,16 +12,16 @@ Requirements for conversion milestone. Each maps to roadmap phases.
 - [x] **PAGE-01**: Port HomePage from 11ty with complete content
 - [ ] **PAGE-02**: Port FaqPage from 11ty with complete content
 - [ ] **PAGE-03**: Port PortfolioPage from 11ty with complete content
-- [ ] **PAGE-04**: Port ContactPage from 11ty with complete content
+- [x] **PAGE-04**: Port ContactPage from 11ty with complete content
 - [ ] **PAGE-05**: Port TestimonialsPage from 11ty with complete content
-- [ ] **PAGE-06**: Port AccessibilityPage from 11ty with complete content
-- [ ] **PAGE-07**: Port ReviewPage from 11ty with complete content
+- [x] **PAGE-06**: Port AccessibilityPage from 11ty with complete content
+- [x] **PAGE-07**: Port ReviewPage from 11ty with complete content
 
 ### Component Architecture
 
 - [ ] **COMP-01**: Extract named concept components (FindingCard, SpecialtyCard, StatItem, FaqItem, etc.)
 - [x] **COMP-02**: All extracted components use `defineProps<{}>()` TypeScript generic form
-- [ ] **COMP-03**: Page templates read as scannable outlines (target <50 lines per template)
+- [x] **COMP-03**: Page templates read as scannable outlines (target <50 lines per template)
 - [ ] **COMP-04**: Layout components use named slots for flexible composition
 
 ### Accessibility Fix
@@ -83,13 +83,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PAGE-01 | Phase 2 | Complete |
 | PAGE-02 | Phase 3 | Pending |
 | PAGE-03 | Phase 3 | Pending |
-| PAGE-04 | Phase 3 | Pending |
+| PAGE-04 | Phase 3 | Complete |
 | PAGE-05 | Phase 3 | Pending |
-| PAGE-06 | Phase 3 | Pending |
-| PAGE-07 | Phase 3 | Pending |
+| PAGE-06 | Phase 3 | Complete |
+| PAGE-07 | Phase 3 | Complete |
 | COMP-01 | Phase 3 | Pending |
 | COMP-02 | Phase 2 | Complete |
-| COMP-03 | Phase 3 | Pending |
+| COMP-03 | Phase 3 | Complete |
 | COMP-04 | Phase 3 | Pending |
 | A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Pending |
