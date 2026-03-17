@@ -30,7 +30,7 @@ Requirements for conversion milestone. Each maps to roadmap phases.
 
 ### Storybook
 
-- [ ] **STORY-01**: All new and refactored components have Storybook stories with prop variants
+- [x] **STORY-01**: All new and refactored components have Storybook stories with prop variants
 
 ## v2 Requirements
 
@@ -92,7 +92,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-03 | Phase 3 | Complete |
 | COMP-04 | Phase 3 | Complete |
 | A11Y-01 | Phase 1 | Complete |
-| STORY-01 | Phase 3 | Pending |
+| STORY-01 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 13 total
