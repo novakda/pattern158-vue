@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import HeroMinimal from '@/components/HeroMinimal.vue'
+import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
 
+useBodyClass('page-review')
 useSeo({
   title: 'Review | Pattern 158 - Dan Novak',
   description: 'Review page for Pattern 158 Solutions.',
@@ -9,10 +12,11 @@ useSeo({
 </script>
 
 <template>
-  <section class="hero-minimal">
+  <HeroMinimal title="Review" subtitle="Stakeholder review area" />
+
+  <section class="content-section">
     <div class="container">
-      <h1>Review</h1>
-      <p class="subtitle">TODO: Convert from review.html</p>
+      <p>This page is reserved for stakeholder review of ongoing engagements. For project inquiries, please visit the <router-link to="/contact">contact page</router-link>.</p>
     </div>
   </section>
 </template>
