@@ -10,10 +10,10 @@ Requirements for conversion milestone. Each maps to roadmap phases.
 ### Page Conversion
 
 - [x] **PAGE-01**: Port HomePage from 11ty with complete content
-- [ ] **PAGE-02**: Port FaqPage from 11ty with complete content
-- [ ] **PAGE-03**: Port PortfolioPage from 11ty with complete content
+- [x] **PAGE-02**: Port FaqPage from 11ty with complete content
+- [x] **PAGE-03**: Port PortfolioPage from 11ty with complete content
 - [x] **PAGE-04**: Port ContactPage from 11ty with complete content
-- [ ] **PAGE-05**: Port TestimonialsPage from 11ty with complete content
+- [x] **PAGE-05**: Port TestimonialsPage from 11ty with complete content
 - [x] **PAGE-06**: Port AccessibilityPage from 11ty with complete content
 - [x] **PAGE-07**: Port ReviewPage from 11ty with complete content
 
@@ -81,10 +81,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | PAGE-01 | Phase 2 | Complete |
-| PAGE-02 | Phase 3 | Pending |
-| PAGE-03 | Phase 3 | Pending |
+| PAGE-02 | Phase 3 | Complete |
+| PAGE-03 | Phase 3 | Complete |
 | PAGE-04 | Phase 3 | Complete |
-| PAGE-05 | Phase 3 | Pending |
+| PAGE-05 | Phase 3 | Complete |
 | PAGE-06 | Phase 3 | Complete |
 | PAGE-07 | Phase 3 | Complete |
 | COMP-01 | Phase 3 | Pending |
