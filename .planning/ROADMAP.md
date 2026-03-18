@@ -126,10 +126,25 @@ Plans:
 - [x] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
 - [x] 07-02-PLAN.md — Verify implementation and close phase traceability (CONT-02)
 
+#### Phase 8: Fix STRUCT-02 ExhibitCard Link Text
+**Goal**: The `investigationReport` flag link text in ExhibitCard.vue semantically matches the flag value — investigation exhibits show the more emphatic CTA, non-investigation exhibits show a neutral CTA
+**Depends on**: Phase 6 (STRUCT-02 partial fix)
+**Requirements**: STRUCT-02
+**Gap Closure:** Closes STRUCT-02 partial gap from v1.1 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. `ExhibitCard.vue:55` renders a stronger/more emphatic CTA label when `investigationReport: true` and a neutral label when false/absent
+  2. The CTA copy matches the 11ty source text for this element
+  3. No other ExhibitCard behavior is changed
+
+Plans:
+- [ ] 08-01-PLAN.md — Verify 11ty source CTA copy and fix ExhibitCard.vue:55 link text inversion
+
+---
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -140,3 +155,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 5. Exhibit Audit | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
+| 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 0/1 | Pending | — |

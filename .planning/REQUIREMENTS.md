@@ -15,7 +15,7 @@ Requirements for exhibit content consistency milestone. Each maps to roadmap pha
 ### Structure
 
 - [x] **STRUCT-01**: Normalize `contextHeading` naming — one consistent label convention applied across all exhibits
-- [x] **STRUCT-02**: Fix `investigationReport` flag display logic — button text must semantically match the flag value (currently appears inverted)
+- [ ] **STRUCT-02**: Fix `investigationReport` flag display logic — button text must semantically match the flag value (currently appears inverted)
 - [x] **STRUCT-03**: Standardize quote attribution format — consistent use of `role` field across exhibits that have quotes
 
 ### Content
@@ -116,14 +116,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | AUDIT-01 | Phase 5 | Complete |
 | AUDIT-02 | Phase 5 | Complete |
 | STRUCT-01 | Phase 6 | Complete |
-| STRUCT-02 | Phase 6 | Complete |
+| STRUCT-02 | Phase 8 | Pending |
 | STRUCT-03 | Phase 6 | Complete |
 | CONT-01 | Phase 7 | Complete |
 | CONT-02 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 13 total — mapped: 13, unmapped: 0
-- v1.1 requirements: 7 total — mapped: 7, unmapped: 0
+- v1.1 requirements: 7 total — mapped: 7, unmapped: 0 (STRUCT-02 reopened — gap closure phase 8 assigned)
 
 **Note:** COMP-04 moved from Phase 2 to Phase 3 during plan revision. Phase 2 components are concept components (FindingCard, SpecialtyCard, etc.) that are props-driven. Named slots for flexible composition applies to layout-level components which Phase 3 will introduce when porting remaining pages.
 
