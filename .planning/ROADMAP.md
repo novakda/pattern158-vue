@@ -120,11 +120,11 @@ Plans:
   1. A content gap decision list is produced and handed to Dan for review — covering items such as Exhibit D missing context, exhibits without quotes, and any other gaps flagged in the audit
   2. Every item Dan approves from the gap list is implemented in `exhibits.ts` with content that matches the published 11ty source exactly
   3. No content changes are made to `exhibits.ts` beyond what appears in the approved gap list — scope is explicitly bounded
-**Plans:** TBD
+**Plans:** 2 plans
 
 Plans:
 - [ ] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
-- [ ] 07-02-PLAN.md — Implement approved content additions to exhibits.ts (CONT-02)
+- [ ] 07-02-PLAN.md — Verify implementation and close phase traceability (CONT-02)
 
 ## Progress
 
