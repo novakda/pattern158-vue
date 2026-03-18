@@ -94,7 +94,7 @@ Plans:
   1. A structured per-exhibit table exists covering all 15 exhibits, documenting which sections each exhibit has (headings, quotes, tables, flags) and how they differ from each other
   2. Every variation in the table is classified as one of: intentional (content-driven), formatting inconsistency (fixable without content decision), or content gap (needs review before changing)
   3. The audit output is readable as a standalone document — Dan can review it without any additional context and understand the scope of normalization work ahead
-**Plans:** TBD
+**Plans:** 1 plan
 
 Plans:
 - [ ] 05-01-PLAN.md — Audit all 15 exhibits and produce structured comparison table with classified variations
