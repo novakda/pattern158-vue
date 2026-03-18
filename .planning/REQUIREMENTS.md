@@ -20,7 +20,7 @@ Requirements for exhibit content consistency milestone. Each maps to roadmap pha
 
 ### Content
 
-- [ ] **CONT-01**: Produce content gap decision list for Dan's review (Exhibit D missing context, 8 exhibits without quotes, etc.)
+- [x] **CONT-01**: Produce content gap decision list for Dan's review (Exhibit D missing context, 8 exhibits without quotes, etc.)
 - [ ] **CONT-02**: Implement approved content additions to `exhibits.ts`
 
 ## v1 Requirements
@@ -118,7 +118,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STRUCT-01 | Phase 6 | Complete |
 | STRUCT-02 | Phase 6 | Complete |
 | STRUCT-03 | Phase 6 | Complete |
-| CONT-01 | Phase 7 | Pending |
+| CONT-01 | Phase 7 | Complete |
 | CONT-02 | Phase 7 | Pending |
 
 **Coverage:**

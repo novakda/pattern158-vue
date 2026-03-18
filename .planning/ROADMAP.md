@@ -120,7 +120,7 @@ Plans:
   1. A content gap decision list is produced and handed to Dan for review — covering items such as Exhibit D missing context, exhibits without quotes, and any other gaps flagged in the audit
   2. Every item Dan approves from the gap list is implemented in `exhibits.ts` with content that matches the published 11ty source exactly
   3. No content changes are made to `exhibits.ts` beyond what appears in the approved gap list — scope is explicitly bounded
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
 - [ ] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
@@ -139,4 +139,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 4. Exhibit Detail Pages + Data Fix | v1.0 | 3/3 | Complete | 2026-03-17 |
 | 5. Exhibit Audit | 1/1 | Complete   | 2026-03-18 | - |
 | 6. Structural Normalization | 1/1 | Complete   | 2026-03-18 | - |
-| 7. Content Gap Fill | v1.1 | 0/2 | Not started | - |
+| 7. Content Gap Fill | 1/2 | In Progress|  | - |
