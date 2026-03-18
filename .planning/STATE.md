@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: planning
 stopped_at: Completed 04-03-PLAN.md
-last_updated: "2026-03-18T02:42:49.902Z"
+last_updated: "2026-03-18T03:52:33.589Z"
 last_activity: 2026-03-16 — Roadmap created; phases derived from requirements
 progress:
   total_phases: 4
@@ -110,8 +110,14 @@ None yet.
 - [Phase 1]: `PhilosophyPage.vue` has four `<router-link>` tags to non-existent exhibit routes — no catch-all 404 route exists, failures are silent
 - [Phase 4/v2]: Deployment hosting environment not confirmed — history-mode redirect config format differs by host (Netlify `_redirects` vs. others); confirm before go-live
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260317-tl7 | Fix UX audit findings: ExhibitDetailPage wrong CSS tokens, btn touch target, timezone-note border-radius, dead FAQ CSS, orphaned section-alt rule | 2026-03-18 | 3537f95 | [260317-tl7-fix-ux-audit-findings-exhibitdetailpage-](.planning/quick/260317-tl7-fix-ux-audit-findings-exhibitdetailpage-/) |
+
 ## Session Continuity
 
-Last session: 2026-03-17T15:37:30Z
-Stopped at: Completed 04-03-PLAN.md
+Last session: 2026-03-18T04:18:15Z
+Stopped at: Completed quick task 260317-tl7: UX audit CSS fixes
 Resume file: None
