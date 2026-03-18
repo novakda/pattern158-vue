@@ -31,12 +31,10 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-- [ ] Port all remaining pages from 11ty HTML to Vue (Home, FAQ, Portfolio, Contact, Testimonials, Accessibility, Review)
-- [ ] Extract reusable layout components where they enforce design patterns (HeroMinimal, ContentSection, etc.)
-- [ ] Refactor page templates to use extracted components — templates should read like outlines
-- [ ] Ensure visual parity with published 11ty site across all pages
-- [ ] Update Storybook stories to reflect new/refactored components
-- [ ] Clean commit history and portfolio-ready repo structure
+- [ ] Audit all exhibit detail pages for formatting inconsistencies
+- [ ] Normalize "Findings" sections to a consistent structure across all exhibits
+- [ ] Identify and fix other structural/formatting variations in exhibit content
+- [ ] Ensure exhibit page components enforce consistency rather than allowing per-exhibit drift
 
 ### Out of Scope
 
@@ -71,5 +69,14 @@ Every page template should be scannable and self-documenting through well-named 
 | No new features in this pass | Clean conversion scope prevents scope creep | — Pending |
 | Storybook for all components | Portfolio piece — demonstrates testing/documentation practices | — Pending |
 
+## Current Milestone: v1.1 Exhibit Content Consistency
+
+**Goal:** Audit and normalize exhibit detail page content — particularly "Findings" sections — so all exhibits follow a consistent structure and formatting pattern.
+
+**Target features:**
+- Exhibit content audit (identify all formatting variations)
+- Findings section normalization across all 14 exhibits
+- Structural consistency enforcement for other exhibit sections
+
 ---
-*Last updated: 2026-03-16 after initialization*
+*Last updated: 2026-03-17 after v1.1 milestone start*
