@@ -40,7 +40,19 @@ export const exhibits: Exhibit[] = [
         attribution: 'Chief of Learning Services, Electric Boat',
         role: 'in summary email to EB leadership',
       },
+      {
+        text: 'Thanks for all of the great work you did out there. I heard about your work from several folks across the organization.',
+        attribution: 'Director of Learning Technologies, GP Strategies',
+        role: 'recognition relayed independently through three separate contacts',
+      },
+      {
+        text: 'Dan\u2019s technical expertise is tremendous\u2026 with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money.',
+        attribution: 'Chief of Learning Services, Electric Boat',
+        role: 'in recognition email to GP leadership',
+      },
     ],
+    contextHeading: 'Context',
+    contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
     resolutionTable: [
       { issue: 'SCORM courses dependent on unreliable Cornerstone network player', resolution: 'Provided cross-domain SCORM wrapper eliminating player dependency' },
       { issue: 'HTML5 courses failing under AICC protocol', resolution: 'Converted AICC to SCORM HTML5 with improved performance' },
@@ -77,6 +89,12 @@ export const exhibits: Exhibit[] = [
     client: 'GP Strategies \u2014 Content Team',
     date: 'December 2015',
     title: '1,216-Lesson Content Refresh: Automation Saves 600+ Hours',
+    quotes: [
+      {
+        text: 'Dan Novak \u201cThe Fiddler\u201d (Automation) \u2014 Dan gets this name not only because he makes extensive use of the Fiddler application to help us troubleshoot communications errors for customers, but because he fiddles with stuff until we get a tool that makes things\u2026 possible. He also used Fiddler to figure out how to automate the publishing process out of Xyleme. This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended.',
+        attribution: 'Manager, Content Team, GP Strategies',
+      },
+    ],
     contextHeading: 'Context',
     contextText: 'Part of a comprehensive team recognition email celebrating the completion of a 1,216-lesson content refresh. Each of 15 team members received a unique title and individual recognition. Dan\u2019s callout focused on tooling and automation that enabled the project to complete on schedule. The automation tool was also used by a colleague to publish every lesson at least three times during the refresh cycle. Full testimonial details available in the investigation report.',
     impactTags: ['600+ Hours Saved', 'Automation', 'Xyleme', 'Fiddler', '1,216 Lessons'],
@@ -90,11 +108,18 @@ export const exhibits: Exhibit[] = [
     title: 'Sales Conversion Migration: 100+ Course Technical Lead',
     quotes: [
       {
-        text: 'The client contact reached out to me today to convey her appreciation for the work that you two did to test the WF courses despite seeing issues related to IE. Thanks for your hard work on this. WF is a critical client and our ability to meet their volume of needs is important to the success of the relationship.',
-        attribution: 'Director of Learning Technologies',
-        role: '\u2014 relaying client feedback from Wells Fargo',
+        text: 'The client contact reached out to me today to convey her appreciation for the work that you two did in order to test the WF courses in spite of the fact that you were seeing issues related to IE. Thanks for your hard work on this. WF is a critical client and our ability to meet their volume of needs is important to the success of the relationship.',
+        attribution: 'Director of Learning Technologies, GP Strategies',
+        role: 'relaying direct client feedback from Wells Fargo',
+      },
+      {
+        text: 'I can\u2019t thank you enough. I know you\u2019re working with little heads up right now.',
+        attribution: 'Project Lead, GP Strategies',
+        role: 'coordinating rapid-turnaround testing requests',
       },
     ],
+    contextHeading: 'Context',
+    contextText: 'Technical lead for functional QA on a 100+ course sales conversion migration from legacy formats (Adobe Presenter, HTML5, Flash) into Xyleme LCMS, published as SCORM 1.2 for Wells Fargo\u2019s enterprise LMS. Six-month engagement, 223 tracked emails. Developed an interactivity-level multiplier methodology for estimating QA effort across the full course portfolio. Diagnosed SCORM completion failures in Flash-based content caused by a race condition in IE\u2019s COM SCORM adapter, compounded by Xyleme\u2019s thin package architecture. Wells Fargo granted full Xyleme Studio administrative access \u2014 a direct indicator of client trust.',
     impactTags: ['Client-Facing', 'Wells Fargo', 'Migration Validation', 'IE Compatibility'],
     exhibitLink: '/exhibits/exhibit-d',
   },
@@ -132,7 +157,7 @@ export const exhibits: Exhibit[] = [
     title: 'AWARE Platform: Custom SCORM-to-API Integration',
     quotes: [
       {
-        text: 'Thanks for the thorough documentation of the issue and solution.',
+        text: 'Thanks for the thorough documentation of the issue and solution. Do you have a figure?',
         attribution: 'SunTrust (Client)',
       },
     ],
