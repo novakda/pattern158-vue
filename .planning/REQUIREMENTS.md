@@ -3,6 +3,26 @@
 **Defined:** 2026-03-16
 **Core Value:** Every page template should be scannable and self-documenting through well-named components
 
+## v1.1 Requirements
+
+Requirements for exhibit content consistency milestone. Each maps to roadmap phases.
+
+### Audit
+
+- [ ] **AUDIT-01**: Produce structured per-exhibit comparison table documenting all section variations (headings, quotes, tables, flags) across all 15 exhibits
+- [ ] **AUDIT-02**: Classify each variation as intentional (content-driven), formatting inconsistency (fixable), or content gap (needs review)
+
+### Structure
+
+- [ ] **STRUCT-01**: Normalize `contextHeading` naming — one consistent label convention applied across all exhibits
+- [ ] **STRUCT-02**: Fix `investigationReport` flag display logic — button text must semantically match the flag value (currently appears inverted)
+- [ ] **STRUCT-03**: Standardize quote attribution format — consistent use of `role` field across exhibits that have quotes
+
+### Content
+
+- [ ] **CONT-01**: Produce content gap decision list for Dan's review (Exhibit D missing context, 8 exhibits without quotes, etc.)
+- [ ] **CONT-02**: Implement approved content additions to `exhibits.ts`
+
 ## v1 Requirements
 
 Requirements for conversion milestone. Each maps to roadmap phases.
@@ -103,4 +123,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-16 after plan revision (COMP-04 moved to Phase 3)*
+*Last updated: 2026-03-17 after v1.1 milestone start*
