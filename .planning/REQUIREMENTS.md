@@ -21,7 +21,7 @@ Requirements for exhibit content consistency milestone. Each maps to roadmap pha
 ### Content
 
 - [x] **CONT-01**: Produce content gap decision list for Dan's review (Exhibit D missing context, 8 exhibits without quotes, etc.)
-- [ ] **CONT-02**: Implement approved content additions to `exhibits.ts`
+- [x] **CONT-02**: Implement approved content additions to `exhibits.ts`
 
 ## v1 Requirements
 
@@ -119,7 +119,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STRUCT-02 | Phase 6 | Complete |
 | STRUCT-03 | Phase 6 | Complete |
 | CONT-01 | Phase 7 | Complete |
-| CONT-02 | Phase 7 | Pending |
+| CONT-02 | Phase 7 | Complete |
 
 **Coverage:**
 - v1 requirements: 13 total — mapped: 13, unmapped: 0
@@ -127,8 +127,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Note:** COMP-04 moved from Phase 2 to Phase 3 during plan revision. Phase 2 components are concept components (FindingCard, SpecialtyCard, etc.) that are props-driven. Named slots for flexible composition applies to layout-level components which Phase 3 will introduce when porting remaining pages.
 
-**Note:** CONT-02 is user-gated. Phase 7 plan 07-02 cannot execute until Dan approves the CONT-01 gap list produced in 07-01.
+**Note:** CONT-02 implementation confirmed complete in commit 3fcaa6a — all approved content additions verified present in exhibits.ts.
 
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-17 after v1.1 roadmap created*
+*Last updated: 2026-03-18 after Phase 7 completion*

@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
-- 🚧 **v1.1 Exhibit Content Consistency** — Phases 5-7 (in progress)
+- ✅ **v1.1 Exhibit Content Consistency** — Phases 5-7 (complete 2026-03-18)
 
 ## Phases
 
@@ -82,7 +82,7 @@ Plans:
 
 ---
 
-### 🚧 v1.1 Exhibit Content Consistency (In Progress)
+### ✅ v1.1 Exhibit Content Consistency (Complete 2026-03-18)
 
 **Milestone Goal:** Audit and normalize exhibit detail page content — particularly "Findings" sections — so all exhibits follow a consistent structure and formatting pattern. Every structural variation is either intentionally preserved or corrected, and no content gaps are filled without explicit approval.
 
@@ -97,7 +97,7 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 05-01-PLAN.md — Audit all 15 exhibits and produce structured comparison table with classified variations
+- [x] 05-01-PLAN.md — Audit all 15 exhibits and produce structured comparison table with classified variations
 
 #### Phase 6: Structural Normalization
 **Goal**: All code-level formatting inconsistencies identified in the audit are fixed — `contextHeading` labels are unified, the `investigationReport` flag renders correctly, and quote attribution follows a single format — without any content decisions required
@@ -110,7 +110,7 @@ Plans:
 **Plans:** 1/1 plans complete
 
 Plans:
-- [ ] [06-01-PLAN.md](phases/06-structural-normalization/06-01-PLAN.md) — Normalize contextHeading labels, fix investigationReport flag display logic, standardize quote attribution format
+- [x] [06-01-PLAN.md](phases/06-structural-normalization/06-01-PLAN.md) — Normalize contextHeading labels, fix investigationReport flag display logic, standardize quote attribution format
 
 #### Phase 7: Content Gap Fill
 **Goal**: All content gaps approved by Dan during review are added to `exhibits.ts` — no exhibit is missing context or quotes that the 11ty source provides — and no content is added without explicit approval
@@ -120,11 +120,11 @@ Plans:
   1. A content gap decision list is produced and handed to Dan for review — covering items such as Exhibit D missing context, exhibits without quotes, and any other gaps flagged in the audit
   2. Every item Dan approves from the gap list is implemented in `exhibits.ts` with content that matches the published 11ty source exactly
   3. No content changes are made to `exhibits.ts` beyond what appears in the approved gap list — scope is explicitly bounded
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
-- [ ] 07-02-PLAN.md — Verify implementation and close phase traceability (CONT-02)
+- [x] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
+- [x] 07-02-PLAN.md — Verify implementation and close phase traceability (CONT-02)
 
 ## Progress
 
@@ -137,6 +137,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Homepage + Extraction Pattern | v1.0 | 3/3 | Complete | 2026-03-17 |
 | 3. Remaining Pages + Completion | v1.0 | 6/6 | Complete | 2026-03-17 |
 | 4. Exhibit Detail Pages + Data Fix | v1.0 | 3/3 | Complete | 2026-03-17 |
-| 5. Exhibit Audit | 1/1 | Complete   | 2026-03-18 | - |
-| 6. Structural Normalization | 1/1 | Complete   | 2026-03-18 | - |
-| 7. Content Gap Fill | 1/2 | In Progress|  | - |
+| 5. Exhibit Audit | v1.1 | 1/1 | Complete | 2026-03-18 |
+| 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
+| 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
