@@ -94,7 +94,7 @@ Plans:
   1. A structured per-exhibit table exists covering all 15 exhibits, documenting which sections each exhibit has (headings, quotes, tables, flags) and how they differ from each other
   2. Every variation in the table is classified as one of: intentional (content-driven), formatting inconsistency (fixable without content decision), or content gap (needs review before changing)
   3. The audit output is readable as a standalone document — Dan can review it without any additional context and understand the scope of normalization work ahead
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 05-01-PLAN.md — Audit all 15 exhibits and produce structured comparison table with classified variations
@@ -137,6 +137,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 2. Homepage + Extraction Pattern | v1.0 | 3/3 | Complete | 2026-03-17 |
 | 3. Remaining Pages + Completion | v1.0 | 6/6 | Complete | 2026-03-17 |
 | 4. Exhibit Detail Pages + Data Fix | v1.0 | 3/3 | Complete | 2026-03-17 |
-| 5. Exhibit Audit | v1.1 | 0/1 | Not started | - |
+| 5. Exhibit Audit | 1/1 | Complete   | 2026-03-18 | - |
 | 6. Structural Normalization | v1.1 | 0/1 | Not started | - |
 | 7. Content Gap Fill | v1.1 | 0/2 | Not started | - |

@@ -9,8 +9,8 @@ Requirements for exhibit content consistency milestone. Each maps to roadmap pha
 
 ### Audit
 
-- [ ] **AUDIT-01**: Produce structured per-exhibit comparison table documenting all section variations (headings, quotes, tables, flags) across all 15 exhibits
-- [ ] **AUDIT-02**: Classify each variation as intentional (content-driven), formatting inconsistency (fixable), or content gap (needs review)
+- [x] **AUDIT-01**: Produce structured per-exhibit comparison table documenting all section variations (headings, quotes, tables, flags) across all 15 exhibits
+- [x] **AUDIT-02**: Classify each variation as intentional (content-driven), formatting inconsistency (fixable), or content gap (needs review)
 
 ### Structure
 
@@ -113,8 +113,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-04 | Phase 3 | Complete |
 | A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Complete |
-| AUDIT-01 | Phase 5 | Pending |
-| AUDIT-02 | Phase 5 | Pending |
+| AUDIT-01 | Phase 5 | Complete |
+| AUDIT-02 | Phase 5 | Complete |
 | STRUCT-01 | Phase 6 | Pending |
 | STRUCT-02 | Phase 6 | Pending |
 | STRUCT-03 | Phase 6 | Pending |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Exhibit Content Consistency
 status: planning
-stopped_at: Phase 5 context gathered
-last_updated: "2026-03-18T07:31:44.270Z"
+stopped_at: Completed 05-01-PLAN.md (exhibit audit)
+last_updated: "2026-03-18T09:05:25.027Z"
 last_activity: 2026-03-17 — v1.1 roadmap created, Phases 5-7 defined
 progress:
   total_phases: 3
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  completed_phases: 1
+  total_plans: 1
+  completed_plans: 1
   percent: 0
 ---
 
@@ -46,6 +46,7 @@ Progress: [░░░░░░░░░░] 0%
 | - | - | - | - |
 
 *Updated after each plan completion*
+| Phase 05-exhibit-audit P01 | 70min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -55,6 +56,8 @@ Progress: [░░░░░░░░░░] 0%
 - [v1.1 Roadmap]: STRUCT-01/02/03 are code-only fixes — no content decisions required, can proceed after audit without Dan review
 - [Phase 04-exhibit-detail-pages]: useHead(computed(...)) used for dynamic SEO title on ExhibitDetailPage — useSeo() only accepts plain strings
 - [Phase 04-exhibit-detail-pages]: Exhibit O investigationReport: false — ContentAIQ is an integration thread narrative, not a forensic investigation report
+- [Phase 05-exhibit-audit]: Best-of-breed: Exhibits F/G/H/I as normalization reference target; J/K/L as investigation report sub-reference; Exhibit D is worst-case sparse state
+- [Phase 05-exhibit-audit]: Playwright script must use .cjs extension when package.json has type:module
 
 ### Pending Todos
 
@@ -76,6 +79,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-18T07:31:44.268Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-exhibit-audit/05-CONTEXT.md
+Last session: 2026-03-18T09:05:25.025Z
+Stopped at: Completed 05-01-PLAN.md (exhibit audit)
+Resume file: None
