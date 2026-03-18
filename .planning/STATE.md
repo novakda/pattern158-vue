@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Exhibit Content Consistency
-status: planning
-stopped_at: Completed 05-01-PLAN.md (exhibit audit)
-last_updated: "2026-03-18T09:10:05.158Z"
-last_activity: 2026-03-17 — v1.1 roadmap created, Phases 5-7 defined
+status: executing
+stopped_at: Completed 06-01-PLAN.md (structural normalization)
+last_updated: "2026-03-18T09:32:19.633Z"
+last_activity: 2026-03-18 — Phase 6 plan written (06-01-PLAN.md)
 progress:
   total_phases: 3
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-17)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 5 — Exhibit Audit
+**Current focus:** Phase 6 — Structural Normalization
 
 ## Current Position
 
-Phase: 5 of 7 (Exhibit Audit)
+Phase: 6 of 7 (Structural Normalization)
 Plan: 0 of 1 in current phase
-Status: Ready to plan
-Last activity: 2026-03-17 — v1.1 roadmap created, Phases 5-7 defined
+Status: Ready to execute
+Last activity: 2026-03-18 — Phase 6 plan written (06-01-PLAN.md)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -47,6 +47,7 @@ Progress: [░░░░░░░░░░] 0%
 
 *Updated after each plan completion*
 | Phase 05-exhibit-audit P01 | 70min | 2 tasks | 3 files |
+| Phase 06-structural-normalization P01 | 4min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -58,6 +59,8 @@ Progress: [░░░░░░░░░░] 0%
 - [Phase 04-exhibit-detail-pages]: Exhibit O investigationReport: false — ContentAIQ is an integration thread narrative, not a forensic investigation report
 - [Phase 05-exhibit-audit]: Best-of-breed: Exhibits F/G/H/I as normalization reference target; J/K/L as investigation report sub-reference; Exhibit D is worst-case sparse state
 - [Phase 05-exhibit-audit]: Playwright script must use .cjs extension when package.json has type:module
+- [Phase 06-structural-normalization]: Used .badge-aware class for investigation badge — muted/neutral, avoids color collision with teal exhibit label on dark header
+- [Phase 06-structural-normalization]: Badge placed immediately after h1 exhibit-detail-title — visible but visually subordinate to title
 
 ### Pending Todos
 
@@ -79,6 +82,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-18T09:05:25.025Z
-Stopped at: Completed 05-01-PLAN.md (exhibit audit)
+Last session: 2026-03-18T09:32:19.631Z
+Stopped at: Completed 06-01-PLAN.md (structural normalization)
 Resume file: None

@@ -107,10 +107,10 @@ Plans:
   1. All exhibits use one consistent label convention for `contextHeading` — no exhibit uses a divergent naming pattern
   2. The `investigationReport` flag button text matches the actual flag value semantically — a `true` flag shows an affirmative label, a `false` flag shows a negative label (currently inverted)
   3. All exhibits that have quotes display attribution with consistent use of the `role` field — no exhibit omits role while others include it for equivalent quote types
-**Plans:** TBD
+**Plans:** 1/1 plans complete
 
 Plans:
-- [ ] 06-01-PLAN.md — Normalize contextHeading labels, fix investigationReport flag display logic, standardize quote attribution format
+- [ ] [06-01-PLAN.md](phases/06-structural-normalization/06-01-PLAN.md) — Normalize contextHeading labels, fix investigationReport flag display logic, standardize quote attribution format
 
 #### Phase 7: Content Gap Fill
 **Goal**: All content gaps approved by Dan during review are added to `exhibits.ts` — no exhibit is missing context or quotes that the 11ty source provides — and no content is added without explicit approval
@@ -138,5 +138,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 | 3. Remaining Pages + Completion | v1.0 | 6/6 | Complete | 2026-03-17 |
 | 4. Exhibit Detail Pages + Data Fix | v1.0 | 3/3 | Complete | 2026-03-17 |
 | 5. Exhibit Audit | 1/1 | Complete   | 2026-03-18 | - |
-| 6. Structural Normalization | v1.1 | 0/1 | Not started | - |
+| 6. Structural Normalization | 1/1 | Complete   | 2026-03-18 | - |
 | 7. Content Gap Fill | v1.1 | 0/2 | Not started | - |
