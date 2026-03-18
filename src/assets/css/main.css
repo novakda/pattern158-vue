@@ -4286,6 +4286,11 @@ footer a,
     margin: 0;
 }
 
+.page-exhibit-detail .exhibit-investigation-badge {
+    display: inline-block;
+    margin-top: var(--space-sm);
+}
+
 .page-exhibit-detail .exhibit-detail-body {
     padding: var(--space-xl) 0;
 }
