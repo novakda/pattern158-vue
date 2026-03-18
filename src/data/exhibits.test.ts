@@ -22,3 +22,21 @@ describe('exhibits data', () => {
     expect(exhibitO?.label).toBe('Exhibit O')
   })
 })
+
+describe('structural normalization (STRUCT-01, STRUCT-03)', () => {
+  it('Exhibit M has contextHeading "Investigation Summary"', () => {
+    const exhibitM = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-m')
+    expect(exhibitM?.contextHeading).toBe('Investigation Summary')
+  })
+
+  it('Exhibit N has contextHeading "Investigation Summary"', () => {
+    const exhibitN = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-n')
+    expect(exhibitN?.contextHeading).toBe('Investigation Summary')
+  })
+
+  it('Exhibit A second quote has non-empty attribution', () => {
+    const exhibitA = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-a')
+    const secondQuote = exhibitA?.quotes?.[1]
+    expect(secondQuote?.attribution).toBeTruthy()
+  })
+})

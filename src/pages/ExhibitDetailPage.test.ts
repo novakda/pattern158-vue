@@ -70,4 +70,28 @@ describe('ExhibitDetailPage', () => {
 
     expect(mockReplace).toHaveBeenCalledWith({ name: 'not-found' })
   })
+
+  it('renders Investigation Report badge for exhibit with investigationReport: true', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-j' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: { stubs: { RouterLink: true, TechTags: true } },
+    })
+
+    expect(wrapper.text()).toContain('Investigation Report')
+  })
+
+  it('does not render Investigation Report badge for exhibit without investigationReport flag', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-a' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: { stubs: { RouterLink: true, TechTags: true } },
+    })
+
+    expect(wrapper.find('.exhibit-investigation-badge').exists()).toBe(false)
+  })
 })
