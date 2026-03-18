@@ -102,9 +102,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | PAGE-01 | Phase 2 | Complete |
 | PAGE-02 | Phase 3 | Complete |
-| PAGE-03 | Phase 3, Phase 4 | Complete (gap closure pending) |
+| PAGE-03 | Phase 3, Phase 4 | Complete |
 | PAGE-04 | Phase 3 | Complete |
-| PAGE-05 | Phase 3, Phase 4 | Complete (gap closure pending) |
+| PAGE-05 | Phase 3, Phase 4 | Complete |
 | PAGE-06 | Phase 3 | Complete |
 | PAGE-07 | Phase 3 | Complete |
 | COMP-01 | Phase 3 | Complete |
@@ -113,14 +113,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMP-04 | Phase 3 | Complete |
 | A11Y-01 | Phase 1 | Complete |
 | STORY-01 | Phase 3 | Complete |
+| AUDIT-01 | Phase 5 | Pending |
+| AUDIT-02 | Phase 5 | Pending |
+| STRUCT-01 | Phase 6 | Pending |
+| STRUCT-02 | Phase 6 | Pending |
+| STRUCT-03 | Phase 6 | Pending |
+| CONT-01 | Phase 7 | Pending |
+| CONT-02 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 13 total
-- Mapped to phases: 13
-- Unmapped: 0
+- v1 requirements: 13 total — mapped: 13, unmapped: 0
+- v1.1 requirements: 7 total — mapped: 7, unmapped: 0
 
 **Note:** COMP-04 moved from Phase 2 to Phase 3 during plan revision. Phase 2 components are concept components (FindingCard, SpecialtyCard, etc.) that are props-driven. Named slots for flexible composition applies to layout-level components which Phase 3 will introduce when porting remaining pages.
 
+**Note:** CONT-02 is user-gated. Phase 7 plan 07-02 cannot execute until Dan approves the CONT-01 gap list produced in 07-01.
+
 ---
 *Requirements defined: 2026-03-16*
-*Last updated: 2026-03-17 after v1.1 milestone start*
+*Last updated: 2026-03-17 after v1.1 roadmap created*

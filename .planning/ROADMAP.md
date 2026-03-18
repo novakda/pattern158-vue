@@ -1,23 +1,14 @@
 # Roadmap: Pattern 158 Vue Conversion
 
-## Overview
+## Milestones
 
-Three phases to take the Vue 3 scaffold from partial conversion to a fully ported, component-extracted portfolio site with visual parity to the live 11ty site. Phase 1 clears the known defects that would compound if more pages were added on top of them. Phase 2 ports the homepage and establishes the component extraction pattern. Phase 3 applies that pattern to the remaining six pages and brings all components to Storybook-documented completion.
+- ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
+- 🚧 **v1.1 Exhibit Content Consistency** — Phases 5-7 (in progress)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
-
-Decimal phases appear between their surrounding integers in numeric order.
-
-- [x] **Phase 1: Foundation Fixes** - Clear known defects before adding more pages (completed 2026-03-16)
-- [x] **Phase 2: Homepage + Extraction Pattern** - Port HomePage and establish component extraction model (completed 2026-03-17)
-- [x] **Phase 3: Remaining Pages + Completion** - Port all remaining pages, complete component library, finalize Storybook (completed 2026-03-17)
-- [x] **Phase 4: Exhibit Detail Pages + Data Fix** - Close audit gaps: wire exhibit routes, fix data mismatch, complete exhibit navigation flow (completed 2026-03-17)
-
-## Phase Details
+<details>
+<summary>✅ v1.0 MVP (Phases 1-4) — SHIPPED 2026-03-17</summary>
 
 ### Phase 1: Foundation Fixes
 **Goal**: The existing codebase has no known accessibility violations, no silent broken-link failures, and a complete testing stack before any new pages are added
@@ -45,9 +36,9 @@ Plans:
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 02-01-PLAN.md — Create typed data layer (5 data files) and update existing component contracts (TechTags, TestimonialQuote)
-- [ ] 02-02-PLAN.md — Create all 7 new Vue SFC components (HomeHero, FindingCard, SpecialtyCard, StatItem, StatsSection, InfluencesList, CtaButtons)
-- [ ] 02-03-PLAN.md — Refactor HomePage.vue to compose extracted components + visual parity checkpoint
+- [x] 02-01-PLAN.md — Create typed data layer (5 data files) and update existing component contracts (TechTags, TestimonialQuote)
+- [x] 02-02-PLAN.md — Create all 7 new Vue SFC components (HomeHero, FindingCard, SpecialtyCard, StatItem, StatsSection, InfluencesList, CtaButtons)
+- [x] 02-03-PLAN.md — Refactor HomePage.vue to compose extracted components + visual parity checkpoint
 
 ### Phase 3: Remaining Pages + Completion
 **Goal**: All nine pages are fully ported with no TODO stubs, every named concept component is extracted and Storybook-documented, and page templates read as outlines
@@ -63,12 +54,12 @@ Plans:
 **Plans:** 6/6 plans complete
 
 Plans:
-- [ ] 03-01-PLAN.md — Port FaqPage, PortfolioPage, TestimonialsPage from 11ty HTML (content porting, data-heavy pages)
-- [ ] 03-02-PLAN.md — Port AccessibilityPage, ReviewPage + PhilosophyPage HeroMinimal adoption + ContactPage audit
-- [ ] 03-03-PLAN.md — Extract FAQ and Portfolio data files + FaqItem, NarrativeCard, FlagshipCard components
-- [ ] 03-04-PLAN.md — Extract Testimonials data + ExhibitCard (named slots) + PhilosophyPage/ContactPage extraction for COMP-03
-- [ ] 03-05-PLAN.md — Storybook stories backfill for Phase 2 components (8 components)
-- [ ] 03-06-PLAN.md — Storybook stories for Phase 3 components + page-level viewport stories (375px/768px/1280px)
+- [x] 03-01-PLAN.md — Port FaqPage, PortfolioPage, TestimonialsPage from 11ty HTML (content porting, data-heavy pages)
+- [x] 03-02-PLAN.md — Port AccessibilityPage, ReviewPage + PhilosophyPage HeroMinimal adoption + ContactPage audit
+- [x] 03-03-PLAN.md — Extract FAQ and Portfolio data files + FaqItem, NarrativeCard, FlagshipCard components
+- [x] 03-04-PLAN.md — Extract Testimonials data + ExhibitCard (named slots) + PhilosophyPage/ContactPage extraction for COMP-03
+- [x] 03-05-PLAN.md — Storybook stories backfill for Phase 2 components (8 components)
+- [x] 03-06-PLAN.md — Storybook stories for Phase 3 components + page-level viewport stories (375px/768px/1280px)
 
 ### Phase 4: Exhibit Detail Pages + Data Fix
 **Goal**: All exhibit router-links resolve to real pages with content, the Exhibit O data gap is fixed, and the "Exhibit detail navigation" E2E flow completes successfully
@@ -83,18 +74,69 @@ Plans:
 **Plans:** 3/3 plans complete
 
 Plans:
-- [ ] 04-01-PLAN.md — Test scaffolds (exhibits + router) + Exhibit O data entry + /exhibits/:slug route registration
-- [ ] 04-02-PLAN.md — ExhibitDetailPage.vue implementation with slug lookup, custom header, conditional content, not-found redirect
-- [ ] 04-03-PLAN.md — ExhibitDetailPage Storybook story with 4 viewport exports
+- [x] 04-01-PLAN.md — Test scaffolds (exhibits + router) + Exhibit O data entry + /exhibits/:slug route registration
+- [x] 04-02-PLAN.md — ExhibitDetailPage.vue implementation with slug lookup, custom header, conditional content, not-found redirect
+- [x] 04-03-PLAN.md — ExhibitDetailPage Storybook story with 4 viewport exports
+
+</details>
+
+---
+
+### 🚧 v1.1 Exhibit Content Consistency (In Progress)
+
+**Milestone Goal:** Audit and normalize exhibit detail page content — particularly "Findings" sections — so all exhibits follow a consistent structure and formatting pattern. Every structural variation is either intentionally preserved or corrected, and no content gaps are filled without explicit approval.
+
+#### Phase 5: Exhibit Audit
+**Goal**: Every exhibit's content sections are documented in a structured comparison table with all formatting variations classified — so Dan has a complete picture of what needs fixing versus what is intentionally different
+**Depends on**: Phase 4
+**Requirements**: AUDIT-01, AUDIT-02
+**Success Criteria** (what must be TRUE):
+  1. A structured per-exhibit table exists covering all 15 exhibits, documenting which sections each exhibit has (headings, quotes, tables, flags) and how they differ from each other
+  2. Every variation in the table is classified as one of: intentional (content-driven), formatting inconsistency (fixable without content decision), or content gap (needs review before changing)
+  3. The audit output is readable as a standalone document — Dan can review it without any additional context and understand the scope of normalization work ahead
+**Plans:** TBD
+
+Plans:
+- [ ] 05-01-PLAN.md — Audit all 15 exhibits and produce structured comparison table with classified variations
+
+#### Phase 6: Structural Normalization
+**Goal**: All code-level formatting inconsistencies identified in the audit are fixed — `contextHeading` labels are unified, the `investigationReport` flag renders correctly, and quote attribution follows a single format — without any content decisions required
+**Depends on**: Phase 5
+**Requirements**: STRUCT-01, STRUCT-02, STRUCT-03
+**Success Criteria** (what must be TRUE):
+  1. All exhibits use one consistent label convention for `contextHeading` — no exhibit uses a divergent naming pattern
+  2. The `investigationReport` flag button text matches the actual flag value semantically — a `true` flag shows an affirmative label, a `false` flag shows a negative label (currently inverted)
+  3. All exhibits that have quotes display attribution with consistent use of the `role` field — no exhibit omits role while others include it for equivalent quote types
+**Plans:** TBD
+
+Plans:
+- [ ] 06-01-PLAN.md — Normalize contextHeading labels, fix investigationReport flag display logic, standardize quote attribution format
+
+#### Phase 7: Content Gap Fill
+**Goal**: All content gaps approved by Dan during review are added to `exhibits.ts` — no exhibit is missing context or quotes that the 11ty source provides — and no content is added without explicit approval
+**Depends on**: Phase 6 + Dan's review of CONT-01 output (user-gated)
+**Requirements**: CONT-01, CONT-02
+**Success Criteria** (what must be TRUE):
+  1. A content gap decision list is produced and handed to Dan for review — covering items such as Exhibit D missing context, exhibits without quotes, and any other gaps flagged in the audit
+  2. Every item Dan approves from the gap list is implemented in `exhibits.ts` with content that matches the published 11ty source exactly
+  3. No content changes are made to `exhibits.ts` beyond what appears in the approved gap list — scope is explicitly bounded
+**Plans:** TBD
+
+Plans:
+- [ ] 07-01-PLAN.md — Produce content gap decision list (CONT-01)
+- [ ] 07-02-PLAN.md — Implement approved content additions to exhibits.ts (CONT-02)
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation Fixes | 2/2 | Complete   | 2026-03-16 |
-| 2. Homepage + Extraction Pattern | 3/3 | Complete   | 2026-03-17 |
-| 3. Remaining Pages + Completion | 6/6 | Complete   | 2026-03-17 |
-| 4. Exhibit Detail Pages + Data Fix | 3/3 | Complete   | 2026-03-17 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Foundation Fixes | v1.0 | 2/2 | Complete | 2026-03-16 |
+| 2. Homepage + Extraction Pattern | v1.0 | 3/3 | Complete | 2026-03-17 |
+| 3. Remaining Pages + Completion | v1.0 | 6/6 | Complete | 2026-03-17 |
+| 4. Exhibit Detail Pages + Data Fix | v1.0 | 3/3 | Complete | 2026-03-17 |
+| 5. Exhibit Audit | v1.1 | 0/1 | Not started | - |
+| 6. Structural Normalization | v1.1 | 0/1 | Not started | - |
+| 7. Content Gap Fill | v1.1 | 0/2 | Not started | - |
