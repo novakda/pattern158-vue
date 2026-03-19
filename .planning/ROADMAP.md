@@ -135,7 +135,7 @@ Plans:
   1. `ExhibitCard.vue:55` renders a stronger/more emphatic CTA label when `investigationReport: true` and a neutral label when false/absent
   2. The CTA copy matches the 11ty source text for this element
   3. No other ExhibitCard behavior is changed
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [x] 08-01-PLAN.md — Verify 11ty source CTA copy and fix ExhibitCard.vue:55 link text inversion
@@ -156,4 +156,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Exhibit Audit | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
-| 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
+| 8. Fix STRUCT-02 ExhibitCard Link Text | 1/1 | Complete   | 2026-03-19 | 2026-03-19 |

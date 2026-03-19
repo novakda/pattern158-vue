@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Exhibit Content Consistency
 status: completed
-stopped_at: Phase 8 context gathered
-last_updated: "2026-03-19T01:01:08.679Z"
+stopped_at: Completed 08-struct-02-exhibitcard-fix/08-01-PLAN.md
+last_updated: "2026-03-19T01:54:30.880Z"
 last_activity: 2026-03-18 — Phase 7 complete (07-02-PLAN.md)
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 4
-  completed_plans: 4
+  completed_phases: 4
+  total_plans: 5
+  completed_plans: 5
   percent: 100
 ---
 
@@ -49,6 +49,7 @@ Progress: [██████████] 100%
 | Phase 05-exhibit-audit P01 | 70min | 2 tasks | 3 files |
 | Phase 06-structural-normalization P01 | 4min | 2 tasks | 5 files |
 | Phase 07-content-gap-fill P02 | 10min | 2 tasks | 3 files |
+| Phase 08-struct-02-exhibitcard-fix P01 | 3min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,8 @@ Progress: [██████████] 100%
 - [Phase 07-content-gap-fill]: GAPS.md verified accurate against exhibits.ts — all 8 checked items and 3 excluded items match source of truth verbatim; no corrections required
 - [Phase 07-content-gap-fill]: exhibits.ts verified complete — all 9 content presence greps pass; no discrepancies found between GAPS.md and implementation
 - [Phase 07-content-gap-fill]: v1.1 milestone (Phases 5-7) formally closed 2026-03-18
+- [Phase 08-struct-02-exhibitcard-fix]: RouterLink stub must use slot-rendering template to expose CTA text in wrapper.text() assertions
+- [Phase 08-struct-02-exhibitcard-fix]: STRUCT-02 fully closed in Phase 8 — v1.1 milestone (Phases 5-8) complete 2026-03-19
 
 ### Pending Todos
 
@@ -86,6 +89,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-19T01:01:08.673Z
-Stopped at: Phase 8 context gathered
-Resume file: .planning/phases/08-struct-02-exhibitcard-fix/08-CONTEXT.md
+Last session: 2026-03-19T01:54:30.878Z
+Stopped at: Completed 08-struct-02-exhibitcard-fix/08-01-PLAN.md
+Resume file: None
