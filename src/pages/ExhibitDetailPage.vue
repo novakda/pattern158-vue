@@ -65,7 +65,25 @@ useHead(computed(() => ({
           </blockquote>
         </div>
 
-        <div v-if="exhibit.contextText" class="exhibit-context">
+        <template v-if="exhibit.sections?.length">
+          <div v-for="(section, i) in exhibit.sections" :key="i" class="exhibit-section">
+            <h2 v-if="section.heading">{{ section.heading }}</h2>
+            <p v-if="section.type === 'text' && section.body">{{ section.body }}</p>
+            <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
+              <thead v-if="section.columns?.length">
+                <tr>
+                  <th v-for="col in section.columns" :key="col">{{ col }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(row, ri) in section.rows" :key="ri">
+                  <td v-for="(cell, ci) in row" :key="ci" :data-label="section.columns?.[ci]">{{ cell }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+        <div v-else-if="exhibit.contextText" class="exhibit-context">
           <h2 v-if="exhibit.contextHeading">{{ exhibit.contextHeading }}</h2>
           <p>{{ exhibit.contextText }}</p>
         </div>
