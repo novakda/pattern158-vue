@@ -4,7 +4,7 @@ milestone: v1.1
 milestone_name: Exhibit Content Consistency
 status: completed
 stopped_at: Completed 08-struct-02-exhibitcard-fix/08-01-PLAN.md
-last_updated: "2026-03-19T01:57:36.786Z"
+last_updated: "2026-03-19T02:16:04.020Z"
 last_activity: 2026-03-18 — Phase 7 complete (07-02-PLAN.md)
 progress:
   total_phases: 4
@@ -18,10 +18,10 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-17)
+See: .planning/PROJECT.md (updated 2026-03-19)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 6 — Structural Normalization
+**Current focus:** Planning next milestone (/gsd:new-milestone)
 
 ## Current Position
 
@@ -55,19 +55,7 @@ Progress: [██████████] 100%
 
 ### Decisions
 
-- [v1.1 Roadmap]: CONT-02 is user-gated — no content added to exhibits.ts without Dan's explicit approval of the CONT-01 gap list
-- [v1.1 Roadmap]: STRUCT-01/02/03 are code-only fixes — no content decisions required, can proceed after audit without Dan review
-- [Phase 04-exhibit-detail-pages]: useHead(computed(...)) used for dynamic SEO title on ExhibitDetailPage — useSeo() only accepts plain strings
-- [Phase 04-exhibit-detail-pages]: Exhibit O investigationReport: false — ContentAIQ is an integration thread narrative, not a forensic investigation report
-- [Phase 05-exhibit-audit]: Best-of-breed: Exhibits F/G/H/I as normalization reference target; J/K/L as investigation report sub-reference; Exhibit D is worst-case sparse state
-- [Phase 05-exhibit-audit]: Playwright script must use .cjs extension when package.json has type:module
-- [Phase 06-structural-normalization]: Used .badge-aware class for investigation badge — muted/neutral, avoids color collision with teal exhibit label on dark header
-- [Phase 06-structural-normalization]: Badge placed immediately after h1 exhibit-detail-title — visible but visually subordinate to title
-- [Phase 07-content-gap-fill]: GAPS.md verified accurate against exhibits.ts — all 8 checked items and 3 excluded items match source of truth verbatim; no corrections required
-- [Phase 07-content-gap-fill]: exhibits.ts verified complete — all 9 content presence greps pass; no discrepancies found between GAPS.md and implementation
-- [Phase 07-content-gap-fill]: v1.1 milestone (Phases 5-7) formally closed 2026-03-18
-- [Phase 08-struct-02-exhibitcard-fix]: RouterLink stub must use slot-rendering template to expose CTA text in wrapper.text() assertions
-- [Phase 08-struct-02-exhibitcard-fix]: STRUCT-02 fully closed in Phase 8 — v1.1 milestone (Phases 5-8) complete 2026-03-19
+*(v1.1 decisions archived to PROJECT.md Key Decisions table — 2026-03-19)*
 
 ### Pending Todos
 
