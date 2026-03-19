@@ -1888,6 +1888,8 @@ footer a:hover {
 }
 
 .page-testimonials .attribution .role {
+    display: block;
+    margin-top: var(--space-xs);
     font-weight: 400;
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
@@ -2238,6 +2240,8 @@ footer a:hover {
 }
 
 .page-exhibit .attribution .role {
+    display: block;
+    margin-top: var(--space-xs);
     font-weight: 400;
     color: var(--color-text-muted);
     font-size: var(--font-size-sm);
