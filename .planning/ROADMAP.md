@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
-- ✅ **v1.1 Exhibit Content Consistency** — Phases 5-7 (complete 2026-03-18)
+- ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (complete 2026-03-19)
 
 ## Phases
 
@@ -138,7 +138,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 08-01-PLAN.md — Verify 11ty source CTA copy and fix ExhibitCard.vue:55 link text inversion
+- [x] 08-01-PLAN.md — Verify 11ty source CTA copy and fix ExhibitCard.vue:55 link text inversion
 
 ---
 
@@ -156,4 +156,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 5. Exhibit Audit | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
-| 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 0/1 | Pending | — |
+| 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
