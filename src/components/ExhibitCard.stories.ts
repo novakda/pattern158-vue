@@ -84,3 +84,31 @@ export const WithoutLink: Story = {
     },
   },
 }
+
+export const InvestigationReport: Story = {
+  args: {
+    exhibit: {
+      label: 'Exhibit J',
+      client: 'General Motors',
+      date: '2019',
+      title: 'GM Leadership Development Program: Cross-Functional Competency Framework',
+      impactTags: ['Leadership', 'Competency Framework', 'Cross-Functional'],
+      exhibitLink: '/exhibits/exhibit-j',
+      investigationReport: true,
+    },
+  },
+}
+
+export const StandardExhibit: Story = {
+  args: {
+    exhibit: {
+      label: 'Exhibit O',
+      client: 'ContentAIQ',
+      date: '2024',
+      title: 'AI-Augmented Content Architecture',
+      impactTags: ['AI', 'Content Architecture'],
+      exhibitLink: '/exhibits/exhibit-o',
+      investigationReport: false,
+    },
+  },
+}

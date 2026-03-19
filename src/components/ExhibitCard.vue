@@ -52,7 +52,7 @@ defineProps<{
         <TechTags :tags="exhibit.impactTags" />
       </div>
       <router-link :to="exhibit.exhibitLink" class="exhibit-link">
-        {{ exhibit.investigationReport ? 'View Investigation Report' : 'View Full Investigation Report' }}
+        {{ exhibit.investigationReport ? 'View Full Investigation Report' : 'View Investigation Report' }}
       </router-link>
     </slot>
   </div>
