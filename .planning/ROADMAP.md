@@ -135,6 +135,7 @@ Plans:
   1. `ExhibitCard.vue:55` renders a stronger/more emphatic CTA label when `investigationReport: true` and a neutral label when false/absent
   2. The CTA copy matches the 11ty source text for this element
   3. No other ExhibitCard behavior is changed
+**Plans:** 1 plan
 
 Plans:
 - [ ] 08-01-PLAN.md — Verify 11ty source CTA copy and fix ExhibitCard.vue:55 link text inversion
