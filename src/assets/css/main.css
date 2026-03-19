@@ -695,6 +695,7 @@ footer a:hover {
     }
 
     .stat-number {
+        display: block;
         font-family: var(--font-heading);
         font-size: var(--font-size-3xl);
         color: var(--color-primary);
