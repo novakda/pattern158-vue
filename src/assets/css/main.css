@@ -744,8 +744,8 @@ footer a:hover {
     .page-index .findings .link-primary,
     .page-philosophy .methodology-note a,
     .page-philosophy .methodology-note .link-primary,
-    .page-contact .timezone-note a,
-    .page-contact .timezone-note .link-primary,
+    .page-contact .contact-link-item a,
+    .page-contact .contact-link-item .link-primary,
     .page-testimonials .exhibits a:not(.exhibit-card a),
     .page-testimonials .exhibits .link-primary,
     .page-portfolio .portfolio-flagships a,
@@ -1457,37 +1457,201 @@ footer a:hover {
 }
 
 /* ================================================================
-   PAGE: Contact
+   PAGE: Contact (Work With Me)
    ================================================================ */
 
-/* Email section */
+/* Shared section styling */
+.page-contact .role-fit,
+.page-contact .company-fit,
+.page-contact .culture-fit,
+.page-contact .compensation,
 .page-contact .contact-methods {
-    background: var(--color-surface);
     padding: var(--space-4xl) var(--space-xl);
-    text-align: center;
 }
 
+.page-contact .role-fit h2,
+.page-contact .company-fit h2,
+.page-contact .culture-fit h2,
+.page-contact .compensation h2,
 .page-contact .contact-methods h2 {
     font-size: var(--font-size-3xl);
     color: var(--color-heading);
     margin-bottom: var(--space-lg);
+    text-align: center;
 }
 
-.page-contact .email-note + h2 {
-    margin-top: var(--space-2xl);
+.page-contact .section-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-xl);
+    font-size: var(--font-size-md);
+}
+
+/* Alternating section backgrounds */
+.page-contact .role-fit {
+    background: var(--color-surface);
+}
+
+.page-contact .company-fit {
+    background: var(--color-background);
+}
+
+.page-contact .culture-fit {
+    background: var(--color-surface);
+}
+
+.page-contact .compensation {
+    background: var(--color-background);
+}
+
+.page-contact .contact-methods {
+    background: var(--color-surface);
+}
+
+/* Role fit section */
+.page-contact .role-fit h3 {
+    font-size: var(--font-size-xl);
+    color: var(--color-heading);
+    margin-bottom: var(--space-md);
+}
+
+.page-contact .fit-columns {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-contact .fit-looking-for ul,
+.page-contact .fit-not-looking-for ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-xl);
+}
+
+.page-contact .fit-looking-for li {
+    background: var(--color-background);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-md);
+    border-left: 4px solid var(--color-primary);
+    line-height: 1.7;
+}
+
+.page-contact .fit-not-looking-for li {
+    padding: var(--space-sm) var(--space-lg);
+    line-height: 1.7;
+    color: var(--color-text-muted);
+}
+
+.page-contact .fit-looking-for strong,
+.page-contact .fit-not-looking-for strong {
+    color: var(--color-heading);
+}
+
+/* Company fit section */
+.page-contact .fit-criteria {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.page-contact .fit-criteria p {
+    margin-bottom: var(--space-lg);
+    line-height: 1.8;
+}
+
+.page-contact .fit-criteria strong {
+    color: var(--color-heading);
+}
+
+/* Culture fit section */
+.page-contact .culture-criteria {
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.page-contact .culture-item {
+    margin-bottom: var(--space-lg);
+    padding: var(--space-md) var(--space-lg);
+    border-left: 4px solid var(--color-primary);
+    background: var(--color-background);
+}
+
+.page-contact .culture-item p {
+    line-height: 1.8;
+    margin: 0;
+}
+
+.page-contact .culture-item strong {
+    color: var(--color-heading);
+}
+
+/* Compensation table */
+.page-contact .compensation-table-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.page-contact .compensation-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.page-contact .compensation-table th,
+.page-contact .compensation-table td {
+    padding: var(--space-md) var(--space-lg);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.page-contact .compensation-table th {
+    font-weight: 600;
+    color: var(--color-heading);
+    white-space: nowrap;
+    width: 40%;
+}
+
+.page-contact .compensation-table tr:last-child th,
+.page-contact .compensation-table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Contact methods section */
+.page-contact .contact-intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--space-xl);
+    font-size: var(--font-size-md);
+}
+
+.page-contact .contact-links {
+    max-width: 500px;
+    margin: 0 auto var(--space-xl);
+}
+
+.page-contact .contact-link-item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-lg);
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.page-contact .contact-link-item:last-child {
+    border-bottom: none;
+}
+
+.page-contact .contact-link-item > strong {
+    min-width: 80px;
+    color: var(--color-heading);
 }
 
 .page-contact .email-container {
     display: flex;
     align-items: center;
-    justify-content: center;
     gap: var(--space-md);
     flex-wrap: wrap;
-    margin: var(--space-md) 0 var(--space-xl);
 }
 
 .page-contact .email-link {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-base);
     font-weight: 600;
     color: var(--color-primary);
     text-decoration: none;
@@ -1502,99 +1666,28 @@ footer a:hover {
     background: var(--color-primary);
     color: var(--color-inverse-text);
     border: none;
-    padding: var(--space-sm) var(--space-lg);
+    padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-md);
     cursor: pointer;
     font-family: var(--font-body);
     font-weight: 500;
+    font-size: var(--font-size-sm);
     transition: all 0.3s;
-    min-height: 44px;
+    min-height: 36px;
 }
 
 .page-contact .copy-btn:hover {
     background: var(--color-primary-hover);
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
-.page-contact .email-note {
+.page-contact .contact-guidance {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
     font-size: var(--font-size-sm);
     color: var(--color-text-muted);
-    margin-top: var(--space-sm);
-}
-
-/* Social buttons */
-.page-contact .social-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-md);
-    margin-top: var(--space-xl);
-}
-
-/* Guidance section */
-.page-contact .guidance {
-    background: var(--color-background);
-    padding: var(--space-4xl) var(--space-xl);
-}
-
-.page-contact .guidance h2 {
-    font-size: var(--font-size-3xl);
-    color: var(--color-heading);
-    margin-bottom: var(--space-lg);
-    text-align: center;
-}
-
-.page-contact .guidance h3 {
-    font-size: var(--font-size-xl);
-    color: var(--color-heading);
-    margin-top: var(--space-xl);
-    margin-bottom: var(--space-md);
-}
-
-.page-contact .guidance-intro {
-    text-align: center;
-    max-width: 700px;
-    margin: 0 auto var(--space-xl);
-    font-size: var(--font-size-md);
-}
-
-.page-contact .guidance-list {
-    list-style: none;
-    padding: 0;
-    max-width: 700px;
-    margin: var(--space-xl) auto;
-}
-
-.page-contact .guidance-list li {
-    background: var(--color-surface);
-    padding: var(--space-md) var(--space-lg);
-    margin-bottom: var(--space-md);
-    border-left: 4px solid var(--color-primary);
-}
-
-.page-contact .guidance-list strong {
-    color: var(--color-heading);
-}
-
-.page-contact .timezone-note {
-    background: var(--color-background-alt);
-    padding: var(--space-lg);
-    border-radius: var(--radius-md);
-    margin: var(--space-xl) auto;
-    max-width: 600px;
-    text-align: center;
-}
-
-.page-contact .preferences,
-.page-contact .exclusions {
-    max-width: 700px;
-    margin: var(--space-xl) auto;
-}
-
-.page-contact .preferences ul,
-.page-contact .exclusions ul {
-    margin-left: var(--space-lg);
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 /* Testimonial section */
@@ -3375,8 +3468,11 @@ footer a:hover {
     .page-index .field-reports-teaser,
     .page-testimonials section,
     .page-exhibit .report-section,
+    .page-contact .role-fit,
+    .page-contact .company-fit,
+    .page-contact .culture-fit,
+    .page-contact .compensation,
     .page-contact .contact-methods,
-    .page-contact .guidance,
     .testimonial,
     .page-philosophy .content-section,
     .page-technologies .tech-category,
@@ -3582,24 +3678,22 @@ footer a:hover {
         font-size: var(--font-size-4xl);
     }
 
-    .page-contact .email-link {
-        font-size: var(--font-size-lg);
-    }
-
-    .page-contact .email-container {
-        flex-direction: column;
-        gap: var(--space-ms);
-    }
-
-    .page-contact .copy-btn {
-        width: 100%;
-        max-width: 200px;
-    }
-
-    /* .page-contact .guidance h2 — removed: uses 3xl on desktop, token scaling handles mobile */
-
-    .page-contact .guidance-list li {
+    .page-contact .fit-looking-for li {
         padding: var(--space-ms) var(--space-sm);
+    }
+
+    .page-contact .culture-item {
+        padding: var(--space-ms) var(--space-sm);
+    }
+
+    .page-contact .contact-link-item {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    .page-contact .compensation-table th,
+    .page-contact .compensation-table td {
+        padding: var(--space-sm) var(--space-md);
     }
 
     .quote-text {
@@ -3854,10 +3948,15 @@ footer a:hover {
 }
 
 @media (min-width: 768px) {
-    .page-contact .social-buttons {
-        flex-direction: row;
-        justify-content: center;
-        gap: var(--space-lg);
+    .page-contact .fit-columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-xl);
+    }
+
+    .page-contact .fit-looking-for ul,
+    .page-contact .fit-not-looking-for ul {
+        margin-bottom: 0;
     }
 }
 

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import ContactGuidance from './ContactGuidance.vue'
+import RoleFitSection from './RoleFitSection.vue'
 
 const meta = {
-  title: 'Components/ContactGuidance',
-  component: ContactGuidance,
-} satisfies Meta<typeof ContactGuidance>
+  title: 'Components/RoleFitSection',
+  component: RoleFitSection,
+} satisfies Meta<typeof RoleFitSection>
 
 export default meta
 type Story = StoryObj<typeof meta>
