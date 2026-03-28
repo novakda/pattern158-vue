@@ -114,10 +114,17 @@ export const exhibits: Exhibit[] = [
         entries: [
           {
             date: 'September 5, 2017',
-            heading: 'Initial Contact',
-            body: 'Dan notes: "I have worked with General Dynamics before and am familiar with their issues with SuccessFactors."',
+            heading: 'SVP Directs Engagement',
+            body: "The Senior Vice President of Learning Solutions identifies Electric Boat as an opportunity and directs the technical team to pursue resolution of their LMS issues. The directive is relayed through the Program Manager.",
             quote: "This company has one or some courses that they cannot get to work on their Cornerstone LMS. The SVP would like us to jump on troubleshooting so we can have a 'quick win' with this client.",
-            quoteAttribution: 'Program Manager, GP Strategies',
+            quoteAttribution: 'Program Manager, GP Strategies, relaying SVP directive',
+          },
+          {
+            date: 'September 5, 2017',
+            heading: 'Dan Responds',
+            body: 'Dan recognizes the client from prior experience with the General Dynamics account.',
+            quote: 'I have worked with General Dynamics before and am familiar with their issues with SuccessFactors.',
+            quoteAttribution: 'Dan Novak',
           },
           {
             date: 'June 13, 2018',
