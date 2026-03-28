@@ -4438,13 +4438,13 @@ footer a,
 
 .page-exhibit-detail .exhibit-quote {
     border-left: 3px solid var(--color-primary);
-    padding: var(--space-md) var(--space-lg);
-    margin: 0 0 var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    margin: 0 0 var(--space-md);
     background: var(--color-background-alt);
 }
 
 .page-exhibit-detail .exhibit-quote p {
-    margin: 0 0 var(--space-sm);
+    margin: 0 0 var(--space-xs);
     font-style: italic;
     color: var(--color-text);
 }
@@ -4454,10 +4454,12 @@ footer a,
     color: var(--color-text-medium);
     padding: 0;
     text-align: left;
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-xs);
     display: flex;
     gap: var(--space-xs);
-    align-items: center;
+    align-items: baseline;
+    flex-wrap: wrap;
+    line-height: 1.4;
 }
 
 .page-exhibit-detail .exhibit-quote .role {
