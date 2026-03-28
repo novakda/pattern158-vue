@@ -9,12 +9,18 @@ export interface ExhibitResolutionRow {
   resolution: string
 }
 
+export interface ExhibitFlowStep {
+  label: string
+  detail: string
+}
+
 export interface ExhibitSection {
   heading?: string
-  type: 'text' | 'table'
+  type: 'text' | 'table' | 'flow'
   body?: string
   columns?: string[]
   rows?: string[][]
+  steps?: ExhibitFlowStep[]
 }
 
 export interface Exhibit {
@@ -1053,9 +1059,15 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'text',
+        type: 'flow',
         heading: 'The Requirements Degradation Chain',
-        body: "Requirements degraded through multiple format conversions, each losing fidelity. By the time requirements reached Azure DevOps, individual tickets looked actionable but had lost all architectural context:\n\nPowerPoint (Vendor decks) \u2192 Word (Document conversion) \u2192 Excel (Spreadsheet conversion) \u2192 ADO Tickets (CSV import)\n\nEach conversion lost fidelity. High-level summaries were treated as actionable work items when they were all epic-level at best. No decomposition into user stories with acceptance criteria ever happened. The requirements looked like a backlog but functioned as a wish list.",
+        body: "Requirements degraded through multiple format conversions, each losing fidelity. By the time requirements reached Azure DevOps, individual tickets looked actionable but had lost all architectural context. Each conversion lost fidelity. High-level summaries were treated as actionable work items when they were all epic-level at best. No decomposition into user stories with acceptance criteria ever happened. The requirements looked like a backlog but functioned as a wish list.",
+        steps: [
+          { label: 'PowerPoint', detail: 'Vendor decks \u2014 visual, contextual, rationale included' },
+          { label: 'Word', detail: 'Document conversion \u2014 rationale stripped, context reduced to summaries' },
+          { label: 'Excel', detail: 'Spreadsheet conversion \u2014 structure lost, items decontextualized' },
+          { label: 'Azure DevOps', detail: 'CSV import \u2014 atomic tasks with no connecting narrative or user intent' },
+        ],
       },
       {
         type: 'text',

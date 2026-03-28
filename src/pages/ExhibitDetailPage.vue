@@ -71,6 +71,20 @@ useHead(computed(() => ({
             <template v-if="section.type === 'text' && section.body">
               <p v-for="(para, pi) in section.body.split('\n\n')" :key="pi">{{ para }}</p>
             </template>
+            <template v-if="section.type === 'flow'">
+              <div class="exhibit-flow">
+                <div v-for="(step, si) in section.steps" :key="si" class="flow-step">
+                  <div class="flow-node">
+                    <span class="flow-label">{{ step.label }}</span>
+                    <span class="flow-detail">{{ step.detail }}</span>
+                  </div>
+                  <div v-if="si < (section.steps?.length ?? 0) - 1" class="flow-arrow" aria-hidden="true"></div>
+                </div>
+              </div>
+              <template v-if="section.body">
+                <p v-for="(para, pi) in section.body.split('\n\n')" :key="'flow-p-' + pi">{{ para }}</p>
+              </template>
+            </template>
             <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
               <thead v-if="section.columns?.length">
                 <tr>

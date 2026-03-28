@@ -4524,6 +4524,100 @@ footer a,
     background: var(--color-background-alt);
 }
 
+/* Flow diagram */
+.page-exhibit-detail .exhibit-flow {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    margin: var(--space-lg) 0;
+    overflow-x: auto;
+    padding: var(--space-sm) 0;
+}
+
+.page-exhibit-detail .flow-step {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.page-exhibit-detail .flow-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--color-background-alt);
+    border: 2px solid var(--color-border);
+    border-radius: 8px;
+    padding: var(--space-md) var(--space-lg);
+    min-width: 140px;
+    max-width: 180px;
+}
+
+.page-exhibit-detail .flow-label {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-heading);
+    margin-bottom: var(--space-xs);
+}
+
+.page-exhibit-detail .flow-detail {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-medium);
+    line-height: 1.4;
+}
+
+.page-exhibit-detail .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-sm);
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.page-exhibit-detail .flow-arrow::after {
+    content: "\2192";
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .page-exhibit-detail .exhibit-flow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page-exhibit-detail .flow-step {
+        flex-direction: column;
+    }
+
+    .page-exhibit-detail .flow-node {
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+        flex-direction: row;
+        text-align: left;
+        gap: var(--space-sm);
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .page-exhibit-detail .flow-label {
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+
+    .page-exhibit-detail .flow-arrow {
+        padding: var(--space-xs) 0;
+        justify-content: center;
+    }
+
+    .page-exhibit-detail .flow-arrow::after {
+        content: "\2193";
+    }
+}
+
 .page-exhibit-detail .exhibit-impact-tags {
     margin-top: var(--space-2xl);
     padding-top: var(--space-lg);
