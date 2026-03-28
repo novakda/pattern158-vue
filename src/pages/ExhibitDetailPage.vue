@@ -145,7 +145,7 @@ useHead(computed(() => ({
         </div>
 
         <div class="exhibit-impact-tags">
-          <h2>Skills &amp; Technologies</h2>
+          <h2>Impact &amp; Capabilities</h2>
           <TechTags :tags="exhibit.impactTags" />
         </div>
 
