@@ -247,7 +247,19 @@ export const exhibits: Exhibit[] = [
       {
         type: 'text',
         heading: 'Outcome',
-        body: "The cross-domain SCORM wrapper originally deployed in 2018 remained the foundation of EB's course delivery architecture throughout the 7-year engagement. By the numbers: 574 documented emails, 49 EB personnel contacts, peak year 2019 (287 emails), 2 on-site visits to Groton CT, engagement continued through August 2022.\n\nThe scope expanded well beyond SCORM wrappers: Flash remediation (2019) \u2014 rewrote the JavaScript communication layer in legacy ESM courses. Chrome 80 impact analysis (2020) \u2014 assessed the threat of synchronous XHR deprecation. SCORM 2004 interaction tracking (2020) \u2014 extended the wrapper for detailed assessment reporting. EB Trades courseware (2022) \u2014 continued support for specialized training content. Cross-domain architecture maintenance (2022) \u2014 advised on third-party cookie policy changes.",
+        body: "The cross-domain SCORM wrapper originally deployed in 2018 remained the foundation of EB's course delivery architecture throughout the 7-year engagement. By the numbers: 574 documented emails, 49 EB personnel contacts, peak year 2019 (287 emails), 2 on-site visits to Groton CT, engagement continued through August 2022.",
+      },
+      {
+        type: 'table',
+        heading: 'Expanded Scope (2019\u20132022)',
+        columns: ['Year', 'Work Stream', 'Description'],
+        rows: [
+          ['2019', 'Flash remediation', 'Rewrote the JavaScript communication layer in legacy ESM courses to restore completion tracking'],
+          ['2020', 'Chrome 80 impact analysis', "Assessed the threat of synchronous XHR deprecation to EB's AICC-based course catalog"],
+          ['2020', 'SCORM 2004 interaction tracking', 'Extended the cross-domain wrapper for detailed assessment reporting'],
+          ['2022', 'EB Trades courseware', 'Continued support for specialized training content including South Yard Yellow Bird Crane'],
+          ['2022', 'Cross-domain architecture maintenance', 'Advised on third-party cookie policy changes and their impact on deployed wrappers'],
+        ],
       },
       {
         type: 'table',
