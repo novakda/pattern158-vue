@@ -4396,7 +4396,40 @@ footer a,
 }
 
 .page-exhibit-detail .exhibit-detail-body {
-    padding: var(--space-xl) 0;
+    padding: var(--space-3xl) 0 var(--space-xl);
+}
+
+.page-exhibit-detail .exhibit-detail-body .container {
+    max-width: 900px;
+}
+
+.page-exhibit-detail .exhibit-section {
+    margin-bottom: var(--space-3xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
+}
+
+.page-exhibit-detail .exhibit-section:first-child {
+    border-top: none;
+    padding-top: 0;
+}
+
+.page-exhibit-detail .exhibit-section h2 {
+    font-size: var(--font-size-xl);
+    margin-top: 0;
+    margin-bottom: var(--space-md);
+    color: var(--color-heading);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.page-exhibit-detail .exhibit-section p {
+    line-height: 1.75;
+    margin-bottom: var(--space-md);
+}
+
+.page-exhibit-detail .exhibit-section p:last-child {
+    margin-bottom: 0;
 }
 
 .page-exhibit-detail .exhibit-quotes {
@@ -4406,7 +4439,7 @@ footer a,
 .page-exhibit-detail .exhibit-quote {
     border-left: 3px solid var(--color-primary);
     padding: var(--space-md) var(--space-lg);
-    margin: 0 0 var(--space-md);
+    margin: 0 0 var(--space-lg);
     background: var(--color-background-alt);
 }
 
@@ -4464,19 +4497,112 @@ footer a,
     background: var(--color-background-alt);
 }
 
+.page-exhibit-detail .exhibit-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--space-sm);
+}
+
+.page-exhibit-detail .exhibit-table th {
+    background: var(--color-background-alt);
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.page-exhibit-detail .exhibit-table td {
+    padding: var(--space-sm) var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.page-exhibit-detail .exhibit-table tr:hover td {
+    background: var(--color-background-alt);
+}
+
 .page-exhibit-detail .exhibit-impact-tags {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-border);
 }
 
 /* Dark mode overrides */
+/* Responsive exhibit detail */
+@media (max-width: 768px) {
+    .page-exhibit-detail .exhibit-detail-body {
+        padding: var(--space-xl) 0;
+    }
+
+    .page-exhibit-detail .exhibit-section {
+        margin-bottom: var(--space-2xl);
+    }
+
+    .page-exhibit-detail .exhibit-table,
+    .page-exhibit-detail .resolution-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .page-exhibit-detail .exhibit-quote .attribution {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .page-exhibit-detail .exhibit-quote .role {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-exhibit-detail .exhibit-table thead,
+    .page-exhibit-detail .resolution-table thead {
+        display: none;
+    }
+
+    .page-exhibit-detail .exhibit-table tr,
+    .page-exhibit-detail .resolution-table tr {
+        display: block;
+        margin-bottom: var(--space-md);
+        border-bottom: 2px solid var(--color-border);
+        padding-bottom: var(--space-sm);
+    }
+
+    .page-exhibit-detail .exhibit-table td,
+    .page-exhibit-detail .resolution-table td {
+        display: block;
+        border-bottom: none;
+        padding: var(--space-xs) var(--space-sm);
+    }
+
+    .page-exhibit-detail .exhibit-table td::before,
+    .page-exhibit-detail .resolution-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--color-text-medium);
+        margin-bottom: var(--space-xs);
+    }
+}
+
 [data-theme="dark"] .page-exhibit-detail .exhibit-quote {
     background: var(--color-background-alt);
 }
 
-[data-theme="dark"] .page-exhibit-detail .resolution-table th {
+[data-theme="dark"] .page-exhibit-detail .resolution-table th,
+[data-theme="dark"] .page-exhibit-detail .exhibit-table th {
     background: var(--color-background-alt);
 }
 
-[data-theme="dark"] .page-exhibit-detail .resolution-table tr:hover td {
+[data-theme="dark"] .page-exhibit-detail .resolution-table tr:hover td,
+[data-theme="dark"] .page-exhibit-detail .exhibit-table tr:hover td {
     background: var(--color-background-alt);
 }
