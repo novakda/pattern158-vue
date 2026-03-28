@@ -104,6 +104,12 @@ useHead(computed(() => ({
                 <p v-for="(para, pi) in section.body.split('\n\n')" :key="'tl-p-' + pi">{{ para }}</p>
               </template>
             </template>
+            <dl v-if="section.type === 'metadata' && section.items?.length" class="exhibit-metadata">
+              <div v-for="(item, mi) in section.items" :key="mi" class="metadata-card">
+                <dt>{{ item.label }}</dt>
+                <dd>{{ item.value }}</dd>
+              </div>
+            </dl>
             <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
               <thead v-if="section.columns?.length">
                 <tr>

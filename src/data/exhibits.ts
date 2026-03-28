@@ -22,14 +22,20 @@ export interface ExhibitTimelineEntry {
   quoteAttribution?: string
 }
 
+export interface ExhibitMetadataItem {
+  label: string
+  value: string
+}
+
 export interface ExhibitSection {
   heading?: string
-  type: 'text' | 'table' | 'flow' | 'timeline'
+  type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
   body?: string
   columns?: string[]
   rows?: string[][]
   steps?: ExhibitFlowStep[]
   entries?: ExhibitTimelineEntry[]
+  items?: ExhibitMetadataItem[]
 }
 
 export interface Exhibit {
@@ -77,13 +83,6 @@ export const exhibits: Exhibit[] = [
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
-    resolutionTable: [
-      { issue: 'SCORM courses dependent on unreliable Cornerstone network player', resolution: 'Provided cross-domain SCORM wrapper eliminating player dependency' },
-      { issue: 'HTML5 courses failing under AICC protocol', resolution: 'Converted AICC to SCORM HTML5 with improved performance' },
-      { issue: 'Quiz bookmarking and reset failures', resolution: 'Implemented SCORM HTML5 course with proper reset and bookmarking' },
-      { issue: 'No tools to verify SCORM data flow', resolution: 'Provided LMS simulation tool for troubleshooting and training' },
-      { issue: 'Bulk SCORM import not possible', resolution: 'Tested and validated Cornerstone\u2019s new bulk publication tool' },
-    ],
     sections: [
       {
         type: 'text',
@@ -274,15 +273,14 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Defense & Aerospace'],
-          ['Duration', '7 years'],
-          ['Personnel Involved', '49 individuals'],
-          ['Evidence Trail', '574 emails analyzed'],
-          ['Related', 'Exhibit B (Multi-Level Recognition), Exhibit D (Wells Fargo Migration)'],
+        items: [
+          { label: 'Industry', value: 'Defense & Aerospace' },
+          { label: 'Duration', value: '7 years' },
+          { label: 'Personnel Involved', value: '49 individuals' },
+          { label: 'Evidence Trail', value: '574 emails analyzed' },
+          { label: 'Related', value: 'Exhibit B (Multi-Level Recognition), Exhibit D (Wells Fargo Migration)' },
         ],
       },
     ],
@@ -348,15 +346,14 @@ export const exhibits: Exhibit[] = [
         body: "A single recognition event can be attributed to politics, timing, or courtesy. Two independent cascades \u2014 through different intermediaries, triggered by different technical outcomes, eight months apart \u2014 constitute a pattern. The Director of Learning Technologies cited independent sources in both instances, confirming that recognition was not solicited or coordinated.",
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Defense & Aerospace'],
-          ['Duration', '2 years'],
-          ['Personnel Involved', '8 individuals'],
-          ['Outcome', 'Demonstrated repeatable pattern of multi-level, unsolicited recognition through independent channels following technical excellence'],
-          ['Related', 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)'],
+        items: [
+          { label: 'Industry', value: 'Defense & Aerospace' },
+          { label: 'Duration', value: '2 years' },
+          { label: 'Personnel Involved', value: '8 individuals' },
+          { label: 'Outcome', value: 'Demonstrated repeatable pattern of multi-level, unsolicited recognition through independent channels following technical excellence' },
+          { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)' },
         ],
       },
     ],
@@ -436,14 +433,13 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Learning & Development'],
-          ['Duration', '1 year'],
-          ['Personnel Involved', '15 individuals'],
-          ['Outcome', 'Automated batch publishing of 1,216 lessons, saving 600+ hours of manual labor through Fiddler-based API reverse engineering'],
+        items: [
+          { label: 'Industry', value: 'Learning & Development' },
+          { label: 'Duration', value: '1 year' },
+          { label: 'Personnel Involved', value: '15 individuals' },
+          { label: 'Outcome', value: 'Automated batch publishing of 1,216 lessons, saving 600+ hours of manual labor through Fiddler-based API reverse engineering' },
         ],
       },
     ],
@@ -532,15 +528,14 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Financial Services'],
-          ['Duration', '6 months'],
-          ['Personnel Involved', '6 individuals'],
-          ['Evidence Trail', '223 emails analyzed'],
-          ['Related', 'Exhibit A (Electric Boat LMS Integration), Exhibit E (CSBB Dispatch)'],
+        items: [
+          { label: 'Industry', value: 'Financial Services' },
+          { label: 'Duration', value: '6 months' },
+          { label: 'Personnel Involved', value: '6 individuals' },
+          { label: 'Evidence Trail', value: '223 emails analyzed' },
+          { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit E (CSBB Dispatch)' },
         ],
       },
     ],
@@ -658,15 +653,14 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Energy & Utilities'],
-          ['Duration', '10 years'],
-          ['Personnel Involved', '4 individuals'],
-          ['Outcome', 'Architected cross-domain content delivery platform serving ~2,000 courses to ~20 energy utility clients. Built 5 years before Rustici Content Controller'],
-          ['Related', 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)'],
+        items: [
+          { label: 'Industry', value: 'Energy & Utilities' },
+          { label: 'Duration', value: '10 years' },
+          { label: 'Personnel Involved', value: '4 individuals' },
+          { label: 'Outcome', value: 'Architected cross-domain content delivery platform serving ~2,000 courses to ~20 energy utility clients. Built 5 years before Rustici Content Controller' },
+          { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)' },
         ],
       },
     ],
@@ -751,15 +745,14 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Global Banking'],
-          ['Duration', '7 years'],
-          ['Personnel Involved', '25 individuals'],
-          ['Evidence Trail', '560 emails analyzed'],
-          ['Related', 'Exhibit G (SunTrust AWARE Platform), Exhibit I (TD Bank Accessibility), Exhibit A (Electric Boat LMS Integration)'],
+        items: [
+          { label: 'Industry', value: 'Global Banking' },
+          { label: 'Duration', value: '7 years' },
+          { label: 'Personnel Involved', value: '25 individuals' },
+          { label: 'Evidence Trail', value: '560 emails analyzed' },
+          { label: 'Related', value: 'Exhibit G (SunTrust AWARE Platform), Exhibit I (TD Bank Accessibility), Exhibit A (Electric Boat LMS Integration)' },
         ],
       },
     ],
@@ -834,16 +827,15 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Banking / Financial Services'],
-          ['Duration', '3 years'],
-          ['Personnel Involved', '5 individuals'],
-          ['Evidence Trail', '133 emails analyzed'],
-          ['Outcome', "Architected custom SCORM-to-API wrapper bypassing traditional LMS. Issued SunTrust employee credentials reflecting extraordinary client trust."],
-          ['Related', 'Exhibit F (HSBC Global Banking), Exhibit A (Electric Boat LMS Integration)'],
+        items: [
+          { label: 'Industry', value: 'Banking / Financial Services' },
+          { label: 'Duration', value: '3 years' },
+          { label: 'Personnel Involved', value: '5 individuals' },
+          { label: 'Evidence Trail', value: '133 emails analyzed' },
+          { label: 'Outcome', value: 'Architected custom SCORM-to-API wrapper bypassing traditional LMS. Issued SunTrust employee credentials reflecting extraordinary client trust.' },
+          { label: 'Related', value: 'Exhibit F (HSBC Global Banking), Exhibit A (Electric Boat LMS Integration)' },
         ],
       },
     ],
@@ -898,15 +890,14 @@ export const exhibits: Exhibit[] = [
         body: "Root cause identified and fix deployed within the same business day. Three independent expressions of relief and gratitude indicate the pressure the team was under and the quality of the resolution. The word \"relief\" from one team member is particularly telling \u2014 it reveals the weight of the situation before the fix was found.\n\nThe directive to \"share this resolution with any other appropriate parties\" and \"close the loop\" indicates this was not a minor issue but one with visibility across multiple stakeholder groups. The issue was isolated to the LMS configuration layer rather than the courseware itself, which meant the fix could be applied without republishing the course content \u2014 a critical distinction under time pressure.",
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Advanced Manufacturing'],
-          ['Duration', 'Same-day resolution'],
-          ['Personnel Involved', '4 individuals'],
-          ['Evidence Trail', '15 emails analyzed'],
-          ['Related', 'Exhibit A (Electric Boat), Exhibit F (HSBC), Exhibit J (GM Course Completion)'],
+        items: [
+          { label: 'Industry', value: 'Advanced Manufacturing' },
+          { label: 'Duration', value: 'Same-day resolution' },
+          { label: 'Personnel Involved', value: '4 individuals' },
+          { label: 'Evidence Trail', value: '15 emails analyzed' },
+          { label: 'Related', value: 'Exhibit A (Electric Boat), Exhibit F (HSBC), Exhibit J (GM Course Completion)' },
         ],
       },
     ],
@@ -997,15 +988,14 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Banking / Financial Services'],
-          ['Duration', '2 years'],
-          ['Personnel Involved', '5 individuals'],
-          ['Evidence Trail', '479 accessibility emails analyzed (2022)'],
-          ['Related', 'Exhibit F (HSBC Global Banking), Exhibit G (SunTrust AWARE Platform)'],
+        items: [
+          { label: 'Industry', value: 'Banking / Financial Services' },
+          { label: 'Duration', value: '2 years' },
+          { label: 'Personnel Involved', value: '5 individuals' },
+          { label: 'Evidence Trail', value: '479 accessibility emails analyzed (2022)' },
+          { label: 'Related', value: 'Exhibit F (HSBC Global Banking), Exhibit G (SunTrust AWARE Platform)' },
         ],
       },
     ],
@@ -1121,16 +1111,15 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Automotive / Dealership Training'],
-          ['Duration', '6 months'],
-          ['Personnel Involved', '3 individuals'],
-          ['Evidence Trail', '25 emails analyzed'],
-          ['Outcome', 'Conducted NTSB-style investigation identifying 5 concurrent systemic failures causing 4x spike in course incompletion. Validated years later when GM migrated to SAP SuccessFactors.'],
-          ['Related', 'Exhibit H (Metal Additive Manufacturing), Exhibit A (Electric Boat), Exhibit F (HSBC)'],
+        items: [
+          { label: 'Industry', value: 'Automotive / Dealership Training' },
+          { label: 'Duration', value: '6 months' },
+          { label: 'Personnel Involved', value: '3 individuals' },
+          { label: 'Evidence Trail', value: '25 emails analyzed' },
+          { label: 'Outcome', value: 'Conducted NTSB-style investigation identifying 5 concurrent systemic failures causing 4x spike in course incompletion. Validated years later when GM migrated to SAP SuccessFactors.' },
+          { label: 'Related', value: 'Exhibit H (Metal Additive Manufacturing), Exhibit A (Electric Boat), Exhibit F (HSBC)' },
         ],
       },
     ],
@@ -1209,14 +1198,13 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Technology / Enterprise Software'],
-          ['Duration', '~4 weeks (POC)'],
-          ['Personnel Involved', '5 individuals'],
-          ['Outcome', 'Functional POC demonstrating hybrid AI/structured-data architecture for reliable stateful training workflows'],
+        items: [
+          { label: 'Industry', value: 'Technology / Enterprise Software' },
+          { label: 'Duration', value: '~4 weeks (POC)' },
+          { label: 'Personnel Involved', value: '5 individuals' },
+          { label: 'Outcome', value: 'Functional POC demonstrating hybrid AI/structured-data architecture for reliable stateful training workflows' },
         ],
       },
     ],
@@ -1305,14 +1293,13 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Enterprise'],
-          ['Duration', '1 year'],
-          ['Personnel Involved', '4 individuals'],
-          ['Outcome', 'Five foundational gaps identified through convergent evidence. Findings delivered to governance architect as documented repository with prompts and annotated analysis.'],
+        items: [
+          { label: 'Industry', value: 'Enterprise' },
+          { label: 'Duration', value: '1 year' },
+          { label: 'Personnel Involved', value: '4 individuals' },
+          { label: 'Outcome', value: 'Five foundational gaps identified through convergent evidence. Findings delivered to governance architect as documented repository with prompts and annotated analysis.' },
         ],
       },
     ],
@@ -1366,14 +1353,13 @@ export const exhibits: Exhibit[] = [
         body: 'Test cycles dropped from hours to minutes for targeted scenarios. Some adoption occurred informally. The tool was never formally deployed team-wide due to the non-billable tooling constraint. The approach \u2014 separating SCORM session state from course navigation \u2014 anticipates the debug-state capabilities that commercial testing tools would later address.',
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Learning & Development'],
-          ['Duration', '~1 year'],
-          ['Personnel Involved', '2 individuals'],
-          ['Outcome', 'Reduced targeted QA test cycles from hours to minutes through TASBot-inspired SCORM state capture and restore'],
+        items: [
+          { label: 'Industry', value: 'Learning & Development' },
+          { label: 'Duration', value: '~1 year' },
+          { label: 'Personnel Involved', value: '2 individuals' },
+          { label: 'Outcome', value: 'Reduced targeted QA test cycles from hours to minutes through TASBot-inspired SCORM state capture and restore' },
         ],
       },
     ],
@@ -1443,14 +1429,13 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'Energy / Enterprise Learning'],
-          ['Duration', 'Several months'],
-          ['Outcome', 'Delivered theming, bug fixes, Cognito resolution, and Watershed debugging for federated learning platform'],
-          ['Related', 'Exhibit E (CSBB Dispatch), Exhibit O (ContentAIQ Integration Thread)'],
+        items: [
+          { label: 'Industry', value: 'Energy / Enterprise Learning' },
+          { label: 'Duration', value: 'Several months' },
+          { label: 'Outcome', value: 'Delivered theming, bug fixes, Cognito resolution, and Watershed debugging for federated learning platform' },
+          { label: 'Related', value: 'Exhibit E (CSBB Dispatch), Exhibit O (ContentAIQ Integration Thread)' },
         ],
       },
     ],
@@ -1520,14 +1505,13 @@ export const exhibits: Exhibit[] = [
         body: "The integration thread runs from CSBB Dispatch (2011) \u2014 a custom cross-domain dispatch layer \u2014 through three 2024 projects that solve the same boundary-crossing problem using commercial ecosystems and modern tooling. The architectural insight is identical: federated systems require a coordination layer, and the coordination layer is where the complexity lives.",
       },
       {
-        type: 'table',
+        type: 'metadata',
         heading: 'Engagement Metadata',
-        columns: ['Field', 'Value'],
-        rows: [
-          ['Industry', 'eLearning / EdTech / AI'],
-          ['Duration', '6 months'],
-          ['Outcome', 'Contributed to ContentAIQ AI product frontend. Recognized integration pattern thread across 13 years from CSBB Dispatch to modern federated systems.'],
-          ['Related', 'Exhibit N (BP Learning Platform), Exhibit E (CSBB Dispatch)'],
+        items: [
+          { label: 'Industry', value: 'eLearning / EdTech / AI' },
+          { label: 'Duration', value: '6 months' },
+          { label: 'Outcome', value: 'Contributed to ContentAIQ AI product frontend. Recognized integration pattern thread across 13 years from CSBB Dispatch to modern federated systems.' },
+          { label: 'Related', value: 'Exhibit N (BP Learning Platform), Exhibit E (CSBB Dispatch)' },
         ],
       },
     ],

@@ -4717,6 +4717,42 @@ footer a,
     }
 }
 
+/* Metadata definition list (card grid) */
+.page-exhibit-detail .exhibit-metadata {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--space-sm);
+    margin: var(--space-sm) 0 0;
+}
+
+.page-exhibit-detail .metadata-card {
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: var(--space-sm) var(--space-md);
+}
+
+.page-exhibit-detail .metadata-card dt {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-medium);
+    margin-bottom: var(--space-xs);
+}
+
+.page-exhibit-detail .metadata-card dd {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+}
+
+@media (max-width: 480px) {
+    .page-exhibit-detail .exhibit-metadata {
+        grid-template-columns: 1fr;
+    }
+}
+
 .page-exhibit-detail .exhibit-impact-tags {
     margin-top: var(--space-lg);
     padding-top: var(--space-md);
