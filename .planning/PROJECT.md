@@ -2,9 +2,9 @@
 
 ## What This Is
 
-A conversion of the Pattern 158 portfolio site from static 11ty HTML to Vue 3, serving as both Dan Novak's professional portfolio and a self-demonstrating greenfield Vue.js project. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
+An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-v1.1 delivered exhibit content consistency: all 15 exhibit detail pages were audited, structural formatting inconsistencies fixed, and approved content gaps filled.
+v1.0–v1.1 completed the 11ty-to-Vue conversion with full content parity and exhibit consistency. v2.0 restructures the site's information architecture to resolve content redundancy and introduce two distinct exhibit presentation types.
 
 ## Core Value
 
@@ -38,22 +38,35 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-*(No active requirements — planning next milestone)*
+*(See REQUIREMENTS.md for v2.0 milestone requirements)*
 
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
-- New features beyond what the 11ty site has — this is a conversion, not an expansion
 - Backend/CMS/data fetching — stays fully static
 - Animations/transitions — defer to a future pass
-- Routing changes — keep current route structure
 - SSR/SSG — SPA is sufficient for a portfolio site
 - `isDetailExhibit` flag documentation — classification logic undocumented but not blocking; no v1.1 requirement affected
+- Full site narrative rework (homepage, philosophy, technologies) — v2.0 focuses on the evidence layer; broader narrative is a future milestone
+- New exhibit content creation — restructure existing content, don't write new exhibits
+
+## Current Milestone: v2.0 Site IA Restructure — Evidence-Based Portfolio
+
+**Goal:** Restructure the site's information architecture so every page earns its place, replacing redundant Portfolio and Field Reports pages with a unified evidence section that distinguishes two exhibit types.
+
+**Target features:**
+- Audit and classify all 15 exhibits as "Investigation Report" or "Engineering Brief"
+- Unified Case Files listing page replacing both Portfolio and Field Reports
+- Distinct card styles per exhibit type on the listing page
+- New "Engineering Brief" detail page template
+- Remove Three Lenses (AI-generated, not authored content)
+- Relocate 38-project directory as breadth signal
+- Update navigation and homepage CTAs
 
 ## Context
 
-- The 11ty site is published and live. The Vue version needs to reach visual parity before it can replace it.
+- The 11ty site is published and live. The Vue version reached visual parity in v1.0–v1.1; v2.0 diverges from the 11ty structure intentionally.
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
@@ -64,7 +77,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 - **Tech stack**: Vue 3 Composition API + TypeScript + Vite — already established, no changes
 - **Styling**: Existing CSS design token system — components should consume tokens, not introduce new styling approaches
-- **Content**: Must match published 11ty site content exactly — no editorial changes
+- **Content**: Restructure existing content; no new exhibit creation. Content wording stays as-is unless reclassification requires framing changes (e.g., heading labels)
 - **Complexity**: Favor clarity over cleverness — extract components for readability, not for abstraction points
 
 ## Key Decisions
@@ -79,5 +92,22 @@ Every page template should be scannable and self-documenting through well-named 
 | `.badge-aware` CSS class for investigation badge | Muted/neutral styling avoids color collision with teal exhibit label on dark header | ✓ Good — visually subordinate to title as intended |
 | TDD for ExhibitCard CTA fix (Phase 8) | CTA text inversion was a behavioral bug — tests lock the correct mapping | ✓ Good — RouterLink slot-rendering stub pattern established |
 
+## Evolution
+
+This document evolves at phase transitions and milestone boundaries.
+
+**After each phase transition** (via `/gsd:transition`):
+1. Requirements invalidated? → Move to Out of Scope with reason
+2. Requirements validated? → Move to Validated with phase reference
+3. New requirements emerged? → Add to Active
+4. Decisions to log? → Add to Key Decisions
+5. "What This Is" still accurate? → Update if drifted
+
+**After each milestone** (via `/gsd:complete-milestone`):
+1. Full review of all sections
+2. Core Value check — still the right priority?
+3. Audit Out of Scope — reasons still valid?
+4. Update Context with current state
+
 ---
-*Last updated: 2026-03-19 after v1.1 milestone*
+*Last updated: 2026-03-27 after v2.0 milestone start*

@@ -1,41 +1,41 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Exhibit Content Consistency
-status: completed
-stopped_at: Completed 08-struct-02-exhibitcard-fix/08-01-PLAN.md
-last_updated: "2026-03-19T02:16:04.020Z"
-last_activity: 2026-03-18 — Phase 7 complete (07-02-PLAN.md)
+milestone: v2.0
+milestone_name: Site IA Restructure — Evidence-Based Portfolio
+status: active
+stopped_at: —
+last_updated: "2026-03-27"
+last_activity: 2026-03-27 — Milestone v2.0 started
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-19)
+See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Planning next milestone (/gsd:new-milestone)
+**Current focus:** Defining requirements for v2.0
 
 ## Current Position
 
-Phase: 7 of 7 (Content Gap Fill) — COMPLETE
-Plan: 2 of 2 in current phase
-Status: Complete — v1.1 milestone achieved
-Last activity: 2026-03-19 - Completed quick task 260318-vrb: Fix blockquote text spacing that is too tight on testimonials page
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-27 — Milestone v2.0 started
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0 (v1.1)
+- Total plans completed: 0 (v2.0)
 - Average duration: —
 - Total execution time: 0 hours
 
@@ -46,10 +46,6 @@ Progress: [██████████] 100%
 | - | - | - | - |
 
 *Updated after each plan completion*
-| Phase 05-exhibit-audit P01 | 70min | 2 tasks | 3 files |
-| Phase 06-structural-normalization P01 | 4min | 2 tasks | 5 files |
-| Phase 07-content-gap-fill P02 | 10min | 2 tasks | 3 files |
-| Phase 08-struct-02-exhibitcard-fix P01 | 3min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
