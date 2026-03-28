@@ -75,9 +75,10 @@ None.
 | 260317-ujd | Apply all 8 triaged Copilot PR fixes to pattern158.solutions: JSON-LD comments, p-wrapping dl, duplicate class attrs, stray p tags, false axe-core claim, dead sitemap URL, CSS testimonial selector expansion | 2026-03-17 | c57c485 | [260317-ujd-implement-all-triaged-copilot-pr-fixes-i](.planning/quick/260317-ujd-implement-all-triaged-copilot-pr-fixes-i/) |
 | 260317-vrl | Fix 6 new Copilot PR findings: philosophy.html invalid HTML nesting (p>ol, p>div, p>p, p>article), CSS quote selectors expanded to philosophy/faq, accessibility.html test claim corrected, 15 exhibit inline style blocks extracted to main.css | 2026-03-17 | f78a3db | [260317-vrl-fix-6-new-copilot-pr-findings-philosophy](.planning/quick/260317-vrl-fix-6-new-copilot-pr-findings-philosophy/) |
 | 260318-vrb | Fix blockquote text spacing that is too tight on testimonials page | 2026-03-19 | 55e31fa | [260318-vrb-fix-blockquote-text-spacing-that-is-too-](.planning/quick/260318-vrb-fix-blockquote-text-spacing-that-is-too-/) |
+| 260327-nnz | Run full UX/accessibility/appearance review of ExhibitDetailPage with Playwright screenshots at 3 viewports and structured review document | 2026-03-27 | 721b800 | [260327-nnz-run-full-ux-accessibility-and-appearance](.planning/quick/260327-nnz-run-full-ux-accessibility-and-appearance/) |
 
 ## Session Continuity
 
-Last session: 2026-03-19T01:54:30.878Z
-Stopped at: Completed 08-struct-02-exhibitcard-fix/08-01-PLAN.md
+Last session: 2026-03-28T00:12:09Z
+Stopped at: Completed quick task 260327-nnz: Exhibit detail page UX review
 Resume file: None
