@@ -68,7 +68,9 @@ useHead(computed(() => ({
         <template v-if="exhibit.sections?.length">
           <div v-for="(section, i) in exhibit.sections" :key="i" class="exhibit-section">
             <h2 v-if="section.heading">{{ section.heading }}</h2>
-            <p v-if="section.type === 'text' && section.body">{{ section.body }}</p>
+            <template v-if="section.type === 'text' && section.body">
+              <p v-for="(para, pi) in section.body.split('\n\n')" :key="pi">{{ para }}</p>
+            </template>
             <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
               <thead v-if="section.columns?.length">
                 <tr>
