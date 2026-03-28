@@ -370,6 +370,11 @@ export const exhibits: Exhibit[] = [
         text: 'Dan Novak \u201cThe Fiddler\u201d (Automation) \u2014 Dan gets this name not only because he makes extensive use of the Fiddler application to help us troubleshoot communications errors for customers, but because he fiddles with stuff until we get a tool that makes things\u2026 possible. He also used Fiddler to figure out how to automate the publishing process out of Xyleme. This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended.',
         attribution: 'Manager, Content Team, GP Strategies',
       },
+      {
+        text: 'Page after page, lesson after lesson, week after week, the team took the task at hand and worked it until it was done \u2014 and then asked for more. Relentless forward motion towards our goal.',
+        attribution: 'Manager, Content Team, GP Strategies',
+        role: 'describing the team in the recognition email',
+      },
     ],
     contextHeading: 'Context',
     contextText: 'Part of a comprehensive team recognition email celebrating the completion of a 1,216-lesson content refresh. Each of 15 team members received a unique title and individual recognition. Dan\u2019s callout focused on tooling and automation that enabled the project to complete on schedule. The automation tool was also used by a colleague to publish every lesson at least three times during the refresh cycle. Full testimonial details available in the investigation report.',
@@ -399,11 +404,6 @@ export const exhibits: Exhibit[] = [
           ['Colleague ("The Slacker")', 'Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)', 'GP Strategies'],
           ['15+ Team Members', 'Content refresh contributors (each recognized with unique nicknames)', 'GP Strategies'],
         ],
-      },
-      {
-        type: 'text',
-        heading: 'Primary Source Testimony',
-        body: "\"Page after page, lesson after lesson, week after week, the team took the task at hand and worked it until it was done \u2014 and then asked for more. Relentless forward motion towards our goal.\" \u2014 Manager, Content Team, GP Strategies, describing the team's approach in the recognition email.",
       },
       {
         type: 'table',
