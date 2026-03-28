@@ -91,8 +91,12 @@ export const exhibits: Exhibit[] = [
         body: "Electric Boat, a division of General Dynamics, has been the primary submarine builder for the United States Navy for over 120 years. Located in Groton, Connecticut, EB designs, builds, and maintains nuclear submarines including the Virginia-class attack submarine and the Columbia-class ballistic missile submarine. With a significant percentage of its workforce approaching retirement within 10 years, recruitment and onboarding became paramount to maintaining institutional knowledge and operational readiness.\n\nEB used Cornerstone OnDemand as their Learning Management System, with course content hosted on separate internal EB servers \u2014 a cross-domain architecture that caused persistent training delivery failures. The LMS was hosted externally by Cornerstone, while EB's content resided on internal EB network servers. This split created a same-origin policy conflict that broke standard LMS-to-course communication protocols.\n\nGP Strategies Corporation provided learning solutions to General Dynamics/Electric Boat as a major client. GP maintained an on-site training support team at EB. The Senior Vice President of Learning Solutions flagged the engagement opportunity and directed the technical team to pursue resolution.",
       },
       {
-        type: 'table',
+        type: 'text',
         heading: 'Personnel',
+        body: "Dan Novak served as lead investigator and solution architect. On the GP Strategies side, the engagement was sponsored by a Senior Vice President who initiated the opportunity, authorized by a Sr. Director of Learning Solutions, and coordinated by a Program Manager. A co-investigator assisted with testing.\n\nOn the Electric Boat side, the Chief of Learning Services, Metrics, Processes & Technology served as the primary technical counterpart. Two curriculum developers and a training analyst specialist collaborated on testing and provided technical data throughout the engagement.",
+      },
+      {
+        type: 'table',
         columns: ['Name', 'Title', 'Organization'],
         rows: [
           ['Dan Novak', 'Lead Investigator / Solution Architect', 'GP Strategies'],
