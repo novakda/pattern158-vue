@@ -1,154 +1,259 @@
 # Stack Research
 
-**Domain:** Vue 3 SPA — Portfolio/Static Site with Component Architecture Focus
-**Researched:** 2026-03-16
-**Confidence:** HIGH (core stack verified against official docs; version numbers sourced from npm/official release posts)
+**Domain:** Vue 3 SPA — Dual Exhibit Templates and IA Restructure (v2.0)
+**Researched:** 2026-03-27
+**Confidence:** HIGH (zero new dependencies; all patterns use Vue 3.5 / Vue Router 4.6 features already installed)
 
 ---
 
 ## Context
 
-The core stack is already established and non-negotiable: Vue 3 + TypeScript 5.7 + Vite 6. This research focuses on the complementary tooling layer — testing, component documentation, and developer experience — where decisions still need to be made or validated.
+The core stack (Vue 3.5.30, TypeScript 5.7, Vite 6, Vue Router 4.6.4, Storybook 10, Vitest 4) is established and validated in v1.0/v1.1. This research answers a narrower question: **what Vue patterns and (if any) new packages are needed to support dual exhibit templates, a unified listing page with type-based card rendering, and navigation restructure?**
 
-The project has already installed Storybook 10, Vitest 4, Playwright, and @vitest/browser-playwright. This research confirms those choices are correct and fills in the remaining gaps.
+The answer: **no new packages**. Everything required is achievable with Vue's built-in component system and the existing router. The work is architectural (component design, data model extension, route changes), not tooling.
 
 ---
 
 ## Recommended Stack
 
-### Core Technologies (Established — No Changes)
+### Core Technologies (Established -- No Changes)
 
-| Technology | Version | Purpose | Why |
-|------------|---------|---------|-----|
-| Vue 3 | ^3.5.0 | UI framework | Composition API + `<script setup>` is the current standard; Options API is legacy |
-| TypeScript | ~5.7.0 | Type safety | Strict mode catches prop contract violations at compile time, not runtime |
-| Vite 6 | ^6.2.0 | Build tool + dev server | HMR is near-instant for Vue SFCs; ESM-native means no CommonJS shim overhead |
-| Vue Router 4 | ^4.5.0 | Client-side routing | Official Vue router; lazy-loaded routes via dynamic import reduce initial bundle |
-| @unhead/vue | ^2.0.0 | Head management | Manages `<title>`, meta, OG tags, canonical URLs reactively per-route |
+| Technology | Installed Version | Purpose | v2.0 Impact |
+|------------|-------------------|---------|-------------|
+| Vue 3 | 3.5.30 | UI framework | `defineAsyncComponent`, `<component :is>`, computed filtering -- all built-in |
+| TypeScript | 5.7.x | Type safety | Discriminated union types for exhibit type branching |
+| Vite 6 | 6.2.x | Build tool | No config changes needed |
+| Vue Router 4 | 4.6.4 | Routing | Route additions/removals, alias support for redirects |
+| @unhead/vue | 2.x | Head management | No changes -- `useHead(computed(...))` pattern already works for dynamic exhibit titles |
 
-### Testing Stack (Installed — Confirmed Correct)
+### New Packages Required
 
-| Library | Version | Purpose | Why |
-|---------|---------|---------|-----|
-| Vitest | ^4.1.0 | Test runner | Native Vite integration means same transform pipeline as the app; no separate Babel/Jest config |
-| @vitest/browser-playwright | ^4.1.0 | Browser mode provider | Vitest 4 requires a separate provider package; Playwright is the most capable option |
-| vitest-browser-vue | ^2.1.0 | Vue component rendering in browser mode | Official Vitest package for rendering Vue components in real browser (not JSDOM) |
-| @vitest/coverage-v8 | ^4.1.0 | Coverage reporting | V8-native coverage; more accurate than istanbul for ESM projects |
-| Playwright | ^1.58.2 | Browser automation | Required by @vitest/browser-playwright; provides real Chromium for component tests |
+**None.** Zero new dependencies for v2.0.
 
-**Note on vitest-browser-vue:** This package is NOT currently in package.json. It is the official Vitest-maintained package for rendering Vue components in browser mode. Install it: `npm install -D vitest-browser-vue`. Version 2.1.0 requires Vitest 4.0.0+, which is already installed.
+### Supporting Libraries (Already Installed -- No Changes)
 
-### Component Documentation Stack (Installed — Confirmed Correct)
-
-| Library | Version | Purpose | Why |
-|---------|---------|---------|-----|
-| Storybook | ^10.2.19 | Component workshop | ESM-only in v10 (29% smaller install); stories serve as living documentation and portfolio artifact |
-| @storybook/vue3-vite | ^10.2.19 | Vue 3 + Vite framework adapter | Shares Vite config with the app; no separate build tool configuration |
-| @storybook/addon-vitest | ^10.2.19 | Story-to-test bridge | Transforms stories into Vitest component tests; stories and tests colocated |
-| @storybook/addon-a11y | ^10.2.19 | Accessibility audit in Storybook | Runs axe-core against each story; catches ARIA issues without a separate audit tool |
-| @storybook/addon-docs | ^10.2.19 | MDX-based documentation | Auto-generates component API docs from TypeScript types and JSDoc |
-| @chromatic-com/storybook | ^5.0.1 | Visual regression (future) | Chromatic integration for automated visual diffing if connected to CI later |
-
-### Supporting Libraries (Not Yet Installed — Evaluate as Needed)
-
-| Library | Version | Purpose | When to Use |
-|---------|---------|---------|-------------|
-| @testing-library/vue | ^8.1.0 | User-centric component testing | If you want Testing Library's `userEvent` / `getByRole` API on top of Vue Test Utils; add only if the vitest-browser-vue API proves insufficient |
-| @vue/test-utils | ^2.x | Low-level component mounting | Already a transitive dependency of @testing-library/vue; use directly only for testing component internals that user-centric tests can't reach |
+All testing and documentation tooling from v1.0/v1.1 carries forward unchanged. See v1.1 STACK.md research for details on Vitest, Storybook, Playwright.
 
 ---
 
-## Development Tools
+## Vue Patterns for v2.0 Features
 
-| Tool | Purpose | Notes |
-|------|---------|-------|
-| vue-tsc 2 | TypeScript type-checking for `.vue` files | Runs as part of `npm run build`; catches type errors in templates |
-| Vite path aliases | `@` → `./src/*` | Already configured; use everywhere to avoid `../../..` relative imports |
-| @vitejs/plugin-vue | SFC compilation | Single-file component support in Vite |
+### Pattern 1: Discriminated Union Type for Exhibit Classification
 
----
+The `Exhibit` interface currently has `investigationReport?: boolean`. For v2.0, extend the data model with a required `exhibitType` discriminator field.
 
-## Installation
+**Why a string literal union, not a boolean:** The current `investigationReport?: boolean` creates three states (true, false, undefined) with unclear semantics. A required `'investigation-report' | 'engineering-brief'` field is self-documenting, enables TypeScript narrowing, and extends cleanly if a third type ever appears.
 
-The core stack is already installed. The one gap to fill:
+```typescript
+// Extend the Exhibit interface
+export type ExhibitType = 'investigation-report' | 'engineering-brief'
 
-```bash
-# vitest-browser-vue — needed for component tests in browser mode
-npm install -D vitest-browser-vue
+export interface Exhibit {
+  // ... existing fields ...
+  exhibitType: ExhibitType  // Required, replaces investigationReport?: boolean
+  investigationReport?: boolean  // Keep temporarily for backward compat, derive from exhibitType
+}
 ```
 
+**Confidence:** HIGH -- standard TypeScript pattern, no library involvement.
+
+### Pattern 2: Conditional Detail Template via Dynamic Component
+
+Two approaches exist for rendering different detail page layouts per exhibit type. Use `<component :is>` with a computed component map.
+
+**Why `<component :is>` over `v-if`/`v-else`:** With two exhibit types, `v-if`/`v-else` inside a single ExhibitDetailPage.vue is viable but creates a monolithic template. Separate template components via `<component :is>` keep each layout focused, testable in isolation, and independently story-able in Storybook.
+
+```typescript
+// In ExhibitDetailPage.vue
+import { defineAsyncComponent, computed } from 'vue'
+
+const templateMap = {
+  'investigation-report': defineAsyncComponent(
+    () => import('@/components/InvestigationReportLayout.vue')
+  ),
+  'engineering-brief': defineAsyncComponent(
+    () => import('@/components/EngineeringBriefLayout.vue')
+  ),
+} as const
+
+const activeTemplate = computed(() =>
+  exhibit.value ? templateMap[exhibit.value.exhibitType] : null
+)
+```
+
+```html
+<component :is="activeTemplate" v-if="activeTemplate" :exhibit="exhibit" />
+```
+
+**Why `defineAsyncComponent`:** Each layout is only loaded when needed. For 15 exhibits this is a minor optimization, but it establishes the right pattern and keeps initial bundle lean. Vue 3.5's `defineAsyncComponent` handles loading/error states if needed.
+
+**Confidence:** HIGH -- `<component :is>` is a core Vue feature documented in the official guide.
+
+### Pattern 3: Type-Based Card Rendering on Listing Page
+
+The unified Case Files page needs different card styles for investigation reports vs. engineering briefs. Two viable approaches:
+
+**Recommended: Single ExhibitCard with type-driven CSS class + conditional slots**
+
+```html
+<!-- CaseFilesPage.vue -->
+<ExhibitCard
+  v-for="exhibit in exhibits"
+  :key="exhibit.exhibitLink"
+  :exhibit="exhibit"
+/>
+```
+
+```html
+<!-- ExhibitCard.vue -- extend existing component -->
+<div :class="['exhibit-card', `exhibit-card--${exhibit.exhibitType}`]">
+  <!-- Shared header markup -->
+  <template v-if="exhibit.exhibitType === 'investigation-report'">
+    <!-- Investigation-specific card content -->
+  </template>
+  <template v-else>
+    <!-- Engineering brief card content -->
+  </template>
+</div>
+```
+
+**Why a single card component, not two:** The card-level differences are cosmetic (badge, CTA text, accent color, possibly a summary field). The structure (header, tags, link) is shared. Two separate card components would duplicate 70%+ of the template markup. A single component with type-driven CSS modifier class (`.exhibit-card--investigation-report`, `.exhibit-card--engineering-brief`) leverages the existing CSS design token system via cascade layers.
+
+**Alternative considered: Two card components via `<component :is>`** -- Use if the two card layouts diverge significantly (different DOM structure, not just styling). Premature to split now; refactor later if needed.
+
+**Confidence:** HIGH -- this is how the existing ExhibitCard already works (it has `exhibit.isDetailExhibit ? 'detail-exhibit' : ''`).
+
+### Pattern 4: Computed Filtering for Listing Page Sections
+
+If the Case Files page groups exhibits by type (e.g., "Investigation Reports" section then "Engineering Briefs" section):
+
+```typescript
+const investigationReports = computed(() =>
+  exhibits.filter(e => e.exhibitType === 'investigation-report')
+)
+const engineeringBriefs = computed(() =>
+  exhibits.filter(e => e.exhibitType === 'engineering-brief')
+)
+```
+
+**Why computed over methods or reactive state:** The exhibit data is static (imported from `data/exhibits.ts`). Computed properties cache the filtered arrays and only recalculate if the source changes (which it won't at runtime). This is the idiomatic Vue pattern for derived data.
+
+**Confidence:** HIGH -- fundamental Vue reactivity.
+
+### Pattern 5: Router Changes for IA Restructure
+
+Current routes that change:
+
+| Current | v2.0 | Rationale |
+|---------|------|-----------|
+| `/portfolio` | `/case-files` (or similar) | Unified listing page replaces Portfolio |
+| `/review` | Remove | Placeholder page with no content |
+| `/exhibits/:slug` | Keep as-is | Slug-based detail routing is correct; both exhibit types share the route |
+
+**Redirect for backward compatibility:**
+
+```typescript
+// In router.ts
+{ path: '/portfolio', redirect: '/case-files' },
+```
+
+Vue Router 4.6 supports `redirect` as a string, object, or function. A simple string redirect is sufficient here. This ensures any bookmarked `/portfolio` URLs still work.
+
+**Do NOT use named routes for the redirect** -- the current router uses anonymous routes (no `name` property). Adding names just for redirects adds ceremony with no benefit.
+
+**New route:**
+
+```typescript
+{ path: '/case-files', component: () => import('./pages/CaseFilesPage.vue') },
+```
+
+**Confidence:** HIGH -- Vue Router redirect is documented core functionality.
+
 ---
 
-## Alternatives Considered
+## What NOT to Add
 
-| Recommended | Alternative | When to Use Alternative |
-|-------------|-------------|-------------------------|
-| vitest-browser-vue | @testing-library/vue | If your team already knows Testing Library API well and doesn't want to learn new render utilities |
-| vitest-browser-vue (browser mode) | jsdom/happy-dom simulation | Never for component tests — simulation misses real browser layout/event behavior; fine only for pure composable/logic tests |
-| @storybook/addon-vitest | Storybook test-runner (@storybook/test-runner) | If you're on Webpack (not Vite) or on Storybook 8; test-runner is deprecated in favor of addon-vitest for Vite projects |
-| Playwright (via @vitest/browser-playwright) | WebdriverIO | If your org already has a WebdriverIO investment; Playwright is simpler to set up for greenfield projects |
-| @storybook/vue3-vite | @storybook/vue3-webpack5 | Never for this project — Webpack adds a second build system; Vite-native is the only sensible choice |
-
----
-
-## What NOT to Use
-
-| Avoid | Why | Use Instead |
-|-------|-----|-------------|
-| Jest | Requires separate transform config for ESM/Vue SFCs; Vitest shares the Vite pipeline and is dramatically faster | Vitest |
-| jsdom / happy-dom for component tests | DOM simulation misses real layout, real events, and real browser APIs; leads to false-positive passing tests | Vitest browser mode with vitest-browser-vue |
-| Pinia | No global state in a static portfolio site; overkill that adds conceptual overhead for zero benefit | Vue 3 `provide/inject` or component props for any shared state |
-| Nuxt | SSR/SSG is out of scope per PROJECT.md; SPA with Vite is faster to build and adequate for a portfolio | Vite + Vue Router (already in place) |
-| Vue Options API | Legacy pattern; Composition API + `<script setup>` is the current standard, more readable, better TypeScript inference | `<script setup lang="ts">` |
-| CSS-in-JS (tailwind, UnoCSS, etc.) | The project has a 3500-line CSS design token system; a utility framework would conflict with it and introduce duplication | Existing CSS custom properties system |
-| @storybook/addon-interactions separately | Merged into @storybook/addon-vitest in Storybook 10; installing both causes conflicts | @storybook/addon-vitest (already installed) |
+| Avoid | Why | What to Do Instead |
+|-------|-----|---------------------|
+| Pinia / Vuex | Exhibit data is static imports, not global state. No async fetching, no mutations, no cross-component state sharing needed | Import `exhibits` array directly where needed |
+| `vue-router` route guards for exhibit type | The exhibit type is data-driven, not route-driven. Both types share `/exhibits/:slug` | Resolve type from exhibit data in the detail page component |
+| Separate routes per exhibit type (`/reports/:slug`, `/briefs/:slug`) | Creates URL coupling to classification. If an exhibit gets reclassified, its URL changes and breaks bookmarks | Single `/exhibits/:slug` route with type resolved from data |
+| Dynamic `<component :is>` for cards | Premature abstraction. Card differences are styling + minor content, not structural. A single component with CSS modifiers is simpler | Single ExhibitCard with `.exhibit-card--{type}` class |
+| renderless components / slots-only pattern for templates | Over-engineered for two templates. Direct `<component :is>` with two concrete components is clearer | Concrete InvestigationReportLayout.vue and EngineeringBriefLayout.vue |
+| New CSS methodology (BEM, CSS Modules, scoped styles) | Project uses cascade layers + custom properties system. Introducing a second system creates confusion | Follow existing CSS conventions with new `.exhibit-card--{type}` modifiers |
+| `provide/inject` for exhibit data | Exhibit data flows parent-to-child through one level of props. provide/inject is for deep injection (3+ levels) | Direct props |
 
 ---
 
-## Stack Patterns by Variant
+## Data Model Changes (No Package Impact)
 
-**For component tests (rendering, interaction):**
-- Use vitest-browser-vue + Vitest browser mode
-- Run in Playwright Chromium
-- Stories with play functions double as tests via @storybook/addon-vitest
+The `Exhibit` interface in `src/data/exhibits.ts` needs these additions:
 
-**For composable/logic tests (no DOM needed):**
-- Use Vitest directly with no browser mode
-- Pure function tests — no mounting, no render
+| Field | Type | Purpose |
+|-------|------|---------|
+| `exhibitType` | `'investigation-report' \| 'engineering-brief'` | Required discriminator replacing `investigationReport?: boolean` |
+| `summary` | `string` (optional) | Short description for card rendering on listing page; currently cards show quotes which may not suit engineering briefs |
 
-**For accessibility testing:**
-- Primary: @storybook/addon-a11y (axe-core, runs in Storybook per story)
-- Secondary: Vitest browser mode `toBeAccessible` assertion if spot-checking in CI
-
-**For visual regression (future scope):**
-- @chromatic-com/storybook is already installed; connect to Chromatic service if visual diffs are needed
-- Alternatively, Vitest 4's `toMatchScreenshot` for self-hosted visual regression
+The existing `investigationReport?: boolean` can be derived: `investigationReport: exhibitType === 'investigation-report'` during a transition period, then removed.
 
 ---
 
 ## Version Compatibility
 
+No new packages means no new compatibility concerns. Existing compatibility matrix from v1.1 research remains valid:
+
 | Package | Compatible With | Notes |
 |---------|-----------------|-------|
-| vitest ^4.1.0 | vitest-browser-vue ^2.1.0 | vitest-browser-vue 2.x requires Vitest 4.0.0+ |
-| vitest ^4.1.0 | @storybook/addon-vitest ^10.2.19 | Storybook 10 adds explicit Vitest 4 support |
-| @vitest/browser-playwright ^4.1.0 | playwright ^1.58.2 | Must match major version of Vitest |
-| storybook ^10.2.19 | @storybook/vue3-vite ^10.2.19 | All Storybook packages must be same major.minor |
-| vite ^6.2.0 | @vitejs/plugin-vue ^5.2.0 | plugin-vue 5.x targets Vite 5+; compatible with Vite 6 |
+| Vue 3.5.30 | Vue Router 4.6.4 | `<component :is>` with `defineAsyncComponent` stable since Vue 3.0 |
+| Vue Router 4.6.4 | Vite 6 | Lazy routes via `() => import()` is Vite-native |
+| TypeScript 5.7 | Discriminated unions | Feature available since TypeScript 2.0; fully mature |
+
+---
+
+## Installation
+
+```bash
+# No new packages required for v2.0
+# All patterns use Vue 3 built-in features
+```
+
+---
+
+## Stack Patterns by Variant
+
+**For the detail page (two layout templates):**
+- Use `<component :is>` with `defineAsyncComponent` in ExhibitDetailPage.vue
+- Create InvestigationReportLayout.vue and EngineeringBriefLayout.vue as layout components
+- Both receive the full `Exhibit` object as a prop
+- Each layout is independently testable and story-able
+
+**For the listing page (mixed card types):**
+- Use single ExhibitCard.vue with CSS modifier class per exhibit type
+- Use computed properties for filtering/grouping by type
+- Consider splitting into two components only if card DOM structure diverges significantly
+
+**For navigation restructure:**
+- Add new `/case-files` route, remove `/review` route
+- Add `/portfolio` -> `/case-files` redirect for backward compatibility
+- Update NavBar links and HomePage CTAs
+
+**For testing the new patterns:**
+- Test each layout component in isolation (unit test + Storybook story)
+- Test ExhibitDetailPage template resolution with different exhibit types
+- Test ExhibitCard rendering for both types
+- Test router redirects in router.test.ts
 
 ---
 
 ## Sources
 
-- [Storybook 10 release blog](https://storybook.js.org/blog/storybook-10/) — ESM-only, Vitest 4 support, Vue 3 portable stories — HIGH confidence
-- [Vitest 4.0 announcement](https://vitest.dev/blog/vitest-4) — Browser mode stable, provider packages, visual regression — HIGH confidence
-- [vitest-browser-vue npm/GitHub](https://github.com/vitest-community/vitest-browser-vue) — v2.1.0 requires Vitest 4+, official Vitest package — HIGH confidence
-- [Vitest browser mode docs](https://vitest.dev/guide/browser/) — Recommended approach over JSDOM for component tests — HIGH confidence
-- [Storybook Vitest addon docs](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon/index) — Story-to-test bridge, Vite-only — HIGH confidence
-- [@testing-library/vue npm](https://www.npmjs.com/package/@testing-library/vue) — v8.1.0 current, last published 2 years ago — MEDIUM confidence (less actively maintained than vitest-browser-vue)
-- [Vue.js official testing guide](https://vuejs.org/guide/scaling-up/testing) — Vitest + Testing Library as recommended stack — HIGH confidence
+- Vue 3 Dynamic Components documentation (vuejs.org/guide/essentials/component-basics#dynamic-components) -- `<component :is>` pattern -- HIGH confidence
+- Vue 3 Async Components documentation (vuejs.org/guide/components/async) -- `defineAsyncComponent` -- HIGH confidence
+- Vue Router Redirect and Alias documentation (router.vuejs.org/guide/essentials/redirect-and-alias) -- route redirects -- HIGH confidence
+- TypeScript Discriminated Unions (typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) -- type narrowing pattern -- HIGH confidence
+- Existing codebase analysis: `src/data/exhibits.ts`, `src/pages/ExhibitDetailPage.vue`, `src/components/ExhibitCard.vue`, `src/router.ts` -- direct inspection -- HIGH confidence
 
 ---
 
-*Stack research for: Vue 3 portfolio SPA — component architecture + testing tooling*
-*Researched: 2026-03-16*
+*Stack research for: Vue 3 portfolio SPA -- dual exhibit templates and IA restructure (v2.0)*
+*Researched: 2026-03-27*

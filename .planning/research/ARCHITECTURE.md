@@ -1,332 +1,420 @@
 # Architecture Research
 
-**Domain:** Vue 3 SPA — static portfolio site with component extraction
-**Researched:** 2026-03-16
-**Confidence:** HIGH — derived directly from existing codebase + two fully-ported pages as proof of pattern
+**Domain:** Vue 3 SPA — Dual exhibit template integration with unified listing page
+**Researched:** 2026-03-27
+**Confidence:** HIGH — derived from direct analysis of all 15 exhibits, existing page/component/data architecture
 
-## Standard Architecture
-
-### System Overview
+## System Overview: Current State
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        Browser / HTML Entry                      │
-│  index.html → theme detection script → main.ts → Vue app mount  │
-└──────────────────────────────┬──────────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────────┐
-│                         App Shell (App.vue)                      │
-│  <skip-link> → <NavBar> → <router-view> → <FooterBar>            │
-└──────────┬─────────────────────────────────────────┬────────────┘
-           │                                         │
-┌──────────▼──────────────────────────────────────── │ ───────────┐
-│                      Page Layer (src/pages/)        │            │
-│  Each route → one Page component                   │            │
-│  ┌────────────┐ ┌──────────────┐ ┌─────────────┐  │            │
-│  │ HomePage   │ │ PhilosophyPg │ │ TechPage    │  │ ...7 more  │
-│  └─────┬──────┘ └──────┬───────┘ └──────┬──────┘  │            │
-└────────┼───────────────┼────────────────┼──────────┘────────────┘
-         │               │                │
-┌────────▼───────────────▼────────────────▼──────────────────────┐
-│                   Component Layer (src/components/)             │
-│                                                                  │
-│  Layout:           Content:             Data Display:           │
-│  ┌────────────┐    ┌────────────────┐   ┌──────────────────┐   │
-│  │ HeroMinimal│    │TestimonialQuote│   │ TechCard         │   │
-│  └────────────┘    └────────────────┘   │ ExpertiseBadge   │   │
-│                    ┌────────────────┐   │ TechTags         │   │
-│                    │ PatternVisual  │   └──────────────────┘   │
-│                    └────────────────┘                           │
+│                          Router (9 routes + 1 dynamic)           │
+├──────────────┬──────────────┬──────────────┬────────────────────┤
+│ PortfolioPage│ Testimonials │ ExhibitDetail│ 8 other pages      │
+│              │   Page       │    Page      │                    │
+│ ┌──────────┐ │ ┌──────────┐│ (single      │                    │
+│ │Narrative │ │ │ExhibitCard││  template,   │                    │
+│ │Card      │ │ └──────────┘│  :slug param)│                    │
+│ │FlagshipCd│ │ ┌──────────┐│              │                    │
+│ └──────────┘ │ │Testimonial││              │                    │
+│              │ │Metrics   ││              │                    │
+│              │ └──────────┘│              │                    │
+├──────────────┴──────────────┴──────────────┴────────────────────┤
+│                        Data Layer (static TS)                    │
+│  exhibits.ts  portfolioFlagships.ts  portfolioNarratives.ts      │
 └─────────────────────────────────────────────────────────────────┘
-         │
-┌────────▼──────────────────────────────────────────────────────┐
-│              Composable + Data Layer                           │
-│  useSeo() — head tag injection via @unhead/vue                │
-│  useBodyClass() — page-specific body class for CSS targeting  │
-│  src/data/technologies.ts — structured static content         │
-└───────────────────────────────────────────────────────────────┘
 ```
 
-### Component Responsibilities
+### Current Problems
 
-| Component | Responsibility | Layer |
-|-----------|----------------|-------|
-| `App.vue` | Shell — persists nav, footer, router outlet | Root |
-| `NavBar.vue` | Navigation, mobile menu, theme toggle host | Shell |
-| `FooterBar.vue` | Contact info, site links | Shell |
-| `ThemeToggle.vue` | Dark/light state, localStorage, cross-tab sync | Shell |
-| `HeroMinimal.vue` | Page-opening banner with h1 + subtitle + optional slot content | Layout |
-| `TestimonialQuote.vue` | Blockquote with cite + context, primary/secondary variants | Content |
-| `TechCard.vue` | Technology entry with name, level badge, summary, tags | Data display |
-| `ExpertiseBadge.vue` | Proficiency level indicator (Deep/Working/Aware) | Atom |
-| `TechTags.vue` | Inline tag list for tech associations | Atom |
-| `PatternVisual.vue` | Brand graphic (three-bar logo animation) | Brand |
-| Page components | Content for a single route — orchestrates sections and layout components | Page |
+1. **Content redundancy:** PortfolioPage and TestimonialsPage present overlapping exhibit data from different angles, with separate data sources (`portfolioFlagships.ts` duplicates content already in `exhibits.ts`)
+2. **Hardcoded split:** TestimonialsPage uses `exhibits.slice(0, 9)` / `exhibits.slice(9)` to separate field reports from investigation reports -- brittle and array-order-dependent
+3. **Single template:** ExhibitDetailPage renders all 15 exhibits with one template. Investigation reports (J, K, L, M, N) have rich `sections` arrays with structured content types; field reports (A-I, O) lean on quotes and contextText. Both get the same layout.
+4. **Inconsistent classification flags:** `isDetailExhibit` (set on 9 of 15 exhibits) and `investigationReport` (5 true, 1 explicit false, 9 absent) overlap without clear semantics. `isDetailExhibit` only applies a CSS class on ExhibitCard; its purpose is undocumented.
 
-## Recommended Project Structure
-
-The existing structure is correct and should not change. What follows is where new extractions belong:
+## System Overview: Target State
 
 ```
-src/
-├── components/                  # Reusable components — always extracted here
-│   ├── NavBar.vue               # existing
-│   ├── FooterBar.vue            # existing
-│   ├── ThemeToggle.vue          # existing
-│   ├── HeroMinimal.vue          # existing
-│   ├── TestimonialQuote.vue     # existing
-│   ├── TechCard.vue             # existing
-│   ├── ExpertiseBadge.vue       # existing
-│   ├── TechTags.vue             # existing
-│   ├── PatternVisual.vue        # existing
-│   │
-│   ├── FindingCard.vue          # to extract — NTSB-style project case study card
-│   ├── SpecialtyCard.vue        # to extract — home page specialty grid item
-│   ├── StatItem.vue             # to extract — career stat number + label
-│   ├── InfluenceArticle.vue     # to extract (if used on >1 page, else inline)
-│   └── FaqItem.vue              # to extract — question + answer disclosure pattern
-│
-├── pages/                       # One component per route — no sub-folders needed
-│   ├── HomePage.vue
-│   ├── PhilosophyPage.vue       # fully ported
-│   ├── TechnologiesPage.vue     # fully ported
-│   ├── FaqPage.vue              # TODO
-│   ├── PortfolioPage.vue        # TODO
-│   ├── ContactPage.vue          # partially done
-│   ├── TestimonialsPage.vue     # TODO
-│   ├── AccessibilityPage.vue    # TODO
-│   └── ReviewPage.vue           # TODO
-│
-├── data/                        # Static content as typed TypeScript modules
-│   ├── technologies.ts          # existing — tech category + card data
-│   ├── faq.ts                   # to create — FAQ question/answer pairs
-│   ├── testimonials.ts          # to create — testimonial records
-│   └── portfolio.ts             # to create — project/case study data
-│
-├── composables/
-│   ├── useSeo.ts                # existing
-│   └── useBodyClass.ts          # existing
-│
-└── assets/css/
-    └── main.css                 # design system — components consume, never replace
+┌─────────────────────────────────────────────────────────────────┐
+│                     Router (updated routes)                      │
+├─────────────────────────────────────────────────────────────────┤
+│  /case-files  -> CaseFilesPage (unified listing)                 │
+│  /portfolio   -> redirect /case-files                            │
+│  /testimonials -> redirect /case-files                           │
+│  /exhibits/:slug -> ExhibitDetailPage (dispatcher)               │
+│                     |-> InvestigationReportLayout                │
+│                     |-> EngineeringBriefLayout                   │
+├─────────────────────────────────────────────────────────────────┤
+│                      Component Layer                             │
+│  ┌─────────────┐  ┌───────────────────┐  ┌──────────────────┐   │
+│  │CaseFileCard │  │InvestigationReport│  │EngineeringBrief  │   │
+│  │(type-aware) │  │Layout             │  │Layout            │   │
+│  └─────────────┘  └───────────────────┘  └──────────────────┘   │
+├─────────────────────────────────────────────────────────────────┤
+│                      Data Layer                                  │
+│  exhibits.ts (with exhibitType discriminant)                     │
+│  [portfolioFlagships.ts -- retired]                              │
+│  [portfolioNarratives.ts -- retired]                             │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Structure Rationale
+## Recommendation: One Page Component, Two Layout Components
 
-- **`src/components/`:** Flat directory. No sub-folders for "layout" vs "atoms" because the project is too small for that taxonomy to help. PascalCase names self-document purpose.
-- **`src/pages/`:** Flat directory, one file per route. No nesting. Pages are orchestrators, not components — they call composables, reference data, and compose section components.
-- **`src/data/`:** Static TypeScript files for content that has structure (tech categories, testimonials, FAQs). This keeps page templates clean and makes content changes obvious. Mirrors the pattern established by `technologies.ts`.
-- **No Vuex/Pinia:** Static portfolio. No shared mutable state needed. Theme state lives in `ThemeToggle.vue` + localStorage. SEO state is procedural via `useSeo`.
+**Use a single ExhibitDetailPage.vue as a dispatcher that delegates to layout components based on exhibit type.** Do NOT create two separate page components.
 
-## Architectural Patterns
+### Rationale
 
-### Pattern 1: Extract to Name a Concept
+1. **Single route, single entry point.** The `/exhibits/:slug` route already works. Adding a second route (`/briefs/:slug` or `/investigations/:slug`) would break existing links, split SEO, and add routing complexity for zero user benefit.
 
-**What:** Create a component when it has a conceptual name, even if used once. `<FindingCard>` names the NTSB-style case study pattern. `<StatItem>` names the career stat display. The name is the documentation.
+2. **Shared concerns stay in the page.** SEO meta tags, slug resolution, 404 handling, back-navigation, and the header (label, client, date, title, type badge) are identical across both types. These belong in the page component, not duplicated across two pages.
 
-**When to use:** When you can answer "what IS this thing?" with a noun. When the template without the extract reads like raw HTML instead of an outline.
+3. **Distinct rendering stays in layouts.** The body content differs significantly between types: Investigation Reports have structured sections (text, tables, flows, timelines, metadata) while Engineering Briefs emphasize quotes, contextual narrative, and resolution tables. Extracting these into named layout components makes each template scannable -- consistent with the project's cognitive load management principle.
 
-**Trade-offs:** More files, but pages read like prose. Template becomes scannable: `<HeroMinimal>` → `<section class="specialties"><SpecialtyCard v-for>` → `<StatRow>` vs 300 lines of raw HTML.
+4. **Matches existing precedent.** The project already uses conditional rendering in ExhibitDetailPage (`v-if` on sections, quotes, resolutionTable). Refactoring from inline conditionals to named layout components is a natural evolution, not a pattern break.
 
-**Example:**
+### Component Architecture
+
+```
+ExhibitDetailPage.vue (page -- owns route, SEO, header, 404)
+    |-- InvestigationReportLayout.vue (body layout for investigation reports)
+    |   renders sections array: text, table, flow, timeline, metadata
+    |-- EngineeringBriefLayout.vue (body layout for engineering briefs)
+        renders quotes, contextText, resolutionTable
+```
+
+#### ExhibitDetailPage.vue -- The Dispatcher
+
 ```vue
-<!-- Page template goal: reads like an outline -->
+<!-- Simplified structure showing the dispatch pattern -->
 <template>
-  <HeroMinimal title="Dan Novak" subtitle="Systems Architect">
-    <TechPills :pills="techPills" />
-    <PatternVisual />
-  </HeroMinimal>
+  <div v-if="exhibit" class="exhibit-detail-page">
+    <!-- SHARED: Header section (identical for both types) -->
+    <section class="exhibit-detail-header">
+      <div class="container">
+        <nav class="exhibit-back-nav">
+          <router-link to="/case-files">&larr; Back to Case Files</router-link>
+        </nav>
+        <div class="exhibit-meta-header">
+          <span class="exhibit-label">{{ exhibit.label }}</span>
+          <span class="exhibit-client">{{ exhibit.client }}</span>
+          <span class="exhibit-date">{{ exhibit.date }}</span>
+        </div>
+        <h1 class="exhibit-detail-title">{{ exhibit.title }}</h1>
+        <span class="expertise-badge badge-aware">
+          {{ exhibit.exhibitType === 'investigation-report'
+            ? 'Investigation Report' : 'Engineering Brief' }}
+        </span>
+      </div>
+    </section>
 
-  <IntroSection />
+    <!-- DISPATCHED: Body section (type-specific) -->
+    <section class="exhibit-detail-body">
+      <div class="container">
+        <InvestigationReportLayout
+          v-if="exhibit.exhibitType === 'investigation-report'"
+          :exhibit="exhibit"
+        />
+        <EngineeringBriefLayout
+          v-else
+          :exhibit="exhibit"
+        />
 
-  <section class="specialties">
-    <SpecialtyCard v-for="item in specialties" :key="item.title" v-bind="item" />
-  </section>
-
-  <StatRow :stats="careerStats" />
-
-  <section class="findings">
-    <FindingCard v-for="project in featuredProjects" :key="project.id" v-bind="project" />
-  </section>
+        <!-- SHARED: Impact tags (identical for both types) -->
+        <div class="exhibit-impact-tags">
+          <h2>Impact &amp; Capabilities</h2>
+          <TechTags :tags="exhibit.impactTags" />
+        </div>
+      </div>
+    </section>
+  </div>
 </template>
 ```
 
-### Pattern 2: Data in `src/data/`, Not Inline
+**Why `v-if/v-else` and not dynamic components:** There are exactly two types. `<component :is="...">` adds indirection for no benefit. Two named components in the template are more scannable and explicit. If a third type ever appears (unlikely for a portfolio site), refactoring to dynamic components is trivial.
 
-**What:** Structured repeated content (tech categories, testimonials, FAQ items, project case studies) lives in typed TypeScript files in `src/data/`. Page templates import and render it. Page templates do not contain inline content arrays.
+## Data Model Evolution
 
-**When to use:** Any content that is repeated (multiple instances of the same structure) or that may change independently of the template layout.
+### Current Model Issues
 
-**Trade-offs:** Adds a file per content type. Pays off because: TypeScript types enforce content completeness, content changes don't require touching template logic, Storybook stories can import the same data, future content additions are obvious.
+The `Exhibit` interface has two classification flags (`isDetailExhibit` and `investigationReport`) that overlap and are inconsistently set:
+- `isDetailExhibit` is true on 9 exhibits (A is absent, B is present, pattern unclear)
+- `investigationReport` is true on 5 exhibits (J, K, L, M, N), explicitly false on 1 (O), absent on 9
+- Neither flag alone cleanly maps to the two exhibit types
 
-**Example:**
+### Recommended: Replace Flags with String Literal Discriminant
+
 ```typescript
-// src/data/testimonials.ts
-export interface Testimonial {
-  quote: string
-  cite: string
-  context?: string
-  variant?: 'primary' | 'secondary'
-}
+export type ExhibitType = 'investigation-report' | 'engineering-brief'
 
-export const featuredTestimonials: Testimonial[] = [
-  { quote: '...', cite: '...', context: '...' },
+export interface Exhibit {
+  label: string
+  client: string
+  date: string
+  title: string
+  exhibitType: ExhibitType           // NEW: replaces investigationReport + isDetailExhibit
+  quotes?: ExhibitQuote[]
+  contextHeading?: string
+  contextText?: string
+  resolutionTable?: ExhibitResolutionRow[]
+  sections?: ExhibitSection[]
+  impactTags: string[]
+  exhibitLink: string
+  // isDetailExhibit -- REMOVED
+  // investigationReport -- REMOVED
+}
+```
+
+### Classification Mapping
+
+Based on content analysis of all 15 exhibits:
+
+| Exhibit | Current Flags | Proposed Type | Rationale |
+|---------|---------------|---------------|-----------|
+| A | isDetail: absent, invReport: absent | `engineering-brief` | Quote-heavy, context narrative, no structured investigation flow |
+| B | isDetail: true, invReport: absent | `engineering-brief` | Pattern analysis narrative, no structured findings |
+| C | isDetail: absent, invReport: absent | `engineering-brief` | Platform narrative, quote-driven |
+| D | isDetail: absent, invReport: absent | `engineering-brief` | Migration work, context narrative |
+| E | isDetail: true, invReport: absent | `engineering-brief` | Architecture narrative, no NTSB structure |
+| F | isDetail: true, invReport: absent | `engineering-brief` | Protocol forensics, narrative-driven |
+| G | isDetail: absent, invReport: absent | `engineering-brief` | Integration work, context narrative |
+| H | isDetail: absent, invReport: absent | `engineering-brief` | Rapid diagnosis, short narrative |
+| I | isDetail: absent, invReport: absent | `engineering-brief` | Methodology narrative |
+| J | isDetail: true, invReport: true | `investigation-report` | NTSB-style, structured sections with findings |
+| K | isDetail: true, invReport: true | `investigation-report` | Structured background/findings/outcome |
+| L | isDetail: true, invReport: true | `investigation-report` | Forensic audit, structured sections |
+| M | isDetail: true, invReport: true | `investigation-report` | Tool investigation, structured sections |
+| N | isDetail: true, invReport: true | `investigation-report` | Platform investigation, structured sections |
+| O | isDetail: true, invReport: false | `engineering-brief` | Product narrative arc, not structured investigation |
+
+This yields **10 engineering briefs** and **5 investigation reports**.
+
+### Why String Literal, Not Boolean
+
+1. **Self-documenting:** `exhibitType: 'investigation-report'` reads clearly in data. `investigationReport: true` requires cross-referencing to understand.
+2. **Extensible without breaks:** Adding a third type later means adding to the union, not introducing a third boolean flag.
+3. **Template-friendly:** `v-if="exhibit.exhibitType === 'investigation-report'"` is clearer than `v-if="exhibit.investigationReport"`.
+4. **Filter-friendly:** `exhibits.filter(e => e.exhibitType === 'engineering-brief')` reads naturally for the listing page.
+
+## Unified Listing Page: CaseFilesPage
+
+### Route Structure
+
+```typescript
+// router.ts changes
+export const routes: RouteRecordRaw[] = [
+  // ...existing routes...
+  { path: '/case-files', component: () => import('./pages/CaseFilesPage.vue') },
+  // Backward compat redirects
+  { path: '/portfolio', redirect: '/case-files' },
+  { path: '/testimonials', redirect: '/case-files' },
+  // Exhibit detail route unchanged
+  { path: '/exhibits/:slug', component: () => import('./pages/ExhibitDetailPage.vue') },
 ]
 ```
 
-```vue
-<!-- TestimonialsPage.vue -->
-<script setup lang="ts">
-import { featuredTestimonials } from '@/data/testimonials'
-import TestimonialQuote from '@/components/TestimonialQuote.vue'
-</script>
+**Why `/case-files`:** Matches the investigative brand language ("exhibits", "field reports", "investigation reports"). `/evidence` is too vague. `/exhibits` would conflict with the detail route prefix. `/case-files` is distinct, brand-consistent, and URL-friendly.
 
+### CaseFilesPage Structure
+
+```
+CaseFilesPage.vue
+|-- HeroMinimal (consistent with all listing pages)
+|-- Engineering Briefs section
+|   |-- CaseFileCard v-for (type='engineering-brief')
+|-- Investigation Reports section
+|   |-- CaseFileCard v-for (type='investigation-report')
+|-- Project Directory section (relocated from PortfolioPage)
+|   |-- directory tables (inline, per existing pattern)
+|-- Stats bar (relocated from PortfolioPage)
+```
+
+### CaseFileCard: Type-Aware Card Component
+
+Replace ExhibitCard + FlagshipCard with a single CaseFileCard that has modest type-awareness:
+
+```vue
+<!-- CaseFileCard.vue -- distinct visual treatment per exhibit type -->
 <template>
-  <TestimonialQuote
-    v-for="t in featuredTestimonials"
-    :key="t.cite"
-    v-bind="t"
-  />
+  <div :class="['case-file-card', `type-${exhibit.exhibitType}`]">
+    <div class="case-file-header">
+      <span class="case-file-label">{{ exhibit.label }}</span>
+      <span class="case-file-type-badge">
+        {{ exhibit.exhibitType === 'investigation-report'
+          ? 'Investigation Report' : 'Engineering Brief' }}
+      </span>
+    </div>
+    <h3>{{ exhibit.title }}</h3>
+    <span class="case-file-client">{{ exhibit.client }}</span>
+    <span class="case-file-date">{{ exhibit.date }}</span>
+
+    <!-- Brief-specific: show lead quote -->
+    <blockquote v-if="exhibit.exhibitType === 'engineering-brief' && exhibit.quotes?.length">
+      {{ exhibit.quotes[0].text }}
+    </blockquote>
+
+    <!-- Report-specific: show contextText as summary -->
+    <p v-if="exhibit.exhibitType === 'investigation-report' && exhibit.contextText"
+       class="case-file-summary">
+      {{ exhibit.contextText }}
+    </p>
+
+    <TechTags :tags="exhibit.impactTags" />
+    <router-link :to="exhibit.exhibitLink" class="case-file-link">
+      {{ exhibit.exhibitType === 'investigation-report'
+        ? 'View Investigation Report' : 'View Engineering Brief' }}
+    </router-link>
+  </div>
 </template>
 ```
 
-### Pattern 3: Props for Content, Slots for Structure
+**Design note:** The type-awareness in this card is limited to badge text, CTA text, and which preview content to show (quote vs summary). The structural layout is the same. If the two card types diverge further in visual structure, split into `BriefCard` and `ReportCard` -- but start with one component and split only if the template becomes noisy.
 
-**What:** Use props for text content (strings, numbers). Use slots for markup or nested components that vary in layout. Use named slots sparingly — default slot is usually sufficient.
+## Component Responsibilities
 
-**When to use:** Props when the parent controls a value. Slot when the parent controls how something is arranged inside the component's layout frame.
+| Component | Responsibility | Status |
+|-----------|---------------|--------|
+| **CaseFilesPage.vue** | Unified listing replacing Portfolio + Testimonials | NEW |
+| **CaseFileCard.vue** | Type-aware exhibit card for listing page | NEW (replaces ExhibitCard + FlagshipCard) |
+| **InvestigationReportLayout.vue** | Detail body for investigation reports (sections rendering) | NEW (extracted from ExhibitDetailPage) |
+| **EngineeringBriefLayout.vue** | Detail body for engineering briefs (quotes, context, resolution) | NEW (extracted from ExhibitDetailPage) |
+| **ExhibitDetailPage.vue** | Route handler, SEO, header, dispatcher to layouts | MODIFIED (slimmed down) |
+| **ExhibitCard.vue** | Listing card for Field Reports page | RETIRED (replaced by CaseFileCard) |
+| **FlagshipCard.vue** | Featured engagement card for Portfolio page | RETIRED (replaced by CaseFileCard) |
+| **NarrativeCard.vue** | Three Lenses narrative card | RETIRED (Three Lenses removed per v2.0 scope) |
+| **TestimonialsMetrics.vue** | Recurring patterns metrics grid | EVALUATE: relocate to CaseFilesPage or remove |
+| **NavBar.vue** | Navigation links array | MODIFIED (Portfolio + Field Reports -> Case Files) |
+| **HomePage.vue** | CTA links and teaser section | MODIFIED (update CTAs to /case-files) |
 
-**Trade-offs:** Too many props = component becomes a configuration knob, not a concept. Too many slots = component has no real shape, just wrapper markup. Balance: props carry data, slots carry composition.
+## Data Layer Changes
 
-**Existing example — HeroMinimal:**
-```vue
-<!-- Props for primary content, slot for extended/optional content -->
-<HeroMinimal title="Technologies" subtitle="Production-proven expertise">
-  <p class="hero-intro">Curated expertise spanning...</p>  <!-- slot -->
-</HeroMinimal>
-```
+| File | Action |
+|------|--------|
+| **exhibits.ts** | MODIFIED: add `exhibitType` field to interface and all 15 entries, remove `isDetailExhibit` + `investigationReport` |
+| **portfolioFlagships.ts** | RETIRE: content is a subset of exhibits.ts, no longer needed |
+| **portfolioNarratives.ts** | RETIRE: Three Lenses section removed per v2.0 scope |
 
-**When NOT to use a slot:** When the contained content is always structurally identical (use a prop instead). When extracting would require the parent to re-implement the child's internal layout.
-
-### Pattern 4: Composable for Page Setup, Not for UI State
-
-**What:** `useSeo()` and `useBodyClass()` are called at the top of every page's `<script setup>`. These are side-effect composables — they configure global context, not component state. UI state (menu open, theme) lives in the component that owns it.
-
-**When to use:** For anything a page needs to declare about its context (SEO, body class, scroll position) rather than UI it renders.
-
-**Trade-offs:** Keeps page templates declarative at the top. "Setup" concerns separated from "render" concerns.
-
-## Data Flow
-
-### Route Navigation
+### Data Flow: Listing Page
 
 ```
-Browser URL change
-    ↓
-Vue Router matches path → src/router.ts
-    ↓
-Lazy-loads page component (e.g., PhilosophyPage.vue)
-    ↓
-Page component's <script setup> runs:
-  - useBodyClass('page-philosophy')   → sets document.body class
-  - useSeo({ title, description, path }) → @unhead injects <head> tags
-    ↓
-Template renders into <router-view> inside App.vue
-    ↓
-NavBar + FooterBar remain mounted (not re-rendered on navigation)
+exhibits.ts
+    |
+    |-- exhibits.filter(e => e.exhibitType === 'engineering-brief')
+    |   |-- CaseFileCard (brief variant) x10
+    |
+    |-- exhibits.filter(e => e.exhibitType === 'investigation-report')
+        |-- CaseFileCard (report variant) x5
 ```
 
-### Content Flow (Static)
+### Data Flow: Detail Page
 
 ```
-src/data/[content].ts  (typed static arrays)
-    ↓ import
-Page component <script setup>
-    ↓ pass as props
-Section components (TechCard, TestimonialQuote, FindingCard, etc.)
-    ↓ render
-DOM
+Route params -> slug
+    |
+    |-- exhibits.find(e => e.exhibitLink === `/exhibits/${slug}`)
+    |   |-- exhibit.exhibitType
+    |       |-- 'investigation-report' -> InvestigationReportLayout
+    |       |-- 'engineering-brief' -> EngineeringBriefLayout
+    |
+    |-- null -> redirect to not-found
 ```
 
-No state management library needed. No computed properties beyond simple filtering. Data flows in one direction: data file → page → component → DOM.
+## Recommended Build Order
 
-### Theme Flow
+Order considers dependencies: data model first (everything depends on it), then listing page (most visible change), then detail templates (refinement), then cleanup.
 
-```
-index.html inline script (before CSS loads)
-    ↓ reads localStorage / prefers-color-scheme
-    ↓ sets data-theme attribute on <html>
-        ↓ (FOUC prevention complete)
+### Phase 1: Data Model Migration
 
-User clicks ThemeToggle
-    ↓
-ThemeToggle.vue toggles isDark ref
-    ↓ applyTheme() → document.documentElement.dataset.theme
-    ↓ localStorage.setItem('theme', ...)
-    ↓ storage event → cross-tab sync
-        ↓
-CSS custom properties respond to [data-theme="dark"] selectors
-```
+**Depends on:** nothing
+**Enables:** everything else
 
-## Component Extraction Priority
+1. Add `ExhibitType` type and `exhibitType` field to `Exhibit` interface
+2. Classify all 15 exhibits (10 briefs, 5 reports) -- mapping in table above
+3. Remove `isDetailExhibit` and `investigationReport` from interface and all entries
+4. Update `exhibits.test.ts` to validate new classification
+5. Update ExhibitCard to use `exhibitType` instead of `isDetailExhibit` CSS class
+6. Update ExhibitDetailPage badge to use `exhibitType` instead of `investigationReport`
 
-This is the build order for the active phase. Based on what is most referenced across pages:
+**Risk:** Low. Pure data refactor. All existing rendering behavior preserved, just driven by different field.
 
-**First: Shared layout components used on multiple pages**
-1. `HeroMinimal.vue` — already done. Ensure all TODO pages use it.
-2. `TestimonialQuote.vue` — already done. Philosophy and Contact already use it.
+### Phase 2: CaseFilesPage + CaseFileCard
 
-**Second: Homepage-specific atoms that don't yet exist as components**
-3. `FindingCard.vue` — NTSB case study card used in HomePage and PortfolioPage
-4. `SpecialtyCard.vue` — specialty grid item in HomePage intro section
-5. `StatItem.vue` — career stat (number + label) in HomePage stats section
+**Depends on:** Phase 1 (exhibitType field exists)
+**Enables:** navigation update, page retirement
 
-**Third: FAQ page components**
-6. `FaqItem.vue` — question + answer, likely a `<details>/<summary>` disclosure pattern
+1. Create CaseFileCard.vue with type-aware rendering + Storybook stories
+2. Create CaseFilesPage.vue with Engineering Briefs and Investigation Reports sections
+3. Relocate project directory tables from PortfolioPage (copy, not move -- old page still active)
+4. Relocate stats bar from PortfolioPage
+5. Decide on TestimonialsMetrics: keep and relocate, or fold content into CaseFilesPage differently
+6. Add Storybook stories for CaseFilesPage
 
-**Fourth: Content data files for remaining pages**
-7. `src/data/testimonials.ts` — enables TestimonialsPage without inline arrays
-8. `src/data/portfolio.ts` — enables PortfolioPage (case studies / NTSB findings)
-9. `src/data/faq.ts` — enables FaqPage without inline arrays
+**Risk:** Medium. Most content movement. TestimonialsMetrics decision needs consideration.
 
-**Defer or skip: components only used once with no obvious reuse**
-- Highly page-specific sections (accessibility statement prose, review page layout) — keep inline in the page template unless there is a named concept worth extracting.
+### Phase 3: Route + Navigation Updates
+
+**Depends on:** Phase 2 (CaseFilesPage exists and is complete)
+**Enables:** page retirement
+
+1. Add `/case-files` route to router.ts
+2. Add redirect routes for `/portfolio` and `/testimonials`
+3. Update NavBar navLinks: remove Portfolio + Field Reports entries, add Case Files
+4. Update HomePage CTAs: "View All Field Reports" -> link to /case-files
+5. Update ExhibitDetailPage back-nav: `/portfolio` -> `/case-files`
+
+**Risk:** Low. Straightforward route and link updates. Router test file needs updating.
+
+### Phase 4: Detail Template Extraction
+
+**Depends on:** Phase 1 (exhibitType field exists)
+**Can run parallel to:** Phases 2-3 (independent work on the detail page)
+
+1. Create InvestigationReportLayout.vue -- extract sections rendering from ExhibitDetailPage
+2. Create EngineeringBriefLayout.vue -- extract quotes/context/resolution rendering from ExhibitDetailPage
+3. Slim ExhibitDetailPage.vue to dispatcher pattern (shared header + type dispatch + shared impact tags)
+4. Add Storybook stories for both layout components
+5. Verify all 15 exhibits render correctly (regression check each slug)
+
+**Risk:** Medium. Template extraction requires careful verification. Key concern: some engineering briefs (A, E, F) also have `sections` arrays, so EngineeringBriefLayout must also handle sections rendering -- it cannot assume briefs are sections-free. The layout distinction is about emphasis and presentation framing, not about which data fields are present.
+
+### Phase 5: Cleanup + Retirement
+
+**Depends on:** Phases 2, 3, 4 all complete
+
+1. Remove PortfolioPage.vue
+2. Remove TestimonialsPage.vue
+3. Remove ExhibitCard.vue, FlagshipCard.vue, NarrativeCard.vue
+4. Remove portfolioFlagships.ts, portfolioNarratives.ts
+5. Remove stale Storybook stories for retired components
+6. Remove old route entries (replaced by redirects in Phase 3)
+7. Final regression check: all routes, all 15 exhibit slugs
+
+**Risk:** Low. Removing dead code after replacement is verified.
 
 ## Anti-Patterns
 
-### Anti-Pattern 1: Wrapper-Only Components
+### Anti-Pattern 1: Two Separate Detail Page Components
 
-**What people do:** Extract `<ContentSection>`, `<PageContainer>`, `<SectionWrapper>` — components that are just `<section class="content-section"><div class="container"><slot/></div></section>`.
+**What people do:** Create `InvestigationReportPage.vue` and `EngineeringBriefPage.vue` as separate route targets.
+**Why it's wrong:** Duplicates slug resolution, SEO, header rendering, 404 handling across two files. Requires either two routes (breaking links) or a router-level dispatch (moving presentation logic into the router). The shared header alone is ~20 lines of template; duplicating it is a maintenance burden.
+**Do this instead:** One page component dispatching to two layout components.
 
-**Why it's wrong:** These don't name concepts — they name HTML structure. Any developer can read `<section class="content-section">` directly. The wrapper adds a layer of indirection without adding clarity. It also fights the CSS: the `content-section` class is part of the design system and may carry visual styling that the component author needs to see to reason about spacing.
+### Anti-Pattern 2: Dynamic Component Registry for Two Types
 
-**Do this instead:** Keep structural boilerplate (`.container` divs, `content-section` class) directly in the page template. Only extract when the component can be named after a concept, not a structural role.
+**What people do:** Build a `componentMap` with `<component :is="componentMap[type]">` for exhibit rendering.
+**Why it's wrong:** Indirection for two items is not abstraction, it's obfuscation. The map must be maintained separately from the template. Harder to find what renders what. `v-if` with two named imports is faster to read.
+**Do this instead:** Explicit `v-if/v-else` with named imports. Two types = two branches.
 
-### Anti-Pattern 2: Generic Slot Sinks
+### Anti-Pattern 3: Gradual Flag Migration
 
-**What people do:** Create a component that is essentially `<div :class="variant"><slot/></div>` and pass all content via slot. Every usage looks different. The component has no discernible shape.
+**What people do:** Add `exhibitType` alongside `investigationReport` and `isDetailExhibit`, plan to remove old fields "later."
+**Why it's wrong:** Three classification systems in parallel. Every consumer must check multiple fields. "Later" becomes "never." Ambiguity about which field is authoritative.
+**Do this instead:** Clean migration in one phase. Add new field, remove old fields, update all consumers in a single coherent change.
 
-**Why it's wrong:** The component doesn't enforce a pattern — it only provides a class. CSS can do that without a component.
+### Anti-Pattern 4: Assuming Layout Maps Cleanly to Data Shape
 
-**Do this instead:** Components should have a clear internal structure. `TestimonialQuote` always has a `<blockquote>`, a quote text `<p>`, and a `<footer>` with `<cite>`. That structure is the value. Slots are for optional extensions, not the primary content.
-
-### Anti-Pattern 3: Putting Content Directly in Page Templates
-
-**What people do:** Hard-code arrays of objects inline in the `<template>` or in `<script setup>` within the page component. FAQ items as `const faqs = [{ q: '...', a: '...' }]`. Project cards as inline objects.
-
-**Why it's wrong:** Content changes (updating a testimonial quote, adding a new FAQ) require touching the page component file. Storybook stories for the page component become tightly coupled to that specific content.
-
-**Do this instead:** Structured repeated content belongs in `src/data/`. Import it in the page. The page template handles layout; the data file handles content.
-
-### Anti-Pattern 4: Duplicating `main#main-content` in Page Templates
-
-**What people do:** Add `<main id="main-content" aria-label="Main content">` inside individual page components because some pages need it for content that follows a hero.
-
-**Why it's wrong:** The skip-link in `App.vue` targets `#main-content`, and `App.vue` already wraps `<router-view>` in `<main id="main-content">`. Nesting a second `<main>` inside is invalid HTML and breaks accessibility.
-
-**Exception observed:** `TechnologiesPage.vue` and `ContactPage.vue` both have a nested `<main>`. This needs audit — the inner `<main>` should be removed and replaced with a `<div>` wrapper if needed, or the outer wrapper in `App.vue` should be used as-is.
-
-**Do this instead:** The outer `<main>` in `App.vue` is the landmark. Page templates should start with sections, not with another `<main>`.
+**What people do:** Assume engineering briefs have no `sections` array and investigation reports have no `quotes`. Build layouts that only handle their "expected" fields.
+**Why it's wrong:** Exhibits A, E, and F are engineering briefs but have `sections` arrays. Investigation reports (J, K) have quotes. The layout distinction is about **presentation emphasis**, not data shape. A brief might render sections in a simplified way; a report might show quotes in a sidebar. The data is a superset; the layout chooses what to emphasize.
+**Do this instead:** Both layout components should handle all optional fields. The difference is in presentation order, visual weight, and framing -- not in which fields are rendered.
 
 ## Integration Points
 
@@ -334,28 +422,34 @@ This is the build order for the active phase. Based on what is most referenced a
 
 | Boundary | Communication | Notes |
 |----------|---------------|-------|
-| App.vue ↔ Page components | Router outlet — no props, no events | Pages are fully decoupled from App shell |
-| Page ↔ Components | Props down — no emits needed (static content) | One-directional; no callbacks required |
-| Page ↔ Data files | ES module import | Data files are not reactive; no watchers needed |
-| Page ↔ Composables | Function call in script setup | useSeo and useBodyClass are fire-and-forget side effects |
-| ThemeToggle ↔ CSS | `data-theme` attribute on `<html>` | CSS custom properties respond; no JS-in-CSS coupling |
-| index.html script ↔ ThemeToggle | localStorage key `'theme'` | Must use same key — currently `'theme'` in both |
+| CaseFilesPage -> exhibits.ts | Direct import + filter by `exhibitType` | No store needed for static data |
+| ExhibitDetailPage -> Layout components | Props (`:exhibit`) | Layout receives full Exhibit object |
+| NavBar -> router | `navLinks` array update | Remove two entries, add one |
+| HomePage -> router | RouterLink `to` prop update | Two CTA destinations change |
+| ExhibitDetailPage -> router | Back-nav link text and target | `/portfolio` -> `/case-files` |
 
-### External Services
+### Storybook Integration
 
-| Service | Integration Pattern | Notes |
-|---------|---------------------|-------|
-| @unhead/vue | useSeo composable wraps useHead() | No direct usage outside composable |
-| Google Fonts | CSS @import in main.css | Network dependency; consider font-display: swap |
-| Storybook | Co-located `.stories.ts` files | Component and page stories both implemented |
+Each new component needs stories following existing pattern: `*.stories.ts` files co-located with the component. Layout components should have stories using representative exhibit data:
+- InvestigationReportLayout: use Exhibit J (most structured, has all section types)
+- EngineeringBriefLayout: use Exhibit A (has quotes, context, sections, resolution table)
+- CaseFileCard: one story per type variant
+
+### Router Test Updates
+
+`src/router.test.ts` will need updates for:
+- New `/case-files` route
+- Redirect behavior for `/portfolio` and `/testimonials`
+- Removal of direct `/portfolio` and `/testimonials` route assertions
 
 ## Sources
 
-- Direct codebase analysis of `src/components/`, `src/pages/`, `src/App.vue` (HIGH confidence)
-- Observed patterns in PhilosophyPage.vue and TechnologiesPage.vue as canonical fully-ported examples (HIGH confidence)
-- Vue 3 Composition API documentation — component design principles (HIGH confidence)
-- Existing `src/data/technologies.ts` as proof-of-pattern for data extraction approach (HIGH confidence)
+- Direct codebase analysis: `src/pages/ExhibitDetailPage.vue`, `src/pages/PortfolioPage.vue`, `src/pages/TestimonialsPage.vue`, `src/components/ExhibitCard.vue`, `src/components/FlagshipCard.vue`, `src/components/NarrativeCard.vue` (HIGH confidence)
+- Data model analysis: `src/data/exhibits.ts` -- all 15 exhibits, interface definition, flag usage (HIGH confidence)
+- Route analysis: `src/router.ts` -- current route structure (HIGH confidence)
+- Navigation analysis: `src/components/NavBar.vue` -- current nav links (HIGH confidence)
+- PROJECT.md v2.0 milestone requirements (HIGH confidence)
 
 ---
-*Architecture research for: Pattern 158 Vue SPA — portfolio conversion*
-*Researched: 2026-03-16*
+*Architecture research for: Pattern 158 v2.0 -- Dual exhibit templates with unified listing page*
+*Researched: 2026-03-27*

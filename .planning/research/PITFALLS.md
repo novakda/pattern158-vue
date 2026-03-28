@@ -1,129 +1,188 @@
 # Pitfalls Research
 
-**Domain:** Vue 3 SPA conversion from 11ty static HTML portfolio site
-**Researched:** 2026-03-16
-**Confidence:** HIGH (based on codebase inspection + verified community patterns)
-
----
+**Domain:** Portfolio site IA restructure -- page merge, route changes, dual templates (Vue 3 SPA)
+**Researched:** 2026-03-27
+**Confidence:** HIGH (based on direct codebase analysis of 14 affected files across 10 components, 2 pages, 1 router, and 1 test suite)
 
 ## Critical Pitfalls
 
-### Pitfall 1: Raw `href` Links Surviving the Conversion
+### Pitfall 1: Orphaned Internal Links After Route Removal
 
 **What goes wrong:**
-Pages copied from static HTML retain `<a href="/contact.html">` anchors instead of `<router-link to="/contact">`. These work fine on first load but cause full-page reloads — breaking the SPA contract — or 404s when the server has no `.html` files to serve. The current `HomePage.vue` already has this problem: `href="/contact.html"`, `href="/portfolio.html"`, `href="/exhibits/exhibit-j.html"` are all hardcoded HTML paths scattered through the template.
+Removing `/portfolio` and `/testimonials` routes while internal `router-link` references still point to them causes silent navigation failures. Vue Router matches the catch-all `/:pathMatch(.*)*` route and renders NotFoundPage. Users clicking "View My Work" on the homepage land on a 404.
 
 **Why it happens:**
-Page content is copy-pasted from HTML source files as the fastest way to transfer content. Links come along for the ride and are easy to miss because they render correctly in development (Vite serves everything, the browser navigates). The failure only surfaces in production or on refresh.
+Route references are scattered across 10+ files with no centralized link registry. This codebase has hardcoded paths in:
+- `NavBar.vue` (lines 46, 48) -- navigation menu, both `/portfolio` and `/testimonials`
+- `HomeHero.vue` (line 30) via `CtaButtons` -- homepage "View My Work" CTA pointing to `/portfolio`
+- `HomePage.vue` (line 80) -- "View All Field Reports" button pointing to `/testimonials`
+- `ExhibitDetailPage.vue` (line 43) -- back navigation `<router-link to="/portfolio">`
+- `ExhibitDetailPage.test.ts` (line 58) -- test assertion for `to="/portfolio"`
+- `ContactMethods.vue` (line 29) -- plain `<a href="/portfolio">` (not even a router-link)
+- `CtaButtons.stories.ts` (lines 17, 24) -- Storybook stories with `/portfolio`
+- `PortfolioPage.stories.ts`, `TestimonialsPage.stories.ts` -- page stories for deleted pages
 
 **How to avoid:**
-Establish a convention before starting page conversions: all internal links must use `<router-link to="...">` with clean paths (no `.html` extension). Add a search-and-replace step to the conversion checklist: `grep -r '\.html"' src/pages/` should return zero results before any page is marked done.
+Create a route inventory before touching any routes. Build a checklist of every file that needs updating from the grep results above. Update all references in a single atomic phase simultaneously with route changes. Add Vue Router `redirect` entries for old paths as a safety net (see Pitfall 2).
 
 **Warning signs:**
-- Page templates contain `.html"` in any link href
-- Links work in dev but break on a hard refresh or when deployed to static hosting
-- Browser navigation loses SPA scroll behavior (scrolls to top at full-page reload)
+- Any `router-link` or `<a href>` pointing to a path that no longer exists in `router.ts`
+- Test suite still asserting `to="/portfolio"` after route rename
+- Storybook stories referencing removed pages
 
 **Phase to address:**
-Every page conversion phase — apply as a gate condition for marking a page complete.
+Route inventory in Phase 1 (planning). Route updates must be atomic -- the phase that removes old routes must update every reference in the same phase. Never split route removal and reference updates across phases.
 
 ---
 
-### Pitfall 2: Non-Existent Routes Referenced in Content
+### Pitfall 2: SEO Damage from SPA Route Changes Without Redirects
 
 **What goes wrong:**
-The current `PhilosophyPage.vue` contains four `<router-link>` tags pointing to `/exhibits/exhibit-j`, `/exhibits/exhibit-e`, `/exhibits/exhibit-m`, and `/exhibits/exhibit-l` — routes that do not exist in `router.ts`. These are silently broken: Vue Router renders them, the user clicks, gets a blank or broken state, and there is no 404 page to catch it. This is already in production in the completed reference page.
+Even though this is a client-side SPA, search engines index routes. Google's JavaScript rendering service (Googlebot WRS) executes JavaScript and indexes SPA routes. Changing `/portfolio` and `/testimonials` to a new path without redirects means:
+- Existing Google index entries return soft 404 (NotFoundPage)
+- External links or bookmarks break
+- Open Graph / social media card previews cached for old URLs become dead links
+- The `canonical` URLs set via `useSeo()` (hardcoded `path: '/portfolio'` and `path: '/testimonials'`) persist in search engine caches
 
 **Why it happens:**
-Content is ported faithfully from the source HTML (correct behavior), but the exhibit pages are deferred to a future scope. The link destinations are aspirational, not implemented. Without a catch-all 404 route, the failure is invisible during development.
+SPAs handle routing client-side, so developers assume "there are no real URLs to worry about." But the current `useSeo` composable hardcodes canonical URLs with `BASE_URL + path` -- these get indexed.
 
 **How to avoid:**
-Two mitigations, both needed: (1) Add the catch-all 404 route immediately (`/:pathMatch(.*)*` → `NotFoundPage.vue`) so broken links surface visibly rather than silently. (2) During conversion, audit every `<router-link>` against the route list in `router.ts`. Links to pages not yet built should be disabled or replaced with plain text with a "coming soon" annotation in a code comment.
+1. Add Vue Router `redirect` entries for old paths: `{ path: '/portfolio', redirect: '/case-files' }` and `{ path: '/testimonials', redirect: '/case-files' }` (or whatever the new path is)
+2. Keep redirects permanently -- they cost nothing in a client-side router
+3. Update `useSeo()` calls in all new pages with correct paths
+4. If the live site uses server-side routing (Netlify `_redirects`, Vercel config, nginx), add 301 redirects there too for crawlers that don't execute JS
+5. Update `og:url` meta tags (handled by `useSeo`) to point to new canonical paths
 
 **Warning signs:**
-- `<router-link>` destinations that are not in `router.ts`
-- No catch-all route in `router.ts`
-- No `NotFoundPage.vue` exists
+- Old URLs in `router.ts` have no `redirect` entries after route change
+- Google Search Console showing increased 404s after deploy
 
 **Phase to address:**
-Foundation phase (before page conversions begin) — add the 404 route. Ongoing during each page conversion — audit links as part of the port checklist.
+Same phase as route creation. Redirects are a 2-line addition per old route and must ship with the route change, not as a follow-up.
 
 ---
 
-### Pitfall 3: Component Extraction at the Wrong Granularity
+### Pitfall 3: Exhibit Data Model Mutation Breaking Existing Detail Pages
 
 **What goes wrong:**
-Two failure modes exist, both real risks for this project:
-
-**Under-extraction:** Pages are just raw HTML inside `<template>` tags. Every section, every card, every repeated pattern stays as inline HTML. Templates become 200-300 line walls of markup. The stated goal — "templates should read like outlines" — is defeated. The site works but the codebase fails as a portfolio artifact demonstrating Vue component thinking.
-
-**Over-extraction:** Every `<dt>/<dd>` pair becomes a component. Every `<article>` becomes a component. Page templates become so abstract they require navigating five files to understand one page. Components are created with no props, no reuse potential, and no cognitive load benefit — pure abstraction overhead.
+The v2.0 plan introduces two exhibit types ("Investigation Report" vs "Engineering Brief") with distinct detail templates. If the `Exhibit` interface in `exhibits.ts` is modified (renaming `investigationReport` to `exhibitType`, changing section shapes, adding required fields), existing exhibit data entries that don't conform cause TypeScript compilation failures or runtime rendering errors in ExhibitDetailPage.
 
 **Why it happens:**
-Under-extraction happens when developers are in "get content in fast" mode and defer refactoring. Over-extraction happens when developers confuse "component count" with "good architecture" — especially on a portfolio site where there's an implicit desire to demonstrate Vue skills.
+The `exhibits.ts` file is a single large data file (32K+ tokens) containing all 15 exhibits with varying shapes. The current `ExhibitDetailPage.vue` handles optional fields defensively (`exhibit.quotes?.length`, `exhibit.sections?.length`), but any new required fields or renamed properties break exhibits that lack them. The `investigationReport` boolean is already used for conditional rendering (badge display in ExhibitDetailPage, CTA text in ExhibitCard).
 
 **How to avoid:**
-Apply the explicit extraction criterion from `PROJECT.md`: extract a component when it (a) is reused across pages, (b) names a concept that helps scan the template, or (c) enforces a design pattern that must stay consistent. If a block doesn't meet any of those three criteria, it stays inline. When in doubt: inline. The test is whether a developer can scan the page template and understand the page structure in 30 seconds.
-
-Concrete examples of the right call:
-- `<HeroMinimal>` — correct extraction (reused on every interior page, names a concept)
-- `<TestimonialQuote>` — correct extraction (reused, enforces quote structure and variants)
-- `<TechCard>` — correct extraction (reused in a v-for loop, enforces card layout)
-- `<FindingCard>` — worth extracting (the three "FINDING N" cards in HomePage are identical structure)
-- `<BrandElement>` — probably NOT worth extracting (only used in PhilosophyPage, inline `<dt>/<dd>` is already readable)
+1. Make the new exhibit type field additive: add `exhibitType: 'investigation-report' | 'engineering-brief'` alongside the existing `investigationReport` boolean, then deprecate the boolean after migration is complete
+2. Or: keep `investigationReport` as the discriminator and derive the template choice from it (since v1.1 already classified all 15 exhibits)
+3. Never add required fields to the `Exhibit` interface without providing values for all 15 exhibits in the same commit
+4. Write a data validation test (extending existing `exhibits.test.ts`) that verifies every exhibit satisfies the new interface before the template switch
 
 **Warning signs:**
-- A page component `<script setup>` imports more than 6-8 components for a single page
-- Component files have zero props (wrapper-only with no configurability)
-- A template is unreadable without opening every imported component's source
-- Conversely: page template files exceed ~100 lines of dense markup
+- TypeScript errors after interface change
+- ExhibitDetailPage rendering blank sections for some exhibits but not others
+- `v-if` guards evaluating differently due to renamed/missing fields
 
 **Phase to address:**
-Architecture decision phase — settle the extraction criteria before starting page conversions, not after. Use `PhilosophyPage.vue` as the calibration example: it correctly uses `TestimonialQuote` for structured data and inline HTML for prose sections.
+Data model changes must happen before template changes. Phase ordering: (1) classify exhibits and update data, (2) build new templates that consume the classification, (3) wire routing. Never change the data model and template in the same phase without a passing test suite between them.
 
 ---
 
-### Pitfall 4: Visual Parity Assumed, Not Verified
+### Pitfall 4: Template Switching Logic Creating an Untestable Conditional Explosion
 
 **What goes wrong:**
-Pages are ported and marked "done" based on a quick visual eyeball in one browser at one viewport. CSS class names and structure match the original, so it looks right — until someone checks on mobile, in the other theme, or in a different browser and finds layout drift, text wrapping differences, or color token mismatches. The 11ty site is live and is the source of truth; any visual divergence makes the Vue version unshippable.
+The current `ExhibitDetailPage.vue` is already 155 lines with conditional rendering for quotes, sections (5 types: text, table, flow, timeline, metadata), context text, and resolution tables. Adding a second template path ("Engineering Brief" layout) by forking the template with `v-if="exhibit.investigationReport"` / `v-else` doubles the template size, makes it nearly impossible to test all branches, and creates maintenance where changes to shared elements must be applied in two places.
 
 **Why it happens:**
-Conversion work focuses on getting content in. Verification is deferred or assumed based on matching class names. The design token CSS system (`main.css`, 3955 lines) has cascade layers and custom properties — a single missing class or wrong nesting breaks rendering without an obvious error.
+The natural instinct is to add a conditional branch in the existing page component. This works for small differences but collapses when two templates have substantially different structures.
 
 **How to avoid:**
-For each page: side-by-side comparison against the live 11ty site at three viewports (mobile 375px, tablet 768px, desktop 1280px) and in both light and dark themes. Storybook stories for completed pages capture a known-good state and provide a regression reference. Do not mark a page complete until both viewports and both themes are verified.
+Extract the two detail templates into separate components (e.g., `InvestigationReportDetail.vue` and `EngineeringBriefDetail.vue`). The parent `ExhibitDetailPage.vue` becomes a thin router: resolve the exhibit, determine type, render the correct component via `<component :is="...">` or a simple `v-if`/`v-else` that delegates to child components. Shared elements (header, back nav, impact tags) stay in the parent; divergent body content goes in the child templates.
 
-For the `HomePage.vue` specifically: it has the most visual complexity (hero section, specialty cards, stats row, finding cards) and is the first impression — it needs the most rigorous parity check.
+This aligns with the project's extraction criterion from PROJECT.md: extract when it "names a concept, enforces a pattern, or makes a template scannable."
 
 **Warning signs:**
-- "Looks right to me" without specifying viewport and theme
-- Storybook story for a page not yet created
-- Missing `useBodyClass()` call in a page (body class drives page-specific CSS overrides)
+- `ExhibitDetailPage.vue` growing past 200 lines
+- Duplicate `v-for` loops or `v-if` blocks in the template
+- Tests needing increasingly complex exhibit mocks to cover both paths
+- Bug fixes for one template accidentally affecting the other
 
 **Phase to address:**
-Each page conversion phase — parity verification is a gate condition, not an afterthought.
+Architecture decision needed before building the Engineering Brief template. Decide on the component extraction strategy in the planning phase, then implement the split when building the new template.
 
 ---
 
-### Pitfall 5: Deployment 404s from History Mode Routing
+### Pitfall 5: Losing Unique Content From Both Pages During Merge
 
 **What goes wrong:**
-`createWebHistory` (the current router configuration) produces clean URLs like `/philosophy` instead of `/#/philosophy`. When the Vue SPA replaces the 11ty site on its hosting environment, any direct URL visit or page refresh sends a request to the server for `/philosophy` — a path that doesn't correspond to any file. The server returns 404. This is invisible during development (Vite handles it) and invisible when navigating within the SPA (client-side routing handles it), but breaks completely on deploy.
+The Portfolio page and Testimonials/Field Reports page serve different purposes with different content that gets lost in a naive merge:
+- **PortfolioPage** has: Three Lenses narratives (being removed -- OK), Featured Engagements (FlagshipCards from `portfolioFlagships.ts`), Complete Project Directory (38 projects across 7 industry tables, ~90 lines of hardcoded HTML), StatItems (38/6000+/15+)
+- **TestimonialsPage** has: Executive Summary prose, StatItems (17/600+/5/1,216), Exhibit listing split into regular exhibits (slice 0-8) and Investigation Reports (slice 9+), TestimonialsMetrics component
+
+Simply replacing both pages with an exhibit listing loses the directory, the stats, the metrics, and the framing content.
 
 **Why it happens:**
-History mode is the correct choice for a production portfolio site (hash URLs look amateur), but it requires server-side configuration to redirect all requests to `index.html`. Developers test locally, everything works, they deploy, and hard refreshes start 404ing.
+The merge is conceptualized as "combine two pages into one" but the pages serve different purposes. Portfolio is about breadth (38 projects) and narrative framing. Field Reports is about depth (15 detailed exhibits with quotes).
 
 **How to avoid:**
-Verify the hosting configuration before considering the migration complete. Netlify needs a `public/_redirects` file: `/* /index.html 200`. A `netlify.toml` file is the alternative. The existing `public/` directory is the right place for this file. Confirm with a hard refresh on a non-root route after deploying.
+Create a content inventory before building the merged page:
+- Content that moves to the new page: exhibit cards (type-differentiated listing)
+- Content that relocates: project directory (stated goal), possibly stats
+- Content removed: Three Lenses (stated goal)
+- Content needing a new home: stats bars, executive summary, TestimonialsMetrics
+- Components that become orphaned: NarrativeCard, FlagshipCard, possibly FlagshipCard's data file
 
 **Warning signs:**
-- No `_redirects` or `netlify.toml` file in the repository
-- Hard refresh on `/philosophy` returns a 404 or hosting-provider error page
-- The router uses `createWebHistory` (correct!) but deployment config hasn't been updated to match
+- The merged page is shorter or thinner than either original page
+- Components from `portfolioFlagships.ts` or `portfolioNarratives.ts` are imported nowhere
+- TestimonialsMetrics component has no consumer
+- The 38-project directory disappears without being relocated
 
 **Phase to address:**
-Deployment readiness phase — address before the Vue site replaces the 11ty site.
+Content inventory in Phase 1 (planning). Content relocation decisions before building the merged page. Verify no orphaned components/data files after merge.
+
+---
+
+### Pitfall 6: "Back to Portfolio" Link Becoming Contextually Wrong
+
+**What goes wrong:**
+ExhibitDetailPage.vue line 43 hardcodes `<router-link to="/portfolio">Back to Portfolio</router-link>`. After the merge, this link needs to point to the new unified page. But more subtly: the back link text "Back to Portfolio" references a page that no longer exists in navigation, confusing users.
+
+**Why it happens:**
+The back-navigation link is hardcoded rather than derived from props or the new route structure. Easy to overlook because it's inside a detail page, not a listing page.
+
+**How to avoid:**
+Update both the `to` path and the label text in a single change. Hardcoded path to the new listing page is the right approach (over `router.back()`) because users may deep-link to exhibits. Also update the test in `ExhibitDetailPage.test.ts` line 58 which asserts `to="/portfolio"`.
+
+**Warning signs:**
+- Back link text references a page name that doesn't appear in the NavBar
+- Test assertion still checks for old path
+
+**Phase to address:**
+Same phase as route changes. Pair with Pitfall 1 (orphaned links).
+
+---
+
+### Pitfall 7: CSS Body Class Conflicts After Page Removal
+
+**What goes wrong:**
+Both pages use `useBodyClass()` with different class names: `page-portfolio` and `page-testimonials`. The site's CSS system (~3500+ lines) likely has page-scoped styles targeting these classes. If the merged page uses a new body class (e.g., `page-case-files`), all CSS rules scoped to `.page-portfolio` and `.page-testimonials` stop applying. The new page renders with missing spacing, colors, or layout rules.
+
+**Why it happens:**
+The CSS design system uses body classes for page-level scoping (sound pattern), but removing a page also removes the CSS hook. Developers focus on the Vue component and forget about the cascading CSS dependency.
+
+**How to avoid:**
+1. Grep the CSS for `.page-portfolio` and `.page-testimonials` selectors
+2. Audit which styles are shared vs. page-specific
+3. Create new `.page-case-files` styles incorporating needed rules from both
+4. Remove orphaned CSS for deleted pages in the same phase
+
+**Warning signs:**
+- New merged page looks visually different from both source pages
+- Spacing or typography inconsistencies
+- CSS file still contains `.page-portfolio` and `.page-testimonials` selectors after merge (dead CSS)
+
+**Phase to address:**
+CSS migration in the same phase as page creation. Do not defer CSS cleanup.
 
 ---
 
@@ -131,113 +190,88 @@ Deployment readiness phase — address before the Vue site replaces the 11ty sit
 
 | Shortcut | Immediate Benefit | Long-term Cost | When Acceptable |
 |----------|-------------------|----------------|-----------------|
-| Inline raw HTML in page templates without extracting repeated structures | Pages get content faster | Templates become 200+ line walls; refactoring is harder later when patterns are clear | Acceptable as a first pass if immediately followed by extraction in the same phase |
-| Copy href links verbatim from HTML source | Faster copy-paste | Full-page reloads, 404s on deploy, breaks SPA navigation | Never — find-replace is trivial |
-| Skip Storybook story update when refactoring a component | Saves 10-20 minutes | Stories drift from implementation; portfolio artifact loses its value | Never for components with existing stories |
-| Leave placeholder `<router-link>` destinations for unbuilt pages | Content structure is preserved | Silent broken links confuse users and testing | Acceptable only if catch-all 404 route exists and a code comment marks the intent |
-| Use `useBodyClass()` but skip verifying what CSS it activates | Works visually on first look | Page-specific CSS rules silently fail; dark mode or responsive variants break | Never — verify body class against `main.css` rules after each port |
-
----
+| Keeping both old and new routes without redirects | "We'll add redirects later" | Search engines index duplicates, canonical confusion | Never -- redirects are 2 lines each |
+| Forking ExhibitDetailPage with v-if instead of extracting child components | Faster to implement initially | 300+ line template, untestable, duplicate maintenance | Never for substantially different layouts |
+| Leaving orphaned data files (portfolioNarratives.ts, portfolioFlagships.ts) | No immediate breakage | Confusing for future maintainers, dead imports in IDE suggestions | Acceptable briefly if tracked as explicit cleanup task |
+| Hardcoding project directory HTML in a new location instead of extracting to data | Faster content relocation | 90 lines of HTML tables duplicated or moved wholesale | Acceptable for v2.0 if data extraction is explicitly out of scope |
+| Keeping `investigationReport` boolean alongside new `exhibitType` discriminator | Backward compatibility during transition | Two sources of truth for exhibit classification | Acceptable during transition, must consolidate before v2.0 ships |
 
 ## Integration Gotchas
 
 | Integration | Common Mistake | Correct Approach |
 |-------------|----------------|------------------|
-| Global CSS design system (`main.css`) + Vue scoped styles | Adding `<style scoped>` to page components that fight the global design system CSS | Page-level components should use the global CSS classes already defined. Only use scoped styles when a component genuinely encapsulates styling that has no global equivalent. When in doubt, add to `main.css` in the appropriate cascade layer. |
-| `useSeo()` composable + page routes | Forgetting `useSeo()` in a new page, or copying the wrong title/description from another page | Every page component must have `useSeo()` as the first composable call. Storybook stories cannot verify this — check the `<head>` in a browser. |
-| `useBodyClass()` composable + page-specific CSS | Page body class is applied but the CSS selector in `main.css` doesn't match, or the composable is skipped | After each page conversion, search `main.css` for the body class name to confirm the CSS rules exist and are being activated. |
-| Vue Router `<router-link>` + external links | Using `<router-link>` for external URLs (`https://...`) — these route to the router and fail silently or navigate incorrectly | External links must remain `<a href="..." target="_blank" rel="noopener">`. Only internal paths use `<router-link>`. |
-| Google Fonts external dependency | Fonts load from `googleapis.com` without a local fallback; if CDN is unavailable, layout shifts or breaks | If font metrics are critical to layout (which they are with a 3955-line design system), add `font-display: swap` and verify fallback font metrics don't break spacing. |
-
----
+| `useSeo()` composable | Forgetting to update `path` parameter when route changes | Update path in every `useSeo()` call; grep for old paths after route rename |
+| `useHead(computed(...))` in ExhibitDetailPage | Not updating dynamic SEO to reflect new parent page context | Verify meta description and title still make sense with new IA terminology |
+| Storybook page stories | Stories for removed pages still import deleted components | Delete or update stories for PortfolioPage and TestimonialsPage; create story for new page |
+| ExhibitCard CTA text | CTA text logic (`investigationReport ? 'View Full Investigation Report' : 'View Investigation Report'`) may not make sense for Engineering Brief type | Review CTA text for both exhibit types on the unified listing page |
+| `ContactMethods.vue` plain anchor | Contains `<a href="/portfolio">` (not a router-link, won't follow client-side redirects) | Update href to new route; consider converting to router-link |
+| TestimonialsPage exhibits.slice() | Current `exhibits.slice(0, 9)` and `exhibits.slice(9)` hardcodes the split point between exhibit types | New listing should derive grouping from `investigationReport` flag, not array index |
 
 ## Performance Traps
 
 | Trap | Symptoms | Prevention | When It Breaks |
 |------|----------|------------|----------------|
-| Monolithic CSS bundle on all pages | Large CSS file (3955 lines) delivered even for simple pages; slower Time to Interactive | This is already the architecture — don't make it worse by adding inline `<style>` blocks that duplicate tokens. Consider per-component scoped styles only for truly component-specific rules. | Already present at page 1; a portfolio site at this scale will not visibly suffer. |
-| Lazy-loaded routes with no loading state | Route transitions show blank screen for 100-200ms while the chunk loads | Vue Router's lazy-loading is already in place. For a portfolio site at this scale, chunk sizes will be tiny — not a practical concern. | Would become visible at 500KB+ chunk sizes, not applicable here. |
-| Storybook stories importing all page data | Storybook build becomes slow if stories import large data files (e.g., `technologies.ts`) | Already acceptable pattern. Keep data files lean. | Not a practical concern at this scale. |
-
----
-
-## Security Mistakes
-
-| Mistake | Risk | Prevention |
-|---------|------|------------|
-| Hardcoded `BASE_URL` and `SITE_NAME` in `useSeo.ts` | Canonical URLs and OG tags point to wrong domain if deployed to staging/preview URL | Move to `.env` variables: `VITE_SITE_URL`, `VITE_SITE_NAME`. Document in `.env.example`. |
-| Hardcoded email in `FooterBar.vue` and `useSeo.ts` | Brittle; change in one place misses the other | Single source of truth: environment variable or a `site.config.ts` constants file. |
-| No Content Security Policy for Google Fonts | External resource loaded without explicit permission policy | Add CSP header at hosting level (`X-Content-Type-Options`, `Content-Security-Policy: font-src 'self' fonts.gstatic.com`). |
-| `v-html` if any future content uses it | XSS vector if source HTML is ever user-generated | Current pages use only static content — no `v-html` usage is the correct pattern. Flag any future use for review. |
-
----
+| Eagerly loading both detail template components when only one is needed | Slightly larger chunk for exhibit detail route | Use dynamic `<component :is>` with lazy imports, or accept the trivial cost at this scale | Not a real concern at 15 exhibits; but sets a bad pattern precedent for a portfolio demonstrating Vue skills |
+| Project directory as hardcoded HTML duplicated across locations | Maintenance burden (not perf) | Extract to data file if it moves; single source of truth | Never a perf issue at this scale |
 
 ## UX Pitfalls
 
 | Pitfall | User Impact | Better Approach |
 |---------|-------------|-----------------|
-| No 404 page (confirmed missing from router) | Users who follow broken links, mistype URLs, or find old bookmarks see a blank/broken state with no recovery path | Add `NotFoundPage.vue` with `/:pathMatch(.*)*` catch-all route. Already called out in CONCERNS.md as missing. |
-| Skip-to-content link exists but internal anchor `#main-content` is inconsistently placed | Screen reader and keyboard users tab to the skip link but the target doesn't exist or is on a different element | Every page with a `<main id="main-content">` must match the skip link target. Verify during each page conversion that `id="main-content"` is on the `<main>` element, not a `<section>`. |
-| Theme toggle works but FOUC prevention script is separate from component | If the inline script in `index.html` diverges from `ThemeToggle.vue`'s logic, theme flickers on load | Treat the `index.html` early-detection script as load-bearing. Don't modify `ThemeToggle.vue`'s storage key or attribute name without updating the inline script. |
-| SPA navigation does not scroll to top on route change | Users navigate to a new page and start mid-scroll | Vue Router's `scrollBehavior` option should return `{ top: 0 }` for new navigations. Verify this is configured in `router.ts`. |
-
----
+| Navigation label change without mental model continuity | Users who learned "Portfolio" or "Field Reports" feel disoriented | Use clear, descriptive label for the merged page; ensure the page content immediately orients visitors |
+| Merged listing loses two-section visual separation | Investigation Reports and regular exhibits become undifferentiated card wall | Distinct card styles per exhibit type (already planned) with clear section headings |
+| Removing Three Lenses without replacing narrative on-ramp | New visitors lose the "why should I care" framing | Ensure Case Files page has intro section explaining what they're looking at |
+| Losing "Executive Summary" stats from TestimonialsPage | Quantitative credibility signals (17 years, 600+ hours saved, 5 issues resolved) disappear | Relocate key stats to the merged page or another visible location |
+| Two homepage CTAs pointing to two different old pages, both needing updates | If only one CTA is updated, the other 404s | Update HomeHero CTA (`/portfolio`) and Field Reports teaser CTA (`/testimonials`) in the same phase |
 
 ## "Looks Done But Isn't" Checklist
 
-- [ ] **Page conversion:** Often missing `useBodyClass()` — verify body class matches CSS selectors in `main.css`
-- [ ] **Page conversion:** Often missing `useSeo()` — verify `<title>` and OG tags appear in browser devtools Network > Response headers
-- [ ] **Internal links:** Often retains `.html` suffixes from source — `grep '\.html"' src/pages/PageName.vue` must return zero results
-- [ ] **Router-link destinations:** Often points to unbuilt routes — verify every `<router-link to="...">` destination exists in `router.ts`
-- [ ] **Dark mode parity:** Page is checked in light mode only — open theme toggle and verify dark mode classes activate correctly
-- [ ] **Mobile parity:** Page checked at desktop width only — verify at 375px mobile viewport
-- [ ] **Storybook story:** Component or page story not updated after refactor — verify story renders without error and reflects current props API
-- [ ] **External links:** `<a href="https://...">` should have `rel="noopener"` and `target="_blank"` — verify all outbound links
-- [ ] **Deployment:** History mode routing requires server redirect config — verify `public/_redirects` or equivalent exists before go-live
-
----
+- [ ] **Route redirects:** Old `/portfolio` and `/testimonials` paths have `redirect` entries in `router.ts` -- verify by navigating to old URLs
+- [ ] **NavBar:** Navigation links updated to new page -- verify both mobile hamburger and desktop menus
+- [ ] **HomePage CTAs:** Both "View My Work" (HomeHero via CtaButtons) and "View All Field Reports" (field-reports-teaser section) point to new page
+- [ ] **ExhibitDetailPage back link:** Both the `to` path and link text updated to reference new page
+- [ ] **ExhibitDetailPage test:** Test assertion on line 58 updated from `to="/portfolio"` to new path
+- [ ] **ContactMethods:** Plain `<a href="/portfolio">` updated to new path
+- [ ] **Storybook stories:** Old page stories deleted/updated, new page story created, CtaButtons.stories.ts updated
+- [ ] **CSS body classes:** New page has appropriate body class; old page-scoped CSS migrated or removed
+- [ ] **useSeo paths:** New page has correct canonical path; no pages reference deleted paths in useSeo() calls
+- [ ] **Orphaned components:** NarrativeCard, FlagshipCard -- either repurposed or removed with their data files
+- [ ] **Orphaned data files:** `portfolioNarratives.ts`, `portfolioFlagships.ts` -- either consumed by new page or removed
+- [ ] **TestimonialsMetrics component:** Relocated or explicitly removed
+- [ ] **Project directory:** 38-project table relocated to its new home (7 industry tables, not lost)
+- [ ] **Exhibit type classification:** All 15 exhibits have consistent type field, not just 5 with `investigationReport: true`
+- [ ] **Exhibit listing logic:** New page groups by type from data (not `exhibits.slice()` by index)
 
 ## Recovery Strategies
 
 | Pitfall | Recovery Cost | Recovery Steps |
 |---------|---------------|----------------|
-| Raw href links discovered after 5+ pages converted | LOW | Grep for `.html"` across all `src/pages/`, replace in bulk. 30 minutes max. |
-| Component extraction strategy diverges mid-project (some pages flat HTML, some over-abstracted) | MEDIUM | Establish the extraction criteria (three-criterion rule above), audit each page against it, refactor incrementally. Worst case is 1-2 days. |
-| Visual parity failures found late (after all pages converted) | MEDIUM-HIGH | Side-by-side audit of every page at all viewports/themes. Each page takes 30-60 minutes to diagnose and fix. Missed early, this is a week of work. |
-| Deployment 404s on history mode routing discovered post-launch | LOW | Add `public/_redirects` file, redeploy. Under 30 minutes. But it's a visible outage window on a live portfolio site. |
-| Storybook stories out of sync with refactored components | LOW per story | Update stories alongside component changes. If deferred, stories fail to render — fix story by story. |
-| Missing 404 route discovered from user report | LOW | Create `NotFoundPage.vue`, add catch-all route. Under 2 hours including Storybook story. |
-
----
+| Orphaned internal links (404s) | LOW | Grep for old paths, update all references, add route redirects. All references documented in Pitfall 1. |
+| SEO damage from missing redirects | MEDIUM | Add redirects immediately; resubmit sitemap to Google Search Console; damage recovers in 2-4 weeks |
+| Data model breakage | LOW | TypeScript compiler catches most issues; fix interface and data in tandem |
+| Lost content from merge | LOW | Content exists in git history; re-extract from pre-merge commit |
+| CSS regression | LOW | Compare screenshots before/after; restore page-scoped styles under new class |
+| Template conditional explosion | MEDIUM | Extract to child components retroactively; requires refactoring tests and stories |
 
 ## Pitfall-to-Phase Mapping
 
 | Pitfall | Prevention Phase | Verification |
 |---------|------------------|--------------|
-| Raw href links surviving conversion | Every page conversion phase | `grep -r '\.html"' src/pages/` returns zero matches |
-| Non-existent route destinations | Foundation phase (add 404 route) + each page conversion | Every `<router-link to>` value matches a path in `router.ts` |
-| Component extraction at wrong granularity | Architecture decision (before page conversions) | Templates read as outlines; no page template over 100 lines; no components with zero props and no reuse |
-| Visual parity not verified | Each page conversion (gate condition) | Side-by-side with live 11ty site at 375px/768px/1280px, light and dark themes |
-| Deployment 404s from history mode | Deployment readiness phase | `public/_redirects` exists; hard refresh on `/philosophy` returns 200 |
-| Hardcoded configuration | Environment setup phase | `useSeo.ts` reads from `import.meta.env`; `.env.example` documents required variables |
-| Missing body class / missing SEO composable | Each page conversion (checklist item) | Devtools show correct `<title>` and body class attribute |
-| Storybook stories drifting | During component refactoring | `npm run storybook` shows no story errors; stories reflect current props API |
-
----
+| Orphaned internal links | Route change phase (atomic with all reference updates) | Grep for `/portfolio` and `/testimonials` returns zero results outside redirect entries |
+| SEO route damage | Route change phase (redirects ship with new routes) | Navigate to `/portfolio` and `/testimonials` in browser, verify redirect to new page |
+| Data model mutation | Data/classification phase (before template work) | `npm run type-check` passes; `exhibits.test.ts` passes; all 15 exhibits render on detail page |
+| Template conditional explosion | Architecture phase (decision), template build phase (execution) | ExhibitDetailPage.vue stays under 80 lines; child templates handle divergent content |
+| Lost content during merge | Planning phase (content inventory with disposition for each section) | Checklist of all content sections verified: kept, relocated, or explicitly removed |
+| Back link context | Route change phase (paired with Pitfall 1) | ExhibitDetailPage test updated and passing with new path |
+| CSS body class conflicts | Page build phase (same phase as new page creation) | Visual comparison of merged page against screenshots of both source pages |
 
 ## Sources
 
-- Codebase inspection: `src/pages/PhilosophyPage.vue`, `src/pages/HomePage.vue`, `src/pages/TechnologiesPage.vue`, `src/components/*` (direct analysis — HIGH confidence)
-- `.planning/codebase/CONCERNS.md` — known issues audit from 2026-03-15 (HIGH confidence)
-- `.planning/PROJECT.md` — extraction criteria, project constraints, key decisions (HIGH confidence)
-- Vue Router official docs — history mode and server configuration requirements: https://router.vuejs.org/guide/essentials/history-mode.html (HIGH confidence)
-- Vue.js official SFC documentation: https://vuejs.org/guide/scaling-up/sfc.html (HIGH confidence)
-- Vue.js official style guide on scoped CSS: https://v3.vuejs.org/style-guide/ (HIGH confidence)
-- Community: "How I Fixed 404 Errors in My Vue Project Deployed on Netlify" — https://dev.to/highflyer910/how-i-fixed-404-errors-in-my-vue-project-deployed-on-netlify-27k (MEDIUM confidence)
-- Community: Nuxt SEO — SPA and SEO pitfalls: https://nuxtseo.com/learn-seo/vue/spa (MEDIUM confidence)
-- Community: "7 Vue 3 Performance Pitfalls" — https://medium.com/simform-engineering/7-vue-3-performance-pitfalls-that-quietly-derail-your-app-33c7180d68d4 (MEDIUM confidence)
+- Direct codebase analysis of `/home/xhiris/projects/pattern158-vue/src/` -- 14 files examined including router.ts, NavBar.vue, HomePage.vue, HomeHero.vue, CtaButtons.vue, PortfolioPage.vue, TestimonialsPage.vue, ExhibitDetailPage.vue, ExhibitDetailPage.test.ts, ExhibitCard.vue, ContactMethods.vue, CtaButtons.stories.ts, exhibits.ts (interface), portfolioFlagships.ts, portfolioNarratives.ts (HIGH confidence)
+- Vue Router documentation on `redirect` and `alias` route options (HIGH confidence, well-established features)
+- Google documentation on JavaScript rendering and SPA indexing via Googlebot WRS (HIGH confidence)
+- `.planning/PROJECT.md` v2.0 milestone definition and component extraction criteria (HIGH confidence)
 
 ---
-
-*Pitfalls research for: Vue 3 SPA conversion from 11ty static HTML portfolio site*
-*Researched: 2026-03-16*
+*Pitfalls research for: Portfolio site IA restructure -- page merge, route changes, dual templates*
+*Researched: 2026-03-27*
