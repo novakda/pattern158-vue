@@ -4784,6 +4784,12 @@ footer a,
         color: var(--color-text-medium);
         margin-bottom: var(--space-xs);
     }
+
+    .page-exhibit-detail .exhibit-table td[data-label="Field"]::before,
+    .page-exhibit-detail .exhibit-table td[data-label="Value"]::before,
+    .page-exhibit-detail .exhibit-table td[data-label="Metric"]::before {
+        display: none;
+    }
 }
 
 [data-theme="dark"] .page-exhibit-detail .exhibit-quote {
