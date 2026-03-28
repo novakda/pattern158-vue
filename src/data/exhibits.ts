@@ -14,13 +14,22 @@ export interface ExhibitFlowStep {
   detail: string
 }
 
+export interface ExhibitTimelineEntry {
+  date: string
+  heading: string
+  body: string
+  quote?: string
+  quoteAttribution?: string
+}
+
 export interface ExhibitSection {
   heading?: string
-  type: 'text' | 'table' | 'flow'
+  type: 'text' | 'table' | 'flow' | 'timeline'
   body?: string
   columns?: string[]
   rows?: string[][]
   steps?: ExhibitFlowStep[]
+  entries?: ExhibitTimelineEntry[]
 }
 
 export interface Exhibit {
@@ -96,24 +105,111 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'Sequence of Events',
-        body: "September 5, 2017 \u2014 Initial Contact: \"This company has one or some courses that they cannot get to work on their Cornerstone LMS. The SVP would like us to jump on troubleshooting so we can have a 'quick win' with this client.\" \u2014 Program Manager, GP Strategies. Dan notes: \"I have worked with General Dynamics before and am familiar with their issues with SuccessFactors.\"\n\nJune 13, 2018 \u2014 Formal Investigation Begins: EB reports HTML5 AICC courses failing to record completions. Issue began May 21, 2018. Formal investigation assigned.\n\nJune 18, 2018 \u2014 Root Cause Analysis: The Chief of Learning Services provides Fiddler traces. Dan analyzes the data: \"The Confined Spaces log has interesting results. It is posting to the 'proxlet' included for cross-domain AICC, but isn't getting any response.\" \u2014 identifying silent failure in the PHP relay script. Identifies the Articulate-provided PHP relay script as having no error checking \u2014 silently failing on all cross-domain requests.\n\nJune 20, 2018 \u2014 Proof of Concept Delivered: Dan uploads three SCORM 1.2 test packages with cross-domain wrappers from the enterprise course library. Provides detailed 6-step testing protocol. EB responds: \"That SCORM wrapper does sound intriguing! We do more SCORM 2004 here than 1.2, but having both options would be very helpful!\"\n\nJune 21, 2018 \u2014 Cross-Domain Architecture Confirmed: \"Our LMS and our content server are definitely on different domains... we can't put content up on our Cornerstone server.\" \u2014 Chief of Learning Services, Electric Boat, confirming the cross-domain constraint.",
+        entries: [
+          {
+            date: 'September 5, 2017',
+            heading: 'Initial Contact',
+            body: 'Dan notes: "I have worked with General Dynamics before and am familiar with their issues with SuccessFactors."',
+            quote: "This company has one or some courses that they cannot get to work on their Cornerstone LMS. The SVP would like us to jump on troubleshooting so we can have a 'quick win' with this client.",
+            quoteAttribution: 'Program Manager, GP Strategies',
+          },
+          {
+            date: 'June 13, 2018',
+            heading: 'Formal Investigation Begins',
+            body: 'EB reports HTML5 AICC courses failing to record completions. Issue began May 21, 2018. Formal investigation assigned.',
+          },
+          {
+            date: 'June 18, 2018',
+            heading: 'Root Cause Analysis',
+            body: "The Chief of Learning Services provides Fiddler traces. Dan identifies the Articulate-provided PHP relay script as having no error checking \u2014 silently failing on all cross-domain requests.",
+            quote: "The Confined Spaces log has interesting results. It is posting to the 'proxlet' included for cross-domain AICC, but isn't getting any response.",
+            quoteAttribution: 'Dan Novak, identifying silent failure in PHP relay script',
+          },
+          {
+            date: 'June 20, 2018',
+            heading: 'Proof of Concept Delivered',
+            body: 'Dan uploads three SCORM 1.2 test packages with cross-domain wrappers from the enterprise course library. Provides detailed 6-step testing protocol.',
+            quote: 'That SCORM wrapper does sound intriguing! We do more SCORM 2004 here than 1.2, but having both options would be very helpful!',
+            quoteAttribution: 'Chief of Learning Services, Electric Boat',
+          },
+          {
+            date: 'June 21, 2018',
+            heading: 'Cross-Domain Architecture Confirmed',
+            body: 'EB confirms the fundamental constraint that necessitates a cross-domain solution.',
+            quote: "Our LMS and our content server are definitely on different domains... we can't put content up on our Cornerstone server.",
+            quoteAttribution: 'Chief of Learning Services, Electric Boat',
+          },
+        ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'On-Site Resolution \u2014 August 2018',
-        body: "The Sr. Director authorized travel to Groton, CT for on-site troubleshooting and solution deployment at Electric Boat's facility. Dan worked directly with the EB team over two days (August 15\u201316, 2018). Five critical issues resolved during the engagement.\n\nAugust 17, 2018 \u2014 The Chief of Learning Services emails the EB leadership chain with a detailed summary of the engagement outcomes: \"I'd consider the last couple days a huge success, and I look forward to working with Dan in the future.\"\n\nAugust 20\u201321, 2018 \u2014 Executive Recognition: \"I hear you did an AWESOME job onsite! EB really appreciated your support.\" \u2014 Sr. Director, Learning Solutions. \"Thanks for all of the great work you did out there. I heard about your work from several folks across the organization.\" \u2014 Director of Learning Technologies, GP Strategies.\n\nAugust 22, 2018 \u2014 Dan reports SCORM 2004 cross-domain wrapper prototype working: \"I just got the first API call to work across domains with a modified wrapper.\" EB responds: \"That is fantastic news! One of our more regular SCORM 2004 customers is very excited about not needing the Cornerstone player any more.\"",
+        body: "The Sr. Director authorized travel to Groton, CT for on-site troubleshooting and solution deployment at Electric Boat's facility. Dan worked directly with the EB team over two days (August 15\u201316, 2018). Five critical issues resolved during the engagement.",
+        entries: [
+          {
+            date: 'August 17, 2018',
+            heading: 'Client Summary Report',
+            body: 'The Chief of Learning Services emails the EB leadership chain with a detailed summary of the engagement outcomes.',
+            quote: "I'd consider the last couple days a huge success, and I look forward to working with Dan in the future.",
+            quoteAttribution: 'Chief of Learning Services, Electric Boat, in summary email to EB leadership',
+          },
+          {
+            date: 'August 20\u201321, 2018',
+            heading: 'Executive Recognition',
+            body: 'Recognition propagates through GP Strategies leadership hierarchy independently.',
+            quote: 'I hear you did an AWESOME job onsite! EB really appreciated your support.',
+            quoteAttribution: 'Sr. Director, Learning Solutions, GP Strategies',
+          },
+          {
+            date: 'August 22, 2018',
+            heading: 'SCORM 2004 Prototype Breakthrough',
+            body: 'Dan reports SCORM 2004 cross-domain wrapper prototype working.',
+            quote: 'That is fantastic news! One of our more regular SCORM 2004 customers is very excited about not needing the Cornerstone player any more.',
+            quoteAttribution: 'Chief of Learning Services, Electric Boat',
+          },
+        ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'Second On-Site Visit \u2014 March\u2013April 2019',
-        body: "Dan returns to Groton, CT with a GP Strategies course developer for an extended 12-day engagement (March 25 \u2013 April 5, 2019). Primary focus: Flash-to-HTML5 conversion strategy and ESM course remediation. The team rewrote the JavaScript communication layer (content.js) in legacy Flash courses to restore completion tracking on Cornerstone.\n\n\"Dan's technical expertise is tremendous\u2026 with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money.\" \u2014 Chief of Learning Services, Electric Boat, in recognition email to GP leadership.\n\n\"I believed from the beginning that we were sending the A team out there to support so I appreciate your validation of the team's skill and dedication.\" \u2014 Sr. Director, Learning Solutions, GP Strategies.",
+        body: 'Dan returns to Groton, CT with a GP Strategies course developer for an extended 12-day engagement (March 25 \u2013 April 5, 2019). Primary focus: Flash-to-HTML5 conversion strategy and ESM course remediation. The team rewrote the JavaScript communication layer (content.js) in legacy Flash courses to restore completion tracking on Cornerstone.',
+        entries: [
+          {
+            date: 'April 10, 2019',
+            heading: 'Client Recognition',
+            body: 'The Chief of Learning Services emails GP leadership praising the technical impact.',
+            quote: "Dan's technical expertise is tremendous\u2026 with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money.",
+            quoteAttribution: 'Chief of Learning Services, Electric Boat, in recognition email to GP leadership',
+          },
+          {
+            date: 'April 19, 2019',
+            heading: 'Leadership Response',
+            body: 'GP leadership affirms the on-site team selection.',
+            quote: "I believed from the beginning that we were sending the A team out there to support so I appreciate your validation of the team's skill and dedication.",
+            quoteAttribution: 'Sr. Director, Learning Solutions, GP Strategies',
+          },
+        ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'Continued Engagement (2019\u20132022)',
-        body: "What began as a cross-domain SCORM troubleshooting engagement evolved into a 7-year embedded technical advisory role. After the August 2018 on-site visit, the relationship intensified rather than concluded. Dan became the Chief of Learning Services' primary escalation resource for complex LMS and courseware issues across the Electric Boat training organization.\n\n2019 was the peak engagement year with 287 emails \u2014 nearly 5x the 2018 volume. Dan became the de facto Level 3 escalation resource for the EB account, handling cross-domain deployment issues, Flash course patching, and LMS troubleshooting across the training organization.\n\nJanuary 2020 \u2014 EB requests SCORM 2004 interaction-tracking implementation. Dan also provides impact analysis for Chrome 80's deprecation of synchronous XHR in page dismissal \u2014 a change that threatened to break AICC communication across EB's entire course catalog. \"You are so awesome. Thank you very much for your fast and clear response. We really appreciate you. When are you visiting again? I owe you lunch at least.\" \u2014 Chief of Learning Services, Electric Boat.\n\nAugust 2022 \u2014 Last documented correspondence addresses third-party cookie policy changes and their impact on EB's cross-domain wrapper architecture. The relationship continued through EB Trades courseware edits and LMS administration support. Total engagement: 574 emails across 49 EB personnel over 7 years.",
+        body: "What began as a cross-domain SCORM troubleshooting engagement evolved into a 7-year embedded technical advisory role. After the August 2018 on-site visit, the relationship intensified rather than concluded. Dan became the Chief of Learning Services' primary escalation resource for complex LMS and courseware issues across the Electric Boat training organization. 2019 was the peak engagement year with 287 emails \u2014 nearly 5x the 2018 volume.",
+        entries: [
+          {
+            date: 'January 2020',
+            heading: 'SCORM 2004 & Chrome 80 Impact Analysis',
+            body: "EB requests SCORM 2004 interaction-tracking implementation. Dan also provides impact analysis for Chrome 80's deprecation of synchronous XHR \u2014 a change that threatened to break AICC communication across EB's entire course catalog.",
+            quote: 'You are so awesome. Thank you very much for your fast and clear response. We really appreciate you. When are you visiting again? I owe you lunch at least.',
+            quoteAttribution: 'Chief of Learning Services, Electric Boat',
+          },
+          {
+            date: 'August 2022',
+            heading: 'Final Documented Engagement',
+            body: "Last documented correspondence addresses third-party cookie policy changes and their impact on EB's cross-domain wrapper architecture. The relationship continued through EB Trades courseware edits and LMS administration support. Total engagement: 574 emails across 49 EB personnel over 7 years.",
+          },
+        ],
       },
       {
         type: 'table',
@@ -453,9 +549,50 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'Sequence of Events',
-        body: "The Problem \u2014 Version Control Nightmare: Course updates require emailing zip files to ~20 energy clients for manual re-upload. Version chaos across deployments.\n\nArchitecture Design \u2014 Centralized Hosting with Stub Packages: Dan designs centralized content hosting on GP servers with lightweight \"stub\" packages deployed to client LMS platforms. Stubs are kilobytes, not megabytes.\n\nCross-Domain Bridge \u2014 EasyXDM Communication Layer: JavaScript/CORS communication layer using EasyXDM to bridge the cross-domain gap between GP's content servers and client LMS domains.\n\nProtocol Translation \u2014 SCORM API Proxy: SCORM API proxy with transparent AICC/SCORM protocol translation \u2014 the same content works regardless of whether the client LMS speaks SCORM or AICC.\n\nCSBB Generator \u2014 Automated Package Generation: Package generation tooling (Groovy, Access, Windows Forms) automating the creation and deployment of stub packages. Global deployments without touching individual client systems.\n\nScale \u2014 Multi-Client Deployment: Deployed across ~20 energy utility clients including FPL, Puget Sound Energy, NRG, Colorado Springs Utilities, Calpine, Exelon, BP. ~2,000 courses in the central library \u2014 each client drawing a curated subset.\n\nDefense Adaptation \u2014 Cross-Industry Reuse: Architecture later adapted for General Dynamics Electric Boat defense sector deployment, proving the pattern was reusable across industries.\n\nValidation \u2014 Market Catches Up: System remained in production for 10+ years. In 2016, Rustici Software released Content Controller to solve the same centralized dispatch problem commercially.",
+        entries: [
+          {
+            date: 'The Problem',
+            heading: 'Version Control Nightmare',
+            body: 'Course updates require emailing zip files to ~20 energy clients for manual re-upload. Version chaos across deployments.',
+          },
+          {
+            date: 'Architecture Design',
+            heading: 'Centralized Hosting with Stub Packages',
+            body: "Dan designs centralized content hosting on GP servers with lightweight \"stub\" packages deployed to client LMS platforms. Stubs are kilobytes, not megabytes.",
+          },
+          {
+            date: 'Cross-Domain Bridge',
+            heading: 'EasyXDM Communication Layer',
+            body: "JavaScript/CORS communication layer using EasyXDM to bridge the cross-domain gap between GP's content servers and client LMS domains.",
+          },
+          {
+            date: 'Protocol Translation',
+            heading: 'SCORM API Proxy',
+            body: 'SCORM API proxy with transparent AICC/SCORM protocol translation \u2014 the same content works regardless of whether the client LMS speaks SCORM or AICC.',
+          },
+          {
+            date: 'CSBB Generator',
+            heading: 'Automated Package Generation',
+            body: 'Package generation tooling (Groovy, Access, Windows Forms) automating the creation and deployment of stub packages. Global deployments without touching individual client systems.',
+          },
+          {
+            date: 'Scale',
+            heading: 'Multi-Client Deployment',
+            body: 'Deployed across ~20 energy utility clients including FPL, Puget Sound Energy, NRG, Colorado Springs Utilities, Calpine, Exelon, BP. ~2,000 courses in the central library \u2014 each client drawing a curated subset.',
+          },
+          {
+            date: 'Defense Adaptation',
+            heading: 'Cross-Industry Reuse',
+            body: 'Architecture later adapted for General Dynamics Electric Boat defense sector deployment, proving the pattern was reusable across industries.',
+          },
+          {
+            date: 'Validation',
+            heading: 'Market Catches Up',
+            body: 'System remained in production for 10+ years. In 2016, Rustici Software released Content Controller to solve the same centralized dispatch problem commercially.',
+          },
+        ],
       },
       {
         type: 'table',
@@ -881,9 +1018,45 @@ export const exhibits: Exhibit[] = [
         ],
       },
       {
-        type: 'text',
+        type: 'timeline',
         heading: 'Sequence of Events',
-        body: "Initial Report \u2014 GM reports ~19% of launched lessons not being marked completed \u2014 nearly 4x the historical baseline. Investigation authorized.\n\nInitial Review \u2014 An initial investigation is conducted but cannot identify the root cause. The problem persists and escalates.\n\nTeam Assignment \u2014 The director assembles a dedicated investigation team: Dan Novak for technical forensics, and a data analyst for UX evaluation and user research.\n\nTechnical Forensics (Milestone) \u2014 Dan uses Fiddler and browser debugging to trace course-to-LMS communication. Discovers that the LMS holds all course state in memory cache and only persists to the database via form submit when the course closes properly. No periodic auto-save. No graceful degradation for connection loss.\n\nUX Analysis (Milestone) \u2014 The team reviews courses built with the vendor's authoring tool. Courses display \"Congratulations! You're done!\" after the final assessment \u2014 but that isn't the last page. Users must navigate to one more slide to trigger SCORM completion. The UI actively misleads learners into closing before completion registers.\n\nUser Research Breakthrough (Milestone) \u2014 Interviews with actual GM sales reps reveal the critical insight: they are always on the road, working on poor WiFi, taking training in short bursts between customer meetings \u2014 not the hour-long desktop sessions the system was designed for. This reframes the entire investigation.\n\nSynthesis (Milestone) \u2014 All investigation tracks converge: fragile architecture, misleading UX, confusing navigation, mobile usage patterns, and poor connectivity align to produce a \"perfect storm\" \u2014 a systemic mismatch between how the system was designed and how people actually work.",
+        entries: [
+          {
+            date: 'Initial Report',
+            heading: 'Anomalous Completion Rates Flagged',
+            body: 'GM reports ~19% of launched lessons not being marked completed \u2014 nearly 4x the historical baseline of ~5%. Investigation authorized.',
+          },
+          {
+            date: 'Initial Review',
+            heading: 'Root Cause Not Found',
+            body: 'An initial investigation is conducted but cannot identify the root cause. The problem persists and escalates.',
+          },
+          {
+            date: 'Team Assignment',
+            heading: 'Dedicated Investigation Team Assembled',
+            body: 'The director assembles a dedicated team: Dan Novak for technical forensics, and a data analyst for UX evaluation and user research.',
+          },
+          {
+            date: 'Milestone',
+            heading: 'Technical Forensics \u2014 Architecture Vulnerability Discovered',
+            body: "Dan uses Fiddler and browser debugging to trace course-to-LMS communication. Discovers that the LMS holds all course state in memory cache and only persists to the database via form submit when the course closes properly. No periodic auto-save. No graceful degradation for connection loss.",
+          },
+          {
+            date: 'Milestone',
+            heading: 'UX Analysis \u2014 "Congratulations You Failed" Discovery',
+            body: "The team reviews courses built with the vendor's authoring tool. Courses display \"Congratulations! You're done!\" after the final assessment \u2014 but that isn't the last page. Users must navigate to one more slide to trigger SCORM completion. The UI actively misleads learners into closing before completion registers.",
+          },
+          {
+            date: 'Milestone',
+            heading: 'User Research Breakthrough \u2014 Mobile Workforce Discovery',
+            body: 'Interviews with actual GM sales reps reveal the critical insight: they are always on the road, working on poor WiFi, taking training in short bursts between customer meetings \u2014 not the hour-long desktop sessions the system was designed for. This reframes the entire investigation.',
+          },
+          {
+            date: 'Synthesis',
+            heading: 'Five Concurrent Failures Identified',
+            body: "All investigation tracks converge: fragile architecture, misleading UX, confusing navigation, mobile usage patterns, and poor connectivity align to produce a \"perfect storm\" \u2014 a systemic mismatch between how the system was designed and how people actually work.",
+          },
+        ],
       },
       {
         type: 'table',

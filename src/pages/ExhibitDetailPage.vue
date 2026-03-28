@@ -85,6 +85,25 @@ useHead(computed(() => ({
                 <p v-for="(para, pi) in section.body.split('\n\n')" :key="'flow-p-' + pi">{{ para }}</p>
               </template>
             </template>
+            <template v-if="section.type === 'timeline' && section.entries?.length">
+              <div class="exhibit-timeline">
+                <div v-for="(entry, ei) in section.entries" :key="ei" class="timeline-entry">
+                  <div class="timeline-marker" aria-hidden="true"></div>
+                  <div class="timeline-content">
+                    <div class="timeline-date">{{ entry.date }}</div>
+                    <h3 class="timeline-heading">{{ entry.heading }}</h3>
+                    <p class="timeline-body">{{ entry.body }}</p>
+                    <blockquote v-if="entry.quote" class="timeline-quote">
+                      <p>{{ entry.quote }}</p>
+                      <footer v-if="entry.quoteAttribution">{{ entry.quoteAttribution }}</footer>
+                    </blockquote>
+                  </div>
+                </div>
+              </div>
+              <template v-if="section.body">
+                <p v-for="(para, pi) in section.body.split('\n\n')" :key="'tl-p-' + pi">{{ para }}</p>
+              </template>
+            </template>
             <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
               <thead v-if="section.columns?.length">
                 <tr>

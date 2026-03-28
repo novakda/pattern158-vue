@@ -4524,6 +4524,99 @@ footer a,
     background: var(--color-background-alt);
 }
 
+/* Timeline */
+.page-exhibit-detail .exhibit-timeline {
+    position: relative;
+    padding-left: var(--space-xl);
+    margin: var(--space-md) 0;
+}
+
+.page-exhibit-detail .exhibit-timeline::before {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--color-border);
+}
+
+.page-exhibit-detail .timeline-entry {
+    position: relative;
+    margin-bottom: var(--space-xl);
+}
+
+.page-exhibit-detail .timeline-entry:last-child {
+    margin-bottom: 0;
+}
+
+.page-exhibit-detail .timeline-marker {
+    position: absolute;
+    left: calc(-1 * var(--space-xl) + 2px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    border: 2px solid var(--color-background);
+    z-index: 1;
+}
+
+.page-exhibit-detail .timeline-date {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-primary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xs);
+}
+
+.page-exhibit-detail .timeline-heading {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--color-heading);
+    margin: 0 0 var(--space-xs);
+}
+
+.page-exhibit-detail .timeline-body {
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+    color: var(--color-text);
+    margin: 0;
+}
+
+.page-exhibit-detail .timeline-quote {
+    border-left: 3px solid var(--color-primary);
+    padding: var(--space-sm) var(--space-md);
+    margin: var(--space-sm) 0 0;
+    background: var(--color-background-alt);
+}
+
+.page-exhibit-detail .timeline-quote p {
+    margin: 0;
+    font-style: italic;
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+}
+
+.page-exhibit-detail .timeline-quote footer {
+    margin-top: var(--space-xs);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-medium);
+    font-style: normal;
+}
+
+@media (max-width: 480px) {
+    .page-exhibit-detail .exhibit-timeline {
+        padding-left: var(--space-lg);
+    }
+
+    .page-exhibit-detail .timeline-marker {
+        left: calc(-1 * var(--space-lg) + 2px);
+    }
+}
+
 /* Flow diagram */
 .page-exhibit-detail .exhibit-flow {
     display: flex;
