@@ -4604,6 +4604,9 @@ footer a,
 }
 
 .page-exhibit-detail .timeline-quote footer {
+    background: transparent;
+    padding: 0;
+    text-align: left;
     font-size: var(--font-size-xs);
     color: var(--color-text-medium);
     font-style: normal;
