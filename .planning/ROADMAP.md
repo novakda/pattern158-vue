@@ -53,9 +53,9 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
   2. All 15 exhibits have correct `exhibitType` value (5 investigation-report, 10 engineering-brief) and the app renders without errors
   3. Flagship summary and quote fields are accessible on Exhibit objects directly (no separate portfolioFlagships.ts import needed)
   4. `portfolioFlagships.ts` and `portfolioNarratives.ts` files are deleted and no imports reference them
-**Plans:** 3 plans
+**Plans:** 1/3 plans executed
 Plans:
-- [ ] 09-01-PLAN.md — Migrate Exhibit interface to exhibitType discriminant and merge flagship data
+- [x] 09-01-PLAN.md — Migrate Exhibit interface to exhibitType discriminant and merge flagship data
 - [ ] 09-02-PLAN.md — Update consumer components, tests, and Storybook stories
 - [ ] 09-03-PLAN.md — Delete portfolioFlagships.ts and portfolioNarratives.ts, update remaining consumers
 
@@ -119,7 +119,7 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
-| 9. Data Model Migration | v2.0 | 0/3 | Planning | - |
+| 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
 | 10. Detail Template Extraction | v2.0 | 0/0 | Not started | - |
 | 11. Unified Listing Page | v2.0 | 0/0 | Not started | - |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |

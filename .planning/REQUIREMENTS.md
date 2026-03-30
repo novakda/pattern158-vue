@@ -9,9 +9,9 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 ### Data Model
 
-- [ ] **DATA-01**: Exhibit interface uses explicit `exhibitType: 'investigation-report' | 'engineering-brief'` discriminant replacing ambiguous boolean flags
-- [ ] **DATA-02**: All 15 exhibits classified with correct `exhibitType` value (5 investigation reports, 10 engineering briefs) via audit
-- [ ] **DATA-03**: Flagship summary fields from `portfolioFlagships.ts` merged into Exhibit interface as single source of truth
+- [x] **DATA-01**: Exhibit interface uses explicit `exhibitType: 'investigation-report' | 'engineering-brief'` discriminant replacing ambiguous boolean flags
+- [x] **DATA-02**: All 15 exhibits classified with correct `exhibitType` value (5 investigation reports, 10 engineering briefs) via audit
+- [x] **DATA-03**: Flagship summary fields from `portfolioFlagships.ts` merged into Exhibit interface as single source of truth
 - [ ] **DATA-04**: `portfolioFlagships.ts` and `portfolioNarratives.ts` removed after data consolidation
 
 ### Listing Page
@@ -78,35 +78,35 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| LIST-01 | — | Pending |
-| LIST-02 | — | Pending |
-| LIST-03 | — | Pending |
-| LIST-04 | — | Pending |
-| LIST-05 | — | Pending |
-| DTPL-01 | — | Pending |
-| DTPL-02 | — | Pending |
-| DTPL-03 | — | Pending |
-| DTPL-04 | — | Pending |
-| NAV-01 | — | Pending |
-| NAV-02 | — | Pending |
-| NAV-03 | — | Pending |
-| NAV-04 | — | Pending |
-| NAV-05 | — | Pending |
-| CLN-01 | — | Pending |
-| CLN-02 | — | Pending |
-| CLN-03 | — | Pending |
-| CLN-04 | — | Pending |
-| CLN-05 | — | Pending |
+| DATA-01 | Phase 9 | Complete |
+| DATA-02 | Phase 9 | Complete |
+| DATA-03 | Phase 9 | Complete |
+| DATA-04 | Phase 9 | Pending |
+| DTPL-01 | Phase 10 | Pending |
+| DTPL-02 | Phase 10 | Pending |
+| DTPL-03 | Phase 10 | Pending |
+| DTPL-04 | Phase 10 | Pending |
+| LIST-01 | Phase 11 | Pending |
+| LIST-02 | Phase 11 | Pending |
+| LIST-03 | Phase 11 | Pending |
+| LIST-04 | Phase 11 | Pending |
+| LIST-05 | Phase 11 | Pending |
+| CLN-01 | Phase 11 | Pending |
+| CLN-02 | Phase 11 | Pending |
+| NAV-01 | Phase 12 | Pending |
+| NAV-02 | Phase 12 | Pending |
+| NAV-03 | Phase 12 | Pending |
+| NAV-04 | Phase 12 | Pending |
+| NAV-05 | Phase 12 | Pending |
+| CLN-04 | Phase 12 | Pending |
+| CLN-05 | Phase 12 | Pending |
+| CLN-03 | Phase 13 | Pending |
 
 **Coverage:**
 - v2.0 requirements: 23 total
-- Mapped to phases: 0
-- Unmapped: 23 (pending roadmap)
+- Mapped to phases: 23
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-27*
-*Last updated: 2026-03-27 after initial definition*
+*Last updated: 2026-03-27 after roadmap creation*

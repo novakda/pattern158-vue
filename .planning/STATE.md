@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: planning
-stopped_at: Phase 9 context gathered
-last_updated: "2026-03-30T06:27:54.995Z"
-last_activity: 2026-03-27 — v2.0 roadmap created
+status: executing
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-03-30T21:26:20.162Z"
+last_activity: 2026-03-30
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 3
+  completed_plans: 1
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 9 — Data Model Migration
+**Current focus:** Phase 09 — data-model-migration
 
 ## Current Position
 
-Phase: 9 of 13 (Data Model Migration)
-Plan: 0 of 0 in current phase (plans TBD)
-Status: Ready to plan
-Last activity: 2026-03-27 — v2.0 roadmap created
+Phase: 09 (data-model-migration) — EXECUTING
+Plan: 2 of 3
+Status: Ready to execute
+Last activity: 2026-03-30
 
 Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 
@@ -47,6 +47,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 | - | - | - | - |
 
 *Updated after each plan completion*
+| Phase 09 P01 | 6min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -57,6 +58,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 - [v2.0 Roadmap]: Five-phase structure (9-13) derived from research — data model first, templates and listing parallel-capable, atomic route migration, cleanup last
 - [v2.0 Roadmap]: CLN-01/02 (Three Lenses + NarrativeCard removal) grouped with Phase 11 (listing page) since that content lived on the old listing pages
 - [v2.0 Roadmap]: CLN-04/05 (homepage CTA updates) grouped with Phase 12 (route migration) since they are link reference changes
+- [Phase 09]: ExhibitType discriminant union ('investigation-report' | 'engineering-brief') replaces boolean flags; flagship data co-located on Exhibit records
 
 ### Pending Todos
 
@@ -81,6 +83,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T06:27:54.992Z
-Stopped at: Phase 9 context gathered
-Resume file: .planning/phases/09-data-model-migration/09-CONTEXT.md
+Last session: 2026-03-30T21:26:20.160Z
+Stopped at: Completed 09-01-PLAN.md
+Resume file: None
