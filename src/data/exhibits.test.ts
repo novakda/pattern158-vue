@@ -40,3 +40,52 @@ describe('structural normalization (STRUCT-01, STRUCT-03)', () => {
     expect(secondQuote?.attribution).toBeTruthy()
   })
 })
+
+describe('DATA-01/DATA-02: exhibitType discriminant', () => {
+  it('every exhibit has exhibitType', () => {
+    exhibits.forEach(e => {
+      expect(e.exhibitType).toBeDefined()
+    })
+  })
+
+  it('exactly 5 are investigation-report', () => {
+    const count = exhibits.filter(e => e.exhibitType === 'investigation-report').length
+    expect(count).toBe(5)
+  })
+
+  it('exactly 10 are engineering-brief', () => {
+    const count = exhibits.filter(e => e.exhibitType === 'engineering-brief').length
+    expect(count).toBe(10)
+  })
+
+  it('no exhibit has isDetailExhibit property', () => {
+    exhibits.forEach(e => {
+      expect('isDetailExhibit' in e).toBe(false)
+    })
+  })
+
+  it('no exhibit has investigationReport property', () => {
+    exhibits.forEach(e => {
+      expect('investigationReport' in e).toBe(false)
+    })
+  })
+})
+
+describe('DATA-03: flagship data merged', () => {
+  it('exactly 9 exhibits are flagships', () => {
+    const count = exhibits.filter(e => e.isFlagship).length
+    expect(count).toBe(9)
+  })
+
+  it('every flagship has summary', () => {
+    exhibits.filter(e => e.isFlagship).forEach(e => {
+      expect(e.summary).toBeTruthy()
+    })
+  })
+
+  it('every flagship has role', () => {
+    exhibits.filter(e => e.isFlagship).forEach(e => {
+      expect(e.role).toBeTruthy()
+    })
+  })
+})
