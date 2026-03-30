@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: active
-stopped_at: —
-last_updated: "2026-03-27"
-last_activity: 2026-03-27 — Milestone v2.0 started
+status: planning
+stopped_at: Phase 9 context gathered
+last_updated: "2026-03-30T06:27:54.995Z"
+last_activity: 2026-03-27 — v2.0 roadmap created
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,20 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Defining requirements for v2.0
+**Current focus:** Phase 9 — Data Model Migration
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-03-27 — Milestone v2.0 started
+Phase: 9 of 13 (Data Model Migration)
+Plan: 0 of 0 in current phase (plans TBD)
+Status: Ready to plan
+Last activity: 2026-03-27 — v2.0 roadmap created
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 0 (v2.0)
 - Average duration: —
 - Total execution time: 0 hours
@@ -53,13 +54,18 @@ Progress: [░░░░░░░░░░] 0%
 
 *(v1.1 decisions archived to PROJECT.md Key Decisions table — 2026-03-19)*
 
+- [v2.0 Roadmap]: Five-phase structure (9-13) derived from research — data model first, templates and listing parallel-capable, atomic route migration, cleanup last
+- [v2.0 Roadmap]: CLN-01/02 (Three Lenses + NarrativeCard removal) grouped with Phase 11 (listing page) since that content lived on the old listing pages
+- [v2.0 Roadmap]: CLN-04/05 (homepage CTA updates) grouped with Phase 12 (route migration) since they are link reference changes
+
 ### Pending Todos
 
 None.
 
 ### Blockers/Concerns
 
-- ~~[Phase 7]: User-gated~~ RESOLVED — Content gap list produced and approved; all items implemented in commit 3fcaa6a
+- Research flags Phase 10 (Detail Template Extraction) may benefit from `/gsd:research-phase` to audit how engineering brief exhibits A, E, F use sections arrays
+- TestimonialsMetrics component disposition undecided (keep, relocate, or absorb) — decision needed during Phase 11 planning
 
 ### Quick Tasks Completed
 
@@ -75,6 +81,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-28T00:12:09Z
-Stopped at: Completed quick task 260327-nnz: Exhibit detail page UX review
-Resume file: None
+Last session: 2026-03-30T06:27:54.992Z
+Stopped at: Phase 9 context gathered
+Resume file: .planning/phases/09-data-model-migration/09-CONTEXT.md
