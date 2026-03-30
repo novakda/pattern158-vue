@@ -38,11 +38,14 @@ export interface ExhibitSection {
   items?: ExhibitMetadataItem[]
 }
 
+export type ExhibitType = 'investigation-report' | 'engineering-brief'
+
 export interface Exhibit {
   label: string
   client: string
   date: string
   title: string
+  exhibitType: ExhibitType
   quotes?: ExhibitQuote[]
   contextHeading?: string
   contextText?: string
@@ -50,8 +53,11 @@ export interface Exhibit {
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string
-  isDetailExhibit?: boolean
-  investigationReport?: boolean
+  // Flagship fields (from portfolioFlagships.ts merge per D-04)
+  isFlagship?: boolean
+  summary?: string
+  emailCount?: string
+  role?: string
 }
 
 export const exhibits: Exhibit[] = [
@@ -60,6 +66,7 @@ export const exhibits: Exhibit[] = [
     client: 'General Dynamics Electric Boat',
     date: '2015\u20132022',
     title: 'Cross-Domain SCORM Resolution & Embedded Technical Advisory',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'I\u2019d consider the last couple days a success, and I look forward to working with Dan in the future.',
@@ -286,13 +293,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['Client-Facing', 'Cross-Domain', 'Tooling', 'Defense & Aerospace', 'Flash-to-HTML5', '7-Year Engagement'],
     exhibitLink: '/exhibits/exhibit-a',
-    isDetailExhibit: true,
+    isFlagship: true,
+    summary: 'Diagnosed and resolved cross-domain SCORM communication failures caused by Electric Boat\'s split LMS/content server architecture. Deployed custom SCORM wrapper using postMessage to bypass same-origin policy constraints, eliminating dependency on Cornerstone Network Player. Engagement evolved from a "quick win" troubleshooting request into a 7-year embedded advisory role spanning Flash remediation, Chrome 80 impact analysis, and SCORM 2004 extensions across 574 emails and 49 personnel.',
+    emailCount: '574 emails',
+    role: 'Cross-domain SCORM architecture, Flash remediation, 7-year embedded technical advisory',
   },
   {
     label: 'Exhibit B',
     client: 'GP Strategies Leadership',
     date: '2018\u20132019',
     title: 'Leadership Recognition Chain: A Repeatable Pattern',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'I hear you did an AWESOME job onsite! EB appreciated your support. Thank you for making the trip and doing all the great work!',
@@ -365,6 +376,7 @@ export const exhibits: Exhibit[] = [
     client: 'GP Strategies \u2014 Content Team',
     date: 'December 2015',
     title: '1,216-Lesson Content Refresh: Automation Saves 600+ Hours',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'Dan Novak \u201cThe Fiddler\u201d (Automation) \u2014 Dan gets this name not only because he makes extensive use of the Fiddler application to help us troubleshoot communications errors for customers, but because he fiddles with stuff until we get a tool that makes things\u2026 possible. He also used Fiddler to figure out how to automate the publishing process out of Xyleme. This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended.',
@@ -374,6 +386,10 @@ export const exhibits: Exhibit[] = [
         text: 'Page after page, lesson after lesson, week after week, the team took the task at hand and worked it until it was done \u2014 and then asked for more. Relentless forward motion towards our goal.',
         attribution: 'Manager, Content Team, GP Strategies',
         role: 'describing the team in the recognition email',
+      },
+      {
+        text: 'We appreciate your information and troubleshooting help when problems occur.',
+        attribution: 'GP Strategies (Internal)',
       },
     ],
     contextHeading: 'Context',
@@ -445,13 +461,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['600+ Hours Saved', 'Automation', 'Xyleme', 'Fiddler', '1,216 Lessons', 'API Reverse Engineering', 'Enterprise Course Library'],
     exhibitLink: '/exhibits/exhibit-c',
-    isDetailExhibit: true,
+    isFlagship: true,
+    summary: 'Long-term technical architect for proprietary LMS platform serving energy utilities (BP, Calpine, FPL, Exelon, BASF). Custom content server (CSBB), SCORM-to-AICC wrapper development, course packaging automation. Reverse-engineered Xyleme publishing API using Fiddler network analysis, saved 600+ hours through batch automation. 2,554 emails document sustained platform engineering across hundreds of courses and client deployments.',
+    emailCount: '2,554 emails',
+    role: 'Core platform developer \u2014 9-year foundation work across power and energy sector',
   },
   {
     label: 'Exhibit D',
     client: 'Wells Fargo',
     date: 'August 2018',
     title: 'Sales Conversion Migration: 100+ Course Technical Lead',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'The client contact reached out to me today to convey her appreciation for the work that you two did in order to test the WF courses in spite of the fact that you were seeing issues related to IE. Thanks for your hard work on this. WF is a critical client and our ability to meet their volume of needs is important to the success of the relationship.',
@@ -547,6 +567,13 @@ export const exhibits: Exhibit[] = [
     client: 'GP Strategies (Energy Utility Clients)',
     date: '2011\u20132016+',
     title: 'CSBB Dispatch: Cross-Domain Content Delivery \u2014 Built 5 Years Before Content Controller',
+    exhibitType: 'engineering-brief',
+    quotes: [
+      {
+        text: 'Built in 2011 \u2014 five years before Rustici released Content Controller to solve the same problem.',
+        attribution: 'GP Strategies (Energy Sector)',
+      },
+    ],
     contextHeading: 'Context',
     contextText: 'Architected a cross-domain content delivery system serving ~20 energy utility clients through a centralized SCORM dispatch layer \u2014 each drawing a curated subset from a ~2,000 course central library. Eliminated the manual zip-and-email deployment cycle. Built in 2011 \u2014 five years before Rustici released Content Controller to solve the same problem.',
     sections: [
@@ -666,13 +693,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['Cross-Domain Architecture', '~20 Clients Served', 'SCORM', 'GPiLEARN', 'Rustici Precursor', '10+ Years in Production', 'Protocol Translation'],
     exhibitLink: '/exhibits/exhibit-e',
-    isDetailExhibit: true,
+    isFlagship: true,
+    summary: 'Centralized cross-domain content delivery: lightweight stub packages (kilobytes) deployed to client LMS platforms, actual content served from GP servers. EasyXDM cross-domain communication layer with transparent SCORM/AICC protocol translation. Package generation tooling (Groovy, Access, Windows Forms) automated global deployments across ~20 energy utility clients. ~2,000 course library (curated subsets per client), 10+ years in production. Architecture later adapted for General Dynamics Electric Boat defense sector.',
+    emailCount: '10+ years in production',
+    role: 'Architect \u2014 built in 2011, five years before Rustici Content Controller',
   },
   {
     label: 'Exhibit F',
     client: 'HSBC',
     date: '2015\u20132022',
     title: 'Cross-Platform SCORM Forensics & Legacy Recovery',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'Thanks so much for your great work making the fixes. HSBC LMS team has approved the updated courseware!',
@@ -764,6 +795,7 @@ export const exhibits: Exhibit[] = [
     client: 'SunTrust (now Truist)',
     date: '2015\u20132018',
     title: 'AWARE Platform: Custom SCORM-to-API Integration',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'Thanks for the thorough documentation of the issue and solution. Do you have a figure?',
@@ -847,6 +879,7 @@ export const exhibits: Exhibit[] = [
     client: 'Internal \u2014 Cross-Functional',
     date: 'October 2019',
     title: 'Metal Additive Manufacturing Course: Rapid Diagnosis',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'Kudos on finding this solution so promptly!',
@@ -909,6 +942,7 @@ export const exhibits: Exhibit[] = [
     client: 'TD Bank (via GP Strategies)',
     date: '2021\u20132024',
     title: 'Enterprise Accessibility Initiative: Methodology Creation',
+    exhibitType: 'engineering-brief',
     quotes: [
       {
         text: 'Thank you for all your amazing work!',
@@ -1007,6 +1041,13 @@ export const exhibits: Exhibit[] = [
     client: 'General Motors',
     date: '~2017',
     title: 'GM Learning Portal: Course Completion Anomaly Investigation',
+    exhibitType: 'investigation-report',
+    quotes: [
+      {
+        text: 'I\'m reviewing this now. Looks fantastic, great work.',
+        attribution: 'General Motors',
+      },
+    ],
     contextHeading: 'Investigation Summary',
     contextText: 'GM reported a 4x spike in incomplete courses after migrating to a new LMS. Initial assumption: tracking bug. Multi-angle forensic investigation \u2014 technical forensics, UX analysis, and user research \u2014 identified five concurrent systemic failures aligned in a \u201cSwiss cheese model.\u201d The root cause wasn\u2019t a single bug; it was a systemic mismatch between how the platform was designed and how people actually worked.',
     sections: [
@@ -1125,14 +1166,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['NTSB Methodology', 'Systems Thinking', 'Forensic Analysis', 'User Research', 'Swiss Cheese Model', '4x Completion Spike', 'General Motors'],
     exhibitLink: '/exhibits/exhibit-j',
-    isDetailExhibit: true,
-    investigationReport: true,
+    isFlagship: true,
+    summary: 'Investigated 19% course incompletion rate (4x baseline) initially framed as tracking bug. Multi-angle investigation revealed five concurrent systemic failures: memory cache vulnerability with no auto-save, "Congratulations You Failed" UX pattern, confusing navigation, mobile workforce on poor WiFi, and short-burst usage pattern conflicting with hour-long desktop design. Platform eventually abandoned \u2014 indirect validation of findings.',
+    emailCount: '618 emails',
+    role: 'NTSB-style forensic analysis \u2014 systems thinking over code debugging',
   },
   {
     label: 'Exhibit K',
     client: 'Microsoft (MCAPS)',
     date: '2025\u20132026',
     title: 'Microsoft MCAPS: AI-Led Training Agent',
+    exhibitType: 'investigation-report',
     contextHeading: 'Investigation Summary',
     contextText: 'Building on a decade of GP Strategies\u2019 embedded work on Microsoft accounts, Dan was brought in to evolve their AI training agent in Copilot Studio. Zero platform experience to functional POC in ~4 weeks. The breakthrough: separating deterministic state (structured JSON) from AI interaction (content delivery), creating a hybrid architecture that solved the reliability challenges of the original declarative approach.',
     sections: [
@@ -1210,14 +1254,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['Zero to POC in ~4 Weeks', 'AI Architecture', 'Hybrid AI/Structured Data', '10-Year Relationship'],
     exhibitLink: '/exhibits/exhibit-k',
-    isDetailExhibit: true,
-    investigationReport: true,
+    isFlagship: true,
+    summary: 'Architectural breakthrough on Microsoft Copilot Studio project: structured data for state (JSON), AI for interaction (LLM). Pure prompt engineering cannot enforce deterministic state \u2014 LLMs are probabilistic. Solution: catalog/progress/scores in structured data (deterministic), AI transforms content and manages conversation (intelligence). Pattern applicable beyond training: any domain requiring both intelligence and reliability.',
+    emailCount: 'Recent engagement',
+    role: 'Hybrid AI architecture innovation \u2014 zero to POC in ~4 weeks',
   },
   {
     label: 'Exhibit L',
     client: 'Enterprise Client (Confidential)',
     date: '2025',
     title: 'Power Platform: Forensic Architecture Audit',
+    exhibitType: 'investigation-report',
     contextHeading: 'Investigation Summary',
     contextText: 'An enterprise ERP modernization on Microsoft Power Platform where institutional knowledge was lost through organizational transitions. AI-assisted forensic analysis exposed five foundational gaps: no data model, no version control, monolithic architecture, atomized requirements without context, and no decomposed user stories. The diagnosis was the deliverable.',
     sections: [
@@ -1305,14 +1352,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['Forensic Diagnosis', 'AI-Assisted Analysis', 'Architecture Audit', 'Diagnosis as Deliverable', '5 Foundational Gaps'],
     exhibitLink: '/exhibits/exhibit-l',
-    isDetailExhibit: true,
-    investigationReport: true,
+    isFlagship: true,
+    summary: 'Diagnosed enterprise-scale architectural failures after vendor departure and knowledge loss. AI-assisted methodology (GitHub Spec Kit baseline + convergent validation) surfaced five critical gaps: no data model, no version control, monolithic solution architecture, requirements degradation chain, and no decomposed user stories. Tool misuse at scale \u2014 citizen-developer methodology applied to enterprise platform. Findings validated through convergence: practical pain + Microsoft docs + AI analysis.',
+    emailCount: 'Recent engagement',
+    role: 'Forensic architecture audit using AI-assisted analysis \u2014 diagnosis as deliverable',
   },
   {
     label: 'Exhibit M',
     client: 'GP Strategies (Internal Tooling)',
     date: '~2019\u20132020',
     title: 'SCORM Debugger: TASBot-Inspired QA Automation',
+    exhibitType: 'investigation-report',
     contextHeading: 'Investigation Summary',
     contextText: 'Created a Vue.js SCORM debugging tool inspired by TASBot/speedrunning save states. Reduced QA testing cycles from hours to minutes by enabling instant state capture and restore across gated eLearning courses. The approach that Rustici Engine\u2019s testing tools would later address commercially.',
     sections: [
@@ -1365,14 +1415,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['QA Automation', 'Hours to Minutes', 'Vue.js', 'SCORM Testing', 'TASBot Methodology'],
     exhibitLink: '/exhibits/exhibit-m',
-    isDetailExhibit: true,
-    investigationReport: true,
+    isFlagship: true,
+    summary: 'Vue.js wrapper with fake SCORM API providing emulator save-state functionality for eLearning QA: save course state at any point, restore instantly, edit SCORM values directly, jump to any section. Reduced testing cycles from hours to minutes for gated content. Addresses a gap in commercial SCORM tools \u2014 reproducible debug states and session state inspection are not first-class features in SCORM Cloud or SCORM Engine.',
+    emailCount: 'Developer tooling',
+    role: 'Creator \u2014 speedrunning methodology applied to eLearning QA',
   },
   {
     label: 'Exhibit N',
     client: 'BP (via Leo Learning / GP Strategies)',
     date: '2024',
     title: 'BP Learning Platform: Federated System Integration',
+    exhibitType: 'investigation-report',
     contextHeading: 'Investigation Summary',
     contextText: 'Worked on BP\u2019s React/GraphQL learning platform integrating Rustici Content Controller, PeopleFluent LMS, Watershed LRS, and Amazon Cognito. Recognized the federated integration pattern from CSBB Dispatch \u2014 a decade of pattern evolution from custom-built to commercial ecosystem.',
     sections: [
@@ -1441,14 +1494,17 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['Federated Integration', 'Pattern Recognition', 'Cross-System Debugging'],
     exhibitLink: '/exhibits/exhibit-n',
-    isDetailExhibit: true,
-    investigationReport: true,
+    isFlagship: true,
+    summary: 'Existing React/GraphQL platform acting as a federated facade over Rustici Content Controller, PeopleFluent LMS, Watershed LRS (xAPI), and Amazon Cognito. Dan\u2019s primary work: large-scale multi-tenant rebranding navigating an undocumented Material UI theming system \u2014 scoped as one week, expanded to months as interrelated style dependencies emerged. Also: bug fixes, Cognito troubleshooting via log analysis, reverse-engineering Watershed LRS queries. Same federated integration pattern Dan built independently as CSBB Dispatch a decade earlier.',
+    emailCount: 'Recent engagement',
+    role: 'Rebranding lead / troubleshooter \u2014 direct Rustici Content Controller integration experience',
   },
   {
     label: 'Exhibit O',
     client: 'GP Strategies (Internal Product)',
     date: '2024\u20132025',
     title: 'ContentAIQ \u2014 The Integration Thread: Pattern Recognition Across Three Projects',
+    exhibitType: 'engineering-brief',
     contextHeading: 'Context',
     contextText: 'Integration expertise forms the connective thread across three GP Strategies projects spanning federated LMS facades, webhook sync pipelines, and AI product interfaces. The progression demonstrates pattern recognition across thirteen years, from CSBB Dispatch (2011) through modern multitenant SaaS architecture. All three projects required coordinating across system boundaries and debugging failures spanning multiple platforms.',
     sections: [
@@ -1517,7 +1573,9 @@ export const exhibits: Exhibit[] = [
     ],
     impactTags: ['AI Product Frontend', 'Multitenant Architecture', 'Design Translation', 'Integration Patterns', 'Pattern Recognition', 'Cross-System Coordination', 'Federated Systems'],
     exhibitLink: '/exhibits/exhibit-o',
-    isDetailExhibit: true,
-    investigationReport: false,
+    isFlagship: true,
+    summary: 'Pattern recognition across a three-project arc: BP Learning Platform (federated React/GraphQL facade), AICPA Bridge Adapter (webhook sync pipeline), and ContentAIQ (AI-powered content creation platform). Dan was one of several frontend developers building the Next.js interface surfacing LLM capabilities \u2014 not the AI pipeline itself, but the UX users interact with. Same integration thread across all three, evolving from Material UI to Tailwind CSS, React to Next.js. Pilot-stage product work with rapid iteration cycles, design-to-code translation from Adobe XD mockups, and enterprise-scale multitenant SaaS architecture.',
+    emailCount: 'AI product work',
+    role: 'Full-stack evolution across three GP projects \u2014 integration expertise as the organic path to AI product work',
   },
 ]
