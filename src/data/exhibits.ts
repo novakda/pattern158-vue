@@ -53,7 +53,7 @@ export interface Exhibit {
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string
-  // Flagship fields (from portfolioFlagships.ts merge per D-04)
+  // Flagship fields (merged per D-04)
   isFlagship?: boolean
   summary?: string
   emailCount?: string

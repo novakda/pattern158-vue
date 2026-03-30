@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import type { Narrative } from '@/data/portfolioNarratives'
-
 defineProps<{
-  narrative: Narrative
+  narrative: {
+    title: string
+    description: string
+    clients: string
+  }
 }>()
 </script>
 
