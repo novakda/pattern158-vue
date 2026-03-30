@@ -47,7 +47,7 @@ Every page template should be scannable and self-documenting through well-named 
 - Backend/CMS/data fetching — stays fully static
 - Animations/transitions — defer to a future pass
 - SSR/SSG — SPA is sufficient for a portfolio site
-- `isDetailExhibit` flag documentation — classification logic undocumented but not blocking; no v1.1 requirement affected
+- `isDetailExhibit` flag documentation — replaced by explicit `exhibitType` discriminant in Phase 9; no longer relevant
 - Full site narrative rework (homepage, philosophy, technologies) — v2.0 focuses on the evidence layer; broader narrative is a future milestone
 - New exhibit content creation — restructure existing content, don't write new exhibits
 
@@ -70,8 +70,9 @@ Every page template should be scannable and self-documenting through well-named 
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- v1.1 shipped with 15 exhibits fully audited, 5 `investigationReport: true`, content normalized across all detail pages.
-- Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution. Non-blocking — all automated tests pass.
+- v1.1 shipped with 15 exhibits fully audited, content normalized across all detail pages.
+- Phase 9 completed: Exhibit data model migrated to `exhibitType` discriminant, flagship data merged into exhibits.ts, redundant data files deleted. Single source of truth established.
+- Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text. Non-blocking — all automated tests pass.
 
 ## Constraints
 
@@ -110,4 +111,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-27 after v2.0 milestone start*
+*Last updated: 2026-03-30 after Phase 9 completion*
