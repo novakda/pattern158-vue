@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
 status: executing
-stopped_at: Completed 09-01-PLAN.md
-last_updated: "2026-03-30T21:26:20.162Z"
+stopped_at: Completed 09-02-PLAN.md
+last_updated: "2026-03-30T21:30:44.596Z"
 last_activity: 2026-03-30
 progress:
   total_phases: 5
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
   percent: 0
 ---
 
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 ## Current Position
 
 Phase: 09 (data-model-migration) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Ready to execute
 Last activity: 2026-03-30
 
@@ -48,6 +48,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 
 *Updated after each plan completion*
 | Phase 09 P01 | 6min | 1 tasks | 2 files |
+| Phase 09 P02 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -59,6 +60,8 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 - [v2.0 Roadmap]: CLN-01/02 (Three Lenses + NarrativeCard removal) grouped with Phase 11 (listing page) since that content lived on the old listing pages
 - [v2.0 Roadmap]: CLN-04/05 (homepage CTA updates) grouped with Phase 12 (route migration) since they are link reference changes
 - [Phase 09]: ExhibitType discriminant union ('investigation-report' | 'engineering-brief') replaces boolean flags; flagship data co-located on Exhibit records
+- [Phase 09]: Hardcoded detail-exhibit class on ExhibitCard since all 15 exhibits now have detail pages
+- [Phase 09]: badge-aware (gray) for Investigation Report, badge-deep (teal) for Engineering Brief per D-15
 
 ### Pending Todos
 
@@ -83,6 +86,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T21:26:20.160Z
-Stopped at: Completed 09-01-PLAN.md
+Last session: 2026-03-30T21:30:44.594Z
+Stopped at: Completed 09-02-PLAN.md
 Resume file: None

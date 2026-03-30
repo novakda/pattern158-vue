@@ -56,7 +56,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 **Plans:** 1/3 plans executed
 Plans:
 - [x] 09-01-PLAN.md — Migrate Exhibit interface to exhibitType discriminant and merge flagship data
-- [ ] 09-02-PLAN.md — Update consumer components, tests, and Storybook stories
+- [x] 09-02-PLAN.md — Update consumer components, tests, and Storybook stories
 - [ ] 09-03-PLAN.md — Delete portfolioFlagships.ts and portfolioNarratives.ts, update remaining consumers
 
 ### Phase 10: Detail Template Extraction
