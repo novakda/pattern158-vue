@@ -48,7 +48,8 @@ useHead(computed(() => ({
           <span class="exhibit-date">{{ exhibit.date }}</span>
         </div>
         <h1 class="exhibit-detail-title">{{ exhibit.title }}</h1>
-        <span v-if="exhibit.investigationReport" class="expertise-badge badge-aware exhibit-investigation-badge">Investigation Report</span>
+        <span v-if="exhibit.exhibitType === 'investigation-report'" class="expertise-badge badge-aware exhibit-type-badge">Investigation Report</span>
+        <span v-if="exhibit.exhibitType === 'engineering-brief'" class="expertise-badge badge-deep exhibit-type-badge">Engineering Brief</span>
       </div>
     </section>
 

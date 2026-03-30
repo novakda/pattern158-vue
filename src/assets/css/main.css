@@ -4390,7 +4390,7 @@ footer a,
     margin: 0;
 }
 
-.page-exhibit-detail .exhibit-investigation-badge {
+.page-exhibit-detail .exhibit-type-badge {
     display: inline-block;
     margin-top: var(--space-sm);
 }

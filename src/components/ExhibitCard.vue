@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div :class="['exhibit-card', exhibit.isDetailExhibit ? 'detail-exhibit' : '']">
+  <div class="exhibit-card detail-exhibit">
     <div class="exhibit-header">
       <span class="exhibit-label">{{ exhibit.label }}</span>
       <span class="exhibit-client">{{ exhibit.client }}</span>
@@ -52,7 +52,7 @@ defineProps<{
         <TechTags :tags="exhibit.impactTags" />
       </div>
       <router-link :to="exhibit.exhibitLink" class="exhibit-link">
-        {{ exhibit.investigationReport ? 'View Full Investigation Report' : 'View Investigation Report' }}
+        {{ exhibit.exhibitType === 'investigation-report' ? 'View Full Investigation Report' : 'View Engineering Brief' }}
       </router-link>
     </slot>
   </div>
