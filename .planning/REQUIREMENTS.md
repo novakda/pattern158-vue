@@ -12,7 +12,7 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 - [x] **DATA-01**: Exhibit interface uses explicit `exhibitType: 'investigation-report' | 'engineering-brief'` discriminant replacing ambiguous boolean flags
 - [x] **DATA-02**: All 15 exhibits classified with correct `exhibitType` value (5 investigation reports, 10 engineering briefs) via audit
 - [x] **DATA-03**: Flagship summary fields from `portfolioFlagships.ts` merged into Exhibit interface as single source of truth
-- [ ] **DATA-04**: `portfolioFlagships.ts` and `portfolioNarratives.ts` removed after data consolidation
+- [x] **DATA-04**: `portfolioFlagships.ts` and `portfolioNarratives.ts` removed after data consolidation
 
 ### Listing Page
 
@@ -81,7 +81,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 9 | Complete |
 | DATA-02 | Phase 9 | Complete |
 | DATA-03 | Phase 9 | Complete |
-| DATA-04 | Phase 9 | Pending |
+| DATA-04 | Phase 9 | Complete |
 | DTPL-01 | Phase 10 | Pending |
 | DTPL-02 | Phase 10 | Pending |
 | DTPL-03 | Phase 10 | Pending |

@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: executing
-stopped_at: Completed 09-02-PLAN.md
-last_updated: "2026-03-30T21:30:44.596Z"
+status: verifying
+stopped_at: Completed 09-03-PLAN.md
+last_updated: "2026-03-30T21:34:45.974Z"
 last_activity: 2026-03-30
 progress:
   total_phases: 5
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 
 Phase: 09 (data-model-migration) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-03-30
 
 Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
@@ -49,6 +49,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 *Updated after each plan completion*
 | Phase 09 P01 | 6min | 1 tasks | 2 files |
 | Phase 09 P02 | 2min | 2 tasks | 6 files |
+| Phase 09 P03 | 2min | 1 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 - [Phase 09]: ExhibitType discriminant union ('investigation-report' | 'engineering-brief') replaces boolean flags; flagship data co-located on Exhibit records
 - [Phase 09]: Hardcoded detail-exhibit class on ExhibitCard since all 15 exhibits now have detail pages
 - [Phase 09]: badge-aware (gray) for Investigation Report, badge-deep (teal) for Engineering Brief per D-15
+- [Phase 09]: Narrative data (3 objects) inlined in PortfolioPage rather than new file -- removed in Phase 11
 
 ### Pending Todos
 
@@ -86,6 +88,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-30T21:30:44.594Z
-Stopped at: Completed 09-02-PLAN.md
+Last session: 2026-03-30T21:34:45.972Z
+Stopped at: Completed 09-03-PLAN.md
 Resume file: None
