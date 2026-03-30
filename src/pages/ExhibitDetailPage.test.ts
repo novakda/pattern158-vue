@@ -71,7 +71,7 @@ describe('ExhibitDetailPage', () => {
     expect(mockReplace).toHaveBeenCalledWith({ name: 'not-found' })
   })
 
-  it('renders Investigation Report badge for exhibit with investigationReport: true', () => {
+  it('renders Investigation Report badge for investigation-report exhibit', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-j' },
     } as any)
@@ -81,9 +81,10 @@ describe('ExhibitDetailPage', () => {
     })
 
     expect(wrapper.text()).toContain('Investigation Report')
+    expect(wrapper.find('.exhibit-type-badge.badge-aware').exists()).toBe(true)
   })
 
-  it('does not render Investigation Report badge for exhibit without investigationReport flag', () => {
+  it('renders Engineering Brief badge for engineering-brief exhibit', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-a' },
     } as any)
@@ -92,6 +93,7 @@ describe('ExhibitDetailPage', () => {
       global: { stubs: { RouterLink: true, TechTags: true } },
     })
 
-    expect(wrapper.find('.exhibit-investigation-badge').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Engineering Brief')
+    expect(wrapper.find('.exhibit-type-badge.badge-deep').exists()).toBe(true)
   })
 })

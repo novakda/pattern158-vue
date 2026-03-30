@@ -13,40 +13,30 @@ const baseExhibit = {
   client: 'General Motors',
   date: '2019',
   title: 'Test Exhibit',
+  exhibitType: 'engineering-brief' as const,
   impactTags: [],
   exhibitLink: '/exhibits/exhibit-j',
 }
 
 describe('ExhibitCard CTA text (STRUCT-02)', () => {
-  it('renders emphatic CTA when investigationReport is true', () => {
+  it('renders emphatic CTA for investigation-report type', () => {
     const wrapper = mount(ExhibitCard, {
       props: {
-        exhibit: { ...baseExhibit, investigationReport: true },
+        exhibit: { ...baseExhibit, exhibitType: 'investigation-report' as const },
       },
       global: { stubs: { RouterLink: { template: '<a><slot /></a>' }, TechTags: true } },
     })
     expect(wrapper.text()).toContain('View Full Investigation Report')
   })
 
-  it('renders neutral CTA when investigationReport is false', () => {
+  it('renders engineering brief CTA for engineering-brief type', () => {
     const wrapper = mount(ExhibitCard, {
       props: {
-        exhibit: { ...baseExhibit, investigationReport: false },
+        exhibit: { ...baseExhibit, exhibitType: 'engineering-brief' as const },
       },
       global: { stubs: { RouterLink: { template: '<a><slot /></a>' }, TechTags: true } },
     })
-    expect(wrapper.text()).toContain('View Investigation Report')
-    expect(wrapper.text()).not.toContain('View Full Investigation Report')
-  })
-
-  it('renders neutral CTA when investigationReport is absent (undefined)', () => {
-    const wrapper = mount(ExhibitCard, {
-      props: {
-        exhibit: { ...baseExhibit },
-      },
-      global: { stubs: { RouterLink: { template: '<a><slot /></a>' }, TechTags: true } },
-    })
-    expect(wrapper.text()).toContain('View Investigation Report')
+    expect(wrapper.text()).toContain('View Engineering Brief')
     expect(wrapper.text()).not.toContain('View Full Investigation Report')
   })
 })

@@ -28,7 +28,7 @@ export const Default: Story = {
       ],
       impactTags: ['Client-Facing', 'SCORM', 'Cornerstone LMS', 'Cross-Domain', 'Tooling'],
       exhibitLink: '/exhibits/exhibit-a',
-      isDetailExhibit: true,
+      exhibitType: 'engineering-brief' as const,
     },
   },
 }
@@ -58,7 +58,7 @@ export const WithCustomSlots: Story = {
       title: 'Cross-Domain SCORM Resolution & Embedded Technical Advisory',
       impactTags: ['SCORM', 'Cross-Domain'],
       exhibitLink: '/exhibits/exhibit-a',
-      isDetailExhibit: true,
+      exhibitType: 'engineering-brief' as const,
     },
   },
 }
@@ -81,6 +81,7 @@ export const WithoutLink: Story = {
       contextText: 'GP Strategies needed a scalable recognition pattern that could be replicated across clients without custom engineering each time.',
       impactTags: ['Pattern Design', 'Leadership', 'Repeatable'],
       exhibitLink: '/exhibits/exhibit-b',
+      exhibitType: 'engineering-brief' as const,
     },
   },
 }
@@ -94,7 +95,7 @@ export const InvestigationReport: Story = {
       title: 'GM Leadership Development Program: Cross-Functional Competency Framework',
       impactTags: ['Leadership', 'Competency Framework', 'Cross-Functional'],
       exhibitLink: '/exhibits/exhibit-j',
-      investigationReport: true,
+      exhibitType: 'investigation-report' as const,
     },
   },
 }
@@ -108,7 +109,7 @@ export const StandardExhibit: Story = {
       title: 'AI-Augmented Content Architecture',
       impactTags: ['AI', 'Content Architecture'],
       exhibitLink: '/exhibits/exhibit-o',
-      investigationReport: false,
+      exhibitType: 'engineering-brief' as const,
     },
   },
 }
