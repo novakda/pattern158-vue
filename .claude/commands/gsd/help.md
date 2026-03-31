@@ -13,10 +13,10 @@ Output ONLY the reference content below. Do NOT add:
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/help.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/help.md
 </execution_context>
 
 <process>
-Output the complete GSD command reference from @C:/main/pattern158-vue/.claude/get-shit-done/workflows/help.md.
+Output the complete GSD command reference from @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/help.md.
 Display the reference content directly — no additions or modifications.
 </process>

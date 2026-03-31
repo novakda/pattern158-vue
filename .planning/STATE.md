@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: verifying
+status: executing
 stopped_at: Completed 10-detail-template-extraction/10-01-PLAN.md
 last_updated: "2026-03-31T08:25:50.819Z"
 last_activity: 2026-03-31
 progress:
   total_phases: 5
   completed_phases: 1
-  total_plans: 3
+  total_plans: 5
   completed_plans: 3
   percent: 0
 ---
@@ -25,7 +25,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 
 ## Current Position
 
-Phase: 10
+Phase: 10 (detail-template-extraction) — EXECUTING
 Plan: 1 of 2 complete
 Status: Executing — Wave 1 complete, Wave 2 pending
 Last activity: 2026-03-31

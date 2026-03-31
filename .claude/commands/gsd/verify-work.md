@@ -20,8 +20,8 @@ Output: {phase_num}-UAT.md tracking all test results. If issues found: diagnosed
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/verify-work.md
-@C:/main/pattern158-vue/.claude/get-shit-done/templates/UAT.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/verify-work.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/templates/UAT.md
 </execution_context>
 
 <context>
@@ -33,6 +33,6 @@ Context files are resolved inside the workflow (`init verify-work`) and delegate
 </context>
 
 <process>
-Execute the verify-work workflow from @C:/main/pattern158-vue/.claude/get-shit-done/workflows/verify-work.md end-to-end.
+Execute the verify-work workflow from @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/verify-work.md end-to-end.
 Preserve all workflow gates (session management, test presentation, diagnosis, fix planning, routing).
 </process>

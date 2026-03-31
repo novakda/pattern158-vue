@@ -12,7 +12,7 @@ Default: `balanced` if not set or config missing.
 
 ## Lookup Table
 
-@C:/main/pattern158-vue/.claude/get-shit-done/references/model-profiles.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/references/model-profiles.md
 
 Look up the agent in the table for the resolved profile. Pass the model parameter to Task calls:
 

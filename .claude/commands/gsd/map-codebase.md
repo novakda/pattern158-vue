@@ -20,7 +20,7 @@ Output: .planning/codebase/ folder with 7 structured documents about the codebas
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/map-codebase.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/map-codebase.md
 </execution_context>
 
 <context>

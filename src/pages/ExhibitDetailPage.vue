@@ -34,6 +34,6 @@ useHead(computed(() => ({
 </script>
 
 <template>
-  <InvestigationReportLayout v-if="exhibit?.investigationReport" :exhibit="exhibit" />
+  <InvestigationReportLayout v-if="exhibit?.exhibitType === 'investigation-report'" :exhibit="exhibit" />
   <EngineeringBriefLayout v-else-if="exhibit" :exhibit="exhibit" />
 </template>

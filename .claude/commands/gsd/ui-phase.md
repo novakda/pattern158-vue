@@ -20,8 +20,8 @@ Flow: Validate → Research UI → Verify UI-SPEC → Done
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/ui-phase.md
-@C:/main/pattern158-vue/.claude/get-shit-done/references/ui-brand.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/ui-phase.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
@@ -29,6 +29,6 @@ Phase number: $ARGUMENTS — optional, auto-detects next unplanned phase if omit
 </context>
 
 <process>
-Execute @C:/main/pattern158-vue/.claude/get-shit-done/workflows/ui-phase.md end-to-end.
+Execute @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/ui-phase.md end-to-end.
 Preserve all workflow gates.
 </process>

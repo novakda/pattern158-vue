@@ -15,10 +15,10 @@ Provides situational awareness before continuing work.
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/progress.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/progress.md
 </execution_context>
 
 <process>
-Execute the progress workflow from @C:/main/pattern158-vue/.claude/get-shit-done/workflows/progress.md end-to-end.
+Execute the progress workflow from @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/progress.md end-to-end.
 Preserve all routing logic (Routes A through F) and edge case handling.
 </process>

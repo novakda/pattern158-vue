@@ -20,11 +20,11 @@ Routes to the settings workflow which handles:
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/settings.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/settings.md
 </execution_context>
 
 <process>
-**Follow the settings workflow** from `@C:/main/pattern158-vue/.claude/get-shit-done/workflows/settings.md`.
+**Follow the settings workflow** from `@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/settings.md`.
 
 The workflow handles all logic including:
 1. Config file creation with defaults if missing

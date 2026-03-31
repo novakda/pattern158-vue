@@ -10,9 +10,9 @@ Display comprehensive project statistics including phase progress, plan executio
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/stats.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/stats.md
 </execution_context>
 
 <process>
-Execute the stats workflow from @C:/main/pattern158-vue/.claude/get-shit-done/workflows/stats.md end-to-end.
+Execute the stats workflow from @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/stats.md end-to-end.
 </process>

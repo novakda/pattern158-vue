@@ -18,7 +18,7 @@ defineProps<{ exhibit: Exhibit }>()
           <span class="exhibit-date">{{ exhibit.date }}</span>
         </div>
         <h1 class="exhibit-detail-title">{{ exhibit.title }}</h1>
-        <span class="expertise-badge badge-aware exhibit-investigation-badge">Investigation Report</span>
+        <span class="expertise-badge badge-aware exhibit-type-badge">Investigation Report</span>
       </div>
     </section>
 

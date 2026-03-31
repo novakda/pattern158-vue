@@ -25,8 +25,8 @@ Uses ROADMAP.md phase discovery and Skill() flat invocations for each phase comm
 </objective>
 
 <execution_context>
-@C:/main/pattern158-vue/.claude/get-shit-done/workflows/autonomous.md
-@C:/main/pattern158-vue/.claude/get-shit-done/references/ui-brand.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/autonomous.md
+@/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/references/ui-brand.md
 </execution_context>
 
 <context>
@@ -36,6 +36,6 @@ Project context, phase list, and state are resolved inside the workflow using in
 </context>
 
 <process>
-Execute the autonomous workflow from @C:/main/pattern158-vue/.claude/get-shit-done/workflows/autonomous.md end-to-end.
+Execute the autonomous workflow from @/home/xhiris/projects/pattern158-vue/.claude/get-shit-done/workflows/autonomous.md end-to-end.
 Preserve all workflow gates (phase discovery, per-phase execution, blocker handling, progress display).
 </process>
