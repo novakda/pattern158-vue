@@ -15,6 +15,8 @@ vi.mock('@unhead/vue', () => ({
 
 import { useRoute } from 'vue-router'
 import ExhibitDetailPage from './ExhibitDetailPage.vue'
+import InvestigationReportLayout from '@/components/exhibit/InvestigationReportLayout.vue'
+import EngineeringBriefLayout from '@/components/exhibit/EngineeringBriefLayout.vue'
 
 describe('ExhibitDetailPage', () => {
   beforeEach(() => {
@@ -95,5 +97,64 @@ describe('ExhibitDetailPage', () => {
 
     expect(wrapper.text()).toContain('Engineering Brief')
     expect(wrapper.find('.exhibit-type-badge.badge-deep').exists()).toBe(true)
+  })
+
+  it('dispatches to InvestigationReportLayout for investigation-report exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-j' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(InvestigationReportLayout).exists()).toBe(true)
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(false)
+  })
+
+  it('dispatches to EngineeringBriefLayout for engineering-brief exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-a' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(true)
+    expect(wrapper.findComponent(InvestigationReportLayout).exists()).toBe(false)
+  })
+
+  it('does not render EngineeringBriefLayout for investigation-report exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-j' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(false)
   })
 })
