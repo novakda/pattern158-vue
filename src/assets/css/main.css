@@ -3362,6 +3362,14 @@ footer a:hover {
     color: var(--color-inverse-text);
 }
 
+/* Case Files — type-aware card border accents (Phase 11, D-04) */
+.page-case-files .exhibit-card.type-investigation-report {
+    border-left: 6px solid var(--color-text-muted);
+}
+.page-case-files .exhibit-card.type-engineering-brief {
+    border-left: 6px solid var(--color-primary);
+}
+
 .tech-summary {
     font-size: var(--font-size-sm);
     line-height: 1.7;
