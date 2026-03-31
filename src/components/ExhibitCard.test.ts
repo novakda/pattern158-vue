@@ -40,3 +40,21 @@ describe('ExhibitCard CTA text (STRUCT-02)', () => {
     expect(wrapper.text()).not.toContain('View Full Investigation Report')
   })
 })
+
+describe('ExhibitCard type class (LIST-03)', () => {
+  it('adds type-engineering-brief class for engineering brief exhibits', () => {
+    const wrapper = mount(ExhibitCard, {
+      props: { exhibit: { ...baseExhibit, exhibitType: 'engineering-brief' as const } },
+      global: { stubs: { RouterLink: { template: '<a><slot /></a>' }, TechTags: true } },
+    })
+    expect(wrapper.classes()).toContain('type-engineering-brief')
+  })
+
+  it('adds type-investigation-report class for investigation report exhibits', () => {
+    const wrapper = mount(ExhibitCard, {
+      props: { exhibit: { ...baseExhibit, exhibitType: 'investigation-report' as const } },
+      global: { stubs: { RouterLink: { template: '<a><slot /></a>' }, TechTags: true } },
+    })
+    expect(wrapper.classes()).toContain('type-investigation-report')
+  })
+})
