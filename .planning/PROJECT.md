@@ -72,7 +72,8 @@ Every page template should be scannable and self-documenting through well-named 
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
 - v1.1 shipped with 15 exhibits fully audited, content normalized across all detail pages.
 - Phase 9 completed: Exhibit data model migrated to `exhibitType` discriminant, flagship data merged into exhibits.ts, redundant data files deleted. Single source of truth established.
-- Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text. Non-blocking — all automated tests pass.
+- Phase 11 completed: CaseFilesPage.vue created as unified listing page with type-grouped exhibits (IR/EB), stats bar, project directory. ExhibitCard has dynamic type class. NarrativeCard deleted (CLN-02). Border accent CSS added. 50 unit tests passing.
+- Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance. Non-blocking — all automated tests pass.
 
 ## Constraints
 
@@ -111,4 +112,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-30 after Phase 9 completion*
+*Last updated: 2026-03-31 after Phase 11 completion*
