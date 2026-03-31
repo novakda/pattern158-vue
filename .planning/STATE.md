@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
 status: verifying
-stopped_at: Phase 10 context gathered
-last_updated: "2026-03-31T07:59:34.413Z"
-last_activity: 2026-03-30
+stopped_at: Completed 10-detail-template-extraction/10-01-PLAN.md
+last_updated: "2026-03-31T08:25:50.819Z"
+last_activity: 2026-03-31
 progress:
   total_phases: 5
   completed_phases: 1
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-27)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 09 — data-model-migration
+**Current focus:** Phase 10 — detail-template-extraction
 
 ## Current Position
 
 Phase: 10
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-03-30
+Plan: 1 of 2 complete
+Status: Executing — Wave 1 complete, Wave 2 pending
+Last activity: 2026-03-31
 
 Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 
@@ -50,6 +50,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 | Phase 09 P01 | 6min | 1 tasks | 2 files |
 | Phase 09 P02 | 2min | 2 tasks | 6 files |
 | Phase 09 P03 | 2min | 1 tasks | 7 files |
+| Phase 10 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 - [Phase 09]: Hardcoded detail-exhibit class on ExhibitCard since all 15 exhibits now have detail pages
 - [Phase 09]: badge-aware (gray) for Investigation Report, badge-deep (teal) for Engineering Brief per D-15
 - [Phase 09]: Narrative data (3 objects) inlined in PortfolioPage rather than new file -- removed in Phase 11
+- [Phase 10]: Used investigationReport boolean for layout dispatch instead of plan's exhibitType enum to match actual codebase
 
 ### Pending Todos
 
@@ -88,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-31T07:59:34.410Z
-Stopped at: Phase 10 context gathered
+Last session: 2026-03-31T08:25:50.817Z
+Stopped at: Completed 10-detail-template-extraction/10-01-PLAN.md
 Resume file: .planning/phases/10-detail-template-extraction/10-CONTEXT.md
