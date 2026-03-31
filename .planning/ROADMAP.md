@@ -38,7 +38,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 
 - [ ] **Phase 9: Data Model Migration** - Replace ambiguous boolean flags with explicit exhibitType discriminant and consolidate data sources
 - [x] **Phase 10: Detail Template Extraction** - Split monolithic detail page into dispatcher plus two focused layout components (completed 2026-03-31)
-- [ ] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal
+- [x] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal (completed 2026-03-31)
 - [ ] **Phase 12: Navigation and Route Migration** - Atomic switchover of routes, NavBar, homepage CTAs, and all internal link references
 - [ ] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere
 
@@ -82,10 +82,10 @@ Plans:
   2. Exhibits are grouped into Investigation Reports and Engineering Briefs sections on the listing page
   3. Stats bar (38 Projects, 6,000+ Emails, 15+ Industries) and 38-project directory table are visible on the Case Files page
   4. Three Lenses section and NarrativeCard component are removed from the codebase
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [x] 11-01-PLAN.md — ExhibitCard type class and CaseFilesPage creation
-- [ ] 11-02-PLAN.md — Border accent CSS, NarrativeCard deletion, and comprehensive tests
+- [x] 11-02-PLAN.md — Border accent CSS, NarrativeCard deletion, and comprehensive tests
 
 ### Phase 12: Navigation and Route Migration
 **Goal**: Users reach Case Files through every path that previously led to Portfolio or Field Reports, with zero broken links
@@ -127,6 +127,6 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
 | 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
-| 11. Unified Listing Page | v2.0 | 1/2 | In Progress|  |
+| 11. Unified Listing Page | v2.0 | 2/2 | Complete   | 2026-03-31 |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |

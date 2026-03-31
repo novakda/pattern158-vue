@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: executing
-stopped_at: Completed 11-01-PLAN.md
-last_updated: "2026-03-31T23:17:47.046Z"
+status: verifying
+stopped_at: Completed 11-unified-listing-page/11-02-PLAN.md
+last_updated: "2026-03-31T23:34:28.687Z"
 last_activity: 2026-03-31
 progress:
   total_phases: 5
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 6
+  completed_plans: 7
   percent: 0
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-27)
 
 Phase: 11 (unified-listing-page) — EXECUTING
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-03-31
 
 Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 | Phase 10 P01 | 3min | 2 tasks | 3 files |
 | Phase 10 P02 | 2min | 2 tasks | 5 files |
 | Phase 11 P01 | 3min | 2 tasks | 2 files |
+| Phase 11 P02 | 13min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 - [Phase 10]: Used investigationReport boolean for layout dispatch instead of plan's exhibitType enum to match actual codebase
 - [Phase 10]: Fixed dispatcher to use exhibitType enum instead of nonexistent investigationReport boolean
 - [Phase 11]: Project directory copied verbatim from PortfolioPage -- inline HTML tables, no data-driven refactor
+- [Phase 11]: Border accents reuse badge token values for visual consistency (gray=IR, teal=EB)
+- [Phase 11]: NarrativeCard deleted without fixing PortfolioPage import -- expected breakage per D-08
 
 ### Pending Todos
 
@@ -94,6 +97,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-31T23:17:47.044Z
-Stopped at: Completed 11-01-PLAN.md
+Last session: 2026-03-31T23:34:28.685Z
+Stopped at: Completed 11-unified-listing-page/11-02-PLAN.md
 Resume file: None
