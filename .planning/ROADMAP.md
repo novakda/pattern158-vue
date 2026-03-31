@@ -123,7 +123,7 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
-| 10. Detail Template Extraction | v2.0 | 2/2 | Complete   | 2026-03-31 |
+| 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 11. Unified Listing Page | v2.0 | 0/0 | Not started | - |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |
