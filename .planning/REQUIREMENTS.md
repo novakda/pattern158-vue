@@ -16,11 +16,11 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 ### Listing Page
 
-- [ ] **LIST-01**: Unified Case Files page renders all 15 exhibits with type-aware card styling
-- [ ] **LIST-02**: Exhibits grouped by type on listing page (Investigation Reports section and Engineering Briefs section)
-- [ ] **LIST-03**: Visual type distinction on cards (badge, border, or icon variation per exhibit type)
-- [ ] **LIST-04**: Stats bar consolidated onto Case Files page (38 Projects, 6,000+ Emails, 15+ Industries)
-- [ ] **LIST-05**: 38-project directory table relocated to Case Files page as breadth signal
+- [x] **LIST-01**: Unified Case Files page renders all 15 exhibits with type-aware card styling
+- [x] **LIST-02**: Exhibits grouped by type on listing page (Investigation Reports section and Engineering Briefs section)
+- [x] **LIST-03**: Visual type distinction on cards (badge, border, or icon variation per exhibit type)
+- [x] **LIST-04**: Stats bar consolidated onto Case Files page (38 Projects, 6,000+ Emails, 15+ Industries)
+- [x] **LIST-05**: 38-project directory table relocated to Case Files page as breadth signal
 
 ### Detail Templates
 
@@ -39,7 +39,7 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 ### Content Cleanup
 
-- [ ] **CLN-01**: Three Lenses section removed from site (AI-generated content, not authored)
+- [x] **CLN-01**: Three Lenses section removed from site (AI-generated content, not authored)
 - [ ] **CLN-02**: NarrativeCard component removed
 - [ ] **CLN-03**: PortfolioPage.vue and TestimonialsPage.vue retired after Case Files is live
 - [ ] **CLN-04**: Homepage "View My Work" CTA updated to point to Case Files
@@ -86,12 +86,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DTPL-02 | Phase 10 | Complete |
 | DTPL-03 | Phase 10 | Complete |
 | DTPL-04 | Phase 10 | Complete |
-| LIST-01 | Phase 11 | Pending |
-| LIST-02 | Phase 11 | Pending |
-| LIST-03 | Phase 11 | Pending |
-| LIST-04 | Phase 11 | Pending |
-| LIST-05 | Phase 11 | Pending |
-| CLN-01 | Phase 11 | Pending |
+| LIST-01 | Phase 11 | Complete |
+| LIST-02 | Phase 11 | Complete |
+| LIST-03 | Phase 11 | Complete |
+| LIST-04 | Phase 11 | Complete |
+| LIST-05 | Phase 11 | Complete |
+| CLN-01 | Phase 11 | Complete |
 | CLN-02 | Phase 11 | Pending |
 | NAV-01 | Phase 12 | Pending |
 | NAV-02 | Phase 12 | Pending |
