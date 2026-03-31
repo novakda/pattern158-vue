@@ -68,7 +68,10 @@ Plans:
   2. Navigating to any of the 10 engineering brief exhibits shows constraints-approach-results layout rather than forensic diagnosis framing
   3. Both exhibit types display their type label (Investigation Report or Engineering Brief) in the detail page header
   4. ExhibitDetailPage.vue is a thin dispatcher (under ~100 lines) that delegates body rendering to the appropriate layout component
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 10-01-PLAN.md — Create layout components and rewrite dispatcher
+- [ ] 10-02-PLAN.md — Create layout component tests and update dispatcher tests
 
 ### Phase 11: Unified Listing Page
 **Goal**: A single Case Files page presents all evidence with type-aware styling and breadth context, replacing content that lived on two separate pages
@@ -120,7 +123,7 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
-| 10. Detail Template Extraction | v2.0 | 0/0 | Not started | - |
+| 10. Detail Template Extraction | v2.0 | 0/2 | Not started | - |
 | 11. Unified Listing Page | v2.0 | 0/0 | Not started | - |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |
