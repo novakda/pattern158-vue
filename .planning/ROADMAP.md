@@ -82,7 +82,10 @@ Plans:
   2. Exhibits are grouped into Investigation Reports and Engineering Briefs sections on the listing page
   3. Stats bar (38 Projects, 6,000+ Emails, 15+ Industries) and 38-project directory table are visible on the Case Files page
   4. Three Lenses section and NarrativeCard component are removed from the codebase
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 11-01-PLAN.md — ExhibitCard type class and CaseFilesPage creation
+- [ ] 11-02-PLAN.md — Border accent CSS, NarrativeCard deletion, and comprehensive tests
 
 ### Phase 12: Navigation and Route Migration
 **Goal**: Users reach Case Files through every path that previously led to Portfolio or Field Reports, with zero broken links
@@ -124,6 +127,6 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
 | 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
-| 11. Unified Listing Page | v2.0 | 0/0 | Not started | - |
+| 11. Unified Listing Page | v2.0 | 0/2 | Not started | - |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |
