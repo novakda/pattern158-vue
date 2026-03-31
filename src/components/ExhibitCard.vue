@@ -8,7 +8,7 @@ defineProps<{
 </script>
 
 <template>
-  <div class="exhibit-card detail-exhibit">
+  <div :class="['exhibit-card', 'detail-exhibit', 'type-' + exhibit.exhibitType]">
     <div class="exhibit-header">
       <span class="exhibit-label">{{ exhibit.label }}</span>
       <span class="exhibit-client">{{ exhibit.client }}</span>
