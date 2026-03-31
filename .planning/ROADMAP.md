@@ -37,7 +37,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 **Milestone Goal:** Restructure the site's information architecture so every page earns its place, replacing redundant Portfolio and Field Reports pages with a unified evidence section that distinguishes two exhibit types.
 
 - [ ] **Phase 9: Data Model Migration** - Replace ambiguous boolean flags with explicit exhibitType discriminant and consolidate data sources
-- [ ] **Phase 10: Detail Template Extraction** - Split monolithic detail page into dispatcher plus two focused layout components
+- [x] **Phase 10: Detail Template Extraction** - Split monolithic detail page into dispatcher plus two focused layout components (completed 2026-03-31)
 - [ ] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal
 - [ ] **Phase 12: Navigation and Route Migration** - Atomic switchover of routes, NavBar, homepage CTAs, and all internal link references
 - [ ] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere
@@ -68,10 +68,10 @@ Plans:
   2. Navigating to any of the 10 engineering brief exhibits shows constraints-approach-results layout rather than forensic diagnosis framing
   3. Both exhibit types display their type label (Investigation Report or Engineering Brief) in the detail page header
   4. ExhibitDetailPage.vue is a thin dispatcher (under ~100 lines) that delegates body rendering to the appropriate layout component
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 Plans:
-- [ ] 10-01-PLAN.md — Create layout components and rewrite dispatcher
-- [ ] 10-02-PLAN.md — Create layout component tests and update dispatcher tests
+- [x] 10-01-PLAN.md — Create layout components and rewrite dispatcher
+- [x] 10-02-PLAN.md — Create layout component tests and update dispatcher tests
 
 ### Phase 11: Unified Listing Page
 **Goal**: A single Case Files page presents all evidence with type-aware styling and breadth context, replacing content that lived on two separate pages
@@ -123,7 +123,7 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
-| 10. Detail Template Extraction | v2.0 | 0/2 | Not started | - |
+| 10. Detail Template Extraction | v2.0 | 2/2 | Complete   | 2026-03-31 |
 | 11. Unified Listing Page | v2.0 | 0/0 | Not started | - |
 | 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |

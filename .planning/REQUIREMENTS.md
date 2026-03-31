@@ -24,10 +24,10 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 ### Detail Templates
 
-- [ ] **DTPL-01**: ExhibitDetailPage dispatches to InvestigationReportLayout or EngineeringBriefLayout via `<component :is>` based on `exhibitType`
-- [ ] **DTPL-02**: Investigation Report layout preserves existing NTSB-style presentation (timeline, probable cause, contributing factors, personnel tables)
-- [ ] **DTPL-03**: Engineering Brief layout emphasizes constraints navigated, approach taken, and lasting results rather than forensic diagnosis framing
-- [ ] **DTPL-04**: Both layout types display appropriate type label in detail page header
+- [x] **DTPL-01**: ExhibitDetailPage dispatches to InvestigationReportLayout or EngineeringBriefLayout via `<component :is>` based on `exhibitType`
+- [x] **DTPL-02**: Investigation Report layout preserves existing NTSB-style presentation (timeline, probable cause, contributing factors, personnel tables)
+- [x] **DTPL-03**: Engineering Brief layout emphasizes constraints navigated, approach taken, and lasting results rather than forensic diagnosis framing
+- [x] **DTPL-04**: Both layout types display appropriate type label in detail page header
 
 ### Navigation & Routes
 
@@ -82,10 +82,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-02 | Phase 9 | Complete |
 | DATA-03 | Phase 9 | Complete |
 | DATA-04 | Phase 9 | Complete |
-| DTPL-01 | Phase 10 | Pending |
-| DTPL-02 | Phase 10 | Pending |
-| DTPL-03 | Phase 10 | Pending |
-| DTPL-04 | Phase 10 | Pending |
+| DTPL-01 | Phase 10 | Complete |
+| DTPL-02 | Phase 10 | Complete |
+| DTPL-03 | Phase 10 | Complete |
+| DTPL-04 | Phase 10 | Complete |
 | LIST-01 | Phase 11 | Pending |
 | LIST-02 | Phase 11 | Pending |
 | LIST-03 | Phase 11 | Pending |
