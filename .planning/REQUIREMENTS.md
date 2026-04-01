@@ -31,19 +31,19 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 ### Navigation & Routes
 
-- [ ] **NAV-01**: NavBar updated: two menu items (Portfolio + Field Reports) collapsed to single Case Files entry
-- [ ] **NAV-02**: `/case-files` route added (or equivalent agreed name)
-- [ ] **NAV-03**: `/portfolio` and `/testimonials` routes redirect to new Case Files route
-- [ ] **NAV-04**: All hardcoded references to old routes updated across codebase (10+ files identified by research)
-- [ ] **NAV-05**: Detail page back-navigation links updated to point to Case Files
+- [x] **NAV-01**: NavBar updated: two menu items (Portfolio + Field Reports) collapsed to single Case Files entry
+- [x] **NAV-02**: `/case-files` route added (or equivalent agreed name)
+- [x] **NAV-03**: `/portfolio` and `/testimonials` routes redirect to new Case Files route
+- [x] **NAV-04**: All hardcoded references to old routes updated across codebase (10+ files identified by research)
+- [x] **NAV-05**: Detail page back-navigation links updated to point to Case Files
 
 ### Content Cleanup
 
 - [x] **CLN-01**: Three Lenses section removed from site (AI-generated content, not authored)
 - [x] **CLN-02**: NarrativeCard component removed
 - [ ] **CLN-03**: PortfolioPage.vue and TestimonialsPage.vue retired after Case Files is live
-- [ ] **CLN-04**: Homepage "View My Work" CTA updated to point to Case Files
-- [ ] **CLN-05**: Homepage "View All Field Reports" link updated to point to Case Files
+- [x] **CLN-04**: Homepage "View My Work" CTA updated to point to Case Files
+- [x] **CLN-05**: Homepage "View All Field Reports" link updated to point to Case Files
 
 ## v2.x Requirements
 
@@ -93,13 +93,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIST-05 | Phase 11 | Complete |
 | CLN-01 | Phase 11 | Complete |
 | CLN-02 | Phase 11 | Complete |
-| NAV-01 | Phase 12 | Pending |
-| NAV-02 | Phase 12 | Pending |
-| NAV-03 | Phase 12 | Pending |
-| NAV-04 | Phase 12 | Pending |
-| NAV-05 | Phase 12 | Pending |
-| CLN-04 | Phase 12 | Pending |
-| CLN-05 | Phase 12 | Pending |
+| NAV-01 | Phase 12 | Complete |
+| NAV-02 | Phase 12 | Complete |
+| NAV-03 | Phase 12 | Complete |
+| NAV-04 | Phase 12 | Complete |
+| NAV-05 | Phase 12 | Complete |
+| CLN-04 | Phase 12 | Complete |
+| CLN-05 | Phase 12 | Complete |
 | CLN-03 | Phase 13 | Pending |
 
 **Coverage:**
