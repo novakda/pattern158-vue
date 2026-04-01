@@ -97,7 +97,9 @@ Plans:
   3. Every hardcoded route reference across the codebase (10+ files) points to the new Case Files route
   4. Detail page back-navigation links say "Back to Case Files" and navigate to the Case Files page
   5. Homepage CTAs ("View My Work", "View All Field Reports") point to Case Files
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 12-01-PLAN.md — Atomic route migration: add /case-files route, redirects, NavBar, all hardcoded references, and tests
 
 ### Phase 13: Page Retirement
 **Goal**: Dead pages and their dependencies are removed, leaving a clean codebase with no orphaned files
@@ -128,5 +130,5 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
 | 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 11. Unified Listing Page | v2.0 | 2/2 | Complete    | 2026-03-31 |
-| 12. Navigation and Route Migration | v2.0 | 0/0 | Not started | - |
+| 12. Navigation and Route Migration | v2.0 | 0/1 | Not started | - |
 | 13. Page Retirement | v2.0 | 0/0 | Not started | - |
