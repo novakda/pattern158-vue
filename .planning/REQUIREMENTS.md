@@ -41,7 +41,7 @@ Requirements for site IA restructure. Each maps to roadmap phases.
 
 - [x] **CLN-01**: Three Lenses section removed from site (AI-generated content, not authored)
 - [x] **CLN-02**: NarrativeCard component removed
-- [ ] **CLN-03**: PortfolioPage.vue and TestimonialsPage.vue retired after Case Files is live
+- [x] **CLN-03**: PortfolioPage.vue and TestimonialsPage.vue retired after Case Files is live
 - [x] **CLN-04**: Homepage "View My Work" CTA updated to point to Case Files
 - [x] **CLN-05**: Homepage "View All Field Reports" link updated to point to Case Files
 
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-05 | Phase 12 | Complete |
 | CLN-04 | Phase 12 | Complete |
 | CLN-05 | Phase 12 | Complete |
-| CLN-03 | Phase 13 | Pending |
+| CLN-03 | Phase 13 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 23 total

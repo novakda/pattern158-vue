@@ -40,7 +40,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 - [x] **Phase 10: Detail Template Extraction** - Split monolithic detail page into dispatcher plus two focused layout components (completed 2026-03-31)
 - [x] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal (completed 2026-03-31)
 - [x] **Phase 12: Navigation and Route Migration** - Atomic switchover of routes, NavBar, homepage CTAs, and all internal link references (completed 2026-04-01)
-- [ ] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere
+- [x] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere (completed 2026-04-01)
 
 ## Phase Details
 
@@ -109,9 +109,9 @@ Plans:
   1. PortfolioPage.vue and TestimonialsPage.vue are deleted from the codebase
   2. No TypeScript import or Vue Router reference to the deleted pages exists anywhere in the codebase
   3. The application builds without errors and all existing functionality works after removal
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 13-01-PLAN.md — Delete 7 orphaned files and clean dead CSS from main.css
+- [x] 13-01-PLAN.md — Delete 7 orphaned files and clean dead CSS from main.css
 
 ## Progress
 
@@ -133,4 +133,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 11. Unified Listing Page | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete    | 2026-04-01 |
-| 13. Page Retirement | v2.0 | 0/1 | Not started | - |
+| 13. Page Retirement | v2.0 | 1/1 | Complete   | 2026-04-01 |
