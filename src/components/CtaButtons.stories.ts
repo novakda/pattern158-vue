@@ -13,15 +13,15 @@ export const Default: Story = {
   args: {
     primaryLabel: 'Get in Touch',
     primaryTo: '/contact',
-    secondaryLabel: 'View My Work',
-    secondaryTo: '/portfolio',
+    secondaryLabel: 'View Case Files',
+    secondaryTo: '/case-files',
   },
 }
 
 export const AlternateLabels: Story = {
   args: {
-    primaryLabel: 'See Portfolio',
-    primaryTo: '/portfolio',
+    primaryLabel: 'See Case Files',
+    primaryTo: '/case-files',
     secondaryLabel: 'Read Philosophy',
     secondaryTo: '/philosophy',
   },

@@ -47,7 +47,7 @@ describe('ExhibitDetailPage', () => {
     expect(wrapper.text()).toContain('Exhibit A')
   })
 
-  it('renders a Back to Portfolio link', () => {
+  it('renders a Back to Case Files link', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-a' },
     } as any)
@@ -57,8 +57,8 @@ describe('ExhibitDetailPage', () => {
     })
 
     // RouterLink is stubbed as router-link-stub — find by rendered element
-    const portfolioLink = wrapper.find('[to="/portfolio"]')
-    expect(portfolioLink.exists()).toBe(true)
+    const caseFilesLink = wrapper.find('[to="/case-files"]')
+    expect(caseFilesLink.exists()).toBe(true)
   })
 
   it('calls router.replace with not-found for unknown slug', () => {

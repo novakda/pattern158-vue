@@ -25,8 +25,8 @@
             rel="noopener noreferrer">github.com/novakda</a>
         </div>
         <div class="contact-link-item">
-          <strong>Portfolio</strong>
-          <a href="/portfolio" class="link-primary">pattern158.solutions/portfolio</a>
+          <strong>Case Files</strong>
+          <a href="/case-files" class="link-primary">pattern158.solutions/case-files</a>
         </div>
       </div>
 

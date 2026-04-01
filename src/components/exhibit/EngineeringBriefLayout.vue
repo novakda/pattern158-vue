@@ -10,7 +10,7 @@ defineProps<{ exhibit: Exhibit }>()
     <section class="exhibit-detail-header">
       <div class="container">
         <nav class="exhibit-back-nav">
-          <router-link to="/portfolio">&larr; Back to Portfolio</router-link>
+          <router-link to="/case-files">&larr; Back to Case Files</router-link>
         </nav>
         <div class="exhibit-meta-header">
           <span class="exhibit-label">{{ exhibit.label }}</span>

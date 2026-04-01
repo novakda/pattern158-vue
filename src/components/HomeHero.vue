@@ -26,8 +26,8 @@ defineProps<{
       <CtaButtons
         primary-label="Get in Touch"
         primary-to="/contact"
-        secondary-label="View My Work"
-        secondary-to="/portfolio"
+        secondary-label="View Case Files"
+        secondary-to="/case-files"
       />
     </div>
   </section>

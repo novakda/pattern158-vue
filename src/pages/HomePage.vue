@@ -77,7 +77,7 @@ const teaserQuotes = [
         />
       </div>
 
-      <router-link to="/testimonials" class="btn btn-primary">View All Field Reports</router-link>
+      <router-link to="/case-files" class="btn btn-primary">View All Case Files</router-link>
     </div>
   </section>
 </template>

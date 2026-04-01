@@ -43,9 +43,8 @@ const navLinks = [
   { to: '/philosophy', label: 'Philosophy' },
   { to: '/faq', label: 'FAQ' },
   { to: '/technologies', label: 'Technologies' },
-  { to: '/portfolio', label: 'Portfolio' },
+  { to: '/case-files', label: 'Case Files' },
   { to: '/contact', label: 'Contact' },
-  { to: '/testimonials', label: 'Field Reports' },
 ]
 </script>
 
