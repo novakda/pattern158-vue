@@ -5,6 +5,7 @@
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
 - ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (shipped 2026-03-19)
 - ✅ **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-14 (shipped 2026-04-02)
+- 🚧 **v2.1 Case Files Bug Fixes** — Phases 15-16 (in progress)
 
 ## Phases
 
@@ -46,6 +47,38 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 
 </details>
 
+### v2.1 Case Files Bug Fixes (In Progress)
+
+**Milestone Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
+
+- [ ] **Phase 15: Impact Tag Style Restoration** - Restore deleted `.impact-tag` / `.impact-tags` base CSS styles
+- [ ] **Phase 16: Section Type Rendering** - Add rendering for unhandled section types and hide empty sections
+
+## Phase Details
+
+### Phase 15: Impact Tag Style Restoration
+**Goal**: Impact tags display with their intended pill/badge styling on all pages
+**Depends on**: Nothing (independent CSS fix)
+**Requirements**: CSS-01, CSS-02
+**Success Criteria** (what must be TRUE):
+  1. Impact tags on the Case Files listing page render as styled pills with background color, border-radius, and padding
+  2. Impact tags on exhibit detail pages render with the same pill styling
+  3. Impact tag containers use flexbox wrap layout so tags flow naturally with consistent gap spacing
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 16: Section Type Rendering
+**Goal**: All exhibit section types render their content; sections with no content are hidden
+**Depends on**: Phase 15
+**Requirements**: SECT-01, SECT-02, SECT-03, SECT-04
+**Success Criteria** (what must be TRUE):
+  1. Timeline sections (6 occurrences across exhibits) render entries showing dates and descriptions
+  2. Metadata sections (15 occurrences across exhibits) render key-value items in a structured layout
+  3. The single flow section renders its step content visibly
+  4. Sections that have no renderable content produce no DOM output (no orphaned headings or empty containers)
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -64,3 +97,5 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
+| 15. Impact Tag Style Restoration | v2.1 | 0/? | Not started | - |
+| 16. Section Type Rendering | v2.1 | 0/? | Not started | - |

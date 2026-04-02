@@ -7,7 +7,7 @@ stopped_at: ~
 last_updated: "2026-04-02"
 last_activity: 2026-04-02
 progress:
-  total_phases: 0
+  total_phases: 2
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** v2.1 Case Files Bug Fixes
+**Current focus:** Phase 15 — Impact Tag Style Restoration
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-02 — Milestone v2.1 started
+Phase: 15 of 16 (Impact Tag Style Restoration)
+Plan: 0 of ? in current phase
+Status: Ready to plan
+Last activity: 2026-04-02 — Roadmap created for v2.1 milestone
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -58,6 +58,9 @@ Progress: [░░░░░░░░░░] 0%
 
 ### Decisions
 
+- [v2.0 Phase 13]: `.impact-tag` / `.impact-tags` CSS was deleted as "dead CSS" but was actually in use
+- [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
+
 *(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
 
 ### Pending Todos
@@ -83,5 +86,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-02
-Stopped at: Milestone v2.0 complete
+Stopped at: Roadmap created for v2.1 Case Files Bug Fixes
 Resume file: —

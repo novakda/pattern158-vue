@@ -39,18 +39,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CSS-01 | — | Pending |
-| CSS-02 | — | Pending |
-| SECT-01 | — | Pending |
-| SECT-02 | — | Pending |
-| SECT-03 | — | Pending |
-| SECT-04 | — | Pending |
+| CSS-01 | Phase 15 | Pending |
+| CSS-02 | Phase 15 | Pending |
+| SECT-01 | Phase 16 | Pending |
+| SECT-02 | Phase 16 | Pending |
+| SECT-03 | Phase 16 | Pending |
+| SECT-04 | Phase 16 | Pending |
 
 **Coverage:**
 - v2.1 requirements: 6 total
-- Mapped to phases: 0
-- Unmapped: 6
+- Mapped to phases: 6
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after initial definition*
+*Last updated: 2026-04-02 after roadmap creation*
