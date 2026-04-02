@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
+milestone: v2.2
+milestone_name: Personnel Data & Rendering
+status: defining-requirements
+stopped_at: Milestone v2.2 started
+last_updated: "2026-04-02"
 last_activity: 2026-04-02
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 16 — Section Type Rendering
+**Current focus:** Defining requirements for v2.2
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-04-02
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-02 — Milestone v2.2 started
 
 Progress: [░░░░░░░░░░] 0%
 

@@ -43,14 +43,16 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-## Current Milestone: v2.1 Case Files Bug Fixes
+## Current Milestone: v2.2 Personnel Data & Rendering
 
-**Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
+**Goal:** Promote personnel from embedded table sections to first-class exhibit data with purpose-built rendering components that support anonymization.
 
 **Target features:**
-- Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (deleted in Phase 13 as "dead CSS")
-- Add rendering for `metadata` (15), `timeline` (6), and `flow` (1) section types in both layout components
-- Hide sections that have no renderable content (no empty headings)
+- Extract personnel table data from 14 exhibits into top-level `personnel[]` arrays (old table sections kept intact)
+- Handle column variations (Name/Title/Org, Name/Title/Role, Role/Involvement) with proper field mapping
+- Build personnel rendering component(s) with named/anonymous/self display logic
+- Wire personnel rendering into both InvestigationReportLayout and EngineeringBriefLayout
+- Exhibit O (no personnel — meta-exhibit about pattern recognition across projects) unchanged
 
 ### Out of Scope
 
@@ -65,9 +67,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-02) | **Status:** Milestone complete
+**Shipped:** v2.1 (2026-04-02) | **Building:** v2.2
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
+The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. 64 unit tests passing, clean production build. Personnel data currently embedded as table sections — v2.2 promotes it to first-class data with anonymization-aware rendering.
 
 ## Context
 
@@ -120,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after Phase 16 completion (v2.1 milestone complete)*
+*Last updated: 2026-04-02 after milestone v2.2 started*
