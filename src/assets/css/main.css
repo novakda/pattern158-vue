@@ -1742,6 +1742,44 @@ footer a:hover {
     font-size: var(--font-size-xl);
 }
 
+/* ExhibitCard header — restored from Phase 13 dead CSS deletion (was .page-testimonials scoped) */
+.exhibit-card .exhibit-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.exhibit-card .exhibit-label {
+    background: var(--color-inverse);
+    color: var(--color-inverse-text);
+    padding: var(--space-xs) var(--space-md);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.exhibit-card .exhibit-client {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-md);
+    color: var(--color-primary);
+    letter-spacing: 1px;
+}
+
+.exhibit-card .exhibit-date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-light);
+    margin-left: auto;
+}
+
+.exhibit-card .exhibit-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-heading);
+    margin-bottom: var(--space-md);
+}
 
 /* ================================================================
    PAGES: Exhibits (shared across all 9 exhibit pages)
@@ -3294,6 +3332,15 @@ footer a:hover {
     .testimonial-quote::before {
         font-size: var(--font-size-5xl);
         top: -1rem;
+    }
+
+    .exhibit-card .exhibit-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .exhibit-card .exhibit-date {
+        margin-left: 0;
     }
 
     /* Mobile card transformation for all tables */
