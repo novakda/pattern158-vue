@@ -4275,6 +4275,37 @@ footer a,
     .page-exhibit-detail .exhibit-table td[data-label="Metric"]::before {
         display: none;
     }
+
+    /* Hide redundant mobile labels on personnel tables — names/roles are self-evident */
+    .personnel-table td[data-label="Name"]::before,
+    .personnel-table td[data-label="Role"]::before,
+    .personnel-table td[data-label="Title"]::before,
+    .personnel-table td[data-label="Organization"]::before,
+    .personnel-table td[data-label="Department"]::before {
+        display: none;
+    }
+
+    /* Style first cell (name) as bold heading when label is hidden */
+    .personnel-table td[data-label="Name"] {
+        font-weight: 700;
+        color: var(--color-heading);
+        font-size: var(--font-size-md);
+    }
+
+    /* Hide redundant labels on resolution tables — Issue/Resolution context is clear from card structure */
+    .resolution-table td[data-label="Issue"]::before,
+    .resolution-table td[data-label="Resolution"]::before {
+        display: none;
+    }
+
+    .resolution-table td[data-label="Issue"] {
+        font-weight: 700;
+        color: var(--color-heading);
+    }
+
+    .resolution-table td[data-label="Resolution"] {
+        color: var(--color-text-medium);
+    }
 }
 
 [data-theme="dark"] .page-exhibit-detail .exhibit-quote {
