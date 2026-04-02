@@ -2944,6 +2944,26 @@ footer a:hover {
     border-left: 6px solid var(--color-primary);
 }
 
+/* Impact tags — pill badges for technology/skill tags (CSS-01, CSS-02) */
+.impact-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.impact-tag {
+    background: var(--color-inverse);
+    color: var(--color-inverse-text);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-sm);
+}
+
+.impact-tag.highlight {
+    background: var(--color-primary);
+}
+
 .tech-summary {
     font-size: var(--font-size-sm);
     line-height: 1.7;
