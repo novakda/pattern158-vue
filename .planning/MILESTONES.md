@@ -1,11 +1,27 @@
 # Milestones
 
+## v2.0 Site IA Restructure — Evidence-Based Portfolio (Shipped: 2026-04-02)
+
+**Phases completed:** 6 phases, 10 plans, 18 tasks
+
+**Key accomplishments:**
+
+- Migrated Exhibit data model to explicit `exhibitType` discriminant replacing boolean flags; merged flagship data into single source of truth
+- Split ExhibitDetailPage into thin dispatcher + InvestigationReportLayout and EngineeringBriefLayout components
+- Built unified CaseFilesPage with type-grouped exhibits (5 IR + 10 EB), stats bar, and 38-project directory
+- Atomic route migration: /case-files replaces /portfolio and /testimonials with redirects, NavBar consolidated
+- Retired 7 orphaned files and ~390 lines dead CSS from retired pages
+- 54 unit tests passing, all 23 requirements satisfied
+
+---
+
 ## v1.1 Exhibit Content Consistency (Shipped: 2026-03-19)
 
 **Phases:** 5-8 | **Plans:** 5 | **Requirements:** 7/7 satisfied
 **Git range:** `b2cbe4a` → `63a070d`
 
 **Key accomplishments:**
+
 - Produced complete 15-exhibit audit with 45 Playwright screenshots and structured comparison table classifying all formatting variations as intentional, fixable, or content gap
 - Normalized `contextHeading` labels on Exhibits M/N to "Investigation Summary" and standardized quote attribution on Exhibit A (STRUCT-01/03)
 - Fixed `investigationReport` badge rendering on ExhibitDetailPage — investigation exhibits now display a visible "Investigation Report" badge (STRUCT-02, Phase 6)
@@ -19,7 +35,7 @@
 **Phases completed:** 4 phases, 14 plans, 0 tasks
 
 **Key accomplishments:**
+
 - (none recorded)
 
 ---
-

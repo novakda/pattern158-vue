@@ -2,51 +2,47 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: executing
-stopped_at: Phase 13 context gathered
-last_updated: "2026-04-02T00:35:33.076Z"
+status: completed
+stopped_at: Milestone v2.0 complete
+last_updated: "2026-04-02"
 last_activity: 2026-04-02
 progress:
   total_phases: 6
   completed_phases: 6
   total_plans: 10
   completed_plans: 10
-  percent: 0
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-27)
+See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 14 — documentation-gap-closure
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 14
-Plan: Not started
-Status: Executing Phase 14
+Phase: —
+Plan: —
+Status: Milestone v2.0 shipped. Ready for `/gsd:new-milestone`.
 Last activity: 2026-04-02
 
-Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
+Progress: [██████████] 100% (v2.0 complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 0 (v2.0)
-- Average duration: —
-- Total execution time: 0 hours
+- Total plans completed: 10 (v2.0)
+- Timeline: 4 days (2026-03-29 → 2026-04-02)
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
-
-*Updated after each plan completion*
 | Phase 09 P01 | 6min | 1 tasks | 2 files |
 | Phase 09 P02 | 2min | 2 tasks | 6 files |
 | Phase 09 P03 | 2min | 1 tasks | 7 files |
@@ -54,27 +50,15 @@ Progress: [░░░░░░░░░░] 0% (v2.0 plans TBD)
 | Phase 10 P02 | 2min | 2 tasks | 5 files |
 | Phase 11 P01 | 3min | 2 tasks | 2 files |
 | Phase 11 P02 | 13min | 2 tasks | 4 files |
-| Phase 12-navigation-and-route-migration P01 | 2min | 2 tasks | 10 files |
+| Phase 12 P01 | 2min | 2 tasks | 10 files |
+| Phase 13 P01 | — | — | 7 files |
+| Phase 14 P01 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
 ### Decisions
 
-*(v1.1 decisions archived to PROJECT.md Key Decisions table — 2026-03-19)*
-
-- [v2.0 Roadmap]: Five-phase structure (9-13) derived from research — data model first, templates and listing parallel-capable, atomic route migration, cleanup last
-- [v2.0 Roadmap]: CLN-01/02 (Three Lenses + NarrativeCard removal) grouped with Phase 11 (listing page) since that content lived on the old listing pages
-- [v2.0 Roadmap]: CLN-04/05 (homepage CTA updates) grouped with Phase 12 (route migration) since they are link reference changes
-- [Phase 09]: ExhibitType discriminant union ('investigation-report' | 'engineering-brief') replaces boolean flags; flagship data co-located on Exhibit records
-- [Phase 09]: Hardcoded detail-exhibit class on ExhibitCard since all 15 exhibits now have detail pages
-- [Phase 09]: badge-aware (gray) for Investigation Report, badge-deep (teal) for Engineering Brief per D-15
-- [Phase 09]: Narrative data (3 objects) inlined in PortfolioPage rather than new file -- removed in Phase 11
-- [Phase 10]: Used investigationReport boolean for layout dispatch instead of plan's exhibitType enum to match actual codebase
-- [Phase 10]: Fixed dispatcher to use exhibitType enum instead of nonexistent investigationReport boolean
-- [Phase 11]: Project directory copied verbatim from PortfolioPage -- inline HTML tables, no data-driven refactor
-- [Phase 11]: Border accents reuse badge token values for visual consistency (gray=IR, teal=EB)
-- [Phase 11]: NarrativeCard deleted without fixing PortfolioPage import -- expected breakage per D-08
-- [Phase 12-navigation-and-route-migration]: Used vue-router redirect objects for deprecated /portfolio and /testimonials routes
+*(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
 
 ### Pending Todos
 
@@ -82,8 +66,7 @@ None.
 
 ### Blockers/Concerns
 
-- Research flags Phase 10 (Detail Template Extraction) may benefit from `/gsd:research-phase` to audit how engineering brief exhibits A, E, F use sections arrays
-- TestimonialsMetrics component disposition undecided (keep, relocate, or absorb) — decision needed during Phase 11 planning
+None.
 
 ### Quick Tasks Completed
 
@@ -99,6 +82,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-01T07:13:45.545Z
-Stopped at: Phase 13 context gathered
-Resume file: .planning/phases/13-page-retirement/13-CONTEXT.md
+Last session: 2026-04-02
+Stopped at: Milestone v2.0 complete
+Resume file: —
