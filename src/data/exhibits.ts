@@ -54,6 +54,7 @@ export interface Exhibit {
   title: string
   exhibitType: ExhibitType
   quotes?: ExhibitQuote[]
+  personnel?: ExhibitPersonnelEntry[]
   contextHeading?: string
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
@@ -94,6 +95,14 @@ export const exhibits: Exhibit[] = [
         attribution: 'Chief of Learning Services, Electric Boat',
         role: 'in recognition email to GP leadership',
       },
+    ],
+    personnel:  [
+      {
+        name: "Jack Sprat",
+        role: "pest",
+        body: "Project manager who thinks you can get a baby in a month with nine mothers"
+
+      }
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
