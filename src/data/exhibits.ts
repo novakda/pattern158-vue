@@ -102,6 +102,17 @@ export const exhibits: Exhibit[] = [
         body: "Dan Novak served as lead investigator and solution architect. On the GP Strategies side, the engagement was sponsored by a Senior Vice President who initiated the opportunity, authorized by a Sr. Director of Learning Solutions, and coordinated by a Program Manager. A co-investigator assisted with testing.\n\nOn the Electric Boat side, the Chief of Learning Services, Metrics, Processes & Technology served as the primary technical counterpart. Two curriculum developers and a training analyst specialist collaborated on testing and provided technical data throughout the engagement.",
       },
       {
+        type: "timeline",
+        heading: "Personnel (new mode)",
+        entries: [
+          {
+            date: "Dan Novak",
+            heading: "Lead investigator and solution architect",
+            body: ""
+          }
+        ]
+      },
+      {
         type: 'table',
         columns: ['Name', 'Title', 'Organization'],
         rows: [
