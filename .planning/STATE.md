@@ -90,9 +90,10 @@ None.
 | 260402-45z | Fix navbar logo contrast — add framed border/padding treatment (fixes #1) | 2026-04-02 | 61fa7c8 | [260402-45z-1-bug-caught-on-pattern158-solutions-log](.planning/quick/260402-45z-1-bug-caught-on-pattern158-solutions-log/) |
 | 260402-ghi | Remove hover animation on exhibit cards (fixes #2) | 2026-04-02 | f529824 | — |
 | 260402-gh5 | Exhibit cards too big — add compact mode with first quote only (fixes #5) | 2026-04-02 | 3736552 | — |
+| 260402-gh6 | Exhibit cards look seamless — add margin-bottom spacing (fixes #6) | 2026-04-02 | 8e38618 | — |
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:25:00.000Z
-Stopped at: Completed github-intake issue #5 — compact exhibit cards
+Last session: 2026-04-02T10:30:00.000Z
+Stopped at: Completed github-intake issue #6 — card spacing
 Resume file: None
