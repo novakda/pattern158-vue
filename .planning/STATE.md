@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Case Files Bug Fixes
-status: executing
-stopped_at: Roadmap created for v2.1 Case Files Bug Fixes
-last_updated: "2026-04-02T08:10:08.289Z"
+status: verifying
+stopped_at: Completed 16-01-PLAN.md - visual checkpoint pending
+last_updated: "2026-04-02T08:36:17.224Z"
 last_activity: 2026-04-02
 progress:
   total_phases: 2
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 1
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
   percent: 0
 ---
 
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 15 — impact-tag-style-restoration
+**Current focus:** Phase 16 — Section Type Rendering
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Executing Phase 15
+Phase: 16 (Section Type Rendering) — EXECUTING
+Plan: 1 of 1
+Status: Phase complete — ready for verification
 Last activity: 2026-04-02
 
 Progress: [░░░░░░░░░░] 0%
@@ -53,6 +53,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 12 P01 | 2min | 2 tasks | 10 files |
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
+| Phase 16 P01 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,9 @@ Progress: [░░░░░░░░░░] 0%
 - [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
 
 *(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
+
+- [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
+- [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
 
 ### Pending Todos
 
@@ -85,6 +89,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02
-Stopped at: Roadmap created for v2.1 Case Files Bug Fixes
-Resume file: —
+Last session: 2026-04-02T08:36:17.222Z
+Stopped at: Completed 16-01-PLAN.md - visual checkpoint pending
+Resume file: None

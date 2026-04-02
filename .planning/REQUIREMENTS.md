@@ -14,10 +14,10 @@ Requirements for Case Files Bug Fixes milestone. Each maps to roadmap phases.
 
 ### Section Rendering
 
-- [ ] **SECT-01**: Timeline sections (6 occurrences) render their entries with dates and descriptions
-- [ ] **SECT-02**: Metadata sections (15 occurrences) render their key-value items in a structured layout
-- [ ] **SECT-03**: Flow sections (1 occurrence) render their step content
-- [ ] **SECT-04**: Sections with no renderable content do not render at all (no orphaned headings)
+- [x] **SECT-01**: Timeline sections (6 occurrences) render their entries with dates and descriptions
+- [x] **SECT-02**: Metadata sections (15 occurrences) render their key-value items in a structured layout
+- [x] **SECT-03**: Flow sections (1 occurrence) render their step content
+- [x] **SECT-04**: Sections with no renderable content do not render at all (no orphaned headings)
 
 ## Future Requirements
 
@@ -41,10 +41,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | CSS-01 | Phase 15 | Pending |
 | CSS-02 | Phase 15 | Pending |
-| SECT-01 | Phase 16 | Pending |
-| SECT-02 | Phase 16 | Pending |
-| SECT-03 | Phase 16 | Pending |
-| SECT-04 | Phase 16 | Pending |
+| SECT-01 | Phase 16 | Complete |
+| SECT-02 | Phase 16 | Complete |
+| SECT-03 | Phase 16 | Complete |
+| SECT-04 | Phase 16 | Complete |
 
 **Coverage:**
 - v2.1 requirements: 6 total

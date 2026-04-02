@@ -52,7 +52,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 **Milestone Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
 
 - [x] **Phase 15: Impact Tag Style Restoration** - Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (completed 2026-04-02)
-- [ ] **Phase 16: Section Type Rendering** - Add rendering for unhandled section types and hide empty sections
+- [x] **Phase 16: Section Type Rendering** - Add rendering for unhandled section types and hide empty sections (completed 2026-04-02)
 
 ## Phase Details
 
@@ -80,7 +80,7 @@ Plans:
   4. Sections that have no renderable content produce no DOM output (no orphaned headings or empty containers)
 **Plans**: 1 plan
 Plans:
-- [ ] 16-01-PLAN.md — Add timeline, metadata, flow rendering and empty section guard
+- [x] 16-01-PLAN.md — Add timeline, metadata, flow rendering and empty section guard
 **UI hint**: yes
 
 ## Progress
@@ -102,4 +102,4 @@ Plans:
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete    | 2026-04-02 |
-| 16. Section Type Rendering | v2.1 | 0/1 | Not started | - |
+| 16. Section Type Rendering | v2.1 | 1/1 | Complete   | 2026-04-02 |
