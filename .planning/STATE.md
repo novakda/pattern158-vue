@@ -89,9 +89,10 @@ None.
 | 260402-3b9 | ExhibitCard has lost styling on the exhibit-header from previous versions | 2026-04-02 | 56cafde | [260402-3b9-exhibitcard-has-lost-styling-on-the-exhi](.planning/quick/260402-3b9-exhibitcard-has-lost-styling-on-the-exhi/) |
 | 260402-45z | Fix navbar logo contrast — add framed border/padding treatment (fixes #1) | 2026-04-02 | 61fa7c8 | [260402-45z-1-bug-caught-on-pattern158-solutions-log](.planning/quick/260402-45z-1-bug-caught-on-pattern158-solutions-log/) |
 | 260402-ghi | Remove hover animation on exhibit cards (fixes #2) | 2026-04-02 | f529824 | — |
+| 260402-gh5 | Exhibit cards too big — add compact mode with first quote only (fixes #5) | 2026-04-02 | 3736552 | — |
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:15:00.000Z
-Stopped at: Completed github-intake issue #2 — hover animation removal
+Last session: 2026-04-02T10:25:00.000Z
+Stopped at: Completed github-intake issue #5 — compact exhibit cards
 Resume file: None
