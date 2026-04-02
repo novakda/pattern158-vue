@@ -2,8 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import EngineeringBriefLayout from './EngineeringBriefLayout.vue'
 import { exhibits } from '@/data/exhibits'
+import type { Exhibit } from '@/data/exhibits'
 
 const ebFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-a')!
+const flowFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')!
 
 describe('EngineeringBriefLayout', () => {
   const mountOptions = {
@@ -49,6 +51,68 @@ describe('EngineeringBriefLayout', () => {
       ...mountOptions,
     })
     expect(wrapper.text()).toContain('Skills & Technologies')
+  })
+
+  it('renders timeline entries with dates and descriptions', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.exhibit-timeline').exists()).toBe(true)
+    expect(wrapper.findAll('.timeline-entry').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.text()).toContain('September 5, 2017')
+    expect(wrapper.text()).toContain('SVP Directs Engagement')
+  })
+
+  it('renders timeline entry quotes', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.timeline-quote').exists()).toBe(true)
+  })
+
+  it('renders metadata section with key-value cards', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.exhibit-metadata').exists()).toBe(true)
+    expect(wrapper.findAll('.metadata-card').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('renders flow section with steps', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: flowFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.flow-step').exists()).toBe(true)
+    expect(wrapper.findAll('.flow-node').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.text()).toContain('PowerPoint')
+    expect(wrapper.text()).toContain('Azure DevOps')
+  })
+
+  it('renders flow section introductory body text', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: flowFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).toContain('Requirements degraded through multiple format conversions')
+  })
+
+  it('does not render section with empty entries/items/steps', () => {
+    const emptyExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'engineering-brief',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+      sections: [{ heading: 'Ghost Section', type: 'timeline', entries: [] }],
+    }
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: emptyExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).not.toContain('Ghost Section')
+    expect(wrapper.findAll('.exhibit-section').length).toBe(0)
   })
 
   it('uses non-forensic framing without Investigation Summary heading', () => {

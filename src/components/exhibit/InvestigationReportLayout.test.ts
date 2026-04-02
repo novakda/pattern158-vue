@@ -53,6 +53,59 @@ describe('InvestigationReportLayout', () => {
     expect(wrapper.text()).toContain('Skills & Technologies')
   })
 
+  it('renders timeline entries with dates and descriptions', () => {
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: irFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.exhibit-timeline').exists()).toBe(true)
+    expect(wrapper.findAll('.timeline-entry').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.text()).toContain('Initial Report')
+    expect(wrapper.text()).toContain('Anomalous Completion Rates Flagged')
+  })
+
+  it('renders metadata section with key-value cards', () => {
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: irFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('.exhibit-metadata').exists()).toBe(true)
+    expect(wrapper.findAll('.metadata-card').length).toBeGreaterThanOrEqual(1)
+    expect(wrapper.text()).toContain('Industry')
+    expect(wrapper.text()).toContain('Automotive / Dealership Training')
+  })
+
+  it('does not render section with empty timeline entries', () => {
+    const emptyExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'investigation-report',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+      sections: [{ heading: 'Empty Timeline', type: 'timeline', entries: [] }],
+    }
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: emptyExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).not.toContain('Empty Timeline')
+    expect(wrapper.find('.exhibit-timeline').exists()).toBe(false)
+    expect(wrapper.findAll('.exhibit-section').length).toBe(0)
+  })
+
+  it('does not render section with empty metadata items', () => {
+    const emptyExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'investigation-report',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+      sections: [{ heading: 'Empty Meta', type: 'metadata', items: [] }],
+    }
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: emptyExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).not.toContain('Empty Meta')
+    expect(wrapper.findAll('.exhibit-section').length).toBe(0)
+  })
+
   it('renders context fallback when no sections', () => {
     const minimalExhibit: Exhibit = {
       label: 'Test',
