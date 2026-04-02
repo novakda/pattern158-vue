@@ -22,6 +22,13 @@ export interface ExhibitTimelineEntry {
   quoteAttribution?: string
 }
 
+
+export interface ExhibitPersonnelEntry {
+  name: string
+  role: string
+  body: string
+}
+
 export interface ExhibitMetadataItem {
   label: string
   value: string
