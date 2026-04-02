@@ -78,7 +78,9 @@ Plans:
   2. Metadata sections (15 occurrences across exhibits) render key-value items in a structured layout
   3. The single flow section renders its step content visibly
   4. Sections that have no renderable content produce no DOM output (no orphaned headings or empty containers)
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 16-01-PLAN.md — Add timeline, metadata, flow rendering and empty section guard
 **UI hint**: yes
 
 ## Progress
@@ -100,4 +102,4 @@ Plans:
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete    | 2026-04-02 |
-| 16. Section Type Rendering | v2.1 | 0/? | Not started | - |
+| 16. Section Type Rendering | v2.1 | 0/1 | Not started | - |
