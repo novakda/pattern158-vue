@@ -64,7 +64,9 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
   1. Impact tags on the Case Files listing page render as styled pills with background color, border-radius, and padding
   2. Impact tags on exhibit detail pages render with the same pill styling
   3. Impact tag containers use flexbox wrap layout so tags flow naturally with consistent gap spacing
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 15-01-PLAN.md — Restore base .impact-tag/.impact-tags CSS and verify visual rendering
 **UI hint**: yes
 
 ### Phase 16: Section Type Rendering
@@ -97,5 +99,5 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
-| 15. Impact Tag Style Restoration | v2.1 | 0/? | Not started | - |
+| 15. Impact Tag Style Restoration | v2.1 | 0/1 | Not started | - |
 | 16. Section Type Rendering | v2.1 | 0/? | Not started | - |
