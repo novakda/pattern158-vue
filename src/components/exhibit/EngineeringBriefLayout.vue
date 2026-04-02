@@ -1,8 +1,19 @@
 <script setup lang="ts">
-import type { Exhibit } from '@/data/exhibits'
+import type { Exhibit, ExhibitSection } from '@/data/exhibits'
 import TechTags from '@/components/TechTags.vue'
 
 defineProps<{ exhibit: Exhibit }>()
+
+function sectionHasContent(section: ExhibitSection): boolean {
+  switch (section.type) {
+    case 'text': return !!section.body
+    case 'table': return !!(section.rows?.length)
+    case 'timeline': return !!(section.entries?.length)
+    case 'metadata': return !!(section.items?.length)
+    case 'flow': return !!(section.steps?.length)
+    default: return false
+  }
+}
 </script>
 
 <template>
@@ -36,22 +47,57 @@ defineProps<{ exhibit: Exhibit }>()
         </div>
 
         <template v-if="exhibit.sections?.length">
-          <div v-for="(section, i) in exhibit.sections" :key="i" class="exhibit-section">
-            <h2 v-if="section.heading">{{ section.heading }}</h2>
-            <p v-if="section.type === 'text' && section.body">{{ section.body }}</p>
-            <table v-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
-              <thead v-if="section.columns?.length">
-                <tr>
-                  <th v-for="col in section.columns" :key="col">{{ col }}</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(row, ri) in section.rows" :key="ri">
-                  <td v-for="(cell, ci) in row" :key="ci" :data-label="section.columns?.[ci]">{{ cell }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <template v-for="(section, i) in exhibit.sections" :key="i">
+            <div v-if="sectionHasContent(section)" class="exhibit-section">
+              <h2 v-if="section.heading">{{ section.heading }}</h2>
+              <p v-if="section.type === 'text' && section.body">{{ section.body }}</p>
+              <table v-else-if="section.type === 'table' && section.rows?.length" class="exhibit-table">
+                <thead v-if="section.columns?.length">
+                  <tr>
+                    <th v-for="col in section.columns" :key="col">{{ col }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(row, ri) in section.rows" :key="ri">
+                    <td v-for="(cell, ci) in row" :key="ci" :data-label="section.columns?.[ci]">{{ cell }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div v-else-if="section.type === 'timeline'" class="exhibit-timeline">
+                <p v-if="section.body">{{ section.body }}</p>
+                <div v-for="(entry, ei) in section.entries" :key="ei" class="timeline-entry">
+                  <span class="timeline-marker"></span>
+                  <span class="timeline-date">{{ entry.date }}</span>
+                  <h3 v-if="entry.heading" class="timeline-heading">{{ entry.heading }}</h3>
+                  <p v-if="entry.body" class="timeline-body">{{ entry.body }}</p>
+                  <blockquote v-if="entry.quote" class="timeline-quote">
+                    <p>{{ entry.quote }}</p>
+                    <footer v-if="entry.quoteAttribution">{{ entry.quoteAttribution }}</footer>
+                  </blockquote>
+                </div>
+              </div>
+              <dl v-else-if="section.type === 'metadata'" class="exhibit-metadata">
+                <div v-for="(item, mi) in section.items" :key="mi" class="metadata-card">
+                  <dt>{{ item.label }}</dt>
+                  <dd>{{ item.value }}</dd>
+                </div>
+              </dl>
+              <div v-else-if="section.type === 'flow'">
+                <p v-if="section.body">{{ section.body }}</p>
+                <div class="exhibit-flow" style="display:flex;flex-wrap:wrap;align-items:center;">
+                  <template v-for="(step, si) in section.steps" :key="si">
+                    <div v-if="si > 0" class="flow-arrow"></div>
+                    <div class="flow-step">
+                      <div class="flow-node">
+                        <span class="flow-label">{{ step.label }}</span>
+                        <span class="flow-detail">{{ step.detail }}</span>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </template>
         </template>
         <div v-else-if="exhibit.contextText" class="exhibit-context">
           <h2 v-if="exhibit.contextHeading">{{ exhibit.contextHeading }}</h2>
