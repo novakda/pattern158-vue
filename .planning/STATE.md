@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v2.2
 milestone_name: Personnel Data & Rendering
-status: defining-requirements
-stopped_at: Milestone v2.2 started
+status: ready-to-plan
+stopped_at: Roadmap created for v2.2
 last_updated: "2026-04-02"
 last_activity: 2026-04-02
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Defining requirements for v2.2
+**Current focus:** Phase 17 — Personnel Data Extraction
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 17 of 20 (Personnel Data Extraction) — first of 4 in v2.2
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-02 — Milestone v2.2 started
+Status: Ready to plan
+Last activity: 2026-04-02 — Roadmap created for v2.2
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -36,8 +36,8 @@ Progress: [░░░░░░░░░░] 0%
 
 **Velocity:**
 
-- Total plans completed: 10 (v2.0)
-- Timeline: 4 days (2026-03-29 → 2026-04-02)
+- Total plans completed: 10 (v2.0) + 2 (v2.1)
+- Timeline: v2.0 in 4 days, v2.1 in 1 day
 
 **By Phase:**
 
@@ -58,11 +58,6 @@ Progress: [░░░░░░░░░░] 0%
 ## Accumulated Context
 
 ### Decisions
-
-- [v2.0 Phase 13]: `.impact-tag` / `.impact-tags` CSS was deleted as "dead CSS" but was actually in use
-- [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
-
-*(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
 
 - [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
@@ -95,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:35:00.000Z
-Stopped at: Completed github-intake issue #7 — mobile table labels
+Last session: 2026-04-02
+Stopped at: Roadmap created for v2.2 — ready to plan Phase 17
 Resume file: None

@@ -67,24 +67,24 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| DATA-05 | — | Pending |
-| DATA-06 | — | Pending |
-| RNDR-01 | — | Pending |
-| RNDR-02 | — | Pending |
-| RNDR-03 | — | Pending |
-| RNDR-04 | — | Pending |
-| RNDR-05 | — | Pending |
-| DOC-01 | — | Pending |
+| DATA-01 | Phase 17 | Pending |
+| DATA-02 | Phase 17 | Pending |
+| DATA-03 | Phase 17 | Pending |
+| DATA-04 | Phase 17 | Pending |
+| DATA-05 | Phase 17 | Pending |
+| DATA-06 | Phase 17 | Pending |
+| RNDR-01 | Phase 18 | Pending |
+| RNDR-02 | Phase 18 | Pending |
+| RNDR-03 | Phase 18 | Pending |
+| RNDR-04 | Phase 19 | Pending |
+| RNDR-05 | Phase 19 | Pending |
+| DOC-01 | Phase 20 | Pending |
 
 **Coverage:**
 - v2.2 requirements: 12 total
-- Mapped to phases: 0
-- Unmapped: 12 ⚠️
+- Mapped to phases: 12
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after initial definition*
+*Last updated: 2026-04-02 after roadmap creation*

@@ -5,7 +5,8 @@
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
 - ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (shipped 2026-03-19)
 - ✅ **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-14 (shipped 2026-04-02)
-- 🚧 **v2.1 Case Files Bug Fixes** — Phases 15-16 (in progress)
+- ✅ **v2.1 Case Files Bug Fixes** — Phases 15-16 (shipped 2026-04-02)
+- 🚧 **v2.2 Personnel Data & Rendering** — Phases 17-20 (in progress)
 
 ## Phases
 
@@ -47,43 +48,76 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 
 </details>
 
-### v2.1 Case Files Bug Fixes (In Progress)
+<details>
+<summary>✅ v2.1 Case Files Bug Fixes (Phases 15-16) — SHIPPED 2026-04-02</summary>
 
-**Milestone Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
+- [x] Phase 15: Impact Tag Style Restoration (1/1 plans) — completed 2026-04-02
+- [x] Phase 16: Section Type Rendering (1/1 plans) — completed 2026-04-02
 
-- [x] **Phase 15: Impact Tag Style Restoration** - Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (completed 2026-04-02)
-- [x] **Phase 16: Section Type Rendering** - Add rendering for unhandled section types and hide empty sections (completed 2026-04-02)
+Full details: `.planning/milestones/v2.1-ROADMAP.md`
+
+</details>
+
+### v2.2 Personnel Data & Rendering (In Progress)
+
+**Milestone Goal:** Promote personnel from embedded table sections to first-class exhibit data with purpose-built rendering components that support anonymization.
+
+- [ ] **Phase 17: Personnel Data Extraction** - Extract personnel table data from 14 exhibits into top-level personnel[] arrays with proper field mapping
+- [ ] **Phase 18: PersonnelCard Component** - Build personnel rendering component with named, anonymous, and self display modes
+- [ ] **Phase 19: Layout Integration** - Wire PersonnelCard rendering into both detail layout components
+- [ ] **Phase 20: Storybook Documentation** - Add Storybook stories covering all PersonnelCard display variants
 
 ## Phase Details
 
-### Phase 15: Impact Tag Style Restoration
-**Goal**: Impact tags display with their intended pill/badge styling on all pages
-**Depends on**: Nothing (independent CSS fix)
-**Requirements**: CSS-01, CSS-02
+### Phase 17: Personnel Data Extraction
+**Goal**: Every exhibit with personnel has a structured, typed personnel[] array that coexists with the original table section
+**Depends on**: Nothing (data-only, type definition already exists)
+**Requirements**: DATA-01, DATA-02, DATA-03, DATA-04, DATA-05, DATA-06
 **Success Criteria** (what must be TRUE):
-  1. Impact tags on the Case Files listing page render as styled pills with background color, border-radius, and padding
-  2. Impact tags on exhibit detail pages render with the same pill styling
-  3. Impact tag containers use flexbox wrap layout so tags flow naturally with consistent gap spacing
-**Plans**: 1 plan
-Plans:
-- [x] 15-01-PLAN.md — Restore base .impact-tag/.impact-tags CSS and verify visual rendering
+  1. All 14 exhibits (A through N, excluding O) have a top-level `personnel[]` array in their data object
+  2. Name/Title/Organization exhibits (B, C, D, F, G, H, I, K, M, N) have entries with `name`, `title`, and `organization` fields correctly populated from their table data
+  3. Name/Title/Role exhibits (E, J) have entries with `name`, `title`, and `role` fields correctly populated
+  4. Role/Involvement exhibit (L) has entries with parsed names and fields mapped from its different column structure
+  5. Dan Novak entries across all exhibits have `isSelf: true`, and original table sections remain untouched in `sections[]`
+**Plans**: TBD
+
+### Phase 18: PersonnelCard Component
+**Goal**: Users see personnel rendered with clear visual distinction between named persons, anonymous persons, and self-entries
+**Depends on**: Phase 17 (needs personnel data to render)
+**Requirements**: RNDR-01, RNDR-02, RNDR-03
+**Success Criteria** (what must be TRUE):
+  1. A named person entry displays their name, title, organization, and role (when present)
+  2. An anonymous person entry (no `name` field) displays as "Title, Organization" without any placeholder or "Unknown" text
+  3. An entry with `isSelf: true` is visually distinct from other entries (highlight, badge, or similar treatment)
+**Plans**: TBD
 **UI hint**: yes
 
-### Phase 16: Section Type Rendering
-**Goal**: All exhibit section types render their content; sections with no content are hidden
-**Depends on**: Phase 15
-**Requirements**: SECT-01, SECT-02, SECT-03, SECT-04
+### Phase 19: Layout Integration
+**Goal**: Personnel rendering appears on exhibit detail pages for both exhibit types, replacing nothing (additive alongside existing table sections)
+**Depends on**: Phase 18 (needs PersonnelCard component)
+**Requirements**: RNDR-04, RNDR-05
 **Success Criteria** (what must be TRUE):
-  1. Timeline sections (6 occurrences across exhibits) render entries showing dates and descriptions
-  2. Metadata sections (15 occurrences across exhibits) render key-value items in a structured layout
-  3. The single flow section renders its step content visibly
-  4. Sections that have no renderable content produce no DOM output (no orphaned headings or empty containers)
-**Plans**: 1 plan
-Plans:
-- [x] 16-01-PLAN.md — Add timeline, metadata, flow rendering and empty section guard
+  1. InvestigationReportLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
+  2. EngineeringBriefLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
+  3. Exhibits without personnel data (Exhibit O) show no personnel section and no empty container
+**Plans**: TBD
 **UI hint**: yes
+
+### Phase 20: Storybook Documentation
+**Goal**: PersonnelCard is documented in Storybook with interactive examples of every display variant
+**Depends on**: Phase 18 (needs PersonnelCard component)
+**Requirements**: DOC-01
+**Success Criteria** (what must be TRUE):
+  1. Storybook has a PersonnelCard story showing a named person with all fields populated
+  2. Storybook has a PersonnelCard story showing an anonymous person (no name)
+  3. Storybook has a PersonnelCard story showing a self-highlighted entry (`isSelf: true`)
+**Plans**: TBD
 
 ## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 17 → 18 → 19 → 20
+(Phase 20 depends on Phase 18 only, so could run parallel with Phase 19 if desired)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -101,5 +135,9 @@ Plans:
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
-| 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete    | 2026-04-02 |
-| 16. Section Type Rendering | v2.1 | 1/1 | Complete    | 2026-04-02 |
+| 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
+| 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
+| 17. Personnel Data Extraction | v2.2 | 0/0 | Not started | - |
+| 18. PersonnelCard Component | v2.2 | 0/0 | Not started | - |
+| 19. Layout Integration | v2.2 | 0/0 | Not started | - |
+| 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |
