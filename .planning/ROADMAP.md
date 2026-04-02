@@ -79,7 +79,11 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
   3. Name/Title/Role exhibits (E, J) have entries with `name`, `title`, and `role` fields correctly populated
   4. Role/Involvement exhibit (L) has entries with parsed names and fields mapped from its different column structure
   5. Dan Novak entries across all exhibits have `isSelf: true`, and original table sections remain untouched in `sections[]`
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 17-01-PLAN.md — Tests + personnel arrays for exhibits B through N (13 standard exhibits)
+- [ ] 17-02-PLAN.md — Exhibit A special handling (replace partial array, remove experimental section, prose extraction)
 
 ### Phase 18: PersonnelCard Component
 **Goal**: Users see personnel rendered with clear visual distinction between named persons, anonymous persons, and self-entries
@@ -137,7 +141,7 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Personnel Data Extraction | v2.2 | 0/0 | Not started | - |
+| 17. Personnel Data Extraction | v2.2 | 0/2 | In progress | - |
 | 18. PersonnelCard Component | v2.2 | 0/0 | Not started | - |
 | 19. Layout Integration | v2.2 | 0/0 | Not started | - |
 | 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |
