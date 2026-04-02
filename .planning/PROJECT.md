@@ -74,6 +74,8 @@ Every page template should be scannable and self-documenting through well-named 
 - Phase 9 completed: Exhibit data model migrated to `exhibitType` discriminant, flagship data merged into exhibits.ts, redundant data files deleted. Single source of truth established.
 - Phase 11 completed: CaseFilesPage.vue created as unified listing page with type-grouped exhibits (IR/EB), stats bar, project directory. ExhibitCard has dynamic type class. NarrativeCard deleted (CLN-02). Border accent CSS added. 50 unit tests passing.
 - Phase 12 completed: Navigation and route migration — /case-files route added, /portfolio and /testimonials converted to redirects, NavBar reduced to 6 entries (Case Files replacing Portfolio + Field Reports), all hardcoded route references updated across 10 files. 54 tests passing.
+- Phase 13 completed: Dead pages retired — PortfolioPage.vue, TestimonialsPage.vue, and 5 dependent files deleted. ~390 lines dead CSS removed. 54 tests pass, clean production build.
+- Phase 14 completed: Documentation gap closure — patched missing requirements-completed frontmatter in 10-01-SUMMARY.md, created 13-VERIFICATION.md. All v2.0 milestone audit gaps closed.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -113,4 +115,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-31 after Phase 12 completion*
+*Last updated: 2026-04-01 after Phase 14 completion*
