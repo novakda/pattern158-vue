@@ -38,6 +38,14 @@ export interface ExhibitSection {
   items?: ExhibitMetadataItem[]
 }
 
+export interface ExhibitPersonnelEntry {
+  name?: string
+  title?: string
+  organization?: string
+  role?: string
+  isSelf?: boolean
+}
+
 export type ExhibitType = 'investigation-report' | 'engineering-brief'
 
 export interface Exhibit {
@@ -51,6 +59,7 @@ export interface Exhibit {
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
   sections?: ExhibitSection[]
+  personnel?: ExhibitPersonnelEntry[]
   impactTags: string[]
   exhibitLink: string
   // Flagship fields (merged per D-04)
