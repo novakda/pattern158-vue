@@ -81,11 +81,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 9 | Complete |
 | DATA-02 | Phase 9 | Complete |
 | DATA-03 | Phase 9 | Complete |
-| DATA-04 | Phase 9 | Complete |
-| DTPL-01 | Phase 10 | Complete |
-| DTPL-02 | Phase 10 | Complete |
-| DTPL-03 | Phase 10 | Complete |
-| DTPL-04 | Phase 10 | Complete |
+| DATA-04 | Phase 9, Phase 14 (doc gap) | Complete |
+| DTPL-01 | Phase 10, Phase 14 (doc gap) | Complete |
+| DTPL-02 | Phase 10, Phase 14 (doc gap) | Complete |
+| DTPL-03 | Phase 10, Phase 14 (doc gap) | Complete |
+| DTPL-04 | Phase 10, Phase 14 (doc gap) | Complete |
 | LIST-01 | Phase 11 | Complete |
 | LIST-02 | Phase 11 | Complete |
 | LIST-03 | Phase 11 | Complete |
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-05 | Phase 12 | Complete |
 | CLN-04 | Phase 12 | Complete |
 | CLN-05 | Phase 12 | Complete |
-| CLN-03 | Phase 13 | Complete |
+| CLN-03 | Phase 13, Phase 14 (doc gap) | Complete |
 
 **Coverage:**
 - v2.0 requirements: 23 total
@@ -109,4 +109,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-03-27*
-*Last updated: 2026-03-27 after roadmap creation*
+*Last updated: 2026-04-01 after gap closure phase addition*

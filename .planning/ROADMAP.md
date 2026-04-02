@@ -4,7 +4,7 @@
 
 - ✅ **v1.0 MVP** — Phases 1-4 (shipped 2026-03-17)
 - ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (shipped 2026-03-19)
-- 🚧 **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-13 (in progress)
+- 🚧 **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-14 (in progress)
 
 ## Phases
 
@@ -36,11 +36,12 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 
 **Milestone Goal:** Restructure the site's information architecture so every page earns its place, replacing redundant Portfolio and Field Reports pages with a unified evidence section that distinguishes two exhibit types.
 
-- [ ] **Phase 9: Data Model Migration** - Replace ambiguous boolean flags with explicit exhibitType discriminant and consolidate data sources
+- [x] **Phase 9: Data Model Migration** - Replace ambiguous boolean flags with explicit exhibitType discriminant and consolidate data sources (completed 2026-03-31)
 - [x] **Phase 10: Detail Template Extraction** - Split monolithic detail page into dispatcher plus two focused layout components (completed 2026-03-31)
 - [x] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal (completed 2026-03-31)
 - [x] **Phase 12: Navigation and Route Migration** - Atomic switchover of routes, NavBar, homepage CTAs, and all internal link references (completed 2026-04-01)
 - [x] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere (completed 2026-04-01)
+- [ ] **Phase 14: Documentation Gap Closure** - Close audit documentation gaps: missing SUMMARY frontmatter and Phase 13 VERIFICATION.md
 
 ## Phase Details
 
@@ -53,7 +54,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
   2. All 15 exhibits have correct `exhibitType` value (5 investigation-report, 10 engineering-brief) and the app renders without errors
   3. Flagship summary and quote fields are accessible on Exhibit objects directly (no separate portfolioFlagships.ts import needed)
   4. `portfolioFlagships.ts` and `portfolioNarratives.ts` files are deleted and no imports reference them
-**Plans:** 1/3 plans executed
+**Plans:** 3/3 plans complete
 Plans:
 - [x] 09-01-PLAN.md — Migrate Exhibit interface to exhibitType discriminant and merge flagship data
 - [x] 09-02-PLAN.md — Update consumer components, tests, and Storybook stories
@@ -113,10 +114,22 @@ Plans:
 Plans:
 - [x] 13-01-PLAN.md — Delete 7 orphaned files and clean dead CSS from main.css
 
+### Phase 14: Documentation Gap Closure
+**Goal**: Close all audit documentation gaps so milestone audit passes clean
+**Depends on**: Phase 13
+**Requirements**: DATA-04, DTPL-01, DTPL-02, DTPL-03, DTPL-04, CLN-03
+**Gap Closure:** Closes gaps from v2.0 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. 09-03-SUMMARY.md lists DATA-04 in `requirements-completed` frontmatter
+  2. 10-01-SUMMARY.md and 10-02-SUMMARY.md list DTPL-01 through DTPL-04 in `requirements-completed` frontmatter
+  3. 13-VERIFICATION.md exists and confirms CLN-03 satisfied
+Plans:
+- [ ] 14-01-PLAN.md — Patch SUMMARY frontmatter and create Phase 13 VERIFICATION.md
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
+Phases execute in numeric order: 9 → 10 → 11 → 12 → 13 → 14
 (Phases 10 and 11 both depend only on Phase 9 and could potentially execute in parallel)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -129,8 +142,9 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13
 | 6. Structural Normalization | v1.1 | 1/1 | Complete | 2026-03-18 |
 | 7. Content Gap Fill | v1.1 | 2/2 | Complete | 2026-03-18 |
 | 8. Fix STRUCT-02 ExhibitCard Link Text | v1.1 | 1/1 | Complete | 2026-03-19 |
-| 9. Data Model Migration | v2.0 | 1/3 | In Progress|  |
+| 9. Data Model Migration | v2.0 | 3/3 | Complete | 2026-03-31 |
 | 10. Detail Template Extraction | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 11. Unified Listing Page | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete    | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete   | 2026-04-01 |
+| 14. Documentation Gap Closure | v2.0 | 0/1 | Not started | - |
