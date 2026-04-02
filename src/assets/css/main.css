@@ -1793,6 +1793,7 @@ footer a:hover {
 .exhibit-card {
     border-left: 6px solid var(--color-primary);
     position: relative;
+    margin-bottom: var(--space-lg);
 }
 
 
