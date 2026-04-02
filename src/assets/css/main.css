@@ -404,6 +404,11 @@ nav .logo-link {
 nav .logo-img {
     height: 48px;
     width: auto;
+    padding: 4px;
+    border: 2px solid rgba(250, 249, 246, 0.15);
+    border-radius: 4px;
+    background: #fff;
+    box-sizing: border-box;
 }
 
 nav ul {
