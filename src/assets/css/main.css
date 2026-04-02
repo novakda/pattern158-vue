@@ -656,6 +656,10 @@ footer a:hover {
     background: var(--color-surface);
     padding: var(--space-xl);
     box-shadow: var(--shadow-sm);
+}
+
+.finding-card,
+.specialty-card {
     transition: transform 0.3s;
 }
 
@@ -1791,9 +1795,6 @@ footer a:hover {
     position: relative;
 }
 
-.exhibit-card:hover {
-    transform: translateX(4px);
-}
 
 .exhibit-card::after {
     content: '';
