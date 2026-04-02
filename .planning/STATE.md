@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Case Files Bug Fixes
-status: active
-stopped_at: ~
-last_updated: "2026-04-02"
-last_activity: 2026-04-02
+status: executing
+stopped_at: Roadmap created for v2.1 Case Files Bug Fixes
+last_updated: "2026-04-02T08:04:40.781Z"
+last_activity: 2026-04-02 -- Phase 15 execution started
 progress:
   total_phases: 2
   completed_phases: 0
-  total_plans: 0
+  total_plans: 1
   completed_plans: 0
   percent: 0
 ---
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 15 — Impact Tag Style Restoration
+**Current focus:** Phase 15 — impact-tag-style-restoration
 
 ## Current Position
 
-Phase: 15 of 16 (Impact Tag Style Restoration)
-Plan: 0 of ? in current phase
-Status: Ready to plan
-Last activity: 2026-04-02 — Roadmap created for v2.1 milestone
+Phase: 15 (impact-tag-style-restoration) — EXECUTING
+Plan: 1 of 1
+Status: Executing Phase 15
+Last activity: 2026-04-02 -- Phase 15 execution started
 
 Progress: [░░░░░░░░░░] 0%
 

@@ -51,7 +51,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
 
 **Milestone Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
 
-- [ ] **Phase 15: Impact Tag Style Restoration** - Restore deleted `.impact-tag` / `.impact-tags` base CSS styles
+- [x] **Phase 15: Impact Tag Style Restoration** - Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (completed 2026-04-02)
 - [ ] **Phase 16: Section Type Rendering** - Add rendering for unhandled section types and hide empty sections
 
 ## Phase Details
@@ -66,7 +66,7 @@ Full details: `.planning/milestones/v2.0-ROADMAP.md`
   3. Impact tag containers use flexbox wrap layout so tags flow naturally with consistent gap spacing
 **Plans**: 1 plan
 Plans:
-- [ ] 15-01-PLAN.md — Restore base .impact-tag/.impact-tags CSS and verify visual rendering
+- [x] 15-01-PLAN.md — Restore base .impact-tag/.impact-tags CSS and verify visual rendering
 **UI hint**: yes
 
 ### Phase 16: Section Type Rendering
@@ -99,5 +99,5 @@ Plans:
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
-| 15. Impact Tag Style Restoration | v2.1 | 0/1 | Not started | - |
+| 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete   | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 0/? | Not started | - |
