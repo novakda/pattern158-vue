@@ -1,0 +1,56 @@
+# Requirements: Pattern 158 — Vue Conversion
+
+**Defined:** 2026-04-02
+**Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
+
+## v2.1 Requirements
+
+Requirements for Case Files Bug Fixes milestone. Each maps to roadmap phases.
+
+### CSS Restoration
+
+- [ ] **CSS-01**: Impact tags on Case Files page and exhibit detail pages display with pill/badge styling (background, border-radius, padding)
+- [ ] **CSS-02**: Impact tags container uses flexbox wrap layout with proper gap spacing
+
+### Section Rendering
+
+- [ ] **SECT-01**: Timeline sections (6 occurrences) render their entries with dates and descriptions
+- [ ] **SECT-02**: Metadata sections (15 occurrences) render their key-value items in a structured layout
+- [ ] **SECT-03**: Flow sections (1 occurrence) render their step content
+- [ ] **SECT-04**: Sections with no renderable content do not render at all (no orphaned headings)
+
+## Future Requirements
+
+None — this is a bug-fix milestone.
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Three Lenses narrative cards | Content consolidation was intentional in v2.0; may revisit in future milestone |
+| Featured Engagement / Flagship cards | Content consolidation was intentional in v2.0; may revisit in future milestone |
+| Executive Summary prose / stats bar | Content consolidation was intentional in v2.0; may revisit in future milestone |
+| Exhibit URL migration to /case-files/:slug | Current /exhibits/:slug paths work correctly; URL change is cosmetic |
+| New exhibit content | Bug fixes only — no new content creation |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| CSS-01 | — | Pending |
+| CSS-02 | — | Pending |
+| SECT-01 | — | Pending |
+| SECT-02 | — | Pending |
+| SECT-03 | — | Pending |
+| SECT-04 | — | Pending |
+
+**Coverage:**
+- v2.1 requirements: 6 total
+- Mapped to phases: 0
+- Unmapped: 6
+
+---
+*Requirements defined: 2026-04-02*
+*Last updated: 2026-04-02 after initial definition*
