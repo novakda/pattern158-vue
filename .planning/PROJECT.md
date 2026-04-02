@@ -65,9 +65,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.0 (2026-04-02) | **In progress:** v2.1 bug fixes
+**Shipped:** v2.1 (2026-04-02) | **Status:** Milestone complete
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. Phase 15 complete — restored impact tag pill CSS that was accidentally deleted during v2.0 page retirement.
+The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
 
 ## Context
 
@@ -75,7 +75,7 @@ The site's information architecture is complete through v2.0. All 15 exhibits ar
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,400 LOC Vue + TypeScript, 54 unit tests passing, clean production build.
+- Codebase: ~6,400 LOC Vue + TypeScript, 64 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -100,6 +100,7 @@ The site's information architecture is complete through v2.0. All 15 exhibits ar
 | Vue Router redirect objects for deprecated routes | Clean redirect without components; /portfolio and /testimonials both → /case-files | ✓ Good — zero broken links |
 | Border accent reusing badge token values | Visual consistency: gray=IR, teal=EB across cards and detail badges | ✓ Good — cohesive type identity |
 | Phase 14 for documentation gap closure | Separated doc cleanup from code work; kept Phase 13 scope pure | ✓ Good — audit gaps closed cleanly |
+| TDD for section type rendering (Phase 16) | Template-only bug fix with existing CSS — tests lock rendering contracts before implementation | ✓ Good — 10 new tests, all green on first pass |
 
 ## Evolution
 
@@ -119,4 +120,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after Phase 15 completion*
+*Last updated: 2026-04-02 after Phase 16 completion (v2.1 milestone complete)*
