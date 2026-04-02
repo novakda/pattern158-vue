@@ -4,13 +4,13 @@ milestone: v2.1
 milestone_name: Case Files Bug Fixes
 status: executing
 stopped_at: Roadmap created for v2.1 Case Files Bug Fixes
-last_updated: "2026-04-02T08:04:40.781Z"
-last_activity: 2026-04-02 -- Phase 15 execution started
+last_updated: "2026-04-02T08:10:08.289Z"
+last_activity: 2026-04-02
 progress:
   total_phases: 2
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 1
-  completed_plans: 0
+  completed_plans: 1
   percent: 0
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 15 (impact-tag-style-restoration) — EXECUTING
-Plan: 1 of 1
+Phase: 16
+Plan: Not started
 Status: Executing Phase 15
-Last activity: 2026-04-02 -- Phase 15 execution started
+Last activity: 2026-04-02
 
 Progress: [░░░░░░░░░░] 0%
 

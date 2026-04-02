@@ -99,5 +99,5 @@ Plans:
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete | 2026-04-01 |
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
-| 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete   | 2026-04-02 |
+| 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete    | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 0/? | Not started | - |
