@@ -4,6 +4,7 @@ import TechTags from '@/components/TechTags.vue'
 
 defineProps<{
   exhibit: Exhibit
+  compact?: boolean
 }>()
 </script>
 
@@ -17,24 +18,35 @@ defineProps<{
     <h3 class="exhibit-title">{{ exhibit.title }}</h3>
 
     <slot name="quote">
-      <blockquote v-for="(q, i) in exhibit.quotes" :key="i">
-        {{ q.text }}
-        <div class="attribution">
-          <template v-if="q.attribution">{{ q.attribution }}</template>
-          <span v-if="q.role" class="role">{{ q.role }}</span>
-        </div>
-      </blockquote>
+      <template v-if="compact">
+        <blockquote v-if="exhibit.quotes?.length">
+          {{ exhibit.quotes[0].text }}
+          <div class="attribution">
+            <template v-if="exhibit.quotes[0].attribution">{{ exhibit.quotes[0].attribution }}</template>
+            <span v-if="exhibit.quotes[0].role" class="role">{{ exhibit.quotes[0].role }}</span>
+          </div>
+        </blockquote>
+      </template>
+      <template v-else>
+        <blockquote v-for="(q, i) in exhibit.quotes" :key="i">
+          {{ q.text }}
+          <div class="attribution">
+            <template v-if="q.attribution">{{ q.attribution }}</template>
+            <span v-if="q.role" class="role">{{ q.role }}</span>
+          </div>
+        </blockquote>
+      </template>
     </slot>
 
     <slot name="context">
-      <div v-if="exhibit.contextText" class="exhibit-context">
+      <div v-if="!compact && exhibit.contextText" class="exhibit-context">
         <h4>{{ exhibit.contextHeading }}</h4>
         <p>{{ exhibit.contextText }}</p>
       </div>
     </slot>
 
     <slot name="table">
-      <table v-if="exhibit.resolutionTable" class="resolution-table">
+      <table v-if="!compact && exhibit.resolutionTable" class="resolution-table">
         <thead>
           <tr><th>Issue</th><th>Resolution</th></tr>
         </thead>

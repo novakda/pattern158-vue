@@ -36,7 +36,7 @@ useSeo({
     <div class="container">
       <h2 id="ir-heading">Investigation Reports</h2>
       <p class="section-subtitle">Methodology-driven case studies</p>
-      <ExhibitCard v-for="e in investigationReports" :key="e.label" :exhibit="e" />
+      <ExhibitCard v-for="e in investigationReports" :key="e.label" :exhibit="e" compact />
     </div>
   </section>
 
@@ -44,7 +44,7 @@ useSeo({
     <div class="container">
       <h2 id="eb-heading">Engineering Briefs</h2>
       <p class="section-subtitle">Constraints navigated, results delivered</p>
-      <ExhibitCard v-for="e in engineeringBriefs" :key="e.label" :exhibit="e" />
+      <ExhibitCard v-for="e in engineeringBriefs" :key="e.label" :exhibit="e" compact />
     </div>
   </section>
 
