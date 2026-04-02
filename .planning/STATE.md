@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v2.2
 milestone_name: Personnel Data & Rendering
-status: ready-to-plan
-stopped_at: Roadmap created for v2.2
-last_updated: "2026-04-02"
-last_activity: 2026-04-02
+status: planning
+stopped_at: Phase 17 context gathered
+last_updated: "2026-04-02T22:33:30.219Z"
+last_activity: 2026-04-02 — Roadmap created for v2.2
 progress:
   total_phases: 4
   completed_phases: 0
@@ -90,6 +90,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02
-Stopped at: Roadmap created for v2.2 — ready to plan Phase 17
-Resume file: None
+Last session: 2026-04-02T22:33:30.216Z
+Stopped at: Phase 17 context gathered
+Resume file: .planning/phases/17-personnel-data-extraction/17-CONTEXT.md
