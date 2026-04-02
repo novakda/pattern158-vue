@@ -22,6 +22,7 @@ export interface ExhibitTimelineEntry {
   quoteAttribution?: string
 }
 
+
 export interface ExhibitMetadataItem {
   label: string
   value: string
@@ -59,7 +60,6 @@ export interface Exhibit {
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
   sections?: ExhibitSection[]
-  personnel?: ExhibitPersonnelEntry[]
   impactTags: string[]
   exhibitLink: string
   // Flagship fields (merged per D-04)
@@ -96,6 +96,20 @@ export const exhibits: Exhibit[] = [
         attribution: 'Chief of Learning Services, Electric Boat',
         role: 'in recognition email to GP leadership',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Lead Investigator / Solution Architect', organization: 'GP Strategies', isSelf: true },
+      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
+      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
+      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
+      { name: 'Josh Stoudt', title: 'Senior Director, Learning Solutions', organization: 'GP Strategies' },
+      { name: 'Chris Emmons', title: 'LMS Administrator', organization: 'Electric Boat' },
+      { name: 'Multiple EB Personnel', title: '49 contacts across departments', organization: 'Electric Boat' },
+      { title: 'Program Manager', organization: 'GP Strategies', role: 'Coordinated engagement' },
+      { title: 'Co-Investigator', organization: 'GP Strategies', role: 'Assisted with testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Training Analyst Specialist', organization: 'Electric Boat', role: 'Provided technical data' },
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
