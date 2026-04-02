@@ -23,12 +23,6 @@ export interface ExhibitTimelineEntry {
 }
 
 
-export interface ExhibitPersonnelEntry {
-  name: string
-  role: string
-  body: string
-}
-
 export interface ExhibitMetadataItem {
   label: string
   value: string
@@ -36,7 +30,7 @@ export interface ExhibitMetadataItem {
 
 export interface ExhibitSection {
   heading?: string
-  type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata' | 'personnel'
+  type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
   body?: string
   columns?: string[]
   rows?: string[][]
@@ -67,7 +61,6 @@ export interface Exhibit {
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
   sections?: ExhibitSection[]
-  personnel?: ExhibitPersonnelEntry[]
   impactTags: string[]
   exhibitLink: string
   // Flagship fields (merged per D-04)
@@ -105,13 +98,19 @@ export const exhibits: Exhibit[] = [
         role: 'in recognition email to GP leadership',
       },
     ],
-    personnel:  [
-      {
-        name: "Jack Sprat",
-        role: "pest",
-        body: "Project manager who thinks you can get a baby in a month with nine mothers"
-
-      }
+    personnel: [
+      { name: 'Dan Novak', title: 'Lead Investigator / Solution Architect', organization: 'GP Strategies', isSelf: true },
+      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
+      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
+      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
+      { name: 'Josh Stoudt', title: 'Senior Director, Learning Solutions', organization: 'GP Strategies' },
+      { name: 'Chris Emmons', title: 'LMS Administrator', organization: 'Electric Boat' },
+      { name: 'Multiple EB Personnel', title: '49 contacts across departments', organization: 'Electric Boat' },
+      { title: 'Program Manager', organization: 'GP Strategies', role: 'Coordinated engagement' },
+      { title: 'Co-Investigator', organization: 'GP Strategies', role: 'Assisted with testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Training Analyst Specialist', organization: 'Electric Boat', role: 'Provided technical data' },
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
@@ -125,17 +124,6 @@ export const exhibits: Exhibit[] = [
         type: 'text',
         heading: 'Personnel',
         body: "Dan Novak served as lead investigator and solution architect. On the GP Strategies side, the engagement was sponsored by a Senior Vice President who initiated the opportunity, authorized by a Sr. Director of Learning Solutions, and coordinated by a Program Manager. A co-investigator assisted with testing.\n\nOn the Electric Boat side, the Chief of Learning Services, Metrics, Processes & Technology served as the primary technical counterpart. Two curriculum developers and a training analyst specialist collaborated on testing and provided technical data throughout the engagement.",
-      },
-      {
-        type: "timeline",
-        heading: "Personnel (new mode)",
-        entries: [
-          {
-            date: "Dan Novak",
-            heading: "Lead investigator and solution architect",
-            body: ""
-          }
-        ]
       },
       {
         type: 'table',
