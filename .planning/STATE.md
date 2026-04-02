@@ -87,9 +87,10 @@ None.
 | 260318-vrb | Fix blockquote text spacing that is too tight on testimonials page | 2026-03-19 | 55e31fa | [260318-vrb-fix-blockquote-text-spacing-that-is-too-](.planning/quick/260318-vrb-fix-blockquote-text-spacing-that-is-too-/) |
 | 260327-nnz | Run full UX/accessibility/appearance review of ExhibitDetailPage with Playwright screenshots at 3 viewports and structured review document | 2026-03-27 | 721b800 | [260327-nnz-run-full-ux-accessibility-and-appearance](.planning/quick/260327-nnz-run-full-ux-accessibility-and-appearance/) |
 | 260402-3b9 | ExhibitCard has lost styling on the exhibit-header from previous versions | 2026-04-02 | 56cafde | [260402-3b9-exhibitcard-has-lost-styling-on-the-exhi](.planning/quick/260402-3b9-exhibitcard-has-lost-styling-on-the-exhi/) |
+| 260402-45z | Fix navbar logo contrast — add framed border/padding treatment (GitHub Issue #1) | 2026-04-02 | 61fa7c8 | [260402-45z-1-bug-caught-on-pattern158-solutions-log](.planning/quick/260402-45z-1-bug-caught-on-pattern158-solutions-log/) |
 
 ## Session Continuity
 
-Last session: 2026-04-02T09:30:57.878Z
-Stopped at: Completed quick/260402-3b9 ExhibitCard CSS restore
+Last session: 2026-04-02T10:07:00.000Z
+Stopped at: Completed quick/260402-45z navbar logo framing fix
 Resume file: None
