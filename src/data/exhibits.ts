@@ -29,7 +29,7 @@ export interface ExhibitMetadataItem {
 
 export interface ExhibitSection {
   heading?: string
-  type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
+  type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata' | 'personnel'
   body?: string
   columns?: string[]
   rows?: string[][]
