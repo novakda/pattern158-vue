@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.2
-milestone_name: Personnel Data & Rendering
-status: planning
-stopped_at: Phase 17 context gathered
-last_updated: "2026-04-02T22:33:30.219Z"
-last_activity: 2026-04-02 — Roadmap created for v2.2
+milestone: v2.1
+milestone_name: Case Files Bug Fixes
+status: verifying
+stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
+last_updated: "2026-04-02T09:30:57.879Z"
+last_activity: 2026-04-02
 progress:
-  total_phases: 4
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_phases: 2
+  completed_phases: 2
+  total_plans: 2
+  completed_plans: 2
   percent: 0
 ---
 
@@ -25,19 +25,19 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 17 of 20 (Personnel Data Extraction) — first of 4 in v2.2
-Plan: —
-Status: Ready to plan
-Last activity: 2026-04-02 — Roadmap created for v2.2
+Phase: 17
+Plan: 1 of 2
+Status: Plan 01 complete
+Last activity: 2026-04-02
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 10 (v2.0) + 2 (v2.1)
-- Timeline: v2.0 in 4 days, v2.1 in 1 day
+- Total plans completed: 10 (v2.0)
+- Timeline: 4 days (2026-03-29 → 2026-04-02)
 
 **By Phase:**
 
@@ -54,13 +54,21 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
+| Phase 17 P01 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
 ### Decisions
 
+- [v2.0 Phase 13]: `.impact-tag` / `.impact-tags` CSS was deleted as "dead CSS" but was actually in use
+- [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
+
+*(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
+
 - [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
+- [Phase 17 P01]: ExhibitPersonnelEntry interface added; personnel[] arrays populated on 13 exhibits (B-N) from table data
+- [Phase 17 P01]: Exhibit J Investigation Lead mapped anonymous (omit name); Exhibit L em-dash parsed for name/title split
 
 ### Pending Todos
 
@@ -90,6 +98,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T22:33:30.216Z
-Stopped at: Phase 17 context gathered
-Resume file: .planning/phases/17-personnel-data-extraction/17-CONTEXT.md
+Last session: 2026-04-02T23:44:43Z
+Stopped at: Completed 17-01-PLAN.md personnel data extraction (B-N)
+Resume file: None
