@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Site IA Restructure — Evidence-Based Portfolio
-status: completed
-stopped_at: Milestone v2.0 complete
+milestone: v2.1
+milestone_name: Case Files Bug Fixes
+status: active
+stopped_at: ~
 last_updated: "2026-04-02"
 last_activity: 2026-04-02
 progress:
-  total_phases: 6
-  completed_phases: 6
-  total_plans: 10
-  completed_plans: 10
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Planning next milestone
+**Current focus:** v2.1 Case Files Bug Fixes
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: Milestone v2.0 shipped. Ready for `/gsd:new-milestone`.
-Last activity: 2026-04-02
+Status: Defining requirements
+Last activity: 2026-04-02 — Milestone v2.1 started
 
-Progress: [██████████] 100% (v2.0 complete)
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 

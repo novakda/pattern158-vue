@@ -43,7 +43,14 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-*(No active milestone — run `/gsd:new-milestone` to define next scope)*
+## Current Milestone: v2.1 Case Files Bug Fixes
+
+**Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
+
+**Target features:**
+- Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (deleted in Phase 13 as "dead CSS")
+- Add rendering for `metadata` (15), `timeline` (6), and `flow` (1) section types in both layout components
+- Hide sections that have no renderable content (no empty headings)
 
 ### Out of Scope
 
@@ -112,4 +119,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after v2.0 milestone completion*
+*Last updated: 2026-04-02 after v2.1 milestone start*
