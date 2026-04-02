@@ -23,6 +23,7 @@ decisions:
 metrics:
   duration: 3min
   completed: 2026-03-31
+requirements-completed: [DTPL-01, DTPL-02, DTPL-03, DTPL-04]
 ---
 
 # Phase 10 Plan 01: Layout Component Extraction Summary
