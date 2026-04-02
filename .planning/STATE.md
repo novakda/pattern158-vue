@@ -91,9 +91,10 @@ None.
 | 260402-ghi | Remove hover animation on exhibit cards (fixes #2) | 2026-04-02 | f529824 | — |
 | 260402-gh5 | Exhibit cards too big — add compact mode with first quote only (fixes #5) | 2026-04-02 | 3736552 | — |
 | 260402-gh6 | Exhibit cards look seamless — add margin-bottom spacing (fixes #6) | 2026-04-02 | 8e38618 | — |
+| 260402-gh7 | Hide redundant mobile table labels on personnel/resolution tables (fixes #7) | 2026-04-02 | 6b9346e | — |
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:30:00.000Z
-Stopped at: Completed github-intake issue #6 — card spacing
+Last session: 2026-04-02T10:35:00.000Z
+Stopped at: Completed github-intake issue #7 — mobile table labels
 Resume file: None
