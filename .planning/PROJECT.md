@@ -65,9 +65,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.0 (2026-04-02)
+**Shipped:** v2.0 (2026-04-02) | **In progress:** v2.1 bug fixes
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed.
+The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. Phase 15 complete — restored impact tag pill CSS that was accidentally deleted during v2.0 page retirement.
 
 ## Context
 
@@ -119,4 +119,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after v2.1 milestone start*
+*Last updated: 2026-04-02 after Phase 15 completion*
