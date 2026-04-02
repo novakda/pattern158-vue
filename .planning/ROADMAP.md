@@ -41,7 +41,7 @@ Full details: `.planning/milestones/v1.1-ROADMAP.md`
 - [x] **Phase 11: Unified Listing Page** - Build Case Files page with type-grouped exhibits, relocated breadth signals, and Three Lenses removal (completed 2026-03-31)
 - [x] **Phase 12: Navigation and Route Migration** - Atomic switchover of routes, NavBar, homepage CTAs, and all internal link references (completed 2026-04-01)
 - [x] **Phase 13: Page Retirement** - Remove old Portfolio and Testimonials pages after all traffic routes elsewhere (completed 2026-04-01)
-- [ ] **Phase 14: Documentation Gap Closure** - Close audit documentation gaps: missing SUMMARY frontmatter and Phase 13 VERIFICATION.md
+- [x] **Phase 14: Documentation Gap Closure** - Close audit documentation gaps: missing SUMMARY frontmatter and Phase 13 VERIFICATION.md (completed 2026-04-02)
 
 ## Phase Details
 
@@ -124,7 +124,7 @@ Plans:
   2. 10-01-SUMMARY.md and 10-02-SUMMARY.md list DTPL-01 through DTPL-04 in `requirements-completed` frontmatter
   3. 13-VERIFICATION.md exists and confirms CLN-03 satisfied
 Plans:
-- [ ] 14-01-PLAN.md — Patch SUMMARY frontmatter and create Phase 13 VERIFICATION.md
+- [x] 14-01-PLAN.md — Patch SUMMARY frontmatter and create Phase 13 VERIFICATION.md
 
 ## Progress
 
@@ -147,4 +147,4 @@ Phases execute in numeric order: 9 → 10 → 11 → 12 → 13 → 14
 | 11. Unified Listing Page | v2.0 | 2/2 | Complete    | 2026-03-31 |
 | 12. Navigation and Route Migration | v2.0 | 1/1 | Complete    | 2026-04-01 |
 | 13. Page Retirement | v2.0 | 1/1 | Complete   | 2026-04-01 |
-| 14. Documentation Gap Closure | v2.0 | 0/1 | Not started | - |
+| 14. Documentation Gap Closure | v2.0 | 1/1 | Complete    | 2026-04-02 |
