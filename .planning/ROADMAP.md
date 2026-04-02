@@ -62,7 +62,7 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 
 **Milestone Goal:** Promote personnel from embedded table sections to first-class exhibit data with purpose-built rendering components that support anonymization.
 
-- [ ] **Phase 17: Personnel Data Extraction** - Extract personnel table data from 14 exhibits into top-level personnel[] arrays with proper field mapping
+- [x] **Phase 17: Personnel Data Extraction** - Extract personnel table data from 14 exhibits into top-level personnel[] arrays with proper field mapping (completed 2026-04-02)
 - [ ] **Phase 18: PersonnelCard Component** - Build personnel rendering component with named, anonymous, and self display modes
 - [ ] **Phase 19: Layout Integration** - Wire PersonnelCard rendering into both detail layout components
 - [ ] **Phase 20: Storybook Documentation** - Add Storybook stories covering all PersonnelCard display variants
@@ -82,8 +82,8 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 **Plans**: 2 plans
 
 Plans:
-- [ ] 17-01-PLAN.md — Tests + personnel arrays for exhibits B through N (13 standard exhibits)
-- [ ] 17-02-PLAN.md — Exhibit A special handling (replace partial array, remove experimental section, prose extraction)
+- [x] 17-01-PLAN.md — Tests + personnel arrays for exhibits B through N (13 standard exhibits)
+- [x] 17-02-PLAN.md — Exhibit A special handling (replace partial array, remove experimental section, prose extraction)
 
 ### Phase 18: PersonnelCard Component
 **Goal**: Users see personnel rendered with clear visual distinction between named persons, anonymous persons, and self-entries
@@ -141,7 +141,7 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Personnel Data Extraction | v2.2 | 0/2 | In progress | - |
+| 17. Personnel Data Extraction | v2.2 | 2/2 | Complete   | 2026-04-02 |
 | 18. PersonnelCard Component | v2.2 | 0/0 | Not started | - |
 | 19. Layout Integration | v2.2 | 0/0 | Not started | - |
 | 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |

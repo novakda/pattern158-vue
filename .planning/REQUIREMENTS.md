@@ -9,12 +9,12 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 
 ### Data Migration
 
-- [ ] **DATA-01**: All 14 exhibits with personnel table sections have corresponding top-level `personnel[]` arrays with properly mapped fields
+- [x] **DATA-01**: All 14 exhibits with personnel table sections have corresponding top-level `personnel[]` arrays with properly mapped fields
 - [ ] **DATA-02**: Name/Title/Organization column exhibits (B, C, D, F, G, H, I, K, M, N) map to `name`, `title`, `organization` fields
-- [ ] **DATA-03**: Name/Title/Role column exhibits (E, J) map to `name`, `title`, `role` fields
+- [x] **DATA-03**: Name/Title/Role column exhibits (E, J) map to `name`, `title`, `role` fields
 - [ ] **DATA-04**: Role/Involvement column exhibit (L) parses embedded names and maps to appropriate fields
-- [ ] **DATA-05**: Dan Novak entries across all exhibits have `isSelf: true` set
-- [ ] **DATA-06**: Old personnel table sections remain intact in `sections[]`
+- [x] **DATA-05**: Dan Novak entries across all exhibits have `isSelf: true` set
+- [x] **DATA-06**: Old personnel table sections remain intact in `sections[]`
 
 ### Rendering
 
@@ -67,12 +67,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 17 | Pending |
+| DATA-01 | Phase 17 | Complete |
 | DATA-02 | Phase 17 | Pending |
-| DATA-03 | Phase 17 | Pending |
+| DATA-03 | Phase 17 | Complete |
 | DATA-04 | Phase 17 | Pending |
-| DATA-05 | Phase 17 | Pending |
-| DATA-06 | Phase 17 | Pending |
+| DATA-05 | Phase 17 | Complete |
+| DATA-06 | Phase 17 | Complete |
 | RNDR-01 | Phase 18 | Pending |
 | RNDR-02 | Phase 18 | Pending |
 | RNDR-03 | Phase 18 | Pending |

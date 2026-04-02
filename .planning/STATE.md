@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
+milestone: v2.2
+milestone_name: Personnel Data & Rendering
+status: executing
+stopped_at: Completed 17-02-PLAN.md
+last_updated: "2026-04-02T23:51:24.296Z"
 last_activity: 2026-04-02
 progress:
-  total_phases: 2
-  completed_phases: 2
+  total_phases: 4
+  completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 50
 ---
 
 # Project State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 ## Current Position
 
 Phase: 17
-Plan: 1 of 2
-Status: Plan 01 complete
+Plan: 2 of 2
+Status: Ready to execute
 Last activity: 2026-04-02
 
 Progress: [█████░░░░░] 50%
@@ -55,6 +55,7 @@ Progress: [█████░░░░░] 50%
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
 | Phase 17 P01 | 4min | 2 tasks | 2 files |
+| Phase 17 P02 | 2min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,8 @@ Progress: [█████░░░░░] 50%
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
 - [Phase 17 P01]: ExhibitPersonnelEntry interface added; personnel[] arrays populated on 13 exhibits (B-N) from table data
 - [Phase 17 P01]: Exhibit J Investigation Lead mapped anonymous (omit name); Exhibit L em-dash parsed for name/title split
+- [Phase 17]: Prose-derived anonymous entries included for 5 substantive unnamed roles in Exhibit A
+- [Phase 17]: Spike artifacts (duplicate interface, duplicate field, unused type union) cleaned up as bug fix
 
 ### Pending Todos
 
@@ -98,6 +101,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T23:44:43Z
-Stopped at: Completed 17-01-PLAN.md personnel data extraction (B-N)
+Last session: 2026-04-02T23:51:24.294Z
+Stopped at: Completed 17-02-PLAN.md
 Resume file: None
