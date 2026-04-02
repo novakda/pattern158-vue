@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 16 — Section Type Rendering
+**Current focus:** Phase 17 — Personnel Data Extraction
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 17
+Plan: 1 of 2
+Status: Plan 01 complete
 Last activity: 2026-04-02
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
+| Phase 17 P01 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Progress: [░░░░░░░░░░] 0%
 
 - [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
+- [Phase 17 P01]: ExhibitPersonnelEntry interface added; personnel[] arrays populated on 13 exhibits (B-N) from table data
+- [Phase 17 P01]: Exhibit J Investigation Lead mapped anonymous (omit name); Exhibit L em-dash parsed for name/title split
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:35:00.000Z
-Stopped at: Completed github-intake issue #7 — mobile table labels
+Last session: 2026-04-02T23:44:43Z
+Stopped at: Completed 17-01-PLAN.md personnel data extraction (B-N)
 Resume file: None
