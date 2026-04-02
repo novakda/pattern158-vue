@@ -1781,6 +1781,109 @@ footer a:hover {
     margin-bottom: var(--space-md);
 }
 
+.exhibit-card {
+    border-left: 6px solid var(--color-primary);
+    position: relative;
+}
+
+.exhibit-card:hover {
+    transform: translateX(4px);
+}
+
+.exhibit-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 40px 40px 0;
+    border-color: transparent var(--color-background-alt) transparent transparent;
+}
+
+.exhibit-card blockquote {
+    border-left: 3px solid var(--color-primary);
+    margin: var(--space-md) 0;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-background);
+    font-style: italic;
+    font-size: var(--font-size-md);
+    line-height: 1.8;
+    position: relative;
+}
+
+.exhibit-card blockquote::before {
+    content: '\201C';
+    position: absolute;
+    top: calc(-1 * var(--space-xs));
+    left: var(--space-sm);
+    font-size: var(--font-size-4xl);
+    color: var(--color-primary);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+}
+
+.exhibit-card .attribution {
+    margin-top: var(--space-ms);
+    font-style: normal;
+    font-weight: 600;
+    color: var(--color-heading);
+    font-size: var(--font-size-sm);
+}
+
+.exhibit-card .attribution .role {
+    display: block;
+    margin-top: var(--space-xs);
+    font-weight: 400;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+}
+
+.exhibit-card .exhibit-context {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-background-alt);
+}
+
+.exhibit-card .exhibit-context h4 {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-text-light);
+    margin-bottom: var(--space-sm);
+}
+
+.exhibit-card .exhibit-context p {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-medium);
+    line-height: 1.7;
+}
+
+.exhibit-card .exhibit-link {
+    display: inline-block;
+    margin-top: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-sm);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    text-decoration: none;
+    border: 1px solid var(--color-primary);
+    padding: var(--space-sm) var(--space-md);
+    transition: background 0.3s, color 0.3s;
+}
+
+.exhibit-card .exhibit-link:hover {
+    background: var(--color-primary);
+    color: var(--color-surface);
+}
+
+.exhibit-card .exhibit-link::after {
+    content: ' \2192';
+}
+
 /* ================================================================
    PAGES: Exhibits (shared across all 9 exhibit pages)
    ================================================================ */
@@ -3341,6 +3444,10 @@ footer a:hover {
 
     .exhibit-card .exhibit-date {
         margin-left: 0;
+    }
+
+    .exhibit-card blockquote {
+        padding: var(--space-sm) var(--space-sm);
     }
 
     /* Mobile card transformation for all tables */
