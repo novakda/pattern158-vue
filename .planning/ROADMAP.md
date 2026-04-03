@@ -107,8 +107,11 @@ Plans:
   1. InvestigationReportLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
   2. EngineeringBriefLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
   3. Exhibits without personnel data (Exhibit O) show no personnel section and no empty container
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
+
+Plans:
+- [ ] 19-01-PLAN.md — Wire PersonnelCard into both layout components with tests
 
 ### Phase 20: Storybook Documentation
 **Goal**: PersonnelCard is documented in Storybook with interactive examples of every display variant
@@ -146,5 +149,5 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
 | 18. PersonnelCard Component | v2.2 | 1/1 | Complete    | 2026-04-03 |
-| 19. Layout Integration | v2.2 | 0/0 | Not started | - |
+| 19. Layout Integration | v2.2 | 0/1 | Not started | - |
 | 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |
