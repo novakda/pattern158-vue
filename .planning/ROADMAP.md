@@ -93,8 +93,11 @@ Plans:
   1. A named person entry displays their name, title, organization, and role (when present)
   2. An anonymous person entry (no `name` field) displays as "Title, Organization" without any placeholder or "Unknown" text
   3. An entry with `isSelf: true` is visually distinct from other entries (highlight, badge, or similar treatment)
-**Plans**: TBD
+**Plans**: 1 plan
 **UI hint**: yes
+
+Plans:
+- [ ] 18-01-PLAN.md — TDD build of PersonnelCard component with tests, Vue template, and CSS in main.css
 
 ### Phase 19: Layout Integration
 **Goal**: Personnel rendering appears on exhibit detail pages for both exhibit types, replacing nothing (additive alongside existing table sections)
@@ -142,6 +145,6 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
-| 18. PersonnelCard Component | v2.2 | 0/0 | Not started | - |
+| 18. PersonnelCard Component | v2.2 | 0/1 | Not started | - |
 | 19. Layout Integration | v2.2 | 0/0 | Not started | - |
 | 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |
