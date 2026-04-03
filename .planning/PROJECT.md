@@ -69,7 +69,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 **Shipped:** v2.1 (2026-04-02) | **Building:** v2.2
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. Phase 17 extracted personnel data from all 14 exhibit table sections into top-level `personnel[]` arrays — 3 column patterns mapped, Exhibit A completed with prose extraction and experimental section cleanup. 120 unit tests passing, clean production build. Rendering components for personnel next (Phase 18).
+The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. Phase 17 extracted personnel data from all 14 exhibit table sections into top-level `personnel[]` arrays — 3 column patterns mapped, Exhibit A completed with prose extraction and experimental section cleanup. Phase 18 built the PersonnelCard Vue 3 component with responsive CSS grid layout and three display modes (named, anonymous, self-entry). 128 unit tests passing, clean production build. Layout integration next (Phase 19).
 
 ## Context
 
@@ -77,7 +77,7 @@ The site's information architecture is complete through v2.0. All 15 exhibits ar
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,400 LOC Vue + TypeScript, 120 unit tests passing, clean production build.
+- Codebase: ~6,400 LOC Vue + TypeScript, 128 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -122,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after phase 17 complete*
+*Last updated: 2026-04-02 after phase 18 complete*
