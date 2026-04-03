@@ -3,9 +3,36 @@
 **Defined:** 2026-04-02
 **Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
 
-## v2.2 Requirements
+## v2.3 Requirements
 
-Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phases.
+Requirements for Findings Data & Rendering milestone. Each maps to roadmap phases.
+
+### Data Model
+
+- [ ] **DATA-01**: ExhibitFindingEntry interface with typed fields (finding required; description, background, resolution, severity all optional)
+- [ ] **DATA-02**: findings[] optional array added to Exhibit interface
+- [ ] **DATA-03**: findingsHeading optional string added to Exhibit interface (default: "Findings")
+- [ ] **DATA-04**: 7 exhibits' table rows extracted to findings[] arrays (A, E, F, J, L, N, O)
+- [ ] **DATA-05**: Custom headings preserved for exhibits with non-default headings (J, L)
+- [ ] **DATA-06**: Old findings table sections removed from migrated exhibits' sections[]
+
+### Rendering
+
+- [ ] **RNDR-01**: FindingsTable component renders as semantic `<table>` on desktop
+- [ ] **RNDR-02**: FindingsTable renders as stacked cards on mobile (768px breakpoint)
+- [ ] **RNDR-03**: Column-adaptive rendering — 2-col and 3-col patterns handled automatically based on populated fields
+- [ ] **RNDR-04**: Severity badges with visual treatment for findings that have severity data
+- [ ] **RNDR-05**: FindingsTable wired into InvestigationReportLayout with empty-state suppression
+- [ ] **RNDR-06**: FindingsTable wired into EngineeringBriefLayout with empty-state suppression
+
+### Documentation
+
+- [ ] **DOC-01**: Storybook stories covering 2-col, 3-col severity, and 3-col background/resolution variants
+
+## Previous Milestone Requirements
+
+<details>
+<summary>v2.2 Personnel Data & Rendering (12 requirements — all complete)</summary>
 
 ### Data Migration
 
@@ -28,7 +55,7 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 
 - [x] **DOC-01**: Storybook stories for PersonnelCard covering named, anonymous, and self variants
 
-## Previous Milestone Requirements
+</details>
 
 <details>
 <summary>v2.1 Case Files Bug Fixes (6 requirements — all complete)</summary>
@@ -55,6 +82,11 @@ None identified.
 
 | Feature | Reason |
 |---------|--------|
+| Promoting text-type findings (Exhibits D, M) | Prose findings don't decompose into structured rows — would lose narrative flow |
+| Cross-exhibit finding comparison | 30 total findings across 7 exhibits — premature at this scale |
+| Finding numbering/ID system | Not all exhibits use investigation framing — forced formality |
+| Expandable/collapsible finding details | 1-3 sentences per finding — too short for progressive disclosure |
+| Rich text in finding descriptions | All current descriptions are plain text — no current need |
 | Remove old personnel table sections | Preparatory for future JSON/schema migration — keep both representations |
 | Personnel for Exhibit O | Meta-exhibit about pattern recognition across projects, not a single team engagement |
 | Three Lenses narrative cards | Content consolidation was intentional in v2.0; may revisit in future milestone |
@@ -67,24 +99,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 17 | Complete |
-| DATA-02 | Phase 17 | Complete |
-| DATA-03 | Phase 17 | Complete |
-| DATA-04 | Phase 17 | Complete |
-| DATA-05 | Phase 17 | Complete |
-| DATA-06 | Phase 17 | Complete |
-| RNDR-01 | Phase 18 | Complete |
-| RNDR-02 | Phase 18 | Complete |
-| RNDR-03 | Phase 18 | Complete |
-| RNDR-04 | Phase 19 | Complete |
-| RNDR-05 | Phase 19 | Complete |
-| DOC-01 | Phase 20 | Complete |
+| DATA-01 | — | Pending |
+| DATA-02 | — | Pending |
+| DATA-03 | — | Pending |
+| DATA-04 | — | Pending |
+| DATA-05 | — | Pending |
+| DATA-06 | — | Pending |
+| RNDR-01 | — | Pending |
+| RNDR-02 | — | Pending |
+| RNDR-03 | — | Pending |
+| RNDR-04 | — | Pending |
+| RNDR-05 | — | Pending |
+| RNDR-06 | — | Pending |
+| DOC-01 | — | Pending |
 
 **Coverage:**
-- v2.2 requirements: 12 total
-- Mapped to phases: 12
-- Unmapped: 0
+- v2.3 requirements: 13 total
+- Mapped to phases: 0
+- Unmapped: 13
 
 ---
 *Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after roadmap creation*
+*Last updated: 2026-04-02 after v2.3 milestone definition*
