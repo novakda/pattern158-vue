@@ -4,7 +4,7 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization.
+The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization. v2.3 applies the same promotion pattern to findings data.
 
 ## Core Value
 
@@ -48,7 +48,16 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-None — planning next milestone.
+## Current Milestone: v2.3 Findings Data & Rendering
+
+**Goal:** Promote exhibit findings from embedded table sections to first-class typed arrays with purpose-built responsive rendering.
+
+**Target features:**
+- ExhibitFindingEntry interface with all known fields (finding, description, background, resolution, severity) — all optional except finding title
+- findings[] array on Exhibit interface, migrated from 9 exhibits' existing table data
+- Dedicated rendering component: table on desktop, card grid on mobile
+- Wired into both detail layouts with empty-state suppression
+- Storybook stories covering field variations
 
 ### Out of Scope
 
@@ -121,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-03 after v2.2 milestone complete*
+*Last updated: 2026-04-02 after v2.3 milestone started*
