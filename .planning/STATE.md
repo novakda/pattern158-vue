@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 16 — Section Type Rendering
+**Current focus:** Phase 19 — Layout Integration
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Phase complete — ready for verification
+Phase: 19
+Plan: 1 of 1
+Status: Plan 01 complete
 Last activity: 2026-04-02
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -54,6 +54,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
+| Phase 19 P01 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -66,6 +67,8 @@ Progress: [░░░░░░░░░░] 0%
 
 - [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
+- [Phase 19]: PersonnelCard wired into both layouts with v-if="exhibit.personnel?.length" guard
+- [Phase 19]: Personnel section placed after resolution, before Skills & Technologies in both layouts
 
 ### Pending Todos
 
@@ -95,6 +98,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:35:00.000Z
-Stopped at: Completed github-intake issue #7 — mobile table labels
+Last session: 2026-04-03T01:44:05Z
+Stopped at: Completed 19-01-PLAN.md — Layout Integration
 Resume file: None
