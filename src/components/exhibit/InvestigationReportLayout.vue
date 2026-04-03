@@ -2,6 +2,7 @@
 import type { Exhibit, ExhibitSection } from '@/data/exhibits'
 import TechTags from '@/components/TechTags.vue'
 import PersonnelCard from '@/components/PersonnelCard.vue'
+import FindingsTable from '@/components/FindingsTable.vue'
 
 defineProps<{ exhibit: Exhibit }>()
 
@@ -123,6 +124,10 @@ function sectionHasContent(section: ExhibitSection): boolean {
         <div v-if="exhibit.personnel?.length" class="exhibit-section">
           <h2>Project Team</h2>
           <PersonnelCard :personnel="exhibit.personnel" />
+        </div>
+
+        <div v-if="exhibit.findings?.length" class="exhibit-section">
+          <FindingsTable :findings="exhibit.findings" :heading="exhibit.findingsHeading" />
         </div>
 
         <div class="exhibit-impact-tags">

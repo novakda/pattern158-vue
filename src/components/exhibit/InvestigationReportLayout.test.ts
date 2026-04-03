@@ -133,7 +133,7 @@ describe('InvestigationReportLayout', () => {
       ...mountOptions,
     })
     expect(wrapper.find('findings-table-stub').exists()).toBe(true)
-    expect(wrapper.text()).toContain(irFixture.findingsHeading!)
+    expect(wrapper.find('findings-table-stub').attributes('heading')).toBe(irFixture.findingsHeading!)
   })
 
   it('does not render findings section when exhibit has no findings', () => {
