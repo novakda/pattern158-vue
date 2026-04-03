@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
-last_activity: 2026-04-02
+milestone: v2.2
+milestone_name: Personnel Data & Rendering
+status: executing
+stopped_at: Phase 19 UI-SPEC approved
+last_updated: "2026-04-03T01:39:22.010Z"
+last_activity: 2026-04-03 -- Phase 19 execution started
 progress:
-  total_phases: 2
+  total_phases: 4
   completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 0
+  total_plans: 4
+  completed_plans: 3
+  percent: 50
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 19 — Layout Integration
+**Current focus:** Phase 19 — layout-integration
 
 ## Current Position
 
-Phase: 19
+Phase: 19 (layout-integration) — EXECUTING
 Plan: 1 of 1
-Status: Plan 01 complete
-Last activity: 2026-04-02
+Status: Executing Phase 19
+Last activity: 2026-04-03 -- Phase 19 execution started
 
-Progress: [██████████] 100%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -54,7 +54,8 @@ Progress: [██████████] 100%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
-| Phase 19 P01 | 2min | 2 tasks | 4 files |
+| Phase 17 P01 | 4min | 2 tasks | 2 files |
+| Phase 17 P02 | 2min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -67,8 +68,10 @@ Progress: [██████████] 100%
 
 - [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
-- [Phase 19]: PersonnelCard wired into both layouts with v-if="exhibit.personnel?.length" guard
-- [Phase 19]: Personnel section placed after resolution, before Skills & Technologies in both layouts
+- [Phase 17 P01]: ExhibitPersonnelEntry interface added; personnel[] arrays populated on 13 exhibits (B-N) from table data
+- [Phase 17 P01]: Exhibit J Investigation Lead mapped anonymous (omit name); Exhibit L em-dash parsed for name/title split
+- [Phase 17]: Prose-derived anonymous entries included for 5 substantive unnamed roles in Exhibit A
+- [Phase 17]: Spike artifacts (duplicate interface, duplicate field, unused type union) cleaned up as bug fix
 
 ### Pending Todos
 
@@ -98,6 +101,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T01:44:05Z
-Stopped at: Completed 19-01-PLAN.md — Layout Integration
-Resume file: None
+Last session: 2026-04-03T01:23:43.878Z
+Stopped at: Phase 19 UI-SPEC approved
+Resume file: .planning/phases/19-layout-integration/19-UI-SPEC.md
