@@ -1,5 +1,19 @@
 # Milestones
 
+## v2.2 Personnel Data & Rendering (Shipped: 2026-04-03)
+
+**Phases completed:** 4 phases, 5 plans, 9 tasks
+
+**Key accomplishments:**
+
+- ExhibitPersonnelEntry interface and personnel[] arrays populated on 13 exhibits (B-N) from table section data with TDD validation
+- Complete Exhibit A personnel array (12 entries from table + prose), experimental section removed, spike artifacts cleaned up
+- PersonnelCard Vue 3 component with three display modes (named/anonymous/self) using CSS grid layout and design token styling
+- PersonnelCard wired into both exhibit detail layouts with v-if guard and 4 TDD tests
+- CSF3 Storybook stories for PersonnelCard covering named, anonymous, and self-highlighted display variants
+
+---
+
 ## v2.0 Site IA Restructure — Evidence-Based Portfolio (Shipped: 2026-04-02)
 
 **Phases completed:** 6 phases, 10 plans, 18 tasks

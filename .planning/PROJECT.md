@@ -4,7 +4,7 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy.
+The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization.
 
 ## Core Value
 
@@ -39,20 +39,16 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Navigation consolidated: /case-files route, redirects from /portfolio and /testimonials, NavBar updated (NAV-01/02/03/04/05) — v2.0
 - ✓ Content cleanup: Three Lenses removed, NarrativeCard deleted, old pages retired, homepage CTAs updated (CLN-01/02/03/04/05) — v2.0
 
+- ✓ Personnel data extracted from 14 exhibits into typed personnel[] arrays with 3 column pattern mappings (DATA-01/02/03/04/05/06) — v2.2
+- ✓ PersonnelCard component with named/anonymous/self display modes, CSS grid layout, design token styling (RNDR-01/02/03) — v2.2
+- ✓ Personnel rendering wired into both InvestigationReportLayout and EngineeringBriefLayout (RNDR-04/05) — v2.2
+- ✓ Storybook stories for PersonnelCard covering all 3 display variants (DOC-01) — v2.2
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-## Current Milestone: v2.2 Personnel Data & Rendering
-
-**Goal:** Promote personnel from embedded table sections to first-class exhibit data with purpose-built rendering components that support anonymization.
-
-**Target features:**
-- Extract personnel table data from 14 exhibits into top-level `personnel[]` arrays (old table sections kept intact)
-- Handle column variations (Name/Title/Org, Name/Title/Role, Role/Involvement) with proper field mapping
-- Build personnel rendering component(s) with named/anonymous/self display logic
-- Wire personnel rendering into both InvestigationReportLayout and EngineeringBriefLayout
-- Exhibit O (no personnel — meta-exhibit about pattern recognition across projects) unchanged
+None — planning next milestone.
 
 ### Out of Scope
 
@@ -67,9 +63,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-02) | **Building:** v2.2
+**Shipped:** v2.2 (2026-04-03)
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. Phase 17 extracted personnel data from all 14 exhibit table sections into top-level `personnel[]` arrays — 3 column patterns mapped, Exhibit A completed with prose extraction and experimental section cleanup. Phase 18 built the PersonnelCard Vue 3 component with responsive CSS grid layout and three display modes (named, anonymous, self-entry). Phase 19 wired PersonnelCard into both InvestigationReportLayout and EngineeringBriefLayout with v-if guards and "Project Team" section heading. Phase 20 added Storybook stories for PersonnelCard covering all three display variants (named, anonymous, self-highlighted). 132 unit tests passing, clean production build. All v2.2 milestone phases complete.
+The site's information architecture is complete through v2.0 with 15 exhibits presented through a unified Case Files page. Two purpose-built detail layouts serve Investigation Reports and Engineering Briefs. v2.1 restored CSS and added five section type renderers. v2.2 promoted personnel from embedded table sections to first-class exhibit data — 14 exhibits have typed personnel[] arrays, rendered via PersonnelCard component with named/anonymous/self display modes, wired into both layouts with empty-state suppression. 132 unit tests passing, clean production build.
 
 ## Context
 
@@ -103,6 +99,9 @@ The site's information architecture is complete through v2.0. All 15 exhibits ar
 | Border accent reusing badge token values | Visual consistency: gray=IR, teal=EB across cards and detail badges | ✓ Good — cohesive type identity |
 | Phase 14 for documentation gap closure | Separated doc cleanup from code work; kept Phase 13 scope pure | ✓ Good — audit gaps closed cleanly |
 | TDD for section type rendering (Phase 16) | Template-only bug fix with existing CSS — tests lock rendering contracts before implementation | ✓ Good — 10 new tests, all green on first pass |
+| Personnel as top-level arrays, old tables kept | Preparatory for future JSON migration; both representations coexist | ✓ Good — clean data layer, no rendering disruption |
+| PersonnelCard with 3 display modes | Named/anonymous/self covers all 14 exhibits' personnel patterns | ✓ Good — single component handles all variations |
+| TDD for layout integration (Phase 19) | Wiring existing component — tests lock contract before touching templates | ✓ Good — 4 tests, symmetrical change |
 
 ## Evolution
 
@@ -122,4 +121,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after phase 20 complete — v2.2 milestone complete*
+*Last updated: 2026-04-03 after v2.2 milestone complete*
