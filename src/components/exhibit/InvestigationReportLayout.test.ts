@@ -8,7 +8,7 @@ const irFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-j')!
 
 describe('InvestigationReportLayout', () => {
   const mountOptions = {
-    global: { stubs: { RouterLink: true, TechTags: true, PersonnelCard: true } },
+    global: { stubs: { RouterLink: true, TechTags: true, PersonnelCard: true, FindingsTable: true } },
   }
 
   it('renders exhibit title', () => {
@@ -125,6 +125,28 @@ describe('InvestigationReportLayout', () => {
       ...mountOptions,
     })
     expect(wrapper.text()).not.toContain('Project Team')
+  })
+
+  it('renders findings section when exhibit has findings', () => {
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: irFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.find('findings-table-stub').exists()).toBe(true)
+    expect(wrapper.text()).toContain(irFixture.findingsHeading!)
+  })
+
+  it('does not render findings section when exhibit has no findings', () => {
+    const noFindingsExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'investigation-report',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+    }
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: noFindingsExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.find('findings-table-stub').exists()).toBe(false)
   })
 
   it('renders context fallback when no sections', () => {
