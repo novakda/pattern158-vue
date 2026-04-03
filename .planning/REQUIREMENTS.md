@@ -10,9 +10,9 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 ### Data Migration
 
 - [x] **DATA-01**: All 14 exhibits with personnel table sections have corresponding top-level `personnel[]` arrays with properly mapped fields
-- [ ] **DATA-02**: Name/Title/Organization column exhibits (B, C, D, F, G, H, I, K, M, N) map to `name`, `title`, `organization` fields
+- [x] **DATA-02**: Name/Title/Organization column exhibits (B, C, D, F, G, H, I, K, M, N) map to `name`, `title`, `organization` fields
 - [x] **DATA-03**: Name/Title/Role column exhibits (E, J) map to `name`, `title`, `role` fields
-- [ ] **DATA-04**: Role/Involvement column exhibit (L) parses embedded names and maps to appropriate fields
+- [x] **DATA-04**: Role/Involvement column exhibit (L) parses embedded names and maps to appropriate fields
 - [x] **DATA-05**: Dan Novak entries across all exhibits have `isSelf: true` set
 - [x] **DATA-06**: Old personnel table sections remain intact in `sections[]`
 
@@ -21,8 +21,8 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 - [x] **RNDR-01**: PersonnelCard component displays named persons showing name, title, organization, and role
 - [x] **RNDR-02**: PersonnelCard displays anonymous persons (no `name`) as "Title, Organization"
 - [x] **RNDR-03**: PersonnelCard visually highlights `isSelf` entries
-- [ ] **RNDR-04**: InvestigationReportLayout renders `exhibit.personnel` using PersonnelCard
-- [ ] **RNDR-05**: EngineeringBriefLayout renders `exhibit.personnel` using PersonnelCard
+- [x] **RNDR-04**: InvestigationReportLayout renders `exhibit.personnel` using PersonnelCard
+- [x] **RNDR-05**: EngineeringBriefLayout renders `exhibit.personnel` using PersonnelCard
 
 ### Documentation
 
@@ -68,16 +68,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DATA-01 | Phase 17 | Complete |
-| DATA-02 | Phase 17 | Pending |
+| DATA-02 | Phase 17 | Complete |
 | DATA-03 | Phase 17 | Complete |
-| DATA-04 | Phase 17 | Pending |
+| DATA-04 | Phase 17 | Complete |
 | DATA-05 | Phase 17 | Complete |
 | DATA-06 | Phase 17 | Complete |
 | RNDR-01 | Phase 18 | Complete |
 | RNDR-02 | Phase 18 | Complete |
 | RNDR-03 | Phase 18 | Complete |
-| RNDR-04 | Phase 19 | Pending |
-| RNDR-05 | Phase 19 | Pending |
+| RNDR-04 | Phase 19 | Complete |
+| RNDR-05 | Phase 19 | Complete |
 | DOC-01 | Phase 20 | Complete |
 
 **Coverage:**
