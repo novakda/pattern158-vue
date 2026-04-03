@@ -1,29 +1,18 @@
 # Feature Research
 
-**Domain:** Exhibit findings data promotion and responsive rendering (v2.3 milestone)
-**Researched:** 2026-04-02
-**Confidence:** HIGH (existing codebase fully audited, column patterns enumerated, v2.2 personnel promotion pattern established as reference)
+**Domain:** Visual feedback collector for dev/staging bug reporting (v3.0 milestone)
+**Researched:** 2026-04-03
+**Confidence:** HIGH (well-established domain with commercial precedents; scoped to internal dev tooling, not end-user feedback)
 
 ---
 
 ## Context Note
 
-This is the **third data promotion milestone** in the Pattern 158 Vue portfolio, following the established pattern from v2.2 (personnel promotion). The v2.2 pattern: extract structured data from embedded table sections into typed top-level arrays, build a purpose-built rendering component, wire into both layouts with empty-state suppression.
+This is a **dev/staging-only tool** for the Pattern 158 Vue portfolio site. The audience is Dan (the developer) and any future testers reviewing the site before deployment. This is NOT a production-facing feedback widget like BugHerd or Marker.io -- those tools serve end users, clients, and QA teams at scale. The v3.0 scope is narrower: a self-contained widget that lets a tester click an element, annotate it, and file a GitHub Issue with full technical context.
 
-Nine of 15 exhibits have findings sections. These come in two storage forms and four column patterns:
+Commercial tools in this space (BugHerd, Marker.io, UserSnap, Ybug, Feedbucket) share a common interaction model: activate widget, select element, annotate, submit. The core UX pattern is well-established. What varies is the depth of metadata capture, annotation richness, and integration breadth. For a dev-only tool, most of the commercial complexity (user management, session replay, multi-project dashboards) is irrelevant.
 
-**Storage forms:**
-- **Table sections** (7 exhibits): Structured rows with column headers -- directly promotable
-- **Text sections** (2 exhibits: D, M): Paragraph prose with heading "Findings" -- not structured data, leave as-is in sections
-
-**Table column patterns (the 7 promotable exhibits):**
-- 2-col Finding/Description: Exhibits E, F, J, N, O (5 exhibits -- dominant pattern)
-- 3-col Finding/Background/Resolution: Exhibit A (1 exhibit)
-- 3-col Finding/Severity/Description: Exhibit L (1 exhibit)
-
-**Special heading variant:** Exhibit J uses "Findings -- Five Concurrent Systemic Failures (Swiss Cheese Model)" -- the subtitle is exhibit-specific context, not a column.
-
-The existing CSS already has a responsive table pattern (desktop table, mobile stacked cards via `data-label` pseudo-elements) used by `.exhibit-table` and `.resolution-table`. The PersonnelCard component from v2.2 uses a CSS grid card layout instead. The findings component needs to decide which responsive strategy fits its content.
+The existing codebase is a Vue 3 + TypeScript + Vite SPA with ~6,800 LOC, 185 unit tests, comprehensive design token system, and Storybook 10. The feedback collector must be self-contained (isolated styling for potential future extraction) and gated to non-production builds.
 
 ---
 
@@ -31,110 +20,135 @@ The existing CSS already has a responsive table pattern (desktop table, mobile s
 
 ### Table Stakes (Users Expect These)
 
-Features that the v2.3 milestone must deliver. Missing these = the promotion is incomplete or regresses current rendering.
+Features that must work for the tool to be useful. A feedback tool that can't capture what the tester sees is broken.
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| ExhibitFindingEntry interface | Typed data model is the foundation of the promotion pattern. v2.2 established ExhibitPersonnelEntry as precedent. All-optional fields except finding title matches the column variance across exhibits | LOW | Fields: `finding` (required), `description?`, `background?`, `resolution?`, `severity?`. Union of all observed columns across 7 table-type exhibits |
-| findings[] array on Exhibit interface | Top-level typed array replaces table section data for 7 exhibits. Same structural position as personnel[] from v2.2 | LOW | Optional array. 7 exhibits populated, 8 exhibits empty/absent. Text-type findings sections (D, M) remain as sections -- they are prose, not structured data |
-| Data migration from 7 exhibits | Extract existing table rows into typed findings[] arrays. Mechanical transformation: columns map to interface fields | MEDIUM | 7 exhibits, varying row counts (3-5 rows each). Total ~28 finding entries. Column-to-field mapping: "Finding" -> finding, "Description" -> description, "Background" -> background, "Resolution" -> resolution, "Severity" -> severity |
-| Dedicated FindingsTable component | Purpose-built component renders findings with column-aware layout. Following v2.2 precedent (PersonnelCard), this is a single component handling all field variations | MEDIUM | Must handle: 2-col (finding + description), 3-col with background/resolution, 3-col with severity. Component reads which fields are populated and renders accordingly |
-| Desktop table rendering | Findings are tabular data. Desktop users expect a proper table with headers and aligned columns. The existing `.exhibit-table` CSS proves this pattern works | LOW | Semantic `<table>` element. Column headers derived from populated fields. Existing design tokens for table styling |
-| Mobile responsive rendering | Current exhibit tables use `data-label` stacked card pattern at 480px. Findings component must not regress mobile experience | MEDIUM | Two viable approaches: (1) reuse existing `data-label` pattern from CSS, (2) card grid like PersonnelCard. Decision depends on content density -- findings have long text descriptions that suit stacked cards better than grid cards |
-| Wired into both layouts | InvestigationReportLayout and EngineeringBriefLayout must both render findings when present. Empty-state suppression (no heading, no component when findings[] is empty/absent) | LOW | Identical pattern to personnel[] wiring in v2.2 Phase 19. `v-if="exhibit.findings?.length"` guard + heading + component |
-| Findings section heading preserved | Current table sections have headings like "Findings" or "Findings -- Five Foundational Gaps". The promoted rendering must preserve exhibit-specific headings | LOW | Add optional `findingsHeading?` field on Exhibit interface, defaulting to "Findings" when absent. Exhibit J and L have custom headings |
-| Old table sections coexist or are removed | After promotion, the original table sections with heading "Findings" should be removed from sections[] to avoid duplicate rendering. Text-type findings sections (D, M) stay | LOW-MEDIUM | Removal is the clean approach -- avoids rendering same data twice. But must be careful: only remove table-type sections with findings heading, not text-type |
-| Storybook stories | v2.2 established PersonnelCard.stories.ts as precedent. FindingsTable needs stories covering: 2-col, 3-col with severity, 3-col with background/resolution, single finding, many findings | LOW | Standard Storybook pattern. Use actual exhibit data as story fixtures |
+| Picker mode activation | Every visual feedback tool starts with "click to select." Without a clear entry point, the tool is invisible. BugHerd uses a sidebar toggle; Marker.io uses a floating button + keyboard shortcut | LOW | Floating button (corner-anchored) + keyboard shortcut (e.g., Ctrl+Shift+F). Button must be unobtrusive -- small icon, not a full widget bar. Toggle on/off state |
+| DOM element hover highlighting | Visual confirmation that the tester is targeting the right element. All commercial tools show an outline/overlay on hover during picker mode. Without this, element selection is a guessing game | MEDIUM | CSS outline or overlay box around hovered element. Must track mousemove events, compute bounding rect, render highlight overlay. Performance concern: throttle mousemove handler. Must not interfere with page scroll or existing hover states |
+| Element click to select | Clicking during picker mode locks the selection to the hovered element. This is the core interaction -- every commercial tool does it | LOW | Click handler during picker mode. preventDefault to avoid triggering links/buttons on the page. Store selected element reference |
+| Element context capture | Developers need enough info to find the element in code. CSS selector path + bounding rect + tag name is the minimum. BugHerd captures the exact HTML element; Marker.io captures selector path | MEDIUM | Generate unique CSS selector path (walk up from element to body, using IDs, classes, nth-child). Capture: tagName, selector path, bounding rect (x, y, width, height), innerText snippet (truncated). Vue component name would be a bonus (accessible via `__vue_app__` or devtools hooks) |
+| Screenshot capture | A picture is worth a thousand words. Every commercial tool captures a screenshot. Without it, the reporter has to describe what they see in text | HIGH | html2canvas (most popular, 2.6M weekly downloads, stable at v1.4.1) or html-to-image (faster, better modern CSS support). html2canvas is the safer choice for a portfolio-scale DOM. Captures the visible viewport. Known limitations: cross-origin images need CORS, some CSS filters may not render. For this portfolio site (no cross-origin content, standard CSS), limitations are minimal |
+| Comment/annotation input | The tester needs to describe the issue. A text field anchored near the selected element is the minimum. All commercial tools provide at least a text input | LOW | Text area in an overlay panel. Positioned near the selected element (anchored to bounding rect, with viewport edge detection to stay on screen). Placeholder text: "Describe the issue..." |
+| GitHub Issue submission | The output must go somewhere actionable. For this project, GitHub Issues is the target. The whole point is to reduce the friction between "I see a bug" and "there's a trackable issue" | HIGH | GitHub Issues API (POST /repos/{owner}/{repo}/issues). Requires VITE_GITHUB_TOKEN and VITE_GITHUB_REPO env vars. Issue body includes: screenshot, element selector, viewport dimensions, user agent, URL, comment text. Token must have `repo` scope (or `public_repo` for public repos) |
+| Screenshot in the Issue | A screenshot that only exists in the browser is useless. It must be attached to or linked from the GitHub Issue. GitHub Issues API does not support direct image upload | HIGH | **Primary: Gist upload.** Create a secret Gist via API with base64 PNG embedded in markdown (`<img src="data:image/png;base64,...">`), then link the Gist URL in the issue body. **Fallback: inline data URI** directly in issue body (works but makes the issue body enormous). Gist approach keeps issues clean and screenshots persistent |
+| Dev/staging build gating | This tool must NEVER appear in production. It exposes a GitHub token and is dev tooling, not a product feature | LOW | Vite environment variable check: only register the component/plugin when `import.meta.env.DEV` or a `VITE_FEEDBACK_ENABLED` flag is set. Conditional import in main.ts. Tree-shaking removes it from production bundle |
+| Environment metadata in Issue | Viewport size, user agent, current URL, and dark/light theme state are standard context. Every commercial tool captures this automatically | LOW | `window.innerWidth`, `window.innerHeight`, `navigator.userAgent`, `window.location.href`, current theme from localStorage or DOM attribute. Format as markdown table in issue body |
 
 ### Differentiators (Competitive Advantage)
 
-Features that elevate findings beyond basic table rendering. These leverage the NTSB investigation framing that makes this portfolio distinctive.
+Features that make this tool more useful than a basic screenshot + issue form. These are worth building because they showcase Vue engineering skill (this is a portfolio piece) and because they genuinely improve the dev workflow.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| Severity indicators with visual treatment | Exhibit L has severity levels (Critical, High, etc.). Visual badges/colors for severity make the investigation feel rigorous -- like a real engineering assessment, not a portfolio bullet list | LOW | Only Exhibit L currently uses severity. CSS badge similar to exhibit-type badges. Design tokens for severity colors (critical=red, high=amber). Small touch, high signal-to-noise ratio |
-| Finding title as primary identifier | Each finding has a short title ("Memory cache vulnerability", "No data model") that works as a scannable label. Desktop: first column. Mobile: card heading. This scanability mirrors how NTSB reports present contributing factors | LOW | Already the data pattern. The component design should emphasize finding titles as the entry point, with description/details as supporting text |
-| Column-adaptive rendering | Component intelligently renders only the columns present in each exhibit's findings. 2-col exhibits get a clean two-column table; 3-col exhibits get the additional column. No empty columns, no wasted space | MEDIUM | Props-driven: component inspects the first finding's populated fields to determine column set. Or: explicit prop for column pattern. Inspection is more elegant -- the data drives the rendering |
-| Custom section headings | "Findings -- Five Concurrent Systemic Failures (Swiss Cheese Model)" is more evocative than generic "Findings." Preserving exhibit-specific headings maintains the narrative framing unique to each investigation | LOW | Already discussed in table stakes. The differentiator is the intentionality -- most portfolio templates would flatten to generic headings |
+| Annotation drawing overlay | Arrows, rectangles, and freehand drawing on the screenshot let the tester circle the exact problem area. Marker.io and UserSnap both offer this. Text description alone often fails to communicate spatial problems ("the thing on the right is misaligned") | HIGH | Canvas overlay on top of the captured screenshot. Drawing tools: rectangle, arrow, freehand. Color picker (red default). Composited onto the screenshot before upload. This is the single most complex feature -- it requires a mini drawing app. Worth building because it's the most visible portfolio demonstration |
+| Vue component name in metadata | Unlike generic tools, this one runs inside the Vue app. It can introspect `__vue_app__` or walk the component tree to include the Vue component name in the issue. Developers using this tool care about component names more than CSS selectors | MEDIUM | Walk up from the DOM element to find the nearest Vue component instance. Vue 3 exposes component info on DOM elements via internal properties. In dev mode, `__vueParentComponent` or similar is available. Include component name and file path (if available via source maps) in issue metadata |
+| Keyboard-driven workflow | Power users (i.e., the developer himself) want speed. Keyboard shortcut to activate, Escape to cancel, Enter to submit. No mouse-only workflows | LOW | Keyboard event listeners: Ctrl+Shift+F to toggle picker, Escape to cancel/close, Tab through form fields, Enter/Ctrl+Enter to submit. Must not conflict with existing app shortcuts or browser defaults |
+| Issue labels and categorization | Auto-label issues as "visual-feedback" or "bug" so they're filterable in the GitHub repo. Pre-populated labels reduce triage effort | LOW | Add `labels: ["visual-feedback"]` to the GitHub Issues API call. Optionally let the reporter pick from a small set: bug, visual, content, accessibility |
+| Configurable Gist visibility | Secret Gists by default (not listed publicly but accessible via URL). Option for public if the repo is public and transparency is desired | LOW | Default to secret Gist (`public: false` in Gist API call). Configurable via env var if needed |
+| Self-contained styling | All feedback collector CSS uses a unique namespace (`.feedback-collector-*` or CSS layer) that cannot leak into or be affected by the portfolio site's design tokens | MEDIUM | CSS containment strategy: either a dedicated CSS layer (`@layer feedback-collector`), BEM-namespaced classes, or shadow DOM. CSS layer is the cleanest approach given the existing cascade layer system in the portfolio. Enables future extraction as a standalone package |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| Expandable/collapsible finding details | "Click to expand" accordion for long descriptions | Findings have 1-3 sentences of description. Not enough content to justify expand/collapse interaction. Adds JavaScript complexity for no user benefit. The content IS the point -- hiding it behind a click defeats the purpose of an evidence-based portfolio | Render all content visible. Short descriptions don't need progressive disclosure |
-| Severity filtering/sorting | "Sort findings by severity" | Only 1 of 7 exhibits has severity data. Building filter/sort for a single exhibit is overengineering. 3-5 findings per exhibit is far below where sorting adds value | Display severity as inline badge. No interaction needed at this scale |
-| Finding numbering/IDs | "F-01, F-02" identifiers like NTSB reports | The existing Exhibit J text references "F-01" through "F-05" in prose sections but these are part of the narrative, not data model IDs. Adding systematic IDs to all exhibits imposes a formality that doesn't match Engineering Briefs | Let exhibit prose reference IDs naturally where the investigation framing warrants it. Don't force IDs into the data model |
-| Cross-exhibit finding comparison | "Show related findings across exhibits" | 9 exhibits with 3-5 findings each = ~30 findings total. Cross-referencing adds significant complexity for minimal discovery value. The exhibits are independent investigations | Keep findings scoped to their exhibit. The exhibit is the unit of evidence |
-| Separate mobile component | FindingsTableDesktop.vue + FindingsCardMobile.vue | Two components for the same data doubles maintenance. CSS media queries handle responsive layout in a single component -- this is exactly what the existing `.exhibit-table` pattern does | Single component with CSS-driven responsive behavior. Table on desktop, stacked cards on mobile, one template |
-| Rich text in finding descriptions | Markdown/HTML in description fields | All current finding descriptions are plain text. Adding rich text parsing for 28 entries is complexity with no current need. If a future finding needs emphasis, the prose can be rewritten to be clear without formatting | Keep string fields. Plain text is sufficient and type-safe |
-| Promoting text-type findings (D, M) to structured data | "All findings should use the same component" | Exhibits D and M have paragraph-prose findings that don't decompose into rows. Forcing prose into a structured format would lose narrative flow. These are text sections, not tabular data | Leave Exhibits D and M findings as text-type sections in sections[]. Only promote table-type findings |
+| Session replay / video recording | Commercial tools like UserSnap offer session replay on higher tiers | Massive complexity: requires recording DOM mutations, input events, scroll positions. Storage and playback are separate engineering problems. Entirely out of scope for a dev tool used by one person | A screenshot with element context and a text description is sufficient for a developer debugging their own site |
+| Real-time collaboration / comments | "Multiple testers commenting on the same issue" | This is a single-developer portfolio. There are no concurrent testers. GitHub Issues already has a comment thread. Building a real-time layer duplicates GitHub's own collaboration features | Submit to GitHub Issues. Discussion happens there |
+| Drag-and-drop pin placement | BugHerd's signature feature: colored pins on the page at exact coordinates | Pins require persistent state (where are the pins stored?), a backend, and a dashboard to manage them. This is a full SaaS feature, not a dev utility | Click-to-select already captures the element. The issue in GitHub is the persistent record, not a pin on the page |
+| Multi-project support | "Configure different repos for different projects" | This tool serves one project. Multi-project config adds env var complexity and UI for selecting a target repo with zero benefit | Single repo configured via VITE_GITHUB_REPO. If reused later, fork and reconfigure |
+| User authentication / reporter identity | "Track who reported what" | Dev tool used by one person. GitHub token already identifies the reporter (issues are created under that token's account). Adding auth is pure overhead | GitHub token implicitly identifies the reporter |
+| Console log capture | Marker.io captures console logs on higher tiers. Useful for catching JS errors alongside visual bugs | Requires intercepting console.log/warn/error before they fire, maintaining a circular buffer, and serializing potentially huge log output. For a dev tool, the developer has the browser console open already | Include a note in the issue template: "Check browser console for errors." The developer is the reporter -- they have direct console access |
+| Network request capture | Marker.io captures network waterfall | Same as console logs but worse: intercepting fetch/XHR, recording timing, payload sizes. This is a profiler feature, not a feedback feature. The portfolio site makes zero API calls (fully static) | Not applicable. The site is static. No network requests to capture |
+| Full-page screenshot (scrolled) | "Capture the entire page, not just the viewport" | html2canvas can do this but it's slow on long pages, produces enormous images, and the viewport screenshot already shows what the tester sees. Full-page captures are rarely more useful than viewport captures for visual bugs | Capture the visible viewport. If context beyond the viewport matters, the tester can describe it in the comment |
+| Screenshot comparison / diff | "Compare current screenshot to a baseline" | Requires storing baselines, computing pixel diffs, handling responsive variability. This is visual regression testing (Chromatic, Percy), not feedback collection | Use Playwright or Chromatic for visual regression. The feedback tool captures what looks wrong now, not what changed |
 
 ---
 
 ## Feature Dependencies
 
 ```
-[ExhibitFindingEntry interface]
+[Dev/staging build gating]  (independent, can be first)
+
+[Picker mode activation]
     |
-    +--enables--> [findings[] array on Exhibit]
+    +--enables--> [DOM element hover highlighting]
     |                 |
-    |                 +--enables--> [Data migration from 7 exhibits]
-    |                 |
-    |                 +--enables--> [Layout wiring (both layouts)]
+    |                 +--enables--> [Element click to select]
+    |                                   |
+    |                                   +--enables--> [Element context capture]
+    |                                   |
+    |                                   +--enables--> [Screenshot capture]
+    |                                   |                 |
+    |                                   |                 +--enables--> [Annotation drawing overlay]
+    |                                   |                 |
+    |                                   |                 +--enables--> [Screenshot in Issue (Gist upload)]
+    |                                   |
+    |                                   +--enables--> [Comment/annotation input panel]
     |
-    +--enables--> [FindingsTable component]
-                      |
-                      +--requires--> [Desktop table rendering]
-                      |
-                      +--requires--> [Mobile responsive rendering]
-                      |
-                      +--requires--> [Column-adaptive rendering]
+    +--enables--> [Keyboard-driven workflow]
 
-[findingsHeading on Exhibit] --independent, can be added with interface or later--
+[Comment/annotation input panel]
+    +--requires--> [Element click to select] (panel anchors near selected element)
 
-[Severity visual treatment] --enhances--> [FindingsTable component]
+[GitHub Issue submission]
+    +--requires--> [Comment/annotation input] (issue body text)
+    +--requires--> [Element context capture] (metadata in issue)
+    +--requires--> [Screenshot in Issue (Gist upload)] (visual evidence)
+    +--requires--> [Environment metadata] (viewport, UA, URL, theme)
 
-[Old table section removal] --requires--> [Data migration complete]
-                            --requires--> [FindingsTable wired into layouts]
+[Self-contained styling]  (cross-cutting, applies to all UI components)
 
-[Storybook stories] --requires--> [FindingsTable component complete]
+[Vue component name in metadata] --enhances--> [Element context capture]
+[Issue labels] --enhances--> [GitHub Issue submission]
 ```
 
 ### Dependency Notes
 
-- **Interface first, then data, then component, then wiring.** Same phase order as v2.2 personnel promotion: types -> data -> render -> integrate -> document.
-- **Old section removal depends on both migration AND wiring.** Cannot remove table sections until the replacement rendering is live. This is the final step, not an early one.
-- **Severity treatment is additive.** Can be built into FindingsTable from the start (Exhibit L data drives it) or added as enhancement. Building it in from the start is cleaner -- one exhibit's data shouldn't require a second pass.
-- **Text-type findings (D, M) have no dependencies here.** They stay in sections[], rendered by existing text section renderer. No work needed.
-- **findingsHeading is a small interface addition** that can ride with the main interface work. Only 2-3 exhibits need non-default headings.
+- **Picker mode is the foundation.** Everything else depends on the ability to enter selection mode and target an element. Build this first.
+- **Screenshot capture and element context are parallel tracks** after element selection. Screenshot requires html2canvas; context requires DOM traversal. Both feed into the GitHub Issue.
+- **Gist upload depends on screenshot capture.** The Gist is the hosting mechanism for the screenshot. Must be created before the issue so the Gist URL can be included in the issue body. Two sequential API calls: (1) create Gist with screenshot, (2) create Issue referencing Gist.
+- **Annotation overlay depends on screenshot capture** but enhances it. The screenshot must exist before annotations can be drawn on it. This is the most complex feature and can be deferred to a later phase within v3.0.
+- **Self-contained styling is cross-cutting.** Every UI element (button, overlay, panel) must use isolated CSS. This is an architectural decision made at the start, not a feature added later.
+- **Build gating is independent and should be the very first thing wired.** If the tool accidentally ships to production, it exposes a GitHub token. Gate first, build features second.
 
 ---
 
 ## MVP Definition
 
-### Launch With (v2.3 -- Findings Promotion Complete)
+### Launch With (v3.0 Core -- Minimum Useful Feedback Tool)
 
-Minimum viable promotion that moves findings from embedded tables to first-class data with purpose-built rendering.
+The minimum that makes "click element, file issue" work end-to-end.
 
-- [ ] ExhibitFindingEntry interface with all-optional fields except finding title
-- [ ] findings[] optional array on Exhibit interface
-- [ ] findingsHeading optional string on Exhibit interface (default: "Findings")
-- [ ] Data migration: 7 exhibits' table rows extracted to findings[] arrays
-- [ ] FindingsTable component: table on desktop, stacked cards on mobile
-- [ ] Column-adaptive rendering (2-col and 3-col patterns handled automatically)
-- [ ] Severity badge rendering for Exhibit L findings
-- [ ] Wired into InvestigationReportLayout and EngineeringBriefLayout
-- [ ] Empty-state suppression (no heading/component when findings absent)
-- [ ] Old findings table sections removed from migrated exhibits
-- [ ] Storybook stories covering field variations
+- [ ] Dev/staging build gate (conditional registration, tree-shaken from production) -- safety first
+- [ ] Self-contained styling strategy (CSS layer or BEM namespace) -- architectural foundation
+- [ ] Picker mode toggle (floating button + Ctrl+Shift+F keyboard shortcut)
+- [ ] DOM element hover highlighting (outline overlay tracking mousemove)
+- [ ] Element click to select (lock selection, preventDefault on page elements)
+- [ ] Element context capture (tag, CSS selector path, bounding rect)
+- [ ] Screenshot capture via html2canvas (viewport of selected element's area)
+- [ ] Comment input panel (text area anchored near selected element)
+- [ ] Environment metadata (viewport, user agent, URL, theme state)
+- [ ] Gist upload (secret Gist with base64 screenshot PNG)
+- [ ] GitHub Issue creation (structured body with screenshot link, metadata, comment)
+- [ ] Escape to cancel, basic keyboard navigation
 
-### Defer (Not v2.3)
+### Add After Core Works (v3.0 Enhancement Pass)
 
-- [ ] Promoting text-type findings from Exhibits D and M -- prose doesn't fit structured model
-- [ ] Cross-exhibit finding relationships -- premature at 30 findings
-- [ ] Finding numbering/ID system -- not all exhibits use investigation framing
-- [ ] Expandable details -- content is too short to warrant progressive disclosure
-- [ ] Rich text in descriptions -- no current need
+Features to add once the core flow is validated end-to-end.
+
+- [ ] Annotation drawing overlay (rectangle, arrow, freehand on screenshot) -- highest-impact enhancement but most complex
+- [ ] Vue component name in element metadata -- dev-specific value add
+- [ ] Issue labels (auto-tag "visual-feedback", optional category picker)
+- [ ] Configurable Gist visibility (secret vs. public)
+- [ ] Keyboard shortcuts for annotation tools
+
+### Future Consideration (Post-v3.0)
+
+Features that are out of scope but noted for completeness.
+
+- [ ] Extract as standalone npm package -- requires removing Vue-specific dependencies
+- [ ] Support for non-GitHub issue trackers (Jira, Linear) -- only if Dan's workflow changes
+- [ ] Dark mode for the feedback widget itself -- nice but not necessary for a dev tool
 
 ---
 
@@ -142,50 +156,98 @@ Minimum viable promotion that moves findings from embedded tables to first-class
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| ExhibitFindingEntry interface | HIGH | LOW | P1 |
-| findings[] array on Exhibit | HIGH | LOW | P1 |
-| Data migration (7 exhibits) | HIGH | MEDIUM | P1 |
-| FindingsTable component | HIGH | MEDIUM | P1 |
-| Desktop table rendering | HIGH | LOW | P1 |
-| Mobile responsive rendering | HIGH | MEDIUM | P1 |
-| Column-adaptive rendering | HIGH | MEDIUM | P1 |
-| Layout wiring (both layouts) | HIGH | LOW | P1 |
-| Empty-state suppression | MEDIUM | LOW | P1 |
-| findingsHeading field | MEDIUM | LOW | P1 |
-| Old table section removal | MEDIUM | LOW-MEDIUM | P1 |
-| Severity visual badges | MEDIUM | LOW | P1 |
-| Storybook stories | LOW | LOW | P1 |
+| Dev/staging build gate | HIGH (security) | LOW | P1 |
+| Self-contained styling | HIGH (architecture) | MEDIUM | P1 |
+| Picker mode activation | HIGH | LOW | P1 |
+| Hover highlighting | HIGH | MEDIUM | P1 |
+| Element click to select | HIGH | LOW | P1 |
+| Element context capture | HIGH | MEDIUM | P1 |
+| Screenshot capture | HIGH | MEDIUM | P1 |
+| Comment input panel | HIGH | LOW | P1 |
+| Environment metadata | MEDIUM | LOW | P1 |
+| Gist screenshot upload | HIGH | MEDIUM | P1 |
+| GitHub Issue submission | HIGH | MEDIUM | P1 |
+| Keyboard shortcuts (basic) | MEDIUM | LOW | P1 |
+| Annotation drawing overlay | HIGH | HIGH | P2 |
+| Vue component name capture | MEDIUM | MEDIUM | P2 |
+| Issue labels | LOW | LOW | P2 |
+| Configurable Gist visibility | LOW | LOW | P3 |
 
 **Priority key:**
-- P1: All features are v2.3 scope. This is a focused promotion milestone with no P2/P3 items -- everything listed is either in scope or explicitly deferred.
+- P1: Core feedback loop. Must work for the tool to be useful.
+- P2: Enhancement pass. Adds significant value once core is proven.
+- P3: Polish. Nice to have, minimal effort.
 
 ---
 
-## Existing Component Reference: v2.2 Personnel Pattern
+## Competitor Feature Analysis
 
-The v2.2 personnel promotion is the direct precedent for v2.3 findings. Key patterns to replicate:
+How commercial tools handle these features, and what our dev-only scope means for each.
 
-| Aspect | v2.2 Personnel | v2.3 Findings (Recommended) |
-|--------|---------------|----------------------------|
-| Interface | ExhibitPersonnelEntry (all optional except implied presence) | ExhibitFindingEntry (all optional except `finding` title) |
-| Array field | `personnel?: ExhibitPersonnelEntry[]` | `findings?: ExhibitFindingEntry[]` |
-| Component | PersonnelCard -- CSS grid of cards | FindingsTable -- `<table>` on desktop, stacked cards on mobile |
-| Display modes | 3 modes: named/anonymous/self | Column-adaptive: 2-col, 3-col-severity, 3-col-background-resolution |
-| Layout wiring | `v-if="exhibit.personnel?.length"` + heading + component | Same pattern with findings |
-| Responsive | CSS grid cards at all sizes | Table -> stacked cards at 480px (matches existing `.exhibit-table` CSS pattern) |
-| Stories | PersonnelCard.stories.ts with 3 variants | FindingsTable.stories.ts with column variants |
+| Feature | BugHerd | Marker.io | UserSnap | Our Approach (v3.0) |
+|---------|---------|-----------|----------|---------------------|
+| Activation | Sidebar toggle on page edge | Floating button + shortcut | Floating widget button | Floating button + Ctrl+Shift+F. Simpler than sidebar -- no persistent UI footprint |
+| Element selection | Click to pin on element | Click anywhere on page | Click to select area | Click to select specific DOM element with hover preview |
+| Highlighting | Colored pin at click point | Blue outline overlay | Blue highlight overlay | CSS outline overlay on hover, locked on click |
+| Screenshot | Auto-capture on pin | Auto-capture with annotation tools | Auto-capture with drawing tools | html2canvas on selection. Annotation as P2 enhancement |
+| Annotation | Basic text only | Arrows, rectangles, text, highlight, blur | Drawing, arrows, shapes, text | P2: Canvas overlay with rectangle + arrow + freehand |
+| Metadata | Basic: browser, OS, URL | Full: console logs, network, selector, viewport | Full: console, network, user info | Element selector, bounding rect, viewport, UA, URL, theme. No console/network (static site, dev has console open) |
+| Integration | Limited (own tracker) | GitHub, Jira, Trello, Asana, ClickUp | Jira, Trello, Slack, Azure DevOps | GitHub Issues only. Single integration, done well |
+| Image hosting | Internal CDN | Internal CDN | Internal CDN | Gist (base64 PNG). No CDN needed -- Gist is persistent and free |
+| Pricing | $41-$109/mo | $39-$79/mo | EUR39-EUR949/mo | Free (self-hosted, GitHub API) |
+| Build gating | External script, always loaded | External script or npm | External script or npm | Compile-time gating via Vite env. Zero production footprint |
 
-**Key difference:** PersonnelCard always renders as cards (personnel are entity-like). FindingsTable should render as a proper `<table>` on desktop because findings are genuinely tabular -- they have aligned columns where scanning across rows is valuable. The existing `.exhibit-table` CSS responsive pattern (table on desktop, `data-label` stacked cards on mobile) is the correct model, not PersonnelCard's grid.
+---
+
+## UX Flow (Reference for Implementation)
+
+The standard interaction pattern across all commercial tools, adapted for our dev scope:
+
+```
+1. IDLE STATE
+   - Small floating button in bottom-right corner (or configurable)
+   - Keyboard shortcut hint on hover
+
+2. PICKER MODE (activated by button click or Ctrl+Shift+F)
+   - Cursor changes to crosshair
+   - Page elements highlight on hover (outline + semi-transparent overlay)
+   - Page click handlers are intercepted (preventDefault)
+   - Escape cancels and returns to idle
+
+3. ELEMENT SELECTED (click during picker mode)
+   - Highlight locks on selected element
+   - Element context captured (selector, rect, metadata)
+   - Screenshot triggered (html2canvas)
+   - Comment panel appears near selected element
+
+4. ANNOTATION (P2 -- after screenshot captured)
+   - Screenshot displayed in panel with drawing tools
+   - Rectangle, arrow, freehand tools
+   - Drawings composited onto screenshot
+
+5. SUBMISSION (user clicks "Submit" or Ctrl+Enter)
+   - Screenshot uploaded to Gist (if screenshot exists)
+   - GitHub Issue created with structured body
+   - Success/failure feedback to user
+   - Return to idle state
+```
 
 ---
 
 ## Sources
 
-- Existing codebase analysis: `exhibits.ts` (7 table-type findings sections, 2 text-type), `InvestigationReportLayout.vue` (table rendering with `data-label`), `PersonnelCard.vue` (v2.2 promotion pattern) -- HIGH confidence, primary source
-- Existing CSS: `main.css` lines 4000-4358 (`.exhibit-table` responsive pattern, `data-label` mobile cards, dark theme support) -- HIGH confidence, primary source
-- PROJECT.md v2.3 milestone definition -- HIGH confidence, project specification
+- [Marker.io: Usersnap vs BugHerd vs Marker.io comparison](https://marker.io/blog/usersnap-vs-bugherd-vs-markerio) -- commercial tool feature comparison
+- [Feedbucket: Usersnap vs BugHerd vs Marker.io vs Feedbucket](https://www.feedbucket.app/blog/usersnap-vs-bugherd-vs-marker-io/) -- independent comparison with feature matrices
+- [BugHerd: Best Website Feedback Tools for 2025](https://bugherd.com/blog/website-feedback-tools) -- ecosystem overview
+- [monday.com engineering: Capturing DOM as Image Is Harder Than You Think](https://engineering.monday.com/capturing-dom-as-image-is-harder-than-you-think-how-we-solved-it-at-monday-com/) -- html2canvas vs alternatives deep dive
+- [npm-compare: html2canvas vs modern-screenshot vs html-to-image](https://npm-compare.com/html2canvas,modern-screenshot,puppeteer,screenshot-desktop) -- download stats and feature comparison
+- [GitHub community discussion: Image upload via REST API](https://github.com/orgs/community/discussions/46951) -- confirms no direct image upload in Issues API
+- [GitHub community discussion: Gist binary file upload](https://github.com/orgs/community/discussions/29217) -- Gist as image hosting workaround
+- [Ybug.io](https://ybug.io/) -- lightweight visual feedback tool reference
+- [UserSnap: Human-centered bug reporting](https://usersnap.com/blog/human-centered-bug-reporting-with-visual-elements/) -- UX patterns for visual feedback
+- PROJECT.md v3.0 milestone definition -- HIGH confidence, project specification
 
 ---
 
-*Feature research for: Exhibit findings data promotion and responsive rendering*
-*Researched: 2026-04-02*
+*Feature research for: Visual feedback collector for dev/staging bug reporting*
+*Researched: 2026-04-03*

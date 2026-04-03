@@ -1,311 +1,458 @@
-# Architecture Patterns
+# Architecture Research
 
-**Domain:** Findings data promotion and responsive rendering for portfolio exhibit system
-**Researched:** 2026-04-02
-**Confidence:** HIGH (all findings based on direct codebase analysis; no external dependencies)
+**Domain:** Visual feedback collector overlay for Vue 3 SPA
+**Researched:** 2026-04-03
+**Confidence:** HIGH
 
-## Context: The v2.2 Personnel Precedent
-
-v2.2 established the exact promotion pattern this milestone follows:
-
-1. Define typed interface (`ExhibitPersonnelEntry`)
-2. Add optional typed array to `Exhibit` interface (`personnel?: ExhibitPersonnelEntry[]`)
-3. Extract data from existing `sections[]` table rows into new typed arrays
-4. Build dedicated rendering component (`PersonnelCard`)
-5. Wire into both layout components with empty-state suppression (`v-if` guard)
-6. Add Storybook stories
-7. Keep original table sections untouched (coexistence)
-
-v2.3 follows this pattern with one significant difference: **responsive rendering** (table on desktop, card grid on mobile). PersonnelCard only needed a card grid. FindingsDisplay needs two rendering modes.
-
-## Recommended Architecture
-
-### New Type: ExhibitFindingEntry
-
-```typescript
-// In src/data/exhibits.ts
-export interface ExhibitFindingEntry {
-  finding: string          // REQUIRED - the finding title (column 1 in all tables)
-  description?: string     // 2-col pattern: "Description" column (5 exhibits)
-  background?: string      // 3-col pattern: "Background" column (Exhibit A only)
-  resolution?: string      // 3-col pattern: "Resolution" column (Exhibit A only)
-  severity?: string        // 3-col pattern: "Severity" column (Exhibit L only)
-}
-```
-
-**Rationale:** All 7 promotable findings tables share column 1 as "Finding" (the title). The variation is in columns 2-3:
-- **2-col** `['Finding', 'Description']` -- 5 exhibits: E, G, M, N, O
-- **3-col with Background/Resolution** `['Finding', 'Background', 'Resolution']` -- 1 exhibit: A
-- **3-col with Severity/Description** `['Finding', 'Severity', 'Description']` -- 1 exhibit: L
-- **Text-type findings** (prose paragraphs, not tabular) -- 2 exhibits: D, F -- NOT promoted
-
-Making all fields optional except `finding` handles every variant cleanly. The component renders whatever fields are present.
-
-### Exhibit Interface Change
-
-```typescript
-export interface Exhibit {
-  // ... existing fields
-  findings?: ExhibitFindingEntry[]  // NEW - optional, 7 exhibits get this
-}
-```
-
-### Component Boundaries
-
-| Component | Responsibility | Communicates With | New/Modified |
-|-----------|---------------|-------------------|--------------|
-| `ExhibitFindingEntry` (type) | Typed finding data shape | `Exhibit` interface | **NEW** |
-| `FindingsDisplay` | Renders findings as table (desktop) or card grid (mobile) | Layout components via props | **NEW** |
-| `InvestigationReportLayout` | IR detail page template | FindingsDisplay (new import) | **MODIFIED** (add findings section) |
-| `EngineeringBriefLayout` | EB detail page template | FindingsDisplay (new import) | **MODIFIED** (add findings section) |
-| `exhibits.ts` data | Static exhibit data source | All consumers | **MODIFIED** (add findings[] to 7 exhibits) |
-
-**NOT modified:**
-- `ExhibitDetailPage.vue` -- thin dispatcher, no changes needed
-- `FindingCard.vue` -- this is the **HomePage** featured projects component, completely unrelated to exhibit findings. Different data source (`src/data/findings.ts`), different purpose, different rendering. Do NOT conflate these.
-- `PersonnelCard.vue` -- untouched
-- `src/data/findings.ts` -- homepage featured projects data, unrelated
-
-### Critical Naming Distinction
-
-The codebase has TWO unrelated "findings" concepts:
-
-| Concept | File | Type | Used By |
-|---------|------|------|---------|
-| Homepage "Featured Projects" | `src/data/findings.ts` | `Finding` | `FindingCard.vue` on `HomePage.vue` |
-| Exhibit findings sections | `src/data/exhibits.ts` | `ExhibitFindingEntry` (new) | `FindingsDisplay.vue` (new) on detail layouts |
-
-The new component MUST be named `FindingsDisplay` (not `FindingsCard` or `FindingsList`) to avoid confusion with the existing `FindingCard`.
-
-## Data Flow
+## System Overview
 
 ```
-exhibits.ts                    Layout Components              Rendering
-============                   ================               =========
-
-Exhibit {                      InvestigationReportLayout
-  findings?: [                   v-if="exhibit.findings?.length"
-    { finding, description },      <FindingsDisplay             FindingsDisplay
-    { finding, severity,             :findings="exhibit.findings"   Desktop: <table>
-      description },               />                              Mobile: <div class="findings-grid">
-  ]                                                                          <article> cards
-}                              EngineeringBriefLayout
-                                 (same pattern)
+┌─────────────────────────────────────────────────────────────────────┐
+│                        App Shell (App.vue)                          │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │ <NavBar />                                          z:100-101│  │
+│  ├───────────────────────────────────────────────────────────────┤  │
+│  │ <router-view />  (page content)                              │  │
+│  ├───────────────────────────────────────────────────────────────┤  │
+│  │ <FooterBar />                                                │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                     │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │ <FeedbackCollector />  (conditional, dev/staging only) z:10k │  │
+│  │  ┌────────────┐  ┌──────────────┐  ┌───────────────────┐     │  │
+│  │  │ TriggerFab │  │ PickerOverlay│  │ AnnotationPanel   │     │  │
+│  │  │ (always)   │  │ (picker mode)│  │ (after selection) │     │  │
+│  │  └────────────┘  └──────────────┘  └───────────────────┘     │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                                                                     │
+│  useFeedback() composable ── state machine, orchestrates pipeline  │
+│  useFeedbackConfig() composable ── env var resolution              │
+└─────────────────────────────────────────────────────────────────────┘
+                              │
+                    ┌─────────┴──────────┐
+                    │  External Services  │
+                    │  ┌──────────────┐   │
+                    │  │ html2canvas  │   │
+                    │  │ (screenshot) │   │
+                    │  ├──────────────┤   │
+                    │  │ GitHub Gist  │   │
+                    │  │ (img upload) │   │
+                    │  ├──────────────┤   │
+                    │  │ GitHub Issues│   │
+                    │  │ (submission) │   │
+                    │  └──────────────┘   │
+                    └─────────────────────┘
 ```
 
-**Placement in layout template:** Between existing `sections` rendering and `resolutionTable`, matching how personnel was added after content sections. The exact position:
+## Component Responsibilities
+
+### New Components
+
+| Component | Responsibility | Type | Location |
+|-----------|----------------|------|----------|
+| `FeedbackCollector.vue` | Root orchestrator; mounts trigger, picker, and panel; owns lifecycle | SFC (new) | `src/components/feedback/FeedbackCollector.vue` |
+| `FeedbackTrigger.vue` | Floating action button + keyboard shortcut listener; emits `activate` | SFC (new) | `src/components/feedback/FeedbackTrigger.vue` |
+| `PickerOverlay.vue` | Full-viewport transparent overlay; tracks mouse, highlights hovered element, emits `select` with element ref | SFC (new) | `src/components/feedback/PickerOverlay.vue` |
+| `AnnotationPanel.vue` | Slide-in panel anchored near selection; comment textarea, metadata display, submit/cancel actions | SFC (new) | `src/components/feedback/AnnotationPanel.vue` |
+
+### New Composables
+
+| Composable | Responsibility | Location |
+|------------|----------------|----------|
+| `useFeedback()` | State machine (idle/picking/annotating/submitting/done/error), element capture, screenshot orchestration, submission pipeline | `src/composables/useFeedback.ts` |
+| `useFeedbackConfig()` | Reads `VITE_*` env vars, validates presence, exposes typed config reactive | `src/composables/useFeedbackConfig.ts` |
+
+### New Services (pure functions, no Vue dependency)
+
+| Service | Responsibility | Location |
+|---------|----------------|----------|
+| `captureElement.ts` | Given DOM element: extract tag, compute CSS selector path, read bounding rect, call html2canvas | `src/services/feedback/captureElement.ts` |
+| `githubSubmit.ts` | Upload screenshot to Gist, create Issue with markdown body linking screenshot | `src/services/feedback/githubSubmit.ts` |
+
+### Modified Files
+
+| File | Change | Why |
+|------|--------|-----|
+| `App.vue` | Add conditional `<FeedbackCollector />` after `<FooterBar />` | Mount point for the overlay system |
+
+No other existing files are modified. The feedback system is fully additive. `vite.config.ts` needs no changes -- `import.meta.env.VITE_*` works out of the box.
+
+## Recommended Project Structure
 
 ```
-sections (existing)
-  |
-findings (NEW - between sections and resolution)
-  |
-resolutionTable (existing)
-  |
-personnel (existing)
-  |
-impactTags (existing)
+src/
+├── components/
+│   ├── feedback/                  # NEW -- self-contained feedback module
+│   │   ├── FeedbackCollector.vue  # Root orchestrator
+│   │   ├── FeedbackTrigger.vue    # FAB + keyboard shortcut
+│   │   ├── PickerOverlay.vue      # Element selection overlay
+│   │   ├── AnnotationPanel.vue    # Comment + submit panel
+│   │   ├── feedback.css           # All feedback styles (self-contained)
+│   │   └── feedback.types.ts      # Shared TypeScript types
+│   ├── exhibit/                   # existing
+│   ├── NavBar.vue                 # existing
+│   ├── FooterBar.vue              # existing
+│   └── ...                        # existing
+├── composables/
+│   ├── useFeedback.ts             # NEW -- state machine + pipeline
+│   ├── useFeedbackConfig.ts       # NEW -- env var config
+│   ├── useBodyClass.ts            # existing
+│   └── useSeo.ts                  # existing
+├── services/
+│   └── feedback/                  # NEW -- pure business logic
+│       ├── captureElement.ts      # DOM capture + html2canvas
+│       └── githubSubmit.ts        # Gist + Issues API
+└── ...
 ```
 
-## Patterns to Follow
+### Structure Rationale
 
-### Pattern 1: Responsive Dual-Mode Rendering
-**What:** Single component renders both a table and a card grid; CSS media queries toggle visibility.
-**When:** Data is tabular but tables are unreadable on mobile.
-**Implementation:**
+- **`components/feedback/`:** Groups all feedback UI in a subdirectory following the existing `components/exhibit/` precedent. Self-contained for potential future extraction into a standalone package.
+- **`composables/`:** Follows existing flat pattern (`useBodyClass`, `useSeo`). Two new composables at the same level.
+- **`services/feedback/`:** New directory. Pure functions with no Vue dependency -- testable in isolation with happy-dom, no component mounting needed. Separates API/DOM concerns from Vue reactivity.
+- **`feedback.css`:** Single CSS file imported by `FeedbackCollector.vue`, not added to `main.css`. Keeps feedback styles completely decoupled from the design system. Uses its own CSS custom properties prefixed with `--fb-*` to avoid token collision.
 
+## Architectural Patterns
+
+### Pattern 1: Conditional Mount with Build-Time Dead Code Elimination
+
+**What:** Wrap the entire feedback system in an `import.meta.env` check so Vite tree-shakes it from production builds.
+**When to use:** Dev/staging-only features that must have zero production footprint.
+**Trade-offs:** Simple and reliable. Vite statically replaces `import.meta.env.MODE` at build time, so the entire component tree is eliminated. No runtime cost.
+
+**Implementation in App.vue:**
 ```vue
-<!-- FindingsDisplay.vue -->
-<template>
-  <!-- Desktop: semantic table -->
-  <table class="findings-table">
-    <thead>
-      <tr>
-        <th>Finding</th>
-        <th v-if="hasSeverity">Severity</th>
-        <th v-if="hasBackground">Background</th>
-        <th v-if="hasDescription">Description</th>
-        <th v-if="hasResolution">Resolution</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(f, i) in findings" :key="i">
-        <td>{{ f.finding }}</td>
-        <td v-if="hasSeverity">{{ f.severity }}</td>
-        <!-- etc -->
-      </tr>
-    </tbody>
-  </table>
+<script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
+import NavBar from '@/components/NavBar.vue'
+import FooterBar from '@/components/FooterBar.vue'
 
-  <!-- Mobile: card grid -->
-  <div class="findings-grid">
-    <article v-for="(f, i) in findings" :key="i" class="findings-entry">
-      <h3>{{ f.finding }}</h3>
-      <div v-if="f.severity" class="findings-field">
-        <span class="findings-field-label">Severity</span>
-        <span>{{ f.severity }}</span>
-      </div>
-      <!-- etc -->
-    </article>
-  </div>
+// Dynamic import -- only resolved when condition is true
+// Vite replaces import.meta.env.MODE at build time
+const FeedbackCollector = import.meta.env.MODE !== 'production'
+  ? defineAsyncComponent(() => import('@/components/feedback/FeedbackCollector.vue'))
+  : null
+</script>
+
+<template>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <header>
+    <NavBar />
+  </header>
+  <main id="main-content" aria-label="Main content">
+    <router-view />
+  </main>
+  <FooterBar />
+  <FeedbackCollector v-if="FeedbackCollector" />
 </template>
 ```
 
-```css
-/* Desktop default: table visible, grid hidden */
-.findings-grid { display: none; }
+**Why `defineAsyncComponent` + conditional:** Vite's static analysis sees `import.meta.env.MODE !== 'production'` as a compile-time constant. In production mode, the condition is `false`, the dynamic import is never reached, and the entire `FeedbackCollector` chunk (plus html2canvas, etc.) is tree-shaken from the bundle. Zero bytes in production.
 
-@media (max-width: 768px) {
-  .findings-table { display: none; }
-  .findings-grid { display: grid; }
+**Alternative considered (env var toggle):** A `VITE_FEEDBACK_ENABLED=true` env var adds flexibility but is less foolproof. The mode-based approach guarantees no accidental production exposure. Support both: mode check as the primary gate, env var as an override for testing in staging-like builds.
+
+### Pattern 2: State Machine Composable
+
+**What:** A composable that manages the feedback flow through explicit states rather than scattered boolean flags.
+**When to use:** Multi-step workflows where the UI depends on which step is active.
+**Trade-offs:** Slightly more code up front, but prevents impossible state combinations (e.g., picker active while submitting).
+
+**State machine:**
+```
+idle --> picking --> annotating --> submitting --> done
+                        |                          |
+                      idle (cancel)              idle (reset)
+                                                   |
+                                               error --> idle (retry/dismiss)
+```
+
+**Composable shape:**
+```typescript
+interface FeedbackState {
+  phase: 'idle' | 'picking' | 'annotating' | 'submitting' | 'done' | 'error'
+  selectedElement: HTMLElement | null
+  capture: ElementCapture | null  // selector, rect, screenshot
+  comment: string
+  error: string | null
+  issueUrl: string | null
+}
+
+export function useFeedback() {
+  const state = reactive<FeedbackState>({ /* defaults */ })
+
+  function activate() { state.phase = 'picking' }
+  function selectElement(el: HTMLElement) { /* capture + transition to annotating */ }
+  function submit() { /* transition to submitting, call services, then done/error */ }
+  function cancel() { state.phase = 'idle'; reset() }
+  function reset() { /* clear all state */ }
+
+  return {
+    state: readonly(state),
+    activate, selectElement, submit, cancel, reset
+  }
 }
 ```
 
-**Why CSS not JS:** The existing CSS system uses media queries throughout (~3500 lines). No JavaScript viewport detection exists in the codebase. CSS-only approach is consistent, simpler, and avoids hydration/resize complexity.
+**Why a single composable, not component-local state:** The picker overlay, annotation panel, and trigger button all need to read/write the same state. A shared composable avoids prop-drilling through three levels or reaching for a store library.
 
-### Pattern 2: Empty-State Suppression via v-if Guard
-**What:** Parent layout wraps the findings section in `v-if="exhibit.findings?.length"` so exhibits without findings show no section and no empty container.
-**When:** Always, for any optional exhibit data.
-**Precedent:** PersonnelCard integration uses identical pattern:
-```vue
-<div v-if="exhibit.personnel?.length" class="exhibit-section">
-  <h2>Project Team</h2>
-  <PersonnelCard :personnel="exhibit.personnel" />
-</div>
-```
+### Pattern 3: Transparent Overlay for Element Picking
 
-### Pattern 3: Dynamic Column Detection
-**What:** The component determines which columns to show based on what fields are actually populated in the findings array.
-**When:** Different exhibits have different field combinations.
-**Implementation:**
+**What:** A full-viewport `position: fixed` transparent div that intercepts all pointer events during picker mode. Mouse position determines which underlying element to highlight (via `document.elementFromPoint` after temporarily hiding the overlay).
+**When to use:** Any "click to select an element" interaction.
+**Trade-offs:** Requires briefly toggling `pointer-events: none` on the overlay to probe the real DOM beneath. This is a standard technique used by browser DevTools-style element pickers.
 
+**Core technique:**
 ```typescript
-const hasDescription = computed(() => props.findings.some(f => f.description))
-const hasSeverity = computed(() => props.findings.some(f => f.severity))
-const hasBackground = computed(() => props.findings.some(f => f.background))
-const hasResolution = computed(() => props.findings.some(f => f.resolution))
+function handleMouseMove(e: MouseEvent) {
+  // Temporarily hide overlay to probe real DOM
+  overlay.value!.style.pointerEvents = 'none'
+  const el = document.elementFromPoint(e.clientX, e.clientY)
+  overlay.value!.style.pointerEvents = 'auto'
+
+  if (el && el !== document.body && el !== document.documentElement) {
+    highlightElement(el as HTMLElement)
+  }
+}
 ```
 
-This avoids hardcoding column layouts or passing column config as props. The data drives the rendering.
+**Highlight rendering:** Use a separate absolutely-positioned div that mirrors the target element's `getBoundingClientRect()`. Do not mutate the target element's styles -- that would break layouts and corrupt screenshots.
 
-### Pattern 4: TDD Before Template Changes (Established Practice)
-**What:** Write tests first, then implement. Established in Phase 16 (section rendering) and Phase 19 (layout integration).
-**Tests to write:**
-- FindingsDisplay unit tests (renders table, renders card entries, handles field variations, handles empty/missing fields)
-- Layout integration tests (findings section appears when data exists, suppressed when absent)
+### Pattern 4: Self-Contained Styling (No Design Token Coupling)
 
-### Pattern 5: Coexistence with Original Table Sections
-**What:** Original `sections[]` table entries with heading "Findings" remain in the data. The new `findings[]` array coexists alongside them.
-**Why:** Matches v2.2 personnel pattern. Original tables are still rendered by the generic section renderer.
-**Key difference from v2.2:** Personnel coexistence was non-visible because the old personnel tables and new PersonnelCard rendered in different visual locations. Findings WILL visually duplicate because both old table sections and new FindingsDisplay appear in the same content flow. **The old "Findings" table sections should be removed from `sections[]` after findings data is promoted, or the section renderer should be taught to skip them.** This is the primary architectural decision point.
+**What:** The feedback system uses its own CSS file with `--fb-*` prefixed custom properties, imported only by `FeedbackCollector.vue`. Does not consume the site's design tokens.
+**When to use:** When building a tool overlay that should be visually distinct from the host application and potentially extractable.
+**Trade-offs:** Some visual inconsistency with the host site (acceptable -- the feedback tool is a developer tool, not a user-facing feature). Gains full portability.
 
-## Anti-Patterns to Avoid
+**CSS isolation approach:**
+```css
+/* feedback.css -- scoped via .fb- class prefix */
+.fb-root {
+  --fb-bg: #1a1a2e;
+  --fb-text: #e0e0e0;
+  --fb-accent: #4fc3f7;
+  --fb-radius: 8px;
+  --fb-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  --fb-z-overlay: 10000;
+  --fb-z-panel: 10001;
+  --fb-z-trigger: 9998;
 
-### Anti-Pattern 1: Reusing FindingCard for Exhibit Findings
-**What:** Importing the existing `FindingCard.vue` component for exhibit finding display.
-**Why bad:** `FindingCard` renders homepage "Featured Projects" with completely different fields (number, meta, analysis, solution, outcome, link, tags). It imports from `@/data/findings` not `@/data/exhibits`. Reusing it would require either breaking its existing contract or creating a confused hybrid.
-**Instead:** Create a new `FindingsDisplay.vue` component purpose-built for exhibit findings data.
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+```
 
-### Anti-Pattern 2: JavaScript Viewport Detection for Responsive Layout
-**What:** Using `window.matchMedia()` or resize observers to toggle between table and card rendering.
-**Why bad:** Adds runtime complexity, creates flash-of-wrong-layout, fights the CSS-first approach of the entire codebase.
-**Instead:** Render both DOM structures, use CSS `display: none` / media queries to toggle visibility.
+All feedback component classes prefixed with `fb-` to avoid collision with the site's `@layer` system.
 
-### Anti-Pattern 3: Promoting Text-Type Findings to Typed Arrays
-**What:** Trying to parse the prose paragraphs in Exhibits D and F into structured `ExhibitFindingEntry` objects.
-**Why bad:** Those findings are narrative paragraphs, not tabular data. Forcing them into a title/description structure loses their meaning and coherence.
-**Instead:** Leave text-type findings as `sections[]` text blocks. Only promote the 7 table-type findings exhibits (A, E, G, J, L, M, N).
+## Data Flow
 
-### Anti-Pattern 4: Passing Column Configuration as Props
-**What:** Having layouts pass `columns={['Finding', 'Description']}` to the display component.
-**Why bad:** Duplicates knowledge that's already in the data. Creates tight coupling between layout and data shape. Prone to drift.
-**Instead:** Component auto-detects which fields are populated and renders accordingly.
+### Picker-to-Capture-to-Submit Pipeline
 
-## Integration Points (Explicit)
+```
+[User clicks FAB / presses shortcut]
+    |
+[useFeedback.activate()] --> phase: 'picking'
+    |
+[PickerOverlay mounts] --> listens mousemove, renders highlight div
+    |
+[User clicks element]
+    |
+[useFeedback.selectElement(el)]
+    ├── captureElement(el) --> { tag, selectorPath, boundingRect }
+    ├── html2canvas(el) --> screenshot as data URI
+    └── phase: 'annotating'
+    |
+[AnnotationPanel mounts] --> shows screenshot preview, metadata, comment textarea
+    |
+[User types comment, clicks Submit]
+    |
+[useFeedback.submit()] --> phase: 'submitting'
+    ├── githubSubmit.uploadScreenshot(dataUri) --> Gist URL
+    ├── githubSubmit.createIssue({ comment, selectorPath, rect, viewport, ... })
+    └── phase: 'done' (or 'error')
+    |
+[AnnotationPanel shows success] --> Issue URL link
+    |
+[Auto-reset or user dismiss] --> phase: 'idle'
+```
 
-### Files Created (NEW)
-1. `src/components/FindingsDisplay.vue` -- responsive findings rendering component
-2. `src/components/FindingsDisplay.test.ts` -- unit tests
-3. `src/components/FindingsDisplay.stories.ts` -- Storybook stories
+### Element Capture Detail
 
-### Files Modified
-1. `src/data/exhibits.ts` -- add `ExhibitFindingEntry` interface, add `findings?` to `Exhibit`, add `findings[]` arrays to 7 exhibits, remove old "Findings" table sections from those 7 exhibits
-2. `src/components/exhibit/InvestigationReportLayout.vue` -- import FindingsDisplay, add findings section with v-if guard
-3. `src/components/exhibit/EngineeringBriefLayout.vue` -- same as above
-4. `src/components/exhibit/InvestigationReportLayout.test.ts` -- add findings rendering/suppression tests
-5. `src/components/exhibit/EngineeringBriefLayout.test.ts` -- add findings rendering/suppression tests
-6. `src/assets/css/main.css` -- add findings-table, findings-grid, findings-entry styles with responsive breakpoint
+```
+HTMLElement
+    |
+captureElement(el)
+    ├── el.tagName                         --> "DIV"
+    ├── computeSelectorPath(el)            --> "main > section:nth-child(2) > .card"
+    ├── el.getBoundingClientRect()         --> { x, y, width, height }
+    └── html2canvas(el, { useCORS: true }) --> Canvas --> toDataURL('image/png')
+    |
+ElementCapture { tag, selectorPath, boundingRect, screenshotDataUri }
+```
 
-### Files NOT Modified
-- `src/components/FindingCard.vue` -- unrelated homepage component
-- `src/data/findings.ts` -- unrelated homepage data
-- `src/pages/ExhibitDetailPage.vue` -- thin dispatcher, no changes
-- `src/pages/HomePage.vue` -- unrelated
+### GitHub Submission Detail
+
+```
+ElementCapture + comment + browser context
+    |
+githubSubmit.uploadScreenshot(dataUri, token)
+    ├── Base64-decode data URI
+    ├── POST /gists { files: { 'screenshot.png': { content: base64 } } }
+    └── Return raw file URL from Gist response
+    |
+githubSubmit.createIssue({ token, repo, title, body })
+    ├── Build markdown body:
+    │   - Comment text
+    │   - Screenshot image (Gist URL or inline data URI fallback)
+    │   - Element: tag + selector path
+    │   - Bounding rect
+    │   - Viewport dimensions
+    │   - User agent
+    │   - Current URL + route path
+    ├── POST /repos/{owner}/{repo}/issues
+    └── Return issue URL
+```
+
+## Z-Index Strategy
+
+The existing site uses this z-index hierarchy (audited from `main.css`):
+
+| Layer | Current z-index | Usage |
+|-------|----------------|-------|
+| Skip link | 9999 | Accessibility skip-to-content |
+| Hamburger button | 101 | Mobile nav toggle |
+| Nav bar / mobile menu | 100 | Sticky header, slide-out menu |
+| Content decorative | 1-2 | Pseudo-elements, hover effects |
+
+The feedback system must sit above everything except the skip link in idle mode, and above everything during active picking:
+
+| Layer | z-index | Rationale |
+|-------|---------|-----------|
+| `--fb-z-trigger` (FAB) | 9998 | Below skip link (9999), above nav (100). Always visible in dev. |
+| `--fb-z-overlay` (picker) | 10000 | Above skip link during picking -- picker must intercept all clicks. |
+| `--fb-z-panel` (annotation) | 10001 | Above overlay so panel is interactive. |
+| `--fb-z-highlight` | 10000 | Same as overlay (child of overlay). |
+
+The skip link (9999) only appears on keyboard focus. During picker mode the overlay (10000) covers everything, which is correct -- the picker is a modal interaction that should block all other UI. When the picker is dismissed, it unmounts and the skip link is accessible again.
+
+## Build-Time Feature Gating
+
+### Mechanism
+
+Vite replaces `import.meta.env.MODE` with the string literal `"production"` or `"development"` at build time. This is a compile-time constant, not a runtime check.
+
+```
+npm run dev     --> MODE = "development"  --> FeedbackCollector included
+npm run build   --> MODE = "production"   --> FeedbackCollector dead-code eliminated
+npm run preview --> MODE = "production"   --> FeedbackCollector absent
+```
+
+### Env Var Configuration
+
+```bash
+# .env.development (checked into repo -- no secrets)
+VITE_FEEDBACK_ENABLED=true
+
+# .env.local (gitignored -- developer-specific secrets)
+VITE_GITHUB_TOKEN=ghp_...
+VITE_GITHUB_REPO=owner/repo
+```
+
+The composable validates at mount time:
+```typescript
+export function useFeedbackConfig() {
+  const token = import.meta.env.VITE_GITHUB_TOKEN ?? ''
+  const repo = import.meta.env.VITE_GITHUB_REPO ?? ''
+  const enabled = import.meta.env.VITE_FEEDBACK_ENABLED === 'true'
+
+  const isConfigured = computed(() => enabled && !!token && !!repo)
+  const missingVars = computed(() => {
+    const missing: string[] = []
+    if (!token) missing.push('VITE_GITHUB_TOKEN')
+    if (!repo) missing.push('VITE_GITHUB_REPO')
+    return missing
+  })
+
+  return { token, repo, enabled, isConfigured, missingVars }
+}
+```
+
+If env vars are missing, the FAB renders in a "disabled" state with a tooltip explaining what to configure. No console errors, no silent failure.
+
+## Integration Points
+
+### External Services
+
+| Service | Integration Pattern | Notes |
+|---------|---------------------|-------|
+| html2canvas | NPM dependency, called from `captureElement.ts` | ~40KB gzipped. Renders DOM to canvas. Known limitations: no CSS `backdrop-filter`, no `video`/`iframe` content. Sufficient for static portfolio content. |
+| GitHub Gist API | REST `POST /gists` from `githubSubmit.ts` | Used for screenshot hosting. Public gist = publicly accessible raw URL for embedding in Issue body. Token needs `gist` scope. |
+| GitHub Issues API | REST `POST /repos/{owner}/{repo}/issues` from `githubSubmit.ts` | Token needs `repo` scope (or `public_repo` for public repos). |
+
+### Internal Boundaries
+
+| Boundary | Communication | Notes |
+|----------|---------------|-------|
+| App.vue to FeedbackCollector | Conditional render, no props | FeedbackCollector is self-sufficient via composables |
+| FeedbackCollector to child components | Props down, events up | Standard Vue parent-child. State lives in `useFeedback()` composable called by FeedbackCollector. |
+| Composables to services | Direct function calls | Services are pure functions. Composable awaits promises. |
+| Feedback system to host page | Read-only DOM access | Picker reads element positions. Never mutates host DOM. Screenshot via html2canvas reads only. |
+
+## Anti-Patterns
+
+### Anti-Pattern 1: Mutating Host DOM During Picking
+
+**What people do:** Add CSS classes or inline styles directly to the hovered element to show a highlight.
+**Why it's wrong:** Mutating the target element can trigger layout reflow, break CSS animations, and produce incorrect screenshots (the highlight border would appear in the capture).
+**Do this instead:** Render a separate absolutely-positioned highlight `<div>` that mirrors the target's `getBoundingClientRect()`. The highlight is a visual overlay, not a DOM mutation.
+
+### Anti-Pattern 2: Importing Design Tokens Into Feedback CSS
+
+**What people do:** Use `var(--color-primary)` and other host tokens in feedback component styles.
+**Why it's wrong:** Creates coupling between the feedback tool and the host site's theme. Breaks extraction. Dark/light theme changes could make feedback UI unreadable if token values shift unexpectedly.
+**Do this instead:** Define `--fb-*` custom properties on `.fb-root`. The feedback tool owns its own visual language.
+
+### Anti-Pattern 3: Runtime Feature Flag Instead of Build-Time Gating
+
+**What people do:** Check a runtime variable or API response to decide whether to show the feedback tool.
+**Why it's wrong:** The entire feedback system (html2canvas, GitHub API code, overlay components) ships in the production bundle even when hidden. Wastes approximately 50-80KB gzipped for code that will never execute.
+**Do this instead:** Use `import.meta.env.MODE` check with `defineAsyncComponent` so Vite eliminates the entire code path at build time.
+
+### Anti-Pattern 4: Using Vuex/Pinia for Feedback State
+
+**What people do:** Add a Pinia store for the feedback tool's state.
+**Why it's wrong:** The project does not currently use Pinia. Adding a state management library for a single dev-only tool is over-engineering. The state is local to the feedback flow, not shared application state.
+**Do this instead:** A single `useFeedback()` composable with `reactive()` state. The composable is the store.
+
+### Anti-Pattern 5: Mounting Feedback Inside Router View
+
+**What people do:** Register the feedback collector as a route or mount it inside `<router-view>`.
+**Why it's wrong:** The feedback tool must persist across route navigations. If mounted inside the router view, it unmounts and remounts on every navigation, losing state mid-flow.
+**Do this instead:** Mount at the App.vue level, outside `<router-view>`. It lives for the entire session.
 
 ## Suggested Build Order
 
-The dependency chain mirrors v2.2 exactly:
+Dependencies flow downward -- each phase builds on the prior.
 
-### Phase 1: Type Definition + Data Extraction
-**Depends on:** Nothing
-**Scope:**
-- Add `ExhibitFindingEntry` interface to `exhibits.ts`
-- Add `findings?: ExhibitFindingEntry[]` to `Exhibit` interface
-- Extract data from 7 table-type exhibits (A, E, G, J, L, M, N) into `findings[]` arrays
-- Remove old "Findings" table sections from `sections[]` for those 7 exhibits (prevents double-rendering)
-- Data validation tests (all 7 exhibits have findings, field mapping correct, old table sections removed)
+| Phase | What to Build | Depends On | Rationale |
+|-------|---------------|------------|-----------|
+| 1 | `feedback.types.ts`, `useFeedbackConfig.ts`, `FeedbackTrigger.vue`, `FeedbackCollector.vue` (shell), App.vue mount point, `feedback.css` (initial) | Nothing | Establishes the feature gate, env var config, and visible FAB. Can verify build-time elimination immediately. |
+| 2 | `PickerOverlay.vue`, highlight rendering | Phase 1 (trigger activates picker) | Core interaction: hover + highlight. No external dependencies yet. |
+| 3 | `captureElement.ts`, html2canvas integration | Phase 2 (picker selects element) | Adds screenshot capability. First external dependency (html2canvas). |
+| 4 | `AnnotationPanel.vue`, `useFeedback.ts` state machine | Phase 2-3 (needs capture data to display) | Comment UI + metadata display. Full local flow works end-to-end (minus submission). |
+| 5 | `githubSubmit.ts`, Gist upload, Issue creation | Phase 4 (needs comment + capture to submit) | Final piece: external API integration. Last because it requires token config and is the most complex to test. |
+| 6 | Keyboard shortcuts, edge cases, Storybook stories, polish | All prior phases | Polish pass. Keyboard shortcut (e.g., Ctrl+Shift+F). Stories for each sub-component. |
 
-**Why remove old tables in this phase:** Unlike v2.2 personnel where old tables and new PersonnelCard occupied different visual locations, findings tables and FindingsDisplay will render in the same content area. Keeping both creates visible duplication. Removing old tables at data extraction time is cleaner than adding skip-logic to the section renderer.
-
-### Phase 2: FindingsDisplay Component (TDD)
-**Depends on:** Phase 1 (needs the type definition and sample data)
-**Scope:**
-- Write tests first: table rendering, card rendering, field variation handling, empty field graceful handling, dynamic column detection
-- Build `FindingsDisplay.vue` with dual-mode rendering (table desktop, card grid mobile)
-- CSS styles in `main.css` using existing design tokens
-
-### Phase 3: Layout Integration (TDD)
-**Depends on:** Phase 2 (needs FindingsDisplay component)
-**Scope:**
-- Write tests first: findings section appears when data exists, suppressed when absent (mirror personnel integration tests exactly)
-- Wire into `InvestigationReportLayout.vue` and `EngineeringBriefLayout.vue`
-- Symmetrical change to both files
-
-### Phase 4: Storybook Documentation
-**Depends on:** Phase 2 (needs FindingsDisplay component, can run parallel with Phase 3)
-**Scope:**
-- Stories covering: 2-col findings (description only), 3-col findings with background/resolution (Exhibit A pattern), 3-col findings with severity (Exhibit L pattern), single finding, many findings
-
-## Exhibit Inventory: Findings by Type
-
-| Exhibit | Label | exhibitType | Findings Format | Columns | Promote? |
-|---------|-------|-------------|-----------------|---------|----------|
-| A | Exhibit A | engineering-brief | table | Finding, Background, Resolution | YES |
-| D | Exhibit D | engineering-brief | text (prose) | N/A | NO |
-| E | Exhibit E | engineering-brief | table | Finding, Description | YES |
-| F | Exhibit F | engineering-brief | text (prose) | N/A | NO |
-| G | Exhibit G | engineering-brief | table | Finding, Description | YES |
-| J | Exhibit J | investigation-report | table | Finding, Description | YES |
-| L | Exhibit L | investigation-report | table | Finding, Severity, Description | YES |
-| M | Exhibit M | investigation-report | table | Finding, Description | YES |
-| N | Exhibit N | investigation-report | table | Finding, Description | YES |
-
-**Count:** 7 exhibits promoted (not 9). The milestone description says "9 exhibits have findings tables" -- this counts all 9 findings sections, but 2 are prose text, not tabular. Only 7 have tabular data suitable for typed arrays.
-
-**Exhibit type distribution of promotable findings:**
-- Engineering Briefs with table findings: A, E, G (3 exhibits)
-- Investigation Reports with table findings: J, L, M, N (4 exhibits)
-
-Both layout components need the FindingsDisplay integration.
+**Rationale for this order:** Each phase produces a testable, visible increment. Phase 1 validates the critical architecture decision (build-time gating) before writing any feature code. Phases 2-4 build the local pipeline without needing API tokens. Phase 5 adds external integration last, when the local flow is proven.
 
 ## Sources
 
-- Direct codebase analysis of `src/data/exhibits.ts` (all type definitions, exhibit data, column patterns)
-- v2.2 roadmap and implementation pattern (`.planning/milestones/v2.2-ROADMAP.md`)
-- Existing component implementations: `PersonnelCard.vue`, `InvestigationReportLayout.vue`, `EngineeringBriefLayout.vue`, `FindingCard.vue`
-- Existing test patterns: `PersonnelCard.test.ts`, `InvestigationReportLayout.test.ts`
-- PROJECT.md milestone context and constraints
+- Vite env var handling: `import.meta.env` static replacement is core Vite behavior, verified by examining `vite.config.ts` and existing build scripts (HIGH confidence)
+- html2canvas: well-established library for DOM-to-canvas rendering (HIGH confidence)
+- GitHub REST API (Gists, Issues): Official GitHub API documentation (HIGH confidence)
+- Vue 3 `defineAsyncComponent`: Vue 3 core API (HIGH confidence)
+- Z-index values: Derived directly from `src/assets/css/main.css` audit -- skip-link at 9999, nav at 100-101, content decorative at 1-2 (HIGH confidence, primary source)
+- Overlay pointer-events technique: Standard pattern used by browser DevTools element pickers (HIGH confidence)
+- Existing codebase patterns: `components/exhibit/` subdirectory, `useBodyClass`/`useSeo` composables, `@layer` CSS system, all verified by direct file reads (HIGH confidence)
 
 ---
-*Architecture research for: Pattern 158 v2.3 -- Findings Data Promotion & Responsive Rendering*
-*Researched: 2026-04-02*
+*Architecture research for: Pattern 158 v3.0 -- Visual Feedback Collector*
+*Researched: 2026-04-03*
