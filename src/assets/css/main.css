@@ -753,6 +753,55 @@ footer a:hover {
     .page-contact .contact-link-item .link-primary {
         color: var(--color-primary-on-alt);
     }
+
+    /* ========== PERSONNEL CARD ========== */
+    .personnel-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: var(--space-md);
+    }
+
+    .personnel-card {
+        padding: var(--space-md);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-surface);
+    }
+
+    .personnel-card--self {
+        border-left: 3px solid var(--color-primary);
+        background: var(--color-primary-subtle);
+    }
+
+    .personnel-name {
+        font-size: var(--font-size-base);
+        font-weight: 600;
+        color: var(--color-heading);
+        margin-bottom: var(--space-xs);
+    }
+
+    .personnel-name--anonymous {
+        font-weight: 400;
+        font-style: italic;
+        color: var(--color-text-muted);
+    }
+
+    .personnel-role {
+        font-size: var(--font-size-sm);
+        color: var(--color-text);
+        margin-bottom: var(--space-xs);
+    }
+
+    .personnel-title {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-xs);
+    }
+
+    .personnel-org {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-muted);
+    }
 }
 
 @layer pages {
