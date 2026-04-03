@@ -76,7 +76,7 @@ Full details: `.planning/milestones/v2.2-ROADMAP.md`
 **Milestone Goal:** Promote exhibit findings from embedded table sections to first-class typed arrays with purpose-built responsive rendering (table on desktop, stacked cards on mobile).
 
 - [x] **Phase 21: Type Definition & Data Extraction** - Define ExhibitFindingEntry interface and migrate 7 exhibits' findings data to typed arrays (completed 2026-04-03)
-- [ ] **Phase 22: FindingsTable Component** - Build responsive dual-mode rendering component with TDD (table on desktop, cards on mobile)
+- [x] **Phase 22: FindingsTable Component** - Build responsive dual-mode rendering component with TDD (table on desktop, cards on mobile) (completed 2026-04-03)
 - [ ] **Phase 23: Layout Integration** - Wire FindingsTable into both detail layouts with empty-state suppression using TDD
 - [ ] **Phase 24: Storybook Documentation** - Document FindingsTable with stories covering all column and field variants
 
@@ -109,7 +109,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 22-01-PLAN.md — TDD: FindingsTable tests + component implementation
-- [ ] 22-02-PLAN.md — FindingsTable CSS styling with responsive toggle and severity badges
+- [x] 22-02-PLAN.md — FindingsTable CSS styling with responsive toggle and severity badges
 
 ### Phase 23: Layout Integration
 **Goal**: Exhibit detail pages display findings through FindingsTable wherever findings data exists
@@ -161,6 +161,6 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 19. Layout Integration | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 20. Storybook Documentation | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 21. Type Definition & Data Extraction | v2.3 | 2/2 | Complete | 2026-04-03 |
-| 22. FindingsTable Component | v2.3 | 1/2 | In Progress|  |
+| 22. FindingsTable Component | v2.3 | 2/2 | Complete   | 2026-04-03 |
 | 23. Layout Integration | v2.3 | 0/TBD | Not started | - |
 | 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |
