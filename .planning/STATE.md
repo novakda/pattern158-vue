@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.3
 milestone_name: Findings Data & Rendering
 status: executing
-stopped_at: null
-last_updated: "2026-04-03"
+stopped_at: Completed 22-01-PLAN.md
+last_updated: "2026-04-03T04:49:25.954Z"
 last_activity: 2026-04-03
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  total_plans: 4
+  completed_plans: 3
   percent: 25
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 22 of 24 (FindingsTable Component)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-04-03 — Phase 21 complete
+Phase: 22 (FindingsTable Component) — EXECUTING
+Plan: 2 of 2
+Status: Ready to execute
+Last activity: 2026-04-03
 
 Progress: [██░░░░░░░░] 25%
 
@@ -48,6 +48,7 @@ Progress: [██░░░░░░░░] 25%
 | Phase 18 P01 | — | — | — |
 | Phase 19 P01 | — | — | — |
 | Phase 20 P01 | 3min | 2 tasks | 1 files |
+| Phase 22 P01 | 2min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -57,6 +58,8 @@ Progress: [██░░░░░░░░] 25%
 - [Phase 17]: Prose-derived anonymous entries included for 5 substantive unnamed roles in Exhibit A
 - [Phase 17]: Spike artifacts (duplicate interface, duplicate field, unused type union) cleaned up as bug fix
 - [Phase 20]: CSF3 story pattern with inline mock data matching FindingCard.stories.ts convention
+- [Phase 22]: Dual-DOM approach: both table and card markup rendered simultaneously, CSS media query toggles visibility
+- [Phase 22]: Column detection priority: severity checked before background, heading defaults via nullish coalescing
 
 ### Pending Todos
 
@@ -79,6 +82,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02
-Stopped at: Roadmap created for v2.3 Findings Data & Rendering
+Last session: 2026-04-03T04:49:25.952Z
+Stopped at: Completed 22-01-PLAN.md
 Resume file: None

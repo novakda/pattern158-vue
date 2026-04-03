@@ -18,10 +18,10 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 
 ### Rendering
 
-- [ ] **RNDR-01**: FindingsTable component renders as semantic `<table>` on desktop
-- [ ] **RNDR-02**: FindingsTable renders as stacked cards on mobile (768px breakpoint)
-- [ ] **RNDR-03**: Column-adaptive rendering — 2-col and 3-col patterns handled automatically based on populated fields
-- [ ] **RNDR-04**: Severity badges with visual treatment for findings that have severity data
+- [x] **RNDR-01**: FindingsTable component renders as semantic `<table>` on desktop
+- [x] **RNDR-02**: FindingsTable renders as stacked cards on mobile (768px breakpoint)
+- [x] **RNDR-03**: Column-adaptive rendering — 2-col and 3-col patterns handled automatically based on populated fields
+- [x] **RNDR-04**: Severity badges with visual treatment for findings that have severity data
 - [ ] **RNDR-05**: FindingsTable wired into InvestigationReportLayout with empty-state suppression
 - [ ] **RNDR-06**: FindingsTable wired into EngineeringBriefLayout with empty-state suppression
 
@@ -105,10 +105,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-04 | Phase 21 | Complete |
 | DATA-05 | Phase 21 | Complete |
 | DATA-06 | Phase 21 | Complete |
-| RNDR-01 | Phase 22 | Pending |
-| RNDR-02 | Phase 22 | Pending |
-| RNDR-03 | Phase 22 | Pending |
-| RNDR-04 | Phase 22 | Pending |
+| RNDR-01 | Phase 22 | Complete |
+| RNDR-02 | Phase 22 | Complete |
+| RNDR-03 | Phase 22 | Complete |
+| RNDR-04 | Phase 22 | Complete |
 | RNDR-05 | Phase 23 | Pending |
 | RNDR-06 | Phase 23 | Pending |
 | DOC-01 | Phase 24 | Pending |
