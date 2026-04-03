@@ -69,7 +69,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 **Shipped:** v2.1 (2026-04-02) | **Building:** v2.2
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. Phase 17 extracted personnel data from all 14 exhibit table sections into top-level `personnel[]` arrays — 3 column patterns mapped, Exhibit A completed with prose extraction and experimental section cleanup. Phase 18 built the PersonnelCard Vue 3 component with responsive CSS grid layout and three display modes (named, anonymous, self-entry). Phase 19 wired PersonnelCard into both InvestigationReportLayout and EngineeringBriefLayout with v-if guards and "Project Team" section heading. 132 unit tests passing, clean production build. Storybook documentation next (Phase 20).
+The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). v2.1 restored impact tag pill CSS and added rendering for all five section types with empty section suppression. Phase 17 extracted personnel data from all 14 exhibit table sections into top-level `personnel[]` arrays — 3 column patterns mapped, Exhibit A completed with prose extraction and experimental section cleanup. Phase 18 built the PersonnelCard Vue 3 component with responsive CSS grid layout and three display modes (named, anonymous, self-entry). Phase 19 wired PersonnelCard into both InvestigationReportLayout and EngineeringBriefLayout with v-if guards and "Project Team" section heading. Phase 20 added Storybook stories for PersonnelCard covering all three display variants (named, anonymous, self-highlighted). 132 unit tests passing, clean production build. All v2.2 milestone phases complete.
 
 ## Context
 
@@ -122,4 +122,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after phase 19 complete*
+*Last updated: 2026-04-02 after phase 20 complete — v2.2 milestone complete*
