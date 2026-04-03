@@ -14,7 +14,7 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 - [ ] **DATA-03**: findingsHeading optional string added to Exhibit interface (default: "Findings")
 - [ ] **DATA-04**: 7 exhibits' table rows extracted to findings[] arrays (A, E, F, J, L, N, O)
 - [ ] **DATA-05**: Custom headings preserved for exhibits with non-default headings (J, L)
-- [ ] **DATA-06**: Old findings table sections removed from migrated exhibits' sections[]
+- [x] **DATA-06**: Old findings table sections removed from migrated exhibits' sections[]
 
 ### Rendering
 
@@ -104,7 +104,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-03 | Phase 21 | Pending |
 | DATA-04 | Phase 21 | Pending |
 | DATA-05 | Phase 21 | Pending |
-| DATA-06 | Phase 21 | Pending |
+| DATA-06 | Phase 21 | Complete |
 | RNDR-01 | Phase 22 | Pending |
 | RNDR-02 | Phase 22 | Pending |
 | RNDR-03 | Phase 22 | Pending |

@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Case Files Bug Fixes
 status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
-last_activity: 2026-04-02
+stopped_at: Completed 21-02 Findings Section Cleanup & Test Coverage
+last_updated: "2026-04-03T04:04:10.823Z"
+last_activity: 2026-04-03
 progress:
   total_phases: 2
   completed_phases: 2
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 100
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 Phase: 21
 Plan: 1 of 1 complete
-Status: Plan 21-01 complete
-Last activity: 2026-04-02
+Status: Phase complete — ready for verification
+Last activity: 2026-04-03
 
 Progress: [##########] 100%
 
@@ -55,6 +55,7 @@ Progress: [##########] 100%
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
 | Phase 21 P01 | 5min | 2 tasks | 1 files |
+| Phase 21 P02 | 4min | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -69,6 +70,7 @@ Progress: [##########] 100%
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
 - [Phase 21]: ExhibitFindingEntry interface promotes table findings to first-class typed arrays
 - [Phase 21]: findings/findingsHeading placed after sections[] in Exhibit interface
+- [Phase 21]: Section removal matched on triple criteria (type=table, heading starts with Findings, columns[0]=Finding) to prevent false positives
 
 ### Pending Todos
 
@@ -98,6 +100,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T03:54:14Z
-Stopped at: Completed 21-01-PLAN.md — Type Definition & Data Extraction
+Last session: 2026-04-03T04:04:10.821Z
+Stopped at: Completed 21-02 Findings Section Cleanup & Test Coverage
 Resume file: None
