@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
+milestone: v2.3
+milestone_name: Findings Data & Rendering
 status: executing
-stopped_at: Roadmap created for v2.3 Findings Data & Rendering
-last_updated: "2026-04-03T04:11:31.852Z"
+stopped_at: null
+last_updated: "2026-04-03"
 last_activity: 2026-04-03
 progress:
-  total_phases: 2
-  completed_phases: 2
+  total_phases: 4
+  completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 25
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 21 — Type Definition & Data Extraction
+**Current focus:** Phase 22 — FindingsTable Component
 
 ## Current Position
 
-Phase: 21
-Plan: Not started
-Status: Executing Phase 21
-Last activity: 2026-04-03
+Phase: 22 of 24 (FindingsTable Component)
+Plan: —
+Status: Ready to plan
+Last activity: 2026-04-03 — Phase 21 complete
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██░░░░░░░░] 25%
 
 ## Performance Metrics
 

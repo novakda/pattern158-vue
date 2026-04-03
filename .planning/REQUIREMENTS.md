@@ -99,11 +99,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 21 | Pending |
-| DATA-02 | Phase 21 | Pending |
-| DATA-03 | Phase 21 | Pending |
-| DATA-04 | Phase 21 | Pending |
-| DATA-05 | Phase 21 | Pending |
+| DATA-01 | Phase 21 | Complete |
+| DATA-02 | Phase 21 | Complete |
+| DATA-03 | Phase 21 | Complete |
+| DATA-04 | Phase 21 | Complete |
+| DATA-05 | Phase 21 | Complete |
 | DATA-06 | Phase 21 | Complete |
 | RNDR-01 | Phase 22 | Pending |
 | RNDR-02 | Phase 22 | Pending |
