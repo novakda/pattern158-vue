@@ -121,7 +121,10 @@ Plans:
   1. Storybook has a PersonnelCard story showing a named person with all fields populated
   2. Storybook has a PersonnelCard story showing an anonymous person (no name)
   3. Storybook has a PersonnelCard story showing a self-highlighted entry (`isSelf: true`)
-**Plans**: TBD
+**Plans**: 1 plan
+
+Plans:
+- [ ] 20-01-PLAN.md — PersonnelCard Storybook stories for named, anonymous, and self-highlighted variants
 
 ## Progress
 
@@ -150,4 +153,4 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
 | 18. PersonnelCard Component | v2.2 | 1/1 | Complete    | 2026-04-03 |
 | 19. Layout Integration | v2.2 | 0/1 | Complete    | 2026-04-03 |
-| 20. Storybook Documentation | v2.2 | 0/0 | Not started | - |
+| 20. Storybook Documentation | v2.2 | 0/1 | Not started | - |
