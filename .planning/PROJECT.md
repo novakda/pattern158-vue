@@ -44,20 +44,16 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Personnel rendering wired into both InvestigationReportLayout and EngineeringBriefLayout (RNDR-04/05) — v2.2
 - ✓ Storybook stories for PersonnelCard covering all 3 display variants (DOC-01) — v2.2
 
+- ✓ Findings data extracted from 7 exhibits into typed findings[] arrays with 3 column pattern mappings and findingsHeading support (DATA-01/02/03/04/05/06) — v2.3
+- ✓ FindingsTable component with dual-DOM responsive rendering (table desktop, card grid mobile at 768px), column-adaptive detection, severity badges (RNDR-01/02/03/04) — v2.3
+- ✓ Findings rendering wired into both InvestigationReportLayout and EngineeringBriefLayout with empty-state suppression (RNDR-05/06) — v2.3
+- ✓ Storybook stories for FindingsTable covering 2-col, severity, and background/resolution variants (DOC-01) — v2.3
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-## Current Milestone: v2.3 Findings Data & Rendering
-
-**Goal:** Promote exhibit findings from embedded table sections to first-class typed arrays with purpose-built responsive rendering.
-
-**Target features:**
-- ExhibitFindingEntry interface with all known fields (finding, description, background, resolution, severity) — all optional except finding title
-- findings[] array on Exhibit interface, migrated from 9 exhibits' existing table data
-- Dedicated rendering component: table on desktop, card grid on mobile
-- Wired into both detail layouts with empty-state suppression
-- Storybook stories covering field variations
+None — planning next milestone.
 
 ### Out of Scope
 
@@ -72,9 +68,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.2 (2026-04-03)
+**Shipped:** v2.3 (2026-04-03)
 
-The site's information architecture is complete through v2.0 with 15 exhibits presented through a unified Case Files page. Two purpose-built detail layouts serve Investigation Reports and Engineering Briefs. v2.1 restored CSS and added five section type renderers. v2.2 promoted personnel from embedded table sections to first-class exhibit data — 14 exhibits have typed personnel[] arrays, rendered via PersonnelCard component with named/anonymous/self display modes, wired into both layouts with empty-state suppression. 132 unit tests passing, clean production build.
+The site's information architecture is complete through v2.0 with 15 exhibits presented through a unified Case Files page. Two purpose-built detail layouts serve Investigation Reports and Engineering Briefs. v2.1 restored CSS and added five section type renderers. v2.2 promoted personnel from embedded table sections to first-class exhibit data — 14 exhibits have typed personnel[] arrays, rendered via PersonnelCard component with named/anonymous/self display modes. v2.3 promoted findings from embedded table sections to first-class typed arrays — 7 exhibits have ExhibitFindingEntry[] with column-adaptive rendering (2-col and 3-col patterns), rendered via FindingsTable component with dual-DOM responsive layout (table desktop, card grid mobile at 768px), severity badges, wired into both layouts with empty-state suppression. 185 unit tests passing, clean production build.
 
 ## Context
 
@@ -82,7 +78,7 @@ The site's information architecture is complete through v2.0 with 15 exhibits pr
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,400 LOC Vue + TypeScript, 132 unit tests passing, clean production build.
+- Codebase: ~6,800 LOC Vue + TypeScript, 185 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -111,6 +107,10 @@ The site's information architecture is complete through v2.0 with 15 exhibits pr
 | Personnel as top-level arrays, old tables kept | Preparatory for future JSON migration; both representations coexist | ✓ Good — clean data layer, no rendering disruption |
 | PersonnelCard with 3 display modes | Named/anonymous/self covers all 14 exhibits' personnel patterns | ✓ Good — single component handles all variations |
 | TDD for layout integration (Phase 19) | Wiring existing component — tests lock contract before touching templates | ✓ Good — 4 tests, symmetrical change |
+| Findings promotion with old section removal (unlike personnel coexistence) | Prevent duplicate rendering; findings tables have no value once first-class arrays exist | ✓ Good — 84 lines removed, no regressions |
+| Dual-DOM responsive approach for FindingsTable | Render both table and card grid, CSS media query toggles visibility at 768px | ✓ Good — cleaner separation than CSS-only display transform |
+| Column-adaptive detection from data shape | Auto-inspect first finding's fields to determine 2-col or 3-col layout, no explicit prop | ✓ Good — component adapts to data without configuration |
+| Exhibit F corrected to M in migration set | Research discovered F has text-type findings, M has table-type — corrected from original scope | ✓ Good — research caught data classification error before execution |
 
 ## Evolution
 
@@ -130,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after v2.3 milestone started*
+*Last updated: 2026-04-03 after v2.3 milestone complete*

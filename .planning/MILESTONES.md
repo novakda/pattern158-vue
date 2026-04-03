@@ -1,5 +1,20 @@
 # Milestones
 
+## v2.3 Findings Data & Rendering (Shipped: 2026-04-03)
+
+**Phases completed:** 4 phases, 6 plans, 10 tasks
+
+**Key accomplishments:**
+
+- ExhibitFindingEntry interface with 5 fields plus 35 finding entries extracted from 7 table-type exhibits into typed first-class arrays
+- Removed 7 duplicate findings table sections from exhibits and added 32 tests covering all Phase 21 DATA requirements (DATA-01 through DATA-06)
+- TDD-built dual-DOM FindingsTable with column-adaptive rendering (default/severity/background) and severity badges
+- FindingsTable CSS with desktop table, mobile card stack, severity badge pills, and 768px responsive toggle using existing design tokens
+- FindingsTable wired into both IR and EB layouts with v-if empty-state guard, following PersonnelCard pattern
+- CSF3 Storybook stories for FindingsTable covering two-column default, severity badge, and background/resolution column variants
+
+---
+
 ## v2.2 Personnel Data & Rendering (Shipped: 2026-04-03)
 
 **Phases completed:** 4 phases, 5 plans, 9 tasks
