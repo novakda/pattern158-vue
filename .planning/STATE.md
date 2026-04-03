@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.3
-milestone_name: Findings Data & Rendering
+milestone: v2.1
+milestone_name: Case Files Bug Fixes
 status: executing
 stopped_at: Roadmap created for v2.3 Findings Data & Rendering
-last_updated: "2026-04-03T03:48:31.357Z"
-last_activity: 2026-04-03 -- Phase 21 execution started
+last_updated: "2026-04-03T04:11:31.852Z"
+last_activity: 2026-04-03
 progress:
-  total_phases: 4
-  completed_phases: 0
+  total_phases: 2
+  completed_phases: 2
   total_plans: 2
-  completed_plans: 0
+  completed_plans: 2
   percent: 0
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 21 (Type Definition & Data Extraction) — EXECUTING
-Plan: 1 of 2
+Phase: 21
+Plan: Not started
 Status: Executing Phase 21
-Last activity: 2026-04-03 -- Phase 21 execution started
+Last activity: 2026-04-03
 
 Progress: [░░░░░░░░░░] 0%
 
