@@ -78,7 +78,7 @@ Full details: `.planning/milestones/v2.2-ROADMAP.md`
 - [x] **Phase 21: Type Definition & Data Extraction** - Define ExhibitFindingEntry interface and migrate 7 exhibits' findings data to typed arrays (completed 2026-04-03)
 - [x] **Phase 22: FindingsTable Component** - Build responsive dual-mode rendering component with TDD (table on desktop, cards on mobile) (completed 2026-04-03)
 - [x] **Phase 23: Layout Integration** - Wire FindingsTable into both detail layouts with empty-state suppression using TDD (completed 2026-04-03)
-- [ ] **Phase 24: Storybook Documentation** - Document FindingsTable with stories covering all column and field variants
+- [x] **Phase 24: Storybook Documentation** - Document FindingsTable with stories covering all column and field variants (completed 2026-04-03)
 
 ## Phase Details
 
@@ -134,7 +134,7 @@ Plans:
   3. Storybook story exists showing 3-column variant with background/resolution data
 **Plans**: 1 plan
 Plans:
-- [ ] 24-01-PLAN.md — FindingsTable Storybook stories (3 column variants)
+- [x] 24-01-PLAN.md — FindingsTable Storybook stories (3 column variants)
 
 ## Progress
 
@@ -167,4 +167,4 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 21. Type Definition & Data Extraction | v2.3 | 2/2 | Complete | 2026-04-03 |
 | 22. FindingsTable Component | v2.3 | 2/2 | Complete    | 2026-04-03 |
 | 23. Layout Integration | v2.3 | 1/1 | Complete    | 2026-04-03 |
-| 24. Storybook Documentation | v2.3 | 0/1 | Not started | - |
+| 24. Storybook Documentation | v2.3 | 1/1 | Complete   | 2026-04-03 |

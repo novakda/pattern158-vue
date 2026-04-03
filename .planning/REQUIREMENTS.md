@@ -27,7 +27,7 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 
 ### Documentation
 
-- [ ] **DOC-01**: Storybook stories covering 2-col, 3-col severity, and 3-col background/resolution variants
+- [x] **DOC-01**: Storybook stories covering 2-col, 3-col severity, and 3-col background/resolution variants
 
 ## Previous Milestone Requirements
 
@@ -111,7 +111,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RNDR-04 | Phase 22 | Complete |
 | RNDR-05 | Phase 23 | Complete |
 | RNDR-06 | Phase 23 | Complete |
-| DOC-01 | Phase 24 | Pending |
+| DOC-01 | Phase 24 | Complete |
 
 **Coverage:**
 - v2.3 requirements: 13 total
