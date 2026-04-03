@@ -18,9 +18,9 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 
 ### Rendering
 
-- [ ] **RNDR-01**: PersonnelCard component displays named persons showing name, title, organization, and role
-- [ ] **RNDR-02**: PersonnelCard displays anonymous persons (no `name`) as "Title, Organization"
-- [ ] **RNDR-03**: PersonnelCard visually highlights `isSelf` entries
+- [x] **RNDR-01**: PersonnelCard component displays named persons showing name, title, organization, and role
+- [x] **RNDR-02**: PersonnelCard displays anonymous persons (no `name`) as "Title, Organization"
+- [x] **RNDR-03**: PersonnelCard visually highlights `isSelf` entries
 - [ ] **RNDR-04**: InvestigationReportLayout renders `exhibit.personnel` using PersonnelCard
 - [ ] **RNDR-05**: EngineeringBriefLayout renders `exhibit.personnel` using PersonnelCard
 
@@ -73,9 +73,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-04 | Phase 17 | Pending |
 | DATA-05 | Phase 17 | Complete |
 | DATA-06 | Phase 17 | Complete |
-| RNDR-01 | Phase 18 | Pending |
-| RNDR-02 | Phase 18 | Pending |
-| RNDR-03 | Phase 18 | Pending |
+| RNDR-01 | Phase 18 | Complete |
+| RNDR-02 | Phase 18 | Complete |
+| RNDR-03 | Phase 18 | Complete |
 | RNDR-04 | Phase 19 | Pending |
 | RNDR-05 | Phase 19 | Pending |
 | DOC-01 | Phase 20 | Pending |
