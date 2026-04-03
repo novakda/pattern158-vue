@@ -103,3 +103,4 @@ Plans:
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete    | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete    | 2026-04-02 |
+| 21. Type Definition & Data Extraction | v2.2 | 1/1 | Complete | 2026-04-02 |
