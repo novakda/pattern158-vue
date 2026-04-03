@@ -9,13 +9,13 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 
 ### Build & Configuration
 
-- [ ] **BUILD-01**: FeedbackCollector conditionally mounts only in dev/staging builds (zero production bytes)
+- [x] **BUILD-01**: FeedbackCollector conditionally mounts only in dev/staging builds (zero production bytes)
 - [x] **BUILD-02**: VITE_GITHUB_TOKEN and VITE_GITHUB_REPO env vars validated at mount with console warnings
 - [x] **BUILD-03**: Self-contained CSS namespace (--fb-* tokens, fb- class prefix) with no dependency on site design tokens
 
 ### Element Picker
 
-- [ ] **PICK-01**: Floating action button visible in dev mode to activate picker mode
+- [x] **PICK-01**: Floating action button visible in dev mode to activate picker mode
 - [ ] **PICK-02**: Keyboard shortcut (Ctrl+Shift+F) toggles picker mode
 - [ ] **PICK-03**: Hovered elements show visible highlight outline during picker mode
 - [ ] **PICK-04**: Clicking an element captures tag name, CSS selector path, and bounding rect
@@ -141,10 +141,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | Phase 25 | Pending |
+| BUILD-01 | Phase 25 | Complete |
 | BUILD-02 | Phase 25 | Complete |
 | BUILD-03 | Phase 25 | Complete |
-| PICK-01 | Phase 25 | Pending |
+| PICK-01 | Phase 25 | Complete |
 | PICK-02 | Phase 26 | Pending |
 | PICK-03 | Phase 26 | Pending |
 | PICK-04 | Phase 26 | Pending |

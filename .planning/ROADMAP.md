@@ -88,7 +88,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 
 **Milestone Goal:** Build a self-contained dev/staging feedback tool that lets testers click any element, annotate it, and file a GitHub Issue with full context -- screenshot, element selector, viewport, and user agent.
 
-- [ ] **Phase 25: Foundation & Build Gating** - Security-critical scaffold: conditional mount, env var config, FAB trigger, self-contained CSS namespace
+- [x] **Phase 25: Foundation & Build Gating** - Security-critical scaffold: conditional mount, env var config, FAB trigger, self-contained CSS namespace (completed 2026-04-03)
 - [ ] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle
 - [ ] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI
 - [ ] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic
@@ -109,7 +109,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 **Plans**: 2 plans
 Plans:
 - [x] 25-01-PLAN.md — Types, CSS namespace, config and state composables
-- [ ] 25-02-PLAN.md — FAB component, root orchestrator, App.vue mount, env docs
+- [x] 25-02-PLAN.md — FAB component, root orchestrator, App.vue mount, env docs
 **UI hint**: yes
 
 ### Phase 26: Element Picker & Selection
@@ -201,7 +201,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 22. FindingsTable Component | v2.3 | 2/2 | Complete | 2026-04-03 |
 | 23. Layout Integration | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
-| 25. Foundation & Build Gating | v3.0 | 1/2 | In Progress|  |
+| 25. Foundation & Build Gating | v3.0 | 2/2 | Complete   | 2026-04-03 |
 | 26. Element Picker & Selection | v3.0 | 0/0 | Not started | - |
 | 27. Screenshot Capture | v3.0 | 0/0 | Not started | - |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
