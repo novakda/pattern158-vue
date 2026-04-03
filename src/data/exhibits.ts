@@ -301,6 +301,33 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
+    findings: [
+      {
+        finding: 'SCORM courses dependent on Cornerstone Network Player',
+        background: 'SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.',
+        resolution: 'Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit.',
+      },
+      {
+        finding: 'HTML5 courses failing under AICC protocol',
+        background: "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
+        resolution: 'Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration.',
+      },
+      {
+        finding: 'Quiz bookmarking and reset failures',
+        background: "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
+        resolution: 'SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints.',
+      },
+      {
+        finding: 'No tools to verify SCORM data flow',
+        background: "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
+        resolution: 'Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology.',
+      },
+      {
+        finding: 'Bulk SCORM import not available',
+        background: "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
+        resolution: "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment.",
+      },
+    ],
     impactTags: ['Client-Facing', 'Cross-Domain', 'Tooling', 'Defense & Aerospace', 'Flash-to-HTML5', '7-Year Engagement'],
     exhibitLink: '/exhibits/exhibit-a',
     isFlagship: true,
@@ -699,6 +726,28 @@ export const exhibits: Exhibit[] = [
           { label: 'Outcome', value: 'Architected cross-domain content delivery platform serving ~2,000 courses to ~20 energy utility clients. Built 5 years before Rustici Content Controller' },
           { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)' },
         ],
+      },
+    ],
+    findings: [
+      {
+        finding: 'Cross-domain architecture',
+        description: 'EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains \u2014 transparent to both content and LMS',
+      },
+      {
+        finding: 'Protocol agnostic',
+        description: 'SCORM API proxy provided transparent AICC/SCORM protocol translation \u2014 identical content packages worked across LMS platforms regardless of protocol dialect',
+      },
+      {
+        finding: 'Deployment revolution',
+        description: 'Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients',
+      },
+      {
+        finding: 'Automation at scale',
+        description: 'CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients \u2014 global deployments without touching individual systems',
+      },
+      {
+        finding: 'Cross-industry reuse',
+        description: 'Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) \u2014 proving the pattern was reusable, not domain-specific',
       },
     ],
     impactTags: ['Cross-Domain Architecture', '~20 Clients Served', 'SCORM', 'GPiLEARN', 'Rustici Precursor', '10+ Years in Production', 'Protocol Translation'],
@@ -1174,6 +1223,29 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
+    findings: [
+      {
+        finding: 'Memory cache vulnerability',
+        description: 'The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost.',
+      },
+      {
+        finding: '"Congratulations You Failed" UX',
+        description: "Courses displayed a completion message after the final assessment \u2014 but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered.",
+      },
+      {
+        finding: 'Confusing navigation',
+        description: "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface \u2014 average GM sales reps with no eLearning background had no chance.",
+      },
+      {
+        finding: 'Mobile workforce / poor WiFi',
+        description: "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble.",
+      },
+      {
+        finding: 'Short-burst usage pattern',
+        description: 'System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress.',
+      },
+    ],
+    findingsHeading: 'Findings \u2014 Five Concurrent Systemic Failures (Swiss Cheese Model)',
     impactTags: ['NTSB Methodology', 'Systems Thinking', 'Forensic Analysis', 'User Research', 'Swiss Cheese Model', '4x Completion Spike', 'General Motors'],
     exhibitLink: '/exhibits/exhibit-j',
     isFlagship: true,
@@ -1360,6 +1432,34 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
+    findings: [
+      {
+        finding: 'No data model',
+        severity: 'Critical',
+        description: 'No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised.',
+      },
+      {
+        finding: 'No version control',
+        severity: 'Critical',
+        description: 'No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net.',
+      },
+      {
+        finding: 'Monolithic solution architecture',
+        severity: 'High',
+        description: 'One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution.',
+      },
+      {
+        finding: 'Requirements atomization without context',
+        severity: 'High',
+        description: 'Requirements degraded through PPT \u2192 Word \u2192 Excel \u2192 ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories.',
+      },
+      {
+        finding: 'No decomposed user stories',
+        severity: 'High',
+        description: 'No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent.',
+      },
+    ],
+    findingsHeading: 'Findings \u2014 Five Foundational Gaps',
     impactTags: ['Forensic Diagnosis', 'AI-Assisted Analysis', 'Architecture Audit', 'Diagnosis as Deliverable', '5 Foundational Gaps'],
     exhibitLink: '/exhibits/exhibit-l',
     isFlagship: true,
@@ -1421,6 +1521,28 @@ export const exhibits: Exhibit[] = [
           { label: 'Personnel Involved', value: '2 individuals' },
           { label: 'Outcome', value: 'Reduced targeted QA test cycles from hours to minutes through TASBot-inspired SCORM state capture and restore' },
         ],
+      },
+    ],
+    findings: [
+      {
+        finding: 'QA time sink',
+        description: 'Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course',
+      },
+      {
+        finding: 'State management parallel',
+        description: 'TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data',
+      },
+      {
+        finding: 'Tool effectiveness',
+        description: 'State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly',
+      },
+      {
+        finding: 'Adoption barrier',
+        description: 'Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide',
+      },
+      {
+        finding: "Rustici gap",
+        description: "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided",
       },
     ],
     impactTags: ['QA Automation', 'Hours to Minutes', 'Vue.js', 'SCORM Testing', 'TASBot Methodology'],
@@ -1502,6 +1624,28 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
+    findings: [
+      {
+        finding: 'Undocumented theming',
+        description: 'Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree',
+      },
+      {
+        finding: 'Federated architecture',
+        description: 'The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit',
+      },
+      {
+        finding: 'Familiar pattern',
+        description: 'The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem',
+      },
+      {
+        finding: 'Scope estimation challenge',
+        description: 'Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends',
+      },
+      {
+        finding: 'Cross-system debugging',
+        description: 'Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously',
+      },
+    ],
     impactTags: ['Federated Integration', 'Pattern Recognition', 'Cross-System Debugging'],
     exhibitLink: '/exhibits/exhibit-n',
     isFlagship: true,
@@ -1579,6 +1723,28 @@ export const exhibits: Exhibit[] = [
           { label: 'Outcome', value: 'Contributed to ContentAIQ AI product frontend. Recognized integration pattern thread across 13 years from CSBB Dispatch to modern federated systems.' },
           { label: 'Related', value: 'Exhibit N (BP Learning Platform), Exhibit E (CSBB Dispatch)' },
         ],
+      },
+    ],
+    findings: [
+      {
+        finding: 'Pattern recognition',
+        description: 'Same architectural pattern across contexts: CSBB Dispatch (2011) \u2192 BP Learning Platform (2024) \u2014 federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he\'d built his own in 2011',
+      },
+      {
+        finding: 'Organic evolution',
+        description: "Integration expertise naturally leading to AI product work \u2014 not deliberate career planning, but organic evolution where the skill thread was real",
+      },
+      {
+        finding: 'Inherited code stewardship',
+        description: 'AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point \u2014 system co-ownership without original authorship',
+      },
+      {
+        finding: 'Design-to-code pragmatism',
+        description: 'ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation',
+      },
+      {
+        finding: 'Cross-system debugging',
+        description: 'All three projects required tracing issues across system boundaries: GraphQL \u2192 backend services, webhook \u2192 database \u2192 REST API, frontend \u2192 AI pipeline',
       },
     ],
     impactTags: ['AI Product Frontend', 'Multitenant Architecture', 'Design Translation', 'Integration Patterns', 'Pattern Recognition', 'Cross-System Coordination', 'Federated Systems'],
