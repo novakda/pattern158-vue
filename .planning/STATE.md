@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.2
 milestone_name: Personnel Data & Rendering
 status: executing
-stopped_at: Completed 18-01 PersonnelCard component
-last_updated: "2026-04-03T01:05:42Z"
-last_activity: 2026-04-02
+stopped_at: Phase 18 UI-SPEC approved
+last_updated: "2026-04-03T01:01:44.576Z"
+last_activity: 2026-04-03 -- Phase 18 execution started
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 3
-  percent: 75
+  completed_plans: 2
+  percent: 50
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 17 — Personnel Data Extraction
+**Current focus:** Phase 18 — personnelcard-component
 
 ## Current Position
 
-Phase: 18
-Plan: 1 of 1 complete
-Status: Phase complete
-Last activity: 2026-04-02
+Phase: 18 (personnelcard-component) — EXECUTING
+Plan: 1 of 1
+Status: Executing Phase 18
+Last activity: 2026-04-03 -- Phase 18 execution started
 
-Progress: [██████████] 100%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
@@ -56,7 +56,6 @@ Progress: [██████████] 100%
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
 | Phase 17 P01 | 4min | 2 tasks | 2 files |
 | Phase 17 P02 | 2min | 1 tasks | 1 files |
-| Phase 18 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -73,9 +72,6 @@ Progress: [██████████] 100%
 - [Phase 17 P01]: Exhibit J Investigation Lead mapped anonymous (omit name); Exhibit L em-dash parsed for name/title split
 - [Phase 17]: Prose-derived anonymous entries included for 5 substantive unnamed roles in Exhibit A
 - [Phase 17]: Spike artifacts (duplicate interface, duplicate field, unused type union) cleaned up as bug fix
-- [Phase 18]: PersonnelCard component defers section heading to Phase 19 layout integration
-- [Phase 18]: Title shown as detail only when name exists (prevents duplication for anonymous entries)
-- [Phase 18]: Role field rendered before title per D-03 priority
 
 ### Pending Todos
 
@@ -105,6 +101,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-03T01:05:42Z
-Stopped at: Completed 18-01 PersonnelCard component
-Resume file: None
+Last session: 2026-04-03T00:48:42.164Z
+Stopped at: Phase 18 UI-SPEC approved
+Resume file: .planning/phases/18-personnelcard-component/18-UI-SPEC.md
