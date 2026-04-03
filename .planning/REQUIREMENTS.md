@@ -141,32 +141,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BUILD-01 | — | Pending |
-| BUILD-02 | — | Pending |
-| BUILD-03 | — | Pending |
-| PICK-01 | — | Pending |
-| PICK-02 | — | Pending |
-| PICK-03 | — | Pending |
-| PICK-04 | — | Pending |
-| PICK-05 | — | Pending |
-| SHOT-01 | — | Pending |
-| SHOT-02 | — | Pending |
-| ANNOT-01 | — | Pending |
-| ANNOT-02 | — | Pending |
-| ANNOT-03 | — | Pending |
-| ANNOT-04 | — | Pending |
-| GH-01 | — | Pending |
-| GH-02 | — | Pending |
-| GH-03 | — | Pending |
-| GH-04 | — | Pending |
-| GH-05 | — | Pending |
-| GH-06 | — | Pending |
+| BUILD-01 | Phase 25 | Pending |
+| BUILD-02 | Phase 25 | Pending |
+| BUILD-03 | Phase 25 | Pending |
+| PICK-01 | Phase 25 | Pending |
+| PICK-02 | Phase 26 | Pending |
+| PICK-03 | Phase 26 | Pending |
+| PICK-04 | Phase 26 | Pending |
+| PICK-05 | Phase 26 | Pending |
+| SHOT-01 | Phase 27 | Pending |
+| SHOT-02 | Phase 27 | Pending |
+| ANNOT-01 | Phase 28 | Pending |
+| ANNOT-02 | Phase 28 | Pending |
+| ANNOT-03 | Phase 28 | Pending |
+| ANNOT-04 | Phase 30 | Pending |
+| GH-01 | Phase 29 | Pending |
+| GH-02 | Phase 29 | Pending |
+| GH-03 | Phase 29 | Pending |
+| GH-04 | Phase 29 | Pending |
+| GH-05 | Phase 29 | Pending |
+| GH-06 | Phase 29 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 20 total
-- Mapped to phases: 0
-- Unmapped: 20 ⚠️
+- Mapped to phases: 20
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-03*
-*Last updated: 2026-04-03 after v3.0 requirements definition*
+*Last updated: 2026-04-03 after v3.0 roadmap creation*
