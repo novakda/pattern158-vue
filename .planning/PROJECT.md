@@ -4,7 +4,20 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization. v2.3 applies the same promotion pattern to findings data.
+The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization. v2.3 applies the same promotion pattern to findings data. v3.0 adds a visual feedback collector for dev/staging bug reporting.
+
+## Current Milestone: v3.0 Visual Feedback Collector
+
+**Goal:** Build a self-contained, dev/staging feedback tool that lets testers click any element on the page, annotate it, and file a GitHub Issue with full context — screenshot, element selector, viewport, and user agent.
+
+**Target features:**
+- Picker mode activation (button trigger + keyboard shortcut)
+- DOM element hover highlighting with visible outline
+- Element capture: tag, CSS selector path, bounding rect, html2canvas screenshot
+- Comment/annotation overlay panel anchored near selected element
+- GitHub Issue submission with screenshot upload (Gist primary, data URI fallback)
+- Configurable via env vars (VITE_GITHUB_TOKEN, VITE_GITHUB_REPO)
+- Dev/staging only — not exposed in production builds
 
 ## Core Value
 
@@ -53,7 +66,11 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-None — planning next milestone.
+- Picker mode with DOM element selection and highlighting
+- Element context capture (selector path, bounding rect, screenshot)
+- Comment/annotation overlay panel
+- GitHub Issue submission with screenshot upload
+- Dev/staging build gating
 
 ### Out of Scope
 
@@ -71,6 +88,8 @@ None — planning next milestone.
 **Shipped:** v2.3 (2026-04-03)
 
 The site's information architecture is complete through v2.0 with 15 exhibits presented through a unified Case Files page. Two purpose-built detail layouts serve Investigation Reports and Engineering Briefs. v2.1 restored CSS and added five section type renderers. v2.2 promoted personnel from embedded table sections to first-class exhibit data — 14 exhibits have typed personnel[] arrays, rendered via PersonnelCard component with named/anonymous/self display modes. v2.3 promoted findings from embedded table sections to first-class typed arrays — 7 exhibits have ExhibitFindingEntry[] with column-adaptive rendering (2-col and 3-col patterns), rendered via FindingsTable component with dual-DOM responsive layout (table desktop, card grid mobile at 768px), severity badges, wired into both layouts with empty-state suppression. 185 unit tests passing, clean production build.
+
+**Building:** v3.0 — Visual Feedback Collector (dev/staging bug reporting tool). Self-contained styling for future extraction. html2canvas screenshots, GitHub Issues API, Gist-based image hosting.
 
 ## Context
 
@@ -130,4 +149,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-03 after v2.3 milestone complete*
+*Last updated: 2026-04-03 after v3.0 milestone started*

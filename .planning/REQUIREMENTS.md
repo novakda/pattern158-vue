@@ -9,11 +9,11 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 
 ### Data Model
 
-- [ ] **DATA-01**: ExhibitFindingEntry interface with typed fields (finding required; description, background, resolution, severity all optional)
-- [ ] **DATA-02**: findings[] optional array added to Exhibit interface
-- [ ] **DATA-03**: findingsHeading optional string added to Exhibit interface (default: "Findings")
-- [ ] **DATA-04**: 7 exhibits' table rows extracted to findings[] arrays (A, E, F, J, L, N, O)
-- [ ] **DATA-05**: Custom headings preserved for exhibits with non-default headings (J, L)
+- [x] **DATA-01**: ExhibitFindingEntry interface with typed fields (finding required; description, background, resolution, severity all optional)
+- [x] **DATA-02**: findings[] optional array added to Exhibit interface
+- [x] **DATA-03**: findingsHeading optional string added to Exhibit interface (default: "Findings")
+- [x] **DATA-04**: 7 exhibits' table rows extracted to findings[] arrays (A, E, F, J, L, N, O)
+- [x] **DATA-05**: Custom headings preserved for exhibits with non-default headings (J, L)
 - [x] **DATA-06**: Old findings table sections removed from migrated exhibits' sections[]
 
 ### Rendering
