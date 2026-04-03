@@ -119,7 +119,9 @@ Plans:
   1. InvestigationReportLayout renders FindingsTable when exhibit has findings data
   2. EngineeringBriefLayout renders FindingsTable when exhibit has findings data
   3. Neither layout renders a findings section when exhibit has no findings data (empty-state suppression)
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 23-01-PLAN.md — TDD: Wire FindingsTable into both layouts with empty-state suppression
 **UI hint**: yes
 
 ### Phase 24: Storybook Documentation
@@ -162,5 +164,5 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 20. Storybook Documentation | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 21. Type Definition & Data Extraction | v2.3 | 2/2 | Complete | 2026-04-03 |
 | 22. FindingsTable Component | v2.3 | 2/2 | Complete    | 2026-04-03 |
-| 23. Layout Integration | v2.3 | 0/TBD | Not started | - |
+| 23. Layout Integration | v2.3 | 0/1 | Not started | - |
 | 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |
