@@ -106,8 +106,10 @@ Plans:
   2. FindingsTable renders stacked cards on mobile viewports (768px breakpoint)
   3. Column rendering adapts automatically based on populated fields (2-col finding/description and 3-col patterns both work without configuration)
   4. Findings with severity data display a visual severity badge
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 2 plans
+Plans:
+- [ ] 22-01-PLAN.md — TDD: FindingsTable tests + component implementation
+- [ ] 22-02-PLAN.md — FindingsTable CSS styling with responsive toggle and severity badges
 
 ### Phase 23: Layout Integration
 **Goal**: Exhibit detail pages display findings through FindingsTable wherever findings data exists
@@ -159,6 +161,6 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 19. Layout Integration | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 20. Storybook Documentation | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 21. Type Definition & Data Extraction | v2.3 | 2/2 | Complete | 2026-04-03 |
-| 22. FindingsTable Component | v2.3 | 0/TBD | Not started | - |
+| 22. FindingsTable Component | v2.3 | 0/2 | Not started | - |
 | 23. Layout Integration | v2.3 | 0/TBD | Not started | - |
 | 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |
