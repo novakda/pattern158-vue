@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { defineAsyncComponent } from 'vue'
 import NavBar from '@/components/NavBar.vue'
 import FooterBar from '@/components/FooterBar.vue'
+
+const FeedbackCollector = import.meta.env.MODE !== 'production'
+  ? defineAsyncComponent(() => import('@/components/feedback/FeedbackCollector.vue'))
+  : null
 </script>
 
 <template>
@@ -12,4 +17,5 @@ import FooterBar from '@/components/FooterBar.vue'
     <router-view />
   </main>
   <FooterBar />
+  <FeedbackCollector v-if="FeedbackCollector" />
 </template>
