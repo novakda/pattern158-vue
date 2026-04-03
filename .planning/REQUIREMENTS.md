@@ -26,7 +26,7 @@ Requirements for Personnel Data & Rendering milestone. Each maps to roadmap phas
 
 ### Documentation
 
-- [ ] **DOC-01**: Storybook stories for PersonnelCard covering named, anonymous, and self variants
+- [x] **DOC-01**: Storybook stories for PersonnelCard covering named, anonymous, and self variants
 
 ## Previous Milestone Requirements
 
@@ -78,7 +78,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RNDR-03 | Phase 18 | Complete |
 | RNDR-04 | Phase 19 | Pending |
 | RNDR-05 | Phase 19 | Pending |
-| DOC-01 | Phase 20 | Pending |
+| DOC-01 | Phase 20 | Complete |
 
 **Coverage:**
 - v2.2 requirements: 12 total

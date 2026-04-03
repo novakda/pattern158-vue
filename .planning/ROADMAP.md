@@ -65,7 +65,7 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 - [x] **Phase 17: Personnel Data Extraction** - Extract personnel table data from 14 exhibits into top-level personnel[] arrays with proper field mapping (completed 2026-04-02)
 - [x] **Phase 18: PersonnelCard Component** - Build personnel rendering component with named, anonymous, and self display modes (completed 2026-04-03)
 - [x] **Phase 19: Layout Integration** - Wire PersonnelCard rendering into both detail layout components (completed 2026-04-03)
-- [ ] **Phase 20: Storybook Documentation** - Add Storybook stories covering all PersonnelCard display variants
+- [x] **Phase 20: Storybook Documentation** - Add Storybook stories covering all PersonnelCard display variants (completed 2026-04-03)
 
 ## Phase Details
 
@@ -124,7 +124,7 @@ Plans:
 **Plans**: 1 plan
 
 Plans:
-- [ ] 20-01-PLAN.md — PersonnelCard Storybook stories for named, anonymous, and self-highlighted variants
+- [x] 20-01-PLAN.md — PersonnelCard Storybook stories for named, anonymous, and self-highlighted variants
 
 ## Progress
 
@@ -153,4 +153,4 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
 | 18. PersonnelCard Component | v2.2 | 1/1 | Complete    | 2026-04-03 |
 | 19. Layout Integration | v2.2 | 0/1 | Complete    | 2026-04-03 |
-| 20. Storybook Documentation | v2.2 | 0/1 | Not started | - |
+| 20. Storybook Documentation | v2.2 | 1/1 | Complete   | 2026-04-03 |
