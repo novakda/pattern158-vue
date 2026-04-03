@@ -191,3 +191,118 @@ describe('Phase 17: Personnel Data Extraction', () => {
     })
   })
 })
+
+describe('Phase 21: Findings Data Extraction', () => {
+
+  // DATA-01: ExhibitFindingEntry fields (compile-time check + runtime shape)
+  describe('DATA-01: findings entries have correct shape', () => {
+    it('Exhibit A findings have finding, background, resolution fields', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-a')
+      exhibit!.findings!.forEach(f => {
+        expect(f.finding).toBeTruthy()
+        expect(f.background).toBeTruthy()
+        expect(f.resolution).toBeTruthy()
+      })
+    })
+    it('Exhibit L findings have finding, severity, description fields', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')
+      exhibit!.findings!.forEach(f => {
+        expect(f.finding).toBeTruthy()
+        expect(f.severity).toBeTruthy()
+        expect(f.description).toBeTruthy()
+      })
+    })
+  })
+
+  // DATA-02: findings[] arrays exist on all 7 exhibits
+  describe('DATA-02: findings arrays exist', () => {
+    const findingsExhibits = ['a', 'e', 'j', 'l', 'm', 'n', 'o']
+    findingsExhibits.forEach(letter => {
+      it(`Exhibit ${letter.toUpperCase()} has findings array with entries`, () => {
+        const exhibit = exhibits.find(e => e.exhibitLink === `/exhibits/exhibit-${letter}`)
+        expect(exhibit?.findings).toBeDefined()
+        expect(exhibit!.findings!.length).toBeGreaterThan(0)
+      })
+    })
+  })
+
+  // DATA-03: findingsHeading on J and L only
+  describe('DATA-03: findingsHeading field', () => {
+    it('Exhibit J has findingsHeading', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-j')
+      expect(exhibit?.findingsHeading).toBeTruthy()
+    })
+    it('Exhibit L has findingsHeading', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')
+      expect(exhibit?.findingsHeading).toBeTruthy()
+    })
+    it('exhibits without custom headings do not have findingsHeading', () => {
+      const noHeading = ['a', 'e', 'm', 'n', 'o']
+      noHeading.forEach(letter => {
+        const exhibit = exhibits.find(e => e.exhibitLink === `/exhibits/exhibit-${letter}`)
+        expect(exhibit?.findingsHeading).toBeUndefined()
+      })
+    })
+  })
+
+  // DATA-04: correct row counts (5 per exhibit = 35 total)
+  describe('DATA-04: findings data counts', () => {
+    const findingsExhibits = ['a', 'e', 'j', 'l', 'm', 'n', 'o']
+    findingsExhibits.forEach(letter => {
+      it(`Exhibit ${letter.toUpperCase()} has 5 findings`, () => {
+        const exhibit = exhibits.find(e => e.exhibitLink === `/exhibits/exhibit-${letter}`)
+        expect(exhibit!.findings!.length).toBe(5)
+      })
+    })
+    it('total findings across all exhibits is 35', () => {
+      const total = exhibits.reduce((sum, e) => sum + (e.findings?.length || 0), 0)
+      expect(total).toBe(35)
+    })
+  })
+
+  // DATA-05: custom headings with em-dashes
+  describe('DATA-05: custom headings preserved', () => {
+    it('Exhibit J heading contains Swiss Cheese Model', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-j')
+      expect(exhibit?.findingsHeading).toContain('Swiss Cheese Model')
+    })
+    it('Exhibit L heading contains Five Foundational Gaps', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')
+      expect(exhibit?.findingsHeading).toContain('Five Foundational Gaps')
+    })
+    it('headings use em-dash not hyphen', () => {
+      const j = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-j')
+      const l = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')
+      expect(j?.findingsHeading).toContain('\u2014')
+      expect(l?.findingsHeading).toContain('\u2014')
+    })
+  })
+
+  // DATA-06: old findings table sections removed
+  describe('DATA-06: findings table sections removed', () => {
+    const findingsExhibits = ['a', 'e', 'j', 'l', 'm', 'n', 'o']
+    findingsExhibits.forEach(letter => {
+      it(`Exhibit ${letter.toUpperCase()} has no findings table section`, () => {
+        const exhibit = exhibits.find(e => e.exhibitLink === `/exhibits/exhibit-${letter}`)
+        const findingsTableSection = exhibit!.sections?.find(
+          s => s.type === 'table' && s.heading?.startsWith('Findings')
+        )
+        expect(findingsTableSection).toBeUndefined()
+      })
+    })
+    it('Exhibit D still has text-type findings section (not migrated)', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-d')
+      const textSection = exhibit!.sections?.find(
+        s => s.type === 'text' && s.heading === 'Findings'
+      )
+      expect(textSection).toBeDefined()
+    })
+    it('Exhibit F still has text-type findings section (not migrated)', () => {
+      const exhibit = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-f')
+      const textSection = exhibit!.sections?.find(
+        s => s.type === 'text' && s.heading === 'Findings'
+      )
+      expect(textSection).toBeDefined()
+    })
+  })
+})
