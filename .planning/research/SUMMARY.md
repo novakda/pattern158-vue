@@ -1,174 +1,162 @@
 # Project Research Summary
 
-**Project:** Pattern 158 v2.0 -- Dual Exhibit Templates and IA Restructure
-**Domain:** Vue 3 SPA portfolio site for senior engineer with proprietary work history
-**Researched:** 2026-03-27
+**Project:** Pattern 158 v2.3 -- Findings Data Promotion & Responsive Rendering
+**Domain:** Vue 3 SPA portfolio site -- exhibit findings data promotion (table-to-typed-array migration)
+**Researched:** 2026-04-02
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Pattern 158 v2.0 is an information architecture restructure of an existing Vue 3 portfolio site, not a greenfield build. The site presents 28+ years of proprietary engineering work through 15 evidence-based "exhibits" -- primary-source quotes, email corpus metrics, and named personnel replacing the public repos and live demos that this engineer cannot show. The core problem: two listing pages (Portfolio and Field Reports/Testimonials) present overlapping exhibit content from different angles with separate data sources, and all 15 exhibits share a single detail template despite having two distinct content structures.
+v2.3 is a focused data promotion milestone that extracts exhibit findings from embedded table sections into typed top-level arrays with purpose-built rendering. This is the third promotion milestone, following v2.2's personnel promotion, and the pattern is well-established: define typed interface, add optional array to Exhibit, migrate data from 7 table-type exhibits, build a dedicated rendering component, wire into both layout templates with empty-state suppression. The key architectural difference from v2.2 is that findings are genuinely tabular data requiring a responsive dual-mode component -- table on desktop, stacked cards on mobile -- rather than a card-only layout like PersonnelCard.
 
-The recommended approach requires zero new dependencies. The entire v2.0 scope is achievable with Vue 3's built-in component system, TypeScript discriminated unions, and Vue Router redirects -- all patterns already validated in the existing codebase. The work is: (1) replace two ambiguous boolean flags with a single `exhibitType` string literal discriminant on the data model, (2) merge two listing pages into one unified Case Files page with type-aware cards, (3) extract the monolithic detail page into a thin dispatcher plus two focused layout components, and (4) update all routes, navigation, and internal links atomically.
+The recommended approach requires zero new dependencies. The codebase already contains two proven CSS-only table-to-card responsive patterns (at 480px and 768px breakpoints) using `data-label` attributes and `::before` pseudo-elements. A dedicated `FindingsTable` component renders a single semantic `<table>` DOM that CSS transforms into stacked cards at 768px. Column-adaptive rendering via computed properties handles the three distinct column patterns (2-col finding/description, 3-col finding/background/resolution, 3-col finding/severity/description) without configuration props -- the data drives the rendering.
 
-The primary risks are content loss during the page merge (the two pages contain unique content beyond just exhibit cards -- project directory tables, stats bars, executive summary prose) and orphaned internal links (route references are scattered across 10+ files with no centralized registry). Both risks are fully mitigatable through upfront inventories and atomic phase execution. The architecture research produced a complete 15-exhibit classification mapping and a file-level impact analysis, giving high confidence in the implementation plan.
+The primary risks are naming collisions (the codebase has an unrelated `Finding` type and `FindingCard` component for the homepage), duplicate rendering (old table sections and new component both visible), and CSS class namespace conflicts (existing `.finding-*` classes span ~500 lines). All risks have straightforward mitigations: use `ExhibitFindingEntry` naming, filter old sections from the layout loop, and prefix new CSS classes to avoid collision. Recovery cost for all identified pitfalls is LOW because the coexistence pattern preserves original data as a fallback.
 
 ## Key Findings
 
 ### Recommended Stack
 
-No new packages. The existing stack (Vue 3.5.30, TypeScript 5.7, Vite 6, Vue Router 4.6.4) provides everything needed. The key Vue patterns are `v-if/v-else` for template dispatch, `defineAsyncComponent` for lazy layout loading (optional at this scale), computed properties for type-based filtering, and Vue Router `redirect` for backward-compatible route changes.
+No new packages or technologies needed. v2.3 is pure CSS authoring and Vue component creation within established conventions.
 
-**Core patterns (all built-in):**
-- **TypeScript discriminated union** (`ExhibitType = 'investigation-report' | 'engineering-brief'`): replaces two overlapping boolean flags with a self-documenting, extensible discriminant
-- **`v-if/v-else` template dispatch**: two exhibit types means two branches, not a dynamic component registry
-- **Vue Router `redirect`**: zero-cost backward compatibility for renamed routes
-- **Computed filtering**: idiomatic Vue for deriving exhibit subsets from static data
+**Core technologies (all existing):**
+- CSS `data-label` + `::before` pattern: responsive table-to-card switching -- two proven implementations already in codebase
+- CSS Grid `auto-fill, minmax()`: card grid on mobile -- PersonnelCard precedent
+- CSS cascade layers (`@layer components`): scope FindingsTable styles -- consistent with all component CSS
+- Vue 3 Composition API (`defineProps` + `computed`): component definition -- identical to PersonnelCard pattern
 
-**What NOT to add:** Pinia/Vuex (data is static imports), separate routes per exhibit type (breaks bookmarks if reclassified), provide/inject (one level of props), CSS Modules (project uses cascade layers).
+**Critical version note:** None. All patterns use standard CSS and Vue 3 built-in features with universal browser support.
 
 ### Expected Features
 
-**Must have (v2.0 -- resolves IA redundancy):**
-- Classify all 15 exhibits as Investigation Report (5) or Engineering Brief (10) in data model
-- Unified Case Files listing page replacing Portfolio + Field Reports
-- Visual type distinction on cards (badge, border, CTA text per type)
-- Detail page type label for both types (Investigation Report badge exists; Engineering Brief needs equivalent)
-- Navigation coherence (single entry point replacing two)
-- Route redirects for `/portfolio` and `/testimonials`
-- Project directory (38 projects, 7 industry tables) relocated to Case Files
-- Stats bar consolidated onto Case Files
-- Three Lenses AI-generated content deliberately removed
+**Must have (table stakes):**
+- `ExhibitFindingEntry` interface with required `finding` field and optional `description`, `background`, `resolution`, `severity`
+- `findings[]` optional array on Exhibit interface for 7 promotable exhibits
+- `FindingsTable` component with desktop table and mobile stacked card rendering
+- Column-adaptive rendering (2-col and 3-col patterns handled automatically via computed field detection)
+- Wired into both InvestigationReportLayout and EngineeringBriefLayout with empty-state suppression
+- Severity badge rendering for Exhibit L findings using existing design tokens
+- Custom `findingsHeading` field preserved from original section headings (Exhibits I, J have custom suffixes)
+- Old findings table sections removed/filtered to prevent duplicate rendering
+- Storybook stories covering all column variants
 
-**Should have (v2.x after validation):**
-- Type-filtered listing view (tabs or toggle on Case Files)
-- Engineering Brief template refinements if the generic layout does not fit well
-- Flagship data consolidation (merge summaries into Exhibit interface or retire `portfolioFlagships.ts`)
-- Storybook stories for all new/modified components
-- Homepage CTA updates
+**Should have (differentiators):**
+- Severity visual badges with color-coded design token mapping (critical=red, high=amber, medium=gray, low=light)
+- Finding title as scannable primary identifier (card heading on mobile, first column on desktop)
+- Custom section headings preserving investigation narrative framing ("Five Concurrent Systemic Failures")
 
-**Defer (v3+):**
-- New exhibit content creation
-- Technology cross-references between exhibits
-- Tag-based filtering (premature at 15 items)
+**Defer (not v2.3):**
+- Promoting text-type findings from Exhibits D and M -- prose does not fit structured model
+- Cross-exhibit finding relationships -- premature at ~30 total findings
+- Finding numbering/ID system -- not all exhibits use investigation framing
+- Expandable/collapsible details -- content too short for progressive disclosure
+- Rich text in descriptions -- no current need
+- Severity filtering/sorting -- only 1 of 7 exhibits has severity data
 
 ### Architecture Approach
 
-Single ExhibitDetailPage.vue acts as a dispatcher: it owns route resolution, SEO meta, the shared header (label, client, date, title, type badge), 404 handling, and back-navigation. It delegates body rendering to two extracted layout components -- InvestigationReportLayout (structured sections: text, table, flow, timeline, metadata) and EngineeringBriefLayout (quotes, context narrative, resolution tables). Both layouts must handle all optional Exhibit fields because the data shapes overlap; the distinction is presentation emphasis, not data presence. A new CaseFileCard component replaces both ExhibitCard and FlagshipCard with type-driven CSS modifiers and conditional content slots.
+The architecture follows the v2.2 personnel promotion pattern exactly: type definition in `exhibits.ts`, optional typed array on `Exhibit` interface, dedicated rendering component, symmetrical wiring into both layouts. The single new component (`FindingsDisplay` or `FindingsTable`) owns both rendering modes via CSS media queries -- a semantic `<table>` on desktop, CSS-transformed stacked cards on mobile at 768px. Dynamic column detection via computed properties (`hasDescription`, `hasSeverity`, etc.) eliminates the need for column configuration props.
 
 **Major components:**
-1. **CaseFilesPage.vue** (NEW) -- unified listing with type-grouped sections, project directory, stats bar
-2. **CaseFileCard.vue** (NEW) -- single card component with `.type-investigation-report` / `.type-engineering-brief` CSS modifiers
-3. **InvestigationReportLayout.vue** (NEW) -- detail body for NTSB-style structured investigations
-4. **EngineeringBriefLayout.vue** (NEW) -- detail body for quote-driven engineering narratives
-5. **ExhibitDetailPage.vue** (MODIFIED) -- slimmed to dispatcher pattern (~80 lines)
+1. `ExhibitFindingEntry` (type) -- typed finding data shape in `exhibits.ts`
+2. `FindingsTable.vue` (new component) -- responsive dual-mode rendering with column-adaptive layout
+3. `InvestigationReportLayout.vue` (modified) -- findings section wiring with v-if guard
+4. `EngineeringBriefLayout.vue` (modified) -- identical findings section wiring
+5. `exhibits.ts` data (modified) -- findings arrays added to 7 exhibits, old table sections removed
 
-**Retired:** ExhibitCard.vue, FlagshipCard.vue, NarrativeCard.vue, PortfolioPage.vue, TestimonialsPage.vue, portfolioFlagships.ts, portfolioNarratives.ts
+**Not modified:** ExhibitDetailPage.vue (thin dispatcher), FindingCard.vue (unrelated homepage component), PersonnelCard.vue (untouched), src/data/findings.ts (unrelated homepage data).
 
 ### Critical Pitfalls
 
-1. **Orphaned internal links after route removal** -- Route references exist in 10+ files (NavBar, HomeHero, HomePage, ExhibitDetailPage, ContactMethods, tests, Storybook stories). All must update atomically with route changes. ContactMethods uses a plain `<a href>` that will not follow client-side redirects. Mitigation: grep-based route inventory, atomic update phase.
+1. **Naming collision with homepage Finding type** -- Name the new type `ExhibitFindingEntry` (not `Finding` or `ExhibitFinding`). Place in `exhibits.ts` alongside `ExhibitPersonnelEntry`. Name component `FindingsTable.vue` (not `FindingCard.vue` which exists). Prefix CSS classes with `findings-table` or `exhibit-findings` to avoid the existing `.finding-*` namespace (~500 lines).
 
-2. **Content loss during page merge** -- Portfolio page has 38-project directory (90 lines of HTML tables), stats bars, and flagship summaries. Testimonials page has executive summary prose, different stats, and TestimonialsMetrics. A naive exhibit-card listing loses all of this. Mitigation: content inventory with explicit disposition for every section before building.
+2. **Duplicate rendering of findings data** -- Old table sections in `sections[]` and new FindingsTable both render in the same content flow. Either filter sections with "Findings" heading when `exhibit.findings?.length` exists, or remove old table sections from `sections[]` during data migration. Removal is cleaner; filtering follows v2.2 coexistence pattern. Decision must be made before layout wiring.
 
-3. **Data model mutation breaking existing pages** -- Adding `exhibitType` while removing `investigationReport` and `isDetailExhibit` must happen in one atomic data migration with values for all 15 exhibits. Never add required fields without providing values for all entries in the same commit. Mitigation: data validation test, type-check pass between data and template changes.
+3. **Column variance breaking responsive layout** -- Build card layout to render whatever fields are present (labeled blocks under finding title), not a fixed grid of slots. Test 2-col AND 3-col variants in Storybook. The 3-column exhibits (A and L) are edge cases easily missed during development.
 
-4. **Template conditional explosion** -- Adding a second layout path via inline `v-if/v-else` in ExhibitDetailPage (already 155 lines) creates an untestable monolith. Mitigation: extract to two named layout components from the start, not as a later refactor.
+4. **Custom heading suffixes silently lost** -- Add `findingsHeading` field to Exhibit interface during data extraction phase. Exhibits I/J have meaningful heading suffixes ("Swiss Cheese Model", "Five Foundational Gaps") that frame the findings.
 
-5. **CSS body class conflicts** -- Both pages use `useBodyClass()` with page-specific classes. CSS rules scoped to `.page-portfolio` and `.page-testimonials` stop applying when those pages are removed. Mitigation: audit CSS selectors, create `.page-case-files` styles in the same phase as page creation.
+5. **CSS bypassing design token system** -- Mandate all spacing uses `--space-*`, all colors use `--color-*`, all font sizes use `--font-size-*`. Grep for hardcoded values as verification step. Dark mode breakage is the symptom of skipped tokens.
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure:
+Based on research, the milestone follows a 4-phase structure mirroring v2.2 exactly. Dependencies are strictly sequential: types before data, data before component, component before integration.
 
-### Phase 1: Data Model Migration
+### Phase 1: Type Definition + Data Extraction
+**Rationale:** The interface shape drives everything downstream. Data migration must happen before the component can be tested with real data. Naming decisions must be locked first.
+**Delivers:** `ExhibitFindingEntry` interface, `findings[]` arrays on 7 exhibits, `findingsHeading` field, old table sections removed from migrated exhibits
+**Addresses:** ExhibitFindingEntry interface, findings[] array, data migration, findingsHeading field, old table section removal
+**Avoids:** Naming collision (Pitfall 1), column variance data loss (Pitfall 2), custom heading loss (Pitfall 4), data truncation (Pitfall 7)
 
-**Rationale:** Everything depends on the `exhibitType` discriminant existing. This is the foundation with zero visual impact -- pure data refactor that can be validated with type-checking and unit tests before any UI work begins.
-**Delivers:** Clean exhibit classification (10 engineering briefs, 5 investigation reports), removal of ambiguous `isDetailExhibit` and `investigationReport` flags, updated data validation tests.
-**Addresses:** Exhibit type classification (P1 feature), data model consistency.
-**Avoids:** Pitfall 3 (data model mutation breaking pages) -- by updating all 15 exhibits in one atomic change with a passing test suite.
+### Phase 2: FindingsTable Component (TDD)
+**Rationale:** Component needs the type definition and sample data from Phase 1. TDD approach established in v2.2. Desktop table and mobile card rendering are the core deliverable.
+**Delivers:** `FindingsTable.vue` component with dual-mode responsive rendering, unit tests, CSS styles in `@layer components`
+**Uses:** CSS `data-label` + `::before` pattern at 768px breakpoint, existing design tokens (no new tokens)
+**Implements:** Responsive dual-mode rendering, dynamic column detection, severity badges
+**Avoids:** Responsive breakage on variable columns (Pitfall 3), CSS token bypass (Pitfall 6)
 
-### Phase 2: Detail Template Extraction
+### Phase 3: Layout Integration (TDD)
+**Rationale:** Component must exist before wiring into layouts. Both layouts get identical changes. Duplicate rendering prevention is critical here.
+**Delivers:** FindingsTable wired into InvestigationReportLayout and EngineeringBriefLayout with empty-state suppression, integration tests
+**Addresses:** Layout wiring, empty-state suppression, section filtering to prevent duplication
+**Avoids:** Duplicate rendering (Pitfall 5)
 
-**Rationale:** Can proceed immediately after Phase 1 since it depends only on `exhibitType` existing. Independent of listing page work. Extracting templates early means the detail page is stable before route changes create navigation churn.
-**Delivers:** InvestigationReportLayout.vue, EngineeringBriefLayout.vue, slimmed ExhibitDetailPage dispatcher. All 15 exhibits rendering correctly through the new template dispatch.
-**Addresses:** Engineering Brief as distinct type (differentiator feature), detail page type labels.
-**Avoids:** Pitfall 4 (conditional explosion) -- by extracting from the start rather than forking inline.
-
-### Phase 3: Unified Listing Page
-
-**Rationale:** Depends on Phase 1 (needs `exhibitType` for filtering/grouping). This is the most visible change and the most content-sensitive. Building it while old pages still exist allows side-by-side comparison.
-**Delivers:** CaseFilesPage.vue, CaseFileCard.vue, relocated project directory and stats bar, retired Three Lenses content.
-**Addresses:** Unified Case Files listing (P1), visual type distinction on cards (P1), breadth signal preservation, stats consolidation, Three Lenses removal.
-**Avoids:** Pitfall 5 (content loss during merge) -- by building new page alongside old ones with explicit content inventory.
-
-### Phase 4: Route and Navigation Migration
-
-**Rationale:** Must come after Phases 2 and 3 so that the new page and templates are complete and tested before old routes are removed. All link updates happen atomically in one phase.
-**Delivers:** New `/case-files` route, redirects for `/portfolio` and `/testimonials`, updated NavBar, HomePage CTAs, ExhibitDetailPage back-nav, ContactMethods href, updated tests and Storybook stories.
-**Addresses:** Navigation coherence (P1), route redirects (P1), back-nav update (P1).
-**Avoids:** Pitfall 1 (orphaned links) and Pitfall 6 (back link context) -- by updating every reference in one atomic phase using the route inventory from pitfalls research. Pitfall 2 (SEO damage) -- by shipping redirects with the route change.
-
-### Phase 5: Cleanup and Retirement
-
-**Rationale:** Only after all new components are wired and tested. Removing dead code is low risk but should be verified with a full regression pass.
-**Delivers:** Removal of PortfolioPage, TestimonialsPage, ExhibitCard, FlagshipCard, NarrativeCard, portfolioFlagships.ts, portfolioNarratives.ts, stale Storybook stories, orphaned CSS.
-**Addresses:** Clean codebase, no orphaned components or data files.
-**Avoids:** Pitfall 7 (CSS body class conflicts) -- by auditing and migrating CSS in the same phase as removal.
+### Phase 4: Storybook + Documentation
+**Rationale:** Can run partially parallel with Phase 3 but logically last. Stories document the component's field variations for future reference.
+**Delivers:** Storybook stories covering 2-col, 3-col-severity, 3-col-background-resolution variants, milestone documentation
 
 ### Phase Ordering Rationale
 
-- **Data model first** because every subsequent phase reads `exhibitType`. Validated independently with TypeScript compiler and unit tests.
-- **Detail templates before listing page** because template extraction is a focused refactor (one component in, two components out) with clear verification (all 15 exhibits must render). Listing page is higher-risk content work that benefits from a stable detail layer.
-- **Listing page before route changes** because building alongside old pages enables comparison and content verification. No user-facing breakage until routes switch.
-- **Routes as atomic phase** because the pitfalls research identified 10+ files with hardcoded paths. Splitting route removal and reference updates across phases guarantees orphaned links.
-- **Cleanup last** because premature file deletion creates risk with no benefit. Dead files cost nothing; broken imports cost debugging time.
+- Types before data: interface shape drives migration. Wrong interface cascades to every downstream phase.
+- Data before component: real exhibit data is the best test fixture. Component tests use actual findings arrays.
+- Component before integration: layout wiring is trivial once the component works. Integration tests verify the handoff.
+- Storybook last: documentation layer, lowest risk. Can overlap with Phase 3.
+- Old table section removal happens in Phase 1 (with data migration) rather than Phase 3 (with integration) because removing at extraction time is cleaner and prevents any period where duplicate rendering exists.
 
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase 2 (Detail Template Extraction):** Exhibits A, E, and F are engineering briefs with `sections` arrays. The layout split is about presentation emphasis, not data shape. Needs careful review of which sections each layout renders and how. May benefit from `/gsd:research-phase` to audit all 15 exhibits' actual content structures.
-- **Phase 3 (Unified Listing Page):** Content disposition decisions needed for TestimonialsMetrics component, executive summary prose, and two different stats bars. Needs a content inventory checklist before implementation.
+- **Phase 2 (Component):** The responsive dual-mode rendering is the only genuinely new pattern in v2.3. The STACK and ARCHITECTURE research provide detailed implementation guidance, but the CSS class naming (avoiding `.finding-*` collision) and the exact 768px breakpoint behavior with 3-column tables should be validated during phase planning.
 
 Phases with standard patterns (skip research-phase):
-- **Phase 1 (Data Model Migration):** Pure TypeScript interface change with well-documented discriminated union pattern. Classification mapping already complete in architecture research.
-- **Phase 4 (Route Migration):** Vue Router redirects are documented core functionality. Complete file inventory already provided in pitfalls research.
-- **Phase 5 (Cleanup):** File deletion and dead code removal. No research needed.
+- **Phase 1 (Types + Data):** Direct replication of v2.2 Phase 17 pattern. Well-documented, mechanical transformation.
+- **Phase 3 (Integration):** Direct replication of v2.2 Phase 19 pattern. Symmetrical changes to both layouts.
+- **Phase 4 (Storybook):** Standard Storybook story authoring. PersonnelCard.stories.ts is the template.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Zero new dependencies. All patterns use built-in Vue 3 / TypeScript features already validated in v1.0/v1.1. Sources are official Vue and TypeScript documentation. |
-| Features | HIGH | Feature list derived from direct codebase audit of all 15 exhibits plus PROJECT.md requirements. External sources are secondary confirmation. |
-| Architecture | HIGH | Component architecture, data model evolution, and build order derived from direct analysis of every affected file. Complete 15-exhibit classification mapping produced. |
-| Pitfalls | HIGH | Every pitfall identified by grep/analysis of actual codebase files (14 files examined). File names and line numbers provided. No theoretical pitfalls -- all are concrete. |
+| Stack | HIGH | Zero new dependencies. All patterns verified against existing codebase implementations with exact line numbers. |
+| Features | HIGH | Complete audit of all 15 exhibits. Column patterns enumerated. v2.2 precedent provides clear feature scope. |
+| Architecture | HIGH | Direct codebase analysis. Component boundaries, data flow, and integration points all map to existing patterns. |
+| Pitfalls | HIGH | All pitfalls derived from actual codebase analysis (naming conflicts, CSS class inventory, v2.2 lessons learned). |
 
-**Overall confidence:** HIGH -- This is an established codebase restructure with no new technology, no external integrations, and no uncertain requirements. The research is grounded in direct code analysis rather than external sources.
+**Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **TestimonialsMetrics disposition:** Research identified this component needs relocation or removal but did not make a firm recommendation. Decision needed during Phase 3 planning: relocate to Case Files page, fold content into a different format, or remove.
-- **Flagship summary content:** `portfolioFlagships.ts` contains `summary` and `quote` fields that extend exhibit data. Decision needed: merge summaries into the Exhibit interface (richer cards on listing page) or accept that CaseFileCard renders from existing exhibit fields only. Deferred to v2.x is acceptable.
-- **Project directory data extraction:** The 38-project directory is 90 lines of hardcoded HTML tables. Research flags this as acceptable tech debt for v2.0 (relocate HTML as-is) but notes it should be extracted to data if the directory grows. Not blocking.
-- **Engineering Brief section rendering:** Briefs A, E, and F have `sections` arrays despite being classified as engineering briefs. EngineeringBriefLayout must render sections -- the layout distinction is framing and emphasis, not field presence. This needs attention during Phase 2 implementation.
+- **Exhibit labeling discrepancy:** Research files have minor inconsistencies in which exhibits have text-type findings (FEATURES says D/M, ARCHITECTURE says D/F, PITFALLS says C/F). During Phase 1 planning, the exact exhibit inventory must be confirmed against `exhibits.ts` data. The count of 7 promotable table-type exhibits is consistent across all files.
+- **Component naming:** STACK.md recommends `FindingsTable`, ARCHITECTURE.md recommends `FindingsDisplay`. Either works; decision should be locked in Phase 1. `FindingsTable` is slightly more descriptive of the desktop rendering mode.
+- **Breakpoint value:** STACK.md recommends 768px for all findings tables. PITFALLS.md suggests 768px specifically for 3-column variants. Since the component renders a single breakpoint for all findings, 768px is correct for the worst case (3-column text-heavy tables).
+- **Coexistence vs removal:** PITFALLS.md recommends filtering (coexistence), ARCHITECTURE.md recommends removal. Removal is cleaner and avoids the section-heading filter complexity. Recommend removal during data migration (Phase 1).
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Direct codebase analysis: all 15 exhibits in `exhibits.ts`, `ExhibitDetailPage.vue`, `PortfolioPage.vue`, `TestimonialsPage.vue`, `ExhibitCard.vue`, `FlagshipCard.vue`, `NarrativeCard.vue`, `NavBar.vue`, `HomePage.vue`, `HomeHero.vue`, `CtaButtons.vue`, `ContactMethods.vue`, `router.ts`, `ExhibitDetailPage.test.ts`
-- Vue 3 official documentation: dynamic components, async components, computed properties
-- Vue Router 4 official documentation: redirect and alias
-- TypeScript handbook: discriminated unions and type narrowing
-- PROJECT.md v2.0 milestone requirements
+- Direct codebase analysis: `src/data/exhibits.ts` -- all exhibit types, section structures, column patterns
+- Direct codebase analysis: `src/assets/css/main.css` -- responsive table patterns (lines 3757-3784, 4289-4326), `.finding-*` class inventory (lines 653-1140), design token system
+- Direct codebase analysis: `src/components/PersonnelCard.vue` -- v2.2 rendering component precedent
+- Direct codebase analysis: `src/components/exhibit/InvestigationReportLayout.vue`, `EngineeringBriefLayout.vue` -- layout integration patterns
+- Direct codebase analysis: `src/data/findings.ts`, `src/components/FindingCard.vue` -- homepage naming conflict inventory
+- v2.2 milestone audit and roadmap -- promotion pattern precedent and lessons learned
 
 ### Secondary (MEDIUM confidence)
-- DEV Community, Codecademy, TextExpander, Toptal, Artfolio: portfolio best practices and case study structuring
-- NTSB official site: investigation process methodology (framing reference)
+- None. All research is based on direct codebase analysis with no external sources.
 
 ### Tertiary (LOW confidence)
-- Quora community advice on showing proprietary work in portfolios
+- None.
 
 ---
-*Research completed: 2026-03-27*
+*Research completed: 2026-04-02*
 *Ready for roadmap: yes*

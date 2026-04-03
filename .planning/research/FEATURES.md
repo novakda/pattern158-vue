@@ -1,16 +1,29 @@
 # Feature Research
 
-**Domain:** Evidence-based senior engineer portfolio with dual exhibit types (v2.0 IA restructure)
-**Researched:** 2026-03-27
-**Confidence:** HIGH (existing codebase fully audited, domain patterns well-understood, data model inspected)
+**Domain:** Exhibit findings data promotion and responsive rendering (v2.3 milestone)
+**Researched:** 2026-04-02
+**Confidence:** HIGH (existing codebase fully audited, column patterns enumerated, v2.2 personnel promotion pattern established as reference)
 
 ---
 
 ## Context Note
 
-This is an **IA restructure milestone**, not a greenfield build. The v1.0-v1.1 Vue site is complete with 15 exhibit detail pages, ExhibitCard components, a Portfolio page (Three Lenses + 15 flagships + 38-project directory), and a Testimonials/Field Reports page (all 15 exhibits as cards). The v2.0 goal is to resolve content redundancy between these two pages and introduce two distinct exhibit presentation types.
+This is the **third data promotion milestone** in the Pattern 158 Vue portfolio, following the established pattern from v2.2 (personnel promotion). The v2.2 pattern: extract structured data from embedded table sections into typed top-level arrays, build a purpose-built rendering component, wire into both layouts with empty-state suppression.
 
-The core challenge unique to this portfolio: **28+ years of proprietary work with no public repositories, no open-source contributions, and no live demos to show.** Every client engagement is NDA-bound or proprietary. The evidence layer (primary-source quotes, email corpus metrics, named personnel) IS the differentiator -- not code artifacts.
+Nine of 15 exhibits have findings sections. These come in two storage forms and four column patterns:
+
+**Storage forms:**
+- **Table sections** (7 exhibits): Structured rows with column headers -- directly promotable
+- **Text sections** (2 exhibits: D, M): Paragraph prose with heading "Findings" -- not structured data, leave as-is in sections
+
+**Table column patterns (the 7 promotable exhibits):**
+- 2-col Finding/Description: Exhibits E, F, J, N, O (5 exhibits -- dominant pattern)
+- 3-col Finding/Background/Resolution: Exhibit A (1 exhibit)
+- 3-col Finding/Severity/Description: Exhibit L (1 exhibit)
+
+**Special heading variant:** Exhibit J uses "Findings -- Five Concurrent Systemic Failures (Swiss Cheese Model)" -- the subtitle is exhibit-specific context, not a column.
+
+The existing CSS already has a responsive table pattern (desktop table, mobile stacked cards via `data-label` pseudo-elements) used by `.exhibit-table` and `.resolution-table`. The PersonnelCard component from v2.2 uses a CSS grid card layout instead. The findings component needs to decide which responsive strategy fits its content.
 
 ---
 
@@ -18,124 +31,110 @@ The core challenge unique to this portfolio: **28+ years of proprietary work wit
 
 ### Table Stakes (Users Expect These)
 
-Features hiring managers and visitors assume exist. Missing these = site feels broken or confusing after the restructure.
+Features that the v2.3 milestone must deliver. Missing these = the promotion is incomplete or regresses current rendering.
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| Unified Case Files listing page | Two pages (Portfolio + Field Reports) showing overlapping content creates confusion. Visitors expect one place to browse all evidence | MEDIUM | Replaces PortfolioPage.vue and TestimonialsPage.vue. Must render all 15 exhibits with type-aware cards. Existing ExhibitCard component is the foundation |
-| Visual type distinction on cards | With two exhibit types on one page, visitors need instant visual signal of what they're entering | LOW | Existing `investigationReport` boolean on Exhibit interface already classifies 5/15. Card badge/border/icon variation is CSS-level work on ExhibitCard |
-| Exhibit type label in detail headers | Detail pages must self-identify as "Investigation Report" or "Engineering Brief" so visitors know what framing they're reading | LOW | Investigation Report badge already exists via `.expertise-badge` on ExhibitDetailPage. Engineering Briefs need equivalent label |
-| Consistent back-navigation | Detail pages currently link "Back to Portfolio" -- must update to unified Case Files destination | LOW | Single string + route change in ExhibitDetailPage nav link |
-| Breadth signal preserved | Hiring managers need volume/range evidence beyond 15 detailed exhibits. 38 projects across 15+ industries is a strong signal | LOW | Already built as inline HTML tables on PortfolioPage. Needs relocation to Case Files page or a dedicated section, not rebuilding |
-| Quote prominence maintained | Quotes from primary sources are the core evidence mechanism for proprietary work. They must stay front-and-center | LOW | Already rendered via `quotes` array in ExhibitCard and ExhibitDetailPage. Data model unchanged |
-| Navigation coherence | Nav must reflect new IA with single entry point replacing two | LOW | Router config + NavBar label changes |
-| Stats bar preserved | "38 Projects / 6,000+ Emails / 15+ Industries" is a quick credibility signal | LOW | StatItem components already exist on both pages. Consolidate onto Case Files page |
+| ExhibitFindingEntry interface | Typed data model is the foundation of the promotion pattern. v2.2 established ExhibitPersonnelEntry as precedent. All-optional fields except finding title matches the column variance across exhibits | LOW | Fields: `finding` (required), `description?`, `background?`, `resolution?`, `severity?`. Union of all observed columns across 7 table-type exhibits |
+| findings[] array on Exhibit interface | Top-level typed array replaces table section data for 7 exhibits. Same structural position as personnel[] from v2.2 | LOW | Optional array. 7 exhibits populated, 8 exhibits empty/absent. Text-type findings sections (D, M) remain as sections -- they are prose, not structured data |
+| Data migration from 7 exhibits | Extract existing table rows into typed findings[] arrays. Mechanical transformation: columns map to interface fields | MEDIUM | 7 exhibits, varying row counts (3-5 rows each). Total ~28 finding entries. Column-to-field mapping: "Finding" -> finding, "Description" -> description, "Background" -> background, "Resolution" -> resolution, "Severity" -> severity |
+| Dedicated FindingsTable component | Purpose-built component renders findings with column-aware layout. Following v2.2 precedent (PersonnelCard), this is a single component handling all field variations | MEDIUM | Must handle: 2-col (finding + description), 3-col with background/resolution, 3-col with severity. Component reads which fields are populated and renders accordingly |
+| Desktop table rendering | Findings are tabular data. Desktop users expect a proper table with headers and aligned columns. The existing `.exhibit-table` CSS proves this pattern works | LOW | Semantic `<table>` element. Column headers derived from populated fields. Existing design tokens for table styling |
+| Mobile responsive rendering | Current exhibit tables use `data-label` stacked card pattern at 480px. Findings component must not regress mobile experience | MEDIUM | Two viable approaches: (1) reuse existing `data-label` pattern from CSS, (2) card grid like PersonnelCard. Decision depends on content density -- findings have long text descriptions that suit stacked cards better than grid cards |
+| Wired into both layouts | InvestigationReportLayout and EngineeringBriefLayout must both render findings when present. Empty-state suppression (no heading, no component when findings[] is empty/absent) | LOW | Identical pattern to personnel[] wiring in v2.2 Phase 19. `v-if="exhibit.findings?.length"` guard + heading + component |
+| Findings section heading preserved | Current table sections have headings like "Findings" or "Findings -- Five Foundational Gaps". The promoted rendering must preserve exhibit-specific headings | LOW | Add optional `findingsHeading?` field on Exhibit interface, defaulting to "Findings" when absent. Exhibit J and L have custom headings |
+| Old table sections coexist or are removed | After promotion, the original table sections with heading "Findings" should be removed from sections[] to avoid duplicate rendering. Text-type findings sections (D, M) stay | LOW-MEDIUM | Removal is the clean approach -- avoids rendering same data twice. But must be careful: only remove table-type sections with findings heading, not text-type |
+| Storybook stories | v2.2 established PersonnelCard.stories.ts as precedent. FindingsTable needs stories covering: 2-col, 3-col with severity, 3-col with background/resolution, single finding, many findings | LOW | Standard Storybook pattern. Use actual exhibit data as story fixtures |
 
 ### Differentiators (Competitive Advantage)
 
-Features that set this portfolio apart. These matter specifically because Dan's work is proprietary with zero public artifacts.
+Features that elevate findings beyond basic table rendering. These leverage the NTSB investigation framing that makes this portfolio distinctive.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| NTSB-style investigation framing | Most portfolios use generic "case study" format. The forensic investigation metaphor (sequence of events, probable cause, contributing factors, named personnel) signals depth of analysis that is itself the deliverable. Hiring managers see a systems thinker | LOW | Already built for 5 exhibits (Exhibits A, J, K, L, and one other with `investigationReport: true`). The framing lives in content (timeline entries, flow diagrams, personnel tables), section types, and the Investigation Report badge. No new components needed |
-| Engineering Brief as distinct type | Separating "the investigation IS the deliverable" from "here's what I built and how" prevents metaphor fatigue. Not every project is an accident investigation -- some are rigorous platform engineering. Dual types signal versatility | MEDIUM | Requires: (1) explicit classification of remaining 10 exhibits, (2) appropriate detail page label, (3) potentially different section emphasis. The existing ExhibitDetailPage already handles polymorphic sections (text, table, flow, timeline, metadata) -- conditional rendering, not separate templates |
-| Evidence-based methodology with primary sources | Most portfolios have self-reported claims. This site uses direct quotes from named personnel at named organizations, email corpus sizes, engagement timelines. This is forensic-grade evidence of impact | LOW | Already built. The `quotes` array with `attribution` and `role` fields, contextual metrics like "574 emails across 49 EB personnel," named personnel tables. The restructure preserves all of this |
-| Deliberate removal of AI-generated content | Three Lenses section is AI-generated narrative, not Dan's authored content. Removing it in 2026 signals authenticity when most portfolios are going the other direction | LOW | Delete NarrativeCard, portfolioNarratives data, Three Lenses section. Subtraction as differentiator |
-| Type-filtered listing view | Visitors can quickly see "forensic investigations" vs. "engineering builds." Unusual for personal portfolios; signals intentional IA thinking | LOW-MEDIUM | Filter on `investigationReport` boolean. Tabs, toggle, or section grouping on Case Files page. 15 items = client-side only |
-| The codebase as portfolio artifact | The Vue 3 + TypeScript implementation quality is itself evidence. Component extraction for readability, typed data models, composable patterns -- code reviewers see engineering judgment in the code that presents the evidence | LOW | Already true. The restructure must maintain this standard: clean component boundaries, typed interfaces, semantic naming |
+| Severity indicators with visual treatment | Exhibit L has severity levels (Critical, High, etc.). Visual badges/colors for severity make the investigation feel rigorous -- like a real engineering assessment, not a portfolio bullet list | LOW | Only Exhibit L currently uses severity. CSS badge similar to exhibit-type badges. Design tokens for severity colors (critical=red, high=amber). Small touch, high signal-to-noise ratio |
+| Finding title as primary identifier | Each finding has a short title ("Memory cache vulnerability", "No data model") that works as a scannable label. Desktop: first column. Mobile: card heading. This scanability mirrors how NTSB reports present contributing factors | LOW | Already the data pattern. The component design should emphasize finding titles as the entry point, with description/details as supporting text |
+| Column-adaptive rendering | Component intelligently renders only the columns present in each exhibit's findings. 2-col exhibits get a clean two-column table; 3-col exhibits get the additional column. No empty columns, no wasted space | MEDIUM | Props-driven: component inspects the first finding's populated fields to determine column set. Or: explicit prop for column pattern. Inspection is more elegant -- the data drives the rendering |
+| Custom section headings | "Findings -- Five Concurrent Systemic Failures (Swiss Cheese Model)" is more evocative than generic "Findings." Preserving exhibit-specific headings maintains the narrative framing unique to each investigation | LOW | Already discussed in table stakes. The differentiator is the intentionality -- most portfolio templates would flatten to generic headings |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| Interactive search/filter on 15 items | "Modern portfolios have search" | 15 exhibits is far below where search adds value. Filter UI would outweigh the content. Overengineering 15 items signals poor judgment to code reviewers | Simple type grouping (section headers) or tabs (Investigation Reports / Engineering Briefs / All). Two-state filter, not a filter system |
-| New exhibit content creation | Natural instinct during restructure is to "fill gaps" | Out of scope per PROJECT.md. Content creation is a different activity than IA restructure. Mixing them causes scope creep | Restructure existing 15 exhibits only. Flag content gaps for v3.0 |
-| Animated transitions between views | Portfolio sites often add page transitions | Explicitly deferred in PROJECT.md. Adds complexity without evidence value | Clean, fast loads. The content is the differentiator |
-| Separate detail templates per type | InvestigationReportPage.vue + EngineeringBriefPage.vue | Maintenance burden for 15 items. ExhibitDetailPage already handles section-type polymorphism via `section.type` discriminated union. Two templates means duplicated logic for shared rendering | Single ExhibitDetailPage with conditional header label and type-aware styling. Data model drives rendering |
-| Tag/technology filtering | Filter by Vue, SCORM, React, etc. | Useful at 50+ items, premature at 15. Impact tags exist but cross-cutting filters add disproportionate UI complexity | Keep impact tags as display-only on cards and detail pages |
-| CMS or markdown content | "Why is content in TypeScript?" | Static TS data is correct for 15 exhibits. CMS adds deployment complexity, auth, and a maintenance dependency for content that changes quarterly at most. The typed data file is itself a portfolio artifact | Keep exhibits.ts as single source of truth. Version-controlled, type-checked, directly inspectable |
-| Stats/metrics dashboard | Charts showing technology distribution, timelines | Feels like padding. The existing stats bar is more impactful as a single-glance element than a whole dashboard page | Relocate existing StatItem bar to Case Files. Keep concise |
-| Flagship cards as separate data source | portfolioFlagships.ts duplicates exhibit data with summaries | Redundant data source for the same exhibits. The Case Files listing should draw from exhibits.ts directly | Evaluate whether flagship summaries should merge into Exhibit interface or if ExhibitCard can render adequate previews from existing data |
+| Expandable/collapsible finding details | "Click to expand" accordion for long descriptions | Findings have 1-3 sentences of description. Not enough content to justify expand/collapse interaction. Adds JavaScript complexity for no user benefit. The content IS the point -- hiding it behind a click defeats the purpose of an evidence-based portfolio | Render all content visible. Short descriptions don't need progressive disclosure |
+| Severity filtering/sorting | "Sort findings by severity" | Only 1 of 7 exhibits has severity data. Building filter/sort for a single exhibit is overengineering. 3-5 findings per exhibit is far below where sorting adds value | Display severity as inline badge. No interaction needed at this scale |
+| Finding numbering/IDs | "F-01, F-02" identifiers like NTSB reports | The existing Exhibit J text references "F-01" through "F-05" in prose sections but these are part of the narrative, not data model IDs. Adding systematic IDs to all exhibits imposes a formality that doesn't match Engineering Briefs | Let exhibit prose reference IDs naturally where the investigation framing warrants it. Don't force IDs into the data model |
+| Cross-exhibit finding comparison | "Show related findings across exhibits" | 9 exhibits with 3-5 findings each = ~30 findings total. Cross-referencing adds significant complexity for minimal discovery value. The exhibits are independent investigations | Keep findings scoped to their exhibit. The exhibit is the unit of evidence |
+| Separate mobile component | FindingsTableDesktop.vue + FindingsCardMobile.vue | Two components for the same data doubles maintenance. CSS media queries handle responsive layout in a single component -- this is exactly what the existing `.exhibit-table` pattern does | Single component with CSS-driven responsive behavior. Table on desktop, stacked cards on mobile, one template |
+| Rich text in finding descriptions | Markdown/HTML in description fields | All current finding descriptions are plain text. Adding rich text parsing for 28 entries is complexity with no current need. If a future finding needs emphasis, the prose can be rewritten to be clear without formatting | Keep string fields. Plain text is sufficient and type-safe |
+| Promoting text-type findings (D, M) to structured data | "All findings should use the same component" | Exhibits D and M have paragraph-prose findings that don't decompose into rows. Forcing prose into a structured format would lose narrative flow. These are text sections, not tabular data | Leave Exhibits D and M findings as text-type sections in sections[]. Only promote table-type findings |
 
 ---
 
 ## Feature Dependencies
 
 ```
-[Exhibit Type Classification (data model)]
+[ExhibitFindingEntry interface]
     |
-    +--enables--> [Visual Type Distinction on Cards]
+    +--enables--> [findings[] array on Exhibit]
+    |                 |
+    |                 +--enables--> [Data migration from 7 exhibits]
+    |                 |
+    |                 +--enables--> [Layout wiring (both layouts)]
     |
-    +--enables--> [Type-Filtered Listing View]
-    |
-    +--enables--> [Detail Page Type Label for Engineering Briefs]
-    |
-    +--enables--> [Engineering Brief Template Refinements]
+    +--enables--> [FindingsTable component]
+                      |
+                      +--requires--> [Desktop table rendering]
+                      |
+                      +--requires--> [Mobile responsive rendering]
+                      |
+                      +--requires--> [Column-adaptive rendering]
 
-[Unified Case Files Page]
-    |
-    +--requires--> [Exhibit Type Classification]
-    |
-    +--requires--> [Remove/Redirect Portfolio route]
-    |
-    +--requires--> [Remove/Redirect Testimonials route]
-    |
-    +--requires--> [Navigation Update]
-    |
-    +--requires--> [Project Directory Relocation]
-    |
-    +--requires--> [Stats Bar Consolidation]
+[findingsHeading on Exhibit] --independent, can be added with interface or later--
 
-[Three Lenses Removal]
-    |
-    +--independent (no dependencies, can happen in any phase)
+[Severity visual treatment] --enhances--> [FindingsTable component]
 
-[Flagship Data Consolidation]
-    |
-    +--requires--> [Decision: merge flagship summaries into Exhibit or drop them]
-    +--enables--> [Cleaner Case Files card rendering from single data source]
+[Old table section removal] --requires--> [Data migration complete]
+                            --requires--> [FindingsTable wired into layouts]
+
+[Storybook stories] --requires--> [FindingsTable component complete]
 ```
 
 ### Dependency Notes
 
-- **Exhibit Type Classification is the foundation:** Every listing and detail feature depends on having a clear, data-model-level distinction between Investigation Reports and Engineering Briefs. The existing `investigationReport: boolean` covers 5 exhibits; the remaining 10 default to Engineering Brief (explicit or by absence of flag).
-- **Unified Case Files Page requires retirement of two pages:** Cannot ship the new listing without removing or redirecting Portfolio and Testimonials routes. These are a coupled operation.
-- **Three Lenses Removal is independent:** No feature depends on it. Can be done as standalone cleanup.
-- **Flagship data consolidation is a design decision:** portfolioFlagships.ts contains `summary` and `quote` fields that duplicate/extend exhibit data. The restructure must decide whether to merge these into the Exhibit interface (richer cards) or accept that Case Files cards render from existing exhibit fields.
-- **Project Directory Relocation depends on Case Files page existence:** The 38-project directory needs a home once PortfolioPage is removed.
+- **Interface first, then data, then component, then wiring.** Same phase order as v2.2 personnel promotion: types -> data -> render -> integrate -> document.
+- **Old section removal depends on both migration AND wiring.** Cannot remove table sections until the replacement rendering is live. This is the final step, not an early one.
+- **Severity treatment is additive.** Can be built into FindingsTable from the start (Exhibit L data drives it) or added as enhancement. Building it in from the start is cleaner -- one exhibit's data shouldn't require a second pass.
+- **Text-type findings (D, M) have no dependencies here.** They stay in sections[], rendered by existing text section renderer. No work needed.
+- **findingsHeading is a small interface addition** that can ride with the main interface work. Only 2-3 exhibits need non-default headings.
 
 ---
 
 ## MVP Definition
 
-### Launch With (v2.0 -- IA Restructure Complete)
+### Launch With (v2.3 -- Findings Promotion Complete)
 
-Minimum viable restructure that resolves content redundancy and introduces dual types.
+Minimum viable promotion that moves findings from embedded tables to first-class data with purpose-built rendering.
 
-- [ ] Classify all 15 exhibits as Investigation Report or Engineering Brief in data model
-- [ ] Build unified Case Files listing page rendering all 15 exhibits with type-aware cards
-- [ ] Visual type distinction on ExhibitCard (badge/border per type)
-- [ ] Update ExhibitDetailPage header to label both types
-- [ ] Remove Three Lenses section and NarrativeCard/portfolioNarratives
-- [ ] Relocate 38-project directory as breadth signal on or near Case Files
-- [ ] Update navigation (router routes + NavBar labels)
-- [ ] Update detail page back-navigation links
-- [ ] Redirect or remove old /portfolio and /testimonials routes
-- [ ] Consolidate stats bar onto Case Files page
+- [ ] ExhibitFindingEntry interface with all-optional fields except finding title
+- [ ] findings[] optional array on Exhibit interface
+- [ ] findingsHeading optional string on Exhibit interface (default: "Findings")
+- [ ] Data migration: 7 exhibits' table rows extracted to findings[] arrays
+- [ ] FindingsTable component: table on desktop, stacked cards on mobile
+- [ ] Column-adaptive rendering (2-col and 3-col patterns handled automatically)
+- [ ] Severity badge rendering for Exhibit L findings
+- [ ] Wired into InvestigationReportLayout and EngineeringBriefLayout
+- [ ] Empty-state suppression (no heading/component when findings absent)
+- [ ] Old findings table sections removed from migrated exhibits
+- [ ] Storybook stories covering field variations
 
-### Add After Validation (v2.x)
+### Defer (Not v2.3)
 
-- [ ] Type-filtered listing (tabs/toggle on Case Files) -- adds value once classifications are confirmed
-- [ ] Engineering Brief detail template refinements -- if Investigation Report template doesn't fit Briefs well
-- [ ] Flagship data consolidation (merge summaries into Exhibit interface or remove portfolioFlagships.ts)
-- [ ] Storybook stories for new/modified components
-- [ ] Homepage CTA updates pointing to Case Files
-
-### Future Consideration (v3+)
-
-- [ ] New exhibit content creation (new Engineering Briefs or Investigation Reports)
-- [ ] Technology cross-references between exhibits ("See also" links)
-- [ ] Expanded/filterable project directory if it grows past 38
+- [ ] Promoting text-type findings from Exhibits D and M -- prose doesn't fit structured model
+- [ ] Cross-exhibit finding relationships -- premature at 30 findings
+- [ ] Finding numbering/ID system -- not all exhibits use investigation framing
+- [ ] Expandable details -- content is too short to warrant progressive disclosure
+- [ ] Rich text in descriptions -- no current need
 
 ---
 
@@ -143,59 +142,50 @@ Minimum viable restructure that resolves content redundancy and introduces dual 
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| Exhibit type classification (data model) | HIGH | LOW | P1 |
-| Unified Case Files listing page | HIGH | MEDIUM | P1 |
-| Visual type distinction on cards | HIGH | LOW | P1 |
-| Detail page type labels (both types) | MEDIUM | LOW | P1 |
-| Three Lenses removal | MEDIUM | LOW | P1 |
-| Navigation update (routes + labels) | HIGH | LOW | P1 |
-| Project directory relocation | MEDIUM | LOW | P1 |
-| Old route removal/redirect | MEDIUM | LOW | P1 |
-| Back-nav link update | LOW | LOW | P1 |
-| Stats bar consolidation | LOW | LOW | P1 |
-| Type-filtered listing view | MEDIUM | LOW-MEDIUM | P2 |
-| Engineering Brief template refinements | MEDIUM | MEDIUM | P2 |
-| Flagship data consolidation | MEDIUM | MEDIUM | P2 |
-| Storybook stories for changes | LOW | MEDIUM | P2 |
-| Homepage CTA updates | LOW | LOW | P2 |
-| New exhibit content | HIGH | HIGH | P3 (out of scope) |
-| Tag-based filtering | LOW | MEDIUM | P3 |
+| ExhibitFindingEntry interface | HIGH | LOW | P1 |
+| findings[] array on Exhibit | HIGH | LOW | P1 |
+| Data migration (7 exhibits) | HIGH | MEDIUM | P1 |
+| FindingsTable component | HIGH | MEDIUM | P1 |
+| Desktop table rendering | HIGH | LOW | P1 |
+| Mobile responsive rendering | HIGH | MEDIUM | P1 |
+| Column-adaptive rendering | HIGH | MEDIUM | P1 |
+| Layout wiring (both layouts) | HIGH | LOW | P1 |
+| Empty-state suppression | MEDIUM | LOW | P1 |
+| findingsHeading field | MEDIUM | LOW | P1 |
+| Old table section removal | MEDIUM | LOW-MEDIUM | P1 |
+| Severity visual badges | MEDIUM | LOW | P1 |
+| Storybook stories | LOW | LOW | P1 |
 
 **Priority key:**
-- P1: Must have for v2.0 (resolves IA redundancy, introduces dual types)
-- P2: Should have, add once core restructure is stable
-- P3: Future consideration, explicitly deferred
+- P1: All features are v2.3 scope. This is a focused promotion milestone with no P2/P3 items -- everything listed is either in scope or explicitly deferred.
 
 ---
 
-## Domain Pattern Analysis
+## Existing Component Reference: v2.2 Personnel Pattern
 
-How this portfolio addresses the proprietary-work problem compared to typical approaches.
+The v2.2 personnel promotion is the direct precedent for v2.3 findings. Key patterns to replicate:
 
-| Challenge | Typical Engineer Portfolio | This Site's Approach |
-|-----------|---------------------------|---------------------|
-| No public code repos | Link to GitHub, hope open-source work is impressive | The site itself IS the code artifact (Vue 3 + TS + Vite). Code quality demonstrates engineering judgment directly |
-| Proprietary client work | Vague bullet points ("Improved performance 30%") | Direct quotes with named attribution, email corpus sizes (574 emails, 2554 emails), engagement timelines, personnel tables. Forensic-grade primary sources |
-| Demonstrating rigor | Whiteboard exercises, take-home projects | NTSB-style investigation methodology. The analysis structure itself demonstrates systems thinking. Timeline entries, contributing factor analysis, probable cause determination |
-| Single presentation format | Every project gets the same "case study" treatment | Dual types: Investigation Reports (forensic, NTSB-style) and Engineering Briefs (rigorous builds). Signals versatility in thinking |
-| Breadth vs. depth | Either deep dives OR a long list | Both: 15 detailed exhibits (depth) + 38-project directory (breadth), unified under one IA |
-| Content authenticity (2025-2026) | AI-generated summaries increasingly common | Deliberately removing AI-generated content (Three Lenses). All exhibit content sourced from primary correspondence |
-| Proving impact at senior level | Self-reported metrics, vague leadership claims | Multi-level recognition patterns documented (Exhibit B), escalation through organizational hierarchy visible in quote chains, trust indicators (employee credentials granted to contractor) |
+| Aspect | v2.2 Personnel | v2.3 Findings (Recommended) |
+|--------|---------------|----------------------------|
+| Interface | ExhibitPersonnelEntry (all optional except implied presence) | ExhibitFindingEntry (all optional except `finding` title) |
+| Array field | `personnel?: ExhibitPersonnelEntry[]` | `findings?: ExhibitFindingEntry[]` |
+| Component | PersonnelCard -- CSS grid of cards | FindingsTable -- `<table>` on desktop, stacked cards on mobile |
+| Display modes | 3 modes: named/anonymous/self | Column-adaptive: 2-col, 3-col-severity, 3-col-background-resolution |
+| Layout wiring | `v-if="exhibit.personnel?.length"` + heading + component | Same pattern with findings |
+| Responsive | CSS grid cards at all sizes | Table -> stacked cards at 480px (matches existing `.exhibit-table` CSS pattern) |
+| Stories | PersonnelCard.stories.ts with 3 variants | FindingsTable.stories.ts with column variants |
+
+**Key difference:** PersonnelCard always renders as cards (personnel are entity-like). FindingsTable should render as a proper `<table>` on desktop because findings are genuinely tabular -- they have aligned columns where scanning across rows is valuable. The existing `.exhibit-table` CSS responsive pattern (table on desktop, `data-label` stacked cards on mobile) is the correct model, not PersonnelCard's grid.
 
 ---
 
 ## Sources
 
-- [Quora: Showing private employer projects in portfolio](https://www.quora.com/As-a-programmer-how-best-can-I-show-my-employers-projects-that-I-worked-on-which-are-private-or-not-publicly-accessible-on-my-portfolio-for-future-job-applications) -- LOW confidence, community advice
-- [Codecademy: Software Developer Portfolio Tips](https://www.codecademy.com/resources/blog/software-developer-portfolio-tips) -- MEDIUM confidence
-- [DEV Community: What I Look for When Hiring Senior Software Engineers](https://dev.to/thawkin3/what-i-look-for-when-hiring-senior-software-engineers-4a6j) -- MEDIUM confidence, practitioner perspective
-- [TextExpander: What Should You Look for in a Software Engineer Portfolio](https://textexpander.com/blog/what-should-you-look-for-in-a-software-engineer-portfolio) -- MEDIUM confidence
-- [Toptal: Dissecting Case Study Portfolios](https://www.toptal.com/designers/ui/case-study-portfolio) -- MEDIUM confidence, design-focused but applicable
-- [NTSB: The Investigative Process](https://www.ntsb.gov/investigations/process/Pages/default.aspx) -- HIGH confidence, official source for investigation framing
-- [Artfolio: Case Study Portfolio Tips for 2025](https://www.artfolio.com/article/structuring-case-studies-inside-your-portfolio-to-solve-real-client-pain-points) -- MEDIUM confidence
-- Existing codebase analysis: `exhibits.ts` (Exhibit interface + 15 records), `portfolioFlagships.ts`, `ExhibitCard.vue`, `ExhibitDetailPage.vue`, `PortfolioPage.vue`, `TestimonialsPage.vue` -- HIGH confidence, primary source
+- Existing codebase analysis: `exhibits.ts` (7 table-type findings sections, 2 text-type), `InvestigationReportLayout.vue` (table rendering with `data-label`), `PersonnelCard.vue` (v2.2 promotion pattern) -- HIGH confidence, primary source
+- Existing CSS: `main.css` lines 4000-4358 (`.exhibit-table` responsive pattern, `data-label` mobile cards, dark theme support) -- HIGH confidence, primary source
+- PROJECT.md v2.3 milestone definition -- HIGH confidence, project specification
 
 ---
 
-*Feature research for: Evidence-based portfolio IA restructure with dual exhibit types*
-*Researched: 2026-03-27*
+*Feature research for: Exhibit findings data promotion and responsive rendering*
+*Researched: 2026-04-02*

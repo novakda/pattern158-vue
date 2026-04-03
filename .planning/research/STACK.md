@@ -1,259 +1,328 @@
 # Stack Research
 
-**Domain:** Vue 3 SPA — Dual Exhibit Templates and IA Restructure (v2.0)
-**Researched:** 2026-03-27
-**Confidence:** HIGH (zero new dependencies; all patterns use Vue 3.5 / Vue Router 4.6 features already installed)
+**Domain:** Responsive table-to-card rendering for exhibit findings data (Vue 3 portfolio app)
+**Researched:** 2026-04-02
+**Confidence:** HIGH
 
 ---
 
 ## Context
 
-The core stack (Vue 3.5.30, TypeScript 5.7, Vite 6, Vue Router 4.6.4, Storybook 10, Vitest 4) is established and validated in v1.0/v1.1. This research answers a narrower question: **what Vue patterns and (if any) new packages are needed to support dual exhibit templates, a unified listing page with type-based card rendering, and navigation restructure?**
+The core stack (Vue 3, TypeScript, Vite, Storybook 10, Vitest) and CSS design token system are established through v2.2. This research answers: **what CSS patterns and Vue techniques are needed to render exhibit findings as a table on desktop and cards on mobile, integrated with the existing design token system?**
 
-The answer: **no new packages**. Everything required is achievable with Vue's built-in component system and the existing router. The work is architectural (component design, data model extension, route changes), not tooling.
+The answer: **no new packages, no new CSS methodology**. The codebase already contains two proven implementations of the exact CSS-only table-to-card responsive pattern needed. The work is component creation and CSS authoring within established conventions.
 
 ---
 
 ## Recommended Stack
 
-### Core Technologies (Established -- No Changes)
+### Core Technologies (No Changes)
 
-| Technology | Installed Version | Purpose | v2.0 Impact |
-|------------|-------------------|---------|-------------|
-| Vue 3 | 3.5.30 | UI framework | `defineAsyncComponent`, `<component :is>`, computed filtering -- all built-in |
-| TypeScript | 5.7.x | Type safety | Discriminated union types for exhibit type branching |
-| Vite 6 | 6.2.x | Build tool | No config changes needed |
-| Vue Router 4 | 4.6.4 | Routing | Route additions/removals, alias support for redirects |
-| @unhead/vue | 2.x | Head management | No changes -- `useHead(computed(...))` pattern already works for dynamic exhibit titles |
+| Technology | Version | Purpose | Why No Change Needed |
+|------------|---------|---------|----------------------|
+| CSS `data-label` + `::before` pattern | N/A (CSS-only) | Table-to-card responsive switching | Already proven at 2 codebase locations: exhibit-table (480px) and directory-table (768px). Zero JS overhead |
+| CSS Grid `auto-fill, minmax()` | N/A (CSS-only) | Card grid on mobile | PersonnelCard already uses `minmax(240px, 1fr)`. Intrinsic sizing, no breakpoint math |
+| CSS cascade layers | N/A (existing) | Scope FindingsTable styles | New styles go in `@layer components` alongside PersonnelCard. Predictable specificity |
+| Vue 3 Composition API | 3.5.30 | Component definition | `defineProps` with typed interface, same as PersonnelCard |
 
 ### New Packages Required
 
-**None.** Zero new dependencies for v2.0.
+**None.** Zero new dependencies for v2.3.
 
-### Supporting Libraries (Already Installed -- No Changes)
+### Development Tools (Already Installed)
 
-All testing and documentation tooling from v1.0/v1.1 carries forward unchanged. See v1.1 STACK.md research for details on Vitest, Storybook, Playwright.
+| Tool | Purpose | Notes |
+|------|---------|-------|
+| Storybook 10 | Visual testing of table/card states | Use viewport addon to preview mobile card layout alongside desktop table |
+| Vitest | Unit tests for conditional column rendering | Test correct DOM for varying field combinations (2-col, 3-col, with/without severity) |
 
 ---
 
-## Vue Patterns for v2.0 Features
+## The Responsive Pattern (Detail)
 
-### Pattern 1: Discriminated Union Type for Exhibit Classification
+### What the codebase already does
 
-The `Exhibit` interface currently has `investigationReport?: boolean`. For v2.0, extend the data model with a required `exhibitType` discriminator field.
+Two existing implementations of CSS-only table-to-card:
 
-**Why a string literal union, not a boolean:** The current `investigationReport?: boolean` creates three states (true, false, undefined) with unclear semantics. A required `'investigation-report' | 'engineering-brief'` field is self-documenting, enables TypeScript narrowing, and extends cleanly if a third type ever appears.
-
-```typescript
-// Extend the Exhibit interface
-export type ExhibitType = 'investigation-report' | 'engineering-brief'
-
-export interface Exhibit {
-  // ... existing fields ...
-  exhibitType: ExhibitType  // Required, replaces investigationReport?: boolean
-  investigationReport?: boolean  // Keep temporarily for backward compat, derive from exhibitType
+**1. Exhibit detail tables** (`main.css` lines 4289-4326, at 480px):
+```css
+/* thead hidden, tr becomes block card, td::before shows data-label */
+.page-exhibit-detail .exhibit-table thead { display: none; }
+.page-exhibit-detail .exhibit-table tr { display: block; margin-bottom: var(--space-md); }
+.page-exhibit-detail .exhibit-table td { display: block; border-bottom: none; }
+.page-exhibit-detail .exhibit-table td::before {
+    content: attr(data-label);
+    display: block;
+    font-weight: 700;
+    font-family: var(--font-mono);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
 }
 ```
 
-**Confidence:** HIGH -- standard TypeScript pattern, no library involvement.
+**2. Industries directory tables** (`main.css` lines 3757-3784, at 768px):
+```css
+/* Same pattern, different breakpoint for text-heavy multi-column tables */
+.page-industries .directory-table thead { display: none; }
+.page-industries .directory-table tr {
+    display: block;
+    margin-bottom: var(--space-md);
+    padding: var(--space-md);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+}
+.page-industries .directory-table td::before {
+    content: attr(data-label) ": ";
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+```
 
-### Pattern 2: Conditional Detail Template via Dynamic Component
+The `data-label` attributes are already being set on `<td>` elements in InvestigationReportLayout.vue (line 63: `:data-label="section.columns?.[ci]"`).
 
-Two approaches exist for rendering different detail page layouts per exhibit type. Use `<component :is>` with a computed component map.
+### Why CSS-only, not JavaScript viewport detection
 
-**Why `<component :is>` over `v-if`/`v-else`:** With two exhibit types, `v-if`/`v-else` inside a single ExhibitDetailPage.vue is viable but creates a monolithic template. Separate template components via `<component :is>` keep each layout focused, testable in isolation, and independently story-able in Storybook.
+| Approach | Pros | Cons | Verdict |
+|----------|------|------|---------|
+| **CSS `@media` + `data-label`** | Zero JS, no hydration cost, no layout flash, 2 precedents in codebase | Slightly more CSS to write | **Use this** |
+| Vue `v-if` with `useMediaQuery` | Can render different DOM trees | Adds JS complexity, potential FOUC, no precedent in codebase | **Reject** |
+| CSS container queries | Modern, component-scoped | No precedent in codebase, over-engineering for this use case | **Reject** |
+| Third-party responsive table library | Pre-built | Unnecessary dependency for a pattern implemented twice already | **Reject** |
+
+### Recommended breakpoint: 768px
+
+The existing exhibit-table switches at 480px, but findings data has long-form text in Description/Background/Resolution columns (some cells are 2-3 sentences). At 768px on a 3-column findings table, cells are already too cramped to scan.
+
+The Industries directory-table uses 768px for the same reason: multi-column tables with text content need the card layout earlier than tables with short values.
+
+**Use 768px for FindingsTable** to match the directory-table precedent and serve the content's width needs.
+
+---
+
+## Component Architecture Decision
+
+**Recommendation: Dedicated `FindingsTable.vue` component.**
+
+Why not reuse the generic section table renderer:
+
+| Factor | Generic Section Table | Dedicated FindingsTable | Winner |
+|--------|----------------------|------------------------|--------|
+| Semantic field names | Generic columns[] | Named `finding`, `description`, `severity` | FindingsTable |
+| Severity badges | Would need conditional logic inside generic renderer | Component owns its badge styling | FindingsTable |
+| Responsive breakpoint | Shares 480px with all exhibit-tables | Can use 768px for text-heavy findings content | FindingsTable |
+| Precedent | N/A | PersonnelCard: promoted data gets dedicated component | FindingsTable |
+| Testability | Tests coupled to generic table behavior | Tests target finding-specific rendering | FindingsTable |
+
+The generic `exhibit-table` in section rendering continues to serve non-promoted table sections (Technologies, Expanded Scope, etc.) unchanged.
+
+---
+
+## Integration with Existing Design Token System
+
+### Tokens to reuse (do NOT create new ones)
+
+| Token | Used For in FindingsTable |
+|-------|--------------------------|
+| `--color-surface` | Card background on mobile |
+| `--color-border` | Card border, table cell borders |
+| `--color-background-alt` | Table header background, hover rows |
+| `--color-text-muted` | Data-label text on mobile cards |
+| `--color-danger` | Critical severity badge |
+| `--color-accent` | High severity badge |
+| `--color-primary` | Finding title emphasis |
+| `--space-sm`, `--space-md`, `--space-lg` | Padding, gaps, margins |
+| `--radius-md` | Card border-radius (matches PersonnelCard) |
+| `--font-mono` | Column headers, severity badges, data-labels |
+| `--font-size-xs`, `--font-size-sm` | Label text, badge text |
+| `--overlay-hover-row` | Table row hover (already defined for resolution-table) |
+
+### New CSS classes (in `@layer components`)
+
+Following PersonnelCard placement in main.css (lines 758-773 in `@layer components`):
+
+```
+.findings-table          -- <table> element, desktop presentation
+.findings-table th       -- header cells (reuse exhibit-table th visual pattern)
+.findings-table td       -- data cells with data-label attributes
+.findings-table tr:hover -- hover state using --overlay-hover-row
+.finding-severity        -- severity badge base
+.finding-severity--critical  -- red badge (--color-danger)
+.finding-severity--high      -- amber badge (--color-accent)
+.finding-severity--medium    -- muted badge
+.finding-severity--low       -- subtle badge
+```
+
+**Critical: single DOM, two visual presentations.** Do NOT render two separate DOM trees (table + card grid) and toggle visibility. Use the proven pattern: one `<table>` in HTML, CSS `display: block` transforms it into stacked cards at the breakpoint.
+
+---
+
+## Implementation Pattern
+
+### Component signature (following PersonnelCard)
 
 ```typescript
-// In ExhibitDetailPage.vue
-import { defineAsyncComponent, computed } from 'vue'
+// FindingsTable.vue
+import type { ExhibitFindingEntry } from '@/data/exhibits'
 
-const templateMap = {
-  'investigation-report': defineAsyncComponent(
-    () => import('@/components/InvestigationReportLayout.vue')
-  ),
-  'engineering-brief': defineAsyncComponent(
-    () => import('@/components/EngineeringBriefLayout.vue')
-  ),
-} as const
-
-const activeTemplate = computed(() =>
-  exhibit.value ? templateMap[exhibit.value.exhibitType] : null
-)
+defineProps<{
+  findings: ExhibitFindingEntry[]
+}>()
 ```
 
-```html
-<component :is="activeTemplate" v-if="activeTemplate" :exhibit="exhibit" />
+### Conditional columns via computed
+
+```typescript
+const hasDescriptions = computed(() => props.findings.some(f => f.description))
+const hasBackgrounds = computed(() => props.findings.some(f => f.background))
+const hasResolutions = computed(() => props.findings.some(f => f.resolution))
+const hasSeverities = computed(() => props.findings.some(f => f.severity))
 ```
 
-**Why `defineAsyncComponent`:** Each layout is only loaded when needed. For 15 exhibits this is a minor optimization, but it establishes the right pattern and keeps initial bundle lean. Vue 3.5's `defineAsyncComponent` handles loading/error states if needed.
+This avoids empty columns when an exhibit's findings only use 2 fields (e.g., Finding + Description). Same principle as PersonnelCard's conditional `v-if` for optional fields like `organization` and `role`.
 
-**Confidence:** HIGH -- `<component :is>` is a core Vue feature documented in the official guide.
-
-### Pattern 3: Type-Based Card Rendering on Listing Page
-
-The unified Case Files page needs different card styles for investigation reports vs. engineering briefs. Two viable approaches:
-
-**Recommended: Single ExhibitCard with type-driven CSS class + conditional slots**
+### HTML structure (single DOM, dual presentation)
 
 ```html
-<!-- CaseFilesPage.vue -->
-<ExhibitCard
-  v-for="exhibit in exhibits"
-  :key="exhibit.exhibitLink"
-  :exhibit="exhibit"
-/>
+<table class="findings-table">
+  <thead>
+    <tr>
+      <th>Finding</th>
+      <th v-if="hasDescriptions">Description</th>
+      <th v-if="hasBackgrounds">Background</th>
+      <th v-if="hasResolutions">Resolution</th>
+      <th v-if="hasSeverities">Severity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(f, i) in findings" :key="i">
+      <td data-label="Finding">{{ f.finding }}</td>
+      <td v-if="hasDescriptions" data-label="Description">{{ f.description }}</td>
+      <td v-if="hasBackgrounds" data-label="Background">{{ f.background }}</td>
+      <td v-if="hasResolutions" data-label="Resolution">{{ f.resolution }}</td>
+      <td v-if="hasSeverities" data-label="Severity">
+        <span :class="['finding-severity', `finding-severity--${f.severity}`]">
+          {{ f.severity }}
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
 ```
 
+CSS transforms this into stacked cards at 768px using `display: block` + `data-label::before`.
+
+### Layout integration (following PersonnelCard pattern)
+
 ```html
-<!-- ExhibitCard.vue -- extend existing component -->
-<div :class="['exhibit-card', `exhibit-card--${exhibit.exhibitType}`]">
-  <!-- Shared header markup -->
-  <template v-if="exhibit.exhibitType === 'investigation-report'">
-    <!-- Investigation-specific card content -->
-  </template>
-  <template v-else>
-    <!-- Engineering brief card content -->
-  </template>
+<!-- In InvestigationReportLayout.vue / EngineeringBriefLayout.vue -->
+<div v-if="exhibit.findings?.length" class="exhibit-section">
+  <h2>Findings</h2>
+  <FindingsTable :findings="exhibit.findings" />
 </div>
 ```
 
-**Why a single card component, not two:** The card-level differences are cosmetic (badge, CTA text, accent color, possibly a summary field). The structure (header, tags, link) is shared. Two separate card components would duplicate 70%+ of the template markup. A single component with type-driven CSS modifier class (`.exhibit-card--investigation-report`, `.exhibit-card--engineering-brief`) leverages the existing CSS design token system via cascade layers.
-
-**Alternative considered: Two card components via `<component :is>`** -- Use if the two card layouts diverge significantly (different DOM structure, not just styling). Premature to split now; refactor later if needed.
-
-**Confidence:** HIGH -- this is how the existing ExhibitCard already works (it has `exhibit.isDetailExhibit ? 'detail-exhibit' : ''`).
-
-### Pattern 4: Computed Filtering for Listing Page Sections
-
-If the Case Files page groups exhibits by type (e.g., "Investigation Reports" section then "Engineering Briefs" section):
-
-```typescript
-const investigationReports = computed(() =>
-  exhibits.filter(e => e.exhibitType === 'investigation-report')
-)
-const engineeringBriefs = computed(() =>
-  exhibits.filter(e => e.exhibitType === 'engineering-brief')
-)
-```
-
-**Why computed over methods or reactive state:** The exhibit data is static (imported from `data/exhibits.ts`). Computed properties cache the filtered arrays and only recalculate if the source changes (which it won't at runtime). This is the idiomatic Vue pattern for derived data.
-
-**Confidence:** HIGH -- fundamental Vue reactivity.
-
-### Pattern 5: Router Changes for IA Restructure
-
-Current routes that change:
-
-| Current | v2.0 | Rationale |
-|---------|------|-----------|
-| `/portfolio` | `/case-files` (or similar) | Unified listing page replaces Portfolio |
-| `/review` | Remove | Placeholder page with no content |
-| `/exhibits/:slug` | Keep as-is | Slug-based detail routing is correct; both exhibit types share the route |
-
-**Redirect for backward compatibility:**
-
-```typescript
-// In router.ts
-{ path: '/portfolio', redirect: '/case-files' },
-```
-
-Vue Router 4.6 supports `redirect` as a string, object, or function. A simple string redirect is sufficient here. This ensures any bookmarked `/portfolio` URLs still work.
-
-**Do NOT use named routes for the redirect** -- the current router uses anonymous routes (no `name` property). Adding names just for redirects adds ceremony with no benefit.
-
-**New route:**
-
-```typescript
-{ path: '/case-files', component: () => import('./pages/CaseFilesPage.vue') },
-```
-
-**Confidence:** HIGH -- Vue Router redirect is documented core functionality.
+Empty-state suppression via `v-if` on the array, identical to how `personnel` is wired.
 
 ---
 
-## What NOT to Add
+## Alternatives Considered
 
-| Avoid | Why | What to Do Instead |
-|-------|-----|---------------------|
-| Pinia / Vuex | Exhibit data is static imports, not global state. No async fetching, no mutations, no cross-component state sharing needed | Import `exhibits` array directly where needed |
-| `vue-router` route guards for exhibit type | The exhibit type is data-driven, not route-driven. Both types share `/exhibits/:slug` | Resolve type from exhibit data in the detail page component |
-| Separate routes per exhibit type (`/reports/:slug`, `/briefs/:slug`) | Creates URL coupling to classification. If an exhibit gets reclassified, its URL changes and breaks bookmarks | Single `/exhibits/:slug` route with type resolved from data |
-| Dynamic `<component :is>` for cards | Premature abstraction. Card differences are styling + minor content, not structural. A single component with CSS modifiers is simpler | Single ExhibitCard with `.exhibit-card--{type}` class |
-| renderless components / slots-only pattern for templates | Over-engineered for two templates. Direct `<component :is>` with two concrete components is clearer | Concrete InvestigationReportLayout.vue and EngineeringBriefLayout.vue |
-| New CSS methodology (BEM, CSS Modules, scoped styles) | Project uses cascade layers + custom properties system. Introducing a second system creates confusion | Follow existing CSS conventions with new `.exhibit-card--{type}` modifiers |
-| `provide/inject` for exhibit data | Exhibit data flows parent-to-child through one level of props. provide/inject is for deep injection (3+ levels) | Direct props |
+| Recommended | Alternative | Why Not |
+|-------------|-------------|---------|
+| CSS `@media` table-to-card | Vue `v-if` with `useMediaQuery` composable | Adds JS for a solved CSS problem. No precedent in codebase. Potential FOUC |
+| 768px breakpoint | 480px (matching current exhibit-table) | Findings have 3+ text columns; content is unreadable at 500-768px widths |
+| Dedicated FindingsTable component | Extend generic section table renderer | Severity badges and semantic fields need component logic, not generic rendering |
+| Single DOM with CSS transform | Dual DOM (table + card grid, toggle visibility) | Doubles DOM size, accessibility issues with duplicate content, violates DRY |
+| Severity as BEM modifier classes | Inline styles or utility classes | Project uses semantic CSS classes with design tokens, not inline/utility patterns |
 
 ---
 
-## Data Model Changes (No Package Impact)
+## What NOT to Use
 
-The `Exhibit` interface in `src/data/exhibits.ts` needs these additions:
+| Avoid | Why | Use Instead |
+|-------|-----|-------------|
+| VueUse `useMediaQuery` / `useBreakpoints` | Adds runtime JS for what CSS handles natively. Not in dependency list. Creates precedent for JS-driven responsive logic that diverges from existing CSS-only approach | CSS `@media` queries |
+| AG Grid / Tanstack Table | Massive overkill for static read-only data with 2-10 rows per exhibit | Plain HTML `<table>` with CSS responsive pattern |
+| CSS container queries (`@container`) | No precedent in codebase. Adds cognitive overhead without benefit for a page-level breakpoint | Standard `@media` queries at 768px |
+| `<template v-if="isMobile">` dual-render | Two DOM trees doubles test surface and creates accessibility issues (screen readers see duplicate content) | Single DOM, CSS display switching |
+| New design tokens | Token system is comprehensive. All needed color, spacing, typography, and radius values already exist | Reuse `--color-*`, `--space-*`, `--font-*`, `--radius-*` tokens |
+| Responsive table npm packages | Unnecessary dependency for ~25 lines of CSS following an existing codebase pattern | Copy directory-table responsive pattern |
+| Scoped styles in SFC | Project uses global CSS in cascade layers. Mixing scoped + global creates specificity confusion | Add styles in `@layer components` in main.css |
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| `exhibitType` | `'investigation-report' \| 'engineering-brief'` | Required discriminator replacing `investigationReport?: boolean` |
-| `summary` | `string` (optional) | Short description for card rendering on listing page; currently cards show quotes which may not suit engineering briefs |
+---
 
-The existing `investigationReport?: boolean` can be derived: `investigationReport: exhibitType === 'investigation-report'` during a transition period, then removed.
+## Data Model Addition
+
+The `Exhibit` interface needs one new field and one new interface:
+
+```typescript
+export interface ExhibitFindingEntry {
+  finding: string           // Required: the finding title/name
+  description?: string      // What was found
+  background?: string       // Context/history
+  resolution?: string       // How it was resolved
+  severity?: 'critical' | 'high' | 'medium' | 'low'  // Severity level
+}
+
+export interface Exhibit {
+  // ... existing fields ...
+  findings?: ExhibitFindingEntry[]  // Optional, same pattern as personnel?
+}
+```
+
+All fields except `finding` are optional because exhibit findings vary:
+- Exhibit A has: Finding, Background, Resolution (3 columns)
+- Exhibit E has: Finding, Description (2 columns)
+- Exhibit L has: Finding, Severity, Description (3 columns)
+- Exhibit N has: Finding, Description (2 columns)
+- Exhibit O has: Finding, Description (2 columns)
+
+---
+
+## Severity Badge Color Mapping
+
+Map to existing tokens, no new values needed:
+
+| Severity | Token | Visual | Rationale |
+|----------|-------|--------|-----------|
+| `critical` | `--color-danger` (#c82333) | Red | Already WCAG-verified for text contrast |
+| `high` | `--color-accent` (#8f6d00) | Amber | Already WCAG-verified, used for emphasis throughout site |
+| `medium` | `--color-text-muted` (#666666) | Gray | De-emphasized, passes contrast |
+| `low` | `--color-text-light` (#737373) | Light gray | Most subtle, still passes 4.5:1 |
+
+Badge backgrounds use 15% alpha variants (same approach as `--color-primary-subtle`).
 
 ---
 
 ## Version Compatibility
 
-No new packages means no new compatibility concerns. Existing compatibility matrix from v1.1 research remains valid:
-
-| Package | Compatible With | Notes |
-|---------|-----------------|-------|
-| Vue 3.5.30 | Vue Router 4.6.4 | `<component :is>` with `defineAsyncComponent` stable since Vue 3.0 |
-| Vue Router 4.6.4 | Vite 6 | Lazy routes via `() => import()` is Vite-native |
-| TypeScript 5.7 | Discriminated unions | Feature available since TypeScript 2.0; fully mature |
+No new packages. All patterns use:
+- Standard CSS (`@media`, `display: block`, `::before`, `attr()`) -- universal browser support
+- Vue 3.x `defineProps` + `computed` -- already in use throughout codebase
+- `data-*` HTML attributes -- universal support
+- CSS cascade layers -- supported in all evergreen browsers (Chrome 99+, Firefox 97+, Safari 15.4+)
 
 ---
 
 ## Installation
 
 ```bash
-# No new packages required for v2.0
-# All patterns use Vue 3 built-in features
+# No new packages required for v2.3
+# All patterns use CSS and Vue 3 built-in features
 ```
-
----
-
-## Stack Patterns by Variant
-
-**For the detail page (two layout templates):**
-- Use `<component :is>` with `defineAsyncComponent` in ExhibitDetailPage.vue
-- Create InvestigationReportLayout.vue and EngineeringBriefLayout.vue as layout components
-- Both receive the full `Exhibit` object as a prop
-- Each layout is independently testable and story-able
-
-**For the listing page (mixed card types):**
-- Use single ExhibitCard.vue with CSS modifier class per exhibit type
-- Use computed properties for filtering/grouping by type
-- Consider splitting into two components only if card DOM structure diverges significantly
-
-**For navigation restructure:**
-- Add new `/case-files` route, remove `/review` route
-- Add `/portfolio` -> `/case-files` redirect for backward compatibility
-- Update NavBar links and HomePage CTAs
-
-**For testing the new patterns:**
-- Test each layout component in isolation (unit test + Storybook story)
-- Test ExhibitDetailPage template resolution with different exhibit types
-- Test ExhibitCard rendering for both types
-- Test router redirects in router.test.ts
 
 ---
 
 ## Sources
 
-- Vue 3 Dynamic Components documentation (vuejs.org/guide/essentials/component-basics#dynamic-components) -- `<component :is>` pattern -- HIGH confidence
-- Vue 3 Async Components documentation (vuejs.org/guide/components/async) -- `defineAsyncComponent` -- HIGH confidence
-- Vue Router Redirect and Alias documentation (router.vuejs.org/guide/essentials/redirect-and-alias) -- route redirects -- HIGH confidence
-- TypeScript Discriminated Unions (typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) -- type narrowing pattern -- HIGH confidence
-- Existing codebase analysis: `src/data/exhibits.ts`, `src/pages/ExhibitDetailPage.vue`, `src/components/ExhibitCard.vue`, `src/router.ts` -- direct inspection -- HIGH confidence
+- Codebase: `src/assets/css/main.css` lines 3757-3784 -- directory-table responsive pattern at 768px -- HIGH confidence
+- Codebase: `src/assets/css/main.css` lines 4289-4326 -- exhibit-table responsive pattern at 480px -- HIGH confidence
+- Codebase: `src/components/PersonnelCard.vue` -- component signature and card grid precedent -- HIGH confidence
+- Codebase: `src/components/exhibit/InvestigationReportLayout.vue` line 63 -- `data-label` attribute usage -- HIGH confidence
+- Codebase: `src/assets/css/main.css` lines 758-773 -- PersonnelCard CSS in `@layer components` -- HIGH confidence
+- Codebase: `src/data/exhibits.ts` -- existing table sections with Findings headings (exhibits A, E, J, L, N, O) -- HIGH confidence
 
 ---
 
-*Stack research for: Vue 3 portfolio SPA -- dual exhibit templates and IA restructure (v2.0)*
-*Researched: 2026-03-27*
+*Stack research for: v2.3 Findings Data & Rendering*
+*Researched: 2026-04-02*
