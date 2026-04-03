@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Exhibit, ExhibitSection } from '@/data/exhibits'
 import TechTags from '@/components/TechTags.vue'
+import PersonnelCard from '@/components/PersonnelCard.vue'
 
 defineProps<{ exhibit: Exhibit }>()
 
@@ -117,6 +118,11 @@ function sectionHasContent(section: ExhibitSection): boolean {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <div v-if="exhibit.personnel?.length" class="exhibit-section">
+          <h2>Project Team</h2>
+          <PersonnelCard :personnel="exhibit.personnel" />
         </div>
 
         <div class="exhibit-impact-tags">
