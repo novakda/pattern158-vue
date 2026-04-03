@@ -1,7 +1,51 @@
 # Requirements: Pattern 158 — Vue Conversion
 
-**Defined:** 2026-04-02
+**Defined:** 2026-04-03
 **Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
+
+## v3.0 Requirements
+
+Requirements for Visual Feedback Collector milestone. Each maps to roadmap phases.
+
+### Build & Configuration
+
+- [ ] **BUILD-01**: FeedbackCollector conditionally mounts only in dev/staging builds (zero production bytes)
+- [ ] **BUILD-02**: VITE_GITHUB_TOKEN and VITE_GITHUB_REPO env vars validated at mount with console warnings
+- [ ] **BUILD-03**: Self-contained CSS namespace (--fb-* tokens, fb- class prefix) with no dependency on site design tokens
+
+### Element Picker
+
+- [ ] **PICK-01**: Floating action button visible in dev mode to activate picker mode
+- [ ] **PICK-02**: Keyboard shortcut (Ctrl+Shift+F) toggles picker mode
+- [ ] **PICK-03**: Hovered elements show visible highlight outline during picker mode
+- [ ] **PICK-04**: Clicking an element captures tag name, CSS selector path, and bounding rect
+- [ ] **PICK-05**: Vue component name extracted from element's __vueParentComponent in dev mode
+
+### Screenshot Capture
+
+- [ ] **SHOT-01**: html2canvas captures selected element as base64 PNG data URI
+- [ ] **SHOT-02**: Loading spinner shown during capture
+
+### Annotation & Comment
+
+- [ ] **ANNOT-01**: Annotation panel displays comment textarea, screenshot preview, and element metadata
+- [ ] **ANNOT-02**: Panel positioned near selected element without covering it (flip logic)
+- [ ] **ANNOT-03**: Escape key and cancel button dismiss the panel and reset state
+- [ ] **ANNOT-04**: Annotation drawing overlay allows rectangles and arrows on screenshot
+
+### GitHub Submission
+
+- [ ] **GH-01**: Screenshot uploaded as secret Gist via GitHub API, raw_url embedded in issue body
+- [ ] **GH-02**: GitHub Issue created with structured markdown body (comment + screenshot + element context + page URL + viewport + user agent)
+- [ ] **GH-03**: Data URI fallback with JPEG compression and size checks when Gist upload fails
+- [ ] **GH-04**: Configurable issue labels applied to created issues
+- [ ] **GH-05**: Success state shows clickable link to created GitHub Issue
+- [ ] **GH-06**: Error state shows actionable error message with retry option
+
+## Previous Milestone Requirements
+
+<details>
+<summary>v2.3 Findings Data & Rendering (13 requirements — all complete)</summary>
 
 ## v2.3 Requirements
 
@@ -30,6 +74,8 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 - [x] **DOC-01**: Storybook stories covering 2-col, 3-col severity, and 3-col background/resolution variants
 
 ## Previous Milestone Requirements
+
+</details>
 
 <details>
 <summary>v2.2 Personnel Data & Rendering (12 requirements — all complete)</summary>
@@ -76,22 +122,18 @@ Requirements for Findings Data & Rendering milestone. Each maps to roadmap phase
 
 ## Future Requirements
 
-None identified.
+- Standalone npm package extraction — when feedback collector proves useful enough to share
+- Non-GitHub issue tracker support (Linear, Jira) — if needed for team use
 
 ## Out of Scope
 
 | Feature | Reason |
 |---------|--------|
-| Promoting text-type findings (Exhibits D, M) | Prose findings don't decompose into structured rows — would lose narrative flow |
-| Cross-exhibit finding comparison | 30 total findings across 7 exhibits — premature at this scale |
-| Finding numbering/ID system | Not all exhibits use investigation framing — forced formality |
-| Expandable/collapsible finding details | 1-3 sentences per finding — too short for progressive disclosure |
-| Rich text in finding descriptions | All current descriptions are plain text — no current need |
-| Remove old personnel table sections | Preparatory for future JSON/schema migration — keep both representations |
-| Personnel for Exhibit O | Meta-exhibit about pattern recognition across projects, not a single team engagement |
-| Three Lenses narrative cards | Content consolidation was intentional in v2.0; may revisit in future milestone |
-| Featured Engagement / Flagship cards | Content consolidation was intentional in v2.0; may revisit in future milestone |
-| Exhibit URL migration to /case-files/:slug | Current /exhibits/:slug paths work correctly; URL change is cosmetic |
+| Session replay / console capture / network capture | Anti-features for a lightweight dev tool — adds complexity without proportional value |
+| End-user facing feedback (production) | Dev/staging only — PAT exposure risk, different UX requirements for end users |
+| External feedback SaaS integration | Self-contained by design — GitHub Issues is the sole backend |
+| Video capture | Screenshot + annotation covers the feedback use case; video adds significant complexity |
+| Multi-step annotation workflows | Single annotation pass per feedback item — keep the flow fast |
 
 ## Traceability
 
@@ -99,25 +141,32 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | Phase 21 | Complete |
-| DATA-02 | Phase 21 | Complete |
-| DATA-03 | Phase 21 | Complete |
-| DATA-04 | Phase 21 | Complete |
-| DATA-05 | Phase 21 | Complete |
-| DATA-06 | Phase 21 | Complete |
-| RNDR-01 | Phase 22 | Complete |
-| RNDR-02 | Phase 22 | Complete |
-| RNDR-03 | Phase 22 | Complete |
-| RNDR-04 | Phase 22 | Complete |
-| RNDR-05 | Phase 23 | Complete |
-| RNDR-06 | Phase 23 | Complete |
-| DOC-01 | Phase 24 | Complete |
+| BUILD-01 | — | Pending |
+| BUILD-02 | — | Pending |
+| BUILD-03 | — | Pending |
+| PICK-01 | — | Pending |
+| PICK-02 | — | Pending |
+| PICK-03 | — | Pending |
+| PICK-04 | — | Pending |
+| PICK-05 | — | Pending |
+| SHOT-01 | — | Pending |
+| SHOT-02 | — | Pending |
+| ANNOT-01 | — | Pending |
+| ANNOT-02 | — | Pending |
+| ANNOT-03 | — | Pending |
+| ANNOT-04 | — | Pending |
+| GH-01 | — | Pending |
+| GH-02 | — | Pending |
+| GH-03 | — | Pending |
+| GH-04 | — | Pending |
+| GH-05 | — | Pending |
+| GH-06 | — | Pending |
 
 **Coverage:**
-- v2.3 requirements: 13 total
-- Mapped to phases: 13
-- Unmapped: 0
+- v3.0 requirements: 20 total
+- Mapped to phases: 0
+- Unmapped: 20 ⚠️
 
 ---
-*Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after v2.3 roadmap creation*
+*Requirements defined: 2026-04-03*
+*Last updated: 2026-04-03 after v3.0 requirements definition*
