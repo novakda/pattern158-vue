@@ -153,4 +153,4 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
 | 18. PersonnelCard Component | v2.2 | 1/1 | Complete    | 2026-04-03 |
 | 19. Layout Integration | v2.2 | 0/1 | Complete    | 2026-04-03 |
-| 20. Storybook Documentation | v2.2 | 1/1 | Complete   | 2026-04-03 |
+| 20. Storybook Documentation | v2.2 | 1/1 | Complete    | 2026-04-03 |
