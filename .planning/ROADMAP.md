@@ -132,7 +132,9 @@ Plans:
   1. Storybook story exists showing 2-column variant (finding + description)
   2. Storybook story exists showing 3-column variant with severity data
   3. Storybook story exists showing 3-column variant with background/resolution data
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 24-01-PLAN.md — FindingsTable Storybook stories (3 column variants)
 
 ## Progress
 
@@ -165,4 +167,4 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 21. Type Definition & Data Extraction | v2.3 | 2/2 | Complete | 2026-04-03 |
 | 22. FindingsTable Component | v2.3 | 2/2 | Complete    | 2026-04-03 |
 | 23. Layout Integration | v2.3 | 1/1 | Complete    | 2026-04-03 |
-| 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |
+| 24. Storybook Documentation | v2.3 | 0/1 | Not started | - |
