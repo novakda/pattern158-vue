@@ -106,7 +106,10 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
   2. Dev build shows a floating action button in a fixed screen position
   3. Missing VITE_GITHUB_TOKEN or VITE_GITHUB_REPO prints a console warning at mount time
   4. All feedback collector styles use --fb-* tokens and fb- class prefixes with no dependency on site design tokens
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 25-01-PLAN.md — Types, CSS namespace, config and state composables
+- [ ] 25-02-PLAN.md — FAB component, root orchestrator, App.vue mount, env docs
 **UI hint**: yes
 
 ### Phase 26: Element Picker & Selection
@@ -198,7 +201,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 22. FindingsTable Component | v2.3 | 2/2 | Complete | 2026-04-03 |
 | 23. Layout Integration | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
-| 25. Foundation & Build Gating | v3.0 | 0/0 | Not started | - |
+| 25. Foundation & Build Gating | v3.0 | 0/2 | Not started | - |
 | 26. Element Picker & Selection | v3.0 | 0/0 | Not started | - |
 | 27. Screenshot Capture | v3.0 | 0/0 | Not started | - |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
