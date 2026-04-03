@@ -46,6 +46,14 @@ export interface ExhibitFindingEntry {
   severity?: string
 }
 
+export interface ExhibitPersonnelEntry {
+  name?: string
+  title?: string
+  organization?: string
+  role?: string
+  isSelf?: boolean
+}
+
 export type ExhibitType = 'investigation-report' | 'engineering-brief'
 
 export interface Exhibit {
@@ -55,6 +63,7 @@ export interface Exhibit {
   title: string
   exhibitType: ExhibitType
   quotes?: ExhibitQuote[]
+  personnel?: ExhibitPersonnelEntry[]
   contextHeading?: string
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
@@ -97,6 +106,20 @@ export const exhibits: Exhibit[] = [
         attribution: 'Chief of Learning Services, Electric Boat',
         role: 'in recognition email to GP leadership',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Lead Investigator / Solution Architect', organization: 'GP Strategies', isSelf: true },
+      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
+      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
+      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
+      { name: 'Josh Stoudt', title: 'Senior Director, Learning Solutions', organization: 'GP Strategies' },
+      { name: 'Chris Emmons', title: 'LMS Administrator', organization: 'Electric Boat' },
+      { name: 'Multiple EB Personnel', title: '49 contacts across departments', organization: 'Electric Boat' },
+      { title: 'Program Manager', organization: 'GP Strategies', role: 'Coordinated engagement' },
+      { title: 'Co-Investigator', organization: 'GP Strategies', role: 'Assisted with testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
+      { title: 'Training Analyst Specialist', organization: 'Electric Boat', role: 'Provided technical data' },
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
@@ -339,6 +362,15 @@ export const exhibits: Exhibit[] = [
         attribution: 'Director of Learning Technologies, GP Strategies',
       },
     ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Technical Consultant (subject of both cascades)', organization: 'GP Strategies', isSelf: true },
+      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
+      { name: 'Josh Stoudt', title: 'Sr. Director of Learning Solutions (15+ years GP leadership)', organization: 'GP Strategies' },
+      { name: 'Senior Vice President', title: 'SVP of Learning Solutions (initiated EB engagement Sept 2017)', organization: 'GP Strategies' },
+      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
+      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
+      { name: 'GP On-Site EB Team', title: '3 members who independently relayed feedback (April 2019)', organization: 'GP Strategies' },
+    ],
     contextHeading: 'Context',
     contextText: 'Two independent recognition cascades \u2014 August 2018 and April 2019 \u2014 propagated through GP Strategies\u2019 leadership hierarchy via unsolicited channels. Three named independent sources confirmed the second cascade.',
     sections: [
@@ -416,6 +448,12 @@ export const exhibits: Exhibit[] = [
         text: 'We appreciate your information and troubleshooting help when problems occur.',
         attribution: 'GP Strategies (Internal)',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Senior Learning Technologist ("The Fiddler")', organization: 'GP Strategies', isSelf: true },
+      { name: 'Content Team Manager', title: 'Manager, Content Team (led the overall refresh project)', organization: 'GP Strategies' },
+      { name: 'Colleague ("The Slacker")', title: 'Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)', organization: 'GP Strategies' },
+      { name: '15+ Team Members', title: 'Content refresh contributors (each recognized with unique nicknames)', organization: 'GP Strategies' },
     ],
     contextHeading: 'Context',
     contextText: 'Part of a comprehensive team recognition email celebrating the completion of a 1,216-lesson content refresh. Each of 15 team members received a unique title and individual recognition. Dan\u2019s callout focused on tooling and automation that enabled the project to complete on schedule. The automation tool was also used by a colleague to publish every lesson at least three times during the refresh cycle. Full testimonial details available in the investigation report.',
@@ -509,6 +547,14 @@ export const exhibits: Exhibit[] = [
         role: 'coordinating rapid-turnaround testing requests',
       },
     ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Computer Programmer / Technical Lead for Functional QA', organization: 'GP Strategies', isSelf: true },
+      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
+      { name: 'QA Lead', title: 'QA Coordinator (close collaborator on functional testing)', organization: 'GP Strategies' },
+      { name: 'Program Manager', title: 'Engagement coordination and client relationships', organization: 'GP Strategies' },
+      { name: 'Project Lead', title: 'Coordinated rapid-turnaround testing requests with Dan', organization: 'GP Strategies' },
+      { name: 'Wells Fargo Contacts', title: 'Subject matter experts and content owners', organization: 'Wells Fargo' },
+    ],
     contextHeading: 'Context',
     contextText: 'Technical lead for functional QA on a 100+ course sales conversion migration from legacy formats (Adobe Presenter, HTML5, Flash) into Xyleme LCMS, published as SCORM 1.2 for Wells Fargo\u2019s enterprise LMS. Six-month engagement, 223 tracked emails. Developed an interactivity-level multiplier methodology for estimating QA effort across the full course portfolio. Diagnosed SCORM completion failures in Flash-based content caused by a race condition in IE\u2019s COM SCORM adapter, compounded by Xyleme\u2019s thin package architecture. Wells Fargo granted full Xyleme Studio administrative access \u2014 a direct indicator of client trust.',
     sections: [
@@ -598,6 +644,12 @@ export const exhibits: Exhibit[] = [
         text: 'Built in 2011 \u2014 five years before Rustici released Content Controller to solve the same problem.',
         attribution: 'GP Strategies (Energy Sector)',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Architect / Developer', role: 'System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling', isSelf: true },
+      { name: 'Zach Taylor', title: 'Primary Development Collaborator', role: 'GPiLEARN platform engineering' },
+      { name: 'Ron Cyran', title: 'Program Manager', role: 'GPiLEARN program management and client coordination' },
+      { name: 'Tom Pizer', title: 'Director of Learning Technologies', role: 'Technical direction and hosting infrastructure' },
     ],
     contextHeading: 'Context',
     contextText: 'Architected a cross-domain content delivery system serving ~20 energy utility clients through a centralized SCORM dispatch layer \u2014 each drawing a curated subset from a ~2,000 course central library. Eliminated the manual zip-and-email deployment cycle. Built in 2011 \u2014 five years before Rustici released Content Controller to solve the same problem.',
@@ -745,6 +797,15 @@ export const exhibits: Exhibit[] = [
         attribution: 'Project Manager, GP Strategies (HSBC Account)',
       },
     ],
+    personnel: [
+      { name: 'Dan Novak', title: 'SCORM/LMS Integration Specialist', organization: 'GP Strategies', isSelf: true },
+      { name: 'Director of Learning Technologies', title: 'Management chain and technical oversight', organization: 'GP Strategies' },
+      { name: 'HSBC Account PM/BA', title: 'Engagement coordination, client relationship management', organization: 'GP Strategies' },
+      { name: 'Lead Developer', title: 'HSBC deliverables development', organization: 'GP Strategies' },
+      { name: 'Performance Consultant (Mexico)', title: 'Localized deployments', organization: 'GP Strategies' },
+      { name: 'Learning Consultant (UK)', title: 'HSBC global operations', organization: 'GP Strategies' },
+      { name: '22+ US Contacts', title: 'Plus regional representatives', organization: 'HSBC (US, UK, Mexico, India, Philippines)' },
+    ],
     contextHeading: 'Context',
     contextText: 'Tier 1 global banking client across 5 countries. Found a SCORM API wrapper bug causing silent session termination, decompiled Flash SWFs to recover lost source files, and coordinated SCORM deployment fixes across Mexico, India, and the Philippines.',
     sections: [
@@ -836,6 +897,12 @@ export const exhibits: Exhibit[] = [
         text: 'Thanks for the thorough documentation of the issue and solution. Do you have a figure?',
         attribution: 'SunTrust (Client)',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Lead Technical Engineer (integration architecture)', organization: 'GP Strategies', isSelf: true },
+      { name: 'SunTrust Developer', title: 'API and backend development', organization: 'SunTrust (now Truist)' },
+      { name: 'Project Manager/Account Lead', title: 'SunTrust account management and engagement coordination', organization: 'GP Strategies' },
+      { name: 'Director of Learning Technologies', title: 'Technical leadership and oversight', organization: 'GP Strategies' },
     ],
     contextHeading: 'Context',
     contextText: 'Team investigated and documented the learning platform situation, producing a detailed findings report with recommended path forward. Client requested follow-up meeting to discuss implementation options based on the quality of the technical analysis.',
@@ -929,6 +996,11 @@ export const exhibits: Exhibit[] = [
         attribution: 'GP Strategies',
       },
     ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Senior Learning Technologist', organization: 'GP Strategies', isSelf: true },
+      { name: 'LMS Configuration Specialist', title: 'LMS Administrator', organization: 'GP Strategies' },
+      { name: 'Client Liaison', title: 'Project Manager', organization: 'GP Strategies / Client' },
+    ],
     contextHeading: 'Context',
     contextText: 'SCORM completion tracking failure on a high-visibility additive manufacturing course. Root cause identified and fix deployed same day, prompting relief across stakeholders.',
     sections: [
@@ -983,6 +1055,11 @@ export const exhibits: Exhibit[] = [
         text: 'Thank you for all your amazing work!',
         attribution: 'Senior Learning Project Manager, GP Strategies',
       },
+    ],
+    personnel: [
+      { name: 'Dan Novak', title: 'Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds', organization: 'GP Strategies', isSelf: true },
+      { name: '2 Additional Testers', title: 'GP Accessibility Testing Team for TD MIC', organization: 'GP Strategies' },
+      { name: 'Senior Learning PM', title: 'TD MIC project coordination and program oversight', organization: 'GP Strategies' },
     ],
     contextHeading: 'Context',
     contextText: 'Most experienced accessibility evaluator on the TD Bank engagement (2021\u20132024). Contributed to GP\u2019s WCAG 2.1 AA evaluation methodology and brought forensic-level ARIA debugging, JAWS/NVDA interaction protocols, and Storyline-specific screen reader workarounds developed through prior HSBC and PNC Bank engagements.',
@@ -1082,6 +1159,11 @@ export const exhibits: Exhibit[] = [
         text: 'I\'m reviewing this now. Looks fantastic, great work.',
         attribution: 'General Motors',
       },
+    ],
+    personnel: [
+      { title: 'Investigation Lead', role: 'Project authorization, stakeholder management, investigation oversight' },
+      { name: 'Dan Novak', title: 'Senior Learning Technologist', role: 'Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review', isSelf: true },
+      { name: 'Data Analyst / UX Researcher', title: 'GP Strategies', role: 'Data analysis, UX evaluation, user interviews, behavioral research' },
     ],
     contextHeading: 'Investigation Summary',
     contextText: 'GM reported a 4x spike in incomplete courses after migrating to a new LMS. Initial assumption: tracking bug. Multi-angle forensic investigation \u2014 technical forensics, UX analysis, and user research \u2014 identified five concurrent systemic failures aligned in a \u201cSwiss cheese model.\u201d The root cause wasn\u2019t a single bug; it was a systemic mismatch between how the platform was designed and how people actually worked.',
@@ -1223,6 +1305,13 @@ export const exhibits: Exhibit[] = [
     date: '2025\u20132026',
     title: 'Microsoft MCAPS: AI-Led Training Agent',
     exhibitType: 'investigation-report',
+    personnel: [
+      { name: 'Max Glick', title: 'Lead Developer / Engineering Manager', organization: 'GP Strategies' },
+      { name: 'Dan Novak', title: 'AI Agent Developer', organization: 'GP Strategies', isSelf: true },
+      { name: 'Instructional Designer', title: 'Content Design', organization: 'GP Strategies' },
+      { name: 'Project Manager', title: 'Program Coordination', organization: 'GP Strategies' },
+      { name: 'MCAPS Lead', title: 'Microsoft Account Lead', organization: 'Microsoft' },
+    ],
     contextHeading: 'Investigation Summary',
     contextText: 'Building on a decade of GP Strategies\u2019 embedded work on Microsoft accounts, Dan was brought in to evolve their AI training agent in Copilot Studio. Zero platform experience to functional POC in ~4 weeks. The breakthrough: separating deterministic state (structured JSON) from AI interaction (content delivery), creating a hybrid architecture that solved the reliability challenges of the original declarative approach.',
     sections: [
@@ -1311,6 +1400,12 @@ export const exhibits: Exhibit[] = [
     date: '2025',
     title: 'Power Platform: Forensic Architecture Audit',
     exhibitType: 'investigation-report',
+    personnel: [
+      { name: 'Dan Novak', title: 'Development Lead', role: 'Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings.', isSelf: true },
+      { title: 'External Power Platform Consultancy', role: 'Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began.' },
+      { title: 'Lead Developer (anonymized)', role: 'Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.' },
+      { title: 'Governance Architect (anonymized)', role: 'Recipient of the findings deliverable. Responsible for architectural oversight across the organization.' },
+    ],
     contextHeading: 'Investigation Summary',
     contextText: 'An enterprise ERP modernization on Microsoft Power Platform where institutional knowledge was lost through organizational transitions. AI-assisted forensic analysis exposed five foundational gaps: no data model, no version control, monolithic architecture, atomized requirements without context, and no decomposed user stories. The diagnosis was the deliverable.',
     sections: [
@@ -1425,6 +1520,10 @@ export const exhibits: Exhibit[] = [
     date: '~2019\u20132020',
     title: 'SCORM Debugger: TASBot-Inspired QA Automation',
     exhibitType: 'investigation-report',
+    personnel: [
+      { name: 'Dan Novak', title: 'Architect / Developer', organization: 'GP Strategies', isSelf: true },
+      { name: 'Max Glick', title: 'Engineering Manager', organization: 'GP Strategies' },
+    ],
     contextHeading: 'Investigation Summary',
     contextText: 'Created a Vue.js SCORM debugging tool inspired by TASBot/speedrunning save states. Reduced QA testing cycles from hours to minutes by enabling instant state capture and restore across gated eLearning courses. The approach that Rustici Engine\u2019s testing tools would later address commercially.',
     sections: [
@@ -1498,6 +1597,10 @@ export const exhibits: Exhibit[] = [
     date: '2024',
     title: 'BP Learning Platform: Federated System Integration',
     exhibitType: 'investigation-report',
+    personnel: [
+      { name: 'Dan Novak', title: 'Frontend Developer / Integration Engineer', organization: 'GP Strategies (BP Account)', isSelf: true },
+      { name: 'Leo Learning Team', title: 'Platform Development', organization: 'Leo Learning / GP Strategies' },
+    ],
     contextHeading: 'Investigation Summary',
     contextText: 'Worked on BP\u2019s React/GraphQL learning platform integrating Rustici Content Controller, PeopleFluent LMS, Watershed LRS, and Amazon Cognito. Recognized the federated integration pattern from CSBB Dispatch \u2014 a decade of pattern evolution from custom-built to commercial ecosystem.',
     sections: [
