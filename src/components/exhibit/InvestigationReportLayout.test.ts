@@ -8,7 +8,7 @@ const irFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-j')!
 
 describe('InvestigationReportLayout', () => {
   const mountOptions = {
-    global: { stubs: { RouterLink: true, TechTags: true } },
+    global: { stubs: { RouterLink: true, TechTags: true, PersonnelCard: true } },
   }
 
   it('renders exhibit title', () => {
@@ -104,6 +104,27 @@ describe('InvestigationReportLayout', () => {
     })
     expect(wrapper.text()).not.toContain('Empty Meta')
     expect(wrapper.findAll('.exhibit-section').length).toBe(0)
+  })
+
+  it('renders Project Team section when exhibit has personnel', () => {
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: irFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).toContain('Project Team')
+  })
+
+  it('does not render Project Team section when exhibit has no personnel', () => {
+    const noPersonnelExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'investigation-report',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+    }
+    const wrapper = mount(InvestigationReportLayout, {
+      props: { exhibit: noPersonnelExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).not.toContain('Project Team')
   })
 
   it('renders context fallback when no sections', () => {

@@ -9,7 +9,7 @@ const flowFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')!
 
 describe('EngineeringBriefLayout', () => {
   const mountOptions = {
-    global: { stubs: { RouterLink: true, TechTags: true } },
+    global: { stubs: { RouterLink: true, TechTags: true, PersonnelCard: true } },
   }
 
   it('renders exhibit title', () => {
@@ -113,6 +113,27 @@ describe('EngineeringBriefLayout', () => {
     })
     expect(wrapper.text()).not.toContain('Ghost Section')
     expect(wrapper.findAll('.exhibit-section').length).toBe(0)
+  })
+
+  it('renders Project Team section when exhibit has personnel', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).toContain('Project Team')
+  })
+
+  it('does not render Project Team section when exhibit has no personnel', () => {
+    const noPersonnelExhibit: Exhibit = {
+      label: 'Test', client: 'Test', date: '2025', title: 'Test',
+      exhibitType: 'engineering-brief',
+      impactTags: ['test'], exhibitLink: '/exhibits/test',
+    }
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: noPersonnelExhibit },
+      ...mountOptions,
+    })
+    expect(wrapper.text()).not.toContain('Project Team')
   })
 
   it('uses non-forensic framing without Investigation Summary heading', () => {
