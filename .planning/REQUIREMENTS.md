@@ -10,8 +10,8 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 ### Build & Configuration
 
 - [ ] **BUILD-01**: FeedbackCollector conditionally mounts only in dev/staging builds (zero production bytes)
-- [ ] **BUILD-02**: VITE_GITHUB_TOKEN and VITE_GITHUB_REPO env vars validated at mount with console warnings
-- [ ] **BUILD-03**: Self-contained CSS namespace (--fb-* tokens, fb- class prefix) with no dependency on site design tokens
+- [x] **BUILD-02**: VITE_GITHUB_TOKEN and VITE_GITHUB_REPO env vars validated at mount with console warnings
+- [x] **BUILD-03**: Self-contained CSS namespace (--fb-* tokens, fb- class prefix) with no dependency on site design tokens
 
 ### Element Picker
 
@@ -142,8 +142,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | BUILD-01 | Phase 25 | Pending |
-| BUILD-02 | Phase 25 | Pending |
-| BUILD-03 | Phase 25 | Pending |
+| BUILD-02 | Phase 25 | Complete |
+| BUILD-03 | Phase 25 | Complete |
 | PICK-01 | Phase 25 | Pending |
 | PICK-02 | Phase 26 | Pending |
 | PICK-03 | Phase 26 | Pending |
