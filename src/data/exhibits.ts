@@ -22,7 +22,6 @@ export interface ExhibitTimelineEntry {
   quoteAttribution?: string
 }
 
-
 export interface ExhibitMetadataItem {
   label: string
   value: string
@@ -39,12 +38,12 @@ export interface ExhibitSection {
   items?: ExhibitMetadataItem[]
 }
 
-export interface ExhibitPersonnelEntry {
-  name?: string
-  title?: string
-  organization?: string
-  role?: string
-  isSelf?: boolean
+export interface ExhibitFindingEntry {
+  finding: string
+  description?: string
+  background?: string
+  resolution?: string
+  severity?: string
 }
 
 export type ExhibitType = 'investigation-report' | 'engineering-brief'
@@ -56,11 +55,12 @@ export interface Exhibit {
   title: string
   exhibitType: ExhibitType
   quotes?: ExhibitQuote[]
-  personnel?: ExhibitPersonnelEntry[]
   contextHeading?: string
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
   sections?: ExhibitSection[]
+  findings?: ExhibitFindingEntry[]
+  findingsHeading?: string
   impactTags: string[]
   exhibitLink: string
   // Flagship fields (merged per D-04)
@@ -97,20 +97,6 @@ export const exhibits: Exhibit[] = [
         attribution: 'Chief of Learning Services, Electric Boat',
         role: 'in recognition email to GP leadership',
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Lead Investigator / Solution Architect', organization: 'GP Strategies', isSelf: true },
-      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
-      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
-      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
-      { name: 'Josh Stoudt', title: 'Senior Director, Learning Solutions', organization: 'GP Strategies' },
-      { name: 'Chris Emmons', title: 'LMS Administrator', organization: 'Electric Boat' },
-      { name: 'Multiple EB Personnel', title: '49 contacts across departments', organization: 'Electric Boat' },
-      { title: 'Program Manager', organization: 'GP Strategies', role: 'Coordinated engagement' },
-      { title: 'Co-Investigator', organization: 'GP Strategies', role: 'Assisted with testing' },
-      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
-      { title: 'Curriculum Developer', organization: 'Electric Boat', role: 'Collaborated on testing' },
-      { title: 'Training Analyst Specialist', organization: 'Electric Boat', role: 'Provided technical data' },
     ],
     contextHeading: 'Context',
     contextText: 'Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017\u20132022), spanning formal investigation, two on-site deployments (August 2018, March\u2013April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.',
@@ -315,6 +301,33 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
+    findings: [
+      {
+        finding: 'SCORM courses dependent on Cornerstone Network Player',
+        background: 'SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.',
+        resolution: 'Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit.',
+      },
+      {
+        finding: 'HTML5 courses failing under AICC protocol',
+        background: "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
+        resolution: 'Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration.',
+      },
+      {
+        finding: 'Quiz bookmarking and reset failures',
+        background: "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
+        resolution: 'SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints.',
+      },
+      {
+        finding: 'No tools to verify SCORM data flow',
+        background: "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
+        resolution: 'Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology.',
+      },
+      {
+        finding: 'Bulk SCORM import not available',
+        background: "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
+        resolution: "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment.",
+      },
+    ],
     impactTags: ['Client-Facing', 'Cross-Domain', 'Tooling', 'Defense & Aerospace', 'Flash-to-HTML5', '7-Year Engagement'],
     exhibitLink: '/exhibits/exhibit-a',
     isFlagship: true,
@@ -391,15 +404,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit D (Wells Fargo Migration)' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Technical Consultant (subject of both cascades)', organization: 'GP Strategies', isSelf: true },
-      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
-      { name: 'Josh Stoudt', title: 'Sr. Director of Learning Solutions (15+ years GP leadership)', organization: 'GP Strategies' },
-      { name: 'Senior Vice President', title: 'SVP of Learning Solutions (initiated EB engagement Sept 2017)', organization: 'GP Strategies' },
-      { name: 'Tracey Nicholson', title: 'Chief of Learning Services, Metrics, Processes & Technology', organization: 'Electric Boat' },
-      { name: 'Quinn Gladu', title: 'Chief of Learning Services', organization: 'Electric Boat' },
-      { name: 'GP On-Site EB Team', title: '3 members who independently relayed feedback (April 2019)', organization: 'GP Strategies' },
     ],
     impactTags: ['Repeatable Pattern', 'Multi-Source Corroboration', 'General Dynamics', 'SVP-Level Praise', 'Cross-Level Propagation', 'Named Independent Sources'],
     exhibitLink: '/exhibits/exhibit-b',
@@ -491,12 +495,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Outcome', value: 'Automated batch publishing of 1,216 lessons, saving 600+ hours of manual labor through Fiddler-based API reverse engineering' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Senior Learning Technologist ("The Fiddler")', organization: 'GP Strategies', isSelf: true },
-      { name: 'Content Team Manager', title: 'Manager, Content Team (led the overall refresh project)', organization: 'GP Strategies' },
-      { name: 'Colleague ("The Slacker")', title: 'Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)', organization: 'GP Strategies' },
-      { name: '15+ Team Members', title: 'Content refresh contributors (each recognized with unique nicknames)', organization: 'GP Strategies' },
     ],
     impactTags: ['600+ Hours Saved', 'Automation', 'Xyleme', 'Fiddler', '1,216 Lessons', 'API Reverse Engineering', 'Enterprise Course Library'],
     exhibitLink: '/exhibits/exhibit-c',
@@ -597,14 +595,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Related', value: 'Exhibit A (Electric Boat LMS Integration), Exhibit E (CSBB Dispatch)' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Computer Programmer / Technical Lead for Functional QA', organization: 'GP Strategies', isSelf: true },
-      { name: 'Chris Sproule', title: 'Director of Learning Technologies', organization: 'GP Strategies' },
-      { name: 'QA Lead', title: 'QA Coordinator (close collaborator on functional testing)', organization: 'GP Strategies' },
-      { name: 'Program Manager', title: 'Engagement coordination and client relationships', organization: 'GP Strategies' },
-      { name: 'Project Lead', title: 'Coordinated rapid-turnaround testing requests with Dan', organization: 'GP Strategies' },
-      { name: 'Wells Fargo Contacts', title: 'Subject matter experts and content owners', organization: 'Wells Fargo' },
     ],
     impactTags: ['Client-Facing', 'Wells Fargo', 'Migration Validation', 'IE Compatibility', 'Technical Leadership', '100+ Courses', 'Xyleme LCMS', 'QA Methodology', 'Financial Services'],
     exhibitLink: '/exhibits/exhibit-d',
@@ -738,11 +728,27 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Architect / Developer', role: 'System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling', isSelf: true },
-      { name: 'Zach Taylor', title: 'Primary Development Collaborator', role: 'GPiLEARN platform engineering' },
-      { name: 'Ron Cyran', title: 'Program Manager', role: 'GPiLEARN program management and client coordination' },
-      { name: 'Tom Pizer', title: 'Director of Learning Technologies', role: 'Technical direction and hosting infrastructure' },
+    findings: [
+      {
+        finding: 'Cross-domain architecture',
+        description: 'EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains \u2014 transparent to both content and LMS',
+      },
+      {
+        finding: 'Protocol agnostic',
+        description: 'SCORM API proxy provided transparent AICC/SCORM protocol translation \u2014 identical content packages worked across LMS platforms regardless of protocol dialect',
+      },
+      {
+        finding: 'Deployment revolution',
+        description: 'Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients',
+      },
+      {
+        finding: 'Automation at scale',
+        description: 'CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients \u2014 global deployments without touching individual systems',
+      },
+      {
+        finding: 'Cross-industry reuse',
+        description: 'Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) \u2014 proving the pattern was reusable, not domain-specific',
+      },
     ],
     impactTags: ['Cross-Domain Architecture', '~20 Clients Served', 'SCORM', 'GPiLEARN', 'Rustici Precursor', '10+ Years in Production', 'Protocol Translation'],
     exhibitLink: '/exhibits/exhibit-e',
@@ -840,15 +846,6 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'SCORM/LMS Integration Specialist', organization: 'GP Strategies', isSelf: true },
-      { name: 'Director of Learning Technologies', title: 'Management chain and technical oversight', organization: 'GP Strategies' },
-      { name: 'HSBC Account PM/BA', title: 'Engagement coordination, client relationship management', organization: 'GP Strategies' },
-      { name: 'Lead Developer', title: 'HSBC deliverables development', organization: 'GP Strategies' },
-      { name: 'Performance Consultant (Mexico)', title: 'Localized deployments', organization: 'GP Strategies' },
-      { name: 'Learning Consultant (UK)', title: 'HSBC global operations', organization: 'GP Strategies' },
-      { name: '22+ US Contacts', title: 'Plus regional representatives', organization: 'HSBC (US, UK, Mexico, India, Philippines)' },
-    ],
     impactTags: ['SCORM Forensics', 'Global Banking', 'Flash Recovery', 'SAP SuccessFactors', 'Security/Compliance', 'International Deployment', '5 Countries'],
     exhibitLink: '/exhibits/exhibit-f',
   },
@@ -933,12 +930,6 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Lead Technical Engineer (integration architecture)', organization: 'GP Strategies', isSelf: true },
-      { name: 'SunTrust Developer', title: 'API and backend development', organization: 'SunTrust (now Truist)' },
-      { name: 'Project Manager/Account Lead', title: 'SunTrust account management and engagement coordination', organization: 'GP Strategies' },
-      { name: 'Director of Learning Technologies', title: 'Technical leadership and oversight', organization: 'GP Strategies' },
-    ],
     impactTags: ['Client-Facing', 'SunTrust', 'Technical Writing', 'Forensic Analysis', 'Custom Integration Architecture', 'SCORM-to-API Wrapper', 'API Design Consultation', 'Enterprise Security'],
     exhibitLink: '/exhibits/exhibit-g',
   },
@@ -1001,11 +992,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Related', value: 'Exhibit A (Electric Boat), Exhibit F (HSBC), Exhibit J (GM Course Completion)' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Senior Learning Technologist', organization: 'GP Strategies', isSelf: true },
-      { name: 'LMS Configuration Specialist', title: 'LMS Administrator', organization: 'GP Strategies' },
-      { name: 'Client Liaison', title: 'Project Manager', organization: 'GP Strategies / Client' },
     ],
     impactTags: ['Rapid Resolution', 'LMS Troubleshooting', 'SCORM Completion', '3 Independent Testimonials', 'Cross-Functional'],
     exhibitLink: '/exhibits/exhibit-h',
@@ -1105,11 +1091,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Related', value: 'Exhibit F (HSBC Global Banking), Exhibit G (SunTrust AWARE Platform)' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds', organization: 'GP Strategies', isSelf: true },
-      { name: '2 Additional Testers', title: 'GP Accessibility Testing Team for TD MIC', organization: 'GP Strategies' },
-      { name: 'Senior Learning PM', title: 'TD MIC project coordination and program oversight', organization: 'GP Strategies' },
     ],
     impactTags: ['Methodology Creation', 'TD Bank', 'Accessibility', 'Multi-Client Deployment', '479 Emails (2022)'],
     exhibitLink: '/exhibits/exhibit-i',
@@ -1242,11 +1223,29 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { title: 'Investigation Lead', role: 'Project authorization, stakeholder management, investigation oversight' },
-      { name: 'Dan Novak', title: 'Senior Learning Technologist', role: 'Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review', isSelf: true },
-      { name: 'Data Analyst / UX Researcher', title: 'GP Strategies', role: 'Data analysis, UX evaluation, user interviews, behavioral research' },
+    findings: [
+      {
+        finding: 'Memory cache vulnerability',
+        description: 'The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost.',
+      },
+      {
+        finding: '"Congratulations You Failed" UX',
+        description: "Courses displayed a completion message after the final assessment \u2014 but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered.",
+      },
+      {
+        finding: 'Confusing navigation',
+        description: "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface \u2014 average GM sales reps with no eLearning background had no chance.",
+      },
+      {
+        finding: 'Mobile workforce / poor WiFi',
+        description: "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble.",
+      },
+      {
+        finding: 'Short-burst usage pattern',
+        description: 'System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress.',
+      },
     ],
+    findingsHeading: 'Findings \u2014 Five Concurrent Systemic Failures (Swiss Cheese Model)',
     impactTags: ['NTSB Methodology', 'Systems Thinking', 'Forensic Analysis', 'User Research', 'Swiss Cheese Model', '4x Completion Spike', 'General Motors'],
     exhibitLink: '/exhibits/exhibit-j',
     isFlagship: true,
@@ -1334,13 +1333,6 @@ export const exhibits: Exhibit[] = [
           { label: 'Outcome', value: 'Functional POC demonstrating hybrid AI/structured-data architecture for reliable stateful training workflows' },
         ],
       },
-    ],
-    personnel: [
-      { name: 'Max Glick', title: 'Lead Developer / Engineering Manager', organization: 'GP Strategies' },
-      { name: 'Dan Novak', title: 'AI Agent Developer', organization: 'GP Strategies', isSelf: true },
-      { name: 'Instructional Designer', title: 'Content Design', organization: 'GP Strategies' },
-      { name: 'Project Manager', title: 'Program Coordination', organization: 'GP Strategies' },
-      { name: 'MCAPS Lead', title: 'Microsoft Account Lead', organization: 'Microsoft' },
     ],
     impactTags: ['Zero to POC in ~4 Weeks', 'AI Architecture', 'Hybrid AI/Structured Data', '10-Year Relationship'],
     exhibitLink: '/exhibits/exhibit-k',
@@ -1440,12 +1432,34 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Development Lead', role: 'Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings.', isSelf: true },
-      { title: 'External Power Platform Consultancy', role: 'Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began.' },
-      { title: 'Lead Developer (anonymized)', role: 'Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.' },
-      { title: 'Governance Architect (anonymized)', role: 'Recipient of the findings deliverable. Responsible for architectural oversight across the organization.' },
+    findings: [
+      {
+        finding: 'No data model',
+        severity: 'Critical',
+        description: 'No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised.',
+      },
+      {
+        finding: 'No version control',
+        severity: 'Critical',
+        description: 'No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net.',
+      },
+      {
+        finding: 'Monolithic solution architecture',
+        severity: 'High',
+        description: 'One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution.',
+      },
+      {
+        finding: 'Requirements atomization without context',
+        severity: 'High',
+        description: 'Requirements degraded through PPT \u2192 Word \u2192 Excel \u2192 ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories.',
+      },
+      {
+        finding: 'No decomposed user stories',
+        severity: 'High',
+        description: 'No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent.',
+      },
     ],
+    findingsHeading: 'Findings \u2014 Five Foundational Gaps',
     impactTags: ['Forensic Diagnosis', 'AI-Assisted Analysis', 'Architecture Audit', 'Diagnosis as Deliverable', '5 Foundational Gaps'],
     exhibitLink: '/exhibits/exhibit-l',
     isFlagship: true,
@@ -1509,9 +1523,27 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Architect / Developer', organization: 'GP Strategies', isSelf: true },
-      { name: 'Max Glick', title: 'Engineering Manager', organization: 'GP Strategies' },
+    findings: [
+      {
+        finding: 'QA time sink',
+        description: 'Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course',
+      },
+      {
+        finding: 'State management parallel',
+        description: 'TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data',
+      },
+      {
+        finding: 'Tool effectiveness',
+        description: 'State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly',
+      },
+      {
+        finding: 'Adoption barrier',
+        description: 'Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide',
+      },
+      {
+        finding: "Rustici gap",
+        description: "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided",
+      },
     ],
     impactTags: ['QA Automation', 'Hours to Minutes', 'Vue.js', 'SCORM Testing', 'TASBot Methodology'],
     exhibitLink: '/exhibits/exhibit-m',
@@ -1592,9 +1624,27 @@ export const exhibits: Exhibit[] = [
         ],
       },
     ],
-    personnel: [
-      { name: 'Dan Novak', title: 'Frontend Developer / Integration Engineer', organization: 'GP Strategies (BP Account)', isSelf: true },
-      { name: 'Leo Learning Team', title: 'Platform Development', organization: 'Leo Learning / GP Strategies' },
+    findings: [
+      {
+        finding: 'Undocumented theming',
+        description: 'Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree',
+      },
+      {
+        finding: 'Federated architecture',
+        description: 'The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit',
+      },
+      {
+        finding: 'Familiar pattern',
+        description: 'The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem',
+      },
+      {
+        finding: 'Scope estimation challenge',
+        description: 'Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends',
+      },
+      {
+        finding: 'Cross-system debugging',
+        description: 'Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously',
+      },
     ],
     impactTags: ['Federated Integration', 'Pattern Recognition', 'Cross-System Debugging'],
     exhibitLink: '/exhibits/exhibit-n',
@@ -1673,6 +1723,28 @@ export const exhibits: Exhibit[] = [
           { label: 'Outcome', value: 'Contributed to ContentAIQ AI product frontend. Recognized integration pattern thread across 13 years from CSBB Dispatch to modern federated systems.' },
           { label: 'Related', value: 'Exhibit N (BP Learning Platform), Exhibit E (CSBB Dispatch)' },
         ],
+      },
+    ],
+    findings: [
+      {
+        finding: 'Pattern recognition',
+        description: 'Same architectural pattern across contexts: CSBB Dispatch (2011) \u2192 BP Learning Platform (2024) \u2014 federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he\'d built his own in 2011',
+      },
+      {
+        finding: 'Organic evolution',
+        description: "Integration expertise naturally leading to AI product work \u2014 not deliberate career planning, but organic evolution where the skill thread was real",
+      },
+      {
+        finding: 'Inherited code stewardship',
+        description: 'AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point \u2014 system co-ownership without original authorship',
+      },
+      {
+        finding: 'Design-to-code pragmatism',
+        description: 'ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation',
+      },
+      {
+        finding: 'Cross-system debugging',
+        description: 'All three projects required tracing issues across system boundaries: GraphQL \u2192 backend services, webhook \u2192 database \u2192 REST API, frontend \u2192 AI pipeline',
       },
     ],
     impactTags: ['AI Product Frontend', 'Multitenant Architecture', 'Design Translation', 'Integration Patterns', 'Pattern Recognition', 'Cross-System Coordination', 'Federated Systems'],
