@@ -89,10 +89,14 @@ Full details: `.planning/milestones/v2.2-ROADMAP.md`
 **Success Criteria** (what must be TRUE):
   1. ExhibitFindingEntry interface exists in exhibits.ts with finding (required) and description, background, resolution, severity (all optional) fields
   2. Exhibit interface has optional findings[] array and optional findingsHeading string field
-  3. All 7 table-type exhibits (A, E, F, J, L, N, O) have findings[] arrays populated from their existing table data
+  3. All 7 table-type exhibits (A, E, J, L, M, N, O) have findings[] arrays populated from their existing table data
   4. Exhibits with non-default headings (J, L) have findingsHeading values preserving original section titles
   5. Old findings table sections are removed from migrated exhibits' sections[] arrays (no duplicate data)
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [ ] 21-01-PLAN.md — Interface definition and findings data migration for 7 exhibits
+- [ ] 21-02-PLAN.md — Section removal and test coverage for all DATA requirements
 
 ### Phase 22: FindingsTable Component
 **Goal**: Users see exhibit findings rendered as a scannable table on desktop and readable stacked cards on mobile
@@ -155,7 +159,7 @@ Phases execute in numeric order: 21 -> 22 -> 23 -> 24
 | 18. PersonnelCard Component | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 19. Layout Integration | v2.2 | 1/1 | Complete | 2026-04-03 |
 | 20. Storybook Documentation | v2.2 | 1/1 | Complete | 2026-04-03 |
-| 21. Type Definition & Data Extraction | v2.3 | 0/TBD | Not started | - |
+| 21. Type Definition & Data Extraction | v2.3 | 0/2 | Planning | - |
 | 22. FindingsTable Component | v2.3 | 0/TBD | Not started | - |
 | 23. Layout Integration | v2.3 | 0/TBD | Not started | - |
 | 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |
