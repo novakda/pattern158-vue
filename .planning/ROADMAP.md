@@ -6,7 +6,8 @@
 - ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (shipped 2026-03-19)
 - ✅ **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-14 (shipped 2026-04-02)
 - ✅ **v2.1 Case Files Bug Fixes** — Phases 15-16 (shipped 2026-04-02)
-- 🚧 **v2.2 Personnel Data & Rendering** — Phases 17-20 (in progress)
+- ✅ **v2.2 Personnel Data & Rendering** — Phases 17-20 (shipped 2026-04-03)
+- 🚧 **v2.3 Findings Data & Rendering** — Phases 21-24 (in progress)
 
 ## Phases
 
@@ -58,79 +59,79 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 
 </details>
 
-### v2.2 Personnel Data & Rendering (In Progress)
+<details>
+<summary>✅ v2.2 Personnel Data & Rendering (Phases 17-20) — SHIPPED 2026-04-03</summary>
 
-**Milestone Goal:** Promote personnel from embedded table sections to first-class exhibit data with purpose-built rendering components that support anonymization.
+- [x] Phase 17: Personnel Data Extraction (2/2 plans) — completed 2026-04-02
+- [x] Phase 18: PersonnelCard Component (1/1 plans) — completed 2026-04-03
+- [x] Phase 19: Layout Integration (1/1 plans) — completed 2026-04-03
+- [x] Phase 20: Storybook Documentation (1/1 plans) — completed 2026-04-03
 
-- [x] **Phase 17: Personnel Data Extraction** - Extract personnel table data from 14 exhibits into top-level personnel[] arrays with proper field mapping (completed 2026-04-02)
-- [x] **Phase 18: PersonnelCard Component** - Build personnel rendering component with named, anonymous, and self display modes (completed 2026-04-03)
-- [x] **Phase 19: Layout Integration** - Wire PersonnelCard rendering into both detail layout components (completed 2026-04-03)
-- [x] **Phase 20: Storybook Documentation** - Add Storybook stories covering all PersonnelCard display variants (completed 2026-04-03)
+Full details: `.planning/milestones/v2.2-ROADMAP.md`
+
+</details>
+
+### v2.3 Findings Data & Rendering (In Progress)
+
+**Milestone Goal:** Promote exhibit findings from embedded table sections to first-class typed arrays with purpose-built responsive rendering (table on desktop, stacked cards on mobile).
+
+- [ ] **Phase 21: Type Definition & Data Extraction** - Define ExhibitFindingEntry interface and migrate 7 exhibits' findings data to typed arrays
+- [ ] **Phase 22: FindingsTable Component** - Build responsive dual-mode rendering component with TDD (table on desktop, cards on mobile)
+- [ ] **Phase 23: Layout Integration** - Wire FindingsTable into both detail layouts with empty-state suppression using TDD
+- [ ] **Phase 24: Storybook Documentation** - Document FindingsTable with stories covering all column and field variants
 
 ## Phase Details
 
-### Phase 17: Personnel Data Extraction
-**Goal**: Every exhibit with personnel has a structured, typed personnel[] array that coexists with the original table section
-**Depends on**: Nothing (data-only, type definition already exists)
+### Phase 21: Type Definition & Data Extraction
+**Goal**: Exhibit findings exist as typed, validated data ready for purpose-built rendering
+**Depends on**: Phase 20 (v2.2 complete)
 **Requirements**: DATA-01, DATA-02, DATA-03, DATA-04, DATA-05, DATA-06
 **Success Criteria** (what must be TRUE):
-  1. All 14 exhibits (A through N, excluding O) have a top-level `personnel[]` array in their data object
-  2. Name/Title/Organization exhibits (B, C, D, F, G, H, I, K, M, N) have entries with `name`, `title`, and `organization` fields correctly populated from their table data
-  3. Name/Title/Role exhibits (E, J) have entries with `name`, `title`, and `role` fields correctly populated
-  4. Role/Involvement exhibit (L) has entries with parsed names and fields mapped from its different column structure
-  5. Dan Novak entries across all exhibits have `isSelf: true`, and original table sections remain untouched in `sections[]`
-**Plans**: 2 plans
+  1. ExhibitFindingEntry interface exists in exhibits.ts with finding (required) and description, background, resolution, severity (all optional) fields
+  2. Exhibit interface has optional findings[] array and optional findingsHeading string field
+  3. All 7 table-type exhibits (A, E, F, J, L, N, O) have findings[] arrays populated from their existing table data
+  4. Exhibits with non-default headings (J, L) have findingsHeading values preserving original section titles
+  5. Old findings table sections are removed from migrated exhibits' sections[] arrays (no duplicate data)
+**Plans**: TBD
 
-Plans:
-- [x] 17-01-PLAN.md — Tests + personnel arrays for exhibits B through N (13 standard exhibits)
-- [x] 17-02-PLAN.md — Exhibit A special handling (replace partial array, remove experimental section, prose extraction)
-
-### Phase 18: PersonnelCard Component
-**Goal**: Users see personnel rendered with clear visual distinction between named persons, anonymous persons, and self-entries
-**Depends on**: Phase 17 (needs personnel data to render)
-**Requirements**: RNDR-01, RNDR-02, RNDR-03
+### Phase 22: FindingsTable Component
+**Goal**: Users see exhibit findings rendered as a scannable table on desktop and readable stacked cards on mobile
+**Depends on**: Phase 21
+**Requirements**: RNDR-01, RNDR-02, RNDR-03, RNDR-04
 **Success Criteria** (what must be TRUE):
-  1. A named person entry displays their name, title, organization, and role (when present)
-  2. An anonymous person entry (no `name` field) displays as "Title, Organization" without any placeholder or "Unknown" text
-  3. An entry with `isSelf: true` is visually distinct from other entries (highlight, badge, or similar treatment)
-**Plans**: 1 plan
+  1. FindingsTable renders a semantic HTML table on desktop viewports
+  2. FindingsTable renders stacked cards on mobile viewports (768px breakpoint)
+  3. Column rendering adapts automatically based on populated fields (2-col finding/description and 3-col patterns both work without configuration)
+  4. Findings with severity data display a visual severity badge
+**Plans**: TBD
 **UI hint**: yes
 
-Plans:
-- [x] 18-01-PLAN.md — TDD build of PersonnelCard component with tests, Vue template, and CSS in main.css
-
-### Phase 19: Layout Integration
-**Goal**: Personnel rendering appears on exhibit detail pages for both exhibit types, replacing nothing (additive alongside existing table sections)
-**Depends on**: Phase 18 (needs PersonnelCard component)
-**Requirements**: RNDR-04, RNDR-05
+### Phase 23: Layout Integration
+**Goal**: Exhibit detail pages display findings through FindingsTable wherever findings data exists
+**Depends on**: Phase 22
+**Requirements**: RNDR-05, RNDR-06
 **Success Criteria** (what must be TRUE):
-  1. InvestigationReportLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
-  2. EngineeringBriefLayout renders the exhibit's `personnel[]` array using PersonnelCard when personnel data exists
-  3. Exhibits without personnel data (Exhibit O) show no personnel section and no empty container
-**Plans**: 1 plan
+  1. InvestigationReportLayout renders FindingsTable when exhibit has findings data
+  2. EngineeringBriefLayout renders FindingsTable when exhibit has findings data
+  3. Neither layout renders a findings section when exhibit has no findings data (empty-state suppression)
+**Plans**: TBD
 **UI hint**: yes
 
-Plans:
-- [ ] 19-01-PLAN.md — Wire PersonnelCard into both layout components with tests
-
-### Phase 20: Storybook Documentation
-**Goal**: PersonnelCard is documented in Storybook with interactive examples of every display variant
-**Depends on**: Phase 18 (needs PersonnelCard component)
+### Phase 24: Storybook Documentation
+**Goal**: FindingsTable field variations are documented and visually reviewable in Storybook
+**Depends on**: Phase 22
 **Requirements**: DOC-01
 **Success Criteria** (what must be TRUE):
-  1. Storybook has a PersonnelCard story showing a named person with all fields populated
-  2. Storybook has a PersonnelCard story showing an anonymous person (no name)
-  3. Storybook has a PersonnelCard story showing a self-highlighted entry (`isSelf: true`)
-**Plans**: 1 plan
-
-Plans:
-- [x] 20-01-PLAN.md — PersonnelCard Storybook stories for named, anonymous, and self-highlighted variants
+  1. Storybook story exists showing 2-column variant (finding + description)
+  2. Storybook story exists showing 3-column variant with severity data
+  3. Storybook story exists showing 3-column variant with background/resolution data
+**Plans**: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 17 → 18 → 19 → 20
-(Phase 20 depends on Phase 18 only, so could run parallel with Phase 19 if desired)
+Phases execute in numeric order: 21 -> 22 -> 23 -> 24
+(Phase 24 depends on Phase 22 only, so could run parallel with Phase 23 if desired)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -150,7 +151,11 @@ Phases execute in numeric order: 17 → 18 → 19 → 20
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Personnel Data Extraction | v2.2 | 2/2 | Complete    | 2026-04-02 |
-| 18. PersonnelCard Component | v2.2 | 1/1 | Complete    | 2026-04-03 |
-| 19. Layout Integration | v2.2 | 0/1 | Complete    | 2026-04-03 |
-| 20. Storybook Documentation | v2.2 | 1/1 | Complete    | 2026-04-03 |
+| 17. Personnel Data Extraction | v2.2 | 2/2 | Complete | 2026-04-02 |
+| 18. PersonnelCard Component | v2.2 | 1/1 | Complete | 2026-04-03 |
+| 19. Layout Integration | v2.2 | 1/1 | Complete | 2026-04-03 |
+| 20. Storybook Documentation | v2.2 | 1/1 | Complete | 2026-04-03 |
+| 21. Type Definition & Data Extraction | v2.3 | 0/TBD | Not started | - |
+| 22. FindingsTable Component | v2.3 | 0/TBD | Not started | - |
+| 23. Layout Integration | v2.3 | 0/TBD | Not started | - |
+| 24. Storybook Documentation | v2.3 | 0/TBD | Not started | - |

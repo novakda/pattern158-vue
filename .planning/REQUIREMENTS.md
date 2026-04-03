@@ -99,25 +99,25 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| DATA-05 | — | Pending |
-| DATA-06 | — | Pending |
-| RNDR-01 | — | Pending |
-| RNDR-02 | — | Pending |
-| RNDR-03 | — | Pending |
-| RNDR-04 | — | Pending |
-| RNDR-05 | — | Pending |
-| RNDR-06 | — | Pending |
-| DOC-01 | — | Pending |
+| DATA-01 | Phase 21 | Pending |
+| DATA-02 | Phase 21 | Pending |
+| DATA-03 | Phase 21 | Pending |
+| DATA-04 | Phase 21 | Pending |
+| DATA-05 | Phase 21 | Pending |
+| DATA-06 | Phase 21 | Pending |
+| RNDR-01 | Phase 22 | Pending |
+| RNDR-02 | Phase 22 | Pending |
+| RNDR-03 | Phase 22 | Pending |
+| RNDR-04 | Phase 22 | Pending |
+| RNDR-05 | Phase 23 | Pending |
+| RNDR-06 | Phase 23 | Pending |
+| DOC-01 | Phase 24 | Pending |
 
 **Coverage:**
 - v2.3 requirements: 13 total
-- Mapped to phases: 0
-- Unmapped: 13
+- Mapped to phases: 13
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-02*
-*Last updated: 2026-04-02 after v2.3 milestone definition*
+*Last updated: 2026-04-02 after v2.3 roadmap creation*
