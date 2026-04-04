@@ -90,7 +90,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 
 - [x] **Phase 25: Foundation & Build Gating** - Security-critical scaffold: conditional mount, env var config, FAB trigger, self-contained CSS namespace (completed 2026-04-03)
 - [x] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle (completed 2026-04-04)
-- [ ] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI
+- [x] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI (completed 2026-04-04)
 - [ ] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic
 - [ ] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry
 - [ ] **Phase 30: Annotation Drawing Overlay** - Canvas-based drawing overlay for rectangles and arrows on screenshot
@@ -136,7 +136,7 @@ Plans:
   2. A loading spinner is visible during the screenshot capture process
 **Plans**: 1 plan
 Plans:
-- [ ] 27-01-PLAN.md — html2canvas integration, capturing phase, spinner overlay, useFeedback wiring
+- [x] 27-01-PLAN.md — html2canvas integration, capturing phase, spinner overlay, useFeedback wiring
 
 ### Phase 28: Annotation Panel & Comment Flow
 **Goal**: Users can review captured element context, preview the screenshot, write a comment, and cancel the flow
@@ -208,7 +208,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 25. Foundation & Build Gating | v3.0 | 2/2 | Complete    | 2026-04-03 |
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
-| 27. Screenshot Capture | v3.0 | 0/1 | Not started | - |
+| 27. Screenshot Capture | v3.0 | 1/1 | Complete   | 2026-04-04 |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
 | 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |

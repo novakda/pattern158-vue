@@ -23,8 +23,8 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 
 ### Screenshot Capture
 
-- [ ] **SHOT-01**: html2canvas captures selected element as base64 PNG data URI
-- [ ] **SHOT-02**: Loading spinner shown during capture
+- [x] **SHOT-01**: html2canvas captures selected element as base64 PNG data URI
+- [x] **SHOT-02**: Loading spinner shown during capture
 
 ### Annotation & Comment
 
@@ -149,8 +149,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PICK-03 | Phase 26 | Complete |
 | PICK-04 | Phase 26 | Complete |
 | PICK-05 | Phase 26 | Complete |
-| SHOT-01 | Phase 27 | Pending |
-| SHOT-02 | Phase 27 | Pending |
+| SHOT-01 | Phase 27 | Complete |
+| SHOT-02 | Phase 27 | Complete |
 | ANNOT-01 | Phase 28 | Pending |
 | ANNOT-02 | Phase 28 | Pending |
 | ANNOT-03 | Phase 28 | Pending |
