@@ -18,8 +18,8 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 - [x] **PICK-01**: Floating action button visible in dev mode to activate picker mode
 - [ ] **PICK-02**: Keyboard shortcut (Ctrl+Shift+F) toggles picker mode
 - [ ] **PICK-03**: Hovered elements show visible highlight outline during picker mode
-- [ ] **PICK-04**: Clicking an element captures tag name, CSS selector path, and bounding rect
-- [ ] **PICK-05**: Vue component name extracted from element's __vueParentComponent in dev mode
+- [x] **PICK-04**: Clicking an element captures tag name, CSS selector path, and bounding rect
+- [x] **PICK-05**: Vue component name extracted from element's __vueParentComponent in dev mode
 
 ### Screenshot Capture
 
@@ -147,8 +147,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PICK-01 | Phase 25 | Complete |
 | PICK-02 | Phase 26 | Pending |
 | PICK-03 | Phase 26 | Pending |
-| PICK-04 | Phase 26 | Pending |
-| PICK-05 | Phase 26 | Pending |
+| PICK-04 | Phase 26 | Complete |
+| PICK-05 | Phase 26 | Complete |
 | SHOT-01 | Phase 27 | Pending |
 | SHOT-02 | Phase 27 | Pending |
 | ANNOT-01 | Phase 28 | Pending |
