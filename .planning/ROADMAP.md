@@ -89,7 +89,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 **Milestone Goal:** Build a self-contained dev/staging feedback tool that lets testers click any element, annotate it, and file a GitHub Issue with full context -- screenshot, element selector, viewport, and user agent.
 
 - [x] **Phase 25: Foundation & Build Gating** - Security-critical scaffold: conditional mount, env var config, FAB trigger, self-contained CSS namespace (completed 2026-04-03)
-- [ ] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle
+- [x] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle (completed 2026-04-04)
 - [ ] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI
 - [ ] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic
 - [ ] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry
@@ -124,7 +124,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 26-01-PLAN.md — captureElement utility, css-selector-generator, useFeedback extensions
-- [ ] 26-02-PLAN.md — PickerOverlay component, keyboard shortcut, FeedbackCollector wiring
+- [x] 26-02-PLAN.md — PickerOverlay component, keyboard shortcut, FeedbackCollector wiring
 **UI hint**: yes
 
 ### Phase 27: Screenshot Capture
@@ -205,7 +205,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 23. Layout Integration | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 25. Foundation & Build Gating | v3.0 | 2/2 | Complete    | 2026-04-03 |
-| 26. Element Picker & Selection | v3.0 | 1/2 | In Progress|  |
+| 26. Element Picker & Selection | v3.0 | 2/2 | Complete   | 2026-04-04 |
 | 27. Screenshot Capture | v3.0 | 0/0 | Not started | - |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
 | 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
