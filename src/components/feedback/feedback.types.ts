@@ -1,4 +1,4 @@
-export type FeedbackPhase = 'idle' | 'picking' | 'annotating' | 'submitting' | 'done' | 'error'
+export type FeedbackPhase = 'idle' | 'picking' | 'capturing' | 'annotating' | 'submitting' | 'done' | 'error'
 
 export interface ElementCapture {
   tag: string

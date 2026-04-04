@@ -1,5 +1,6 @@
 import { reactive, readonly } from 'vue'
 import type { FeedbackState, FeedbackPhase, ElementCapture } from '@/components/feedback/feedback.types'
+import { screenshotCapture } from '@/components/feedback/screenshotCapture'
 
 const state = reactive<FeedbackState>({
   phase: 'idle',
@@ -18,10 +19,20 @@ function activate() {
   state.phase = 'picking'
 }
 
-function selectElement(el: HTMLElement, capture: ElementCapture) {
+async function selectElement(el: HTMLElement, capture: ElementCapture) {
   state.selectedElement = el
   state.capture = capture
-  state.phase = 'annotating'
+  state.phase = 'capturing'
+
+  try {
+    const dataUri = await screenshotCapture(el)
+    state.capture!.screenshotDataUri = dataUri
+    state.phase = 'annotating'
+  } catch (error) {
+    console.warn('Screenshot capture failed:', error)
+    state.error = 'Screenshot capture failed. You can retry or continue without screenshot.'
+    state.phase = 'error'
+  }
 }
 
 function deactivate() {

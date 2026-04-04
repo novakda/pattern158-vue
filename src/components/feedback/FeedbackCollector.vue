@@ -33,6 +33,12 @@ onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
         @activate="feedback.activate()"
       />
       <PickerOverlay v-if="feedback.state.phase === 'picking'" />
+      <div v-if="feedback.state.phase === 'capturing'" class="fb-capture-overlay">
+        <div style="text-align: center">
+          <div class="fb-capture-spinner" />
+          <div class="fb-capture-label">Capturing...</div>
+        </div>
+      </div>
     </div>
   </Teleport>
 </template>

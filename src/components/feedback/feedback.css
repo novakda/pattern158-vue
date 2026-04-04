@@ -96,6 +96,40 @@
   z-index: var(--fb-z-overlay);
 }
 
+.fb-capture-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--fb-z-panel);
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fb-capture-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--fb-text-muted);
+  border-top-color: var(--fb-accent);
+  border-radius: 50%;
+  animation: fb-spin 0.8s linear infinite;
+}
+
+@keyframes fb-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fb-capture-label {
+  color: var(--fb-text);
+  margin-top: 12px;
+  font-size: 14px;
+}
+
 .fb-sr-only {
   position: absolute;
   width: 1px;
