@@ -121,7 +121,10 @@ Plans:
   2. Hovering over any page element during picker mode shows a visible highlight outline around that element
   3. Clicking an element during picker mode captures its tag name, a unique CSS selector path, and bounding rect coordinates
   4. Captured element metadata includes the Vue component name when available in dev mode
-**Plans**: TBD
+**Plans**: 2 plans
+Plans:
+- [ ] 26-01-PLAN.md — captureElement utility, css-selector-generator, useFeedback extensions
+- [ ] 26-02-PLAN.md — PickerOverlay component, keyboard shortcut, FeedbackCollector wiring
 **UI hint**: yes
 
 ### Phase 27: Screenshot Capture
@@ -202,7 +205,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 23. Layout Integration | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 25. Foundation & Build Gating | v3.0 | 2/2 | Complete    | 2026-04-03 |
-| 26. Element Picker & Selection | v3.0 | 0/0 | Not started | - |
+| 26. Element Picker & Selection | v3.0 | 0/2 | Planned | - |
 | 27. Screenshot Capture | v3.0 | 0/0 | Not started | - |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
 | 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
