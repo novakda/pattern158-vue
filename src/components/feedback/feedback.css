@@ -74,6 +74,28 @@
   transform: none;
 }
 
+.fb-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: var(--fb-z-overlay);
+  cursor: crosshair;
+  background: transparent;
+  pointer-events: all;
+}
+
+.fb-picker-highlight {
+  position: fixed;
+  pointer-events: none;
+  border: 2px solid var(--fb-accent);
+  border-radius: var(--fb-radius-sm);
+  background: rgba(79, 195, 247, 0.1);
+  transition: all 0.05s ease;
+  z-index: var(--fb-z-overlay);
+}
+
 .fb-sr-only {
   position: absolute;
   width: 1px;
