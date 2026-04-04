@@ -134,7 +134,9 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. After clicking an element in picker mode, html2canvas produces a base64 PNG data URI of that element
   2. A loading spinner is visible during the screenshot capture process
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 27-01-PLAN.md — html2canvas integration, capturing phase, spinner overlay, useFeedback wiring
 
 ### Phase 28: Annotation Panel & Comment Flow
 **Goal**: Users can review captured element context, preview the screenshot, write a comment, and cancel the flow
@@ -206,7 +208,7 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 24. Storybook Documentation | v2.3 | 1/1 | Complete | 2026-04-03 |
 | 25. Foundation & Build Gating | v3.0 | 2/2 | Complete    | 2026-04-03 |
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
-| 27. Screenshot Capture | v3.0 | 0/0 | Not started | - |
+| 27. Screenshot Capture | v3.0 | 0/1 | Not started | - |
 | 28. Annotation Panel & Comment Flow | v3.0 | 0/0 | Not started | - |
 | 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |
