@@ -414,8 +414,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Saba/SumTotal',
-        level: 'aware',
-        summary: 'Exposure to platform through client projects. Familiar with content integration patterns.',
+        level: 'working',
+        summary: 'Platform integration and troubleshooting across multiple client deployments. Content upload workflows, SCORM compatibility testing, vendor coordination.',
         dateRange: '2009–2022',
       },
       {
@@ -460,7 +460,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'QuickBase',
         level: 'working',
-        summary: 'Low-code database platform. Custom applications, workflow automation, reporting. Production use for project tracking and data management.',
+        summary: 'Production applications for project tracking and data management across multiple clients. Custom app development, workflow automation, reporting dashboards.',
         dateRange: '2010–2022',
         tags: [
           { label: 'Hilton', title: 'Hilton Hotels' },
