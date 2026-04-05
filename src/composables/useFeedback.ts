@@ -41,6 +41,10 @@ function deactivate() {
   }
 }
 
+function setComment(text: string) {
+  state.comment = text
+}
+
 function cancel() {
   reset()
 }
@@ -63,5 +67,6 @@ export function useFeedback() {
     cancel,
     reset,
     setPhase,
+    setComment,
   }
 }

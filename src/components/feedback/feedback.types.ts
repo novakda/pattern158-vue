@@ -8,6 +8,12 @@ export interface ElementCapture {
   componentName: string | null
 }
 
+export interface EnvironmentMeta {
+  pageUrl: string
+  viewport: { width: number; height: number }
+  userAgent: string
+}
+
 export interface FeedbackState {
   phase: FeedbackPhase
   selectedElement: HTMLElement | null
