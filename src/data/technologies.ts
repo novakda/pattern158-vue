@@ -328,8 +328,8 @@ export const technologies: TechCategory[] = [
     cards: [
       {
         name: 'WCAG/Accessibility',
-        level: 'working',
-        summary: 'WCAG AA compliance implementation. Semantic HTML, ARIA labels, keyboard navigation, screen reader testing. Current site passes WAVE/axe validation.',
+        level: 'deep',
+        summary: 'Developed enterprise accessibility testing methodology for interactive eLearning where no established standards existed. WCAG 2.1 AA and Section 508 compliance across 4 banking clients (PNC, HSBC, TD Bank, UOB). JAWS and NVDA screen reader testing, ARIA implementation, and reusable testing templates used as reference across subsequent client engagements.',
         dateRange: '2021–present',
         tags: [
           { label: 'PNC', title: 'PNC Financial Services' },
@@ -340,8 +340,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Technical Writing',
-        level: 'working',
-        summary: 'Extensive documentation experience. Technical specifications, troubleshooting guides, API documentation, process documentation.',
+        level: 'deep',
+        summary: 'Defining professional skill spanning entire career. 14 documented case studies, enterprise methodology documentation, API specifications, and troubleshooting guides. Career-long pattern of turning complex technical work into structured, reusable documentation that becomes organizational reference material.',
       },
     ],
   },
