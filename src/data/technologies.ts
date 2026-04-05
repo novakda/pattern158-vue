@@ -132,11 +132,6 @@ export const technologies: TechCategory[] = [
         ],
       },
       {
-        name: 'JSON',
-        level: 'deep',
-        summary: 'Core data format for configs, APIs, and data exchange. Deep understanding of schema design, validation, and transformation patterns.',
-      },
-      {
         name: 'XML',
         level: 'deep',
         summary: 'SCORM manifests (imsmanifest.xml), AICC HACP packets, legacy data formats. Schema validation, transformation, and debugging.',
@@ -149,8 +144,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Regular Expressions',
-        level: 'deep',
-        summary: 'Diagnostic power tool for SCORM debugging, data extraction, and text processing. Complex pattern matching, capture groups, lookaheads.',
+        level: 'working',
+        summary: 'Diagnostic tool for SCORM debugging, data extraction, and text processing. Complex pattern matching, capture groups, lookaheads across JavaScript, Python, and shell workflows.',
       },
       {
         name: 'REST APIs',
