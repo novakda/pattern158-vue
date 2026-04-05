@@ -562,6 +562,12 @@ export const technologies: TechCategory[] = [
           { label: 'NRG', title: 'NRG Energy' },
         ],
       },
+      {
+        name: 'jQuery',
+        level: 'working',
+        summary: 'Foundational JavaScript library used extensively in pre-framework era. DOM manipulation, AJAX patterns, and plugin ecosystem across eLearning and enterprise web projects. Superseded by modern frameworks but 231 career graph mentions reflect its ubiquity in earlier work.',
+        dateRange: '~2007–2018',
+      },
     ],
   },
 ]
