@@ -164,7 +164,7 @@ Plans:
   6. Error state shows an actionable message describing what failed, with a retry button
 **Plans**: 2 plans
 Plans:
-- [ ] 29-01-PLAN.md — githubSubmit service, useFeedback submit/retry wiring, labels config
+- [x] 29-01-PLAN.md — githubSubmit service, useFeedback submit/retry wiring, labels config
 - [ ] 29-02-PLAN.md — Success/error UI states, AnnotationPanel submit wiring, CSS additions
 
 ### Phase 30: Annotation Drawing Overlay
@@ -217,5 +217,5 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
 | 27. Screenshot Capture | v3.0 | 1/1 | Complete    | 2026-04-04 |
 | 28. Annotation Panel & Comment Flow | v3.0 | 1/1 | Complete    | 2026-04-05 |
-| 29. GitHub Integration | v3.0 | 0/2 | Not started | - |
+| 29. GitHub Integration | v3.0 | 1/2 | In Progress|  |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |

@@ -35,10 +35,10 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 
 ### GitHub Submission
 
-- [ ] **GH-01**: Screenshot uploaded as secret Gist via GitHub API, raw_url embedded in issue body
-- [ ] **GH-02**: GitHub Issue created with structured markdown body (comment + screenshot + element context + page URL + viewport + user agent)
-- [ ] **GH-03**: Data URI fallback with JPEG compression and size checks when Gist upload fails
-- [ ] **GH-04**: Configurable issue labels applied to created issues
+- [x] **GH-01**: Screenshot uploaded as secret Gist via GitHub API, raw_url embedded in issue body
+- [x] **GH-02**: GitHub Issue created with structured markdown body (comment + screenshot + element context + page URL + viewport + user agent)
+- [x] **GH-03**: Data URI fallback with JPEG compression and size checks when Gist upload fails
+- [x] **GH-04**: Configurable issue labels applied to created issues
 - [ ] **GH-05**: Success state shows clickable link to created GitHub Issue
 - [ ] **GH-06**: Error state shows actionable error message with retry option
 
@@ -155,10 +155,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ANNOT-02 | Phase 28 | Complete |
 | ANNOT-03 | Phase 28 | Complete |
 | ANNOT-04 | Phase 30 | Pending |
-| GH-01 | Phase 29 | Pending |
-| GH-02 | Phase 29 | Pending |
-| GH-03 | Phase 29 | Pending |
-| GH-04 | Phase 29 | Pending |
+| GH-01 | Phase 29 | Complete |
+| GH-02 | Phase 29 | Complete |
+| GH-03 | Phase 29 | Complete |
+| GH-04 | Phase 29 | Complete |
 | GH-05 | Phase 29 | Pending |
 | GH-06 | Phase 29 | Pending |
 
