@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Visual Feedback Collector
 status: verifying
-stopped_at: Completed 29-02-PLAN.md
-last_updated: "2026-04-05T02:02:09.112Z"
+stopped_at: Completed 30-01-PLAN.md
+last_updated: "2026-04-05T03:53:41.973Z"
 last_activity: 2026-04-05
 progress:
   total_phases: 6
-  completed_phases: 5
-  total_plans: 8
-  completed_plans: 8
+  completed_phases: 6
+  total_plans: 9
+  completed_plans: 9
   percent: 0
 ---
 
@@ -21,12 +21,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-03)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 29 — GitHub Integration
+**Current focus:** Phase 30 — Annotation Drawing Overlay
 
 ## Current Position
 
-Phase: 30
-Plan: Not started
+Phase: 30 (Annotation Drawing Overlay) — EXECUTING
+Plan: 1 of 1
 Status: Phase complete — ready for verification
 Last activity: 2026-04-05
 
@@ -55,6 +55,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 28 P01 | 2min | 2 tasks | 6 files |
 | Phase 29 P01 | 2min | 2 tasks | 4 files |
 | Phase 29 P02 | 4min | 2 tasks | 4 files |
+| Phase 30 P01 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,8 @@ Progress: [░░░░░░░░░░] 0%
 - [Phase 28]: Panel positioning uses 4-direction flip logic (right/left/below/above) with 12px gaps and viewport clamping
 - [Phase 29]: Pure async function pattern for githubSubmit -- no Vue reactivity, testable and framework-agnostic
 - [Phase 29]: Done/error states rendered inline in FeedbackCollector rather than separate components
+- [Phase 30]: Unified drawShapeOnCtx function with scale params for both preview and compositing
+- [Phase 30]: AnnotationCanvas replaces standalone screenshot thumbnail entirely
 
 ### Pending Todos
 
@@ -99,6 +102,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-05T01:59:19.743Z
-Stopped at: Completed 29-02-PLAN.md
+Last session: 2026-04-05T03:53:41.970Z
+Stopped at: Completed 30-01-PLAN.md
 Resume file: None

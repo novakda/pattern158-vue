@@ -93,7 +93,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 - [x] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI (completed 2026-04-04)
 - [x] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic (completed 2026-04-05)
 - [x] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry (completed 2026-04-05)
-- [ ] **Phase 30: Annotation Drawing Overlay** - Canvas-based drawing overlay for rectangles and arrows on screenshot
+- [x] **Phase 30: Annotation Drawing Overlay** - Canvas-based drawing overlay for rectangles and arrows on screenshot (completed 2026-04-05)
 
 ## Phase Details
 
@@ -178,7 +178,7 @@ Plans:
   4. Drawing annotations are composited into the final screenshot image before submission
 **Plans**: 1 plan
 Plans:
-- [ ] 30-01-PLAN.md — Canvas drawing overlay for rectangles and arrows on screenshot
+- [x] 30-01-PLAN.md — Canvas drawing overlay for rectangles and arrows on screenshot
 **UI hint**: yes
 
 ## Progress
@@ -218,4 +218,4 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 27. Screenshot Capture | v3.0 | 1/1 | Complete    | 2026-04-04 |
 | 28. Annotation Panel & Comment Flow | v3.0 | 1/1 | Complete    | 2026-04-05 |
 | 29. GitHub Integration | v3.0 | 2/2 | Complete    | 2026-04-05 |
-| 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |
+| 30. Annotation Drawing Overlay | v3.0 | 1/1 | Complete   | 2026-04-05 |
