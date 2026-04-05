@@ -194,7 +194,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'Dataverse',
         level: 'working',
-        summary: 'Part of Power Platform ecosystem. Data modeling, relationships, security roles. Used for app backend storage and integration.',
+        summary: 'Production experience with table structure, entity relationships, and schema design patterns. Identified ad-hoc table creation and missing data model as critical architectural gaps during forensic audit.',
         dateRange: '2025',
         tags: [
           { label: 'Enterprise Client', title: 'Enterprise Client (Confidential)' },
