@@ -25,7 +25,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'JavaScript',
         level: 'deep',
-        summary: 'Primary language across full career. SCORM runtime APIs, cross-browser debugging, modern ES6+ features, Vue.js component architecture, Node.js tooling. Daily driver for 20+ years. jQuery era to modern frameworks.',
+        summary: 'Primary language across full career. SCORM runtime APIs, cross-browser debugging, modern ES6+ features, Vue.js component architecture, Node.js tooling. Daily driver for 28 years. jQuery era to modern frameworks.',
         dateRange: '1998–present',
         tags: [
           { label: 'PNC', title: 'PNC Financial Services' },
@@ -70,7 +70,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'React',
         level: 'working',
-        summary: 'Production work on BP, AICPA, and ContentAIQ projects. Component development, hooks, state management. No greenfield project experience, but solid contributor on existing codebases.',
+        summary: 'Production experience across BP Learning Platform, ContentAIQ, and AICPA projects. Component development, hooks, state management, Material UI theming. Solid contributor with growing architectural ownership.',
         dateRange: '2022–2025',
         tags: [
           { label: 'BP', title: 'BP (British Petroleum)' },
@@ -80,8 +80,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'TypeScript',
-        level: 'working',
-        summary: 'Type-safe JavaScript for larger projects. Interface definitions, generics, strict type checking. Growing usage in modern tooling and applications.',
+        level: 'deep',
+        summary: 'Core production language for all modern projects. Full type system fluency: generics, discriminated unions, strict mode. BP Learning Platform, ContentAIQ, and portfolio site all TypeScript-first.',
         dateRange: '2022–present',
         tags: [
           { label: 'BP', title: 'BP (British Petroleum)' },
