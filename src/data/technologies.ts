@@ -175,7 +175,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'Power Platform',
         level: 'deep',
-        summary: 'Full suite expertise: Power Automate flows, Power Apps (canvas and model-driven), governance and administration. Enterprise-scale deployments.',
+        summary: 'Year-long production development on model-driven apps and Dataverse. Self-taught under production conditions with no onboarding. Developed sufficient platform fluency to conduct forensic architecture audit identifying 5 foundational gaps. Power Apps (model-driven, canvas), Dataverse, Power Automate, PowerFX, solution architecture.',
         dateRange: '2024–2025',
         tags: [
           { label: 'Microsoft', title: 'Microsoft (MCAPS)' },
@@ -185,7 +185,7 @@ export const technologies: TechCategory[] = [
       {
         name: 'Copilot Studio',
         level: 'deep',
-        summary: 'From one deep project with Teams integration. Bot design, conversation flows, knowledge base integration. Enterprise chatbot deployment.',
+        summary: 'Designed hybrid AI/structured-data architecture for Microsoft training agent. Separated deterministic operations (JSON state) from intelligence operations (LLM). Zero to functional POC in ~4 weeks. Reusable pattern for stateful AI workflows.',
         dateRange: '2024',
         tags: [
           { label: 'Microsoft', title: 'Microsoft (MCAPS)' },
