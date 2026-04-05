@@ -515,6 +515,12 @@ export const technologies: TechCategory[] = [
           { label: 'FPL', title: 'Florida Power & Light' },
         ],
       },
+      {
+        name: 'Lectora',
+        level: 'working',
+        summary: 'eLearning authoring tool with significant project footprint. SCORM package troubleshooting, content customization, and cross-LMS compatibility testing across enterprise client deployments.',
+        dateRange: '2009–2022',
+      },
     ],
   },
   {
