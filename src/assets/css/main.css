@@ -1279,7 +1279,11 @@ footer a:hover {
 .page-philosophy .content-section {
     max-width: 800px;
     margin: 0 auto;
-    padding: var(--space-4xl) var(--space-xl);
+    padding: var(--space-3xl) var(--space-xl);
+}
+
+.page-philosophy .content-section + .content-section {
+    padding-top: var(--space-xl);
 }
 
 .page-philosophy .content-section h2 {
@@ -1287,6 +1291,10 @@ footer a:hover {
     font-size: var(--font-size-4xl);
     color: var(--color-heading);
     margin-bottom: var(--space-md);
+}
+
+.page-philosophy #design-thinking h2 {
+    font-size: var(--font-size-2xl);
 }
 
 .page-philosophy .section-intro {
