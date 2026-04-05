@@ -92,7 +92,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 - [x] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle (completed 2026-04-04)
 - [x] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI (completed 2026-04-04)
 - [x] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic (completed 2026-04-05)
-- [ ] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry
+- [x] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry (completed 2026-04-05)
 - [ ] **Phase 30: Annotation Drawing Overlay** - Canvas-based drawing overlay for rectangles and arrows on screenshot
 
 ## Phase Details
@@ -165,7 +165,7 @@ Plans:
 **Plans**: 2 plans
 Plans:
 - [x] 29-01-PLAN.md — githubSubmit service, useFeedback submit/retry wiring, labels config
-- [ ] 29-02-PLAN.md — Success/error UI states, AnnotationPanel submit wiring, CSS additions
+- [x] 29-02-PLAN.md — Success/error UI states, AnnotationPanel submit wiring, CSS additions
 
 ### Phase 30: Annotation Drawing Overlay
 **Goal**: Users can draw rectangles and arrows on the screenshot to visually highlight areas of concern
@@ -217,5 +217,5 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
 | 27. Screenshot Capture | v3.0 | 1/1 | Complete    | 2026-04-04 |
 | 28. Annotation Panel & Comment Flow | v3.0 | 1/1 | Complete    | 2026-04-05 |
-| 29. GitHub Integration | v3.0 | 1/2 | In Progress|  |
+| 29. GitHub Integration | v3.0 | 2/2 | Complete   | 2026-04-05 |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |

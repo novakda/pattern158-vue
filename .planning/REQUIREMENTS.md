@@ -39,8 +39,8 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 - [x] **GH-02**: GitHub Issue created with structured markdown body (comment + screenshot + element context + page URL + viewport + user agent)
 - [x] **GH-03**: Data URI fallback with JPEG compression and size checks when Gist upload fails
 - [x] **GH-04**: Configurable issue labels applied to created issues
-- [ ] **GH-05**: Success state shows clickable link to created GitHub Issue
-- [ ] **GH-06**: Error state shows actionable error message with retry option
+- [x] **GH-05**: Success state shows clickable link to created GitHub Issue
+- [x] **GH-06**: Error state shows actionable error message with retry option
 
 ## Previous Milestone Requirements
 
@@ -159,8 +159,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GH-02 | Phase 29 | Complete |
 | GH-03 | Phase 29 | Complete |
 | GH-04 | Phase 29 | Complete |
-| GH-05 | Phase 29 | Pending |
-| GH-06 | Phase 29 | Pending |
+| GH-05 | Phase 29 | Complete |
+| GH-06 | Phase 29 | Complete |
 
 **Coverage:**
 - v3.0 requirements: 20 total
