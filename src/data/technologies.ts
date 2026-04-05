@@ -311,8 +311,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Oracle',
-        level: 'aware',
-        summary: 'Underlying platform for several LMS systems. Familiar with Oracle SQL and PL/SQL patterns, but not deep database administration.',
+        level: 'working',
+        summary: 'Underlying database and LMS platform across several enterprise clients. Oracle SQL familiarity, PL/SQL patterns, Oracle iLearn/Saba administration. Platform-level troubleshooting, not deep DBA work.',
         dateRange: '2010–2022',
         tags: [
           { label: 'PNC', title: 'PNC Financial Services' },
