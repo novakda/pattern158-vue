@@ -126,6 +126,24 @@ export const technologies: TechCategory[] = [
           { label: 'BP', title: 'BP (British Petroleum)' },
         ],
       },
+      {
+        name: 'Tailwind CSS',
+        level: 'working',
+        summary: 'Utility-first CSS framework used in ContentAIQ project. Responsive design, custom configuration, and component styling in a production Next.js codebase.',
+        dateRange: '2024–2025',
+        tags: [
+          { label: 'ContentAIQ', title: 'ContentAIQ' },
+        ],
+      },
+      {
+        name: 'Next.js',
+        level: 'aware',
+        summary: 'Application framework underlying the ContentAIQ project. Familiar with file-based routing, API routes, and server-side rendering patterns.',
+        dateRange: '2024–2025',
+        tags: [
+          { label: 'ContentAIQ', title: 'ContentAIQ' },
+        ],
+      },
     ],
   },
   {
