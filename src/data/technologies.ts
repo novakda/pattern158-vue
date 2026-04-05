@@ -438,8 +438,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Xyleme',
-        level: 'working',
-        summary: 'Content lifecycle management through GPiLEARN. XML-based content authoring, publishing workflows.',
+        level: 'deep',
+        summary: 'Deep platform expertise: API reverse-engineering, R2R-to-XML conversion pipelines, content mapping, LCMS evaluation. 280 project touchpoints across content authoring and publishing workflows. Exhibit G documents 1,216-lesson content operation using Xyleme pipeline automation.',
         dateRange: '2010–2020',
         tags: [
           { label: 'Nalco', title: 'Nalco (Ecolab)' },
