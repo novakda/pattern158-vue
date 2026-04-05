@@ -316,3 +316,67 @@
   opacity: 0.4;
   cursor: not-allowed;
 }
+
+/* Success state */
+.fb-done-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 320px;
+}
+
+.fb-done-icon {
+  font-size: 48px;
+  color: #4caf50;
+  margin-bottom: 8px;
+}
+
+.fb-done-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.fb-done-link {
+  display: block;
+  color: var(--fb-accent);
+  text-decoration: none;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.fb-done-link:hover {
+  color: var(--fb-accent-hover);
+  text-decoration: underline;
+}
+
+/* Error state */
+.fb-error-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 360px;
+}
+
+.fb-error-icon {
+  font-size: 48px;
+  color: var(--fb-danger);
+  margin-bottom: 8px;
+}
+
+.fb-error-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.fb-error-message {
+  font-size: 13px;
+  color: var(--fb-text-muted);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}

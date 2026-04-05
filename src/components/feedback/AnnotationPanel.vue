@@ -11,6 +11,7 @@ const detailsOpen = ref(false)
 const screenshotExpanded = ref(false)
 
 const canSubmit = computed(() => feedback.state.comment.trim().length > 0)
+const isSubmitting = computed(() => feedback.state.phase === 'submitting')
 
 const envMeta = computed<EnvironmentMeta>(() => ({
   pageUrl: window.location.href,
@@ -28,7 +29,7 @@ function handleCancel() {
 }
 
 function handleSubmit() {
-  feedback.setPhase('submitting')
+  feedback.submit()
 }
 
 function onKeyDown(e: KeyboardEvent) {
@@ -103,7 +104,7 @@ onUnmounted(() => {
     <!-- Actions -->
     <div class="fb-panel-actions">
       <button class="fb-panel-btn fb-panel-btn--cancel" @click="handleCancel">Cancel</button>
-      <button class="fb-panel-btn fb-panel-btn--submit" :disabled="!canSubmit" @click="handleSubmit">Submit</button>
+      <button class="fb-panel-btn fb-panel-btn--submit" :disabled="!canSubmit || isSubmitting" @click="handleSubmit">{{ isSubmitting ? 'Submitting...' : 'Submit' }}</button>
     </div>
   </div>
 </template>
