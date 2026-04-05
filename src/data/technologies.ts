@@ -286,10 +286,10 @@ export const technologies: TechCategory[] = [
       {
         name: 'Git/GitHub',
         level: 'deep',
-        summary: 'Core workflow tool across entire career. Branching strategies, PR workflows, conflict resolution, and CI/CD with GitHub Actions. Current projects use advanced git workflows including worktrees and automated commit conventions. Over two decades of version-controlled shipping across every professional engagement.',
-        dateRange: '~2000–present',
+        summary: 'Adopted Git personally before transitioning team projects at GP Strategies. Branching strategies, PR workflows, conflict resolution, CI/CD with GitHub Actions. Current projects use advanced workflows including worktrees and automated commit conventions. Earlier career used Visual SourceSafe and Subversion.',
+        dateRange: '~2018–present',
         tags: [
-          { label: 'HSBC', title: 'HSBC' },
+          { label: 'GP Strategies', title: 'GP Strategies Corporation' },
         ],
       },
       {
@@ -456,8 +456,13 @@ export const technologies: TechCategory[] = [
       {
         name: 'SuccessFactors',
         level: 'deep',
-        summary: 'SAP SuccessFactors Learning (including legacy Plateau). Platform configuration, content integration, SCORM troubleshooting.',
-        dateRange: '2012–2022',
+        summary: 'Deepest LMS platform experience. Originally Plateau LMS, acquired by SAP and rebranded as SuccessFactors Learning. Platform configuration, content integration, SCORM troubleshooting across dozens of client deployments.',
+        dateRange: '2009–2022',
+        tags: [
+          { label: 'HSBC', title: 'HSBC' },
+          { label: 'Corning', title: 'Corning Incorporated' },
+          { label: 'GPiLEARN', title: 'GPiLEARN (GP Strategies BU)' },
+        ],
       },
       {
         name: 'Saba/SumTotal',
