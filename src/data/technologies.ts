@@ -551,6 +551,17 @@ export const technologies: TechCategory[] = [
         summary: 'Exposure through Java-based LMS platform work. Familiar with J2EE patterns and deployment.',
         dateRange: '2010–2022',
       },
+      {
+        name: 'EasyXDM',
+        level: 'deep',
+        summary: 'Cross-domain messaging library that was core to the CSBB Dispatch Framework (Exhibit E). Enabled secure iframe-to-parent communication for SCORM content delivery across domain boundaries. 197 career graph mentions reflecting central role in the GPiLEARN platform architecture.',
+        dateRange: '~2009–2016',
+        tags: [
+          { label: 'FPL', title: 'Florida Power & Light' },
+          { label: 'Entergy', title: 'Entergy Corporation' },
+          { label: 'NRG', title: 'NRG Energy' },
+        ],
+      },
     ],
   },
 ]
