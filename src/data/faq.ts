@@ -32,7 +32,7 @@ export const faqItems: FaqItem[] = [
   {
     category: 'expertise',
     question: 'What technologies do you specialize in?',
-    answer: 'Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA/AAA)',
+    answer: 'Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA)',
   },
   {
     category: 'expertise',

@@ -9,7 +9,7 @@
           <h3>I'm looking for:</h3>
           <ul>
             <li>
-              <strong>Senior or Staff Full-Stack Engineer</strong> &mdash; my primary lane. JavaScript is a 28-year daily driver. React, Vue.js, TypeScript, Node.js, SQL in production. I build the frontend, wire up the backend, and debug the space between them.
+              <strong>Senior or Staff Full-Stack Engineer</strong> &mdash; my primary lane. JavaScript is a 28-year daily driver. Vue.js, React, TypeScript, Node.js, SQL in production. I build the frontend, wire up the backend, and debug the space between them.
             </li>
             <li>
               <strong>Solutions Architect</strong> &mdash; my signature pattern. I design systems that make incompatible platforms talk to each other. CSBB Dispatch ran for 10+ years across Fortune 500 energy clients. BP's federated frontend stitched React and GraphQL across four backend systems that were never designed to coexist.
