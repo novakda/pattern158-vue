@@ -267,8 +267,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'Docker',
-        level: 'working',
-        summary: 'Running containers, docker-compose orchestration, Dockerfile creation. Development environment standardization.',
+        level: 'aware',
+        summary: 'Development environment containerization. Running and configuring containers, basic docker-compose. Used for local development tooling.',
       },
       {
         name: 'SharePoint',
@@ -288,8 +288,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'AWS',
-        level: 'aware',
-        summary: 'Cloud platform exposure through project work. Familiar with S3, EC2, and basic deployment patterns.',
+        level: 'working',
+        summary: 'Cloud platform for LMS and application hosting. S3 storage, EC2 instances, Cognito authentication (BP project). Infrastructure exposure across PNC, HSBC, and TD Bank client environments.',
         dateRange: '2020–2025',
         tags: [
           { label: 'PNC', title: 'PNC Financial Services' },
