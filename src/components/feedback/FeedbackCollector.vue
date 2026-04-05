@@ -3,6 +3,7 @@ import { onMounted, onUnmounted } from 'vue'
 import './feedback.css'
 import FeedbackTrigger from './FeedbackTrigger.vue'
 import PickerOverlay from './PickerOverlay.vue'
+import AnnotationPanel from './AnnotationPanel.vue'
 import { useFeedbackConfig } from '@/composables/useFeedbackConfig'
 import { useFeedback } from '@/composables/useFeedback'
 
@@ -39,6 +40,7 @@ onUnmounted(() => document.removeEventListener('keydown', onKeyDown))
           <div class="fb-capture-label">Capturing...</div>
         </div>
       </div>
+      <AnnotationPanel v-if="feedback.state.phase === 'annotating'" />
     </div>
   </Teleport>
 </template>
