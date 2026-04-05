@@ -43,7 +43,7 @@ describe('CaseFilesPage', () => {
     expect(text).toContain('38')
     expect(text).toContain('Projects Documented')
     expect(text).toContain('6,000+')
-    expect(text).toContain('Archived Emails')
+    expect(text).toContain('Emails Archived')
     expect(text).toContain('15+')
     expect(text).toContain('Industries')
   })
