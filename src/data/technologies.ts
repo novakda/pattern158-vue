@@ -149,8 +149,8 @@ export const technologies: TechCategory[] = [
       },
       {
         name: 'REST APIs',
-        level: 'working',
-        summary: 'API design, integration, and debugging. HTTP methods, status codes, authentication patterns. Production work with LMS and platform APIs.',
+        level: 'deep',
+        summary: 'API design, reverse-engineering, and integration across LMS and enterprise platforms. Xyleme LCMS API analysis, SunTrust platform API consultation, SCORM Cloud API automation, and Microsoft Graph API integration. HTTP debugging with Fiddler as a core diagnostic skill applied across client engagements.',
         dateRange: '2010–present',
         tags: [
           { label: 'SunTrust', title: 'SunTrust Bank' },
@@ -249,8 +249,8 @@ export const technologies: TechCategory[] = [
     cards: [
       {
         name: 'Git/GitHub',
-        level: 'working',
-        summary: 'Active daily use. Branching strategies, PR workflows, conflict resolution, commit history management. GitHub Actions for CI/CD.',
+        level: 'deep',
+        summary: 'Core workflow tool across entire career. Branching strategies, PR workflows, conflict resolution, and CI/CD with GitHub Actions. Current projects use advanced git workflows including worktrees and automated commit conventions. Over two decades of version-controlled shipping across every professional engagement.',
         dateRange: '~2000–present',
         tags: [
           { label: 'HSBC', title: 'HSBC' },
