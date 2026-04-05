@@ -356,6 +356,17 @@ export const technologies: TechCategory[] = [
           { label: 'UOB', title: 'United Overseas Bank' },
         ],
       },
+      {
+        name: 'Webpack',
+        level: 'working',
+        summary: 'Module bundler configured and maintained across multiple projects. Build pipeline setup, loader configuration, and optimization for production eLearning and web application builds.',
+      },
+      {
+        name: 'Jira',
+        level: 'working',
+        summary: 'Daily project management and issue tracking tool across client engagements. Sprint planning, backlog management, and workflow configuration in enterprise environments.',
+        dateRange: '2010–2025',
+      },
     ],
   },
   {
