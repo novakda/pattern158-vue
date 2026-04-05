@@ -26,7 +26,7 @@ export const technologies: TechCategory[] = [
         name: 'JavaScript',
         level: 'deep',
         summary: 'Primary language across full career. SCORM runtime APIs, cross-browser debugging, modern ES6+ features, Vue.js component architecture, Node.js tooling. Daily driver for 20+ years. jQuery era to modern frameworks.',
-        dateRange: '2009–2022',
+        dateRange: '1998–present',
         tags: [
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
@@ -39,7 +39,7 @@ export const technologies: TechCategory[] = [
         name: 'HTML/CSS',
         level: 'deep',
         summary: 'Semantic HTML5, WCAG AA-compliant accessibility implementation, responsive design, CSS Grid/Flexbox, custom properties, dark mode theming. Production sites pass WAVE/axe validation.',
-        dateRange: '2009–2022',
+        dateRange: '1998–present',
         tags: [
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
@@ -52,7 +52,7 @@ export const technologies: TechCategory[] = [
         name: 'Node.js',
         level: 'deep',
         summary: 'Build pipelines, SCORM package assembly, CLI tooling, server-side generation. npm ecosystem expertise. Used across website generation, data processing, and development tooling.',
-        dateRange: '2009–2022',
+        dateRange: '~2015–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -65,7 +65,7 @@ export const technologies: TechCategory[] = [
         name: 'Vue.js',
         level: 'deep',
         summary: 'Preferred framework. Component architecture, state management, reactive data binding. Production experience with complex review apps and data visualization interfaces.',
-        dateRange: '2009–2022',
+        dateRange: '~2018–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -78,7 +78,7 @@ export const technologies: TechCategory[] = [
         name: 'React',
         level: 'working',
         summary: 'Production work on BP, AICPA, and ContentAIQ projects. Component development, hooks, state management. No greenfield project experience, but solid contributor on existing codebases.',
-        dateRange: '2009–2022',
+        dateRange: '2022–2025',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -91,6 +91,7 @@ export const technologies: TechCategory[] = [
         name: 'TypeScript',
         level: 'working',
         summary: 'Type-safe JavaScript for larger projects. Interface definitions, generics, strict type checking. Growing usage in modern tooling and applications.',
+        dateRange: '2022–present',
       },
       {
         name: 'Python',
@@ -106,7 +107,7 @@ export const technologies: TechCategory[] = [
         name: 'C#/.NET',
         level: 'aware',
         summary: 'Exposure through platform work and legacy system integration. Familiar with .NET ecosystem and ASP.NET patterns.',
-        dateRange: '2009–2022',
+        dateRange: '2009–2016',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -125,7 +126,7 @@ export const technologies: TechCategory[] = [
         name: 'SQLite',
         level: 'deep',
         summary: 'Extensive deep work on relational schema design, complex joins, migration patterns, data integrity constraints. Current project uses SQLite as the primary data store with 6,600+ records.',
-        dateRange: '2009–2022',
+        dateRange: '2024–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -138,7 +139,7 @@ export const technologies: TechCategory[] = [
         name: 'SQL',
         level: 'deep',
         summary: 'SQL Server, Oracle, and other relational databases. Complex queries, performance optimization, stored procedures, indexing strategies. Production experience across multiple DB platforms.',
-        dateRange: '2009–2022',
+        dateRange: '~2000–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -151,7 +152,6 @@ export const technologies: TechCategory[] = [
         name: 'JSON',
         level: 'deep',
         summary: 'Core data format for configs, APIs, and data exchange. Deep understanding of schema design, validation, and transformation patterns.',
-        dateRange: '2009–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -164,7 +164,7 @@ export const technologies: TechCategory[] = [
         name: 'XML',
         level: 'deep',
         summary: 'SCORM manifests (imsmanifest.xml), AICC HACP packets, legacy data formats. Schema validation, transformation, and debugging.',
-        dateRange: '2009–2022',
+        dateRange: '2009–2020',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -177,7 +177,6 @@ export const technologies: TechCategory[] = [
         name: 'Regular Expressions',
         level: 'deep',
         summary: 'Diagnostic power tool for SCORM debugging, data extraction, and text processing. Complex pattern matching, capture groups, lookaheads.',
-        dateRange: '2009–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -190,6 +189,7 @@ export const technologies: TechCategory[] = [
         name: 'REST APIs',
         level: 'working',
         summary: 'API design, integration, and debugging. HTTP methods, status codes, authentication patterns. Production work with LMS and platform APIs.',
+        dateRange: '2010–present',
       },
     ],
   },
@@ -211,7 +211,7 @@ export const technologies: TechCategory[] = [
         name: 'Power Platform',
         level: 'deep',
         summary: 'Full suite expertise: Power Automate flows, Power Apps (canvas and model-driven), governance and administration. Enterprise-scale deployments.',
-        dateRange: '2009–2022',
+        dateRange: '2024–2025',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -224,7 +224,7 @@ export const technologies: TechCategory[] = [
         name: 'Copilot Studio',
         level: 'deep',
         summary: 'From one deep project with Teams integration. Bot design, conversation flows, knowledge base integration. Enterprise chatbot deployment.',
-        dateRange: '2009–2022',
+        dateRange: '2024',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -237,7 +237,7 @@ export const technologies: TechCategory[] = [
         name: 'Dataverse',
         level: 'working',
         summary: 'Part of Power Platform ecosystem. Data modeling, relationships, security roles. Used for app backend storage and integration.',
-        dateRange: '2009–2022',
+        dateRange: '2025',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -257,7 +257,7 @@ export const technologies: TechCategory[] = [
         name: 'Fiddler',
         level: 'deep',
         summary: 'HTTP traffic analysis, API debugging, performance profiling. Essential tool for SCORM/AICC communication diagnostics. Deep expertise in request/response inspection and manipulation.',
-        dateRange: '2009–2022',
+        dateRange: '2011–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -270,7 +270,7 @@ export const technologies: TechCategory[] = [
         name: 'SCORM Cloud',
         level: 'deep',
         summary: 'Primary diagnostic platform for eLearning content validation. Reference implementation testing, conformance verification, cross-LMS comparison.',
-        dateRange: '2009–2022',
+        dateRange: '2011–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -288,7 +288,6 @@ export const technologies: TechCategory[] = [
         name: 'Postman',
         level: 'working',
         summary: 'API testing and exploration. Request building, environment variables, test scripting. Used for LMS API integration work.',
-        dateRange: '2009–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -307,7 +306,7 @@ export const technologies: TechCategory[] = [
         name: 'Git/GitHub',
         level: 'working',
         summary: 'Active daily use. Branching strategies, PR workflows, conflict resolution, commit history management. GitHub Actions for CI/CD.',
-        dateRange: '2009–2022',
+        dateRange: '~2000–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -320,7 +319,7 @@ export const technologies: TechCategory[] = [
         name: 'Azure DevOps',
         level: 'working',
         summary: 'Work item tracking, source control, build pipeline coordination. Team collaboration on enterprise projects.',
-        dateRange: '2009–2022',
+        dateRange: '2020–2025',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -333,7 +332,6 @@ export const technologies: TechCategory[] = [
         name: 'Docker',
         level: 'working',
         summary: 'Running containers, docker-compose orchestration, Dockerfile creation. Development environment standardization.',
-        dateRange: '2009–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -346,7 +344,7 @@ export const technologies: TechCategory[] = [
         name: 'SharePoint',
         level: 'working',
         summary: 'Collaboration platform administration, document library management, workflow automation. Enterprise content management.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -369,7 +367,7 @@ export const technologies: TechCategory[] = [
         name: 'AWS',
         level: 'aware',
         summary: 'Cloud platform exposure through project work. Familiar with S3, EC2, and basic deployment patterns.',
-        dateRange: '2009–2022',
+        dateRange: '2020–2025',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -382,7 +380,7 @@ export const technologies: TechCategory[] = [
         name: 'Apache',
         level: 'aware',
         summary: 'Web server configuration and troubleshooting. .htaccess rules, virtual hosts, SSL setup.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2019',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -395,7 +393,7 @@ export const technologies: TechCategory[] = [
         name: 'Oracle',
         level: 'aware',
         summary: 'Underlying platform for several LMS systems. Familiar with Oracle SQL and PL/SQL patterns, but not deep database administration.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -414,6 +412,7 @@ export const technologies: TechCategory[] = [
         name: 'WCAG/Accessibility',
         level: 'working',
         summary: 'WCAG AA compliance implementation. Semantic HTML, ARIA labels, keyboard navigation, screen reader testing. Current site passes WAVE/axe validation.',
+        dateRange: '2021–present',
       },
       {
         name: 'Technical Writing',
@@ -431,7 +430,7 @@ export const technologies: TechCategory[] = [
         name: 'SCORM',
         level: 'deep',
         summary: 'Primary technical authority on SCORM 1.2 and 2004. API implementation, manifest construction, sequencing and navigation, cross-platform troubleshooting. Recognized expert.',
-        dateRange: '2009–2022',
+        dateRange: '2002–present',
         tags: [
           { label: 'PNC', title: 'PNC Financial Services' },
           { label: 'Nalco', title: 'Nalco (Ecolab)' },
@@ -457,7 +456,7 @@ export const technologies: TechCategory[] = [
         name: 'xAPI (Tin Can)',
         level: 'working',
         summary: 'Next-generation learning standard. Evaluated for VR/non-traditional learning environments. Statement design, LRS integration patterns.',
-        dateRange: '2009–2022',
+        dateRange: '2015–present',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -470,7 +469,7 @@ export const technologies: TechCategory[] = [
         name: 'GPiLEARN',
         level: 'deep',
         summary: 'Custom SCORM-to-AICC wrapper platform. Deep involvement in architecture, troubleshooting, and client implementations.',
-        dateRange: '2009–2022',
+        dateRange: '2009–2020',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -483,7 +482,7 @@ export const technologies: TechCategory[] = [
         name: 'Cornerstone OnDemand',
         level: 'deep',
         summary: 'SCORM/AICC integration expert. Deep knowledge of platform APIs, content import workflows, and troubleshooting common issues.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -496,7 +495,7 @@ export const technologies: TechCategory[] = [
         name: 'SuccessFactors',
         level: 'deep',
         summary: 'SAP SuccessFactors Learning (including legacy Plateau). Platform configuration, content integration, SCORM troubleshooting.',
-        dateRange: '2009–2022',
+        dateRange: '2012–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -548,7 +547,7 @@ export const technologies: TechCategory[] = [
         name: 'Xyleme',
         level: 'working',
         summary: 'Content lifecycle management through GPiLEARN. XML-based content authoring, publishing workflows.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2020',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'Nalco', title: 'Nalco (Ecolab)' },
@@ -561,7 +560,7 @@ export const technologies: TechCategory[] = [
         name: 'Ready2Role',
         level: 'deep',
         summary: 'LCMS platform maintained at deep level. Custom development, system administration, client support. Early career through recent years.',
-        dateRange: '2009–2022',
+        dateRange: '2009–2019',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -574,7 +573,7 @@ export const technologies: TechCategory[] = [
         name: 'QuickBase',
         level: 'working',
         summary: 'Low-code database platform. Custom applications, workflow automation, reporting. Production use for project tracking and data management.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -595,7 +594,7 @@ export const technologies: TechCategory[] = [
         name: 'Flash/ActionScript',
         level: 'deep',
         summary: 'Led Flash-to-HTML5 transition projects. ActionScript debugging, Flash content package troubleshooting. Legacy platform expertise.',
-        dateRange: '2009–2022',
+        dateRange: '~2002–2020',
         tags: [
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
@@ -608,7 +607,7 @@ export const technologies: TechCategory[] = [
         name: 'XAML',
         level: 'working',
         summary: 'Microsoft UI markup language from earlier era. WPF and Silverlight experience.',
-        dateRange: '2009–2022',
+        dateRange: '2009–2016',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
@@ -621,7 +620,7 @@ export const technologies: TechCategory[] = [
         name: 'Java',
         level: 'aware',
         summary: 'Exposure through Java-based LMS platform work. Familiar with J2EE patterns and deployment.',
-        dateRange: '2009–2022',
+        dateRange: '2010–2022',
         tags: [
           { label: 'Sikorsky', title: 'Sikorsky Aircraft (Lockheed Martin)' },
           { label: 'BMS', title: 'Bristol-Myers Squibb' },
