@@ -26,7 +26,7 @@ useSeo({
     <div class="container">
       <div class="stats-bar">
         <StatItem number="38" label="Projects Documented" />
-        <StatItem number="6,000+" label="Archived Emails" />
+        <StatItem number="6,000+" label="Emails Archived" />
         <StatItem number="15+" label="Industries" />
       </div>
     </div>
