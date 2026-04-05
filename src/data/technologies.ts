@@ -108,6 +108,24 @@ export const technologies: TechCategory[] = [
           { label: 'GP Strategies', title: 'GP Strategies Corporation' },
         ],
       },
+      {
+        name: 'GraphQL',
+        level: 'aware',
+        summary: 'Exposure through BP Learning Platform, which uses Apollo Federation for its GraphQL API layer.',
+        dateRange: '2022–2025',
+        tags: [
+          { label: 'BP', title: 'BP (British Petroleum)' },
+        ],
+      },
+      {
+        name: 'Material UI',
+        level: 'working',
+        summary: 'Component library used in BP Learning Platform. Theming, custom component composition, and responsive layout implementation in a production React codebase.',
+        dateRange: '2022–2025',
+        tags: [
+          { label: 'BP', title: 'BP (British Petroleum)' },
+        ],
+      },
     ],
   },
   {
