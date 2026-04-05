@@ -88,6 +88,12 @@ async function submit() {
   }
 }
 
+function updateScreenshot(dataUri: string) {
+  if (state.capture) {
+    state.capture.screenshotDataUri = dataUri
+  }
+}
+
 async function retry() {
   await submit()
 }
@@ -104,5 +110,6 @@ export function useFeedback() {
     setComment,
     submit,
     retry,
+    updateScreenshot,
   }
 }

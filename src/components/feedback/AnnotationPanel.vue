@@ -3,12 +3,13 @@ import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useFeedback } from '@/composables/useFeedback'
 import { computePanelPosition } from './panelPosition'
 import type { EnvironmentMeta } from './feedback.types'
+import AnnotationCanvas from './AnnotationCanvas.vue'
 
 const feedback = useFeedback()
 const panelRef = ref<HTMLElement | null>(null)
 const panelStyle = ref({ top: '0px', left: '0px' })
 const detailsOpen = ref(false)
-const screenshotExpanded = ref(false)
+const annotationCanvasRef = ref<InstanceType<typeof AnnotationCanvas> | null>(null)
 
 const canSubmit = computed(() => feedback.state.comment.trim().length > 0)
 const isSubmitting = computed(() => feedback.state.phase === 'submitting')
@@ -29,6 +30,9 @@ function handleCancel() {
 }
 
 function handleSubmit() {
+  if (annotationCanvasRef.value) {
+    feedback.updateScreenshot(annotationCanvasRef.value.compositeScreenshot())
+  }
   feedback.submit()
 }
 
@@ -64,15 +68,12 @@ onUnmounted(() => {
 
 <template>
   <div ref="panelRef" class="fb-panel" :style="panelStyle">
-    <!-- Screenshot thumbnail -->
-    <div class="fb-panel-screenshot" v-if="feedback.state.capture?.screenshotDataUri">
-      <img
-        :src="feedback.state.capture.screenshotDataUri"
-        alt="Element screenshot"
-        :class="['fb-panel-thumb', { 'fb-panel-thumb--expanded': screenshotExpanded }]"
-        @click="screenshotExpanded = !screenshotExpanded"
-      />
-    </div>
+    <!-- Screenshot with annotation canvas -->
+    <AnnotationCanvas
+      v-if="feedback.state.capture?.screenshotDataUri"
+      ref="annotationCanvasRef"
+      :screenshot-src="feedback.state.capture.screenshotDataUri"
+    />
 
     <!-- Metadata summary -->
     <div class="fb-panel-meta">
