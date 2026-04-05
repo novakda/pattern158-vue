@@ -148,7 +148,7 @@ Plans:
   3. Pressing Escape or clicking Cancel dismisses the panel and resets to idle state
 **Plans**: 1 plan
 Plans:
-- [x] 28-01-PLAN.md � AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [x] 28-01-PLAN.md — AnnotationPanel component, positioning logic, FeedbackCollector wiring
 **UI hint**: yes
 
 ### Phase 29: GitHub Integration
@@ -162,9 +162,10 @@ Plans:
   4. Configured labels are applied to the created issue
   5. Success state displays a clickable link to the newly created GitHub Issue
   6. Error state shows an actionable message describing what failed, with a retry button
-**Plans**: 1 plan
+**Plans**: 2 plans
 Plans:
-- [ ] 28-01-PLAN.md � AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [ ] 29-01-PLAN.md — githubSubmit service, useFeedback submit/retry wiring, labels config
+- [ ] 29-02-PLAN.md — Success/error UI states, AnnotationPanel submit wiring, CSS additions
 
 ### Phase 30: Annotation Drawing Overlay
 **Goal**: Users can draw rectangles and arrows on the screenshot to visually highlight areas of concern
@@ -177,7 +178,7 @@ Plans:
   4. Drawing annotations are composited into the final screenshot image before submission
 **Plans**: 1 plan
 Plans:
-- [ ] 28-01-PLAN.md � AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [ ] 30-01-PLAN.md — Canvas drawing overlay for rectangles and arrows on screenshot
 **UI hint**: yes
 
 ## Progress
@@ -216,5 +217,5 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
 | 27. Screenshot Capture | v3.0 | 1/1 | Complete    | 2026-04-04 |
 | 28. Annotation Panel & Comment Flow | v3.0 | 1/1 | Complete    | 2026-04-05 |
-| 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
+| 29. GitHub Integration | v3.0 | 0/2 | Not started | - |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |
