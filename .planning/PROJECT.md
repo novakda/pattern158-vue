@@ -6,19 +6,6 @@ An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three au
 
 The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v2.1 restored CSS and section rendering; v2.2 promoted personnel from embedded tables to first-class data with purpose-built rendering components supporting anonymization. v2.3 applies the same promotion pattern to findings data. v3.0 adds a visual feedback collector for dev/staging bug reporting.
 
-## Current Milestone: v3.0 Visual Feedback Collector
-
-**Goal:** Build a self-contained, dev/staging feedback tool that lets testers click any element on the page, annotate it, and file a GitHub Issue with full context — screenshot, element selector, viewport, and user agent.
-
-**Target features:**
-- Picker mode activation (button trigger + keyboard shortcut)
-- DOM element hover highlighting with visible outline
-- Element capture: tag, CSS selector path, bounding rect, html2canvas screenshot
-- Comment/annotation overlay panel anchored near selected element
-- GitHub Issue submission with screenshot upload (Gist primary, data URI fallback)
-- Configurable via env vars (VITE_GITHUB_TOKEN, VITE_GITHUB_REPO)
-- Dev/staging only — not exposed in production builds
-
 ## Core Value
 
 Every page template should be scannable and self-documenting through well-named components that enforce design consistency, reducing cognitive load for both the developer and anyone reviewing the codebase.
@@ -62,15 +49,18 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Findings rendering wired into both InvestigationReportLayout and EngineeringBriefLayout with empty-state suppression (RNDR-05/06) — v2.3
 - ✓ Storybook stories for FindingsTable covering 2-col, severity, and background/resolution variants (DOC-01) — v2.3
 
+- ✓ FeedbackCollector with build-time gating (zero production bytes), self-contained --fb-* CSS namespace, env var validation (BUILD-01/02/03, PICK-01) — v3.0
+- ✓ Element picker with Ctrl+Shift+F toggle, hover highlighting, click-to-capture context including Vue component name (PICK-02/03/04/05) — v3.0
+- ✓ html2canvas screenshot capture with lazy loading and spinner overlay (SHOT-01/02) — v3.0
+- ✓ AnnotationPanel with comment textarea, screenshot preview, metadata display, flip-logic positioning (ANNOT-01/02/03) — v3.0
+- ✓ GitHub Issue submission via Gist upload with data URI fallback, configurable labels, success/error states (GH-01/02/03/04/05/06) — v3.0
+- ✓ Canvas-based annotation drawing overlay with rectangles, arrows, undo, and compositing (ANNOT-04) — v3.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-- Picker mode with DOM element selection and highlighting
-- Element context capture (selector path, bounding rect, screenshot)
-- Comment/annotation overlay panel
-- GitHub Issue submission with screenshot upload
-- Dev/staging build gating
+None — planning next milestone.
 
 ### Out of Scope
 
@@ -82,14 +72,15 @@ Every page template should be scannable and self-documenting through well-named 
 - New exhibit content creation — restructure existing content, don't write new exhibits
 - Interactive search/filter beyond type grouping — 15 items is far below where search adds value
 - Tag-based filtering — useful at 50+ items, premature at 15
+- Session replay / console capture / network capture — anti-features for lightweight dev feedback tool
+- End-user facing feedback in production — dev/staging only, PAT exposure risk
+- External feedback SaaS integration — self-contained by design, GitHub Issues is sole backend
 
 ## Current State
 
-**Shipped:** v2.3 (2026-04-03)
+**Shipped:** v3.0 (2026-04-04)
 
-The site's information architecture is complete through v2.0 with 15 exhibits presented through a unified Case Files page. Two purpose-built detail layouts serve Investigation Reports and Engineering Briefs. v2.1 restored CSS and added five section type renderers. v2.2 promoted personnel from embedded table sections to first-class exhibit data — 14 exhibits have typed personnel[] arrays, rendered via PersonnelCard component with named/anonymous/self display modes. v2.3 promoted findings from embedded table sections to first-class typed arrays — 7 exhibits have ExhibitFindingEntry[] with column-adaptive rendering (2-col and 3-col patterns), rendered via FindingsTable component with dual-DOM responsive layout (table desktop, card grid mobile at 768px), severity badges, wired into both layouts with empty-state suppression. 185 unit tests passing, clean production build.
-
-**Building:** v3.0 — Visual Feedback Collector (dev/staging bug reporting tool). Self-contained styling for future extraction. html2canvas screenshots, GitHub Issues API, Gist-based image hosting.
+The site's information architecture is complete with 15 exhibits presented through a unified Case Files page with two purpose-built detail layouts. Personnel and findings are promoted to first-class typed arrays with dedicated rendering components. v3.0 added a self-contained visual feedback collector for dev/staging — element picker with hover highlighting, html2canvas screenshot capture, annotation drawing overlay (rectangles/arrows), and GitHub Issue submission via Gist upload with data URI fallback. The feedback module is fully tree-shaken from production builds (zero bytes). ~7,950 LOC across 16 feedback-related files, 193+ unit tests passing, clean production build.
 
 ## Context
 
@@ -97,7 +88,7 @@ The site's information architecture is complete through v2.0 with 15 exhibits pr
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,800 LOC Vue + TypeScript, 185 unit tests passing, clean production build.
+- Codebase: ~7,950 LOC Vue + TypeScript, 193+ unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -130,6 +121,12 @@ The site's information architecture is complete through v2.0 with 15 exhibits pr
 | Dual-DOM responsive approach for FindingsTable | Render both table and card grid, CSS media query toggles visibility at 768px | ✓ Good — cleaner separation than CSS-only display transform |
 | Column-adaptive detection from data shape | Auto-inspect first finding's fields to determine 2-col or 3-col layout, no explicit prop | ✓ Good — component adapts to data without configuration |
 | Exhibit F corrected to M in migration set | Research discovered F has text-type findings, M has table-type — corrected from original scope | ✓ Good — research caught data classification error before execution |
+| defineAsyncComponent + MODE gate for feedback | Zero production bytes via Vite tree-shaking; PAT never reaches prod bundle | ✓ Good — grep confirms zero feedback references in dist/ |
+| Self-contained --fb-* CSS namespace | Future extraction as standalone package; no coupling to site design tokens | ✓ Good — fully independent styling |
+| Native fetch over Octokit for GitHub API | Only 2 endpoints needed; avoids 5+ transitive deps for 800+ unused methods | ✓ Good — clean, minimal dependency |
+| Gist-first screenshot upload with data URI fallback | GitHub Issue body limit is 65K chars; base64 PNGs easily exceed this | ✓ Good — multi-layer fallback handles all size scenarios |
+| css-selector-generator over hand-rolled | Handles edge cases (shadow DOM, dynamic classes, duplicate IDs) that manual walkers miss | ✓ Good — stable, readable selectors |
+| Dual-DOM annotation: canvas overlay + compositing at submit | Drawing stays separate from screenshot until final submission; clean separation of concerns | ✓ Good — annotations composited into PNG before upload |
 
 ## Evolution
 
@@ -149,4 +146,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-03 after v3.0 milestone started*
+*Last updated: 2026-04-04 after v3.0 milestone complete*

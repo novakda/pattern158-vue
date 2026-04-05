@@ -1,5 +1,22 @@
 # Milestones
 
+## v3.0 Visual Feedback Collector (Shipped: 2026-04-05)
+
+**Phases completed:** 6 phases, 9 plans, 20 tasks
+
+**Key accomplishments:**
+
+- FeedbackTrigger FAB and FeedbackCollector orchestrator with Vite build-time tree-shaking via defineAsyncComponent
+- captureElement pure function extracting tag/selector/rect/Vue-component-name from DOM elements, with useFeedback selectElement/deactivate actions
+- Full-viewport picker overlay with elementFromPoint hover highlight, click-to-capture via captureElement, Ctrl+Shift+F toggle, and Escape exit
+- html2canvas integration with lazy-loading, async capture flow through 'capturing' phase, and spinner overlay UI
+- AnnotationPanel component with comment textarea, screenshot thumbnail, element metadata display, and viewport-aware flip positioning
+- Native fetch GitHub API service with secret Gist screenshot upload, structured Issue creation, JPEG fallback compression, and labels configuration
+- Success/error UI panels in FeedbackCollector with clickable GitHub Issue link, retry flow, and AnnotationPanel submit wiring
+- Canvas-based rectangle/arrow annotation drawing on screenshot preview with compositing into submitted PNG
+
+---
+
 ## v2.3 Findings Data & Rendering (Shipped: 2026-04-03)
 
 **Phases completed:** 4 phases, 6 plans, 10 tasks
