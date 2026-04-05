@@ -1297,6 +1297,41 @@ footer a:hover {
     font-size: var(--font-size-2xl);
 }
 
+.page-philosophy blockquote {
+    border-left: 3px solid var(--color-primary);
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    font-style: italic;
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    position: relative;
+}
+
+.page-philosophy blockquote::before {
+    content: '\201C';
+    position: absolute;
+    top: calc(-1 * var(--space-xs));
+    left: var(--space-sm);
+    font-size: 3rem;
+    color: var(--color-primary);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+    line-height: 1;
+}
+
+.page-philosophy blockquote p {
+    margin: 0;
+    padding-left: var(--space-lg);
+}
+
+.page-philosophy blockquote cite {
+    display: block;
+    padding-left: var(--space-lg);
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+}
+
 .page-philosophy .section-intro {
     font-size: var(--font-size-lg);
     color: var(--color-text-muted);
