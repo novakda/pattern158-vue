@@ -26,6 +26,7 @@ export interface FeedbackState {
 export interface FeedbackConfig {
   token: string
   repo: string
+  labels: string[]
   enabled: boolean
   isConfigured: boolean
   missingVars: string[]

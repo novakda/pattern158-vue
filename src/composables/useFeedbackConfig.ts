@@ -5,6 +5,11 @@ export function useFeedbackConfig(): FeedbackConfig {
   const repo = import.meta.env.VITE_GITHUB_REPO ?? ''
   const enabled = import.meta.env.MODE !== 'production'
 
+  const labelsRaw = import.meta.env.VITE_GITHUB_LABELS ?? ''
+  const labels: string[] = labelsRaw
+    ? labelsRaw.split(',').map((s: string) => s.trim()).filter(Boolean)
+    : ['feedback']
+
   const missingVars: string[] = []
   if (!token) missingVars.push('VITE_GITHUB_TOKEN')
   if (!repo) missingVars.push('VITE_GITHUB_REPO')
@@ -22,6 +27,7 @@ export function useFeedbackConfig(): FeedbackConfig {
   return {
     token,
     repo,
+    labels,
     enabled,
     isConfigured,
     missingVars,

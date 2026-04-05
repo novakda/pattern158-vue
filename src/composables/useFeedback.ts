@@ -1,6 +1,8 @@
 import { reactive, readonly } from 'vue'
 import type { FeedbackState, FeedbackPhase, ElementCapture } from '@/components/feedback/feedback.types'
 import { screenshotCapture } from '@/components/feedback/screenshotCapture'
+import { submitFeedback } from '@/components/feedback/githubSubmit'
+import { useFeedbackConfig } from '@/composables/useFeedbackConfig'
 
 const state = reactive<FeedbackState>({
   phase: 'idle',
@@ -58,6 +60,38 @@ function reset() {
   state.issueUrl = null
 }
 
+async function submit() {
+  const config = useFeedbackConfig()
+  if (!config.isConfigured || !state.capture) return
+
+  state.phase = 'submitting'
+  state.error = null
+
+  try {
+    const result = await submitFeedback({
+      token: config.token,
+      repo: config.repo,
+      labels: config.labels,
+      capture: state.capture,
+      comment: state.comment,
+      environment: {
+        pageUrl: window.location.href,
+        viewport: { width: window.innerWidth, height: window.innerHeight },
+        userAgent: navigator.userAgent,
+      },
+    })
+    state.issueUrl = result.issueUrl
+    state.phase = 'done'
+  } catch (err) {
+    state.error = err instanceof Error ? err.message : 'Submission failed'
+    state.phase = 'error'
+  }
+}
+
+async function retry() {
+  await submit()
+}
+
 export function useFeedback() {
   return {
     state: readonly(state),
@@ -68,5 +102,7 @@ export function useFeedback() {
     reset,
     setPhase,
     setComment,
+    submit,
+    retry,
   }
 }
