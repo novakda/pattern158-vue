@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Visual Feedback Collector
 status: verifying
-stopped_at: Completed 27-01-PLAN.md
-last_updated: "2026-04-04T00:37:46.441Z"
-last_activity: 2026-04-04
+stopped_at: Completed 28-01-PLAN.md
+last_updated: "2026-04-05T01:42:16.433Z"
+last_activity: 2026-04-05
 progress:
   total_phases: 6
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  completed_phases: 4
+  total_plans: 6
+  completed_plans: 6
   percent: 0
 ---
 
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-03)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 27 — Screenshot Capture
+**Current focus:** Phase 28 — Annotation Panel & Comment Flow
 
 ## Current Position
 
-Phase: 28
-Plan: Not started
+Phase: 28 (Annotation Panel & Comment Flow) — EXECUTING
+Plan: 1 of 1
 Status: Phase complete — ready for verification
-Last activity: 2026-04-04
+Last activity: 2026-04-05
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -52,6 +52,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 26 P01 | 3min | 2 tasks | 4 files |
 | Phase 26 P02 | 4min | 3 tasks | 3 files |
 | Phase 27 P01 | 5min | 2 tasks | 6 files |
+| Phase 28 P01 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -70,6 +71,8 @@ Progress: [░░░░░░░░░░] 0%
 - [Phase 26]: Ctrl+Shift+F registered at document level in FeedbackCollector (always mounted) not PickerOverlay
 - [Phase 27]: html2canvas lazy-loaded via dynamic import to avoid bundle bloat
 - [Phase 27]: Capture errors transition to error phase with descriptive message rather than silently failing
+- [Phase 28]: Used :value + @input with explicit setComment() instead of v-model on readonly composable state
+- [Phase 28]: Panel positioning uses 4-direction flip logic (right/left/below/above) with 12px gaps and viewport clamping
 
 ### Pending Todos
 
@@ -92,6 +95,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-04T00:35:12.593Z
-Stopped at: Completed 27-01-PLAN.md
+Last session: 2026-04-05T01:42:16.431Z
+Stopped at: Completed 28-01-PLAN.md
 Resume file: None

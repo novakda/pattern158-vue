@@ -91,7 +91,7 @@ Full details: `.planning/milestones/v2.3-ROADMAP.md`
 - [x] **Phase 25: Foundation & Build Gating** - Security-critical scaffold: conditional mount, env var config, FAB trigger, self-contained CSS namespace (completed 2026-04-03)
 - [x] **Phase 26: Element Picker & Selection** - DOM element hover highlighting, click-to-select with context capture, keyboard shortcut toggle (completed 2026-04-04)
 - [x] **Phase 27: Screenshot Capture** - html2canvas integration with loading state and element screenshot as data URI (completed 2026-04-04)
-- [ ] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic
+- [x] **Phase 28: Annotation Panel & Comment Flow** - Comment textarea, metadata display, screenshot preview, panel positioning with flip logic (completed 2026-04-05)
 - [ ] **Phase 29: GitHub Integration** - Gist screenshot upload, Issue creation with structured body, success/error states, labels and retry
 - [ ] **Phase 30: Annotation Drawing Overlay** - Canvas-based drawing overlay for rectangles and arrows on screenshot
 
@@ -148,7 +148,7 @@ Plans:
   3. Pressing Escape or clicking Cancel dismisses the panel and resets to idle state
 **Plans**: 1 plan
 Plans:
-- [ ] 28-01-PLAN.md — AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [x] 28-01-PLAN.md ï¿½ AnnotationPanel component, positioning logic, FeedbackCollector wiring
 **UI hint**: yes
 
 ### Phase 29: GitHub Integration
@@ -164,7 +164,7 @@ Plans:
   6. Error state shows an actionable message describing what failed, with a retry button
 **Plans**: 1 plan
 Plans:
-- [ ] 28-01-PLAN.md — AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [ ] 28-01-PLAN.md ï¿½ AnnotationPanel component, positioning logic, FeedbackCollector wiring
 
 ### Phase 30: Annotation Drawing Overlay
 **Goal**: Users can draw rectangles and arrows on the screenshot to visually highlight areas of concern
@@ -177,7 +177,7 @@ Plans:
   4. Drawing annotations are composited into the final screenshot image before submission
 **Plans**: 1 plan
 Plans:
-- [ ] 28-01-PLAN.md — AnnotationPanel component, positioning logic, FeedbackCollector wiring
+- [ ] 28-01-PLAN.md ï¿½ AnnotationPanel component, positioning logic, FeedbackCollector wiring
 **UI hint**: yes
 
 ## Progress
@@ -215,6 +215,6 @@ Phases execute in numeric order: 25 -> 26 -> 27 -> 28 -> 29 -> 30
 | 25. Foundation & Build Gating | v3.0 | 2/2 | Complete    | 2026-04-03 |
 | 26. Element Picker & Selection | v3.0 | 2/2 | Complete    | 2026-04-04 |
 | 27. Screenshot Capture | v3.0 | 1/1 | Complete    | 2026-04-04 |
-| 28. Annotation Panel & Comment Flow | v3.0 | 0/1 | In progress | - |
+| 28. Annotation Panel & Comment Flow | v3.0 | 1/1 | Complete   | 2026-04-05 |
 | 29. GitHub Integration | v3.0 | 0/0 | Not started | - |
 | 30. Annotation Drawing Overlay | v3.0 | 0/0 | Not started | - |

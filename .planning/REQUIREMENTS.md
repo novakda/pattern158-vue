@@ -28,9 +28,9 @@ Requirements for Visual Feedback Collector milestone. Each maps to roadmap phase
 
 ### Annotation & Comment
 
-- [ ] **ANNOT-01**: Annotation panel displays comment textarea, screenshot preview, and element metadata
-- [ ] **ANNOT-02**: Panel positioned near selected element without covering it (flip logic)
-- [ ] **ANNOT-03**: Escape key and cancel button dismiss the panel and reset state
+- [x] **ANNOT-01**: Annotation panel displays comment textarea, screenshot preview, and element metadata
+- [x] **ANNOT-02**: Panel positioned near selected element without covering it (flip logic)
+- [x] **ANNOT-03**: Escape key and cancel button dismiss the panel and reset state
 - [ ] **ANNOT-04**: Annotation drawing overlay allows rectangles and arrows on screenshot
 
 ### GitHub Submission
@@ -151,9 +151,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PICK-05 | Phase 26 | Complete |
 | SHOT-01 | Phase 27 | Complete |
 | SHOT-02 | Phase 27 | Complete |
-| ANNOT-01 | Phase 28 | Pending |
-| ANNOT-02 | Phase 28 | Pending |
-| ANNOT-03 | Phase 28 | Pending |
+| ANNOT-01 | Phase 28 | Complete |
+| ANNOT-02 | Phase 28 | Complete |
+| ANNOT-03 | Phase 28 | Complete |
 | ANNOT-04 | Phase 30 | Pending |
 | GH-01 | Phase 29 | Pending |
 | GH-02 | Phase 29 | Pending |
