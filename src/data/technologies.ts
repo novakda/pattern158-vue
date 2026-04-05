@@ -268,7 +268,6 @@ export const technologies: TechCategory[] = [
         dateRange: '2020–2025',
         tags: [
           { label: 'GP Strategies', title: 'GP Strategies Corporation' },
-          { label: 'Enterprise Client', title: 'Enterprise Client (Confidential)' },
         ],
       },
       {
