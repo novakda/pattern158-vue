@@ -380,3 +380,76 @@
   margin-bottom: 16px;
   line-height: 1.4;
 }
+
+/* Annotation canvas */
+.fb-annotation {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fb-annotation-toolbar {
+  display: flex;
+  gap: 4px;
+}
+
+.fb-annotation-tool {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--fb-radius-sm);
+  background: var(--fb-bg-surface);
+  color: var(--fb-text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background var(--fb-transition), border-color var(--fb-transition);
+}
+
+.fb-annotation-tool:hover:not(:disabled) {
+  border-color: var(--fb-accent);
+}
+
+.fb-annotation-tool--active {
+  background: rgba(79, 195, 247, 0.2);
+  border-color: var(--fb-accent);
+  color: var(--fb-accent);
+}
+
+.fb-annotation-tool:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.fb-annotation-canvas-wrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.fb-annotation-img {
+  display: block;
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: var(--fb-radius-sm);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.fb-annotation-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: crosshair;
+  border-radius: var(--fb-radius-sm);
+}
+
+@media (prefers-color-scheme: light) {
+  .fb-annotation-tool {
+    border-color: rgba(0, 0, 0, 0.15);
+  }
+}
