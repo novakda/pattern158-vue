@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: milestone_complete
-stopped_at: "v2.1 milestone archived"
-last_updated: "2026-04-06T20:16:26.775Z"
+milestone: v3.0
+milestone_name: Data Externalization
+status: defining_requirements
+stopped_at: "Defining requirements for v3.0"
+last_updated: "2026-04-06"
 last_activity: 2026-04-06
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,45 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-06)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Planning next milestone
+**Current focus:** Defining requirements for v3.0 Data Externalization
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: v2.1 milestone complete, archived
-Last activity: 2026-04-06
-
-Progress: [██████████] 100%
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 10 (v2.0)
-- Timeline: 4 days (2026-03-29 → 2026-04-02)
-
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| Phase 09 P01 | 6min | 1 tasks | 2 files |
-| Phase 09 P02 | 2min | 2 tasks | 6 files |
-| Phase 09 P03 | 2min | 1 tasks | 7 files |
-| Phase 10 P01 | 3min | 2 tasks | 3 files |
-| Phase 10 P02 | 2min | 2 tasks | 5 files |
-| Phase 11 P01 | 3min | 2 tasks | 2 files |
-| Phase 11 P02 | 13min | 2 tasks | 4 files |
-| Phase 12 P01 | 2min | 2 tasks | 10 files |
-| Phase 13 P01 | — | — | 7 files |
-| Phase 14 P01 | 2min | 2 tasks | 2 files |
-| Phase 16 P01 | 3min | 2 tasks | 4 files |
+Status: Defining requirements
+Last activity: 2026-04-06 — Milestone v3.0 started
 
 ## Accumulated Context
 
 ### Decisions
 
-*(v2.1 decisions archived to PROJECT.md Key Decisions table — 2026-04-06)*
+- Types will be centralized in `src/types/` (not kept in `src/data/` or co-located with JSON)
+- Out of Scope updated to clarify JSON externalization prepares for CMS but doesn't add runtime fetching
 
 ### Pending Todos
 
@@ -89,6 +65,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:35:00.000Z
-Stopped at: Completed github-intake issue #7 — mobile table labels
+Last session: 2026-04-06
+Stopped at: Starting v3.0 Data Externalization milestone
 Resume file: None

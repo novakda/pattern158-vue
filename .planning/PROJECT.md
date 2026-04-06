@@ -45,11 +45,15 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+- [ ] Extract all src/data/*.ts data into pure JSON files
+- [ ] Centralize all data type definitions in src/types/
+- [ ] Maintain all existing component imports and test coverage
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
-- Backend/CMS/data fetching — stays fully static
+- Backend/CMS/runtime data fetching — JSON externalization prepares for future CMS, but no runtime fetching or backend in this milestone
 - Animations/transitions — defer to a future pass
 - SSR/SSG — SPA is sufficient for a portfolio site
 - New exhibit content creation — restructure existing content, don't write new exhibits
@@ -58,7 +62,19 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-06) | **Status:** All milestones through v2.1 complete
+## Current Milestone: v3.0 Data Externalization
+
+**Goal:** Extract all hardcoded TypeScript data from `src/data/` into JSON files, centralizing type definitions in `src/types/`, to decouple content from code and enable future CMS integration.
+
+**Target features:**
+- Move 11 data files from TypeScript exports to pure JSON
+- Centralize all data type/interface definitions in `src/types/`
+- Ensure all existing component imports continue working (no breaking changes)
+- Maintain passing tests and clean production build throughout
+
+## Current State
+
+**Shipped:** v2.1 (2026-04-06) | **Status:** v3.0 in progress
 
 The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
 
@@ -113,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after v2.1 milestone completion*
+*Last updated: 2026-04-06 after v3.0 milestone start*
