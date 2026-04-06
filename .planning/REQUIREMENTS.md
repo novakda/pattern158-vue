@@ -15,11 +15,11 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 
 ### Simple Data Migration
 
-- [ ] **SMPL-01**: `stats.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **SMPL-02**: `techPills.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **SMPL-03**: `specialties.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **SMPL-04**: `brandElements.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **SMPL-05**: `methodologySteps.ts` data externalized to JSON with thin TypeScript loader
+- [x] **SMPL-01**: `stats.ts` data externalized to JSON with thin TypeScript loader
+- [x] **SMPL-02**: `techPills.ts` data externalized to JSON with thin TypeScript loader
+- [x] **SMPL-03**: `specialties.ts` data externalized to JSON with thin TypeScript loader
+- [x] **SMPL-04**: `brandElements.ts` data externalized to JSON with thin TypeScript loader
+- [x] **SMPL-05**: `methodologySteps.ts` data externalized to JSON with thin TypeScript loader
 
 ### Complex Data Migration
 
@@ -36,9 +36,9 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 
 ### Validation
 
-- [ ] **VALD-01**: All existing unit tests pass after each data file conversion (64+ tests)
-- [ ] **VALD-02**: Clean production build (`vite build`) succeeds after each conversion
-- [ ] **VALD-03**: No component file changes required (thin loader pattern preserves import paths)
+- [x] **VALD-01**: All existing unit tests pass after each data file conversion (64+ tests)
+- [x] **VALD-02**: Clean production build (`vite build`) succeeds after each conversion
+- [x] **VALD-03**: No component file changes required (thin loader pattern preserves import paths)
 
 ## Future Requirements
 
@@ -67,11 +67,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TYPE-01 | Phase 17 | Pending |
 | TYPE-02 | Phase 17 | Pending |
 | TYPE-03 | Phase 17 | Pending |
-| SMPL-01 | Phase 17 | Pending |
-| SMPL-02 | Phase 17 | Pending |
-| SMPL-03 | Phase 17 | Pending |
-| SMPL-04 | Phase 17 | Pending |
-| SMPL-05 | Phase 17 | Pending |
+| SMPL-01 | Phase 17 | Complete |
+| SMPL-02 | Phase 17 | Complete |
+| SMPL-03 | Phase 17 | Complete |
+| SMPL-04 | Phase 17 | Complete |
+| SMPL-05 | Phase 17 | Complete |
 | CPLX-01 | Phase 18 | Pending |
 | CPLX-02 | Phase 18 | Pending |
 | CPLX-03 | Phase 18 | Pending |
@@ -79,9 +79,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EXHB-01 | Phase 19 | Pending |
 | EXHB-02 | Phase 19 | Pending |
 | EXHB-03 | Phase 19 | Pending |
-| VALD-01 | Phase 17 | Pending |
-| VALD-02 | Phase 17 | Pending |
-| VALD-03 | Phase 17 | Pending |
+| VALD-01 | Phase 17 | Complete |
+| VALD-02 | Phase 17 | Complete |
+| VALD-03 | Phase 17 | Complete |
 
 **Coverage:**
 - v3.0 requirements: 18 total

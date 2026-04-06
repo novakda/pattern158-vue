@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
-last_activity: 2026-04-02
+milestone: v3.0
+milestone_name: Data Externalization
+status: executing
+stopped_at: Completed 17-02-PLAN.md
+last_updated: "2026-04-06T21:26:35.566Z"
+last_activity: 2026-04-06
 progress:
-  total_phases: 2
-  completed_phases: 2
+  total_phases: 3
+  completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 100
 ---
 
 # Project State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 ## Current Position
 
 Phase: 17
-Plan: 1 of 2 (17-01 complete)
-Status: In progress
+Plan: 2 of 2 (17-01 complete)
+Status: Ready to execute
 Last activity: 2026-04-06
 
 Progress: [█████░░░░░] 50%
@@ -54,6 +54,7 @@ Progress: [█████░░░░░] 50%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
+| Phase 17 P02 | 2min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -68,6 +69,7 @@ Progress: [█████░░░░░] 50%
 - [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
 - [Phase 17]: Centralized src/types/ directory with barrel index for all data interfaces
 - [Phase 17]: Component .types.ts files converted to backward-compat re-export shims from @/types
+- [Phase 17]: JSON externalization pattern: data in src/data/json/*.json, thin loader imports + type-asserts + re-exports
 
 ### Pending Todos
 
@@ -97,6 +99,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-06T21:19:20Z
-Stopped at: Completed 17-01 Types Infrastructure plan
+Last session: 2026-04-06T21:26:35.564Z
+Stopped at: Completed 17-02-PLAN.md
 Resume file: None
