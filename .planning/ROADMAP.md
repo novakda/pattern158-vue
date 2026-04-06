@@ -105,7 +105,9 @@ Plans:
   2. Discriminated union types (`exhibitType`, `ExhibitSection.type`) are correctly asserted on JSON import -- TypeScript catches type errors if section data mismatches its `type` field
   3. All 9 exhibit consumer components (ExhibitCard, ExhibitDetailPage, both layouts, CaseFilesPage, etc.) render correctly with no code changes
   4. All 64+ unit tests pass, `vite build` succeeds, and all 11 data files are now externalized to JSON
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 19-01-PLAN.md -- Migrate exhibits.ts to JSON + thin loader with centralized type definitions
 
 ## Progress
 
@@ -132,4 +134,4 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
 | 18. Complex Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 19. Exhibits Migration | v3.0 | 0/0 | Not started | - |
+| 19. Exhibits Migration | v3.0 | 0/1 | Not started | - |
