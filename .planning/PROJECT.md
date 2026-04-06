@@ -74,9 +74,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-06) | **Status:** v3.0 in progress
+**Shipped:** v2.1 (2026-04-06) | **Status:** v3.0 in progress (Phase 17 complete)
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
+Phase 17 complete — `src/types/` directory created with barrel exports for all data interfaces, cross-boundary types (Tag, ExpertiseLevel) centralized, and 5 simple data files (stats, techPills, specialties, brandElements, methodologySteps) externalized to JSON with thin TypeScript loaders. All existing imports unchanged. 64 unit tests passing, clean production build.
 
 ## Context
 
@@ -129,4 +129,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after v3.0 milestone start*
+*Last updated: 2026-04-06 after Phase 17 completion*
