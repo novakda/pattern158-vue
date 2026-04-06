@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Data Externalization
 status: executing
-stopped_at: Completed 18-01 complex data type definitions and JSON migration
-last_updated: "2026-04-06T21:42:39.463Z"
+stopped_at: Completed 18-02 FAQ data migration with faqCategories as const preservation
+last_updated: "2026-04-06T21:47:18Z"
 last_activity: 2026-04-06
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
-  percent: 75
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 17 — Types Infrastructure and Simple Data Migration
+**Current focus:** Phase 18 — Complex Data Migration (complete)
 
 ## Current Position
 
 Phase: 18
-Plan: Not started
-Status: Ready to execute
+Plan: 02 complete
+Status: Phase 18 complete — all 4 complex data files migrated
 Last activity: 2026-04-06
 
-Progress: [█████░░░░░] 50%
+Progress: [████████░░] 75%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [█████░░░░░] 50%
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
 | Phase 17 P02 | 2min | 2 tasks | 10 files |
 | Phase 18 P01 | 4min | 2 tasks | 11 files |
+| Phase 18 P02 | 2min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,7 @@ Progress: [█████░░░░░] 50%
 - [Phase 17]: Component .types.ts files converted to backward-compat re-export shims from @/types
 - [Phase 17]: JSON externalization pattern: data in src/data/json/*.json, thin loader imports + type-asserts + re-exports
 - [Phase 18]: Type assertions (as T[]) needed for JSON loaders with optional fields
+- [Phase 18]: faqCategories kept as const satisfies in TypeScript; only faqItems moved to JSON
 
 ### Pending Todos
 
@@ -101,6 +103,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-06T21:42:39.461Z
-Stopped at: Completed 18-01 complex data type definitions and JSON migration
+Last session: 2026-04-06T21:47:18Z
+Stopped at: Completed 18-02 FAQ data migration with faqCategories as const preservation
 Resume file: None
