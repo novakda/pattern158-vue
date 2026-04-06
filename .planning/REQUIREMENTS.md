@@ -30,9 +30,9 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 
 ### Exhibits Migration
 
-- [ ] **EXHB-01**: `exhibits.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **EXHB-02**: All discriminated union types (`exhibitType`, section `type`) correctly asserted on JSON import
-- [ ] **EXHB-03**: All 9 exhibit consumer components render correctly after migration
+- [x] **EXHB-01**: `exhibits.ts` data externalized to JSON with thin TypeScript loader
+- [x] **EXHB-02**: All discriminated union types (`exhibitType`, section `type`) correctly asserted on JSON import
+- [x] **EXHB-03**: All 9 exhibit consumer components render correctly after migration
 
 ### Validation
 
@@ -76,9 +76,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CPLX-02 | Phase 18 | Complete |
 | CPLX-03 | Phase 18 | Complete |
 | CPLX-04 | Phase 18 | Complete |
-| EXHB-01 | Phase 19 | Pending |
-| EXHB-02 | Phase 19 | Pending |
-| EXHB-03 | Phase 19 | Pending |
+| EXHB-01 | Phase 19 | Complete |
+| EXHB-02 | Phase 19 | Complete |
+| EXHB-03 | Phase 19 | Complete |
 | VALD-01 | Phase 17 | Complete |
 | VALD-02 | Phase 17 | Complete |
 | VALD-03 | Phase 17 | Complete |

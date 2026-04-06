@@ -64,7 +64,7 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 
 - [x] **Phase 17: Types Infrastructure and Simple Data Migration** - Establish `src/types/` directory and prove the thin loader pattern on 5 simple data files (completed 2026-04-06)
 - [x] **Phase 18: Complex Data Migration** - Migrate 4 files with nested structures, union types, and `as const` handling (completed 2026-04-06)
-- [ ] **Phase 19: Exhibits Migration** - Migrate the most complex data file (exhibits.ts) with discriminated unions and 9 consumer components
+- [x] **Phase 19: Exhibits Migration** - Migrate the most complex data file (exhibits.ts) with discriminated unions and 9 consumer components (completed 2026-04-06)
 
 ## Phase Details
 
@@ -105,9 +105,9 @@ Plans:
   2. Discriminated union types (`exhibitType`, `ExhibitSection.type`) are correctly asserted on JSON import -- TypeScript catches type errors if section data mismatches its `type` field
   3. All 9 exhibit consumer components (ExhibitCard, ExhibitDetailPage, both layouts, CaseFilesPage, etc.) render correctly with no code changes
   4. All 64+ unit tests pass, `vite build` succeeds, and all 11 data files are now externalized to JSON
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 19-01-PLAN.md -- Migrate exhibits.ts to JSON + thin loader with centralized type definitions
+- [x] 19-01-PLAN.md -- Migrate exhibits.ts to JSON + thin loader with centralized type definitions
 
 ## Progress
 
@@ -134,4 +134,4 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
 | 18. Complex Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 19. Exhibits Migration | v3.0 | 0/1 | Not started | - |
+| 19. Exhibits Migration | v3.0 | 1/1 | Complete    | 2026-04-06 |
