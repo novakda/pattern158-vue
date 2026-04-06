@@ -23,9 +23,9 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 
 ### Complex Data Migration
 
-- [ ] **CPLX-01**: `findings.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **CPLX-02**: `philosophyInfluences.ts` data externalized to JSON with thin TypeScript loader
-- [ ] **CPLX-03**: `influences.ts` data externalized to JSON with thin TypeScript loader
+- [x] **CPLX-01**: `findings.ts` data externalized to JSON with thin TypeScript loader
+- [x] **CPLX-02**: `philosophyInfluences.ts` data externalized to JSON with thin TypeScript loader
+- [x] **CPLX-03**: `influences.ts` data externalized to JSON with thin TypeScript loader
 - [ ] **CPLX-04**: `faq.ts` data externalized to JSON with thin TypeScript loader, `faqCategories` `as const` handling preserved
 
 ### Exhibits Migration
@@ -72,9 +72,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SMPL-03 | Phase 17 | Complete |
 | SMPL-04 | Phase 17 | Complete |
 | SMPL-05 | Phase 17 | Complete |
-| CPLX-01 | Phase 18 | Pending |
-| CPLX-02 | Phase 18 | Pending |
-| CPLX-03 | Phase 18 | Pending |
+| CPLX-01 | Phase 18 | Complete |
+| CPLX-02 | Phase 18 | Complete |
+| CPLX-03 | Phase 18 | Complete |
 | CPLX-04 | Phase 18 | Pending |
 | EXHB-01 | Phase 19 | Pending |
 | EXHB-02 | Phase 19 | Pending |

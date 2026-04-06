@@ -91,9 +91,9 @@ Plans:
   2. `faqCategories` `as const` literal type behavior is preserved (explicit union type in `src/types/` or const array kept in TypeScript, not moved to JSON)
   3. All 64+ unit tests pass and `vite build` succeeds
   4. Zero `.vue` and zero `.test.ts` files are modified
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 Plans:
-- [ ] 18-01-PLAN.md -- Create type definitions for 4 complex data files and migrate findings, philosophyInfluences, influences to JSON + thin loaders
+- [x] 18-01-PLAN.md -- Create type definitions for 4 complex data files and migrate findings, philosophyInfluences, influences to JSON + thin loaders
 - [ ] 18-02-PLAN.md -- Migrate faq.ts to JSON + thin loader with faqCategories as const preservation
 
 ### Phase 19: Exhibits Migration
@@ -131,5 +131,5 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 18. Complex Data Migration | v3.0 | 0/2 | Not started | - |
+| 18. Complex Data Migration | v3.0 | 1/2 | In Progress|  |
 | 19. Exhibits Migration | v3.0 | 0/0 | Not started | - |
