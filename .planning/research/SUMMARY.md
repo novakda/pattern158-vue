@@ -1,174 +1,168 @@
 # Project Research Summary
 
-**Project:** Pattern 158 v2.0 -- Dual Exhibit Templates and IA Restructure
-**Domain:** Vue 3 SPA portfolio site for senior engineer with proprietary work history
-**Researched:** 2026-03-27
+**Project:** Pattern 158 v3.0 -- JSON Data Externalization
+**Domain:** Data layer refactoring for Vue 3 + TypeScript + Vite portfolio site
+**Researched:** 2026-04-06
 **Confidence:** HIGH
 
 ## Executive Summary
 
-Pattern 158 v2.0 is an information architecture restructure of an existing Vue 3 portfolio site, not a greenfield build. The site presents 28+ years of proprietary engineering work through 15 evidence-based "exhibits" -- primary-source quotes, email corpus metrics, and named personnel replacing the public repos and live demos that this engineer cannot show. The core problem: two listing pages (Portfolio and Field Reports/Testimonials) present overlapping exhibit content from different angles with separate data sources, and all 15 exhibits share a single detail template despite having two distinct content structures.
+This milestone is a surgical refactoring of 11 TypeScript data files in an existing Vue 3 portfolio site. The goal is to decouple static content (JSON) from code (TypeScript types and imports), preparing the architecture for future CMS integration. The critical finding across all research: **zero new dependencies are needed**. The existing stack (TypeScript 5.7, Vite 6.2, vue-tsc 2.2) already has full JSON import support via `resolveJsonModule: true`, which is already enabled in tsconfig.json. This is purely a structural reorganization.
 
-The recommended approach requires zero new dependencies. The entire v2.0 scope is achievable with Vue 3's built-in component system, TypeScript discriminated unions, and Vue Router redirects -- all patterns already validated in the existing codebase. The work is: (1) replace two ambiguous boolean flags with a single `exhibitType` string literal discriminant on the data model, (2) merge two listing pages into one unified Case Files page with type-aware cards, (3) extract the monolithic detail page into a thin dispatcher plus two focused layout components, and (4) update all routes, navigation, and internal links atomically.
+The recommended approach is the "thin loader" pattern: each `src/data/*.ts` file becomes a wrapper that imports raw JSON from a `src/data/json/` subdirectory, applies a type assertion, and re-exports both data and types. This preserves all 25+ existing import statements across pages, components, and tests with zero consumer changes. Types are extracted to a new centralized `src/types/` directory with a barrel index. The result is 22 new files (11 type files + 11 JSON files), 11 modified files (the loaders), and zero changed consumer files.
 
-The primary risks are content loss during the page merge (the two pages contain unique content beyond just exhibit cards -- project directory tables, stats bars, executive summary prose) and orphaned internal links (route references are scattered across 10+ files with no centralized registry). Both risks are fully mitigatable through upfront inventories and atomic phase execution. The architecture research produced a complete 15-exhibit classification mapping and a file-level impact analysis, giving high confidence in the implementation plan.
+The primary risks are type widening (JSON strings lose literal union narrowing), breaking the import contract across 25+ consumers, and `as const` loss for FAQ categories. All three are fully mitigated by the thin loader pattern and explicit type assertions. The migration order is critical: start with the simplest files to prove the pattern, progress through nested types, resolve the cross-dependency for technologies.ts, and finish with the complex exhibits.ts (138KB, 8 interfaces, 9 consumer files). Every tier must end with all 64 tests passing and a clean production build.
 
 ## Key Findings
 
 ### Recommended Stack
 
-No new packages. The existing stack (Vue 3.5.30, TypeScript 5.7, Vite 6, Vue Router 4.6.4) provides everything needed. The key Vue patterns are `v-if/v-else` for template dispatch, `defineAsyncComponent` for lazy layout loading (optional at this scale), computed properties for type-based filtering, and Vue Router `redirect` for backward-compatible route changes.
+No new packages. The existing stack handles everything. See [STACK.md](STACK.md) for full analysis.
 
-**Core patterns (all built-in):**
-- **TypeScript discriminated union** (`ExhibitType = 'investigation-report' | 'engineering-brief'`): replaces two overlapping boolean flags with a self-documenting, extensible discriminant
-- **`v-if/v-else` template dispatch**: two exhibit types means two branches, not a dynamic component registry
-- **Vue Router `redirect`**: zero-cost backward compatibility for renamed routes
-- **Computed filtering**: idiomatic Vue for deriving exhibit subsets from static data
+**Core technologies (all already configured):**
+- **TypeScript ~5.7.0:** `resolveJsonModule: true` already set; infers structural types from JSON imports automatically
+- **Vite ^6.2.0:** Native JSON import with build-time compilation to ES modules; small JSON inlined into bundle
+- **vue-tsc ^2.2.0:** Type-checks JSON imports in `.vue` files; inherits TypeScript's resolution behavior
 
-**What NOT to add:** Pinia/Vuex (data is static imports), separate routes per exhibit type (breaks bookmarks if reclassified), provide/inject (one level of props), CSS Modules (project uses cascade layers).
+**Critical non-changes:** No modifications needed to tsconfig.json, vite.config.ts, or package.json. The `include` array does not need `"src/**/*.json"` added -- JSON files are resolved transitively through import statements.
 
 ### Expected Features
 
-**Must have (v2.0 -- resolves IA redundancy):**
-- Classify all 15 exhibits as Investigation Report (5) or Engineering Brief (10) in data model
-- Unified Case Files listing page replacing Portfolio + Field Reports
-- Visual type distinction on cards (badge, border, CTA text per type)
-- Detail page type label for both types (Investigation Report badge exists; Engineering Brief needs equivalent)
-- Navigation coherence (single entry point replacing two)
-- Route redirects for `/portfolio` and `/testimonials`
-- Project directory (38 projects, 7 industry tables) relocated to Case Files
-- Stats bar consolidated onto Case Files
-- Three Lenses AI-generated content deliberately removed
+See [FEATURES.md](FEATURES.md) for the full inventory and conversion notes per file.
 
-**Should have (v2.x after validation):**
-- Type-filtered listing view (tabs or toggle on Case Files)
-- Engineering Brief template refinements if the generic layout does not fit well
-- Flagship data consolidation (merge summaries into Exhibit interface or retire `portfolioFlagships.ts`)
-- Storybook stories for all new/modified components
-- Homepage CTA updates
+**Must have (v3.0 -- all P1):**
+- JSON files replacing all 11 TS data exports
+- Centralized type definitions in `src/types/` with barrel index
+- Type-safe re-export wrapper modules preserving `@/data/*` import paths
+- Zero breaking changes to 25+ component/test imports
+- All 64 tests passing, clean production build
 
-**Defer (v3+):**
-- New exhibit content creation
-- Technology cross-references between exhibits
-- Tag-based filtering (premature at 15 items)
+**Should have (v3.0 differentiators):**
+- Cross-dependency resolution for `Tag`/`ExpertiseLevel` shared types
+- `as const` behavior preserved for `faqCategories` (stays in TypeScript, not JSON)
+- Discriminated union types validated through type assertion layer
+
+**Defer (v3.x / v4+):**
+- JSON formatting/linting in CI
+- Runtime validation (Zod/Valibot) -- only needed if data source becomes external
+- Per-exhibit file splitting -- only if exhibit count exceeds 50
+- CMS integration replacing JSON with API responses
+
+**Anti-features (explicitly rejected):**
+- Runtime JSON validation libraries (data is static, developer-authored)
+- YAML/TOML (adds parser dependency for no benefit)
+- Dynamic `import()` for JSON (breaks HMR, unnecessary for <5KB files)
+- Auto-generating types from JSON (loses semantic meaning, optional fields, unions)
+- Moving data to `public/` for runtime fetch (loses type safety and tree-shaking)
 
 ### Architecture Approach
 
-Single ExhibitDetailPage.vue acts as a dispatcher: it owns route resolution, SEO meta, the shared header (label, client, date, title, type badge), 404 handling, and back-navigation. It delegates body rendering to two extracted layout components -- InvestigationReportLayout (structured sections: text, table, flow, timeline, metadata) and EngineeringBriefLayout (quotes, context narrative, resolution tables). Both layouts must handle all optional Exhibit fields because the data shapes overlap; the distinction is presentation emphasis, not data presence. A new CaseFileCard component replaces both ExhibitCard and FlagshipCard with type-driven CSS modifiers and conditional content slots.
+The architecture follows a three-layer pattern: **JSON data** (pure content in `src/data/json/`), **typed loaders** (thin wrappers in `src/data/*.ts` that apply type assertions), and **centralized types** (interfaces in `src/types/`). Components import from loaders only -- they never know JSON exists. See [ARCHITECTURE.md](ARCHITECTURE.md) for the full directory structure, all 5 integration patterns, and the complete import map.
 
 **Major components:**
-1. **CaseFilesPage.vue** (NEW) -- unified listing with type-grouped sections, project directory, stats bar
-2. **CaseFileCard.vue** (NEW) -- single card component with `.type-investigation-report` / `.type-engineering-brief` CSS modifiers
-3. **InvestigationReportLayout.vue** (NEW) -- detail body for NTSB-style structured investigations
-4. **EngineeringBriefLayout.vue** (NEW) -- detail body for quote-driven engineering narratives
-5. **ExhibitDetailPage.vue** (MODIFIED) -- slimmed to dispatcher pattern (~80 lines)
+1. **`src/types/` directory** (11 type files + barrel index) -- centralized type definitions extracted from data files; component-owned types (`TechTags.types.ts`, `ExpertiseBadge.types.ts`) stay with their components
+2. **`src/data/json/` directory** (11 JSON files) -- pure content data, no TypeScript constructs; each file maps 1:1 to an existing data module
+3. **`src/data/*.ts` loader files** (11 modified) -- thin wrappers importing JSON, asserting types, re-exporting both data values and type definitions to preserve the existing import API
 
-**Retired:** ExhibitCard.vue, FlagshipCard.vue, NarrativeCard.vue, PortfolioPage.vue, TestimonialsPage.vue, portfolioFlagships.ts, portfolioNarratives.ts
+**Key architectural decisions:**
+- JSON files in a `json/` subdirectory (not flat alongside .ts loaders) for directory scannability
+- `faqCategories` stays in TypeScript (structural metadata with `as const` literal types, not externalizable content)
+- Component-owned types stay in `src/components/` -- `src/types/technologies.ts` imports from them, creating a deliberate cross-boundary dependency that is acceptable because data types reference component types (data feeds components)
 
 ### Critical Pitfalls
 
-1. **Orphaned internal links after route removal** -- Route references exist in 10+ files (NavBar, HomeHero, HomePage, ExhibitDetailPage, ContactMethods, tests, Storybook stories). All must update atomically with route changes. ContactMethods uses a plain `<a href>` that will not follow client-side redirects. Mitigation: grep-based route inventory, atomic update phase.
+See [PITFALLS.md](PITFALLS.md) for all 6 pitfalls with code examples and recovery strategies.
 
-2. **Content loss during page merge** -- Portfolio page has 38-project directory (90 lines of HTML tables), stats bars, and flagship summaries. Testimonials page has executive summary prose, different stats, and TestimonialsMetrics. A naive exhibit-card listing loses all of this. Mitigation: content inventory with explicit disposition for every section before building.
+1. **JSON imports widen string unions to `string`** -- Discriminated unions on `exhibitType`, `ExhibitSection.type`, and `FaqItem.category` silently break. Prevent with explicit type assertions in loader wrappers (`as Exhibit[]`). Establish the pattern in Phase 1 before any data moves.
 
-3. **Data model mutation breaking existing pages** -- Adding `exhibitType` while removing `investigationReport` and `isDetailExhibit` must happen in one atomic data migration with values for all 15 exhibits. Never add required fields without providing values for all entries in the same commit. Mitigation: data validation test, type-check pass between data and template changes.
+2. **Breaking the 25+ import contract** -- Components import both data and types from `@/data/*`. If wrappers do not re-export types, consumer imports break. Every wrapper must include `export type { ... }` re-exports. Verify with `git diff` showing zero changes in page/component files.
 
-4. **Template conditional explosion** -- Adding a second layout path via inline `v-if/v-else` in ExhibitDetailPage (already 155 lines) creates an untestable monolith. Mitigation: extract to two named layout components from the start, not as a later refactor.
+3. **ExhibitSection discriminant loses runtime validation** -- `as ExhibitSection[]` trusts data blindly. Add validation tests verifying correct companion fields per section type (`text` has `body`, `table` has `columns`+`rows`, etc.) before creating exhibits.json.
 
-5. **CSS body class conflicts** -- Both pages use `useBodyClass()` with page-specific classes. CSS rules scoped to `.page-portfolio` and `.page-testimonials` stop applying when those pages are removed. Mitigation: audit CSS selectors, create `.page-case-files` styles in the same phase as page creation.
+4. **Cross-boundary type dependencies for technologies.ts** -- `TechCardData` references `Tag` and `ExpertiseLevel` from component type files. Decision: keep component types in `src/components/`, import into `src/types/technologies.ts`. Resolve before migrating technologies data.
+
+5. **`as const` has no JSON equivalent** -- `faqCategories` and `expertiseLevels` use `as const` for literal narrowing. Define explicit literal union types in `src/types/` instead. Keep const arrays in TypeScript files.
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure:
+Based on combined research, the milestone should be structured as 4 phases following the dependency chain and increasing complexity. Total new files: 22. Total modified files: 11. Total consumer file changes: 0.
 
-### Phase 1: Data Model Migration
+### Phase 1: Foundation -- Types Directory and Simple File Migration
+**Rationale:** The loader pattern and types directory are prerequisites for every subsequent phase. Proving the pattern on the simplest files first eliminates risk.
+**Delivers:** `src/types/` directory with barrel index; first 5 simple data files migrated (techPills, stats, specialties, brandElements, methodologySteps); pattern validated end-to-end.
+**Addresses:** Table stakes (centralized types, type-safe re-exports, zero breaking changes); establishes Pattern 1 (type-safe assignment) and Pattern 4 (primitive array).
+**Avoids:** Pitfall 1 (untyped JSON imports), Pitfall 2 (broken import contract), Pitfall 6 (migration order breakage).
+**Checkpoint:** All 64 tests pass. Clean `vite build`. `git diff` shows zero changes in `.vue` or `.test.ts` files.
 
-**Rationale:** Everything depends on the `exhibitType` discriminant existing. This is the foundation with zero visual impact -- pure data refactor that can be validated with type-checking and unit tests before any UI work begins.
-**Delivers:** Clean exhibit classification (10 engineering briefs, 5 investigation reports), removal of ambiguous `isDetailExhibit` and `investigationReport` flags, updated data validation tests.
-**Addresses:** Exhibit type classification (P1 feature), data model consistency.
-**Avoids:** Pitfall 3 (data model mutation breaking pages) -- by updating all 15 exhibits in one atomic change with a passing test suite.
+### Phase 2: Nested and Union Types
+**Rationale:** Medium-complexity files with nested structures but no cross-file type dependencies. Proves the pattern scales to more complex shapes.
+**Delivers:** 4 more data files migrated (findings, philosophyInfluences, influences, faq); `faqCategories` kept in TypeScript with explicit literal union types.
+**Addresses:** Differentiators (`as const` preservation, discriminated union validation for FAQ categories); Pattern 2 (type assertion for union literals).
+**Avoids:** Pitfall 5 (`as const` loss -- explicit union types replace it).
+**Checkpoint:** All 64 tests pass. Clean `vite build`.
 
-### Phase 2: Detail Template Extraction
+### Phase 3: Cross-Dependency Resolution and Technologies
+**Rationale:** `technologies.ts` cannot be migrated until the `Tag`/`ExpertiseLevel` type ownership is resolved. This is an isolated decision that affects only 3-4 component files.
+**Delivers:** `src/types/technologies.ts` importing from component type files; technologies data in JSON; cross-dependency cleanly documented.
+**Addresses:** Differentiator (cross-dependency resolution); Pattern 3 (loader with cross-type dependency).
+**Avoids:** Pitfall 4 (circular dependencies, inverted type ownership).
+**Checkpoint:** All 64 tests pass. Clean `vite build`. No circular dependency warnings.
 
-**Rationale:** Can proceed immediately after Phase 1 since it depends only on `exhibitType` existing. Independent of listing page work. Extracting templates early means the detail page is stable before route changes create navigation churn.
-**Delivers:** InvestigationReportLayout.vue, EngineeringBriefLayout.vue, slimmed ExhibitDetailPage dispatcher. All 15 exhibits rendering correctly through the new template dispatch.
-**Addresses:** Engineering Brief as distinct type (differentiator feature), detail page type labels.
-**Avoids:** Pitfall 4 (conditional explosion) -- by extracting from the start rather than forking inline.
-
-### Phase 3: Unified Listing Page
-
-**Rationale:** Depends on Phase 1 (needs `exhibitType` for filtering/grouping). This is the most visible change and the most content-sensitive. Building it while old pages still exist allows side-by-side comparison.
-**Delivers:** CaseFilesPage.vue, CaseFileCard.vue, relocated project directory and stats bar, retired Three Lenses content.
-**Addresses:** Unified Case Files listing (P1), visual type distinction on cards (P1), breadth signal preservation, stats consolidation, Three Lenses removal.
-**Avoids:** Pitfall 5 (content loss during merge) -- by building new page alongside old ones with explicit content inventory.
-
-### Phase 4: Route and Navigation Migration
-
-**Rationale:** Must come after Phases 2 and 3 so that the new page and templates are complete and tested before old routes are removed. All link updates happen atomically in one phase.
-**Delivers:** New `/case-files` route, redirects for `/portfolio` and `/testimonials`, updated NavBar, HomePage CTAs, ExhibitDetailPage back-nav, ContactMethods href, updated tests and Storybook stories.
-**Addresses:** Navigation coherence (P1), route redirects (P1), back-nav update (P1).
-**Avoids:** Pitfall 1 (orphaned links) and Pitfall 6 (back link context) -- by updating every reference in one atomic phase using the route inventory from pitfalls research. Pitfall 2 (SEO damage) -- by shipping redirects with the route change.
-
-### Phase 5: Cleanup and Retirement
-
-**Rationale:** Only after all new components are wired and tested. Removing dead code is low risk but should be verified with a full regression pass.
-**Delivers:** Removal of PortfolioPage, TestimonialsPage, ExhibitCard, FlagshipCard, NarrativeCard, portfolioFlagships.ts, portfolioNarratives.ts, stale Storybook stories, orphaned CSS.
-**Addresses:** Clean codebase, no orphaned components or data files.
-**Avoids:** Pitfall 7 (CSS body class conflicts) -- by auditing and migrating CSS in the same phase as removal.
+### Phase 4: Exhibits Migration and Validation
+**Rationale:** Most complex file (138KB, 8 interfaces, discriminated unions, 9 consumer files). Must be last so the pattern is fully proven. Needs additional validation tests.
+**Delivers:** `exhibits.json` with all 15 exhibits; `src/types/exhibits.ts` with all interfaces; new validation tests for section type/field consistency; Pattern 5 (complex union types).
+**Addresses:** Table stakes (all 11 files migrated, all tests pass, clean build); Differentiator (discriminated unions preserved).
+**Avoids:** Pitfall 3 (section discriminant validation via new tests), Pitfall 6 (exhibits last, not first).
+**Checkpoint:** 64+ tests pass (new validation tests added). Clean `vite build`. Spot-check ExhibitDetailPage renders all 15 exhibits.
 
 ### Phase Ordering Rationale
 
-- **Data model first** because every subsequent phase reads `exhibitType`. Validated independently with TypeScript compiler and unit tests.
-- **Detail templates before listing page** because template extraction is a focused refactor (one component in, two components out) with clear verification (all 15 exhibits must render). Listing page is higher-risk content work that benefits from a stable detail layer.
-- **Listing page before route changes** because building alongside old pages enables comparison and content verification. No user-facing breakage until routes switch.
-- **Routes as atomic phase** because the pitfalls research identified 10+ files with hardcoded paths. Splitting route removal and reference updates across phases guarantees orphaned links.
-- **Cleanup last** because premature file deletion creates risk with no benefit. Dead files cost nothing; broken imports cost debugging time.
+- **Dependency-driven:** Types directory must exist before any loader can import from it. Simple files have no dependencies on each other. Technologies depends on cross-type resolution. Exhibits is the terminal node.
+- **Risk-graduated:** Simplest files first (2-field interfaces, 1 consumer) through medium (nested objects, optional fields) to most complex (8 interfaces, discriminated unions, 9 consumers). Each tier validates the pattern before the next tier begins.
+- **Every phase is independently shippable:** Each phase ends with all tests passing and a clean build. If the milestone is interrupted, the partial migration is stable.
 
 ### Research Flags
 
-Phases likely needing deeper research during planning:
-- **Phase 2 (Detail Template Extraction):** Exhibits A, E, and F are engineering briefs with `sections` arrays. The layout split is about presentation emphasis, not data shape. Needs careful review of which sections each layout renders and how. May benefit from `/gsd:research-phase` to audit all 15 exhibits' actual content structures.
-- **Phase 3 (Unified Listing Page):** Content disposition decisions needed for TestimonialsMetrics component, executive summary prose, and two different stats bars. Needs a content inventory checklist before implementation.
+Phases with standard patterns (skip phase-level research):
+- **Phase 1:** Well-documented pattern (JSON imports + typed wrappers). TypeScript and Vite documentation is extensive. Direct codebase analysis provides all needed specifics.
+- **Phase 2:** Same pattern with minor variation for `as const`. Fully covered by existing research.
+- **Phase 3:** Cross-dependency is a one-time architectural decision already analyzed in ARCHITECTURE.md and PITFALLS.md.
 
-Phases with standard patterns (skip research-phase):
-- **Phase 1 (Data Model Migration):** Pure TypeScript interface change with well-documented discriminated union pattern. Classification mapping already complete in architecture research.
-- **Phase 4 (Route Migration):** Vue Router redirects are documented core functionality. Complete file inventory already provided in pitfalls research.
-- **Phase 5 (Cleanup):** File deletion and dead code removal. No research needed.
+Phases that may benefit from validation during planning:
+- **Phase 4:** The exhibits.json conversion is mechanical but large. The "Looks Done But Isn't" checklist in PITFALLS.md (Unicode preservation, `null` vs absent fields, optional field handling) should be used as acceptance criteria. Consider whether the validation tests should be written as a sub-phase before the JSON conversion.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | Zero new dependencies. All patterns use built-in Vue 3 / TypeScript features already validated in v1.0/v1.1. Sources are official Vue and TypeScript documentation. |
-| Features | HIGH | Feature list derived from direct codebase audit of all 15 exhibits plus PROJECT.md requirements. External sources are secondary confirmation. |
-| Architecture | HIGH | Component architecture, data model evolution, and build order derived from direct analysis of every affected file. Complete 15-exhibit classification mapping produced. |
-| Pitfalls | HIGH | Every pitfall identified by grep/analysis of actual codebase files (14 files examined). File names and line numbers provided. No theoretical pitfalls -- all are concrete. |
+| Stack | HIGH | Zero new dependencies. All capabilities verified directly in project tsconfig.json and vite.config.ts. Features used (resolveJsonModule, Vite JSON imports) are stable since 2018+. |
+| Features | HIGH | All 11 data files inventoried with exact line counts, type counts, consumer counts, and conversion complexity. Scope is tightly bounded by existing PROJECT.md. |
+| Architecture | HIGH | Complete import map of all 25+ consumer statements verified against codebase. Directory structure and loader patterns derived from direct analysis. |
+| Pitfalls | HIGH | All pitfalls derived from actual code patterns in the codebase (discriminated unions, `as const`, cross-type imports). No speculative pitfalls -- every one maps to a specific file and line. |
 
-**Overall confidence:** HIGH -- This is an established codebase restructure with no new technology, no external integrations, and no uncertain requirements. The research is grounded in direct code analysis rather than external sources.
+**Overall confidence:** HIGH
+
+All four research outputs are based on direct codebase analysis rather than external documentation or community patterns. The project has a complete test suite (64 tests) that serves as a regression safety net. The migration involves no new dependencies, no API integrations, and no external services -- the risk surface is entirely within the developer's control.
 
 ### Gaps to Address
 
-- **TestimonialsMetrics disposition:** Research identified this component needs relocation or removal but did not make a firm recommendation. Decision needed during Phase 3 planning: relocate to Case Files page, fold content into a different format, or remove.
-- **Flagship summary content:** `portfolioFlagships.ts` contains `summary` and `quote` fields that extend exhibit data. Decision needed: merge summaries into the Exhibit interface (richer cards on listing page) or accept that CaseFileCard renders from existing exhibit fields only. Deferred to v2.x is acceptable.
-- **Project directory data extraction:** The 38-project directory is 90 lines of hardcoded HTML tables. Research flags this as acceptable tech debt for v2.0 (relocate HTML as-is) but notes it should be extracted to data if the directory grows. Not blocking.
-- **Engineering Brief section rendering:** Briefs A, E, and F have `sections` arrays despite being classified as engineering briefs. EngineeringBriefLayout must render sections -- the layout distinction is framing and emphasis, not field presence. This needs attention during Phase 2 implementation.
+- **HowIWorkSection.vue hardcoded content:** Architecture research noted that this page has hardcoded content instead of consuming `methodologySteps.ts`. The MethodologyStep.vue component exists but is unused. This is not a blocker for data externalization (the file still gets migrated), but it is a known inconsistency to address in a future milestone.
+- **Storybook build verification:** Mentioned in PITFALLS.md checklist but not deeply investigated. Need to verify whether `npm run storybook` is currently configured and working before relying on it as a verification step.
+- **Unicode edge cases in exhibits:** PITFALLS.md flags em dashes and curly quotes. The conversion from TypeScript string literals to JSON strings should preserve these (both are UTF-8), but a before/after diff of the rendered exhibits page is the definitive validation.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- Direct codebase analysis: all 15 exhibits in `exhibits.ts`, `ExhibitDetailPage.vue`, `PortfolioPage.vue`, `TestimonialsPage.vue`, `ExhibitCard.vue`, `FlagshipCard.vue`, `NarrativeCard.vue`, `NavBar.vue`, `HomePage.vue`, `HomeHero.vue`, `CtaButtons.vue`, `ContactMethods.vue`, `router.ts`, `ExhibitDetailPage.test.ts`
-- Vue 3 official documentation: dynamic components, async components, computed properties
-- Vue Router 4 official documentation: redirect and alias
-- TypeScript handbook: discriminated unions and type narrowing
-- PROJECT.md v2.0 milestone requirements
+- Direct analysis of all 11 `src/data/*.ts` files -- type patterns, export shapes, consumer counts
+- Direct analysis of all 25+ consumer imports across `src/pages/`, `src/components/`, and test files
+- Project `tsconfig.json` -- confirmed `resolveJsonModule: true`, `moduleResolution: "bundler"`
+- Project `vite.config.ts` -- confirmed no special JSON configuration needed
 
-### Secondary (MEDIUM confidence)
-- DEV Community, Codecademy, TextExpander, Toptal, Artfolio: portfolio best practices and case study structuring
-- NTSB official site: investigation process methodology (framing reference)
-
-### Tertiary (LOW confidence)
-- Quora community advice on showing proprietary work in portfolios
+### Secondary (HIGH confidence)
+- TypeScript `resolveJsonModule` -- stable since TypeScript 2.9 (2018), well-documented behavior
+- Vite JSON import handling -- documented core feature since Vite 1.0, tree-shaking since Vite 2.0
+- TypeScript discriminated union narrowing with type assertions -- core language behavior
 
 ---
-*Research completed: 2026-03-27*
+*Research completed: 2026-04-06*
 *Ready for roadmap: yes*

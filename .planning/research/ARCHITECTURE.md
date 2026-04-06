@@ -1,455 +1,503 @@
-# Architecture Research
+# Architecture Patterns
 
-**Domain:** Vue 3 SPA — Dual exhibit template integration with unified listing page
-**Researched:** 2026-03-27
-**Confidence:** HIGH — derived from direct analysis of all 15 exhibits, existing page/component/data architecture
+**Domain:** JSON data externalization for Vue 3 SPA portfolio site
+**Researched:** 2026-04-06
+**Confidence:** HIGH -- derived from direct analysis of all 11 data files, all consumer imports, tsconfig, and Vite configuration
 
-## System Overview: Current State
+## Current Architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                          Router (9 routes + 1 dynamic)           │
-├──────────────┬──────────────┬──────────────┬────────────────────┤
-│ PortfolioPage│ Testimonials │ ExhibitDetail│ 8 other pages      │
-│              │   Page       │    Page      │                    │
-│ ┌──────────┐ │ ┌──────────┐│ (single      │                    │
-│ │Narrative │ │ │ExhibitCard││  template,   │                    │
-│ │Card      │ │ └──────────┘│  :slug param)│                    │
-│ │FlagshipCd│ │ ┌──────────┐│              │                    │
-│ └──────────┘ │ │Testimonial││              │                    │
-│              │ │Metrics   ││              │                    │
-│              │ └──────────┘│              │                    │
-├──────────────┴──────────────┴──────────────┴────────────────────┤
-│                        Data Layer (static TS)                    │
-│  exhibits.ts  portfolioFlagships.ts  portfolioNarratives.ts      │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Current Problems
-
-1. **Content redundancy:** PortfolioPage and TestimonialsPage present overlapping exhibit data from different angles, with separate data sources (`portfolioFlagships.ts` duplicates content already in `exhibits.ts`)
-2. **Hardcoded split:** TestimonialsPage uses `exhibits.slice(0, 9)` / `exhibits.slice(9)` to separate field reports from investigation reports -- brittle and array-order-dependent
-3. **Single template:** ExhibitDetailPage renders all 15 exhibits with one template. Investigation reports (J, K, L, M, N) have rich `sections` arrays with structured content types; field reports (A-I, O) lean on quotes and contextText. Both get the same layout.
-4. **Inconsistent classification flags:** `isDetailExhibit` (set on 9 of 15 exhibits) and `investigationReport` (5 true, 1 explicit false, 9 absent) overlap without clear semantics. `isDetailExhibit` only applies a CSS class on ExhibitCard; its purpose is undocumented.
-
-## System Overview: Target State
+### Data Flow (Before)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     Router (updated routes)                      │
-├─────────────────────────────────────────────────────────────────┤
-│  /case-files  -> CaseFilesPage (unified listing)                 │
-│  /portfolio   -> redirect /case-files                            │
-│  /testimonials -> redirect /case-files                           │
-│  /exhibits/:slug -> ExhibitDetailPage (dispatcher)               │
-│                     |-> InvestigationReportLayout                │
-│                     |-> EngineeringBriefLayout                   │
-├─────────────────────────────────────────────────────────────────┤
-│                      Component Layer                             │
-│  ┌─────────────┐  ┌───────────────────┐  ┌──────────────────┐   │
-│  │CaseFileCard │  │InvestigationReport│  │EngineeringBrief  │   │
-│  │(type-aware) │  │Layout             │  │Layout            │   │
-│  └─────────────┘  └───────────────────┘  └──────────────────┘   │
-├─────────────────────────────────────────────────────────────────┤
-│                      Data Layer                                  │
-│  exhibits.ts (with exhibitType discriminant)                     │
-│  [portfolioFlagships.ts -- retired]                              │
-│  [portfolioNarratives.ts -- retired]                             │
-└─────────────────────────────────────────────────────────────────┘
+Component (.vue)
+  └── imports data array + type ──> src/data/file.ts (co-located type + data)
+                                        └── may import types from src/components/*.types.ts
 ```
 
-## Recommendation: One Page Component, Two Layout Components
+Pages import **data values** from `src/data/*.ts`. Components import **type-only** from `src/data/*.ts` (for prop typing). Two component-owned type files already exist: `TechTags.types.ts` (Tag interface) and `ExpertiseBadge.types.ts` (ExpertiseLevel union).
 
-**Use a single ExhibitDetailPage.vue as a dispatcher that delegates to layout components based on exhibit type.** Do NOT create two separate page components.
+### Import Map (Current)
 
-### Rationale
+| Consumer | Imports Data From | Imports Type From |
+|----------|------------------|-------------------|
+| HomePage.vue | techPills, specialties, stats, influences, findings | (none directly) |
+| PhilosophyPage.vue | brandElements, philosophyInfluences | (none directly) |
+| CaseFilesPage.vue | exhibits | (none directly) |
+| ExhibitDetailPage.vue | exhibits | (none directly) |
+| TechnologiesPage.vue | technologies | (none directly) |
+| FaqPage.vue | faqItems, faqCategories | (none directly) |
+| ExhibitCard.vue | (none) | Exhibit from exhibits.ts |
+| InvestigationReportLayout.vue | (none) | Exhibit, ExhibitSection from exhibits.ts |
+| EngineeringBriefLayout.vue | (none) | Exhibit, ExhibitSection from exhibits.ts |
+| FindingCard.vue | (none) | Finding from findings.ts |
+| BrandElement.vue | (none) | BrandElement from brandElements.ts |
+| InfluencesList.vue | (none) | Influence from influences.ts |
+| InfluenceArticle.vue | (none) | PhilosophyInfluence from philosophyInfluences.ts |
+| MethodologyStep.vue | (none) | MethodologyStep from methodologySteps.ts |
+| StatsSection.vue | (none) | Stat from stats.ts |
+| exhibits.test.ts | exhibits | (none) |
+| InvestigationReportLayout.test.ts | exhibits | Exhibit from exhibits.ts |
+| EngineeringBriefLayout.test.ts | exhibits | Exhibit from exhibits.ts |
 
-1. **Single route, single entry point.** The `/exhibits/:slug` route already works. Adding a second route (`/briefs/:slug` or `/investigations/:slug`) would break existing links, split SEO, and add routing complexity for zero user benefit.
+### Key Observations
 
-2. **Shared concerns stay in the page.** SEO meta tags, slug resolution, 404 handling, back-navigation, and the header (label, client, date, title, type badge) are identical across both types. These belong in the page component, not duplicated across two pages.
+1. **Two import patterns exist:** Pages import data values. Child components import only types (for prop definitions).
+2. **Types are co-located with data** in all 11 `src/data/*.ts` files.
+3. **Two component-owned type files** already exist outside `src/data/`: `TechTags.types.ts` (Tag interface) and `ExpertiseBadge.types.ts` (ExpertiseLevel union + const array).
+4. **Cross-file type dependency:** `technologies.ts` imports `Tag` from `TechTags.types.ts` and `ExpertiseLevel` from `ExpertiseBadge.types.ts`.
+5. **`resolveJsonModule: true`** is already set in tsconfig.json -- Vite and TypeScript are ready for JSON imports with no configuration changes.
+6. **HowIWorkSection.vue has hardcoded content** instead of consuming `methodologySteps.ts`. The MethodologyStep.vue component exists but is unused in the current page tree. This means `methodologySteps.ts` has zero runtime data consumers -- it only provides a type import for the unused MethodologyStep.vue component.
+7. **faq.ts exports two things:** `faqItems` (array) and `faqCategories` (array with `as const` id values). The `faqCategories` array uses string literal types that cannot be represented in JSON.
 
-3. **Distinct rendering stays in layouts.** The body content differs significantly between types: Investigation Reports have structured sections (text, tables, flows, timelines, metadata) while Engineering Briefs emphasize quotes, contextual narrative, and resolution tables. Extracting these into named layout components makes each template scannable -- consistent with the project's cognitive load management principle.
+---
 
-4. **Matches existing precedent.** The project already uses conditional rendering in ExhibitDetailPage (`v-if` on sections, quotes, resolutionTable). Refactoring from inline conditionals to named layout components is a natural evolution, not a pattern break.
+## Recommended Architecture (After)
 
-### Component Architecture
+### Data Flow (After)
 
 ```
-ExhibitDetailPage.vue (page -- owns route, SEO, header, 404)
-    |-- InvestigationReportLayout.vue (body layout for investigation reports)
-    |   renders sections array: text, table, flow, timeline, metadata
-    |-- EngineeringBriefLayout.vue (body layout for engineering briefs)
-        renders quotes, contextText, resolutionTable
+Component (.vue)
+  |-- imports data array --> src/data/file.ts (thin loader: imports JSON, re-exports typed)
+  |                              |-- imports raw data --> src/data/json/file.json
+  |                              |-- imports type --> src/types/file.ts
+  |-- imports type --> src/types/file.ts (or barrel: src/types/index.ts)
 ```
 
-#### ExhibitDetailPage.vue -- The Dispatcher
+### Directory Structure
 
-```vue
-<!-- Simplified structure showing the dispatch pattern -->
-<template>
-  <div v-if="exhibit" class="exhibit-detail-page">
-    <!-- SHARED: Header section (identical for both types) -->
-    <section class="exhibit-detail-header">
-      <div class="container">
-        <nav class="exhibit-back-nav">
-          <router-link to="/case-files">&larr; Back to Case Files</router-link>
-        </nav>
-        <div class="exhibit-meta-header">
-          <span class="exhibit-label">{{ exhibit.label }}</span>
-          <span class="exhibit-client">{{ exhibit.client }}</span>
-          <span class="exhibit-date">{{ exhibit.date }}</span>
-        </div>
-        <h1 class="exhibit-detail-title">{{ exhibit.title }}</h1>
-        <span class="expertise-badge badge-aware">
-          {{ exhibit.exhibitType === 'investigation-report'
-            ? 'Investigation Report' : 'Engineering Brief' }}
-        </span>
-      </div>
-    </section>
-
-    <!-- DISPATCHED: Body section (type-specific) -->
-    <section class="exhibit-detail-body">
-      <div class="container">
-        <InvestigationReportLayout
-          v-if="exhibit.exhibitType === 'investigation-report'"
-          :exhibit="exhibit"
-        />
-        <EngineeringBriefLayout
-          v-else
-          :exhibit="exhibit"
-        />
-
-        <!-- SHARED: Impact tags (identical for both types) -->
-        <div class="exhibit-impact-tags">
-          <h2>Impact &amp; Capabilities</h2>
-          <TechTags :tags="exhibit.impactTags" />
-        </div>
-      </div>
-    </section>
-  </div>
-</template>
+```
+src/
+|-- types/                          # NEW: Centralized type definitions
+|   |-- index.ts                    # Barrel export for all types
+|   |-- exhibits.ts                 # Exhibit, ExhibitType, ExhibitQuote, ExhibitSection, etc.
+|   |-- technologies.ts             # TechCategory, TechCardData
+|   |-- findings.ts                 # Finding
+|   |-- brandElements.ts            # BrandElement
+|   |-- methodologySteps.ts         # MethodologyStep
+|   |-- influences.ts               # Influence, InfluenceSegment, InfluenceLink
+|   |-- specialties.ts              # Specialty
+|   |-- stats.ts                    # Stat
+|   |-- faq.ts                      # FaqItem, FaqCategory
+|   |-- philosophyInfluences.ts     # PhilosophyInfluence
+|
+|-- data/                           # MODIFIED: Thin typed loaders over JSON
+|   |-- json/                       # NEW: Pure JSON data files
+|   |   |-- exhibits.json
+|   |   |-- technologies.json
+|   |   |-- techPills.json
+|   |   |-- findings.json
+|   |   |-- brandElements.json
+|   |   |-- methodologySteps.json
+|   |   |-- influences.json
+|   |   |-- specialties.json
+|   |   |-- stats.json
+|   |   |-- faq.json
+|   |   |-- philosophyInfluences.json
+|   |
+|   |-- exhibits.ts                 # import json, import type, export typed
+|   |-- technologies.ts             # same pattern
+|   |-- techPills.ts                # same pattern (string[] -- simplest case)
+|   |-- findings.ts
+|   |-- brandElements.ts
+|   |-- methodologySteps.ts
+|   |-- influences.ts
+|   |-- specialties.ts
+|   |-- stats.ts
+|   |-- faq.ts
+|   |-- philosophyInfluences.ts
+|   |-- exhibits.test.ts            # Unchanged -- still imports from src/data/exhibits.ts
+|
+|-- components/
+|   |-- TechTags.types.ts           # KEEP as-is (component-owned, not data type)
+|   |-- ExpertiseBadge.types.ts     # KEEP as-is (component-owned, not data type)
 ```
 
-**Why `v-if/v-else` and not dynamic components:** There are exactly two types. `<component :is="...">` adds indirection for no benefit. Two named components in the template are more scannable and explicit. If a third type ever appears (unlikely for a portfolio site), refactoring to dynamic components is trivial.
+### Rationale: Why src/data/json/ Instead of Flat in src/data/
 
-## Data Model Evolution
+Placing JSON files inside `src/data/json/` rather than at `src/data/` level (alongside the .ts loader files) keeps the data directory scannable. You see `.ts` loader files at one level, `.json` data files at another. No mixed-extension confusion. The `json/` subdirectory is an implementation detail that no external consumer ever references directly.
 
-### Current Model Issues
+### Rationale: Why Keep src/data/*.ts Loader Files
 
-The `Exhibit` interface has two classification flags (`isDetailExhibit` and `investigationReport`) that overlap and are inconsistently set:
-- `isDetailExhibit` is true on 9 exhibits (A is absent, B is present, pattern unclear)
-- `investigationReport` is true on 5 exhibits (J, K, L, M, N), explicitly false on 1 (O), absent on 9
-- Neither flag alone cleanly maps to the two exhibit types
+Removing the loader files and importing JSON directly into components would:
+- **Break all existing imports** -- every `import { exhibits } from '@/data/exhibits'` would need to change
+- **Lose type safety** -- JSON imports are typed as the inferred shape, not the declared interface (no string literal unions, no discriminants)
+- **Scatter type assertions** -- every component importing data would need its own `as Type` cast
 
-### Recommended: Replace Flags with String Literal Discriminant
+The thin loader pattern centralizes the type assertion in one place and preserves every existing import path unchanged. Zero consumer changes required.
 
+---
+
+## Component Integration Patterns
+
+### Pattern 1: Thin Typed Loader (Standard)
+
+**What:** Each `src/data/*.ts` file becomes a thin re-export layer that imports raw JSON and applies a type assertion.
+
+**When:** Every data file.
+
+**Example (simple -- stats.ts):**
 ```typescript
-export type ExhibitType = 'investigation-report' | 'engineering-brief'
-
-export interface Exhibit {
+// src/types/stats.ts
+export interface Stat {
+  number: string
   label: string
-  client: string
-  date: string
-  title: string
-  exhibitType: ExhibitType           // NEW: replaces investigationReport + isDetailExhibit
-  quotes?: ExhibitQuote[]
-  contextHeading?: string
-  contextText?: string
-  resolutionTable?: ExhibitResolutionRow[]
-  sections?: ExhibitSection[]
-  impactTags: string[]
-  exhibitLink: string
-  // isDetailExhibit -- REMOVED
-  // investigationReport -- REMOVED
 }
+
+// src/data/json/stats.json
+[
+  { "number": "28+", "label": "Years" },
+  { "number": "5,200+", "label": "Projects" },
+  { "number": "40+", "label": "Clients" },
+  { "number": "930+", "label": "Testimonials" }
+]
+
+// src/data/stats.ts
+import type { Stat } from '@/types/stats'
+import statsJson from './json/stats.json'
+
+export type { Stat }
+export const stats: Stat[] = statsJson
 ```
 
-### Classification Mapping
+**Why re-export the type:** Components currently do `import type { Stat } from '@/data/stats'`. The `export type { Stat }` in the loader preserves this import path. Over time, components can migrate to `import type { Stat } from '@/types/stats'` or `from '@/types'`, but this is not required for correctness and can be deferred.
 
-Based on content analysis of all 15 exhibits:
+### Pattern 2: Loader With Derived Constants (faq.ts)
 
-| Exhibit | Current Flags | Proposed Type | Rationale |
-|---------|---------------|---------------|-----------|
-| A | isDetail: absent, invReport: absent | `engineering-brief` | Quote-heavy, context narrative, no structured investigation flow |
-| B | isDetail: true, invReport: absent | `engineering-brief` | Pattern analysis narrative, no structured findings |
-| C | isDetail: absent, invReport: absent | `engineering-brief` | Platform narrative, quote-driven |
-| D | isDetail: absent, invReport: absent | `engineering-brief` | Migration work, context narrative |
-| E | isDetail: true, invReport: absent | `engineering-brief` | Architecture narrative, no NTSB structure |
-| F | isDetail: true, invReport: absent | `engineering-brief` | Protocol forensics, narrative-driven |
-| G | isDetail: absent, invReport: absent | `engineering-brief` | Integration work, context narrative |
-| H | isDetail: absent, invReport: absent | `engineering-brief` | Rapid diagnosis, short narrative |
-| I | isDetail: absent, invReport: absent | `engineering-brief` | Methodology narrative |
-| J | isDetail: true, invReport: true | `investigation-report` | NTSB-style, structured sections with findings |
-| K | isDetail: true, invReport: true | `investigation-report` | Structured background/findings/outcome |
-| L | isDetail: true, invReport: true | `investigation-report` | Forensic audit, structured sections |
-| M | isDetail: true, invReport: true | `investigation-report` | Tool investigation, structured sections |
-| N | isDetail: true, invReport: true | `investigation-report` | Platform investigation, structured sections |
-| O | isDetail: true, invReport: false | `engineering-brief` | Product narrative arc, not structured investigation |
+**What:** faq.ts exports both `faqItems` and `faqCategories`. The categories use `as const` literal types. JSON cannot express TypeScript literal types, so faqCategories stays in the loader file as a TypeScript constant.
 
-This yields **10 engineering briefs** and **5 investigation reports**.
-
-### Why String Literal, Not Boolean
-
-1. **Self-documenting:** `exhibitType: 'investigation-report'` reads clearly in data. `investigationReport: true` requires cross-referencing to understand.
-2. **Extensible without breaks:** Adding a third type later means adding to the union, not introducing a third boolean flag.
-3. **Template-friendly:** `v-if="exhibit.exhibitType === 'investigation-report'"` is clearer than `v-if="exhibit.investigationReport"`.
-4. **Filter-friendly:** `exhibits.filter(e => e.exhibitType === 'engineering-brief')` reads naturally for the listing page.
-
-## Unified Listing Page: CaseFilesPage
-
-### Route Structure
-
+**Example:**
 ```typescript
-// router.ts changes
-export const routes: RouteRecordRaw[] = [
-  // ...existing routes...
-  { path: '/case-files', component: () => import('./pages/CaseFilesPage.vue') },
-  // Backward compat redirects
-  { path: '/portfolio', redirect: '/case-files' },
-  { path: '/testimonials', redirect: '/case-files' },
-  // Exhibit detail route unchanged
-  { path: '/exhibits/:slug', component: () => import('./pages/ExhibitDetailPage.vue') },
+// src/types/faq.ts
+export interface FaqItem {
+  question: string
+  answer: string
+  category: 'hiring' | 'expertise' | 'style' | 'process'
+}
+
+export interface FaqCategory {
+  id: 'hiring' | 'expertise' | 'style' | 'process'
+  heading: string
+  intro: string
+}
+
+// src/data/json/faq.json  -- contains only faqItems array
+[
+  { "category": "hiring", "question": "...", "answer": "..." }
+]
+
+// src/data/faq.ts
+import type { FaqItem, FaqCategory } from '@/types/faq'
+import faqItemsJson from './json/faq.json'
+
+export type { FaqItem, FaqCategory }
+
+export const faqItems: FaqItem[] = faqItemsJson as FaqItem[]
+
+// faqCategories stays in TypeScript -- it uses `as const` literal IDs
+// and is structural/config, not content data
+export const faqCategories: FaqCategory[] = [
+  { id: 'hiring', heading: 'Hiring Logistics', intro: 'Availability, rates, and work arrangements' },
+  { id: 'expertise', heading: 'Technical Expertise', intro: 'Technologies, specializations, and domain knowledge' },
+  { id: 'style', heading: 'Working Style', intro: 'Communication, collaboration, and approach' },
+  { id: 'process', heading: 'Process & Methodology', intro: 'How Dan works in practice' },
 ]
 ```
 
-**Why `/case-files`:** Matches the investigative brand language ("exhibits", "field reports", "investigation reports"). `/evidence` is too vague. `/exhibits` would conflict with the detail route prefix. `/case-files` is distinct, brand-consistent, and URL-friendly.
+**Why faqCategories stays in TypeScript:** It is structural metadata (4 items, unlikely to change), not content. Its `id` field values must match the `category` literal union on `FaqItem`. Keeping it in TypeScript ensures this constraint is enforced at compile time. Moving it to JSON would require a runtime check that "hiring" in the JSON actually matches the `FaqItem.category` type.
 
-### CaseFilesPage Structure
+### Pattern 3: Loader With Cross-Type Dependency (technologies.ts)
 
-```
-CaseFilesPage.vue
-|-- HeroMinimal (consistent with all listing pages)
-|-- Engineering Briefs section
-|   |-- CaseFileCard v-for (type='engineering-brief')
-|-- Investigation Reports section
-|   |-- CaseFileCard v-for (type='investigation-report')
-|-- Project Directory section (relocated from PortfolioPage)
-|   |-- directory tables (inline, per existing pattern)
-|-- Stats bar (relocated from PortfolioPage)
-```
+**What:** `technologies.ts` currently imports `Tag` from `TechTags.types.ts` and `ExpertiseLevel` from `ExpertiseBadge.types.ts`. The centralized type file needs these imports too.
 
-### CaseFileCard: Type-Aware Card Component
+**Example:**
+```typescript
+// src/types/technologies.ts
+import type { Tag } from '@/components/TechTags.types'
+import type { ExpertiseLevel } from '@/components/ExpertiseBadge.types'
 
-Replace ExhibitCard + FlagshipCard with a single CaseFileCard that has modest type-awareness:
+export interface TechCardData {
+  name: string
+  level: ExpertiseLevel
+  summary: string
+  dateRange?: string
+  tags?: Tag[]
+}
 
-```vue
-<!-- CaseFileCard.vue -- distinct visual treatment per exhibit type -->
-<template>
-  <div :class="['case-file-card', `type-${exhibit.exhibitType}`]">
-    <div class="case-file-header">
-      <span class="case-file-label">{{ exhibit.label }}</span>
-      <span class="case-file-type-badge">
-        {{ exhibit.exhibitType === 'investigation-report'
-          ? 'Investigation Report' : 'Engineering Brief' }}
-      </span>
-    </div>
-    <h3>{{ exhibit.title }}</h3>
-    <span class="case-file-client">{{ exhibit.client }}</span>
-    <span class="case-file-date">{{ exhibit.date }}</span>
+export interface TechCategory {
+  id: string
+  title: string
+  intro?: string
+  historical?: boolean
+  cards: TechCardData[]
+}
 
-    <!-- Brief-specific: show lead quote -->
-    <blockquote v-if="exhibit.exhibitType === 'engineering-brief' && exhibit.quotes?.length">
-      {{ exhibit.quotes[0].text }}
-    </blockquote>
+// src/data/technologies.ts
+import type { TechCategory } from '@/types/technologies'
+import technologiesJson from './json/technologies.json'
 
-    <!-- Report-specific: show contextText as summary -->
-    <p v-if="exhibit.exhibitType === 'investigation-report' && exhibit.contextText"
-       class="case-file-summary">
-      {{ exhibit.contextText }}
-    </p>
-
-    <TechTags :tags="exhibit.impactTags" />
-    <router-link :to="exhibit.exhibitLink" class="case-file-link">
-      {{ exhibit.exhibitType === 'investigation-report'
-        ? 'View Investigation Report' : 'View Engineering Brief' }}
-    </router-link>
-  </div>
-</template>
+export type { TechCardData, TechCategory } from '@/types/technologies'
+export const technologies: TechCategory[] = technologiesJson as TechCategory[]
 ```
 
-**Design note:** The type-awareness in this card is limited to badge text, CTA text, and which preview content to show (quote vs summary). The structural layout is the same. If the two card types diverge further in visual structure, split into `BriefCard` and `ReportCard` -- but start with one component and split only if the template becomes noisy.
+**Decision: Keep TechTags.types.ts and ExpertiseBadge.types.ts where they are.** These are component-owned types (used for component props/rendering), not data types. The `src/types/technologies.ts` file imports from them. This is a deliberate cross-boundary dependency -- the data types reference component types because the data feeds those components. Moving these into `src/types/` would break the principle that component-specific display types live with their components.
 
-## Component Responsibilities
+### Pattern 4: Primitive Array (techPills.ts)
 
-| Component | Responsibility | Status |
-|-----------|---------------|--------|
-| **CaseFilesPage.vue** | Unified listing replacing Portfolio + Testimonials | NEW |
-| **CaseFileCard.vue** | Type-aware exhibit card for listing page | NEW (replaces ExhibitCard + FlagshipCard) |
-| **InvestigationReportLayout.vue** | Detail body for investigation reports (sections rendering) | NEW (extracted from ExhibitDetailPage) |
-| **EngineeringBriefLayout.vue** | Detail body for engineering briefs (quotes, context, resolution) | NEW (extracted from ExhibitDetailPage) |
-| **ExhibitDetailPage.vue** | Route handler, SEO, header, dispatcher to layouts | MODIFIED (slimmed down) |
-| **ExhibitCard.vue** | Listing card for Field Reports page | RETIRED (replaced by CaseFileCard) |
-| **FlagshipCard.vue** | Featured engagement card for Portfolio page | RETIRED (replaced by CaseFileCard) |
-| **NarrativeCard.vue** | Three Lenses narrative card | RETIRED (Three Lenses removed per v2.0 scope) |
-| **TestimonialsMetrics.vue** | Recurring patterns metrics grid | EVALUATE: relocate to CaseFilesPage or remove |
-| **NavBar.vue** | Navigation links array | MODIFIED (Portfolio + Field Reports -> Case Files) |
-| **HomePage.vue** | CTA links and teaser section | MODIFIED (update CTAs to /case-files) |
+**What:** `techPills.ts` exports `string[]` -- no custom interface needed.
 
-## Data Layer Changes
+**Example:**
+```typescript
+// src/data/json/techPills.json
+["JavaScript", "Node.js", "Vue.js", "TypeScript", "SQL", "REST APIs", "AI Integration", "Power Platform"]
 
-| File | Action |
+// src/data/techPills.ts
+import techPillsJson from './json/techPills.json'
+
+export const techPills: string[] = techPillsJson
+```
+
+No entry needed in `src/types/` -- no custom type to centralize.
+
+### Pattern 5: Complex Union Types (exhibits.ts)
+
+**What:** exhibits.ts has the most complex type hierarchy: `ExhibitType` (string literal union), `ExhibitSection` (with a `type` discriminant field using `'text' | 'table' | 'flow' | 'timeline' | 'metadata'`), and 7 supporting interfaces. JSON can represent all the data but cannot enforce discriminant narrowing at compile time.
+
+**Key concern:** The `ExhibitSection.type` field is a string literal union. JSON stores these as plain strings. The type assertion in the loader file bridges this gap. Tests in `exhibits.test.ts` already validate structural correctness at runtime.
+
+```typescript
+// src/types/exhibits.ts
+// All 7 interfaces + ExhibitType union move here verbatim
+
+// src/data/exhibits.ts
+import type { Exhibit } from '@/types/exhibits'
+import exhibitsJson from './json/exhibits.json'
+
+export type {
+  Exhibit, ExhibitType, ExhibitQuote, ExhibitResolutionRow,
+  ExhibitFlowStep, ExhibitTimelineEntry, ExhibitMetadataItem, ExhibitSection
+} from '@/types/exhibits'
+
+export const exhibits: Exhibit[] = exhibitsJson as Exhibit[]
+```
+
+**The `as Exhibit[]` assertion is justified because:**
+1. The JSON is authored by the developer, not fetched from an external source
+2. The JSON is bundled at build time (static import), not loaded at runtime
+3. `exhibits.test.ts` validates structural correctness (15 entries, valid links, correct type counts, flagship data)
+4. TypeScript cannot infer string literal unions from JSON -- the assertion is the only way to get type narrowing
+
+---
+
+## Anti-Patterns to Avoid
+
+### Anti-Pattern 1: Direct JSON Imports in Components
+**What:** Components importing from `@/data/json/file.json` directly.
+**Why bad:** Type safety lost. Type assertions scattered across components. If the JSON structure changes, every consumer must update its assertion.
+**Instead:** Always go through the `src/data/*.ts` loader. Components never know JSON exists.
+
+### Anti-Pattern 2: Moving Component-Owned Types to src/types/
+**What:** Moving `TechTags.types.ts` and `ExpertiseBadge.types.ts` into `src/types/`.
+**Why bad:** These types define component props/display concerns (Tag, ExpertiseLevel). They are consumed by components and happen to also be referenced by data types. They are not "data types" -- they are "component types that data must conform to."
+**Instead:** Keep them in `src/components/`. Let `src/types/technologies.ts` import from `src/components/`.
+
+### Anti-Pattern 3: Barrel-Only Imports for Data
+**What:** Creating a `src/data/index.ts` barrel that re-exports all data values.
+**Why bad:** Defeats tree-shaking. A page that needs `stats` would pull in `exhibits` (the largest data file at ~34K tokens). Current import paths are already specific per-file.
+**Instead:** Keep per-file imports for data values. The `src/types/index.ts` barrel is fine because types are erased at build time and have zero runtime cost.
+
+### Anti-Pattern 4: Runtime Validation Libraries
+**What:** Adding Zod, io-ts, or similar for runtime JSON validation.
+**Why bad:** Overkill for static JSON that ships with the build. The data is authored by the developer, bundled by Vite, never fetched at runtime. TypeScript compile-time checking + existing unit tests are sufficient.
+**Instead:** Type assertions in loader files. Existing tests validate structure.
+
+### Anti-Pattern 5: Splitting Exhibits JSON Into Per-Exhibit Files
+**What:** Creating `src/data/json/exhibits/exhibit-a.json`, `exhibit-b.json`, etc.
+**Why bad:** The listing pages need the full array to filter/iterate. Splitting into 15 files means 15 imports and manual reassembly. The JSON is bundled at build time regardless -- splitting adds complexity with no performance benefit for a static SPA.
+**Instead:** Single `exhibits.json` with all 15 entries.
+
+---
+
+## What Changes vs. What Stays the Same
+
+### New Files
+
+| File | Purpose |
+|------|---------|
+| `src/types/stats.ts` | Stat interface |
+| `src/types/specialties.ts` | Specialty interface |
+| `src/types/brandElements.ts` | BrandElement interface |
+| `src/types/methodologySteps.ts` | MethodologyStep interface |
+| `src/types/findings.ts` | Finding interface |
+| `src/types/influences.ts` | Influence, InfluenceSegment, InfluenceLink interfaces |
+| `src/types/philosophyInfluences.ts` | PhilosophyInfluence interface |
+| `src/types/faq.ts` | FaqItem, FaqCategory interfaces |
+| `src/types/technologies.ts` | TechCardData, TechCategory interfaces (imports from component types) |
+| `src/types/exhibits.ts` | All exhibit interfaces + ExhibitType union |
+| `src/types/index.ts` | Barrel export |
+| `src/data/json/techPills.json` | Pure string array |
+| `src/data/json/stats.json` | Stat data |
+| `src/data/json/specialties.json` | Specialty data |
+| `src/data/json/brandElements.json` | BrandElement data |
+| `src/data/json/methodologySteps.json` | MethodologyStep data |
+| `src/data/json/findings.json` | Finding data |
+| `src/data/json/influences.json` | Influence data |
+| `src/data/json/philosophyInfluences.json` | PhilosophyInfluence data |
+| `src/data/json/faq.json` | FaqItem data (faqCategories stays in .ts) |
+| `src/data/json/technologies.json` | TechCategory data |
+| `src/data/json/exhibits.json` | Full exhibit data (largest file) |
+
+**Total new files: 22** (11 type files + 11 JSON files)
+
+### Modified Files
+
+| File | Change |
 |------|--------|
-| **exhibits.ts** | MODIFIED: add `exhibitType` field to interface and all 15 entries, remove `isDetailExhibit` + `investigationReport` |
-| **portfolioFlagships.ts** | RETIRE: content is a subset of exhibits.ts, no longer needed |
-| **portfolioNarratives.ts** | RETIRE: Three Lenses section removed per v2.0 scope |
+| `src/data/stats.ts` | Remove interface, import type from `@/types`, import JSON, re-export type |
+| `src/data/specialties.ts` | Same pattern |
+| `src/data/brandElements.ts` | Same pattern |
+| `src/data/methodologySteps.ts` | Same pattern |
+| `src/data/findings.ts` | Same pattern |
+| `src/data/influences.ts` | Same pattern (3 interfaces extracted) |
+| `src/data/philosophyInfluences.ts` | Same pattern |
+| `src/data/faq.ts` | Same pattern, but faqCategories const stays in .ts |
+| `src/data/techPills.ts` | Import JSON, no type to extract (string[]) |
+| `src/data/technologies.ts` | Remove interfaces, import type from `@/types/technologies` |
+| `src/data/exhibits.ts` | Remove 7 interfaces + 1 type alias, import from `@/types/exhibits` |
 
-### Data Flow: Listing Page
+**Total modified files: 11**
 
+### Unchanged Files
+
+| File(s) | Why |
+|---------|-----|
+| All 18+ `.vue` component files | Import paths unchanged -- `@/data/*.ts` loaders preserve the API surface |
+| All `.test.ts` files | Import paths unchanged |
+| All `.stories.ts` files | No data imports in story files |
+| `src/components/TechTags.types.ts` | Component-owned type, not data |
+| `src/components/ExpertiseBadge.types.ts` | Component-owned type, not data |
+| `tsconfig.json` | `resolveJsonModule: true` already set |
+| `vite.config.ts` | JSON handling is built-in to Vite |
+
+**Zero breaking changes to consumers.**
+
+---
+
+## Migration Order (Build Sequence)
+
+Migration should proceed from simplest/least-dependent to most complex/most-dependent. Each step should result in passing tests and a clean build.
+
+### Tier 1: Primitives and Simple Flat Types (No Type Dependencies)
+
+These files have simple interfaces with only primitive fields (string, number, boolean). No cross-file type imports. No union types. Lowest risk. This tier establishes and proves the pattern.
+
+| Order | File | Types to Extract | JSON Shape | Consumers |
+|-------|------|-----------------|------------|-----------|
+| 1 | techPills.ts | none (string[]) | flat array of strings | HomePage |
+| 2 | stats.ts | Stat | flat array of objects | HomePage, StatsSection |
+| 3 | specialties.ts | Specialty | flat array of objects | HomePage |
+| 4 | brandElements.ts | BrandElement | flat + optional field | PhilosophyPage, BrandElement.vue |
+| 5 | methodologySteps.ts | MethodologyStep | flat array of objects | MethodologyStep.vue (unused in pages) |
+
+**Checkpoint:** Run full test suite after Tier 1. Verify no import regressions. Clean production build.
+
+### Tier 2: Nested Types (Still No Cross-File Dependencies)
+
+These files have nested interfaces (objects within objects, or arrays of objects within objects), but all types are self-contained within the file.
+
+| Order | File | Types to Extract | JSON Shape | Consumers |
+|-------|------|-----------------|------------|-----------|
+| 6 | findings.ts | Finding | flat + optional link + tags array | HomePage, FindingCard.vue |
+| 7 | philosophyInfluences.ts | PhilosophyInfluence | nested (paragraphs string[]) | PhilosophyPage, InfluenceArticle.vue |
+| 8 | influences.ts | Influence, InfluenceSegment, InfluenceLink | nested (segments with optional link objects) | HomePage, InfluencesList.vue |
+| 9 | faq.ts | FaqItem, FaqCategory | flat items + TS-only categories const | FaqPage |
+
+**Checkpoint:** Run full test suite after Tier 2. Clean production build.
+
+### Tier 3: Cross-Type Dependencies
+
+| Order | File | Types to Extract | Complexity | Consumers |
+|-------|------|-----------------|------------|-----------|
+| 10 | technologies.ts | TechCardData, TechCategory | Imports Tag and ExpertiseLevel from component types | TechnologiesPage |
+
+**Why last among non-exhibit files:** Has cross-file type dependencies. Must verify that `src/types/technologies.ts` correctly imports from `src/components/TechTags.types.ts` and `src/components/ExpertiseBadge.types.ts`.
+
+**Checkpoint:** Run full test suite after step 10. Clean production build.
+
+### Tier 4: The Big One
+
+| Order | File | Types to Extract | Complexity | Consumers |
+|-------|------|-----------------|------------|-----------|
+| 11 | exhibits.ts | 7 interfaces + 1 type alias | Deeply nested, union discriminants, ~34K tokens of data | 4 components, 2 pages, 3 test files |
+
+**Why last:** Most complex type hierarchy. Most consumers (9 files). Largest data volume. Highest risk of subtle breakage. By the time you reach this, the pattern is proven on 10 simpler files.
+
+**Special considerations for exhibits.ts:**
+- The JSON file will be very large (~30KB+). Vite handles this fine (static import, bundled at build time).
+- `ExhibitSection.type` uses a string literal union (`'text' | 'table' | 'flow' | 'timeline' | 'metadata'`). The type assertion in the loader bridges this.
+- `ExhibitType` uses a string literal union (`'investigation-report' | 'engineering-brief'`). Same approach.
+- 3 test files and 6 component/page files import from this module -- all must continue passing.
+- The `as Exhibit[]` assertion is justified because `exhibits.test.ts` validates structural correctness at runtime (15 entries, valid links, correct type distribution, flagship data integrity).
+
+**Checkpoint:** Run full test suite. Verify clean production build (`npm run build`). Spot-check that ExhibitDetailPage still renders all 15 exhibits.
+
+---
+
+## Barrel Export Strategy for src/types/
+
+```typescript
+// src/types/index.ts
+export type { Stat } from './stats'
+export type { Specialty } from './specialties'
+export type { BrandElement } from './brandElements'
+export type { MethodologyStep } from './methodologySteps'
+export type { Finding } from './findings'
+export type { PhilosophyInfluence } from './philosophyInfluences'
+export type { Influence, InfluenceSegment, InfluenceLink } from './influences'
+export type { FaqItem, FaqCategory } from './faq'
+export type { TechCardData, TechCategory } from './technologies'
+export type {
+  Exhibit, ExhibitType, ExhibitQuote, ExhibitResolutionRow,
+  ExhibitFlowStep, ExhibitTimelineEntry, ExhibitMetadataItem, ExhibitSection
+} from './exhibits'
 ```
-exhibits.ts
-    |
-    |-- exhibits.filter(e => e.exhibitType === 'engineering-brief')
-    |   |-- CaseFileCard (brief variant) x10
-    |
-    |-- exhibits.filter(e => e.exhibitType === 'investigation-report')
-        |-- CaseFileCard (report variant) x5
-```
 
-### Data Flow: Detail Page
+The barrel is optional syntactic sugar. Components can import from specific type files or from the barrel. Since `export type` is used throughout, the barrel has zero runtime cost (all erased at compile time, no tree-shaking concern).
 
-```
-Route params -> slug
-    |
-    |-- exhibits.find(e => e.exhibitLink === `/exhibits/${slug}`)
-    |   |-- exhibit.exhibitType
-    |       |-- 'investigation-report' -> InvestigationReportLayout
-    |       |-- 'engineering-brief' -> EngineeringBriefLayout
-    |
-    |-- null -> redirect to not-found
-```
+---
 
-## Recommended Build Order
+## Scalability Considerations
 
-Order considers dependencies: data model first (everything depends on it), then listing page (most visible change), then detail templates (refinement), then cleanup.
+| Concern | Current (11 files) | Future CMS (50+ content items) |
+|---------|-------------------|-------------------------------|
+| Build performance | Negligible -- static JSON bundled by Vite | Same -- JSON is fast to parse |
+| Type safety | Compile-time via loader assertions | Would need runtime validation (Zod) if data comes from API |
+| Content editing | Edit JSON files, rebuild | Replace JSON imports with fetch() + runtime validation |
+| Migration to CMS | Swap loader internals only; component imports unchanged | The loader pattern makes this a single-file change per data type |
 
-### Phase 1: Data Model Migration
+The loader pattern is the key architectural decision that enables future CMS migration without touching any component files.
 
-**Depends on:** nothing
-**Enables:** everything else
+---
 
-1. Add `ExhibitType` type and `exhibitType` field to `Exhibit` interface
-2. Classify all 15 exhibits (10 briefs, 5 reports) -- mapping in table above
-3. Remove `isDetailExhibit` and `investigationReport` from interface and all entries
-4. Update `exhibits.test.ts` to validate new classification
-5. Update ExhibitCard to use `exhibitType` instead of `isDetailExhibit` CSS class
-6. Update ExhibitDetailPage badge to use `exhibitType` instead of `investigationReport`
+## Confidence Assessment
 
-**Risk:** Low. Pure data refactor. All existing rendering behavior preserved, just driven by different field.
-
-### Phase 2: CaseFilesPage + CaseFileCard
-
-**Depends on:** Phase 1 (exhibitType field exists)
-**Enables:** navigation update, page retirement
-
-1. Create CaseFileCard.vue with type-aware rendering + Storybook stories
-2. Create CaseFilesPage.vue with Engineering Briefs and Investigation Reports sections
-3. Relocate project directory tables from PortfolioPage (copy, not move -- old page still active)
-4. Relocate stats bar from PortfolioPage
-5. Decide on TestimonialsMetrics: keep and relocate, or fold content into CaseFilesPage differently
-6. Add Storybook stories for CaseFilesPage
-
-**Risk:** Medium. Most content movement. TestimonialsMetrics decision needs consideration.
-
-### Phase 3: Route + Navigation Updates
-
-**Depends on:** Phase 2 (CaseFilesPage exists and is complete)
-**Enables:** page retirement
-
-1. Add `/case-files` route to router.ts
-2. Add redirect routes for `/portfolio` and `/testimonials`
-3. Update NavBar navLinks: remove Portfolio + Field Reports entries, add Case Files
-4. Update HomePage CTAs: "View All Field Reports" -> link to /case-files
-5. Update ExhibitDetailPage back-nav: `/portfolio` -> `/case-files`
-
-**Risk:** Low. Straightforward route and link updates. Router test file needs updating.
-
-### Phase 4: Detail Template Extraction
-
-**Depends on:** Phase 1 (exhibitType field exists)
-**Can run parallel to:** Phases 2-3 (independent work on the detail page)
-
-1. Create InvestigationReportLayout.vue -- extract sections rendering from ExhibitDetailPage
-2. Create EngineeringBriefLayout.vue -- extract quotes/context/resolution rendering from ExhibitDetailPage
-3. Slim ExhibitDetailPage.vue to dispatcher pattern (shared header + type dispatch + shared impact tags)
-4. Add Storybook stories for both layout components
-5. Verify all 15 exhibits render correctly (regression check each slug)
-
-**Risk:** Medium. Template extraction requires careful verification. Key concern: some engineering briefs (A, E, F) also have `sections` arrays, so EngineeringBriefLayout must also handle sections rendering -- it cannot assume briefs are sections-free. The layout distinction is about emphasis and presentation framing, not about which data fields are present.
-
-### Phase 5: Cleanup + Retirement
-
-**Depends on:** Phases 2, 3, 4 all complete
-
-1. Remove PortfolioPage.vue
-2. Remove TestimonialsPage.vue
-3. Remove ExhibitCard.vue, FlagshipCard.vue, NarrativeCard.vue
-4. Remove portfolioFlagships.ts, portfolioNarratives.ts
-5. Remove stale Storybook stories for retired components
-6. Remove old route entries (replaced by redirects in Phase 3)
-7. Final regression check: all routes, all 15 exhibit slugs
-
-**Risk:** Low. Removing dead code after replacement is verified.
-
-## Anti-Patterns
-
-### Anti-Pattern 1: Two Separate Detail Page Components
-
-**What people do:** Create `InvestigationReportPage.vue` and `EngineeringBriefPage.vue` as separate route targets.
-**Why it's wrong:** Duplicates slug resolution, SEO, header rendering, 404 handling across two files. Requires either two routes (breaking links) or a router-level dispatch (moving presentation logic into the router). The shared header alone is ~20 lines of template; duplicating it is a maintenance burden.
-**Do this instead:** One page component dispatching to two layout components.
-
-### Anti-Pattern 2: Dynamic Component Registry for Two Types
-
-**What people do:** Build a `componentMap` with `<component :is="componentMap[type]">` for exhibit rendering.
-**Why it's wrong:** Indirection for two items is not abstraction, it's obfuscation. The map must be maintained separately from the template. Harder to find what renders what. `v-if` with two named imports is faster to read.
-**Do this instead:** Explicit `v-if/v-else` with named imports. Two types = two branches.
-
-### Anti-Pattern 3: Gradual Flag Migration
-
-**What people do:** Add `exhibitType` alongside `investigationReport` and `isDetailExhibit`, plan to remove old fields "later."
-**Why it's wrong:** Three classification systems in parallel. Every consumer must check multiple fields. "Later" becomes "never." Ambiguity about which field is authoritative.
-**Do this instead:** Clean migration in one phase. Add new field, remove old fields, update all consumers in a single coherent change.
-
-### Anti-Pattern 4: Assuming Layout Maps Cleanly to Data Shape
-
-**What people do:** Assume engineering briefs have no `sections` array and investigation reports have no `quotes`. Build layouts that only handle their "expected" fields.
-**Why it's wrong:** Exhibits A, E, and F are engineering briefs but have `sections` arrays. Investigation reports (J, K) have quotes. The layout distinction is about **presentation emphasis**, not data shape. A brief might render sections in a simplified way; a report might show quotes in a sidebar. The data is a superset; the layout chooses what to emphasize.
-**Do this instead:** Both layout components should handle all optional fields. The difference is in presentation order, visual weight, and framing -- not in which fields are rendered.
-
-## Integration Points
-
-### Internal Boundaries
-
-| Boundary | Communication | Notes |
-|----------|---------------|-------|
-| CaseFilesPage -> exhibits.ts | Direct import + filter by `exhibitType` | No store needed for static data |
-| ExhibitDetailPage -> Layout components | Props (`:exhibit`) | Layout receives full Exhibit object |
-| NavBar -> router | `navLinks` array update | Remove two entries, add one |
-| HomePage -> router | RouterLink `to` prop update | Two CTA destinations change |
-| ExhibitDetailPage -> router | Back-nav link text and target | `/portfolio` -> `/case-files` |
-
-### Storybook Integration
-
-Each new component needs stories following existing pattern: `*.stories.ts` files co-located with the component. Layout components should have stories using representative exhibit data:
-- InvestigationReportLayout: use Exhibit J (most structured, has all section types)
-- EngineeringBriefLayout: use Exhibit A (has quotes, context, sections, resolution table)
-- CaseFileCard: one story per type variant
-
-### Router Test Updates
-
-`src/router.test.ts` will need updates for:
-- New `/case-files` route
-- Redirect behavior for `/portfolio` and `/testimonials`
-- Removal of direct `/portfolio` and `/testimonials` route assertions
+| Aspect | Confidence | Rationale |
+|--------|------------|-----------|
+| Directory structure | HIGH | Standard Vue 3 pattern, verified tsconfig supports JSON resolution |
+| Thin loader pattern | HIGH | Built-in Vite JSON support confirmed, `resolveJsonModule: true` in tsconfig |
+| Import path preservation | HIGH | Verified every consumer import path against the loader re-export pattern |
+| Migration order | HIGH | Based on actual dependency analysis of all 11 data files and their 17+ consumers |
+| Type assertion safety | HIGH | Existing test suite validates data structure at runtime; data is developer-authored |
+| faqCategories staying in TS | HIGH | `as const` literal types cannot be expressed in JSON |
+| Component types staying in components | MEDIUM | Reasonable architectural boundary; could be argued either way but avoids coupling data concerns to component concerns |
 
 ## Sources
 
-- Direct codebase analysis: `src/pages/ExhibitDetailPage.vue`, `src/pages/PortfolioPage.vue`, `src/pages/TestimonialsPage.vue`, `src/components/ExhibitCard.vue`, `src/components/FlagshipCard.vue`, `src/components/NarrativeCard.vue` (HIGH confidence)
-- Data model analysis: `src/data/exhibits.ts` -- all 15 exhibits, interface definition, flag usage (HIGH confidence)
-- Route analysis: `src/router.ts` -- current route structure (HIGH confidence)
-- Navigation analysis: `src/components/NavBar.vue` -- current nav links (HIGH confidence)
-- PROJECT.md v2.0 milestone requirements (HIGH confidence)
+- Direct codebase analysis of all 11 `src/data/*.ts` files and all consumer imports
+- `tsconfig.json` verified for `resolveJsonModule: true` (line 9)
+- `vite.config.ts` verified -- no special JSON configuration needed (Vite handles JSON natively)
+- Existing `src/components/TechTags.types.ts` and `ExpertiseBadge.types.ts` analyzed for cross-type dependencies
+- All `.vue`, `.test.ts`, and `.stories.ts` files searched for `from '@/data/` import patterns
 
 ---
-*Architecture research for: Pattern 158 v2.0 -- Dual exhibit templates with unified listing page*
-*Researched: 2026-03-27*
+*Architecture research for: Pattern 158 v3.0 -- JSON Data Externalization*
+*Researched: 2026-04-06*

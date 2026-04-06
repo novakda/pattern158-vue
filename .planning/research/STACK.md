@@ -1,259 +1,212 @@
 # Stack Research
 
-**Domain:** Vue 3 SPA — Dual Exhibit Templates and IA Restructure (v2.0)
-**Researched:** 2026-03-27
-**Confidence:** HIGH (zero new dependencies; all patterns use Vue 3.5 / Vue Router 4.6 features already installed)
+**Domain:** JSON data externalization for Vue 3 + TypeScript + Vite portfolio site
+**Researched:** 2026-04-06
+**Confidence:** HIGH
 
 ---
 
-## Context
+## Key Finding: No New Dependencies Required
 
-The core stack (Vue 3.5.30, TypeScript 5.7, Vite 6, Vue Router 4.6.4, Storybook 10, Vitest 4) is established and validated in v1.0/v1.1. This research answers a narrower question: **what Vue patterns and (if any) new packages are needed to support dual exhibit templates, a unified listing page with type-based card rendering, and navigation restructure?**
-
-The answer: **no new packages**. Everything required is achievable with Vue's built-in component system and the existing router. The work is architectural (component design, data model extension, route changes), not tooling.
+This milestone requires **zero new packages**. The existing stack already has full support for JSON imports with type safety. The work is purely structural reorganization: moving interfaces to `src/types/`, converting `.ts` data files to `.json`, and adding typed re-export wrappers.
 
 ---
 
-## Recommended Stack
+## Existing Stack (Already Configured)
 
-### Core Technologies (Established -- No Changes)
-
-| Technology | Installed Version | Purpose | v2.0 Impact |
-|------------|-------------------|---------|-------------|
-| Vue 3 | 3.5.30 | UI framework | `defineAsyncComponent`, `<component :is>`, computed filtering -- all built-in |
-| TypeScript | 5.7.x | Type safety | Discriminated union types for exhibit type branching |
-| Vite 6 | 6.2.x | Build tool | No config changes needed |
-| Vue Router 4 | 4.6.4 | Routing | Route additions/removals, alias support for redirects |
-| @unhead/vue | 2.x | Head management | No changes -- `useHead(computed(...))` pattern already works for dynamic exhibit titles |
-
-### New Packages Required
-
-**None.** Zero new dependencies for v2.0.
-
-### Supporting Libraries (Already Installed -- No Changes)
-
-All testing and documentation tooling from v1.0/v1.1 carries forward unchanged. See v1.1 STACK.md research for details on Vitest, Storybook, Playwright.
+| Technology | Version | Relevant Capability | Status |
+|------------|---------|---------------------|--------|
+| TypeScript | ~5.7.0 | `resolveJsonModule: true` already in tsconfig.json | Ready -- no changes needed |
+| Vite | ^6.2.0 | Native JSON import with tree-shaking via named exports | Ready -- no changes needed |
+| vue-tsc | ^2.2.0 | Type-checks `.vue` files including JSON imports | Ready -- no changes needed |
 
 ---
 
-## Vue Patterns for v2.0 Features
+## tsconfig.json Analysis
 
-### Pattern 1: Discriminated Union Type for Exhibit Classification
+The current `tsconfig.json` already has the critical settings:
 
-The `Exhibit` interface currently has `investigationReport?: boolean`. For v2.0, extend the data model with a required `exhibitType` discriminator field.
-
-**Why a string literal union, not a boolean:** The current `investigationReport?: boolean` creates three states (true, false, undefined) with unclear semantics. A required `'investigation-report' | 'engineering-brief'` field is self-documenting, enables TypeScript narrowing, and extends cleanly if a third type ever appears.
-
-```typescript
-// Extend the Exhibit interface
-export type ExhibitType = 'investigation-report' | 'engineering-brief'
-
-export interface Exhibit {
-  // ... existing fields ...
-  exhibitType: ExhibitType  // Required, replaces investigationReport?: boolean
-  investigationReport?: boolean  // Keep temporarily for backward compat, derive from exhibitType
+```json
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue", "env.d.ts"]
 }
 ```
 
-**Confidence:** HIGH -- standard TypeScript pattern, no library involvement.
+**Why no tsconfig changes are needed:**
+- `resolveJsonModule: true` lets TypeScript resolve `.json` imports and infer their structural types automatically.
+- The `include` array does **not** need `"src/**/*.json"` added. TypeScript resolves JSON files when they are imported from `.ts` files that are already covered by `include`. The JSON files are pulled in transitively through `import` statements.
+- `moduleResolution: "bundler"` defers to Vite for actual resolution at build time, which natively handles JSON.
 
-### Pattern 2: Conditional Detail Template via Dynamic Component
+---
 
-Two approaches exist for rendering different detail page layouts per exhibit type. Use `<component :is>` with a computed component map.
+## JSON Import Patterns for This Project
 
-**Why `<component :is>` over `v-if`/`v-else`:** With two exhibit types, `v-if`/`v-else` inside a single ExhibitDetailPage.vue is viable but creates a monolithic template. Separate template components via `<component :is>` keep each layout focused, testable in isolation, and independently story-able in Storybook.
+### Pattern 1: Type-Safe Assignment (Simple Data)
 
-```typescript
-// In ExhibitDetailPage.vue
-import { defineAsyncComponent, computed } from 'vue'
-
-const templateMap = {
-  'investigation-report': defineAsyncComponent(
-    () => import('@/components/InvestigationReportLayout.vue')
-  ),
-  'engineering-brief': defineAsyncComponent(
-    () => import('@/components/EngineeringBriefLayout.vue')
-  ),
-} as const
-
-const activeTemplate = computed(() =>
-  exhibit.value ? templateMap[exhibit.value.exhibitType] : null
-)
-```
-
-```html
-<component :is="activeTemplate" v-if="activeTemplate" :exhibit="exhibit" />
-```
-
-**Why `defineAsyncComponent`:** Each layout is only loaded when needed. For 15 exhibits this is a minor optimization, but it establishes the right pattern and keeps initial bundle lean. Vue 3.5's `defineAsyncComponent` handles loading/error states if needed.
-
-**Confidence:** HIGH -- `<component :is>` is a core Vue feature documented in the official guide.
-
-### Pattern 3: Type-Based Card Rendering on Listing Page
-
-The unified Case Files page needs different card styles for investigation reports vs. engineering briefs. Two viable approaches:
-
-**Recommended: Single ExhibitCard with type-driven CSS class + conditional slots**
-
-```html
-<!-- CaseFilesPage.vue -->
-<ExhibitCard
-  v-for="exhibit in exhibits"
-  :key="exhibit.exhibitLink"
-  :exhibit="exhibit"
-/>
-```
-
-```html
-<!-- ExhibitCard.vue -- extend existing component -->
-<div :class="['exhibit-card', `exhibit-card--${exhibit.exhibitType}`]">
-  <!-- Shared header markup -->
-  <template v-if="exhibit.exhibitType === 'investigation-report'">
-    <!-- Investigation-specific card content -->
-  </template>
-  <template v-else>
-    <!-- Engineering brief card content -->
-  </template>
-</div>
-```
-
-**Why a single card component, not two:** The card-level differences are cosmetic (badge, CTA text, accent color, possibly a summary field). The structure (header, tags, link) is shared. Two separate card components would duplicate 70%+ of the template markup. A single component with type-driven CSS modifier class (`.exhibit-card--investigation-report`, `.exhibit-card--engineering-brief`) leverages the existing CSS design token system via cascade layers.
-
-**Alternative considered: Two card components via `<component :is>`** -- Use if the two card layouts diverge significantly (different DOM structure, not just styling). Premature to split now; refactor later if needed.
-
-**Confidence:** HIGH -- this is how the existing ExhibitCard already works (it has `exhibit.isDetailExhibit ? 'detail-exhibit' : ''`).
-
-### Pattern 4: Computed Filtering for Listing Page Sections
-
-If the Case Files page groups exhibits by type (e.g., "Investigation Reports" section then "Engineering Briefs" section):
+For files with simple interfaces (`stats.ts`, `techPills.ts`, `specialties.ts`, `methodologySteps.ts`, `brandElements.ts`, `philosophyInfluences.ts`, `influences.ts`, `findings.ts`):
 
 ```typescript
-const investigationReports = computed(() =>
-  exhibits.filter(e => e.exhibitType === 'investigation-report')
-)
-const engineeringBriefs = computed(() =>
-  exhibits.filter(e => e.exhibitType === 'engineering-brief')
-)
+// src/data/stats.ts (thin wrapper -- preserves existing import API)
+import type { Stat } from '@/types'
+import statsJson from './stats.json'
+
+export const stats: Stat[] = statsJson
 ```
 
-**Why computed over methods or reactive state:** The exhibit data is static (imported from `data/exhibits.ts`). Computed properties cache the filtered arrays and only recalculate if the source changes (which it won't at runtime). This is the idiomatic Vue pattern for derived data.
+**Why this pattern:** TypeScript infers a structural type from the JSON file (e.g., `{ number: string; label: string }[]`). Assigning to a typed `const` performs compile-time structural checking -- if the JSON shape drifts from the interface, `vue-tsc` catches it during `npm run build`. No explicit `as` cast needed for interfaces whose fields are all `string`, `number`, `boolean`, or nested objects of the same.
 
-**Confidence:** HIGH -- fundamental Vue reactivity.
+**Why keep the `.ts` wrapper:** Every component currently imports `import { stats } from '@/data/stats'`. The thin wrapper preserves this import path unchanged. Zero component modifications required.
 
-### Pattern 5: Router Changes for IA Restructure
+### Pattern 2: Type Assertion for Union Literals
 
-Current routes that change:
-
-| Current | v2.0 | Rationale |
-|---------|------|-----------|
-| `/portfolio` | `/case-files` (or similar) | Unified listing page replaces Portfolio |
-| `/review` | Remove | Placeholder page with no content |
-| `/exhibits/:slug` | Keep as-is | Slug-based detail routing is correct; both exhibit types share the route |
-
-**Redirect for backward compatibility:**
+For data with string literal union fields -- `faq.ts` has `category: 'hiring' | 'expertise' | 'style' | 'process'`, `exhibits.ts` has `exhibitType: 'investigation-report' | 'engineering-brief'` and `type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'`:
 
 ```typescript
-// In router.ts
-{ path: '/portfolio', redirect: '/case-files' },
+// src/data/faq.ts (thin wrapper)
+import type { FaqItem, FaqCategory } from '@/types'
+import faqItemsJson from './faqItems.json'
+import faqCategoriesJson from './faqCategories.json'
+
+export const faqItems = faqItemsJson as FaqItem[]
+export const faqCategories = faqCategoriesJson as FaqCategory[]
 ```
 
-Vue Router 4.6 supports `redirect` as a string, object, or function. A simple string redirect is sufficient here. This ensures any bookmarked `/portfolio` URLs still work.
+**Why `as` is needed here:** JSON imports infer string fields as `string`, not as narrow literal unions like `'hiring' | 'expertise'`. The `as` assertion narrows the type to match the interface. This is safe because the data is static, developer-authored, and validated visually. The alternative -- runtime validation via zod or similar -- is overkill for a 15-exhibit portfolio site with no user input.
 
-**Do NOT use named routes for the redirect** -- the current router uses anonymous routes (no `name` property). Adding names just for redirects adds ceremony with no benefit.
+### Pattern 3: Cross-Referenced Component Types
 
-**New route:**
+`technologies.ts` imports `Tag` from `TechTags.types.ts` and `ExpertiseLevel` from `ExpertiseBadge.types.ts`. These component type files stay in place -- they belong to their components. The centralized `src/types/` re-exports them:
 
 ```typescript
-{ path: '/case-files', component: () => import('./pages/CaseFilesPage.vue') },
+// src/types/exhibits.ts
+export type { Tag } from '@/components/TechTags.types'
+export type { ExpertiseLevel } from '@/components/ExpertiseBadge.types'
+
+export interface TechCardData {
+  name: string
+  level: ExpertiseLevel
+  // ...
+}
 ```
 
-**Confidence:** HIGH -- Vue Router redirect is documented core functionality.
+**Why re-export, not duplicate:** Single source of truth. If `ExpertiseLevel` changes in the component file, the data types update automatically.
+
+---
+
+## src/types/ Organization
+
+```
+src/types/
+  index.ts          # Barrel re-exporting everything
+  exhibits.ts       # Exhibit types (8+ interfaces, complex nesting)
+  data.ts           # All other data types (simple interfaces)
+```
+
+**Why two files, not eleven:** Most data files have a single simple interface (1-4 fields). Creating `src/types/stat.ts` with one 3-line interface per file creates unnecessary module noise. Exhibits warrant their own file because they have 8+ interfaces with nested relationships (`ExhibitSection`, `ExhibitTimelineEntry`, `ExhibitFlowStep`, etc.).
+
+**Why a barrel `index.ts`:** Enables `import type { Stat, FaqItem, Exhibit } from '@/types'` -- clean single import path for all consumers.
+
+---
+
+## Data File Inventory
+
+All 11 data files in `src/data/`, classified by import pattern needed:
+
+| File | Current Types | Pattern | Notes |
+|------|---------------|---------|-------|
+| `stats.ts` | `Stat` | 1 (assignment) | Simple string fields |
+| `techPills.ts` | `string[]` | 1 (assignment) | No interface needed -- stays `string[]` |
+| `specialties.ts` | `Specialty` | 1 (assignment) | Simple string fields |
+| `methodologySteps.ts` | `MethodologyStep` | 1 (assignment) | Simple string fields |
+| `brandElements.ts` | `BrandElement` | 1 (assignment) | Has optional `sourceNote?` -- still works |
+| `philosophyInfluences.ts` | `PhilosophyInfluence` | 1 (assignment) | `paragraphs: string[]` -- works fine |
+| `influences.ts` | `Influence`, `InfluenceSegment`, `InfluenceLink` | 1 (assignment) | Nested objects, all string fields |
+| `findings.ts` | `Finding` | 1 (assignment) | Has optional `link?` and `tags: string[]` |
+| `faq.ts` | `FaqItem`, `FaqCategory` | 2 (assertion) | `category` is a string literal union |
+| `technologies.ts` | `TechCardData`, `TechCategory` | 2 + 3 (assertion + cross-ref) | `level: ExpertiseLevel` is a string literal union; imports component types |
+| `exhibits.ts` | 8+ interfaces | 2 (assertion) | `exhibitType`, section `type` are literal unions |
+
+**`exhibits.test.ts`**: This is a test file, not a data file. It stays as-is in `src/data/`.
 
 ---
 
 ## What NOT to Add
 
-| Avoid | Why | What to Do Instead |
+| Avoid | Why | Use Instead |
 |-------|-----|---------------------|
-| Pinia / Vuex | Exhibit data is static imports, not global state. No async fetching, no mutations, no cross-component state sharing needed | Import `exhibits` array directly where needed |
-| `vue-router` route guards for exhibit type | The exhibit type is data-driven, not route-driven. Both types share `/exhibits/:slug` | Resolve type from exhibit data in the detail page component |
-| Separate routes per exhibit type (`/reports/:slug`, `/briefs/:slug`) | Creates URL coupling to classification. If an exhibit gets reclassified, its URL changes and breaks bookmarks | Single `/exhibits/:slug` route with type resolved from data |
-| Dynamic `<component :is>` for cards | Premature abstraction. Card differences are styling + minor content, not structural. A single component with CSS modifiers is simpler | Single ExhibitCard with `.exhibit-card--{type}` class |
-| renderless components / slots-only pattern for templates | Over-engineered for two templates. Direct `<component :is>` with two concrete components is clearer | Concrete InvestigationReportLayout.vue and EngineeringBriefLayout.vue |
-| New CSS methodology (BEM, CSS Modules, scoped styles) | Project uses cascade layers + custom properties system. Introducing a second system creates confusion | Follow existing CSS conventions with new `.exhibit-card--{type}` modifiers |
-| `provide/inject` for exhibit data | Exhibit data flows parent-to-child through one level of props. provide/inject is for deep injection (3+ levels) | Direct props |
+| zod / valibot / ajv | Runtime schema validation is pointless for static, developer-authored portfolio data with no API responses or user input | TypeScript compile-time structural checking via typed assignment |
+| json-loader / json5 | Vite handles `.json` natively since v1.0; json5 syntax (comments, trailing commas) not needed | Standard `.json` files |
+| `@types/json-schema` | No JSON Schema definitions needed; TypeScript interfaces are the schema | Plain interfaces in `src/types/` |
+| Dynamic `import()` for JSON | Unnecessary code-splitting for tiny static data files (each < 5KB) | Static `import` statements; Vite bundles efficiently |
+| `satisfies` operator for JSON | Would require TypeScript 4.9+ (have 5.7, so version is fine), but `satisfies` doesn't narrow -- it validates. The typed `const` assignment already validates AND narrows | `const data: Type[] = jsonImport` |
+| Pinia / Vuex for data | Data is static imports, not reactive state. No mutations, no async fetching, no cross-component state management needed | Direct imports from `@/data/*` |
 
 ---
 
-## Data Model Changes (No Package Impact)
+## Vite JSON Import Behavior
 
-The `Exhibit` interface in `src/data/exhibits.ts` needs these additions:
+Vite supports two JSON import modes:
 
-| Field | Type | Purpose |
-|-------|------|---------|
-| `exhibitType` | `'investigation-report' \| 'engineering-brief'` | Required discriminator replacing `investigationReport?: boolean` |
-| `summary` | `string` (optional) | Short description for card rendering on listing page; currently cards show quotes which may not suit engineering briefs |
+```typescript
+// Default import -- full object/array
+import stats from './stats.json'
 
-The existing `investigationReport?: boolean` can be derived: `investigationReport: exhibitType === 'investigation-report'` during a transition period, then removed.
+// Named import -- Vite tree-shakes unused fields
+import { items } from './large.json'
+```
+
+**For this project:** Use default imports. Each JSON file is a single array or object used in its entirety. Named imports only add value for large JSON files where you consume a subset of top-level keys.
+
+**Build behavior:** Vite inlines small JSON files into the JS bundle. No separate network requests at runtime. This is the correct behavior for static portfolio data.
 
 ---
 
 ## Version Compatibility
 
-No new packages means no new compatibility concerns. Existing compatibility matrix from v1.1 research remains valid:
+No new packages means no new compatibility concerns.
 
-| Package | Compatible With | Notes |
-|---------|-----------------|-------|
-| Vue 3.5.30 | Vue Router 4.6.4 | `<component :is>` with `defineAsyncComponent` stable since Vue 3.0 |
-| Vue Router 4.6.4 | Vite 6 | Lazy routes via `() => import()` is Vite-native |
-| TypeScript 5.7 | Discriminated unions | Feature available since TypeScript 2.0; fully mature |
+| Package | Feature Used | Notes |
+|---------|-------------|-------|
+| TypeScript ~5.7.0 | `resolveJsonModule` | Stable since TypeScript 2.9 (2018). Fully mature. |
+| Vite ^6.2.0 | Native JSON imports | Supported since Vite 1.0. Tree-shaking since Vite 2.0. |
+| vue-tsc ^2.2.0 | JSON type inference in `.vue` files | Inherits TypeScript's `resolveJsonModule` behavior. |
 
 ---
 
 ## Installation
 
 ```bash
-# No new packages required for v2.0
-# All patterns use Vue 3 built-in features
+# No new packages required.
+# The existing stack fully supports JSON externalization.
 ```
 
 ---
 
-## Stack Patterns by Variant
+## Alternatives Considered
 
-**For the detail page (two layout templates):**
-- Use `<component :is>` with `defineAsyncComponent` in ExhibitDetailPage.vue
-- Create InvestigationReportLayout.vue and EngineeringBriefLayout.vue as layout components
-- Both receive the full `Exhibit` object as a prop
-- Each layout is independently testable and story-able
-
-**For the listing page (mixed card types):**
-- Use single ExhibitCard.vue with CSS modifier class per exhibit type
-- Use computed properties for filtering/grouping by type
-- Consider splitting into two components only if card DOM structure diverges significantly
-
-**For navigation restructure:**
-- Add new `/case-files` route, remove `/review` route
-- Add `/portfolio` -> `/case-files` redirect for backward compatibility
-- Update NavBar links and HomePage CTAs
-
-**For testing the new patterns:**
-- Test each layout component in isolation (unit test + Storybook story)
-- Test ExhibitDetailPage template resolution with different exhibit types
-- Test ExhibitCard rendering for both types
-- Test router redirects in router.test.ts
+| Recommended | Alternative | Why Not |
+|-------------|-------------|---------|
+| Thin `.ts` wrappers re-exporting typed JSON | Direct JSON imports in `.vue` components | Would break every existing `import { stats } from '@/data/stats'` in components; forces changes across the entire codebase instead of isolating the refactor to `src/data/` |
+| `as Type` for union-typed fields | `satisfies` operator | `satisfies` validates but doesn't narrow; the typed const assignment already validates. `as` is the simpler, more readable pattern for this use case |
+| Two type files (`data.ts` + `exhibits.ts`) + barrel | One type file per data source (11 files) | 11 tiny files with 1-3 line interfaces each creates unnecessary directory noise |
+| Two type files + barrel | Single monolithic `types.ts` | Exhibits alone have 8+ interfaces with nesting; mixing them with simple `Stat`/`Specialty` types hurts readability and makes the file unwieldy |
+| Re-export component types in `src/types/` | Move component types into `src/types/` | Component types (`Tag`, `ExpertiseLevel`) belong with their components. Re-exporting maintains single source of truth |
 
 ---
 
 ## Sources
 
-- Vue 3 Dynamic Components documentation (vuejs.org/guide/essentials/component-basics#dynamic-components) -- `<component :is>` pattern -- HIGH confidence
-- Vue 3 Async Components documentation (vuejs.org/guide/components/async) -- `defineAsyncComponent` -- HIGH confidence
-- Vue Router Redirect and Alias documentation (router.vuejs.org/guide/essentials/redirect-and-alias) -- route redirects -- HIGH confidence
-- TypeScript Discriminated Unions (typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions) -- type narrowing pattern -- HIGH confidence
-- Existing codebase analysis: `src/data/exhibits.ts`, `src/pages/ExhibitDetailPage.vue`, `src/components/ExhibitCard.vue`, `src/router.ts` -- direct inspection -- HIGH confidence
+- **Project tsconfig.json** -- direct inspection confirmed `resolveJsonModule: true`, `moduleResolution: "bundler"` already set -- HIGH confidence
+- **Project src/data/*.ts** -- direct inspection of all 11 data files, type patterns catalogued -- HIGH confidence
+- **TypeScript resolveJsonModule** -- stable feature since TS 2.9 (2018), well-documented behavior for structural type inference from JSON -- HIGH confidence
+- **Vite static asset handling** -- JSON imports are a documented core feature since Vite 1.0, inlined into bundle for small files -- HIGH confidence
 
 ---
 
-*Stack research for: Vue 3 portfolio SPA -- dual exhibit templates and IA restructure (v2.0)*
-*Researched: 2026-03-27*
+*Stack research for: JSON data externalization (Vue 3 + TypeScript + Vite)*
+*Researched: 2026-04-06*
