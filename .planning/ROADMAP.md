@@ -77,7 +77,10 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
   2. Five data files (stats, techPills, specialties, brandElements, methodologySteps) each have a JSON file in `src/data/json/` and a thin TypeScript loader in `src/data/` that re-exports both data and types
   3. All 64+ existing unit tests pass and `vite build` produces a clean production build
   4. Zero `.vue` and zero `.test.ts` files are modified -- all existing component imports resolve without changes
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 17-01-PLAN.md -- Create src/types/ directory with centralized type definitions and barrel exports
+- [ ] 17-02-PLAN.md -- Migrate 5 simple data files to JSON + thin TypeScript loaders
 
 ### Phase 18: Complex Data Migration
 **Goal**: Data files with nested objects, optional fields, union types, and `as const` constructs are externalized to JSON while preserving all type safety
@@ -124,6 +127,6 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Types Infrastructure and Simple Data Migration | v3.0 | 0/0 | Not started | - |
+| 17. Types Infrastructure and Simple Data Migration | v3.0 | 0/2 | Not started | - |
 | 18. Complex Data Migration | v3.0 | 0/0 | Not started | - |
 | 19. Exhibits Migration | v3.0 | 0/0 | Not started | - |
