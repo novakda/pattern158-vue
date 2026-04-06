@@ -101,6 +101,50 @@
 
 ---
 
+## Milestone: v2.1 — Case Files Bug Fixes
+
+**Shipped:** 2026-04-06
+**Phases:** 2 (Phases 15-16) | **Plans:** 2 | **Commits:** ~34
+
+### What Was Built
+
+- Restored `.impact-tag` and `.impact-tags` CSS rules accidentally deleted in Phase 13 as "dead CSS" — pill badge styling restored on Case Files and detail pages
+- Added timeline (6 occurrences), metadata (15), and flow (1) section rendering to both InvestigationReportLayout and EngineeringBriefLayout
+- `sectionHasContent()` guard function suppresses empty sections from DOM output
+- 13 quick-task bug fixes from GitHub issues: logo contrast, hover animation removal, compact cards, card spacing, mobile table labels
+
+### What Worked
+
+- **TDD for template rendering**: 10 tests written RED before implementation; all GREEN on first pass — no rework needed
+- **Audit-verified completion**: Milestone audit confirmed 6/6 requirements satisfied before archival; only documentation debt found (no functional gaps)
+- **Quick task parallelism**: GitHub issue intake workflow enabled rapid bug fixes (5 issues closed in a single session)
+- **Minimal milestone scope**: Bug-fix-only milestone kept scope tight — 2 phases completed in 1 day
+
+### What Was Inefficient
+
+- **REQUIREMENTS.md checkbox drift**: CSS-01/CSS-02 checkboxes were not updated after Phase 15 completion — caught only by milestone audit cross-referencing VERIFICATION.md
+- **Phase 15 SUMMARY frontmatter gaps**: Missing `requirements-completed` field; documentation-only issue but created extra audit noise
+- **Retroactive milestone completion**: v2.1 archival happened after v2.2/v2.3/v3.0 were already tagged — ideally milestone completion should happen immediately after the last phase ships
+
+### Patterns Established
+
+- **sectionHasContent guard**: Centralized content-existence check using switch/case per section type — prevents empty section DOM pollution
+- **Template v-if/v-else-if chain**: Single render path per section type within v-for loop — clean conditional rendering without nested ternaries
+
+### Key Lessons
+
+1. **Mark requirements checked immediately after phase completion** — delaying checkbox updates creates audit noise; add to phase completion checklist
+2. **Complete milestones before starting the next** — retroactive archival works but loses temporal context and creates tag ordering confusion
+3. **Bug-fix milestones are high-value, low-cost** — v2.1's 2-phase scope fixed 22 previously broken section renders across 15 exhibits in a single day
+
+### Cost Observations
+
+- Model mix: balanced profile (sonnet-primary) for execution
+- Sessions: ~3 sessions across 2 phases (2026-04-02)
+- Notable: Phase 16 completed in 3 minutes with TDD — fastest plan-to-ship in the project
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -110,6 +154,7 @@
 | v1.0 | 4 | 14 | Established component extraction pattern + Storybook-all-components discipline |
 | v1.1 | 4 | 5 | Introduced audit-first workflow; milestone audit caught requirement gap pre-archival |
 | v2.0 | 6 | 10 | Data-model-first IA restructure; thin dispatcher pattern; gap closure as separate phase |
+| v2.1 | 2 | 2 | Bug-fix-only milestone; TDD for template rendering; sectionHasContent guard pattern |
 
 ### Cumulative Quality
 
@@ -118,6 +163,7 @@
 | v1.0 | baseline | all components | dual-environment config (node + browser) |
 | v1.1 | +5 (ExhibitCard) | +2 (ExhibitCard variants) | TDD pattern introduced |
 | v2.0 | 54 total (+22) | — | Layout components, CaseFilesPage, route migration tests |
+| v2.1 | 64 total (+10) | — | Section type rendering TDD (timeline, metadata, flow, empty suppression) |
 
 ### Top Lessons (Verified Across Milestones)
 

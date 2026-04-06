@@ -38,19 +38,12 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Unified Case Files page with type-grouped exhibits, stats bar, project directory (LIST-01/02/03/04/05) — v2.0
 - ✓ Navigation consolidated: /case-files route, redirects from /portfolio and /testimonials, NavBar updated (NAV-01/02/03/04/05) — v2.0
 - ✓ Content cleanup: Three Lenses removed, NarrativeCard deleted, old pages retired, homepage CTAs updated (CLN-01/02/03/04/05) — v2.0
+- ✓ Impact tag pill/badge CSS restored after accidental deletion (CSS-01, CSS-02) — v2.1
+- ✓ Timeline, metadata, flow section rendering with empty section suppression (SECT-01/02/03/04) — v2.1
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-## Current Milestone: v2.1 Case Files Bug Fixes
-
-**Goal:** Fix CSS deletion and unhandled section type rendering bugs from the v2.0 migration.
-
-**Target features:**
-- Restore deleted `.impact-tag` / `.impact-tags` base CSS styles (deleted in Phase 13 as "dead CSS")
-- Add rendering for `metadata` (15), `timeline` (6), and `flow` (1) section types in both layout components
-- Hide sections that have no renderable content (no empty headings)
 
 ### Out of Scope
 
@@ -65,7 +58,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-02) | **Status:** Milestone complete
+**Shipped:** v2.1 (2026-04-06) | **Status:** All milestones through v2.1 complete
 
 The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
 
@@ -120,4 +113,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-02 after Phase 16 completion (v2.1 milestone complete)*
+*Last updated: 2026-04-06 after v2.1 milestone completion*

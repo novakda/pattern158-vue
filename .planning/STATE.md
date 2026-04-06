@@ -2,35 +2,35 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Case Files Bug Fixes
-status: verifying
-stopped_at: Completed quick/260402-3b9 ExhibitCard CSS restore
-last_updated: "2026-04-02T09:30:57.879Z"
-last_activity: 2026-04-02
+status: milestone_complete
+stopped_at: "v2.1 milestone archived"
+last_updated: "2026-04-06T20:16:26.775Z"
+last_activity: 2026-04-06
 progress:
   total_phases: 2
   completed_phases: 2
   total_plans: 2
   completed_plans: 2
-  percent: 0
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-02)
+See: .planning/PROJECT.md (updated 2026-04-06)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 16 — Section Type Rendering
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 16
-Plan: Not started
-Status: Phase complete — ready for verification
-Last activity: 2026-04-02
+Phase: —
+Plan: —
+Status: v2.1 milestone complete, archived
+Last activity: 2026-04-06
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -59,13 +59,7 @@ Progress: [░░░░░░░░░░] 0%
 
 ### Decisions
 
-- [v2.0 Phase 13]: `.impact-tag` / `.impact-tags` CSS was deleted as "dead CSS" but was actually in use
-- [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
-
-*(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
-
-- [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
-- [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
+*(v2.1 decisions archived to PROJECT.md Key Decisions table — 2026-04-06)*
 
 ### Pending Todos
 

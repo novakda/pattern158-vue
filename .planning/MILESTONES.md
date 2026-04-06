@@ -1,5 +1,20 @@
 # Milestones
 
+## v2.1 Case Files Bug Fixes (Shipped: 2026-04-06)
+
+**Phases:** 15-16 | **Plans:** 2 | **Requirements:** 6/6 satisfied
+**Git range:** `v2.0`..`a19b3ff` | **Timeline:** 2026-04-02 (1 day)
+
+**Key accomplishments:**
+
+- Restored impact tag pill/badge CSS accidentally deleted in Phase 13 cleanup (CSS-01, CSS-02)
+- Added timeline (6), metadata (15), and flow (1) section rendering to both layout components (SECT-01/02/03)
+- sectionHasContent() guard suppresses empty sections from DOM output (SECT-04)
+- TDD approach: 10 new tests written first, all 64 tests passing
+- 13 quick-task bug fixes from GitHub issues (#1, #2, #5, #6, #7)
+
+---
+
 ## v2.0 Site IA Restructure — Evidence-Based Portfolio (Shipped: 2026-04-02)
 
 **Phases completed:** 6 phases, 10 plans, 18 tasks
