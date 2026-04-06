@@ -63,7 +63,7 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 **Milestone Goal:** Extract all hardcoded TypeScript data from `src/data/` into JSON files, centralizing type definitions in `src/types/`, to decouple content from code and enable future CMS integration.
 
 - [x] **Phase 17: Types Infrastructure and Simple Data Migration** - Establish `src/types/` directory and prove the thin loader pattern on 5 simple data files (completed 2026-04-06)
-- [ ] **Phase 18: Complex Data Migration** - Migrate 4 files with nested structures, union types, and `as const` handling
+- [x] **Phase 18: Complex Data Migration** - Migrate 4 files with nested structures, union types, and `as const` handling (completed 2026-04-06)
 - [ ] **Phase 19: Exhibits Migration** - Migrate the most complex data file (exhibits.ts) with discriminated unions and 9 consumer components
 
 ## Phase Details
@@ -131,5 +131,5 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 18. Complex Data Migration | v3.0 | 2/2 | Complete   | 2026-04-06 |
+| 18. Complex Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
 | 19. Exhibits Migration | v3.0 | 0/0 | Not started | - |
