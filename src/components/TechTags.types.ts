@@ -1,4 +1,1 @@
-export interface Tag {
-  label: string
-  title: string
-}
+export type { Tag } from '@/types'
