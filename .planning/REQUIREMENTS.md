@@ -55,7 +55,7 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 | Runtime data fetching | Site stays fully static; JSON is bundled at build time |
 | Runtime validation (Zod/Valibot) | Data is version-controlled and compile-time checked; runtime validation adds deps for zero benefit |
 | CMS integration | This milestone prepares the data layer; actual CMS is a future milestone |
-| New data content | Structural refactor only — no new exhibits, FAQs, or other content |
+| New data content | Structural refactor only -- no new exhibits, FAQs, or other content |
 | Component refactoring | Thin loaders preserve all import paths; components stay unchanged |
 
 ## Traceability
@@ -64,30 +64,30 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TYPE-01 | — | Pending |
-| TYPE-02 | — | Pending |
-| TYPE-03 | — | Pending |
-| SMPL-01 | — | Pending |
-| SMPL-02 | — | Pending |
-| SMPL-03 | — | Pending |
-| SMPL-04 | — | Pending |
-| SMPL-05 | — | Pending |
-| CPLX-01 | — | Pending |
-| CPLX-02 | — | Pending |
-| CPLX-03 | — | Pending |
-| CPLX-04 | — | Pending |
-| EXHB-01 | — | Pending |
-| EXHB-02 | — | Pending |
-| EXHB-03 | — | Pending |
-| VALD-01 | — | Pending |
-| VALD-02 | — | Pending |
-| VALD-03 | — | Pending |
+| TYPE-01 | Phase 17 | Pending |
+| TYPE-02 | Phase 17 | Pending |
+| TYPE-03 | Phase 17 | Pending |
+| SMPL-01 | Phase 17 | Pending |
+| SMPL-02 | Phase 17 | Pending |
+| SMPL-03 | Phase 17 | Pending |
+| SMPL-04 | Phase 17 | Pending |
+| SMPL-05 | Phase 17 | Pending |
+| CPLX-01 | Phase 18 | Pending |
+| CPLX-02 | Phase 18 | Pending |
+| CPLX-03 | Phase 18 | Pending |
+| CPLX-04 | Phase 18 | Pending |
+| EXHB-01 | Phase 19 | Pending |
+| EXHB-02 | Phase 19 | Pending |
+| EXHB-03 | Phase 19 | Pending |
+| VALD-01 | Phase 17 | Pending |
+| VALD-02 | Phase 17 | Pending |
+| VALD-03 | Phase 17 | Pending |
 
 **Coverage:**
 - v3.0 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18
+- Mapped to phases: 18
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-06*
-*Last updated: 2026-04-06 after initial definition*
+*Last updated: 2026-04-06 after roadmap creation*
