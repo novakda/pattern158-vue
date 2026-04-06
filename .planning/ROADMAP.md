@@ -127,6 +127,6 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete   | 2026-04-06 |
+| 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
 | 18. Complex Data Migration | v3.0 | 0/0 | Not started | - |
 | 19. Exhibits Migration | v3.0 | 0/0 | Not started | - |
