@@ -1,10 +1,3 @@
-export const techPills: string[] = [
-  'JavaScript',
-  'Node.js',
-  'Vue.js',
-  'TypeScript',
-  'SQL',
-  'REST APIs',
-  'AI Integration',
-  'Power Platform',
-]
+import techPillsData from './json/techPills.json'
+
+export const techPills: string[] = techPillsData
