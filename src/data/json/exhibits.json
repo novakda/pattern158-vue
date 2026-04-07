@@ -286,36 +286,6 @@
         ]
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "eLearning Protocols",
-            "SCORM 1.2, SCORM 2004, AICC, cross-domain communication (postMessage, EasyXDM), same-origin policy workarounds"
-          ],
-          [
-            "LMS Platforms",
-            "Cornerstone OnDemand"
-          ],
-          [
-            "Authoring & Legacy",
-            "Adobe Flash/ActionScript, HTML5, Articulate Storyline"
-          ],
-          [
-            "Development & Debugging",
-            "JavaScript, PHP, Fiddler (network analysis), browser DevTools, Chrome, IE compatibility, synchronous XHR deprecation"
-          ],
-          [
-            "Content Engineering",
-            "Flash-to-HTML5 migration, ESM course JavaScript rewrites, bulk course import tooling"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -354,7 +324,29 @@
     "isFlagship": true,
     "summary": "Diagnosed and resolved cross-domain SCORM communication failures caused by Electric Boat's split LMS/content server architecture. Deployed custom SCORM wrapper using postMessage to bypass same-origin policy constraints, eliminating dependency on Cornerstone Network Player. Engagement evolved from a \"quick win\" troubleshooting request into a 7-year embedded advisory role spanning Flash remediation, Chrome 80 impact analysis, and SCORM 2004 extensions across 574 emails and 49 personnel.",
     "emailCount": "574 emails",
-    "role": "Cross-domain SCORM architecture, Flash remediation, 7-year embedded technical advisory"
+    "role": "Cross-domain SCORM architecture, Flash remediation, 7-year embedded technical advisory",
+    "technologies": [
+      {
+        "category": "eLearning Protocols",
+        "tools": "SCORM 1.2, SCORM 2004, AICC, cross-domain communication (postMessage, EasyXDM), same-origin policy workarounds"
+      },
+      {
+        "category": "LMS Platforms",
+        "tools": "Cornerstone OnDemand"
+      },
+      {
+        "category": "Authoring & Legacy",
+        "tools": "Adobe Flash/ActionScript, HTML5, Articulate Storyline"
+      },
+      {
+        "category": "Development & Debugging",
+        "tools": "JavaScript, PHP, Fiddler (network analysis), browser DevTools, Chrome, IE compatibility, synchronous XHR deprecation"
+      },
+      {
+        "category": "Content Engineering",
+        "tools": "Flash-to-HTML5 migration, ESM course JavaScript rewrites, bulk course import tooling"
+      }
+    ]
   },
   {
     "label": "Exhibit B",
@@ -545,32 +537,6 @@
         "body": "The automation tool was adopted by at least one colleague and used to publish every lesson multiple times during the refresh cycle. Dan's contribution was singled out by name in an all-hands recognition email, receiving the title \"The Fiddler\" — the only team member recognized specifically for tooling and automation.\n\nThe recognition email gave each of 15 team members a unique nickname highlighting their specific contribution. The Director of Learning Technologies highlighted this as a kudos during the All Hands meeting, elevating the team's work to division-wide visibility.\n\nThe team collectively verified that all of the content in 1,216 lessons matched the content currently being served to customers. The content delivery framework library was fully refreshed for all clients including the enterprise course library."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Reverse Engineering & Analysis",
-            "Fiddler (HTTP traffic capture and analysis), browser DevTools, Xyleme API inspection"
-          ],
-          [
-            "Authoring Platform",
-            "Xyleme LCMS (Learning Content Management System), XML-based content storage, multi-channel publishing"
-          ],
-          [
-            "Automation Development",
-            "Batch publishing scripts, API integration, unattended publishing workflows, custom code auto-integration"
-          ],
-          [
-            "Content Delivery",
-            "Responsive skin development, HTML5 output, content delivery framework, enterprise course library management"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -627,6 +593,24 @@
         "name": "15+ Team Members",
         "title": "Content refresh contributors (each recognized with unique nicknames)",
         "organization": "GP Strategies"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "Reverse Engineering & Analysis",
+        "tools": "Fiddler (HTTP traffic capture and analysis), browser DevTools, Xyleme API inspection"
+      },
+      {
+        "category": "Authoring Platform",
+        "tools": "Xyleme LCMS (Learning Content Management System), XML-based content storage, multi-channel publishing"
+      },
+      {
+        "category": "Automation Development",
+        "tools": "Batch publishing scripts, API integration, unattended publishing workflows, custom code auto-integration"
+      },
+      {
+        "category": "Content Delivery",
+        "tools": "Responsive skin development, HTML5 output, content delivery framework, enterprise course library management"
       }
     ]
   },
@@ -685,36 +669,6 @@
         "type": "text",
         "heading": "Outcome",
         "body": "SCORM failures diagnosed and resolved across the Flash course portfolio. QA methodology adopted for effort estimation. Wells Fargo client contact independently relayed appreciation to GP Strategies leadership, triggering a recognition relay through the director level. The scale of the migration (100+ courses) and the client's strategic importance created a high-pressure environment where technical obstacles could not be allowed to disrupt delivery timelines."
-      },
-      {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "LCMS & Authoring",
-            "Xyleme Studio (LCMS), Xyleme \"thin package\" SCORM architecture, XML content storage, topic-based authoring"
-          ],
-          [
-            "Legacy Formats",
-            "Adobe Presenter (PowerPoint-based), Flash/ActionScript, standalone HTML5 frameworks"
-          ],
-          [
-            "eLearning Standards",
-            "SCORM 1.2, LMS API integration, completion tracking, bookmarking, quiz reset functionality"
-          ],
-          [
-            "Cross-Browser Diagnostics",
-            "Internet Explorer COM SCORM adapter, Flash-to-JavaScript bridge debugging, ActionScript runtime environment"
-          ],
-          [
-            "QA Methodology",
-            "Interactivity-level estimation framework, functional testing, regression testing, cross-platform validation"
-          ]
-        ]
       },
       {
         "type": "metadata",
@@ -785,6 +739,28 @@
         "name": "Wells Fargo Contacts",
         "title": "Subject matter experts and content owners",
         "organization": "Wells Fargo"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "LCMS & Authoring",
+        "tools": "Xyleme Studio (LCMS), Xyleme \"thin package\" SCORM architecture, XML content storage, topic-based authoring"
+      },
+      {
+        "category": "Legacy Formats",
+        "tools": "Adobe Presenter (PowerPoint-based), Flash/ActionScript, standalone HTML5 frameworks"
+      },
+      {
+        "category": "eLearning Standards",
+        "tools": "SCORM 1.2, LMS API integration, completion tracking, bookmarking, quiz reset functionality"
+      },
+      {
+        "category": "Cross-Browser Diagnostics",
+        "tools": "Internet Explorer COM SCORM adapter, Flash-to-JavaScript bridge debugging, ActionScript runtime environment"
+      },
+      {
+        "category": "QA Methodology",
+        "tools": "Interactivity-level estimation framework, functional testing, regression testing, cross-platform validation"
       }
     ]
   },
@@ -900,40 +876,6 @@
         "body": "The system served ~20 energy utility clients including FPL, Puget Sound Energy, NRG, Colorado Springs Utilities, Calpine, Exelon, and BP — each drawing a curated subset from a ~2,000 course central library. It remained operational for 10+ years — outlasting most of the projects it was built to support.\n\nThe architecture proved reusable when adapted for General Dynamics Electric Boat's defense sector deployment, demonstrating that the cross-domain dispatch pattern wasn't a one-off solution but a generalizable approach to multi-tenant content delivery.\n\nDan encountered the same architectural pattern a decade later on the BP Learning Platform (2024) — a federated integration layer (React/GraphQL) stitching together Rustici Content Controller, PeopleFluent LMS, Watershed LRS, and Amazon Cognito. He didn't build that platform, but he recognized the architecture immediately because he'd invented his own version of it in 2011."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Core Languages",
-            "JavaScript (ES5), HTML5"
-          ],
-          [
-            "Cross-Domain Communication",
-            "EasyXDM (cross-domain messaging library), CORS, postMessage"
-          ],
-          [
-            "eLearning Standards",
-            "SCORM 1.2, AICC (HACP protocol), SCORM-to-AICC protocol translation"
-          ],
-          [
-            "Package Generation",
-            "Groovy (scripting), Microsoft Access (database/UI), Windows Forms (tooling UI)"
-          ],
-          [
-            "Infrastructure",
-            "SQL (content metadata), GP Strategies content servers, client LMS platforms"
-          ],
-          [
-            "Client Deployments",
-            "FPL, Puget Sound Energy, NRG, Colorado Springs Utilities, Calpine, Exelon, BP, General Dynamics Electric Boat"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -995,6 +937,32 @@
         "title": "Director of Learning Technologies",
         "role": "Technical direction and hosting infrastructure"
       }
+    ],
+    "technologies": [
+      {
+        "category": "Core Languages",
+        "tools": "JavaScript (ES5), HTML5"
+      },
+      {
+        "category": "Cross-Domain Communication",
+        "tools": "EasyXDM (cross-domain messaging library), CORS, postMessage"
+      },
+      {
+        "category": "eLearning Standards",
+        "tools": "SCORM 1.2, AICC (HACP protocol), SCORM-to-AICC protocol translation"
+      },
+      {
+        "category": "Package Generation",
+        "tools": "Groovy (scripting), Microsoft Access (database/UI), Windows Forms (tooling UI)"
+      },
+      {
+        "category": "Infrastructure",
+        "tools": "SQL (content metadata), GP Strategies content servers, client LMS platforms"
+      },
+      {
+        "category": "Client Deployments",
+        "tools": "FPL, Puget Sound Energy, NRG, Colorado Springs Utilities, Calpine, Exelon, BP, General Dynamics Electric Boat"
+      }
     ]
   },
   {
@@ -1046,40 +1014,6 @@
         "type": "text",
         "heading": "Outcome",
         "body": "SCORM completion tracking restored across affected courses. HSBC LMS team approved updated courseware. Flash source recovered and preserved for future maintenance. International localization issues resolved. Engagement spanned nearly a decade across five countries.\n\nBy the numbers: 560+ documented interactions, 25 HSBC contacts across 5 countries, 7+ year engagement (2015–2022)."
-      },
-      {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "eLearning Protocols",
-            "SCORM 1.2, SCORM 2004, AICC, xAPI (Tin Can), cmi.core.exit debugging, LMS API integration"
-          ],
-          [
-            "LMS Platforms",
-            "SAP SuccessFactors (global instance), SumTotal, multi-region LMS deployment"
-          ],
-          [
-            "Forensic Recovery",
-            "Flash/SWF decompilation, ActionScript source extraction, timeline data recovery, asset extraction from compiled binaries"
-          ],
-          [
-            "Development",
-            "JavaScript, HTML5, Vue.js application development, responsive design"
-          ],
-          [
-            "Accessibility & Compliance",
-            "WCAG 2.1, Section 508, financial services compliance standards, security/credential management (IDAM training)"
-          ],
-          [
-            "International Coordination",
-            "Multi-region deployment (US, UK, Mexico, India, Philippines), localization debugging"
-          ]
-        ]
       },
       {
         "type": "metadata",
@@ -1154,6 +1088,32 @@
         "title": "Plus regional representatives",
         "organization": "HSBC (US, UK, Mexico, India, Philippines)"
       }
+    ],
+    "technologies": [
+      {
+        "category": "eLearning Protocols",
+        "tools": "SCORM 1.2, SCORM 2004, AICC, xAPI (Tin Can), cmi.core.exit debugging, LMS API integration"
+      },
+      {
+        "category": "LMS Platforms",
+        "tools": "SAP SuccessFactors (global instance), SumTotal, multi-region LMS deployment"
+      },
+      {
+        "category": "Forensic Recovery",
+        "tools": "Flash/SWF decompilation, ActionScript source extraction, timeline data recovery, asset extraction from compiled binaries"
+      },
+      {
+        "category": "Development",
+        "tools": "JavaScript, HTML5, Vue.js application development, responsive design"
+      },
+      {
+        "category": "Accessibility & Compliance",
+        "tools": "WCAG 2.1, Section 508, financial services compliance standards, security/credential management (IDAM training)"
+      },
+      {
+        "category": "International Coordination",
+        "tools": "Multi-region deployment (US, UK, Mexico, India, Philippines), localization debugging"
+      }
     ]
   },
   {
@@ -1200,36 +1160,6 @@
         "type": "text",
         "heading": "Significance",
         "body": "This engagement demonstrates several key capabilities: Architectural Leadership — Dan shaped the API definition through consultation, identified security and cross-computer resume implications before development began, and scoped the full 66-hour integration lifecycle. Deep Client Trust — SunTrust issued employee credentials and a dedicated laptop — extraordinary measures for an external contractor working with a banking institution's internal systems. Technology Adaptation — Rather than building from scratch, Dan adapted GP's existing SCORM-to-AICC wrapper technology for SunTrust's proprietary REST API. Multi-Year Engagement Stability — 133 emails spanning 2015–2018 indicate sustained involvement and ongoing value delivery."
-      },
-      {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "eLearning Standards",
-            "SCORM 1.2 (JavaScript API adapter, data model mapping), AICC (reference implementation for HTTP-based patterns)"
-          ],
-          [
-            "Custom Integration",
-            "SCORM-to-API translation layer, REST API client, authentication, state persistence"
-          ],
-          [
-            "Courseware Authoring",
-            "Lectora (SCORM output analysis), Adobe Captivate (compatibility testing)"
-          ],
-          [
-            "Development & Debugging",
-            "JavaScript (custom wrapper), Fiddler (HTTP traffic analysis, API endpoint testing), browser DevTools"
-          ],
-          [
-            "Browser Compatibility",
-            "Internet Explorer 8, Internet Explorer 10, Chrome, Firefox"
-          ]
-        ]
       },
       {
         "type": "metadata",
@@ -1293,6 +1223,28 @@
         "name": "Director of Learning Technologies",
         "title": "Technical leadership and oversight",
         "organization": "GP Strategies"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "eLearning Standards",
+        "tools": "SCORM 1.2 (JavaScript API adapter, data model mapping), AICC (reference implementation for HTTP-based patterns)"
+      },
+      {
+        "category": "Custom Integration",
+        "tools": "SCORM-to-API translation layer, REST API client, authentication, state persistence"
+      },
+      {
+        "category": "Courseware Authoring",
+        "tools": "Lectora (SCORM output analysis), Adobe Captivate (compatibility testing)"
+      },
+      {
+        "category": "Development & Debugging",
+        "tools": "JavaScript (custom wrapper), Fiddler (HTTP traffic analysis, API endpoint testing), browser DevTools"
+      },
+      {
+        "category": "Browser Compatibility",
+        "tools": "Internet Explorer 8, Internet Explorer 10, Chrome, Firefox"
       }
     ]
   },
@@ -1468,36 +1420,6 @@
         "body": "Contributed to GP Strategies' WCAG 2.1 AA evaluation methodology as the most experienced accessibility evaluator on the TD Bank engagement. Recognition from Senior Learning PM: \"Thank you for all your amazing work!\" (August 2022). Methodology subsequently applied across four major banking clients (HSBC, PNC Bank, TD Bank, UOB).\n\nThe 479 accessibility emails in 2022 (11.5% of annual correspondence) reflect sustained execution, not a one-time deliverable."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Accessibility Standards",
-            "WCAG 2.1 (Level A and AA), Section 508, ARIA Authoring Practices"
-          ],
-          [
-            "Screen Readers",
-            "JAWS (Job Access With Speech), NVDA (NonVisual Desktop Access)"
-          ],
-          [
-            "eLearning Authoring",
-            "Articulate Storyline (HTML output analysis, ARIA patterns, custom navigation)"
-          ],
-          [
-            "Testing Methodology",
-            "Keyboard navigation, cross-browser ARIA testing, issue triage (critical/major/minor), sprint integration (SCRUM)"
-          ],
-          [
-            "Banking Clients",
-            "TD Bank, HSBC, PNC Bank, UOB (4 major financial institutions)"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -1547,6 +1469,28 @@
         "name": "Senior Learning PM",
         "title": "TD MIC project coordination and program oversight",
         "organization": "GP Strategies"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "Accessibility Standards",
+        "tools": "WCAG 2.1 (Level A and AA), Section 508, ARIA Authoring Practices"
+      },
+      {
+        "category": "Screen Readers",
+        "tools": "JAWS (Job Access With Speech), NVDA (NonVisual Desktop Access)"
+      },
+      {
+        "category": "eLearning Authoring",
+        "tools": "Articulate Storyline (HTML output analysis, ARIA patterns, custom navigation)"
+      },
+      {
+        "category": "Testing Methodology",
+        "tools": "Keyboard navigation, cross-browser ARIA testing, issue triage (critical/major/minor), sprint integration (SCRUM)"
+      },
+      {
+        "category": "Banking Clients",
+        "tools": "TD Bank, HSBC, PNC Bank, UOB (4 major financial institutions)"
       }
     ]
   },
@@ -1662,36 +1606,6 @@
         "body": "This exhibit showcases forensic methodology and systems thinking — not debugging skill. The distinction matters. A debugger would have searched for the tracking bug GM assumed existed. This investigation ran three independent tracks in parallel (technical forensics, UX analysis, user research), synthesized findings across disciplines, and identified a systemic mismatch that no single track could have found alone. Intellectual honesty under organizational pressure — documenting what couldn't be conclusively proven alongside what could — is central to the approach."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "LMS Platform",
-            "PeopleSoft-based Enterprise LMS, memory cache architecture, form-based state persistence"
-          ],
-          [
-            "Authoring Tools",
-            "Third-party vendor authoring platform (custom navigation, assessment flows, completion triggers)"
-          ],
-          [
-            "Forensic Analysis",
-            "Fiddler (HTTP traffic capture, course-to-LMS communication tracing), browser DevTools"
-          ],
-          [
-            "Investigation Methodology",
-            "NTSB air crash investigation model, Swiss cheese model, multi-angle forensic investigation, systems thinking"
-          ],
-          [
-            "UX Research",
-            "Course navigation analysis, user interviews (GM sales reps), mobile usage pattern discovery, WiFi connectivity assessment"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -1751,6 +1665,28 @@
         "name": "Data Analyst / UX Researcher",
         "title": "GP Strategies",
         "role": "Data analysis, UX evaluation, user interviews, behavioral research"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "LMS Platform",
+        "tools": "PeopleSoft-based Enterprise LMS, memory cache architecture, form-based state persistence"
+      },
+      {
+        "category": "Authoring Tools",
+        "tools": "Third-party vendor authoring platform (custom navigation, assessment flows, completion triggers)"
+      },
+      {
+        "category": "Forensic Analysis",
+        "tools": "Fiddler (HTTP traffic capture, course-to-LMS communication tracing), browser DevTools"
+      },
+      {
+        "category": "Investigation Methodology",
+        "tools": "NTSB air crash investigation model, Swiss cheese model, multi-angle forensic investigation, systems thinking"
+      },
+      {
+        "category": "UX Research",
+        "tools": "Course navigation analysis, user interviews (GM sales reps), mobile usage pattern discovery, WiFi connectivity assessment"
       }
     ]
   },
@@ -1825,36 +1761,6 @@
         "body": "Functional proof of concept delivered in ~4 weeks — from zero Copilot Studio experience to a working hybrid agent that resolved the reliability and deterministic behavior challenges of the original declarative approach. The proof of concept was in active development when the engagement concluded.\n\nThe architecture pattern demonstrated a reusable principle: hybrid AI/structured-data beats pure LLM for stateful workflows."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Microsoft AI Platform",
-            "Microsoft Copilot Studio (topic-based conversation design, AI code interpreter), Azure OpenAI Service, Microsoft Teams"
-          ],
-          [
-            "Data Architecture",
-            "Structured JSON (course catalog, progress tracking, state persistence), deterministic state management"
-          ],
-          [
-            "User Interface",
-            "Adaptive Cards (navigation UI, assessment forms, structured learner interactions)"
-          ],
-          [
-            "AI Integration",
-            "Hybrid AI/structured-data architecture, LLM guardrails (topic flow constraints, deterministic navigation enforcement)"
-          ],
-          [
-            "Microsoft History",
-            "10-year relationship: Windows 10 eLearning, SCORM integration, accessibility initiative"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -1913,6 +1819,28 @@
         "name": "MCAPS Lead",
         "title": "Microsoft Account Lead",
         "organization": "Microsoft"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "Microsoft AI Platform",
+        "tools": "Microsoft Copilot Studio (topic-based conversation design, AI code interpreter), Azure OpenAI Service, Microsoft Teams"
+      },
+      {
+        "category": "Data Architecture",
+        "tools": "Structured JSON (course catalog, progress tracking, state persistence), deterministic state management"
+      },
+      {
+        "category": "User Interface",
+        "tools": "Adaptive Cards (navigation UI, assessment forms, structured learner interactions)"
+      },
+      {
+        "category": "AI Integration",
+        "tools": "Hybrid AI/structured-data architecture, LLM guardrails (topic flow constraints, deterministic navigation enforcement)"
+      },
+      {
+        "category": "Microsoft History",
+        "tools": "10-year relationship: Windows 10 eLearning, SCORM integration, accessibility initiative"
       }
     ]
   },
@@ -2010,36 +1938,6 @@
         "body": "Findings were shared with management and the governance architect via a documented deliverable — a private repo containing findings, prompts, and annotated analysis. This case demonstrates how forensic engineering methodology, augmented by AI-assisted analysis, can surface foundational gaps early — before they become production failures. The earlier these methods are applied, the more costly the problems they prevent.\n\nThe analysis provided the governance team with the first complete picture of the system's technical debt."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Microsoft Power Platform",
-            "Power Apps (model-driven, canvas), Dataverse (table structure, entity relationships), Power Automate, Power Platform Solutions"
-          ],
-          [
-            "Development Practices",
-            "Solution architecture (monolithic vs modular core), version control (git, source control best practices), Azure DevOps"
-          ],
-          [
-            "AI-Assisted Analysis",
-            "GitHub Spec Kit (AI-assisted requirements analysis, baseline generation, gap detection), convergence validation"
-          ],
-          [
-            "Forensic Methodology",
-            "Architecture audit protocols, gap analysis, Microsoft best practices comparison"
-          ],
-          [
-            "Requirements Engineering",
-            "Requirement degradation chain analysis, user story decomposition, epic vs story-level distinction"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -2090,6 +1988,28 @@
       {
         "role": "Governance Architect (anonymized)",
         "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization."
+      }
+    ],
+    "technologies": [
+      {
+        "category": "Microsoft Power Platform",
+        "tools": "Power Apps (model-driven, canvas), Dataverse (table structure, entity relationships), Power Automate, Power Platform Solutions"
+      },
+      {
+        "category": "Development Practices",
+        "tools": "Solution architecture (monolithic vs modular core), version control (git, source control best practices), Azure DevOps"
+      },
+      {
+        "category": "AI-Assisted Analysis",
+        "tools": "GitHub Spec Kit (AI-assisted requirements analysis, baseline generation, gap detection), convergence validation"
+      },
+      {
+        "category": "Forensic Methodology",
+        "tools": "Architecture audit protocols, gap analysis, Microsoft best practices comparison"
+      },
+      {
+        "category": "Requirements Engineering",
+        "tools": "Requirement degradation chain analysis, user story decomposition, epic vs story-level distinction"
       }
     ]
   },
@@ -2255,32 +2175,6 @@
         "body": "Delivered theming updates, bug fixes, Cognito authentication resolution, and Watershed LRS debugging. The Cognito issue — open for months before the engagement — was resolved as part of the cross-system investigation. Pattern recognition from CSBB Dispatch provided architectural context that accelerated diagnosis."
       },
       {
-        "type": "table",
-        "heading": "Technologies",
-        "columns": [
-          "Category",
-          "Technologies & Tools"
-        ],
-        "rows": [
-          [
-            "Frontend",
-            "React, Material UI, GraphQL"
-          ],
-          [
-            "Backend Systems",
-            "Rustici Content Controller, PeopleFluent LMS, Watershed LRS, Amazon Cognito"
-          ],
-          [
-            "Architecture",
-            "Federated facade pattern, cross-system state management, multi-tenant theming"
-          ],
-          [
-            "Debugging",
-            "GraphQL query tracing, xAPI statement debugging, Cognito authentication flow analysis"
-          ]
-        ]
-      },
-      {
         "type": "metadata",
         "heading": "Engagement Metadata",
         "items": [
@@ -2323,6 +2217,24 @@
         "name": "Leo Learning Team",
         "title": "Platform Development",
         "organization": "Leo Learning / GP Strategies"
+      }
+    ],
+    "technologies": [
+      {
+        "category": "Frontend",
+        "tools": "React, Material UI, GraphQL"
+      },
+      {
+        "category": "Backend Systems",
+        "tools": "Rustici Content Controller, PeopleFluent LMS, Watershed LRS, Amazon Cognito"
+      },
+      {
+        "category": "Architecture",
+        "tools": "Federated facade pattern, cross-system state management, multi-tenant theming"
+      },
+      {
+        "category": "Debugging",
+        "tools": "GraphQL query tracing, xAPI statement debugging, Cognito authentication flow analysis"
       }
     ]
   },
