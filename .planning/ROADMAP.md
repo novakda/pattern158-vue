@@ -76,7 +76,7 @@ Full details: `.planning/milestones/v3.0-ROADMAP.md`
 
 - [x] **Phase 20: Personnel Migration** - Promote personnel tables to typed `PersonnelEntry[]` arrays with section removal and layout rendering (completed 2026-04-07)
 - [x] **Phase 21: Technologies Migration** - Promote technologies tables to typed `TechnologyEntry[]` arrays with section removal and layout rendering (completed 2026-04-07)
-- [ ] **Phase 22: Findings Migration** - Promote findings tables to typed `FindingEntry[]` arrays with section removal and layout rendering
+- [x] **Phase 22: Findings Migration** - Promote findings tables to typed `FindingEntry[]` arrays with section removal and layout rendering (completed 2026-04-07)
 
 ## Phase Details
 
@@ -153,4 +153,4 @@ Phases execute in numeric order: 20 -> 21 -> 22
 | 19. Exhibits Migration | v3.0 | 1/1 | Complete | 2026-04-06 |
 | 20. Personnel Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |
 | 21. Technologies Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |
-| 22. Findings Migration | v4.0 | 0/2 | Not started | - |
+| 22. Findings Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |

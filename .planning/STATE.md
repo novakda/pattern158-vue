@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v4.0
 milestone_name: Exhibit Data Normalization
-status: completed
+status: executing
 stopped_at: Completed 20-02 personnel layout rendering
-last_updated: "2026-04-07T06:04:07.692Z"
+last_updated: "2026-04-07T06:13:36.082Z"
 last_activity: 2026-04-07
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 4
+  total_plans: 6
   completed_plans: 3
   percent: 100
 ---
@@ -21,13 +21,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 19 — Exhibits Migration (complete)
+**Current focus:** Phase 22 — Findings Migration
 
 ## Current Position
 
 Phase: 22
 Plan: Not started
-Status: v3.0 milestone complete — all 11 data files externalized
+Status: Executing Phase 22
 Last activity: 2026-04-07
 
 Progress: [██████████] 100%
