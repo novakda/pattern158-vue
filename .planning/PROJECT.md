@@ -4,7 +4,7 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy.
+The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v3.0 externalized all data to JSON with centralized TypeScript types, decoupling content from code for future CMS readiness.
 
 ## Core Value
 
@@ -41,6 +41,12 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Impact tag pill/badge CSS restored after accidental deletion (CSS-01, CSS-02) — v2.1
 - ✓ Timeline, metadata, flow section rendering with empty section suppression (SECT-01/02/03/04) — v2.1
 
+- ✓ All 11 data files externalized from TypeScript to JSON with thin loaders (TYPE-01, SMPL-01-05, CPLX-01-04, EXHB-01) — v3.0
+- ✓ Centralized type definitions in src/types/ with barrel exports (TYPE-01, TYPE-02) — v3.0
+- ✓ Cross-boundary types (Tag, ExpertiseLevel) moved to src/types/ with backward-compatible shims (TYPE-02, TYPE-03) — v3.0
+- ✓ Discriminated unions (exhibitType, section type) correctly asserted on JSON import (EXHB-02) — v3.0
+- ✓ Zero component file changes — all existing imports resolve unchanged (VALD-03) — v3.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
@@ -49,7 +55,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
 
-- Backend/CMS/data fetching — stays fully static
+- Backend/CMS/runtime data fetching — JSON data layer is CMS-ready but no runtime fetching or backend yet
 - Animations/transitions — defer to a future pass
 - SSR/SSG — SPA is sufficient for a portfolio site
 - New exhibit content creation — restructure existing content, don't write new exhibits
@@ -58,9 +64,11 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v2.1 (2026-04-06) | **Status:** All milestones through v2.1 complete
+## Current State
 
-The site's information architecture is complete through v2.0. All 15 exhibits are presented through a unified Case Files page with type-aware styling, backed by a clean data model with explicit `exhibitType` discriminant. Two purpose-built detail layouts serve Investigation Reports (NTSB-style) and Engineering Briefs (constraints-approach-results). Dead pages and redundant data files have been removed. v2.1 complete — restored impact tag pill CSS (Phase 15) and added rendering for all five section types: text, table, timeline (6), metadata (15), and flow (1), with empty section suppression (Phase 16). 64 unit tests passing, clean production build.
+**Shipped:** v3.0 (2026-04-06) | **Status:** All milestones through v3.0 complete
+
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. 64 unit tests passing, clean production build.
 
 ## Context
 
@@ -94,6 +102,10 @@ The site's information architecture is complete through v2.0. All 15 exhibits ar
 | Border accent reusing badge token values | Visual consistency: gray=IR, teal=EB across cards and detail badges | ✓ Good — cohesive type identity |
 | Phase 14 for documentation gap closure | Separated doc cleanup from code work; kept Phase 13 scope pure | ✓ Good — audit gaps closed cleanly |
 | TDD for section type rendering (Phase 16) | Template-only bug fix with existing CSS — tests lock rendering contracts before implementation | ✓ Good — 10 new tests, all green on first pass |
+| Thin loader pattern for JSON externalization | Each `src/data/*.ts` imports JSON, asserts types, re-exports — preserves all import paths with zero consumer changes | ✓ Good — all 11 files migrated, zero `.vue` files touched |
+| Centralized `src/types/` with barrel exports | Single import path for all data types; eliminates scattered type co-location | ✓ Good — 13 type files, clean barrel, cross-boundary types resolved |
+| `faqCategories` kept as `as const` in TypeScript | JSON cannot express literal type narrowing; `as const satisfies` preserves compile-time category validation | ✓ Good — faqItems in JSON, categories typed correctly |
+| `as Exhibit[]` type assertion for discriminated unions | JSON import widens string literals to `string`; explicit assertion restores discriminated union narrowing | ✓ Good — TypeScript catches type mismatches, all consumers work |
 
 ## Evolution
 
@@ -113,4 +125,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after v2.1 milestone completion*
+*Last updated: 2026-04-06 after v3.0 milestone completion*

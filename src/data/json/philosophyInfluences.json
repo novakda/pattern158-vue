@@ -1,0 +1,35 @@
+[
+  {
+    "title": "Air Crash Investigation",
+    "sources": "Mayday / Air Crash Investigation (TV), Mentour Pilot (YouTube), 74 Gear (YouTube)",
+    "paragraphs": [
+      "The NTSB doesn\u2019t arrive at a crash site and blame the pilot. They reconstruct the full causal chain \u2014 what the system allowed, what the design encouraged, what the training didn\u2019t cover, what the weather added. The finding is almost never a single cause. It\u2019s a pattern of contributing factors that aligned.",
+      "I run every significant investigation the same way. The GM course completion spike \u2014 a 4x increase in incomplete rates across a major client \u2014 looked like a tracking bug. It wasn\u2019t. Technical forensics (Fiddler, browser debugging), UX analysis, and user interviews revealed three contributing factors: fragile architecture, confusing navigation, and sales reps taking training on poor WiFi between customer meetings. All three had to align for the failure to occur. Fix only one, and you\u2019ve addressed a symptom.",
+      "The method: reconstruct before you diagnose. Diagnose before you fix."
+    ]
+  },
+  {
+    "title": "Speedrunning / TASBot Culture",
+    "sources": "TASBot demonstrations, tool-assisted speedruns, emulator save states",
+    "paragraphs": [
+      "A Tool-Assisted Speedrun uses emulator save states and frame-perfect input to understand a game at a level no human can reach in real time. It\u2019s not cheating in the pejorative sense \u2014 it\u2019s systematic mastery. You understand the rules so completely that you can build tools that operate beyond what the rules were designed to allow.",
+      "The SCORM Debugger is TASBot for eLearning. Testing a gated course meant manually advancing through every section to reach the one you needed to test. Hours per cycle. I built a Vue.js wrapper with a fake SCORM API: save course state at any point, restore it instantly, edit SCORM values directly, jump anywhere. Testing cycles dropped from hours to seconds. The methodology is identical \u2014 save state, manipulate, replay, optimize."
+    ]
+  },
+  {
+    "title": "\u201cI Seek Knowledge Not for Gain, But to Better Understand Myself\u201d",
+    "sources": "Harry Potter fanfic \u2014 password to the Department of Mysteries",
+    "paragraphs": [
+      "I don\u2019t reverse-engineer a legacy CMS to fix bugs. I do it to understand the mind of the engineer who built it. I don\u2019t study SCORM specifications to bill more hours. I study them to understand why LMS vendors interpret the same spec differently \u2014 what assumptions were baked into each implementation, what the authors of the spec meant vs. what the market heard.",
+      "The knowledge isn\u2019t the goal. The understanding is. And the understanding of a system is inseparable from the understanding of the people who built it, used it, and broke it."
+    ]
+  },
+  {
+    "title": "Mentour Pilot\u2019s AI Application",
+    "sources": "~2022\u20132023, commercial airline pilot building an AI assistant for aviation procedures",
+    "paragraphs": [
+      "A domain expert using AI as a force multiplier \u2014 not AI hype, but practical utility. His expertise became more accessible and more useful because he understood both the domain and the tool\u2019s actual capabilities.",
+      "This was the seed for how I approach AI implementation. Domain knowledge isn\u2019t replaceable by AI. AI is replaceable by better AI. The combination \u2014 expert judgment augmented by systematic analysis \u2014 is what produces results. The Power Platform engagement: undefined requirements, departed vendors, three weeks to specification. AI as a pressure-testing partner, not an answer machine. GitHub Spec Kit emerged from that model."
+    ]
+  }
+]

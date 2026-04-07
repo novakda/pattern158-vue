@@ -1,19 +1,5 @@
-export interface MethodologyStep {
-  title: string
-  description: string
-}
+import type { MethodologyStep } from '@/types'
+import methodologyStepsData from './json/methodologySteps.json'
 
-export const methodologySteps: MethodologyStep[] = [
-  {
-    title: 'Deconstruct the Chaos',
-    description: 'I use forensic engineering to understand \u201cblack box\u201d legacy systems. Never blame the human first \u2014 investigate the design. Systems thinking over code debugging.',
-  },
-  {
-    title: 'Build the Tool',
-    description: 'I create reusable frameworks (middleware, CMS templates, AI agents) to solve the root cause. Don\u2019t fix individual bugs \u2014 prevent entire categories of problems.',
-  },
-  {
-    title: 'Empower the User',
-    description: 'I hand off robust tools that make complex processes feel simple. Documented, maintainable, and built to outlast my involvement.',
-  },
-]
+export type { MethodologyStep }
+export const methodologySteps: MethodologyStep[] = methodologyStepsData

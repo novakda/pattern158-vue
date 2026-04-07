@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Case Files Bug Fixes
-status: milestone_complete
-stopped_at: "v2.1 milestone archived"
-last_updated: "2026-04-06T20:16:26.775Z"
+milestone: v3.0
+milestone_name: Data Externalization
+status: completed
+stopped_at: Completed 19-01-PLAN.md (exhibits migration)
+last_updated: "2026-04-06T22:18:28.489Z"
 last_activity: 2026-04-06
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 2
-  completed_plans: 2
+  total_phases: 3
+  completed_phases: 3
+  total_plans: 5
+  completed_plans: 5
   percent: 100
 ---
 
@@ -18,16 +18,16 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-06)
+See: .planning/PROJECT.md (updated 2026-04-02)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Planning next milestone
+**Current focus:** Phase 19 — Exhibits Migration (complete)
 
 ## Current Position
 
-Phase: —
-Plan: —
-Status: v2.1 milestone complete, archived
+Phase: 19
+Plan: Not started
+Status: v3.0 milestone complete — all 11 data files externalized
 Last activity: 2026-04-06
 
 Progress: [██████████] 100%
@@ -54,12 +54,28 @@ Progress: [██████████] 100%
 | Phase 13 P01 | — | — | 7 files |
 | Phase 14 P01 | 2min | 2 tasks | 2 files |
 | Phase 16 P01 | 3min | 2 tasks | 4 files |
+| Phase 17 P02 | 2min | 2 tasks | 10 files |
+| Phase 18 P01 | 4min | 2 tasks | 11 files |
+| Phase 18 P02 | 2min | 1 tasks | 2 files |
+| Phase 19 P01 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
 ### Decisions
 
-*(v2.1 decisions archived to PROJECT.md Key Decisions table — 2026-04-06)*
+- [v2.0 Phase 13]: `.impact-tag` / `.impact-tags` CSS was deleted as "dead CSS" but was actually in use
+- [v2.0 Phase 10]: Layout components do not handle `metadata`, `timeline`, or `flow` section types
+
+*(v2.0 decisions archived to PROJECT.md Key Decisions table — 2026-04-02)*
+
+- [Phase 16]: sectionHasContent() guard function checks content arrays per type before rendering section div
+- [Phase 16]: v-if/v-else-if chain ensures only one content block renders per section type
+- [Phase 17]: Centralized src/types/ directory with barrel index for all data interfaces
+- [Phase 17]: Component .types.ts files converted to backward-compat re-export shims from @/types
+- [Phase 17]: JSON externalization pattern: data in src/data/json/*.json, thin loader imports + type-asserts + re-exports
+- [Phase 18]: Type assertions (as T[]) needed for JSON loaders with optional fields
+- [Phase 18]: faqCategories kept as const satisfies in TypeScript; only faqItems moved to JSON
+- [Phase 19]: Programmatic extraction of 1581-line exhibits.ts to JSON via Node.js eval
 
 ### Pending Todos
 
@@ -89,6 +105,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-02T10:35:00.000Z
-Stopped at: Completed github-intake issue #7 — mobile table labels
+Last session: 2026-04-06T22:03:22.369Z
+Stopped at: Completed 19-01-PLAN.md (exhibits migration)
 Resume file: None

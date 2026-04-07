@@ -1,52 +1,5 @@
-export interface InfluenceLink {
-  text: string
-  to: string
-}
+import type { Influence, InfluenceLink, InfluenceSegment } from '@/types'
+import influencesData from './json/influences.json'
 
-export interface InfluenceSegment {
-  text: string
-  link?: InfluenceLink
-}
-
-export interface Influence {
-  term: string
-  segments: InfluenceSegment[]
-}
-
-export const influences: Influence[] = [
-  {
-    term: '1. Air Crash Investigation',
-    segments: [
-      { text: 'Applied to the ' },
-      { text: '', link: { text: 'GM course completion investigation', to: '/exhibits/exhibit-j' } },
-      { text: ': a 4x spike in incomplete rates traced to fragile LMS architecture, misleading navigation, and mismatched real-world usage patterns.' },
-    ],
-  },
-  {
-    term: '2. Speedrunning / TASBot',
-    segments: [
-      { text: 'Applied to build a ' },
-      { text: '', link: { text: 'SCORM debugging tool', to: '/exhibits/exhibit-m' } },
-      { text: ' that reduced QA cycles from hours to minutes using emulator save-state methodology.' },
-    ],
-  },
-  {
-    term: '3. \u201cYou want to cheat, cheat fair\u2014anything I hate is a crookin\u2019 crook.\u201d',
-    segments: [
-      { text: '\u2014Moe Howard, \u201cHealthy, Wealthy and Dumb\u201d (1938). The source of the tagline. If you\u2019ve found an elegant shortcut, document it, share it, build it properly. Hoarding a clever solution is the real dishonesty. ' },
-      { text: '', link: { text: 'Full philosophy \u2192', to: '/philosophy#influences' } },
-    ],
-  },
-  {
-    term: '4. Mentour Pilot',
-    segments: [
-      { text: 'The model for AI as a force multiplier: domain expert + AI assistant = better analysis than either alone.' },
-    ],
-  },
-  {
-    term: '5. \u201cI seek knowledge not for gain, but to better understand myself\u201d',
-    segments: [
-      { text: 'A line from a Harry Potter fanfic that stuck. The motivation behind every deep investigation: understanding the system, not padding the resume.' },
-    ],
-  },
-]
+export type { Influence, InfluenceLink, InfluenceSegment }
+export const influences: Influence[] = influencesData as Influence[]
