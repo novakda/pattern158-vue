@@ -78,6 +78,24 @@ function sectionHasContent(section: ExhibitSection): boolean {
           </table>
         </div>
 
+        <div v-if="exhibit.technologies?.length" class="exhibit-section">
+          <h2>Technologies</h2>
+          <table class="exhibit-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Technologies &amp; Tools</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(t, ti) in exhibit.technologies" :key="ti">
+                <td data-label="Category">{{ t.category }}</td>
+                <td data-label="Technologies & Tools">{{ t.tools }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <template v-if="exhibit.sections?.length">
           <template v-for="(section, i) in exhibit.sections" :key="i">
             <div v-if="sectionHasContent(section)" class="exhibit-section">
