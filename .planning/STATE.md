@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v3.0
 milestone_name: Data Externalization
 status: completed
-stopped_at: Completed 19-01-PLAN.md (exhibits migration)
-last_updated: "2026-04-06T22:18:28.489Z"
+stopped_at: Completed 20-02 personnel layout rendering
+last_updated: "2026-04-07T05:38:31.623Z"
 last_activity: 2026-04-06
 progress:
   total_phases: 3
@@ -58,6 +58,7 @@ Progress: [██████████] 100%
 | Phase 18 P01 | 4min | 2 tasks | 11 files |
 | Phase 18 P02 | 2min | 1 tasks | 2 files |
 | Phase 19 P01 | 3min | 2 tasks | 4 files |
+| Phase 20 P02 | 3min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,7 @@ Progress: [██████████] 100%
 - [Phase 18]: Type assertions (as T[]) needed for JSON loaders with optional fields
 - [Phase 18]: faqCategories kept as const satisfies in TypeScript; only faqItems moved to JSON
 - [Phase 19]: Programmatic extraction of 1581-line exhibits.ts to JSON via Node.js eval
+- [Phase 20]: Column variant detection via field presence (involvement for Variant C, organization for A vs B)
 
 ### Pending Todos
 
@@ -105,6 +107,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-06T22:03:22.369Z
-Stopped at: Completed 19-01-PLAN.md (exhibits migration)
+Last session: 2026-04-07T05:38:31.621Z
+Stopped at: Completed 20-02 personnel layout rendering
 Resume file: None
