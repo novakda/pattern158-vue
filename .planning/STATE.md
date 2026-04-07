@@ -1,36 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v4.0
-milestone_name: Exhibit Data Normalization
-status: executing
-stopped_at: Completed 20-02 personnel layout rendering
-last_updated: "2026-04-07T06:17:42.963Z"
+milestone: v5.0
+milestone_name: Findings Schema Unification
+status: defining-requirements
+stopped_at: Milestone started, defining requirements
+last_updated: "2026-04-07"
 last_activity: 2026-04-07
 progress:
-  total_phases: 3
-  completed_phases: 1
-  total_plans: 6
-  completed_plans: 3
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-02)
+See: .planning/PROJECT.md (updated 2026-04-07)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 22 — Findings Migration
+**Current focus:** Defining requirements for v5.0 Findings Schema Unification
 
 ## Current Position
 
-Phase: 22
-Plan: Not started
-Status: Executing Phase 22
-Last activity: 2026-04-07
-
-Progress: [██████████] 100%
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-07 — Milestone v5.0 started
 
 ## Performance Metrics
 
@@ -107,6 +105,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-04-07T05:38:31.621Z
-Stopped at: Completed 20-02 personnel layout rendering
+Last session: 2026-04-07
+Stopped at: Milestone v5.0 started — defining requirements
 Resume file: None

@@ -55,6 +55,17 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+## Current Milestone: v5.0 Findings Schema Unification
+
+**Goal:** Unify all exhibit findings into a consistent schema with optional enrichment fields, and backfill findings for exhibits that currently lack them.
+
+**Target features:**
+- Unified FindingEntry schema with optional severity, resolution, outcome, category fields
+- Normalize Exhibit A's background → description field naming
+- Promote findingsHeading to all exhibits warranting custom headings
+- Backfill findings arrays for 8 exhibits currently missing them (extract from narrative sections)
+- Update layout rendering to handle new optional fields
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
@@ -68,7 +79,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v4.0 (2026-04-07) | **Status:** All milestones through v4.0 complete
+**Shipped:** v4.0 (2026-04-07) | **Status:** v5.0 in progress
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. 83 unit tests passing, clean production build.
 
@@ -130,4 +141,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after v4.0 milestone completion*
+*Last updated: 2026-04-07 after v5.0 milestone start*
