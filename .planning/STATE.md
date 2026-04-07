@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v3.0
-milestone_name: Data Externalization
+milestone: v4.0
+milestone_name: Exhibit Data Normalization
 status: completed
 stopped_at: Completed 20-02 personnel layout rendering
-last_updated: "2026-04-07T05:38:31.623Z"
-last_activity: 2026-04-06
+last_updated: "2026-04-07T05:41:14.835Z"
+last_activity: 2026-04-07
 progress:
   total_phases: 3
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
+  completed_phases: 1
+  total_plans: 2
+  completed_plans: 2
   percent: 100
 ---
 
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-02)
 
 ## Current Position
 
-Phase: 19
+Phase: 21
 Plan: Not started
 Status: v3.0 milestone complete — all 11 data files externalized
-Last activity: 2026-04-06
+Last activity: 2026-04-07
 
 Progress: [██████████] 100%
 
