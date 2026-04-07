@@ -115,14 +115,15 @@ Plans:
 **Depends on**: Phase 21
 **Requirements**: FIND-01, FIND-02, FIND-03
 **Success Criteria** (what must be TRUE):
-  1. Each of the 6 exhibits with findings data has a `findings: FindingEntry[]` array on its exhibit object, with typed fields handling all 3 column variants
-  2. The `sections[]` array in exhibits.json no longer contains any findings table sections for those 6 exhibits
+  1. Each of the 7 exhibits with findings data has a `findings: FindingEntry[]` array on its exhibit object, with typed fields handling all 3 column variants
+  2. The `sections[]` array in exhibits.json no longer contains any findings table sections for those 7 exhibits
   3. Both layout components render a findings table from the typed `findings` array, adapting to column variant differences (visually identical output)
   4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 22-01: TBD
+- [ ] 22-01-PLAN.md — Type definitions + JSON data transformation (FIND-01, FIND-02)
+- [ ] 22-02-PLAN.md — Layout rendering + test coverage (FIND-03)
 
 ## Progress
 
@@ -152,4 +153,4 @@ Phases execute in numeric order: 20 -> 21 -> 22
 | 19. Exhibits Migration | v3.0 | 1/1 | Complete | 2026-04-06 |
 | 20. Personnel Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |
 | 21. Technologies Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |
-| 22. Findings Migration | v4.0 | 0/0 | Not started | - |
+| 22. Findings Migration | v4.0 | 0/2 | Not started | - |
