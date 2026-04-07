@@ -71,6 +71,40 @@ describe('DATA-01/DATA-02: exhibitType discriminant', () => {
   })
 })
 
+describe('PERS-01/PERS-02: personnel migration', () => {
+  it('exactly 13 exhibits have personnel arrays', () => {
+    const count = exhibits.filter(e => e.personnel && e.personnel.length > 0).length
+    expect(count).toBe(13)
+  })
+
+  it('no exhibit has a personnel table section', () => {
+    exhibits.forEach(e => {
+      const personnelSections = (e.sections || []).filter(
+        s => s.type === 'table' && s.heading === 'Personnel'
+      )
+      expect(personnelSections).toHaveLength(0)
+    })
+  })
+
+  it('Exhibit B personnel has typed name field (Name/Title/Organization variant)', () => {
+    const exhibitB = exhibits.find(e => e.label === 'Exhibit B')
+    expect(exhibitB?.personnel?.[0].name).toBe('Dan Novak')
+    expect(exhibitB?.personnel?.[0].organization).toBe('GP Strategies')
+  })
+
+  it('Exhibit L personnel has involvement field (Role/Involvement variant)', () => {
+    const exhibitL = exhibits.find(e => e.label === 'Exhibit L')
+    expect(exhibitL?.personnel?.[0].role).toBeTruthy()
+    expect(exhibitL?.personnel?.[0].involvement).toBeTruthy()
+  })
+
+  it('Exhibit E personnel has role field (Name/Title/Role variant)', () => {
+    const exhibitE = exhibits.find(e => e.label === 'Exhibit E')
+    expect(exhibitE?.personnel?.[0].name).toBe('Dan Novak')
+    expect(exhibitE?.personnel?.[0].role).toBeTruthy()
+  })
+})
+
 describe('DATA-03: flagship data merged', () => {
   it('exactly 9 exhibits are flagships', () => {
     const count = exhibits.filter(e => e.isFlagship).length

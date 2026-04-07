@@ -6,6 +6,7 @@ import type { Exhibit } from '@/data/exhibits'
 
 const ebFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-a')!
 const flowFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-l')!
+const personnelFixture = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-b')!
 
 describe('EngineeringBriefLayout', () => {
   const mountOptions = {
@@ -113,6 +114,16 @@ describe('EngineeringBriefLayout', () => {
     })
     expect(wrapper.text()).not.toContain('Ghost Section')
     expect(wrapper.findAll('.exhibit-section').length).toBe(0)
+  })
+
+  it('renders personnel table with heading for exhibits with personnel data', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: personnelFixture },
+      ...mountOptions,
+    })
+    const personnelHeading = wrapper.findAll('h2').find(h => h.text() === 'Personnel')
+    expect(personnelHeading).toBeTruthy()
+    expect(wrapper.text()).toContain('Dan Novak')
   })
 
   it('uses non-forensic framing without Investigation Summary heading', () => {
