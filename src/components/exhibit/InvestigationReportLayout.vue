@@ -96,6 +96,44 @@ function sectionHasContent(section: ExhibitSection): boolean {
           </table>
         </div>
 
+        <div v-if="exhibit.findings?.length" class="exhibit-section">
+          <h2>{{ exhibit.findingsHeading || 'Findings' }}</h2>
+          <table class="exhibit-table">
+            <thead>
+              <tr>
+                <th>Finding</th>
+                <template v-if="exhibit.findings[0].background !== undefined">
+                  <th>Background</th>
+                  <th>Resolution</th>
+                </template>
+                <template v-else-if="exhibit.findings[0].severity !== undefined">
+                  <th>Severity</th>
+                  <th>Description</th>
+                </template>
+                <template v-else>
+                  <th>Description</th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(f, fi) in exhibit.findings" :key="fi">
+                <td data-label="Finding">{{ f.finding }}</td>
+                <template v-if="f.background !== undefined">
+                  <td data-label="Background">{{ f.background }}</td>
+                  <td data-label="Resolution">{{ f.resolution }}</td>
+                </template>
+                <template v-else-if="f.severity !== undefined">
+                  <td data-label="Severity">{{ f.severity }}</td>
+                  <td data-label="Description">{{ f.description }}</td>
+                </template>
+                <template v-else>
+                  <td data-label="Description">{{ f.description }}</td>
+                </template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <template v-if="exhibit.sections?.length">
           <template v-for="(section, i) in exhibit.sections" :key="i">
             <div v-if="sectionHasContent(section)" class="exhibit-section">
