@@ -381,52 +381,6 @@
         "body": "This exhibit documents two independent recognition cascades that followed Dan Novak's on-site technical engagements at General Dynamics Electric Boat — the first in August 2018, the second in April 2019.\n\nIn both cases, recognition propagated through GP Strategies' leadership hierarchy via multiple independent channels, unsolicited, before formal trip reports were filed. The fact that the same pattern repeated eight months apart — from a different set of triggers, through different intermediaries — indicates genuine impact rather than procedural courtesy.\n\nFor the technical details of the Electric Boat engagement, see Exhibit A."
       },
       {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Technical Consultant (subject of both cascades)",
-            "GP Strategies"
-          ],
-          [
-            "Chris Sproule",
-            "Director of Learning Technologies",
-            "GP Strategies"
-          ],
-          [
-            "Josh Stoudt",
-            "Sr. Director of Learning Solutions (15+ years GP leadership)",
-            "GP Strategies"
-          ],
-          [
-            "Senior Vice President",
-            "SVP of Learning Solutions (initiated EB engagement Sept 2017)",
-            "GP Strategies"
-          ],
-          [
-            "Tracey Nicholson",
-            "Chief of Learning Services, Metrics, Processes & Technology",
-            "Electric Boat"
-          ],
-          [
-            "Quinn Gladu",
-            "Chief of Learning Services",
-            "Electric Boat"
-          ],
-          [
-            "GP On-Site EB Team",
-            "3 members who independently relayed feedback (April 2019)",
-            "GP Strategies"
-          ]
-        ]
-      },
-      {
         "type": "text",
         "heading": "First Recognition Cascade — August 2018",
         "body": "Following a 2-day on-site visit to resolve cross-domain SCORM communication failures, recognition propagated through GP Strategies' hierarchy before the formal trip report was filed.\n\nAugust 17, 2018 — The EB client contact (Chief of Learning Services) emails his internal EB leadership chain, summarizing visit outcomes.\n\nAugust 21, 2018 — The Director of Learning Technologies hears from multiple sources and emails Dan directly to relay the feedback.\n\nSame week — The Sr. Director reaches out independently, without prompting from Dan's management chain.\n\n\"I hear you did an AWESOME job onsite! EB really appreciated your support. Thank you for making the trip and doing all the great things you do!\" — Director of Learning Technologies, GP Strategies (August 21, 2018)"
@@ -481,7 +435,44 @@
       "Cross-Level Propagation",
       "Named Independent Sources"
     ],
-    "exhibitLink": "/exhibits/exhibit-b"
+    "exhibitLink": "/exhibits/exhibit-b",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Technical Consultant (subject of both cascades)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Chris Sproule",
+        "title": "Director of Learning Technologies",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Josh Stoudt",
+        "title": "Sr. Director of Learning Solutions (15+ years GP leadership)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Senior Vice President",
+        "title": "SVP of Learning Solutions (initiated EB engagement Sept 2017)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Tracey Nicholson",
+        "title": "Chief of Learning Services, Metrics, Processes & Technology",
+        "organization": "Electric Boat"
+      },
+      {
+        "name": "Quinn Gladu",
+        "title": "Chief of Learning Services",
+        "organization": "Electric Boat"
+      },
+      {
+        "name": "GP On-Site EB Team",
+        "title": "3 members who independently relayed feedback (April 2019)",
+        "organization": "GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit C",
@@ -521,37 +512,6 @@
         "type": "text",
         "heading": "The Solution",
         "body": "Dan Novak used the Fiddler network debugging tool to analyze and integrate with Xyleme's publishing API. By capturing and analyzing the HTTP traffic between the browser and Xyleme's servers, he identified the exact sequence of API requests needed to trigger a publish operation.\n\nHe then built an automation tool that could batch-publish lessons unattended — eliminating the need for a human to manually click through each lesson's publish workflow. This saved an estimated 600+ hours of manual labor across the project."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Senior Learning Technologist (\"The Fiddler\")",
-            "GP Strategies"
-          ],
-          [
-            "Content Team Manager",
-            "Manager, Content Team (led the overall refresh project)",
-            "GP Strategies"
-          ],
-          [
-            "Colleague (\"The Slacker\")",
-            "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)",
-            "GP Strategies"
-          ],
-          [
-            "15+ Team Members",
-            "Content refresh contributors (each recognized with unique nicknames)",
-            "GP Strategies"
-          ]
-        ]
       },
       {
         "type": "table",
@@ -646,7 +606,29 @@
     "isFlagship": true,
     "summary": "Long-term technical architect for proprietary LMS platform serving energy utilities (BP, Calpine, FPL, Exelon, BASF). Custom content server (CSBB), SCORM-to-AICC wrapper development, course packaging automation. Reverse-engineered Xyleme publishing API using Fiddler network analysis, saved 600+ hours through batch automation. 2,554 emails document sustained platform engineering across hundreds of courses and client deployments.",
     "emailCount": "2,554 emails",
-    "role": "Core platform developer — 9-year foundation work across power and energy sector"
+    "role": "Core platform developer — 9-year foundation work across power and energy sector",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Senior Learning Technologist (\"The Fiddler\")",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Content Team Manager",
+        "title": "Manager, Content Team (led the overall refresh project)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Colleague (\"The Slacker\")",
+        "title": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "15+ Team Members",
+        "title": "Content refresh contributors (each recognized with unique nicknames)",
+        "organization": "GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit D",
@@ -673,47 +655,6 @@
         "type": "text",
         "heading": "Background",
         "body": "Wells Fargo engaged GP Strategies in 2018 to execute a large-scale content migration project: transferring over 100 sales and conversion eLearning courses from legacy formats (Adobe Presenter, standalone HTML5, and aging Flash-based modules) into the Xyleme Learning Content Management System (LCMS). The migrated content would then be published as SCORM 1.2 packages for deployment to the Wells Fargo enterprise LMS.\n\nDan Novak was assigned as the technical lead for functional quality assurance. The engagement lasted approximately six months and generated 223 emails of technical coordination. Wells Fargo was classified as a critical account for GP Strategies; reliable turnaround on the high volume of deliverables was essential to maintaining the relationship.\n\nDan brought prior hands-on experience with Xyleme from his work on the GPiLEARN platform, giving him institutional knowledge of Xyleme's SCORM publishing behavior, its \"thin package\" architecture, and its interaction quirks with legacy browser environments. Wells Fargo granted Dan full administrative access to their Xyleme Studio instance to facilitate troubleshooting and validation."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Computer Programmer / Technical Lead for Functional QA",
-            "GP Strategies"
-          ],
-          [
-            "Chris Sproule",
-            "Director of Learning Technologies",
-            "GP Strategies"
-          ],
-          [
-            "QA Lead",
-            "QA Coordinator (close collaborator on functional testing)",
-            "GP Strategies"
-          ],
-          [
-            "Program Manager",
-            "Engagement coordination and client relationships",
-            "GP Strategies"
-          ],
-          [
-            "Project Lead",
-            "Coordinated rapid-turnaround testing requests with Dan",
-            "GP Strategies"
-          ],
-          [
-            "Wells Fargo Contacts",
-            "Subject matter experts and content owners",
-            "Wells Fargo"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -813,7 +754,39 @@
       "QA Methodology",
       "Financial Services"
     ],
-    "exhibitLink": "/exhibits/exhibit-d"
+    "exhibitLink": "/exhibits/exhibit-d",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Computer Programmer / Technical Lead for Functional QA",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Chris Sproule",
+        "title": "Director of Learning Technologies",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "QA Lead",
+        "title": "QA Coordinator (close collaborator on functional testing)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Program Manager",
+        "title": "Engagement coordination and client relationships",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Project Lead",
+        "title": "Coordinated rapid-turnaround testing requests with Dan",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Wells Fargo Contacts",
+        "title": "Subject matter experts and content owners",
+        "organization": "Wells Fargo"
+      }
+    ]
   },
   {
     "label": "Exhibit E",
@@ -834,37 +807,6 @@
         "type": "text",
         "heading": "Background",
         "body": "Version control nightmare: every course update required emailing zip files to ~20 energy utility clients for manual re-upload to their respective LMS platforms. Different versions of the same content running on different client systems, with no centralized control over what was deployed where. A single course update could take days to propagate across all client deployments.\n\nThe problem wasn't just logistics — it was architectural. Each client's LMS enforced same-origin security policies, making direct cross-domain content hosting impossible with standard approaches. The content needed to live on GP Strategies' servers for centralized control, but execute inside each client's LMS domain for SCORM communication. No commercial product existed to solve this problem in 2011."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Role"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Architect / Developer",
-            "System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling"
-          ],
-          [
-            "Zach Taylor",
-            "Primary Development Collaborator",
-            "GPiLEARN platform engineering"
-          ],
-          [
-            "Ron Cyran",
-            "Program Manager",
-            "GPiLEARN program management and client coordination"
-          ],
-          [
-            "Tom Pizer",
-            "Director of Learning Technologies",
-            "Technical direction and hosting infrastructure"
-          ]
-        ]
       },
       {
         "type": "timeline",
@@ -1031,7 +973,29 @@
     "isFlagship": true,
     "summary": "Centralized cross-domain content delivery: lightweight stub packages (kilobytes) deployed to client LMS platforms, actual content served from GP servers. EasyXDM cross-domain communication layer with transparent SCORM/AICC protocol translation. Package generation tooling (Groovy, Access, Windows Forms) automated global deployments across ~20 energy utility clients. ~2,000 course library (curated subsets per client), 10+ years in production. Architecture later adapted for General Dynamics Electric Boat defense sector.",
     "emailCount": "10+ years in production",
-    "role": "Architect — built in 2011, five years before Rustici Content Controller"
+    "role": "Architect — built in 2011, five years before Rustici Content Controller",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Architect / Developer",
+        "role": "System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling"
+      },
+      {
+        "name": "Zach Taylor",
+        "title": "Primary Development Collaborator",
+        "role": "GPiLEARN platform engineering"
+      },
+      {
+        "name": "Ron Cyran",
+        "title": "Program Manager",
+        "role": "GPiLEARN program management and client coordination"
+      },
+      {
+        "name": "Tom Pizer",
+        "title": "Director of Learning Technologies",
+        "role": "Technical direction and hosting infrastructure"
+      }
+    ]
   },
   {
     "label": "Exhibit F",
@@ -1052,52 +1016,6 @@
         "type": "text",
         "heading": "Background",
         "body": "HSBC was a Tier 1 client of GP Strategies spanning nearly a decade (2015–2024) with 560+ documented email interactions across 25 contacts in 5 countries. The engagement encompassed LMS migration advisory, legacy content recovery, SCORM protocol debugging, global deployment support, accessibility compliance, and Vue.js application development.\n\nThe technical challenges were concentrated at the protocol level — SCORM communication failures, legacy Flash asset recovery, and cross-region LMS deployment inconsistencies on HSBC's global SAP SuccessFactors instance."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "SCORM/LMS Integration Specialist",
-            "GP Strategies"
-          ],
-          [
-            "Director of Learning Technologies",
-            "Management chain and technical oversight",
-            "GP Strategies"
-          ],
-          [
-            "HSBC Account PM/BA",
-            "Engagement coordination, client relationship management",
-            "GP Strategies"
-          ],
-          [
-            "Lead Developer",
-            "HSBC deliverables development",
-            "GP Strategies"
-          ],
-          [
-            "Performance Consultant (Mexico)",
-            "Localized deployments",
-            "GP Strategies"
-          ],
-          [
-            "Learning Consultant (UK)",
-            "HSBC global operations",
-            "GP Strategies"
-          ],
-          [
-            "22+ US Contacts",
-            "Plus regional representatives",
-            "HSBC (US, UK, Mexico, India, Philippines)"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -1199,7 +1117,44 @@
       "International Deployment",
       "5 Countries"
     ],
-    "exhibitLink": "/exhibits/exhibit-f"
+    "exhibitLink": "/exhibits/exhibit-f",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "SCORM/LMS Integration Specialist",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Director of Learning Technologies",
+        "title": "Management chain and technical oversight",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "HSBC Account PM/BA",
+        "title": "Engagement coordination, client relationship management",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Lead Developer",
+        "title": "HSBC deliverables development",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Performance Consultant (Mexico)",
+        "title": "Localized deployments",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Learning Consultant (UK)",
+        "title": "HSBC global operations",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "22+ US Contacts",
+        "title": "Plus regional representatives",
+        "organization": "HSBC (US, UK, Mexico, India, Philippines)"
+      }
+    ]
   },
   {
     "label": "Exhibit G",
@@ -1220,37 +1175,6 @@
         "type": "text",
         "heading": "Background",
         "body": "SunTrust Bank (now Truist Financial, formed from the SunTrust/BB&T merger in 2019) required a specialized compliance and onboarding training platform for external learners — individuals who were not SunTrust employees but required bank-certified training to conduct business with the institution.\n\nThe AWARE platform could not use SunTrust's standard internal LMS infrastructure. External learners operated outside the corporate network and identity management systems, yet required the same rigorous compliance tracking and completion verification as internal staff. This created a unique architectural challenge: deliver SCORM-based courseware through a proprietary web application without a traditional Learning Management System.\n\nThe solution required building a custom integration layer that would translate between SCORM courseware (Lectora, Adobe Captivate) and SunTrust's proprietary web service API — replacing the entire LMS stack with a purpose-built wrapper that handled status tracking, score reporting, and bookmark/state persistence through direct API calls."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Lead Technical Engineer (integration architecture)",
-            "GP Strategies"
-          ],
-          [
-            "SunTrust Developer",
-            "API and backend development",
-            "SunTrust (now Truist)"
-          ],
-          [
-            "Project Manager/Account Lead",
-            "SunTrust account management and engagement coordination",
-            "GP Strategies"
-          ],
-          [
-            "Director of Learning Technologies",
-            "Technical leadership and oversight",
-            "GP Strategies"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -1348,7 +1272,29 @@
       "API Design Consultation",
       "Enterprise Security"
     ],
-    "exhibitLink": "/exhibits/exhibit-g"
+    "exhibitLink": "/exhibits/exhibit-g",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Lead Technical Engineer (integration architecture)",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "SunTrust Developer",
+        "title": "API and backend development",
+        "organization": "SunTrust (now Truist)"
+      },
+      {
+        "name": "Project Manager/Account Lead",
+        "title": "SunTrust account management and engagement coordination",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Director of Learning Technologies",
+        "title": "Technical leadership and oversight",
+        "organization": "GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit H",
@@ -1377,32 +1323,6 @@
         "type": "text",
         "heading": "Background",
         "body": "A high-visibility additive manufacturing course was failing to record learner completion in the LMS. Learners were completing the course but not receiving credit. The course had already passed QA and been deployed — the failure surfaced only in production."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Senior Learning Technologist",
-            "GP Strategies"
-          ],
-          [
-            "LMS Configuration Specialist",
-            "LMS Administrator",
-            "GP Strategies"
-          ],
-          [
-            "Client Liaison",
-            "Project Manager",
-            "GP Strategies / Client"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -1448,7 +1368,24 @@
       "3 Independent Testimonials",
       "Cross-Functional"
     ],
-    "exhibitLink": "/exhibits/exhibit-h"
+    "exhibitLink": "/exhibits/exhibit-h",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Senior Learning Technologist",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "LMS Configuration Specialist",
+        "title": "LMS Administrator",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Client Liaison",
+        "title": "Project Manager",
+        "organization": "GP Strategies / Client"
+      }
+    ]
   },
   {
     "label": "Exhibit I",
@@ -1469,32 +1406,6 @@
         "type": "text",
         "heading": "Background",
         "body": "Dan Novak's accessibility practice evolved organically through client engagements rather than a top-down directive. The practice originated with HSBC's Simple Learning courses, where accessibility requirements first surfaced in the context of compliance eLearning. As GP Strategies' banking portfolio expanded, the methodology matured through accessibility testing for PNC Bank and TD Bank Articulate Storyline courses — interactive content that demanded testing protocols beyond anything standard resources provided.\n\nThe TD Bank engagement (2022–2024) represented the practice at full maturity. TD MIC (Mutual Investment Counsellor) training courses required WCAG 2.1 and Section 508 compliance testing for Articulate Storyline content. Dan executed the entire accessibility evaluation independently, applying the methodology refined across prior banking engagements.\n\nThe initiative peaked in 2022 with 479 accessibility-related emails out of 4,173 total professional correspondence — reflecting the scale of the practice Dan built across multiple banking clients."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds",
-            "GP Strategies"
-          ],
-          [
-            "2 Additional Testers",
-            "GP Accessibility Testing Team for TD MIC",
-            "GP Strategies"
-          ],
-          [
-            "Senior Learning PM",
-            "TD MIC project coordination and program oversight",
-            "GP Strategies"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -1620,7 +1531,24 @@
       "Multi-Client Deployment",
       "479 Emails (2022)"
     ],
-    "exhibitLink": "/exhibits/exhibit-i"
+    "exhibitLink": "/exhibits/exhibit-i",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "2 Additional Testers",
+        "title": "GP Accessibility Testing Team for TD MIC",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Senior Learning PM",
+        "title": "TD MIC project coordination and program oversight",
+        "organization": "GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit J",
@@ -1646,32 +1574,6 @@
         "type": "text",
         "heading": "Investigation Methodology",
         "body": "A small team was assembled to conduct a multi-angle forensic investigation modeled on air crash investigation methodology — the same approach the NTSB uses when an aircraft goes down. The core principle: never blame the user first — investigate the system design. Three independent investigation tracks ran in parallel, each examining the problem from a different angle:\n\nAngle 1 — Technical Forensics: Fiddler network traces and browser debugging to analyze course-to-LMS communication at the protocol level.\n\nAngle 2 — UX Analysis: Course navigation and completion flow review to identify design patterns that could mislead users.\n\nAngle 3 — User Research: Interviews with actual GM sales reps to understand real-world usage patterns and environmental conditions."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Role"
-        ],
-        "rows": [
-          [
-            "Investigation Lead",
-            "Director, GP Strategies",
-            "Project authorization, stakeholder management, investigation oversight"
-          ],
-          [
-            "Dan Novak",
-            "Senior Learning Technologist",
-            "Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review"
-          ],
-          [
-            "Data Analyst / UX Researcher",
-            "GP Strategies",
-            "Data analysis, UX evaluation, user interviews, behavioral research"
-          ]
-        ]
       },
       {
         "type": "timeline",
@@ -1833,7 +1735,24 @@
     "isFlagship": true,
     "summary": "Investigated 19% course incompletion rate (4x baseline) initially framed as tracking bug. Multi-angle investigation revealed five concurrent systemic failures: memory cache vulnerability with no auto-save, \"Congratulations You Failed\" UX pattern, confusing navigation, mobile workforce on poor WiFi, and short-burst usage pattern conflicting with hour-long desktop design. Platform eventually abandoned — indirect validation of findings.",
     "emailCount": "618 emails",
-    "role": "NTSB-style forensic analysis — systems thinking over code debugging"
+    "role": "NTSB-style forensic analysis — systems thinking over code debugging",
+    "personnel": [
+      {
+        "name": "Investigation Lead",
+        "title": "Director, GP Strategies",
+        "role": "Project authorization, stakeholder management, investigation oversight"
+      },
+      {
+        "name": "Dan Novak",
+        "title": "Senior Learning Technologist",
+        "role": "Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review"
+      },
+      {
+        "name": "Data Analyst / UX Researcher",
+        "title": "GP Strategies",
+        "role": "Data analysis, UX evaluation, user interviews, behavioral research"
+      }
+    ]
   },
   {
     "label": "Exhibit K",
@@ -1848,42 +1767,6 @@
         "type": "text",
         "heading": "Background",
         "body": "Building on a decade of GP Strategies' embedded work on Microsoft accounts, Dan was brought in to evolve an AI-led training agent in Copilot Studio. Starting with zero Copilot Studio experience, he reached a functional proof-of-concept in approximately four weeks. The core problem: pure prompt engineering couldn't enforce deterministic state — the AI would hallucinate progress, skip steps, or contradict itself across sessions."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Max Glick",
-            "Lead Developer / Engineering Manager",
-            "GP Strategies"
-          ],
-          [
-            "Dan Novak",
-            "AI Agent Developer",
-            "GP Strategies"
-          ],
-          [
-            "Instructional Designer",
-            "Content Design",
-            "GP Strategies"
-          ],
-          [
-            "Project Manager",
-            "Program Coordination",
-            "GP Strategies"
-          ],
-          [
-            "MCAPS Lead",
-            "Microsoft Account Lead",
-            "Microsoft"
-          ]
-        ]
       },
       {
         "type": "text",
@@ -2004,7 +1887,34 @@
     "isFlagship": true,
     "summary": "Architectural breakthrough on Microsoft Copilot Studio project: structured data for state (JSON), AI for interaction (LLM). Pure prompt engineering cannot enforce deterministic state — LLMs are probabilistic. Solution: catalog/progress/scores in structured data (deterministic), AI transforms content and manages conversation (intelligence). Pattern applicable beyond training: any domain requiring both intelligence and reliability.",
     "emailCount": "Recent engagement",
-    "role": "Hybrid AI architecture innovation — zero to POC in ~4 weeks"
+    "role": "Hybrid AI architecture innovation — zero to POC in ~4 weeks",
+    "personnel": [
+      {
+        "name": "Max Glick",
+        "title": "Lead Developer / Engineering Manager",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Dan Novak",
+        "title": "AI Agent Developer",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Instructional Designer",
+        "title": "Content Design",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Project Manager",
+        "title": "Program Coordination",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "MCAPS Lead",
+        "title": "Microsoft Account Lead",
+        "organization": "Microsoft"
+      }
+    ]
   },
   {
     "label": "Exhibit L",
@@ -2024,32 +1934,6 @@
         "type": "text",
         "heading": "The Learning Curve",
         "body": "Over the following year, Dan taught himself Power Platform by building on it under production conditions — no overlap with the original architects, no onboarding, no documentation of design intent. He was constantly aware that something felt wrong, but lacked the platform fluency to articulate it or trust his own instincts. Early in the learning curve, that uncertainty cuts both ways: experienced engineers know enough to recognize the smell of bad architecture, but not yet enough to distinguish inherent platform constraints from avoidable project decisions. Every friction point was data. Every deployment problem narrowed the gap.\n\nThe deployment experience was where ambiguity collapsed into certainty. Tasked with deploying his module to a test environment, Dan discovered there was no established process — no source control, no deployment pipeline, no clean solution boundary. He had to manually identify dependencies, reconstruct a deployable solution from scratch, and navigate a monolithic architecture that had never been designed for deployment by anyone other than its original author. A well-architected system doesn't make deployment feel like archaeology. By that point, he knew enough to know the difference."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Role",
-          "Involvement"
-        ],
-        "rows": [
-          [
-            "Dan Novak — Development Lead",
-            "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings."
-          ],
-          [
-            "External Power Platform Consultancy",
-            "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began."
-          ],
-          [
-            "Lead Developer (anonymized)",
-            "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism."
-          ],
-          [
-            "Governance Architect (anonymized)",
-            "Recipient of the findings deliverable. Responsible for architectural oversight across the organization."
-          ]
-        ]
       },
       {
         "type": "flow",
@@ -2189,7 +2073,25 @@
     "isFlagship": true,
     "summary": "Diagnosed enterprise-scale architectural failures after vendor departure and knowledge loss. AI-assisted methodology (GitHub Spec Kit baseline + convergent validation) surfaced five critical gaps: no data model, no version control, monolithic solution architecture, requirements degradation chain, and no decomposed user stories. Tool misuse at scale — citizen-developer methodology applied to enterprise platform. Findings validated through convergence: practical pain + Microsoft docs + AI analysis.",
     "emailCount": "Recent engagement",
-    "role": "Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable"
+    "role": "Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable",
+    "personnel": [
+      {
+        "role": "Dan Novak — Development Lead",
+        "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings."
+      },
+      {
+        "role": "External Power Platform Consultancy",
+        "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began."
+      },
+      {
+        "role": "Lead Developer (anonymized)",
+        "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism."
+      },
+      {
+        "role": "Governance Architect (anonymized)",
+        "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization."
+      }
+    ]
   },
   {
     "label": "Exhibit M",
@@ -2204,27 +2106,6 @@
         "type": "text",
         "heading": "Background",
         "body": "Manual SCORM course testing required navigating through every gated interaction from the beginning of a course to reach the state being tested — consuming hours per test cycle across hundreds of courses. Dan recognized the parallel to TASBot and speedrunning emulator save states: the ability to capture and restore arbitrary program state to enable instant reproduction of any scenario."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Architect / Developer",
-            "GP Strategies"
-          ],
-          [
-            "Max Glick",
-            "Engineering Manager",
-            "GP Strategies"
-          ]
-        ]
       },
       {
         "type": "table",
@@ -2300,7 +2181,19 @@
     "isFlagship": true,
     "summary": "Vue.js wrapper with fake SCORM API providing emulator save-state functionality for eLearning QA: save course state at any point, restore instantly, edit SCORM values directly, jump to any section. Reduced testing cycles from hours to minutes for gated content. Addresses a gap in commercial SCORM tools — reproducible debug states and session state inspection are not first-class features in SCORM Cloud or SCORM Engine.",
     "emailCount": "Developer tooling",
-    "role": "Creator — speedrunning methodology applied to eLearning QA"
+    "role": "Creator — speedrunning methodology applied to eLearning QA",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Architect / Developer",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Max Glick",
+        "title": "Engineering Manager",
+        "organization": "GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit N",
@@ -2315,27 +2208,6 @@
         "type": "text",
         "heading": "Background",
         "body": "React/GraphQL frontend integrating four backend systems: Rustici Content Controller, PeopleFluent LMS, Watershed LRS, and Amazon Cognito. Engagement began as a rebranding project and revealed a federated integration architecture of significant complexity — undocumented Material UI theming relationships, cross-system debugging requirements, and a Cognito authentication issue that had been open for months."
-      },
-      {
-        "type": "table",
-        "heading": "Personnel",
-        "columns": [
-          "Name",
-          "Title",
-          "Organization"
-        ],
-        "rows": [
-          [
-            "Dan Novak",
-            "Frontend Developer / Integration Engineer",
-            "GP Strategies (BP Account)"
-          ],
-          [
-            "Leo Learning Team",
-            "Platform Development",
-            "Leo Learning / GP Strategies"
-          ]
-        ]
       },
       {
         "type": "table",
@@ -2440,7 +2312,19 @@
     "isFlagship": true,
     "summary": "Existing React/GraphQL platform acting as a federated facade over Rustici Content Controller, PeopleFluent LMS, Watershed LRS (xAPI), and Amazon Cognito. Dan’s primary work: large-scale multi-tenant rebranding navigating an undocumented Material UI theming system — scoped as one week, expanded to months as interrelated style dependencies emerged. Also: bug fixes, Cognito troubleshooting via log analysis, reverse-engineering Watershed LRS queries. Same federated integration pattern Dan built independently as CSBB Dispatch a decade earlier.",
     "emailCount": "Recent engagement",
-    "role": "Rebranding lead / troubleshooter — direct Rustici Content Controller integration experience"
+    "role": "Rebranding lead / troubleshooter — direct Rustici Content Controller integration experience",
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Frontend Developer / Integration Engineer",
+        "organization": "GP Strategies (BP Account)"
+      },
+      {
+        "name": "Leo Learning Team",
+        "title": "Platform Development",
+        "organization": "Leo Learning / GP Strategies"
+      }
+    ]
   },
   {
     "label": "Exhibit O",
