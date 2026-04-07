@@ -46,6 +46,94 @@ function sectionHasContent(section: ExhibitSection): boolean {
           </blockquote>
         </div>
 
+        <div v-if="exhibit.personnel?.length" class="exhibit-section">
+          <h2>Personnel</h2>
+          <table class="exhibit-table">
+            <thead>
+              <tr>
+                <template v-if="exhibit.personnel[0].involvement">
+                  <th>Role</th>
+                  <th>Involvement</th>
+                </template>
+                <template v-else>
+                  <th>Name</th>
+                  <th>Title</th>
+                  <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(p, pi) in exhibit.personnel" :key="pi">
+                <template v-if="p.involvement">
+                  <td data-label="Role">{{ p.role }}</td>
+                  <td data-label="Involvement">{{ p.involvement }}</td>
+                </template>
+                <template v-else>
+                  <td data-label="Name">{{ p.name }}</td>
+                  <td data-label="Title">{{ p.title }}</td>
+                  <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
+                </template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-if="exhibit.technologies?.length" class="exhibit-section">
+          <h2>Technologies</h2>
+          <table class="exhibit-table">
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Technologies &amp; Tools</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(t, ti) in exhibit.technologies" :key="ti">
+                <td data-label="Category">{{ t.category }}</td>
+                <td data-label="Technologies & Tools">{{ t.tools }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div v-if="exhibit.findings?.length" class="exhibit-section">
+          <h2>{{ exhibit.findingsHeading || 'Findings' }}</h2>
+          <table class="exhibit-table">
+            <thead>
+              <tr>
+                <th>Finding</th>
+                <template v-if="exhibit.findings[0].background !== undefined">
+                  <th>Background</th>
+                  <th>Resolution</th>
+                </template>
+                <template v-else-if="exhibit.findings[0].severity !== undefined">
+                  <th>Severity</th>
+                  <th>Description</th>
+                </template>
+                <template v-else>
+                  <th>Description</th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(f, fi) in exhibit.findings" :key="fi">
+                <td data-label="Finding">{{ f.finding }}</td>
+                <template v-if="f.background !== undefined">
+                  <td data-label="Background">{{ f.background }}</td>
+                  <td data-label="Resolution">{{ f.resolution }}</td>
+                </template>
+                <template v-else-if="f.severity !== undefined">
+                  <td data-label="Severity">{{ f.severity }}</td>
+                  <td data-label="Description">{{ f.description }}</td>
+                </template>
+                <template v-else>
+                  <td data-label="Description">{{ f.description }}</td>
+                </template>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <template v-if="exhibit.sections?.length">
           <template v-for="(section, i) in exhibit.sections" :key="i">
             <div v-if="sectionHasContent(section)" class="exhibit-section">

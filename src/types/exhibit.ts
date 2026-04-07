@@ -27,6 +27,27 @@ export interface ExhibitMetadataItem {
   value: string
 }
 
+export interface PersonnelEntry {
+  name?: string
+  title?: string
+  organization?: string
+  role?: string
+  involvement?: string
+}
+
+export interface TechnologyEntry {
+  category: string
+  tools: string
+}
+
+export interface FindingEntry {
+  finding: string
+  description?: string
+  background?: string
+  resolution?: string
+  severity?: string
+}
+
 export interface ExhibitSection {
   heading?: string
   type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
@@ -50,6 +71,10 @@ export interface Exhibit {
   contextHeading?: string
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
+  personnel?: PersonnelEntry[]
+  technologies?: TechnologyEntry[]
+  findings?: FindingEntry[]
+  findingsHeading?: string
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string

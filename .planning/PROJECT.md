@@ -4,7 +4,7 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v3.0 externalized all data to JSON with centralized TypeScript types, decoupling content from code for future CMS readiness.
+The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v3.0 externalized all data to JSON with centralized TypeScript types, decoupling content from code for future CMS readiness. v4.0 normalized recurring exhibit table data (personnel, technologies, findings) into typed first-class arrays, eliminating 31 generic string[][] table sections.
 
 ## Core Value
 
@@ -47,6 +47,10 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Discriminated unions (exhibitType, section type) correctly asserted on JSON import (EXHB-02) — v3.0
 - ✓ Zero component file changes — all existing imports resolve unchanged (VALD-03) — v3.0
 
+- ✓ Personnel tables (13 exhibits, 3 column variants) promoted to typed `personnel: PersonnelEntry[]` arrays (PERS-01/02/03) — v4.0
+- ✓ Technologies tables (11 exhibits) promoted to typed `technologies: TechnologyEntry[]` arrays (TECH-01/02/03) — v4.0
+- ✓ Findings tables (7 exhibits, 3 column variants) promoted to typed `findings: FindingEntry[]` arrays with custom headings (FIND-01/02/03) — v4.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
@@ -64,11 +68,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-## Current State
+**Shipped:** v4.0 (2026-04-07) | **Status:** All milestones through v4.0 complete
 
-**Shipped:** v3.0 (2026-04-06) | **Status:** All milestones through v3.0 complete
-
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. 64 unit tests passing, clean production build.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. 83 unit tests passing, clean production build.
 
 ## Context
 
@@ -76,7 +78,7 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,400 LOC Vue + TypeScript, 64 unit tests passing, clean production build.
+- Codebase: ~6,400 LOC Vue + TypeScript, 83 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -106,6 +108,9 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 | Centralized `src/types/` with barrel exports | Single import path for all data types; eliminates scattered type co-location | ✓ Good — 13 type files, clean barrel, cross-boundary types resolved |
 | `faqCategories` kept as `as const` in TypeScript | JSON cannot express literal type narrowing; `as const satisfies` preserves compile-time category validation | ✓ Good — faqItems in JSON, categories typed correctly |
 | `as Exhibit[]` type assertion for discriminated unions | JSON import widens string literals to `string`; explicit assertion restores discriminated union narrowing | ✓ Good — TypeScript catches type mismatches, all consumers work |
+| First-class typed arrays for recurring table data | Personnel (13), technologies (11), findings (7) tables promoted from generic `string[][]` to typed interfaces; one-off tables (6) stay as generic sections | ✓ Good — 31 sections eliminated, typed fields queryable |
+| Field-presence variant detection in templates | `v-if="exhibit.findings[0].background !== undefined"` detects column variant at render time instead of storing variant type | ✓ Good — no extra discriminant needed, clean templates |
+| `findingsHeading` for non-default headings | Custom findings headings (Exhibits J, L) stored as optional field; layout renders `findingsHeading \|\| 'Findings'` | ✓ Good — preserves original heading text without hardcoding |
 
 ## Evolution
 
@@ -125,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after v3.0 milestone completion*
+*Last updated: 2026-04-07 after v4.0 milestone completion*

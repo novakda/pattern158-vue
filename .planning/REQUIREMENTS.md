@@ -3,15 +3,35 @@
 **Defined:** 2026-04-06
 **Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
 
-## v3.0 Requirements
+## v4.0 Requirements
 
-Requirements for data externalization milestone. Each maps to roadmap phases.
+Requirements for exhibit data normalization milestone. Each maps to roadmap phases.
+
+### Personnel Migration
+
+- [ ] **PERS-01**: Personnel tables (11 occurrences, 3 column variants) migrated to typed `personnel: PersonnelEntry[]` on Exhibit
+- [ ] **PERS-02**: Original personnel table sections removed from `sections[]` array in exhibits.json
+- [ ] **PERS-03**: Layout components render personnel from the new typed array
+
+### Technologies Migration
+
+- [ ] **TECH-01**: Technologies tables (8 occurrences) migrated to typed `technologies: TechnologyEntry[]` on Exhibit
+- [ ] **TECH-02**: Original technologies table sections removed from `sections[]` array in exhibits.json
+- [ ] **TECH-03**: Layout components render technologies from the new typed array
+
+### Findings Migration
+
+- [ ] **FIND-01**: Findings tables (6 occurrences, 3 column variants) migrated to typed `findings: FindingEntry[]` on Exhibit
+- [ ] **FIND-02**: Original findings table sections removed from `sections[]` array in exhibits.json
+- [ ] **FIND-03**: Layout components render findings from the new typed array
+
+## v3.0 Requirements (Completed)
 
 ### Types Infrastructure
 
-- [ ] **TYPE-01**: All data interfaces and types are centralized in `src/types/` with barrel exports
-- [ ] **TYPE-02**: Cross-boundary types (`Tag`, `ExpertiseLevel`) are moved from component-local `.types.ts` files to `src/types/`
-- [ ] **TYPE-03**: All existing component imports of types continue to resolve (backward-compatible re-exports or updated imports)
+- [x] **TYPE-01**: All data interfaces and types are centralized in `src/types/` with barrel exports
+- [x] **TYPE-02**: Cross-boundary types (`Tag`, `ExpertiseLevel`) are moved from component-local `.types.ts` files to `src/types/`
+- [x] **TYPE-03**: All existing component imports of types continue to resolve (backward-compatible re-exports or updated imports)
 
 ### Simple Data Migration
 
@@ -56,7 +76,8 @@ Requirements for data externalization milestone. Each maps to roadmap phases.
 | Runtime validation (Zod/Valibot) | Data is version-controlled and compile-time checked; runtime validation adds deps for zero benefit |
 | CMS integration | This milestone prepares the data layer; actual CMS is a future milestone |
 | New data content | Structural refactor only -- no new exhibits, FAQs, or other content |
-| Component refactoring | Thin loaders preserve all import paths; components stay unchanged |
+| Component refactoring beyond rendering | Thin loaders preserve all import paths; only layout components change to render new arrays |
+| One-off table migration | 6 unique tables (5 exhibits) stay as generic table sections -- not worth typing |
 
 ## Traceability
 
@@ -64,30 +85,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| TYPE-01 | Phase 17 | Pending |
-| TYPE-02 | Phase 17 | Pending |
-| TYPE-03 | Phase 17 | Pending |
-| SMPL-01 | Phase 17 | Complete |
-| SMPL-02 | Phase 17 | Complete |
-| SMPL-03 | Phase 17 | Complete |
-| SMPL-04 | Phase 17 | Complete |
-| SMPL-05 | Phase 17 | Complete |
-| CPLX-01 | Phase 18 | Complete |
-| CPLX-02 | Phase 18 | Complete |
-| CPLX-03 | Phase 18 | Complete |
-| CPLX-04 | Phase 18 | Complete |
-| EXHB-01 | Phase 19 | Complete |
-| EXHB-02 | Phase 19 | Complete |
-| EXHB-03 | Phase 19 | Complete |
-| VALD-01 | Phase 17 | Complete |
-| VALD-02 | Phase 17 | Complete |
-| VALD-03 | Phase 17 | Complete |
+| PERS-01 | Phase 20 | Pending |
+| PERS-02 | Phase 20 | Pending |
+| PERS-03 | Phase 20 | Pending |
+| TECH-01 | Phase 21 | Pending |
+| TECH-02 | Phase 21 | Pending |
+| TECH-03 | Phase 21 | Pending |
+| FIND-01 | Phase 22 | Pending |
+| FIND-02 | Phase 22 | Pending |
+| FIND-03 | Phase 22 | Pending |
 
 **Coverage:**
-- v3.0 requirements: 18 total
-- Mapped to phases: 18
+- v4.0 requirements: 9 total
+- Mapped to phases: 9
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-06*
-*Last updated: 2026-04-06 after roadmap creation*
+*Last updated: 2026-04-06 after v4.0 roadmap creation*
