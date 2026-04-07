@@ -1,29 +1,58 @@
 # Requirements: Pattern 158 Vue
 
-**Defined:** 2026-04-06
+**Defined:** 2026-04-07
 **Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
 
-## v4.0 Requirements
+## v5.0 Requirements
 
-Requirements for exhibit data normalization milestone. Each maps to roadmap phases.
+Requirements for findings schema unification milestone. Each maps to roadmap phases.
+
+### Schema Unification
+
+- [ ] **SCHM-01**: `FindingEntry` type updated with unified field set: `finding`, `description`, `severity?`, `resolution?`, `outcome?`, `category?`
+- [ ] **SCHM-02**: Exhibit A findings normalized from `background`/`resolution` to `description`/`resolution` (background content moves to description)
+- [ ] **SCHM-03**: `findingsHeading` field present on all exhibits with non-default headings
+
+### Findings Backfill
+
+- [ ] **BKFL-01**: Exhibit D (Wells Fargo) findings extracted from narrative sections into typed `findings[]` array
+- [ ] **BKFL-02**: Exhibit F (HSBC) findings extracted from narrative sections into typed `findings[]` array
+- [ ] **BKFL-03**: Exhibit G (SunTrust) findings extracted from narrative sections into typed `findings[]` array
+- [ ] **BKFL-04**: Exhibit H (Metal Additive) findings extracted from narrative sections into typed `findings[]` array
+- [ ] **BKFL-05**: Exhibit K (Microsoft MCAPS) findings extracted from narrative sections into typed `findings[]` array
+
+### Field Enrichment
+
+- [ ] **ENRH-01**: Severity values populated on findings where applicable (at minimum Exhibit L; consider J, K)
+- [ ] **ENRH-02**: Resolution values populated on findings where applicable (Exhibit A already has them; backfill others from Outcome/Probable Cause sections)
+- [ ] **ENRH-03**: Category values populated on all findings using consistent taxonomy (architecture, protocol, ux, process, tooling, environment)
+
+### Layout Rendering
+
+- [ ] **LYOT-01**: Severity badges render inline with finding titles when `severity` is present
+- [ ] **LYOT-02**: Resolution text renders below finding description when `resolution` is present
+- [ ] **LYOT-03**: Outcome text renders below finding description when `outcome` is present
+- [ ] **LYOT-04**: Category renders as a subtle label/tag when `category` is present
+
+## v4.0 Requirements (Completed)
 
 ### Personnel Migration
 
-- [ ] **PERS-01**: Personnel tables (11 occurrences, 3 column variants) migrated to typed `personnel: PersonnelEntry[]` on Exhibit
-- [ ] **PERS-02**: Original personnel table sections removed from `sections[]` array in exhibits.json
-- [ ] **PERS-03**: Layout components render personnel from the new typed array
+- [x] **PERS-01**: Personnel tables (11 occurrences, 3 column variants) migrated to typed `personnel: PersonnelEntry[]` on Exhibit
+- [x] **PERS-02**: Original personnel table sections removed from `sections[]` array in exhibits.json
+- [x] **PERS-03**: Layout components render personnel from the new typed array
 
 ### Technologies Migration
 
-- [ ] **TECH-01**: Technologies tables (8 occurrences) migrated to typed `technologies: TechnologyEntry[]` on Exhibit
-- [ ] **TECH-02**: Original technologies table sections removed from `sections[]` array in exhibits.json
-- [ ] **TECH-03**: Layout components render technologies from the new typed array
+- [x] **TECH-01**: Technologies tables (8 occurrences) migrated to typed `technologies: TechnologyEntry[]` on Exhibit
+- [x] **TECH-02**: Original technologies table sections removed from `sections[]` array in exhibits.json
+- [x] **TECH-03**: Layout components render technologies from the new typed array
 
 ### Findings Migration
 
-- [ ] **FIND-01**: Findings tables (6 occurrences, 3 column variants) migrated to typed `findings: FindingEntry[]` on Exhibit
-- [ ] **FIND-02**: Original findings table sections removed from `sections[]` array in exhibits.json
-- [ ] **FIND-03**: Layout components render findings from the new typed array
+- [x] **FIND-01**: Findings tables (6 occurrences, 3 column variants) migrated to typed `findings: FindingEntry[]` on Exhibit
+- [x] **FIND-02**: Original findings table sections removed from `sections[]` array in exhibits.json
+- [x] **FIND-03**: Layout components render findings from the new typed array
 
 ## v3.0 Requirements (Completed)
 
@@ -75,9 +104,9 @@ Requirements for exhibit data normalization milestone. Each maps to roadmap phas
 | Runtime data fetching | Site stays fully static; JSON is bundled at build time |
 | Runtime validation (Zod/Valibot) | Data is version-controlled and compile-time checked; runtime validation adds deps for zero benefit |
 | CMS integration | This milestone prepares the data layer; actual CMS is a future milestone |
-| New data content | Structural refactor only -- no new exhibits, FAQs, or other content |
-| Component refactoring beyond rendering | Thin loaders preserve all import paths; only layout components change to render new arrays |
-| One-off table migration | 6 unique tables (5 exhibits) stay as generic table sections -- not worth typing |
+| New exhibit content | Structural unification only — no new exhibits or narrative content creation |
+| Backfill B, C, I findings | These exhibits (Recognition Chain, 1216-Lesson, TD Bank Accessibility) don't have natural findings to extract without forcing the format |
+| Removing narrative findings sections | Backfilled exhibits keep their narrative sections — the findings array is additive, not a replacement |
 
 ## Traceability
 
@@ -85,21 +114,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PERS-01 | Phase 20 | Pending |
-| PERS-02 | Phase 20 | Pending |
-| PERS-03 | Phase 20 | Pending |
-| TECH-01 | Phase 21 | Pending |
-| TECH-02 | Phase 21 | Pending |
-| TECH-03 | Phase 21 | Pending |
-| FIND-01 | Phase 22 | Pending |
-| FIND-02 | Phase 22 | Pending |
-| FIND-03 | Phase 22 | Pending |
+| SCHM-01 | Pending | Pending |
+| SCHM-02 | Pending | Pending |
+| SCHM-03 | Pending | Pending |
+| BKFL-01 | Pending | Pending |
+| BKFL-02 | Pending | Pending |
+| BKFL-03 | Pending | Pending |
+| BKFL-04 | Pending | Pending |
+| BKFL-05 | Pending | Pending |
+| ENRH-01 | Pending | Pending |
+| ENRH-02 | Pending | Pending |
+| ENRH-03 | Pending | Pending |
+| LYOT-01 | Pending | Pending |
+| LYOT-02 | Pending | Pending |
+| LYOT-03 | Pending | Pending |
+| LYOT-04 | Pending | Pending |
 
 **Coverage:**
-- v4.0 requirements: 9 total
-- Mapped to phases: 9
-- Unmapped: 0
+- v5.0 requirements: 15 total
+- Mapped to phases: 0
+- Unmapped: 15
 
 ---
-*Requirements defined: 2026-04-06*
-*Last updated: 2026-04-06 after v4.0 roadmap creation*
+*Requirements defined: 2026-04-07*
+*Last updated: 2026-04-07 after initial definition*
