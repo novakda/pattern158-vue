@@ -40,6 +40,14 @@ export interface TechnologyEntry {
   tools: string
 }
 
+export interface FindingEntry {
+  finding: string
+  description?: string
+  background?: string
+  resolution?: string
+  severity?: string
+}
+
 export interface ExhibitSection {
   heading?: string
   type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
@@ -65,6 +73,8 @@ export interface Exhibit {
   resolutionTable?: ExhibitResolutionRow[]
   personnel?: PersonnelEntry[]
   technologies?: TechnologyEntry[]
+  findings?: FindingEntry[]
+  findingsHeading?: string
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string
