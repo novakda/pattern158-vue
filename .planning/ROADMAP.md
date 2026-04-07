@@ -108,7 +108,7 @@ Plans:
 
 Plans:
 - [ ] 21-01-PLAN.md — Type definitions + JSON data transformation (TECH-01, TECH-02)
-- [ ] 21-02-PLAN.md — Layout rendering + test coverage (TECH-03)
+- [x] 21-02-PLAN.md — Layout rendering + test coverage (TECH-03)
 
 ### Phase 22: Findings Migration
 **Goal**: Exhibit findings data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
