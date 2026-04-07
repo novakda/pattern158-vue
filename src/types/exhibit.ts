@@ -35,6 +35,11 @@ export interface PersonnelEntry {
   involvement?: string
 }
 
+export interface TechnologyEntry {
+  category: string
+  tools: string
+}
+
 export interface ExhibitSection {
   heading?: string
   type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
@@ -59,6 +64,7 @@ export interface Exhibit {
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
   personnel?: PersonnelEntry[]
+  technologies?: TechnologyEntry[]
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string
