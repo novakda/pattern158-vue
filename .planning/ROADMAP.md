@@ -85,14 +85,15 @@ Full details: `.planning/milestones/v3.0-ROADMAP.md`
 **Depends on**: Phase 19
 **Requirements**: PERS-01, PERS-02, PERS-03
 **Success Criteria** (what must be TRUE):
-  1. Each of the 11 exhibits with personnel data has a `personnel: PersonnelEntry[]` array on its exhibit object, with typed fields (not string arrays)
-  2. The `sections[]` array in exhibits.json no longer contains any personnel table sections for those 11 exhibits
+  1. Each of the 13 exhibits with personnel data has a `personnel: PersonnelEntry[]` array on its exhibit object, with typed fields (not string arrays)
+  2. The `sections[]` array in exhibits.json no longer contains any personnel table sections for those 13 exhibits
   3. Both InvestigationReportLayout and EngineeringBriefLayout render a personnel table from the typed `personnel` array (visually identical output to the old generic table)
   4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 20-01: TBD
+- [ ] 20-01-PLAN.md — Type definitions + JSON data transformation (PERS-01, PERS-02)
+- [ ] 20-02-PLAN.md — Layout rendering + test coverage (PERS-03)
 
 ### Phase 21: Technologies Migration
 **Goal**: Exhibit technologies data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
@@ -148,6 +149,6 @@ Phases execute in numeric order: 20 -> 21 -> 22
 | 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete | 2026-04-06 |
 | 18. Complex Data Migration | v3.0 | 2/2 | Complete | 2026-04-06 |
 | 19. Exhibits Migration | v3.0 | 1/1 | Complete | 2026-04-06 |
-| 20. Personnel Migration | v4.0 | 0/0 | Not started | - |
+| 20. Personnel Migration | v4.0 | 0/2 | Not started | - |
 | 21. Technologies Migration | v4.0 | 0/0 | Not started | - |
 | 22. Findings Migration | v4.0 | 0/0 | Not started | - |
