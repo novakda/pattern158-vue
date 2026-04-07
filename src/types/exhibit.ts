@@ -27,6 +27,14 @@ export interface ExhibitMetadataItem {
   value: string
 }
 
+export interface PersonnelEntry {
+  name?: string
+  title?: string
+  organization?: string
+  role?: string
+  involvement?: string
+}
+
 export interface ExhibitSection {
   heading?: string
   type: 'text' | 'table' | 'flow' | 'timeline' | 'metadata'
@@ -50,6 +58,7 @@ export interface Exhibit {
   contextHeading?: string
   contextText?: string
   resolutionTable?: ExhibitResolutionRow[]
+  personnel?: PersonnelEntry[]
   sections?: ExhibitSection[]
   impactTags: string[]
   exhibitLink: string
