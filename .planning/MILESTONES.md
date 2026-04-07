@@ -1,5 +1,16 @@
 # Milestones
 
+## v4.0 Exhibit Data Normalization (Shipped: 2026-04-07)
+
+**Phases completed:** 3 phases, 6 plans, 4 tasks
+
+**Key accomplishments:**
+
+- PersonnelEntry type added to Exhibit with 13 exhibits transformed from string[][] table rows to typed personnel arrays
+- Both layout components render personnel from typed arrays with field-presence-based variant detection covering all 3 column patterns
+
+---
+
 ## v3.0 Data Externalization (Shipped: 2026-04-06)
 
 **Phases completed:** 3 phases, 5 plans, 9 tasks

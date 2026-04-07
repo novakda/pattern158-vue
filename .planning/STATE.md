@@ -4,7 +4,7 @@ milestone: v4.0
 milestone_name: Exhibit Data Normalization
 status: executing
 stopped_at: Completed 20-02 personnel layout rendering
-last_updated: "2026-04-07T06:13:36.082Z"
+last_updated: "2026-04-07T06:17:42.963Z"
 last_activity: 2026-04-07
 progress:
   total_phases: 3
