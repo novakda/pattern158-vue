@@ -85,21 +85,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PERS-01 | — | Pending |
-| PERS-02 | — | Pending |
-| PERS-03 | — | Pending |
-| TECH-01 | — | Pending |
-| TECH-02 | — | Pending |
-| TECH-03 | — | Pending |
-| FIND-01 | — | Pending |
-| FIND-02 | — | Pending |
-| FIND-03 | — | Pending |
+| PERS-01 | Phase 20 | Pending |
+| PERS-02 | Phase 20 | Pending |
+| PERS-03 | Phase 20 | Pending |
+| TECH-01 | Phase 21 | Pending |
+| TECH-02 | Phase 21 | Pending |
+| TECH-03 | Phase 21 | Pending |
+| FIND-01 | Phase 22 | Pending |
+| FIND-02 | Phase 22 | Pending |
+| FIND-03 | Phase 22 | Pending |
 
 **Coverage:**
 - v4.0 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9 ⚠️
+- Mapped to phases: 9
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-06*
-*Last updated: 2026-04-06 after v4.0 milestone requirements*
+*Last updated: 2026-04-06 after v4.0 roadmap creation*

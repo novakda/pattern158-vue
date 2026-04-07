@@ -6,7 +6,8 @@
 - ✅ **v1.1 Exhibit Content Consistency** — Phases 5-8 (shipped 2026-03-19)
 - ✅ **v2.0 Site IA Restructure — Evidence-Based Portfolio** — Phases 9-14 (shipped 2026-04-02)
 - ✅ **v2.1 Case Files Bug Fixes** — Phases 15-16 (shipped 2026-04-06)
-- [ ] **v3.0 Data Externalization** — Phases 17-19 (in progress)
+- ✅ **v3.0 Data Externalization** — Phases 17-19 (shipped 2026-04-06)
+- [ ] **v4.0 Exhibit Data Normalization** — Phases 20-22 (in progress)
 
 ## Phases
 
@@ -58,61 +59,73 @@ Full details: `.planning/milestones/v2.1-ROADMAP.md`
 
 </details>
 
-### v3.0 Data Externalization (In Progress)
+<details>
+<summary>v3.0 Data Externalization (Phases 17-19) -- SHIPPED 2026-04-06</summary>
 
-**Milestone Goal:** Extract all hardcoded TypeScript data from `src/data/` into JSON files, centralizing type definitions in `src/types/`, to decouple content from code and enable future CMS integration.
+- [x] Phase 17: Types Infrastructure and Simple Data Migration (2/2 plans) -- completed 2026-04-06
+- [x] Phase 18: Complex Data Migration (2/2 plans) -- completed 2026-04-06
+- [x] Phase 19: Exhibits Migration (1/1 plans) -- completed 2026-04-06
 
-- [x] **Phase 17: Types Infrastructure and Simple Data Migration** - Establish `src/types/` directory and prove the thin loader pattern on 5 simple data files (completed 2026-04-06)
-- [x] **Phase 18: Complex Data Migration** - Migrate 4 files with nested structures, union types, and `as const` handling (completed 2026-04-06)
-- [x] **Phase 19: Exhibits Migration** - Migrate the most complex data file (exhibits.ts) with discriminated unions and 9 consumer components (completed 2026-04-06)
+Full details: `.planning/milestones/v3.0-ROADMAP.md`
+
+</details>
+
+### v4.0 Exhibit Data Normalization (In Progress)
+
+**Milestone Goal:** Migrate recurring table-type data (personnel, technologies, findings) from generic `rows: string[][]` sections to typed first-class arrays on exhibit objects, removing migrated sections and updating layout rendering.
+
+- [ ] **Phase 20: Personnel Migration** - Promote personnel tables to typed `PersonnelEntry[]` arrays with section removal and layout rendering
+- [ ] **Phase 21: Technologies Migration** - Promote technologies tables to typed `TechnologyEntry[]` arrays with section removal and layout rendering
+- [ ] **Phase 22: Findings Migration** - Promote findings tables to typed `FindingEntry[]` arrays with section removal and layout rendering
 
 ## Phase Details
 
-### Phase 17: Types Infrastructure and Simple Data Migration
-**Goal**: Developers can import data and types from a clean, centralized architecture -- types live in `src/types/`, simple data lives in JSON, and all existing imports continue working unchanged
-**Depends on**: Phase 16
-**Requirements**: TYPE-01, TYPE-02, TYPE-03, SMPL-01, SMPL-02, SMPL-03, SMPL-04, SMPL-05, VALD-01, VALD-02, VALD-03
+### Phase 20: Personnel Migration
+**Goal**: Exhibit personnel data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
+**Depends on**: Phase 19
+**Requirements**: PERS-01, PERS-02, PERS-03
 **Success Criteria** (what must be TRUE):
-  1. A `src/types/` directory exists with a barrel `index.ts` exporting all data interfaces, and all 5 simple data files have corresponding type definitions there
-  2. Five data files (stats, techPills, specialties, brandElements, methodologySteps) each have a JSON file in `src/data/json/` and a thin TypeScript loader in `src/data/` that re-exports both data and types
-  3. All 64+ existing unit tests pass and `vite build` produces a clean production build
-  4. Zero `.vue` and zero `.test.ts` files are modified -- all existing component imports resolve without changes
-**Plans:** 2/2 plans complete
-Plans:
-- [x] 17-01-PLAN.md -- Create src/types/ directory with centralized type definitions and barrel exports
-- [x] 17-02-PLAN.md -- Migrate 5 simple data files to JSON + thin TypeScript loaders
+  1. Each of the 11 exhibits with personnel data has a `personnel: PersonnelEntry[]` array on its exhibit object, with typed fields (not string arrays)
+  2. The `sections[]` array in exhibits.json no longer contains any personnel table sections for those 11 exhibits
+  3. Both InvestigationReportLayout and EngineeringBriefLayout render a personnel table from the typed `personnel` array (visually identical output to the old generic table)
+  4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
+**Plans**: TBD
 
-### Phase 18: Complex Data Migration
-**Goal**: Data files with nested objects, optional fields, union types, and `as const` constructs are externalized to JSON while preserving all type safety
-**Depends on**: Phase 17
-**Requirements**: CPLX-01, CPLX-02, CPLX-03, CPLX-04
-**Success Criteria** (what must be TRUE):
-  1. Four data files (findings, philosophyInfluences, influences, faq) each have a JSON file in `src/data/json/` and a thin TypeScript loader preserving the import API
-  2. `faqCategories` `as const` literal type behavior is preserved (explicit union type in `src/types/` or const array kept in TypeScript, not moved to JSON)
-  3. All 64+ unit tests pass and `vite build` succeeds
-  4. Zero `.vue` and zero `.test.ts` files are modified
-**Plans:** 2/2 plans complete
 Plans:
-- [x] 18-01-PLAN.md -- Create type definitions for 4 complex data files and migrate findings, philosophyInfluences, influences to JSON + thin loaders
-- [x] 18-02-PLAN.md -- Migrate faq.ts to JSON + thin loader with faqCategories as const preservation
+- [ ] 20-01: TBD
 
-### Phase 19: Exhibits Migration
-**Goal**: The most complex data file (exhibits.ts -- 138KB, 8 interfaces, discriminated unions, 9 consumer components) is externalized to JSON with all type safety preserved
-**Depends on**: Phase 18
-**Requirements**: EXHB-01, EXHB-02, EXHB-03
+### Phase 21: Technologies Migration
+**Goal**: Exhibit technologies data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
+**Depends on**: Phase 20
+**Requirements**: TECH-01, TECH-02, TECH-03
 **Success Criteria** (what must be TRUE):
-  1. `exhibits.json` exists in `src/data/json/` containing all 15 exhibits, and the thin loader in `src/data/exhibits.ts` re-exports typed data and all exhibit interfaces
-  2. Discriminated union types (`exhibitType`, `ExhibitSection.type`) are correctly asserted on JSON import -- TypeScript catches type errors if section data mismatches its `type` field
-  3. All 9 exhibit consumer components (ExhibitCard, ExhibitDetailPage, both layouts, CaseFilesPage, etc.) render correctly with no code changes
-  4. All 64+ unit tests pass, `vite build` succeeds, and all 11 data files are now externalized to JSON
-**Plans:** 1/1 plans complete
+  1. Each of the 8 exhibits with technologies data has a `technologies: TechnologyEntry[]` array on its exhibit object, with typed fields (not string arrays)
+  2. The `sections[]` array in exhibits.json no longer contains any technologies table sections for those 8 exhibits
+  3. Both layout components render a technologies table from the typed `technologies` array (visually identical output to the old generic table)
+  4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
+**Plans**: TBD
+
 Plans:
-- [x] 19-01-PLAN.md -- Migrate exhibits.ts to JSON + thin loader with centralized type definitions
+- [ ] 21-01: TBD
+
+### Phase 22: Findings Migration
+**Goal**: Exhibit findings data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
+**Depends on**: Phase 21
+**Requirements**: FIND-01, FIND-02, FIND-03
+**Success Criteria** (what must be TRUE):
+  1. Each of the 6 exhibits with findings data has a `findings: FindingEntry[]` array on its exhibit object, with typed fields handling all 3 column variants
+  2. The `sections[]` array in exhibits.json no longer contains any findings table sections for those 6 exhibits
+  3. Both layout components render a findings table from the typed `findings` array, adapting to column variant differences (visually identical output)
+  4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
+**Plans**: TBD
+
+Plans:
+- [ ] 22-01: TBD
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 17 -> 18 -> 19
+Phases execute in numeric order: 20 -> 21 -> 22
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -132,6 +145,9 @@ Phases execute in numeric order: 17 -> 18 -> 19
 | 14. Documentation Gap Closure | v2.0 | 1/1 | Complete | 2026-04-02 |
 | 15. Impact Tag Style Restoration | v2.1 | 1/1 | Complete | 2026-04-02 |
 | 16. Section Type Rendering | v2.1 | 1/1 | Complete | 2026-04-02 |
-| 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 18. Complex Data Migration | v3.0 | 2/2 | Complete    | 2026-04-06 |
-| 19. Exhibits Migration | v3.0 | 1/1 | Complete    | 2026-04-06 |
+| 17. Types Infrastructure and Simple Data Migration | v3.0 | 2/2 | Complete | 2026-04-06 |
+| 18. Complex Data Migration | v3.0 | 2/2 | Complete | 2026-04-06 |
+| 19. Exhibits Migration | v3.0 | 1/1 | Complete | 2026-04-06 |
+| 20. Personnel Migration | v4.0 | 0/0 | Not started | - |
+| 21. Technologies Migration | v4.0 | 0/0 | Not started | - |
+| 22. Findings Migration | v4.0 | 0/0 | Not started | - |
