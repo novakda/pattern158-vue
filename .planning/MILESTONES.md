@@ -1,5 +1,18 @@
 # Milestones
 
+## v3.0 Data Externalization (Shipped: 2026-04-06)
+
+**Phases completed:** 3 phases, 5 plans, 9 tasks
+
+**Key accomplishments:**
+
+- Centralized src/types/ directory with 6 data interfaces, barrel index, and backward-compatible component type shims
+- 5 simple data files migrated to JSON + thin TypeScript loader pattern with zero consumer breakage
+- faqItems migrated to JSON with faqCategories preserved as const satisfies in TypeScript for literal type narrowing
+- Migrated 1581-line exhibits.ts (15 exhibits, 8 interfaces, discriminated unions) to JSON + thin TypeScript loader, completing v3.0 Data Externalization
+
+---
+
 ## v2.1 Case Files Bug Fixes (Shipped: 2026-04-06)
 
 **Phases:** 15-16 | **Plans:** 2 | **Requirements:** 6/6 satisfied
