@@ -126,6 +126,16 @@ describe('EngineeringBriefLayout', () => {
     expect(wrapper.text()).toContain('Dan Novak')
   })
 
+  it('renders technologies table with heading for exhibits with technologies data', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    const techHeading = wrapper.findAll('h2').find(h => h.text() === 'Technologies')
+    expect(techHeading).toBeTruthy()
+    expect(wrapper.text()).toContain('eLearning Protocols')
+  })
+
   it('uses non-forensic framing without Investigation Summary heading', () => {
     const wrapper = mount(EngineeringBriefLayout, {
       props: { exhibit: ebFixture },

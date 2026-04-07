@@ -105,6 +105,37 @@ describe('PERS-01/PERS-02: personnel migration', () => {
   })
 })
 
+describe('TECH-01/TECH-02: technologies migration', () => {
+  it('exactly 11 exhibits have technologies arrays', () => {
+    const count = exhibits.filter(e => e.technologies && e.technologies.length > 0).length
+    expect(count).toBe(11)
+  })
+
+  it('no exhibit has a technologies table section with heading "Technologies"', () => {
+    exhibits.forEach(e => {
+      const techSections = (e.sections || []).filter(
+        s => s.type === 'table' && s.heading === 'Technologies'
+      )
+      expect(techSections).toHaveLength(0)
+    })
+  })
+
+  it('Exhibit A technologies has typed category field', () => {
+    const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
+    expect(exhibitA?.technologies?.[0].category).toBe('eLearning Protocols')
+    expect(exhibitA?.technologies?.[0].tools).toContain('SCORM')
+  })
+
+  it('Exhibit O retains generic Technologies Across Three Projects table', () => {
+    const exhibitO = exhibits.find(e => e.label === 'Exhibit O')
+    const techSection = (exhibitO?.sections || []).find(
+      s => s.type === 'table' && s.heading === 'Technologies Across Three Projects'
+    )
+    expect(techSection).toBeDefined()
+    expect(exhibitO?.technologies).toBeUndefined()
+  })
+})
+
 describe('DATA-03: flagship data merged', () => {
   it('exactly 9 exhibits are flagships', () => {
     const count = exhibits.filter(e => e.isFlagship).length
