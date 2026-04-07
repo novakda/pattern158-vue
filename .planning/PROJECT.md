@@ -51,6 +51,18 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+## Current Milestone: v4.0 Exhibit Data Normalization
+
+**Goal:** Migrate recurring table-type data from generic `rows: string[][]` sections to typed first-class arrays on exhibit objects.
+
+**Target features:**
+- Personnel tables (11 occurrences across all 15 exhibits) → `personnel: PersonnelEntry[]`
+- Technologies tables (8 occurrences) → `technologies: TechnologyEntry[]`
+- Findings tables (6 occurrences, 3 column variants) → `findings: FindingEntry[]`
+- Remove migrated table sections from generic `sections[]` array
+- Update TypeScript types in `src/types/exhibit.ts`
+- Zero component rendering breakage — layout components handle new arrays
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
@@ -64,11 +76,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-## Current State
+**Shipped:** v3.0 (2026-04-06) | **Status:** Starting v4.0 Exhibit Data Normalization
 
-**Shipped:** v3.0 (2026-04-06) | **Status:** All milestones through v3.0 complete
-
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. 64 unit tests passing, clean production build.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. 64 unit tests passing, clean production build. Exhibits JSON contains 37 generic table sections, 25 of which follow 3 repeating patterns (personnel, technologies, findings) suitable for typed first-class arrays.
 
 ## Context
 
@@ -125,4 +135,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-06 after v3.0 milestone completion*
+*Last updated: 2026-04-06 after v4.0 milestone start*

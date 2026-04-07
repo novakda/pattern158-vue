@@ -1,36 +1,36 @@
 ---
 gsd_state_version: 1.0
-milestone: v3.0
-milestone_name: Data Externalization
-status: completed
-stopped_at: Completed 19-01-PLAN.md (exhibits migration)
-last_updated: "2026-04-06T22:18:28.489Z"
+milestone: v4.0
+milestone_name: Exhibit Data Normalization
+status: active
+stopped_at: ""
+last_updated: "2026-04-06T23:00:00.000Z"
 last_activity: 2026-04-06
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-02)
+See: .planning/PROJECT.md (updated 2026-04-06)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 19 — Exhibits Migration (complete)
+**Current focus:** Defining requirements for v4.0 Exhibit Data Normalization
 
 ## Current Position
 
-Phase: 19
-Plan: Not started
-Status: v3.0 milestone complete — all 11 data files externalized
-Last activity: 2026-04-06
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-06 — Milestone v4.0 started
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
