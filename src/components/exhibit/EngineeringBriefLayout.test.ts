@@ -126,6 +126,15 @@ describe('EngineeringBriefLayout', () => {
     expect(wrapper.text()).toContain('Dan Novak')
   })
 
+  it('renders findings table with heading for exhibits with findings data', () => {
+    const wrapper = mount(EngineeringBriefLayout, {
+      props: { exhibit: ebFixture },
+      ...mountOptions,
+    })
+    const findingsHeading = wrapper.findAll('h2').find(h => h.text() === 'Findings')
+    expect(findingsHeading).toBeTruthy()
+  })
+
   it('renders technologies table with heading for exhibits with technologies data', () => {
     const wrapper = mount(EngineeringBriefLayout, {
       props: { exhibit: ebFixture },
