@@ -100,14 +100,15 @@ Plans:
 **Depends on**: Phase 20
 **Requirements**: TECH-01, TECH-02, TECH-03
 **Success Criteria** (what must be TRUE):
-  1. Each of the 8 exhibits with technologies data has a `technologies: TechnologyEntry[]` array on its exhibit object, with typed fields (not string arrays)
-  2. The `sections[]` array in exhibits.json no longer contains any technologies table sections for those 8 exhibits
+  1. Each of the 11 exhibits with technologies data has a `technologies: TechnologyEntry[]` array on its exhibit object, with typed fields (not string arrays)
+  2. The `sections[]` array in exhibits.json no longer contains any technologies table sections (heading "Technologies") for those 11 exhibits
   3. Both layout components render a technologies table from the typed `technologies` array (visually identical output to the old generic table)
   4. All existing unit tests pass and `vite build` succeeds with no rendering breakage
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 21-01: TBD
+- [ ] 21-01-PLAN.md — Type definitions + JSON data transformation (TECH-01, TECH-02)
+- [ ] 21-02-PLAN.md — Layout rendering + test coverage (TECH-03)
 
 ### Phase 22: Findings Migration
 **Goal**: Exhibit findings data lives in typed first-class arrays instead of generic table rows, and layout components render it from the new structure
@@ -150,5 +151,5 @@ Phases execute in numeric order: 20 -> 21 -> 22
 | 18. Complex Data Migration | v3.0 | 2/2 | Complete | 2026-04-06 |
 | 19. Exhibits Migration | v3.0 | 1/1 | Complete | 2026-04-06 |
 | 20. Personnel Migration | v4.0 | 0/2 | Complete    | 2026-04-07 |
-| 21. Technologies Migration | v4.0 | 0/0 | Not started | - |
+| 21. Technologies Migration | v4.0 | 0/2 | Not started | - |
 | 22. Findings Migration | v4.0 | 0/0 | Not started | - |
