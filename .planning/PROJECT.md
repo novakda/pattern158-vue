@@ -58,11 +58,17 @@ Every page template should be scannable and self-documenting through well-named 
 
 - ✓ Personnel and technologies mobile card layout matching findings pattern (PERS-04/05, TECH-04/05) — v5.1
 
+- ✓ Personnel entries with titles/roles in name field corrected across 12 exhibits (DATA-01) — v5.2
+- ✓ Exhibit L personnel normalized from role/involvement to standard name/title/organization schema (DATA-02) — v5.2
+- ✓ PersonnelEntry type extended with entryType: 'individual' | 'group' | 'anonymized' (DATA-03) — v5.2
+- ✓ All 7 group entries marked with entryType: 'group' (DATA-04) — v5.2
+- ✓ All anonymized/unnamed personnel marked with entryType: 'anonymized' (DATA-05) — v5.2
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-*(Defined by REQUIREMENTS.md for v5.2)*
+*(Defined by REQUIREMENTS.md for v5.2 — Phase 29 remaining)*
 
 ### Out of Scope
 
@@ -153,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after v5.2 milestone start*
+*Last updated: 2026-04-08 after Phase 28 completion*
