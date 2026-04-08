@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v5.1
 milestone_name: Personnel & Technologies Card Layout
-status: defining-requirements
-stopped_at: Milestone started, defining requirements
+status: ready-to-plan
+stopped_at: Roadmap created, ready to plan Phase 27
 last_updated: "2026-04-08"
 last_activity: 2026-04-08
 progress:
-  total_phases: 0
+  total_phases: 1
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,22 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-08)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Defining requirements for v5.1 Personnel & Technologies Card Layout
+**Current focus:** Phase 27 — Personnel & Technologies Card Layout
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements
-Last activity: 2026-04-08 — Milestone v5.1 started
+Phase: 27 of 27 (Personnel & Technologies Card Layout)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-04-08 — Roadmap created for v5.1
+
+Progress: [░░░░░░░░░░] 0%
 
 ## Accumulated Context
 
 ### Decisions
 
-- [v5.0]: Findings use NTSB-style diagnostic discoveries only, not outcomes or observations
-- [v5.0]: Severity applies only to diagnostic/technical findings
-- [v5.0]: Desktop table with conditional columns + mobile card view pattern established for findings
+- [v5.0]: Findings desktop table + mobile card view pattern established as reference implementation
+- [v4.0]: Field-presence variant detection in templates (v-if on optional fields) — reuse for card variants
 
 ### Pending Todos
 
@@ -49,5 +50,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-08
-Stopped at: Milestone v5.1 started — defining requirements
+Stopped at: Roadmap created for v5.1, ready to plan Phase 27
 Resume file: None
