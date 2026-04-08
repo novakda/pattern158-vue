@@ -69,18 +69,14 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Card heading logic uses best available field: name → title → role (CARD-03) — v5.2
 - ✓ Desktop table rows reflect entryType distinctions (CARD-04) — v5.2
 
+- ✓ FAQ cross-page audit: all 14 answers compared against 6 site pages, 13 issues identified and classified (AUDIT-01/02) — v5.3
+- ✓ FAQ stale references fixed: "portfolio"→"case files", tech listing expanded with React/Python/Power Platform/Claude Code (REFS-01/02) — v5.3
+- ✓ FAQ content accuracy: industry list corrected with verified clients, AI/automation updated, accessibility phrasing aligned (ACCY-01-04) — v5.3
+- ✓ FAQ overlap resolved: Q2 and Q12 shortened to complementary summaries with cross-references to Contact and Philosophy pages (OVLP-01-03) — v5.3
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-## Current Milestone: v5.3 FAQ Content Audit
-
-**Goal:** Audit the FAQ page against all other site pages, identify content drift and inconsistencies, then fix accuracy issues and restructure where warranted.
-
-**Target features:**
-- Cross-page content audit: compare every FAQ answer against corresponding content on HomePage, TechnologiesPage, PhilosophyPage, ContactPage, CaseFilesPage, and exhibit data
-- Fix stale references (e.g., "portfolio" → "case files", incomplete tech lists, inconsistent phrasing)
-- Restructure FAQ questions/categories based on audit findings — add, remove, or rewrite as needed
 
 ### Out of Scope
 
@@ -95,7 +91,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v5.2 (2026-04-08) | **Status:** All milestones through v5.2 complete
+**Shipped:** v5.3 (2026-04-08) | **Status:** All milestones through v5.3 complete
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. Personnel data normalized: 26 title-as-name entries corrected, Exhibit L schema unified, all 66 entries typed with entryType (individual/group/anonymized). Mobile cards and desktop tables visually distinguish entry types with compact group cards, italic anonymized entries, and heading cascade (name → title → role). 95 unit tests passing, clean production build.
 
@@ -161,4 +157,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v5.3 milestone start*
+*Last updated: 2026-04-08 after v5.3 milestone completion*
