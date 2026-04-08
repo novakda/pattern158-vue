@@ -128,7 +128,7 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 
 </details>
 
-### 🚧 v6.0 FAQ Page Redesign (In Progress)
+### v6.0 FAQ Page Redesign (In Progress)
 
 **Milestone Goal:** Replace the static FAQ layout with an interactive accordion component featuring category filtering, career-vault content integration, and exhibit cross-reference callouts.
 
@@ -149,7 +149,9 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
   3. FaqItem TypeScript type includes optional `exhibitNote: string` field
   4. A unified category taxonomy of 6-8 categories exists covering both existing site and career-vault topics
   5. TypeScript compiler passes with zero errors after schema changes
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 33-01-PLAN.md — Extend types, define 7-category taxonomy, migrate JSON data
 
 ### Phase 34: Content Merge
 **Goal**: All FAQ content (existing site + career vault) is unified in a single JSON source with accurate category tags and exhibit references
@@ -190,11 +192,11 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 33 → 34 → 35 → 36
+Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 33. Data Schema & Type Foundation | 0/TBD | Not started | - |
+| 33. Data Schema & Type Foundation | 0/1 | Not started | - |
 | 34. Content Merge | 0/TBD | Not started | - |
 | 35. Interactive Components | 0/TBD | Not started | - |
 | 36. Page Integration & Layout | 0/TBD | Not started | - |
