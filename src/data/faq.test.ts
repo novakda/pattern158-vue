@@ -19,6 +19,10 @@ describe('FAQ Schema Validation', () => {
     ])
   })
 
+  it('has 24 FAQ items after content merge', () => {
+    expect(faqItems).toHaveLength(24)
+  })
+
   it('every faqItem has a unique id', () => {
     const ids = faqItems.map(i => i.id)
     expect(new Set(ids).size).toBe(ids.length)
@@ -48,5 +52,21 @@ describe('FAQ Schema Validation', () => {
         expect(typeof item.exhibitNote).toBe('string')
       }
     })
+  })
+
+  it('has exhibit cross-references with valid URLs', () => {
+    const withExhibits = faqItems.filter(item => item.exhibitNote)
+    expect(withExhibits.length).toBe(6)
+    withExhibits.forEach(item => {
+      expect(item.exhibitUrl).toBeDefined()
+      expect(item.exhibitUrl).toMatch(/^\/exhibits\/exhibit-[a-z]$/)
+    })
+  })
+
+  it('does not contain replaced item IDs', () => {
+    const ids = faqItems.map(item => item.id)
+    expect(ids).not.toContain('legacy-systems')
+    expect(ids).not.toContain('ai-automation-experience')
+    expect(ids).not.toContain('unclear-requirements-approach')
   })
 })
