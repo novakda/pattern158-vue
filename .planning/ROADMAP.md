@@ -88,7 +88,7 @@ Full details: `.planning/milestones/v4.0-ROADMAP.md`
 
 - [x] **Phase 23: Schema Foundation** - Update FindingEntry type with unified field set and normalize Exhibit A field naming (completed 2026-04-08)
 - [x] **Phase 24: Findings Backfill** - Extract findings from narrative sections for 5 exhibits and promote findingsHeading (completed 2026-04-08)
-- [ ] **Phase 25: Field Enrichment** - Populate severity, resolution, and category values across all exhibits with findings
+- [x] **Phase 25: Field Enrichment** - Populate severity, resolution, and category values across all exhibits with findings (completed 2026-04-08)
 - [ ] **Phase 26: Layout Rendering** - Render severity badges, resolution/outcome text, and category tags in detail layouts
 
 ## Phase Details
@@ -173,5 +173,5 @@ Phases execute in numeric order: 23 -> 24 -> 25 -> 26
 | 22. Findings Migration | v4.0 | 2/2 | Complete | 2026-04-07 |
 | 23. Schema Foundation | v5.0 | 0/1 | Complete    | 2026-04-08 |
 | 24. Findings Backfill | v5.0 | 0/0 | Complete    | 2026-04-08 |
-| 25. Field Enrichment | v5.0 | 0/0 | Not started | - |
+| 25. Field Enrichment | v5.0 | 0/0 | Complete    | 2026-04-08 |
 | 26. Layout Rendering | v5.0 | 0/0 | Not started | - |
