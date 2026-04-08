@@ -66,33 +66,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| DATA-05 | — | Pending |
-| ACRD-01 | — | Pending |
-| ACRD-02 | — | Pending |
-| ACRD-03 | — | Pending |
-| ACRD-04 | — | Pending |
-| ACRD-05 | — | Pending |
-| FLTR-01 | — | Pending |
-| FLTR-02 | — | Pending |
-| FLTR-03 | — | Pending |
-| FLTR-04 | — | Pending |
-| CONT-01 | — | Pending |
-| CONT-02 | — | Pending |
-| CONT-03 | — | Pending |
-| LYOT-01 | — | Pending |
-| LYOT-02 | — | Pending |
-| LYOT-03 | — | Pending |
-| LYOT-04 | — | Pending |
+| DATA-01 | Phase 33 | Pending |
+| DATA-02 | Phase 33 | Pending |
+| DATA-03 | Phase 33 | Pending |
+| DATA-04 | Phase 33 | Pending |
+| DATA-05 | Phase 33 | Pending |
+| ACRD-01 | Phase 35 | Pending |
+| ACRD-02 | Phase 35 | Pending |
+| ACRD-03 | Phase 35 | Pending |
+| ACRD-04 | Phase 35 | Pending |
+| ACRD-05 | Phase 35 | Pending |
+| FLTR-01 | Phase 35 | Pending |
+| FLTR-02 | Phase 35 | Pending |
+| FLTR-03 | Phase 35 | Pending |
+| FLTR-04 | Phase 35 | Pending |
+| CONT-01 | Phase 34 | Pending |
+| CONT-02 | Phase 34 | Pending |
+| CONT-03 | Phase 34 | Pending |
+| LYOT-01 | Phase 36 | Pending |
+| LYOT-02 | Phase 36 | Pending |
+| LYOT-03 | Phase 36 | Pending |
+| LYOT-04 | Phase 36 | Pending |
 
 **Coverage:**
 - v6.0 requirements: 21 total
-- Mapped to phases: 0
-- Unmapped: 21 ⚠️
+- Mapped to phases: 21
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-08*
-*Last updated: 2026-04-08 after initial definition*
+*Last updated: 2026-04-08 after roadmap creation*

@@ -11,6 +11,8 @@
 - ✅ **v5.0 Findings Schema Unification** — Phases 23-26 (shipped 2026-04-08)
 - ✅ **v5.1 Personnel & Technologies Card Layout** — Phase 27 (shipped 2026-04-08)
 - ✅ **v5.2 Personnel Data Normalization & Card UX** — Phases 28-29 (shipped 2026-04-08)
+- ✅ **v5.3 FAQ Content Audit** — Phases 30-32 (shipped 2026-04-08)
+- 🚧 **v6.0 FAQ Page Redesign** — Phases 33-36 (in progress)
 
 ## Phases
 
@@ -115,6 +117,84 @@ Full details: `.planning/milestones/v5.2-ROADMAP.md`
 
 </details>
 
+<details>
+<summary>v5.3 FAQ Content Audit (Phases 30-32) -- SHIPPED 2026-04-08</summary>
+
+- [x] Phase 30: FAQ Cross-Page Audit (1/1 plans) -- completed 2026-04-08
+- [x] Phase 31: FAQ Content Fixes (1/1 plans) -- completed 2026-04-08
+- [x] Phase 32: FAQ Overlap Resolution (1/1 plans) -- completed 2026-04-08
+
+Full details: `.planning/milestones/v5.3-ROADMAP.md`
+
+</details>
+
+### 🚧 v6.0 FAQ Page Redesign (In Progress)
+
+**Milestone Goal:** Replace the static FAQ layout with an interactive accordion component featuring category filtering, career-vault content integration, and exhibit cross-reference callouts.
+
+- [ ] **Phase 33: Data Schema & Type Foundation** - Extend FaqItem types, define unified category taxonomy, migrate all JSON to new schema
+- [ ] **Phase 34: Content Merge** - Integrate career-vault FAQ content, populate exhibit cross-references, tag all items with unified categories
+- [ ] **Phase 35: Interactive Components** - Build FaqAccordionItem, FaqFilterBar, and ExhibitCallout components with full ARIA and tests
+- [ ] **Phase 36: Page Integration & Layout** - Rewrite FaqPage with flat filtered layout, wire components, clean up global CSS, delete old FaqItem
+
+## Phase Details
+
+### Phase 33: Data Schema & Type Foundation
+**Goal**: FAQ data model supports multi-category tagging, stable IDs, and optional exhibit cross-references
+**Depends on**: Phase 32 (v5.3 content audit ensured FAQ answers are accurate before restructuring)
+**Requirements**: DATA-01, DATA-02, DATA-03, DATA-04, DATA-05
+**Success Criteria** (what must be TRUE):
+  1. Every FAQ item in faq.json has a unique `id` string field
+  2. Every FAQ item has a `categories` array (not a single `category` string)
+  3. FaqItem TypeScript type includes optional `exhibitNote: string` field
+  4. A unified category taxonomy of 6-8 categories exists covering both existing site and career-vault topics
+  5. TypeScript compiler passes with zero errors after schema changes
+**Plans**: TBD
+
+### Phase 34: Content Merge
+**Goal**: All FAQ content (existing site + career vault) is unified in a single JSON source with accurate category tags and exhibit references
+**Depends on**: Phase 33 (new schema must exist before content can use it)
+**Requirements**: CONT-01, CONT-02, CONT-03
+**Success Criteria** (what must be TRUE):
+  1. Career-vault FAQ questions are merged into faq.json with overlapping topics reconciled (no duplicates)
+  2. FAQ items with exhibit cross-references have structured `exhibitNote` values (not raw markdown)
+  3. Every merged FAQ item is tagged with at least one category from the unified taxonomy
+  4. Total FAQ count is approximately 25-27 items (14 existing + ~13 new, minus reconciled overlaps)
+
+### Phase 35: Interactive Components
+**Goal**: Users can toggle FAQ answers open/closed and filter by category using accessible, tested components
+**Depends on**: Phase 33 (components consume FaqItem type with categories array and id field)
+**Requirements**: ACRD-01, ACRD-02, ACRD-03, ACRD-04, ACRD-05, FLTR-01, FLTR-02, FLTR-03, FLTR-04
+**Success Criteria** (what must be TRUE):
+  1. User can click any FAQ question to toggle its answer open or closed, with multiple items open simultaneously
+  2. Closed items show question text, category pills, and a "+" icon; open items show a rotated "x" icon
+  3. User can Tab to any question and press Enter or Space to toggle it (full keyboard accessibility)
+  4. Accordion uses WAI-ARIA pattern: button trigger, aria-expanded, aria-controls on each item
+  5. Filter bar shows "All" plus one pill per category; clicking a category shows only matching items with a live question count
+**Plans**: TBD
+**UI hint**: yes
+
+### Phase 36: Page Integration & Layout
+**Goal**: FaqPage is a polished, full-width interactive page with exhibit callouts, consistent styling, and no dead code
+**Depends on**: Phase 34 (merged content), Phase 35 (interactive components)
+**Requirements**: LYOT-01, LYOT-02, LYOT-03, LYOT-04
+**Success Criteria** (what must be TRUE):
+  1. Exhibit cross-references render as left-bordered accent callout blocks inside open answers
+  2. FAQ items stack full-width with border-top rules between items and border-bottom on the last item
+  3. Category tag pills are visible below question text in both open and closed states
+  4. Question text, filter pills, count label, and answer prose are all left-aligned
+  5. Old FaqItem.vue is deleted and global .page-faq CSS in main.css is cleaned up (no specificity conflicts)
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
-All milestones through v5.2 complete. See `.planning/milestones/` for archived details.
+**Execution Order:**
+Phases execute in numeric order: 33 → 34 → 35 → 36
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 33. Data Schema & Type Foundation | 0/TBD | Not started | - |
+| 34. Content Merge | 0/TBD | Not started | - |
+| 35. Interactive Components | 0/TBD | Not started | - |
+| 36. Page Integration & Layout | 0/TBD | Not started | - |
