@@ -2,12 +2,12 @@
   {
     "category": "hiring",
     "question": "Are you available for new projects?",
-    "answer": "Yes, I'm available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI'm interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA+), and AI-assisted development tooling."
+    "answer": "Yes, I'm available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI'm interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA / Section 508), and AI-assisted development tooling."
   },
   {
     "category": "hiring",
     "question": "What's your work arrangement preference?",
-    "answer": "Remote is ideal. I'm also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically). I have 28+ years of experience working effectively with distributed teams across time zones.\n\nI'm comfortable with async communication (email, Slack, documentation) and sync collaboration (video calls, pair programming) depending on what the project needs."
+    "answer": "Remote is ideal. I'm also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically).\n\nFor details on work culture preferences, see the Contact page."
   },
   {
     "category": "hiring",
@@ -17,22 +17,22 @@
   {
     "category": "expertise",
     "question": "What technologies do you specialize in?",
-    "answer": "Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA)"
+    "answer": "Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nAlso production experience with: React, Python, Power Platform, Claude Code\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA). See also Q6 for AI and automation experience."
   },
   {
     "category": "expertise",
     "question": "Do you work with legacy systems?",
-    "answer": "Yes, legacy system modernization is a core specialty. I've rescued undocumented systems, reverse-engineered abandoned codebases, and integrated legacy platforms with modern architectures.\n\nSee the portfolio for examples like the legacy CMS rescue and cross-domain SCORM framework."
+    "answer": "Yes, legacy system modernization is a core specialty. I've rescued undocumented systems, reverse-engineered abandoned codebases, and integrated legacy platforms with modern architectures.\n\nSee the case files for examples like the legacy CMS rescue and cross-domain SCORM framework."
   },
   {
     "category": "expertise",
     "question": "Are you experienced with AI and automation?",
-    "answer": "Yes. I've designed agentic workflows using GitHub Spec Kit, built Copilot Studio agents for enterprise clients, and use AI-assisted development extensively (GitHub Copilot, Claude Code).\n\nI focus on practical applications - tools that solve real problems, not hype. AI is most valuable for documentation generation, code review, and rapid prototyping."
+    "answer": "Yes. I've designed agentic workflows using GitHub Spec Kit, built Copilot Studio and Power Platform agents for enterprise clients, and use AI-assisted development extensively (GitHub Copilot, Claude Code).\n\nI focus on practical applications - tools that solve real problems, not hype. AI is most valuable for documentation generation, code review, and rapid prototyping."
   },
   {
     "category": "expertise",
     "question": "What industries have you worked in?",
-    "answer": "Banking (PNC, JPMorgan Chase, Kmart Credit), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Retail (GM, Kmart), Healthcare (Cornell Medical), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another."
+    "answer": "Banking (PNC, HSBC, Wells Fargo, TD Bank), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Automotive (General Motors), Healthcare (Weill Cornell Medicine), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another."
   },
   {
     "category": "style",
@@ -47,7 +47,7 @@
   {
     "category": "style",
     "question": "What's your approach to unclear requirements?",
-    "answer": "I treat it as a forensic investigation. When requirements are undefined or contradictory, I document what exists, map the gaps, and propose solutions grounded in evidence.\n\nSee the featured projects for examples of how I approach undocumented systems and rebuild them systematically. If you have an unclear situation, let's talk \u2014 this is the kind of problem I'm good at solving."
+    "answer": "I treat it as a forensic investigation. When requirements are undefined or contradictory, I document what exists, map the gaps, and propose solutions grounded in evidence.\n\nSee the case files for examples of how I approach undocumented systems and rebuild them systematically. If you have an unclear situation, let's talk \u2014 this is the kind of problem I'm good at solving."
   },
   {
     "category": "style",
@@ -57,7 +57,7 @@
   {
     "category": "process",
     "question": "What's your typical workflow?",
-    "answer": "The pattern repeats across my career:\n\n1. Deconstruct the Chaos: Forensic investigation to understand the system \u2014 map dependencies, identify patterns, document what exists\n2. Build the Tool: Create reusable frameworks to solve root causes, not symptoms \u2014 automate repetitive tasks, standardize processes\n3. Empower the User: Hand off robust, documented tools that make complex processes simple \u2014 clear READMEs, inline comments, training materials\n\nThis pattern shows up whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools."
+    "answer": "A three-step pattern recurs across my career: Deconstruct the Chaos, Build the Tool, Empower the User. Whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools, the same cycle applies.\n\nThe full methodology is detailed on the Philosophy page."
   },
   {
     "category": "process",
