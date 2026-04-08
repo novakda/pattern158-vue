@@ -134,7 +134,7 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 
 - [x] **Phase 33: Data Schema & Type Foundation** - Extend FaqItem types, define unified category taxonomy, migrate all JSON to new schema (completed 2026-04-08)
 - [x] **Phase 34: Content Merge** - Integrate career-vault FAQ content, populate exhibit cross-references, tag all items with unified categories (completed 2026-04-08)
-- [ ] **Phase 35: Interactive Components** - Build FaqAccordionItem, FaqFilterBar, and ExhibitCallout components with full ARIA and tests
+- [x] **Phase 35: Interactive Components** - Build FaqAccordionItem, FaqFilterBar, and ExhibitCallout components with full ARIA and tests (completed 2026-04-08)
 - [ ] **Phase 36: Page Integration & Layout** - Rewrite FaqPage with flat filtered layout, wire components, clean up global CSS, delete old FaqItem
 
 ## Phase Details
@@ -176,10 +176,10 @@ Plans:
   3. User can Tab to any question and press Enter or Space to toggle it (full keyboard accessibility)
   4. Accordion uses WAI-ARIA pattern: button trigger, aria-expanded, aria-controls on each item
   5. Filter bar shows "All" plus one pill per category; clicking a category shows only matching items with a live question count
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 Plans:
-- [ ] 35-01-PLAN.md — FaqAccordionItem component with WAI-ARIA, tests, and stories
-- [ ] 35-02-PLAN.md — FaqFilterBar component with category pills, live count, tests, and stories
+- [x] 35-01-PLAN.md — FaqAccordionItem component with WAI-ARIA, tests, and stories
+- [x] 35-02-PLAN.md — FaqFilterBar component with category pills, live count, tests, and stories
 **UI hint**: yes
 
 ### Phase 36: Page Integration & Layout
@@ -204,5 +204,5 @@ Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 |-------|----------------|--------|-----------|
 | 33. Data Schema & Type Foundation | 1/1 | Complete    | 2026-04-08 |
 | 34. Content Merge | 1/1 | Complete    | 2026-04-08 |
-| 35. Interactive Components | 0/2 | Not started | - |
+| 35. Interactive Components | 2/2 | Complete   | 2026-04-08 |
 | 36. Page Integration & Layout | 0/TBD | Not started | - |
