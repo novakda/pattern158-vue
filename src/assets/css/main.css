@@ -4019,18 +4019,6 @@ footer a,
 }
 
 /* Finding enrichment fields */
-.finding-name-cell {
-    vertical-align: top;
-    white-space: nowrap;
-}
-
-.finding-title {
-    display: block;
-    font-weight: 600;
-    margin-bottom: var(--space-xs);
-    white-space: normal;
-}
-
 .finding-severity {
     display: inline-block;
     padding: 2px var(--space-sm);
@@ -4079,10 +4067,6 @@ footer a,
     font-style: italic;
 }
 
-/* No thead for findings — heading provides context */
-.findings-table thead {
-    display: none;
-}
 
 /* Timeline */
 .page-exhibit-detail .exhibit-timeline {

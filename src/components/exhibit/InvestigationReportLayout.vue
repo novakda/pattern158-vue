@@ -99,11 +99,21 @@ function sectionHasContent(section: ExhibitSection): boolean {
         <div v-if="exhibit.findings?.length" class="exhibit-section">
           <h2>{{ exhibit.findingsHeading || 'Findings' }}</h2>
           <table class="exhibit-table findings-table">
+            <thead>
+              <tr>
+                <th>Finding</th>
+                <th v-if="exhibit.findings.some(f => f.severity)">Severity</th>
+                <th v-if="exhibit.findings.some(f => f.category)">Category</th>
+                <th>Description</th>
+              </tr>
+            </thead>
             <tbody>
               <tr v-for="(f, fi) in exhibit.findings" :key="fi">
-                <td data-label="Finding" class="finding-name-cell">
-                  <span class="finding-title">{{ f.finding }}</span>
+                <td data-label="Finding">{{ f.finding }}</td>
+                <td v-if="exhibit.findings.some(ff => ff.severity)" data-label="Severity">
                   <span v-if="f.severity" :class="['finding-severity', 'finding-severity--' + f.severity.toLowerCase()]">{{ f.severity }}</span>
+                </td>
+                <td v-if="exhibit.findings.some(ff => ff.category)" data-label="Category">
                   <span v-if="f.category" class="finding-category">{{ f.category }}</span>
                 </td>
                 <td data-label="Description">
