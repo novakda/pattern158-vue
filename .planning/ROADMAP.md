@@ -135,7 +135,7 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 - [x] **Phase 33: Data Schema & Type Foundation** - Extend FaqItem types, define unified category taxonomy, migrate all JSON to new schema (completed 2026-04-08)
 - [x] **Phase 34: Content Merge** - Integrate career-vault FAQ content, populate exhibit cross-references, tag all items with unified categories (completed 2026-04-08)
 - [x] **Phase 35: Interactive Components** - Build FaqAccordionItem, FaqFilterBar, and ExhibitCallout components with full ARIA and tests (completed 2026-04-08)
-- [ ] **Phase 36: Page Integration & Layout** - Rewrite FaqPage with flat filtered layout, wire components, clean up global CSS, delete old FaqItem
+- [x] **Phase 36: Page Integration & Layout** - Rewrite FaqPage with flat filtered layout, wire components, clean up global CSS, delete old FaqItem (completed 2026-04-08)
 
 ## Phase Details
 
@@ -192,9 +192,9 @@ Plans:
   3. Category tag pills are visible below question text in both open and closed states
   4. Question text, filter pills, count label, and answer prose are all left-aligned
   5. Old FaqItem.vue is deleted and global .page-faq CSS in main.css is cleaned up (no specificity conflicts)
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 36-01-PLAN.md — Rewrite FaqPage with accordion, filter, exhibit callouts; delete old FaqItem; clean up CSS
+- [x] 36-01-PLAN.md — Rewrite FaqPage with accordion, filter, exhibit callouts; delete old FaqItem; clean up CSS
 **UI hint**: yes
 
 ## Progress
@@ -207,4 +207,4 @@ Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 | 33. Data Schema & Type Foundation | 1/1 | Complete    | 2026-04-08 |
 | 34. Content Merge | 1/1 | Complete    | 2026-04-08 |
 | 35. Interactive Components | 2/2 | Complete    | 2026-04-08 |
-| 36. Page Integration & Layout | 0/TBD | Not started | - |
+| 36. Page Integration & Layout | 1/1 | Complete   | 2026-04-08 |
