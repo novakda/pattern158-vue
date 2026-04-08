@@ -9,8 +9,8 @@ Requirements for FAQ Content Audit milestone. Each maps to roadmap phases.
 
 ### Content Audit
 
-- [ ] **AUDIT-01**: User can review a structured cross-page audit comparing every FAQ answer against corresponding content on all other site pages
-- [ ] **AUDIT-02**: Audit findings include issue type (stale reference, factual drift, content overlap, missing content) and recommended fix
+- [x] **AUDIT-01**: User can review a structured cross-page audit comparing every FAQ answer against corresponding content on all other site pages
+- [x] **AUDIT-02**: Audit findings include issue type (stale reference, factual drift, content overlap, missing content) and recommended fix
 
 ### Stale References
 
@@ -47,8 +47,8 @@ None — this is a focused content audit milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUDIT-01 | Phase 30 | Pending |
-| AUDIT-02 | Phase 30 | Pending |
+| AUDIT-01 | Phase 30 | Complete |
+| AUDIT-02 | Phase 30 | Complete |
 | REFS-01 | Phase 31 | Pending |
 | REFS-02 | Phase 31 | Pending |
 | ACCY-01 | Phase 31 | Pending |

@@ -120,7 +120,7 @@ Full details: `.planning/milestones/v5.2-ROADMAP.md`
 
 **Milestone Goal:** Audit the FAQ page against all other site pages, identify content drift and inconsistencies, then fix accuracy issues and restructure where warranted.
 
-- [ ] **Phase 30: Cross-Page Content Audit** - Produce structured audit comparing every FAQ answer against site content
+- [x] **Phase 30: Cross-Page Content Audit** - Produce structured audit comparing every FAQ answer against site content (completed 2026-04-08)
 - [ ] **Phase 31: Content Fixes** - Fix stale references, factual inaccuracies, and terminology drift in faq.json
 - [ ] **Phase 32: Overlap Resolution** - Restructure FAQ to complement rather than duplicate Contact and Philosophy pages
 
@@ -134,9 +134,9 @@ Full details: `.planning/milestones/v5.2-ROADMAP.md`
   1. Every FAQ question/answer has been compared against relevant content on HomePage, TechnologiesPage, PhilosophyPage, ContactPage, CaseFilesPage, and exhibit data
   2. Each audit finding is classified by issue type (stale reference, factual drift, content overlap, missing content)
   3. Each finding includes a recommended fix or resolution action
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 30-01-PLAN.md — Cross-page content audit and validation
+- [x] 30-01-PLAN.md — Cross-page content audit and validation
 
 ### Phase 31: Content Fixes
 **Goal**: FAQ answers are factually accurate and use current site terminology
@@ -167,6 +167,6 @@ Phases execute in numeric order: 30 -> 31 -> 32
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 30. Cross-Page Content Audit | v5.3 | 0/1 | Not started | - |
+| 30. Cross-Page Content Audit | v5.3 | 1/1 | Complete   | 2026-04-08 |
 | 31. Content Fixes | v5.3 | 0/TBD | Not started | - |
 | 32. Overlap Resolution | v5.3 | 0/TBD | Not started | - |
