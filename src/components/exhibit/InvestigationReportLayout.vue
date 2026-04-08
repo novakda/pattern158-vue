@@ -53,7 +53,7 @@ function sectionHasContent(section: ExhibitSection): boolean {
               <tr>
                 <th>Name</th>
                 <th>Title</th>
-                <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
+                <th>Organization</th>
               </tr>
             </thead>
             <tbody>
