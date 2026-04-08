@@ -10,8 +10,8 @@
 |------------|-------|
 | Stale Reference | 2 |
 | Factual Drift | 2 |
-| Content Overlap | 4 |
-| Missing Content | 5 |
+| Content Overlap | 5 |
+| Missing Content | 4 |
 | No Issues | 5 |
 
 **Total findings: 13 across 9 questions; 5 questions clean.**
@@ -244,3 +244,41 @@
 | Issue | Type | Severity | Source Page | Evidence | Recommended Fix |
 |-------|------|----------|------------|----------|-----------------|
 | No issues found | — | — | All pages checked (HomePage, TechnologiesPage, PhilosophyPage, ContactPage, CaseFilesPage, exhibit data) | FAQ documentation content is self-contained. TechnologiesPage lists "Technical Writing" at deep level, consistent. PhilosophyPage "Empower the User" step mentions documentation but from a different angle (philosophy vs. practice). No drift or problematic overlap. | None needed |
+
+## Validation
+
+**Question coverage:** 14/14 FAQ questions audited (verified against faq.json)
+
+**Category coverage:**
+- Hiring Logistics: 3 questions (Q1-Q3)
+- Technical Expertise: 4 questions (Q4-Q7)
+- Working Style: 4 questions (Q8-Q11)
+- Process & Methodology: 3 questions (Q12-Q14)
+
+**Total findings:** 13
+- Stale Reference: 2 (Q5 "portfolio", Q10 "featured projects")
+- Factual Drift: 2 (Q7 "JPMorgan Chase/Kmart Credit" not in site data, Q7 "Cornell Medical" vs "Weill Cornell Medicine")
+- Content Overlap: 5 (Q1 role interests vs RoleFitSection, Q2 remote/location vs CultureFitSection, Q2/Q8 async/sync duplication within FAQ, Q8 back-reference to Q2, Q12 workflow vs HowIWorkSection)
+- Missing Content: 4 (Q4 tech list missing React/Python/Power Platform/Claude Code, Q4 missing AI & Automation category reference, Q4 techPills gap, Q6 missing Power Platform mention)
+- No Issues: 5 questions (Q3, Q9, Q11, Q13, Q14)
+
+**Finding types breakdown matches summary table:** Yes
+
+**All comparison pages referenced:**
+- HomePage: referenced in Q1, Q4, Q5, Q6, Q8, Q9, Q10, Q11, Q13, Q14
+- TechnologiesPage: referenced in Q1, Q4, Q6, Q8, Q9, Q11, Q13, Q14
+- PhilosophyPage: referenced in Q1, Q6, Q8, Q9, Q11, Q12, Q13, Q14
+- ContactPage: referenced in Q1, Q2, Q3, Q8, Q9, Q11, Q13, Q14
+- CaseFilesPage: referenced in Q1, Q5, Q7, Q8, Q9, Q10, Q11, Q13, Q14
+- Exhibit data: referenced in Q1, Q5, Q6, Q7, Q8, Q9, Q11, Q13, Q14
+
+**Known issues verified:**
+1. FAQ Q5 "portfolio" stale reference: documented (stale reference, high severity)
+2. FAQ Q4 tech list gap: documented (missing content, high severity)
+3. FAQ Q6 "GitHub Spec Kit": verified consistent across all site content
+4. FAQ Q7 industry/company names: documented (factual drift, medium severity)
+5. FAQ Q2/Q8 async/sync overlap: documented (content overlap, medium severity)
+6. FAQ Q12 workflow/HowIWorkSection overlap: documented (content overlap, medium severity)
+7. FAQ accessibility phrasing (WCAG 2.1 AA): consistent — FAQ says "WCAG 2.1 AA", TechnologiesPage WCAG card says "WCAG 2.1 AA and Section 508" — FAQ omits Section 508 but the core phrasing is consistent
+
+**Fix actionability:** All 13 findings include specific recommended fixes referencing Phase 31 (content fixes) or Phase 32 (overlap resolution) with enough detail to implement without re-reading source pages.
