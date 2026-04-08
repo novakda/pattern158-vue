@@ -4018,6 +4018,60 @@ footer a,
     background: var(--color-background-alt);
 }
 
+/* Finding enrichment fields */
+.finding-title {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+}
+
+.finding-severity {
+    display: inline-block;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.finding-severity--critical {
+    background: var(--color-error, #dc2626);
+    color: #fff;
+}
+
+.finding-severity--high {
+    background: var(--color-warning, #d97706);
+    color: #fff;
+}
+
+.finding-severity--medium {
+    background: var(--color-info, #2563eb);
+    color: #fff;
+}
+
+.finding-severity--low {
+    background: var(--color-muted, #6b7280);
+    color: #fff;
+}
+
+.finding-category {
+    display: inline-block;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    background: var(--color-background-alt);
+    color: var(--color-body);
+    margin-left: var(--space-xs);
+}
+
+.finding-resolution,
+.finding-outcome {
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-body-muted, var(--color-body));
+}
+
 /* Timeline */
 .page-exhibit-detail .exhibit-timeline {
     position: relative;

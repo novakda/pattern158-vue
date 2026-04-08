@@ -102,33 +102,21 @@ function sectionHasContent(section: ExhibitSection): boolean {
             <thead>
               <tr>
                 <th>Finding</th>
-                <template v-if="exhibit.findings[0].resolution !== undefined && exhibit.findings[0].severity === undefined">
-                  <th>Description</th>
-                  <th>Resolution</th>
-                </template>
-                <template v-else-if="exhibit.findings[0].severity !== undefined">
-                  <th>Severity</th>
-                  <th>Description</th>
-                </template>
-                <template v-else>
-                  <th>Description</th>
-                </template>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(f, fi) in exhibit.findings" :key="fi">
-                <td data-label="Finding">{{ f.finding }}</td>
-                <template v-if="f.resolution !== undefined && f.severity === undefined">
-                  <td data-label="Description">{{ f.description }}</td>
-                  <td data-label="Resolution">{{ f.resolution }}</td>
-                </template>
-                <template v-else-if="f.severity !== undefined">
-                  <td data-label="Severity">{{ f.severity }}</td>
-                  <td data-label="Description">{{ f.description }}</td>
-                </template>
-                <template v-else>
-                  <td data-label="Description">{{ f.description }}</td>
-                </template>
+                <td data-label="Finding">
+                  <span class="finding-title">{{ f.finding }}</span>
+                  <span v-if="f.severity" :class="['finding-severity', 'finding-severity--' + f.severity.toLowerCase()]">{{ f.severity }}</span>
+                  <span v-if="f.category" class="finding-category">{{ f.category }}</span>
+                </td>
+                <td data-label="Description">
+                  <span v-if="f.description">{{ f.description }}</span>
+                  <p v-if="f.resolution" class="finding-resolution"><strong>Resolution:</strong> {{ f.resolution }}</p>
+                  <p v-if="f.outcome" class="finding-outcome"><strong>Outcome:</strong> {{ f.outcome }}</p>
+                </td>
               </tr>
             </tbody>
           </table>

@@ -180,6 +180,30 @@ describe('FIND-01/FIND-02: findings migration', () => {
     const exhibitJ = exhibits.find(e => e.label === 'Exhibit J')
     expect(exhibitJ?.findingsHeading).toContain('Swiss Cheese Model')
   })
+
+  it('all findings have category values', () => {
+    const allFindings = exhibits.flatMap(e => e.findings || [])
+    const withCategory = allFindings.filter(f => f.category)
+    expect(withCategory.length).toBe(allFindings.length)
+  })
+
+  it('category values use valid taxonomy', () => {
+    const validCategories = ['architecture', 'protocol', 'ux', 'process', 'tooling', 'environment']
+    const allFindings = exhibits.flatMap(e => e.findings || [])
+    allFindings.forEach(f => {
+      expect(validCategories).toContain(f.category)
+    })
+  })
+
+  it('diagnostic exhibits have severity values', () => {
+    const diagnosticLabels = ['Exhibit D', 'Exhibit F', 'Exhibit H', 'Exhibit J', 'Exhibit K', 'Exhibit L']
+    diagnosticLabels.forEach(label => {
+      const ex = exhibits.find(e => e.label === label)
+      ex?.findings?.forEach(f => {
+        expect(f.severity).toBeTruthy()
+      })
+    })
+  })
 })
 
 describe('DATA-03: flagship data merged', () => {
