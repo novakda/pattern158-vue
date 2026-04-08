@@ -1,5 +1,17 @@
 # Milestones
 
+## v5.1 Personnel & Technologies Card Layout (Shipped: 2026-04-08)
+
+**Phases completed:** 1 phase, 1 plan
+
+**Key accomplishments:**
+
+- Personnel and technologies sections get mobile card layout matching findings pattern
+- `.personnel-table` and `.technologies-table` CSS classes with desktop table headers
+- Mobile (≤480px): card view with h3-style headings (name for personnel, category for technologies)
+
+---
+
 ## v5.0 Findings Schema Unification (Shipped: 2026-04-08)
 
 **Phases completed:** 4 phases, 4 plans

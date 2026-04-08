@@ -56,18 +56,11 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ All 45 findings enriched with category, severity (diagnostic exhibits), resolution (where applicable) (ENRH-01/02/03) — v5.0
 - ✓ Layout rendering: severity badges, category tags, resolution/outcome text in both detail layouts (LYOT-01/02/03/04) — v5.0
 
+- ✓ Personnel and technologies mobile card layout matching findings pattern (PERS-04/05, TECH-04/05) — v5.1
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-## Current Milestone: v5.1 Personnel & Technologies Card Layout
-
-**Goal:** Apply the same responsive layout pattern from findings (desktop table with columns, mobile card view) to personnel and technologies sections.
-
-**Target features:**
-- Personnel section: desktop table, mobile card view with h3-style name
-- Technologies section: desktop table, mobile card view with category heading
-- Consistent CSS class pattern mirroring .findings-table
 
 ### Out of Scope
 
@@ -82,7 +75,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v5.0 (2026-04-08) | **Status:** v5.1 in progress
+**Shipped:** v5.1 (2026-04-08) | **Status:** All milestones through v5.1 complete
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. 86 unit tests passing, clean production build.
 
@@ -146,4 +139,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v5.0 milestone completion*
+*Last updated: 2026-04-08 after v5.1 milestone completion*

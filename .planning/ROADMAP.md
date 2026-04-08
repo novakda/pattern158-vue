@@ -9,7 +9,7 @@
 - ✅ **v3.0 Data Externalization** — Phases 17-19 (shipped 2026-04-06)
 - ✅ **v4.0 Exhibit Data Normalization** — Phases 20-22 (shipped 2026-04-07)
 - ✅ **v5.0 Findings Schema Unification** — Phases 23-26 (shipped 2026-04-08)
-- 🚧 **v5.1 Personnel & Technologies Card Layout** — Phase 27 (in progress)
+- ✅ **v5.1 Personnel & Technologies Card Layout** — Phase 27 (shipped 2026-04-08)
 
 ## Phases
 
@@ -95,29 +95,15 @@ Full details: `.planning/milestones/v5.0-ROADMAP.md`
 
 </details>
 
-### v5.1 Personnel & Technologies Card Layout (In Progress)
+<details>
+<summary>v5.1 Personnel & Technologies Card Layout (Phase 27) -- SHIPPED 2026-04-08</summary>
 
-**Milestone Goal:** Apply responsive card layout pattern (desktop table / mobile cards) to personnel and technologies sections, matching the findings-table pattern from v5.0.
+- [x] Phase 27: Personnel & Technologies Card Layout (1/1 plans) -- completed 2026-04-08
 
-- [x] **Phase 27: Personnel & Technologies Card Layout** - Desktop table classes and mobile card views for both section types across both layouts (completed 2026-04-08)
+Full details: `.planning/milestones/v5.1-ROADMAP.md`
 
-## Phase Details
-
-### Phase 27: Personnel & Technologies Card Layout
-**Goal**: Personnel and technologies sections render as structured tables on desktop and readable cards on mobile, matching the findings layout pattern
-**Depends on**: Phase 26
-**Requirements**: PERS-04, PERS-05, TECH-04, TECH-05
-**Success Criteria** (what must be TRUE):
-  1. Personnel section on desktop displays with `.personnel-table` class and visible column headers for all field variants
-  2. Personnel section at 480px or narrower renders as stacked cards with each person's name styled as an h3-level heading
-  3. Technologies section on desktop displays with `.technologies-table` class and visible column headers
-  4. Technologies section at 480px or narrower renders as stacked cards with the technology category as the card heading
-  5. Both card layouts appear identically in EngineeringBriefLayout and InvestigationReportLayout
-**Plans**: TBD
-**UI hint**: yes
+</details>
 
 ## Progress
 
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 27. Personnel & Technologies Card Layout | 0/TBD | Complete    | 2026-04-08 |
+All milestones through v5.1 complete. See `.planning/milestones/` for archived details.
