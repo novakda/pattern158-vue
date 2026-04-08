@@ -109,7 +109,7 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
 
 **Milestone Goal:** Clean up personnel data inconsistencies across 14 exhibits and improve mobile card rendering for edge cases (group entries, anonymized personnel, field misplacement).
 
-- [ ] **Phase 28: Personnel Data Cleanup** - Correct misplaced fields, normalize Exhibit L schema, add entryType markers to all personnel entries
+- [x] **Phase 28: Personnel Data Cleanup** - Correct misplaced fields, normalize Exhibit L schema, add entryType markers to all personnel entries (completed 2026-04-08)
 - [ ] **Phase 29: Personnel Card UX** - Render entryType distinctions on mobile cards and desktop tables with consistent heading logic
 
 ## Phase Details
@@ -124,10 +124,10 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
   3. Every personnel entry across all 14 exhibits has an `entryType` value of `'individual'`, `'group'`, or `'anonymized'`
   4. All 7 group entries are marked `entryType: 'group'` and all anonymized/title-only entries are marked `entryType: 'anonymized'`
   5. TypeScript types compile cleanly with the new optional `entryType` field and all existing tests pass
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [x] 28-01-PLAN.md — Add entryType to PersonnelEntry type and normalize Exhibit L schema
-- [ ] 28-02-PLAN.md — Fix title-as-name entries and add entryType markers to all personnel
+- [x] 28-02-PLAN.md — Fix title-as-name entries and add entryType markers to all personnel
 
 ### Phase 29: Personnel Card UX
 **Goal**: Mobile cards and desktop tables visually distinguish individual, group, and anonymized personnel with consistent heading logic
@@ -147,5 +147,5 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 28. Personnel Data Cleanup | 1/2 | In Progress|  |
+| 28. Personnel Data Cleanup | 2/2 | Complete   | 2026-04-08 |
 | 29. Personnel Card UX | 0/TBD | Not started | - |
