@@ -14,15 +14,15 @@ Requirements for FAQ Content Audit milestone. Each maps to roadmap phases.
 
 ### Stale References
 
-- [ ] **REFS-01**: FAQ answer referencing "portfolio" uses "case files" terminology consistent with v2.0 site restructure
-- [ ] **REFS-02**: FAQ technology listing reflects current primary technologies shown on TechnologiesPage (including React, Python, Power Platform, Claude Code)
+- [x] **REFS-01**: FAQ answer referencing "portfolio" uses "case files" terminology consistent with v2.0 site restructure
+- [x] **REFS-02**: FAQ technology listing reflects current primary technologies shown on TechnologiesPage (including React, Python, Power Platform, Claude Code)
 
 ### Content Accuracy
 
-- [ ] **ACCY-01**: FAQ industry list is factually accurate and consistent with client references on Contact and Case Files pages
-- [ ] **ACCY-02**: FAQ AI/automation answer reflects current tooling and experience (Claude Code as primary, Copilot Studio, practical AI focus)
-- [ ] **ACCY-03**: "GitHub Spec Kit" reference verified or corrected
-- [ ] **ACCY-04**: Accessibility standard phrasing consistent across FAQ and Contact page ("WCAG 2.1 AA" / "Section 508")
+- [x] **ACCY-01**: FAQ industry list is factually accurate and consistent with client references on Contact and Case Files pages
+- [x] **ACCY-02**: FAQ AI/automation answer reflects current tooling and experience (Claude Code as primary, Copilot Studio, practical AI focus)
+- [x] **ACCY-03**: "GitHub Spec Kit" reference verified or corrected
+- [x] **ACCY-04**: Accessibility standard phrasing consistent across FAQ and Contact page ("WCAG 2.1 AA" / "Section 508")
 
 ### Content Overlap
 
@@ -49,12 +49,12 @@ None — this is a focused content audit milestone.
 |-------------|-------|--------|
 | AUDIT-01 | Phase 30 | Complete |
 | AUDIT-02 | Phase 30 | Complete |
-| REFS-01 | Phase 31 | Pending |
-| REFS-02 | Phase 31 | Pending |
-| ACCY-01 | Phase 31 | Pending |
-| ACCY-02 | Phase 31 | Pending |
-| ACCY-03 | Phase 31 | Pending |
-| ACCY-04 | Phase 31 | Pending |
+| REFS-01 | Phase 31 | Complete |
+| REFS-02 | Phase 31 | Complete |
+| ACCY-01 | Phase 31 | Complete |
+| ACCY-02 | Phase 31 | Complete |
+| ACCY-03 | Phase 31 | Complete |
+| ACCY-04 | Phase 31 | Complete |
 | OVLP-01 | Phase 32 | Pending |
 | OVLP-02 | Phase 32 | Pending |
 | OVLP-03 | Phase 32 | Pending |
