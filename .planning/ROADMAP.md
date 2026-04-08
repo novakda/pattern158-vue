@@ -101,7 +101,10 @@ Full details: `.planning/milestones/v4.0-ROADMAP.md`
   1. `FindingEntry` type in `src/types/` includes optional fields: `severity`, `resolution`, `outcome`, `category` alongside existing `finding` and `description`
   2. Exhibit A's findings use `description` instead of `background` (field renamed in exhibits.json, no data loss)
   3. All existing unit tests pass and `vite build` succeeds — no rendering breakage from type or data changes
-**Plans**: TBD
+**Plans:** 1 plan
+
+Plans:
+- [ ] 23-01-PLAN.md — Update FindingEntry type and normalize Exhibit A background to description
 
 ### Phase 24: Findings Backfill
 **Goal**: Five exhibits that currently lack findings arrays have structured findings extracted from their narrative content, and all exhibits with non-default headings carry a findingsHeading field
@@ -168,7 +171,7 @@ Phases execute in numeric order: 23 -> 24 -> 25 -> 26
 | 20. Personnel Migration | v4.0 | 2/2 | Complete | 2026-04-07 |
 | 21. Technologies Migration | v4.0 | 2/2 | Complete | 2026-04-07 |
 | 22. Findings Migration | v4.0 | 2/2 | Complete | 2026-04-07 |
-| 23. Schema Foundation | v5.0 | 0/0 | Not started | - |
+| 23. Schema Foundation | v5.0 | 0/1 | Not started | - |
 | 24. Findings Backfill | v5.0 | 0/0 | Not started | - |
 | 25. Field Enrichment | v5.0 | 0/0 | Not started | - |
 | 26. Layout Rendering | v5.0 | 0/0 | Not started | - |
