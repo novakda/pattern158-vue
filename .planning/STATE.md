@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v5.0
-milestone_name: Findings Schema Unification
-status: executing
-stopped_at: v5.0 roadmap created — ready to plan Phase 23
-last_updated: "2026-04-08T01:02:55.242Z"
+milestone: v5.1
+milestone_name: Personnel & Technologies Card Layout
+status: defining-requirements
+stopped_at: Milestone started, defining requirements
+last_updated: "2026-04-08"
 last_activity: 2026-04-08
 progress:
-  total_phases: 4
-  completed_phases: 1
-  total_plans: 1
-  completed_plans: 4
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 0
 ---
 
@@ -18,44 +18,25 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-07)
+See: .planning/PROJECT.md (updated 2026-04-08)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 26 — Layout Rendering
+**Current focus:** Defining requirements for v5.1 Personnel & Technologies Card Layout
 
 ## Current Position
 
-Phase: 26
-Plan: Not started
-Status: Executing Phase 26
-Last activity: 2026-04-08
-
-Progress: [░░░░░░░░░░] 0% (v5.0 milestone)
-
-## Performance Metrics
-
-**Velocity:**
-
-- Total plans completed: 38
-- Recent milestone (v4.0): 6 plans in 1 day
-
-**By Phase (v4.0):**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 20 | 2 | ~20 min | ~10 min |
-| 21 | 2 | ~20 min | ~10 min |
-| 22 | 2 | ~20 min | ~10 min |
-
-**Recent Trend:** Stable — v4.0 executed cleanly in one session
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-08 — Milestone v5.1 started
 
 ## Accumulated Context
 
 ### Decisions
 
-- [Phase 22]: Field-presence variant detection in templates (v-if on field existence, no discriminant needed)
-- [Phase 22]: `findingsHeading` for non-default headings (optional field, layout renders fallback)
-- [v4.0]: First-class typed arrays for recurring table data (31 sections eliminated)
+- [v5.0]: Findings use NTSB-style diagnostic discoveries only, not outcomes or observations
+- [v5.0]: Severity applies only to diagnostic/technical findings
+- [v5.0]: Desktop table with conditional columns + mobile card view pattern established for findings
 
 ### Pending Todos
 
@@ -63,10 +44,10 @@ None.
 
 ### Blockers/Concerns
 
-- Content changes (BKFL, ENRH phases) require user approval per CONT-02 gate — findings extraction and enrichment values must be reviewed before committing
+None.
 
 ## Session Continuity
 
-Last session: 2026-04-07
-Stopped at: v5.0 roadmap created — ready to plan Phase 23
+Last session: 2026-04-08
+Stopped at: Milestone v5.1 started — defining requirements
 Resume file: None
