@@ -132,7 +132,7 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 
 **Milestone Goal:** Replace the static FAQ layout with an interactive accordion component featuring category filtering, career-vault content integration, and exhibit cross-reference callouts.
 
-- [ ] **Phase 33: Data Schema & Type Foundation** - Extend FaqItem types, define unified category taxonomy, migrate all JSON to new schema
+- [x] **Phase 33: Data Schema & Type Foundation** - Extend FaqItem types, define unified category taxonomy, migrate all JSON to new schema (completed 2026-04-08)
 - [ ] **Phase 34: Content Merge** - Integrate career-vault FAQ content, populate exhibit cross-references, tag all items with unified categories
 - [ ] **Phase 35: Interactive Components** - Build FaqAccordionItem, FaqFilterBar, and ExhibitCallout components with full ARIA and tests
 - [ ] **Phase 36: Page Integration & Layout** - Rewrite FaqPage with flat filtered layout, wire components, clean up global CSS, delete old FaqItem
@@ -149,9 +149,9 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
   3. FaqItem TypeScript type includes optional `exhibitNote: string` field
   4. A unified category taxonomy of 6-8 categories exists covering both existing site and career-vault topics
   5. TypeScript compiler passes with zero errors after schema changes
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 33-01-PLAN.md — Extend types, define 7-category taxonomy, migrate JSON data
+- [x] 33-01-PLAN.md — Extend types, define 7-category taxonomy, migrate JSON data
 
 ### Phase 34: Content Merge
 **Goal**: All FAQ content (existing site + career vault) is unified in a single JSON source with accurate category tags and exhibit references
@@ -196,7 +196,7 @@ Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 33. Data Schema & Type Foundation | 0/1 | Not started | - |
+| 33. Data Schema & Type Foundation | 1/1 | Complete   | 2026-04-08 |
 | 34. Content Merge | 0/TBD | Not started | - |
 | 35. Interactive Components | 0/TBD | Not started | - |
 | 36. Page Integration & Layout | 0/TBD | Not started | - |
