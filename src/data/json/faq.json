@@ -7,7 +7,7 @@
   {
     "category": "hiring",
     "question": "What's your work arrangement preference?",
-    "answer": "Remote is ideal. I'm also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically). I have 28+ years of experience working effectively with distributed teams across time zones.\n\nI'm comfortable with async communication (email, Slack, documentation) and sync collaboration (video calls, pair programming) depending on what the project needs."
+    "answer": "Remote is ideal. I'm also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically). I have 28+ years of experience working effectively with distributed teams across time zones."
   },
   {
     "category": "hiring",
@@ -17,7 +17,7 @@
   {
     "category": "expertise",
     "question": "What technologies do you specialize in?",
-    "answer": "Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA)"
+    "answer": "Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nAlso production experience with: React, Python, Power Platform, Claude Code\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA). See also Q6 for AI and automation experience."
   },
   {
     "category": "expertise",
@@ -32,7 +32,7 @@
   {
     "category": "expertise",
     "question": "What industries have you worked in?",
-    "answer": "Banking (PNC, JPMorgan Chase, Kmart Credit), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Retail (GM, Kmart), Healthcare (Cornell Medical), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another."
+    "answer": "Banking (PNC, HSBC, Wells Fargo, TD Bank), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Automotive (General Motors), Healthcare (Weill Cornell Medicine), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another."
   },
   {
     "category": "style",
