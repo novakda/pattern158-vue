@@ -124,7 +124,10 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
   3. Every personnel entry across all 14 exhibits has an `entryType` value of `'individual'`, `'group'`, or `'anonymized'`
   4. All 7 group entries are marked `entryType: 'group'` and all anonymized/title-only entries are marked `entryType: 'anonymized'`
   5. TypeScript types compile cleanly with the new optional `entryType` field and all existing tests pass
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 28-01-PLAN.md — Add entryType to PersonnelEntry type and normalize Exhibit L schema
+- [ ] 28-02-PLAN.md — Fix title-as-name entries and add entryType markers to all personnel
 
 ### Phase 29: Personnel Card UX
 **Goal**: Mobile cards and desktop tables visually distinguish individual, group, and anonymized personnel with consistent heading logic
@@ -144,5 +147,5 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 28. Personnel Data Cleanup | 0/TBD | Not started | - |
+| 28. Personnel Data Cleanup | 0/2 | Not started | - |
 | 29. Personnel Card UX | 0/TBD | Not started | - |
