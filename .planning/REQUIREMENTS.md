@@ -1,0 +1,61 @@
+# Requirements: Pattern 158 Vue Conversion
+
+**Defined:** 2026-04-07
+**Core Value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
+
+## v5.2 Requirements
+
+Requirements for Personnel Data Normalization & Card UX milestone.
+
+### Data Normalization
+
+- [ ] **DATA-01**: Personnel entries with titles/roles in the `name` field are corrected — name contains person name or is omitted, role goes to `title` or `role`
+- [ ] **DATA-02**: Exhibit L personnel normalized from `role`/`involvement` to standard `name`/`title`/`organization` schema
+- [ ] **DATA-03**: PersonnelEntry type extended with optional `entryType` field: `'individual' | 'group' | 'anonymized'`
+- [ ] **DATA-04**: All group entries (7 across 7 exhibits) marked with `entryType: 'group'`
+- [ ] **DATA-05**: All anonymized/unnamed personnel (Exhibit A's 5 + title-only entries) marked with `entryType: 'anonymized'`
+
+### Card UX
+
+- [ ] **CARD-01**: Group personnel entries render as compact/muted cards — reduced prominence vs individual cards
+- [ ] **CARD-02**: Anonymized personnel entries render with visual distinction (italic/muted treatment or indicator)
+- [ ] **CARD-03**: Card heading logic uses best available field: name → title → role, consistent across all personnel variants
+- [ ] **CARD-04**: Desktop table view handles entryType distinctions (muted row for group, italic for anonymized)
+
+## Future Requirements
+
+None deferred from this milestone.
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Personnel data enrichment (adding missing names) | This is data normalization, not content creation — Dan must approve any name additions separately |
+| Technologies/findings data normalization | Out of scope — personnel only for v5.2 |
+| New card component extraction | Existing card layout from v5.1 is sufficient — enhance, don't restructure |
+| Exhibit O personnel array creation | Exhibit O has no personnel data — don't fabricate it |
+
+## Traceability
+
+Which phases cover which requirements. Updated during roadmap creation.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| DATA-01 | — | Pending |
+| DATA-02 | — | Pending |
+| DATA-03 | — | Pending |
+| DATA-04 | — | Pending |
+| DATA-05 | — | Pending |
+| CARD-01 | — | Pending |
+| CARD-02 | — | Pending |
+| CARD-03 | — | Pending |
+| CARD-04 | — | Pending |
+
+**Coverage:**
+- v5.2 requirements: 9 total
+- Mapped to phases: 0
+- Unmapped: 9 ⚠️
+
+---
+*Requirements defined: 2026-04-07*
+*Last updated: 2026-04-07 after initial definition*
