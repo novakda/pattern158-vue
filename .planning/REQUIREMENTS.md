@@ -114,27 +114,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SCHM-01 | Pending | Pending |
-| SCHM-02 | Pending | Pending |
-| SCHM-03 | Pending | Pending |
-| BKFL-01 | Pending | Pending |
-| BKFL-02 | Pending | Pending |
-| BKFL-03 | Pending | Pending |
-| BKFL-04 | Pending | Pending |
-| BKFL-05 | Pending | Pending |
-| ENRH-01 | Pending | Pending |
-| ENRH-02 | Pending | Pending |
-| ENRH-03 | Pending | Pending |
-| LYOT-01 | Pending | Pending |
-| LYOT-02 | Pending | Pending |
-| LYOT-03 | Pending | Pending |
-| LYOT-04 | Pending | Pending |
+| SCHM-01 | Phase 23 | Pending |
+| SCHM-02 | Phase 23 | Pending |
+| SCHM-03 | Phase 24 | Pending |
+| BKFL-01 | Phase 24 | Pending |
+| BKFL-02 | Phase 24 | Pending |
+| BKFL-03 | Phase 24 | Pending |
+| BKFL-04 | Phase 24 | Pending |
+| BKFL-05 | Phase 24 | Pending |
+| ENRH-01 | Phase 25 | Pending |
+| ENRH-02 | Phase 25 | Pending |
+| ENRH-03 | Phase 25 | Pending |
+| LYOT-01 | Phase 26 | Pending |
+| LYOT-02 | Phase 26 | Pending |
+| LYOT-03 | Phase 26 | Pending |
+| LYOT-04 | Phase 26 | Pending |
 
 **Coverage:**
 - v5.0 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15
+- Mapped to phases: 15
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-07*
-*Last updated: 2026-04-07 after initial definition*
+*Last updated: 2026-04-07 after roadmap creation*
