@@ -1200,10 +1200,10 @@
         "role": "Engagement coordination, client relationship management"
       },
       {
-        "title": "Lead Developer",
+        "title": "Software Developer",
         "organization": "GP Strategies",
         "entryType": "anonymized",
-        "role": "HSBC deliverables development"
+        "role": "Lead Developer — HSBC deliverables development"
       },
       {
         "title": "Performance Consultant (Mexico)",
@@ -1800,8 +1800,8 @@
     "role": "NTSB-style forensic analysis — systems thinking over code debugging",
     "personnel": [
       {
-        "title": "Director",
-        "role": "Investigation Lead — Project authorization, stakeholder management, investigation oversight",
+        "title": "Director of Learning Technologies",
+        "role": "Investigation lead — project authorization, stakeholder management, investigation oversight",
         "organization": "GP Strategies",
         "entryType": "anonymized"
       },
@@ -1812,7 +1812,7 @@
         "entryType": "individual"
       },
       {
-        "title": "Data Analyst / UX Researcher",
+        "title": "Functional QA Lead",
         "role": "Data analysis, UX evaluation, user interviews, behavioral research",
         "organization": "GP Strategies",
         "entryType": "anonymized"
@@ -1981,9 +1981,10 @@
     "personnel": [
       {
         "name": "Max Glick",
-        "title": "Lead Developer / Engineering Manager",
+        "title": "Engineering Manager",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Lead Developer"
       },
       {
         "name": "Dan Novak",
@@ -2156,10 +2157,10 @@
         "role": "Original architects of the Power Platform solution"
       },
       {
-        "title": "Lead Developer (anonymized)",
+        "title": "Developer (anonymized)",
         "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.",
         "entryType": "anonymized",
-        "role": "Primary developer on the existing Power Platform solution"
+        "role": "Lead developer on the existing Power Platform solution"
       },
       {
         "title": "Governance Architect (anonymized)",
