@@ -51,28 +51,16 @@ function sectionHasContent(section: ExhibitSection): boolean {
           <table class="exhibit-table personnel-table">
             <thead>
               <tr>
-                <template v-if="exhibit.personnel[0].involvement">
-                  <th>Role</th>
-                  <th>Involvement</th>
-                </template>
-                <template v-else>
-                  <th>Name</th>
-                  <th>Title</th>
-                  <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
-                </template>
+                <th>Name</th>
+                <th>Title</th>
+                <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(p, pi) in exhibit.personnel" :key="pi">
-                <template v-if="p.involvement">
-                  <td data-label="Role">{{ p.role }}</td>
-                  <td data-label="Involvement">{{ p.involvement }}</td>
-                </template>
-                <template v-else>
-                  <td data-label="Name">{{ p.name }}</td>
-                  <td data-label="Title">{{ p.title }}</td>
-                  <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
-                </template>
+              <tr v-for="(p, pi) in exhibit.personnel" :key="pi" :class="{ 'personnel-entry-group': p.entryType === 'group', 'personnel-entry-anonymized': p.entryType === 'anonymized' }">
+                <td :data-label="p.name ? 'Name' : (p.title ? 'Title' : 'Role')">{{ p.name || p.title || p.role }}</td>
+                <td data-label="Title">{{ p.title }}</td>
+                <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
               </tr>
             </tbody>
           </table>
