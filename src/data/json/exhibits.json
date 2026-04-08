@@ -360,19 +360,6 @@
         "entryType": "individual"
       },
       {
-        "name": "Tracey Nicholson",
-        "title": "Program Coordinator",
-        "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "On-site EB account support"
-      },
-      {
-        "name": "Quinn Gladu",
-        "title": "Training Operations Manager",
-        "organization": "GD-AIS",
-        "entryType": "individual"
-      },
-      {
         "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
@@ -391,22 +378,25 @@
         "entryType": "group"
       },
       {
-        "title": "Program Manager",
+        "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
-        "role": "Coordinated engagement",
-        "entryType": "anonymized"
+        "role": "EB account coordination",
+        "entryType": "individual",
+        "name": "Allison McGuire"
       },
       {
-        "title": "Co-Investigator",
+        "title": "Functional QA Lead",
         "organization": "GP Strategies",
-        "role": "Assisted with testing",
-        "entryType": "anonymized"
+        "role": "QA testing and co-investigation",
+        "entryType": "individual",
+        "name": "Deborah Schultz"
       },
       {
-        "title": "Curriculum Developer",
+        "title": "Course Developer",
         "organization": "Electric Boat",
-        "role": "Collaborated on testing",
-        "entryType": "anonymized"
+        "role": "EB content development and testing",
+        "entryType": "individual",
+        "name": "Sascia Hayden"
       },
       {
         "title": "Curriculum Developer",
@@ -417,8 +407,9 @@
       {
         "title": "Training Analyst Specialist",
         "organization": "Electric Boat",
-        "role": "Provided technical data",
-        "entryType": "anonymized"
+        "role": "Course content and technical data support",
+        "entryType": "individual",
+        "name": "Lisa Jackson"
       }
     ]
   },
@@ -537,24 +528,11 @@
         "role": "Initiated EB engagement Sept 2017"
       },
       {
-        "name": "Tracey Nicholson",
-        "title": "Program Coordinator",
-        "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "On-site EB account support"
-      },
-      {
-        "name": "Quinn Gladu",
-        "title": "Training Operations Manager",
-        "organization": "GD-AIS",
-        "entryType": "individual"
-      },
-      {
         "name": "GP On-Site EB Team",
-        "title": "On-Site Team (3 members)",
+        "title": "Account support and coordination",
         "organization": "GP Strategies",
         "entryType": "group",
-        "role": "Independently relayed feedback (April 2019)"
+        "role": "Multiple GP staff relayed independent positive feedback about Dan (April 2019)"
       }
     ]
   },

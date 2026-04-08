@@ -276,8 +276,8 @@ describe('DATA-01/DATA-04/DATA-05: personnel data cleanup', () => {
     })
   })
 
-  it('total personnel count is 67', () => {
-    expect(allPersonnel).toHaveLength(67)
+  it('total personnel count is 63', () => {
+    expect(allPersonnel).toHaveLength(63)
   })
 
   it('exactly 7 group entries (DATA-04)', () => {
@@ -296,10 +296,10 @@ describe('DATA-01/DATA-04/DATA-05: personnel data cleanup', () => {
     ])
   })
 
-  it('Exhibit A has 5 anonymized entries (DATA-05)', () => {
+  it('Exhibit A has 1 anonymized entry (DATA-05)', () => {
     const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
     const anonymized = (exhibitA?.personnel || []).filter(p => p.entryType === 'anonymized')
-    expect(anonymized).toHaveLength(5)
+    expect(anonymized).toHaveLength(1)
   })
 
   it('individual entries all have a name field', () => {
