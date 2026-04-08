@@ -26,9 +26,9 @@ Requirements for FAQ Content Audit milestone. Each maps to roadmap phases.
 
 ### Content Overlap
 
-- [ ] **OVLP-01**: FAQ work arrangement, communication, and independence questions don't redundantly duplicate Contact page CultureFit/RoleFit content
-- [ ] **OVLP-02**: FAQ "typical workflow" answer doesn't redundantly duplicate Philosophy page "How I Work" section
-- [ ] **OVLP-03**: Where overlap exists, FAQ adds value beyond what Contact/Philosophy already covers (different angle, different audience, or consolidated)
+- [x] **OVLP-01**: FAQ work arrangement, communication, and independence questions don't redundantly duplicate Contact page CultureFit/RoleFit content
+- [x] **OVLP-02**: FAQ "typical workflow" answer doesn't redundantly duplicate Philosophy page "How I Work" section
+- [x] **OVLP-03**: Where overlap exists, FAQ adds value beyond what Contact/Philosophy already covers (different angle, different audience, or consolidated)
 
 ## Future Requirements
 
@@ -55,9 +55,9 @@ None — this is a focused content audit milestone.
 | ACCY-02 | Phase 31 | Complete |
 | ACCY-03 | Phase 31 | Complete |
 | ACCY-04 | Phase 31 | Complete |
-| OVLP-01 | Phase 32 | Pending |
-| OVLP-02 | Phase 32 | Pending |
-| OVLP-03 | Phase 32 | Pending |
+| OVLP-01 | Phase 32 | Complete |
+| OVLP-02 | Phase 32 | Complete |
+| OVLP-03 | Phase 32 | Complete |
 
 **Coverage:**
 - v5.3 requirements: 11 total

@@ -122,7 +122,7 @@ Full details: `.planning/milestones/v5.2-ROADMAP.md`
 
 - [x] **Phase 30: Cross-Page Content Audit** - Produce structured audit comparing every FAQ answer against site content (completed 2026-04-08)
 - [x] **Phase 31: Content Fixes** - Fix stale references, factual inaccuracies, and terminology drift in faq.json (completed 2026-04-08)
-- [ ] **Phase 32: Overlap Resolution** - Restructure FAQ to complement rather than duplicate Contact and Philosophy pages
+- [x] **Phase 32: Overlap Resolution** - Restructure FAQ to complement rather than duplicate Contact and Philosophy pages (completed 2026-04-08)
 
 ## Phase Details
 
@@ -160,9 +160,9 @@ Plans:
   1. FAQ work arrangement, communication, and independence questions provide value beyond what Contact page CultureFit/RoleFit sections already cover
   2. FAQ "typical workflow" answer is differentiated from Philosophy page "How I Work" section content
   3. Where overlap exists, FAQ adds a distinct angle (e.g., quick-scan summary vs. detailed philosophy, different audience framing, or consolidated reference)
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 32-01-PLAN.md — Shorten Q2 and Q12 with cross-references to Contact and Philosophy pages
+- [x] 32-01-PLAN.md — Shorten Q2 and Q12 with cross-references to Contact and Philosophy pages
 
 ## Progress
 
@@ -173,4 +173,4 @@ Phases execute in numeric order: 30 -> 31 -> 32
 |-------|-----------|----------------|--------|-----------|
 | 30. Cross-Page Content Audit | v5.3 | 1/1 | Complete    | 2026-04-08 |
 | 31. Content Fixes | v5.3 | 1/1 | Complete    | 2026-04-08 |
-| 32. Overlap Resolution | v5.3 | 0/1 | Not started | - |
+| 32. Overlap Resolution | v5.3 | 1/1 | Complete   | 2026-04-08 |
