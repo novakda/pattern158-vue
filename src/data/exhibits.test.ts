@@ -276,8 +276,8 @@ describe('DATA-01/DATA-04/DATA-05: personnel data cleanup', () => {
     })
   })
 
-  it('total personnel count is 66', () => {
-    expect(allPersonnel).toHaveLength(66)
+  it('total personnel count is 67', () => {
+    expect(allPersonnel).toHaveLength(67)
   })
 
   it('exactly 7 group entries (DATA-04)', () => {

@@ -353,15 +353,23 @@
         "role": "Lead Investigator"
       },
       {
-        "name": "Tracey Nicholson",
+        "name": "Charlie Rando",
         "title": "Chief of Learning Services, Metrics, Processes & Technology",
         "organization": "Electric Boat",
+        "role": "Primary client contact and technical collaborator",
         "entryType": "individual"
       },
       {
+        "name": "Tracey Nicholson",
+        "title": "Program Coordinator",
+        "organization": "GP Strategies",
+        "entryType": "individual",
+        "role": "On-site EB account support"
+      },
+      {
         "name": "Quinn Gladu",
-        "title": "Chief of Learning Services",
-        "organization": "Electric Boat",
+        "title": "Training Operations Manager",
+        "organization": "GD-AIS",
         "entryType": "individual"
       },
       {
@@ -374,12 +382,6 @@
         "name": "Josh Stoudt",
         "title": "Senior Director, Learning Solutions",
         "organization": "GP Strategies",
-        "entryType": "individual"
-      },
-      {
-        "name": "Chris Emmons",
-        "title": "LMS Administrator",
-        "organization": "Electric Boat",
         "entryType": "individual"
       },
       {
@@ -522,6 +524,13 @@
         "role": "15+ years GP leadership"
       },
       {
+        "name": "Charlie Rando",
+        "title": "Chief of Learning Services, Metrics, Processes & Technology",
+        "organization": "Electric Boat",
+        "role": "Primary client contact",
+        "entryType": "individual"
+      },
+      {
         "title": "SVP of Learning Solutions",
         "organization": "GP Strategies",
         "entryType": "anonymized",
@@ -529,14 +538,15 @@
       },
       {
         "name": "Tracey Nicholson",
-        "title": "Chief of Learning Services, Metrics, Processes & Technology",
-        "organization": "Electric Boat",
-        "entryType": "individual"
+        "title": "Program Coordinator",
+        "organization": "GP Strategies",
+        "entryType": "individual",
+        "role": "On-site EB account support"
       },
       {
         "name": "Quinn Gladu",
-        "title": "Chief of Learning Services",
-        "organization": "Electric Boat",
+        "title": "Training Operations Manager",
+        "organization": "GD-AIS",
         "entryType": "individual"
       },
       {
