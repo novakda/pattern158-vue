@@ -1,175 +1,217 @@
 # Feature Research
 
-**Domain:** JSON data externalization in Vue 3 + TypeScript + Vite
-**Researched:** 2026-04-06
+**Domain:** Interactive FAQ page with accordion, category filtering, and exhibit cross-references
+**Researched:** 2026-04-08
 **Confidence:** HIGH
-
-## Context Note
-
-This is a **data externalization milestone** (v3.0), not a greenfield build. The v2.1 site is complete with 11 TypeScript data files in `src/data/` exporting typed arrays/objects, consumed by Vue components across 9 pages. 15 exhibit records with complex nested structures and union types. 64 unit tests passing. The goal is to decouple content (JSON) from code (TypeScript types), preparing for future CMS integration without breaking anything.
-
-The critical constraint: **25+ import statements** across pages, components, and test files reference `@/data/*` paths. The migration must preserve these paths or update them systematically.
-
----
 
 ## Feature Landscape
 
 ### Table Stakes (Users Expect These)
 
-Features that are non-negotiable for a correct JSON externalization. Missing any of these means the migration is incomplete or broken.
+Features users assume exist on any interactive FAQ page. Missing these = feels broken.
 
 | Feature | Why Expected | Complexity | Notes |
 |---------|--------------|------------|-------|
-| JSON files replacing TS data exports | The entire point of the milestone -- decouple content from code | LOW | Vite natively imports `.json` with `resolveJsonModule: true` (already set in tsconfig). Each of the 11 data files becomes a `.json` file in `src/data/`. |
-| Centralized type definitions in `src/types/` | Types currently co-located with data in `.ts` files. Moving data to JSON means types must live elsewhere. | LOW | Create `src/types/` directory. Move all `export interface` and `export type` declarations from `src/data/*.ts` into dedicated type files. |
-| Type-safe re-export modules | Components currently import both data and types from `src/data/foo`. Import paths must remain stable. | MEDIUM | Each `src/data/*.ts` becomes a thin re-export module: imports JSON, asserts type, re-exports. This preserves existing import paths and provides the type assertion layer. |
-| Zero breaking changes to component imports | 25+ import statements across pages, components, and tests reference `@/data/*`. All must continue working. | MEDIUM | The re-export pattern (`src/data/exhibits.ts` imports `exhibits.json` and re-exports typed data) makes this seamless. Alternative: update all imports directly to JSON + separate type imports, but that is unnecessary churn. |
-| All 64 tests passing after migration | Existing test suite is the regression safety net. | LOW | Tests import from `@/data/*` -- if re-export modules preserve signatures, tests pass without changes. |
-| Clean production build | Vite must bundle JSON correctly with tree-shaking. | LOW | Vite handles JSON imports natively -- no configuration needed. JSON is statically analyzable and tree-shakeable at the property level. |
+| Click-to-toggle accordion | Users expect to expand/collapse individual answers; all-visible is a wall of text | LOW | Replace static `FaqItem.vue` with button-driven toggle. Button + `aria-expanded` + `aria-controls` is the standard accessible pattern. Avoid `<details>`/`<summary>` — limited styling control and inconsistent animation support. |
+| Visual expand/collapse indicator | Users need affordance showing items are interactive; +/x or chevron rotation is universal | LOW | +/x icon matches PROJECT.md spec. CSS-only swap on `.is-open` class. Use existing design token sizing. |
+| Multi-open support | Users expect to compare answers side by side. Single-open (only one at a time) feels hostile on desktop. | LOW | Simpler than single-open — each item manages its own boolean, no coordination needed. |
+| Category section headings preserved | Existing page has named sections with intros. Removing them degrades scannability. | LOW | Already exist in `faqCategories`. Keep `<h2>` + intro text per category section. |
+| Keyboard accessibility | Tab to question, Enter/Space to toggle, focus visible states | LOW | Native with `<button>` trigger. Must not use `<div @click>` — existing codebase uses ARIA correctly elsewhere (NavBar). |
+| Responsive layout | Full-width stacked layout that works mobile through desktop | LOW | Existing `.faq-category` already constrained to 800px max-width. Stacked layout is the natural accordion shape. |
+| Horizontal rule separators between items | Visual separation between FAQ entries in a full-width stacked layout | LOW | `border-bottom` on each item or `<hr>` between items. Use existing `--color-border` token. |
 
 ### Differentiators (Competitive Advantage)
 
-Features that elevate the migration from "it works" to "it's well-engineered." These demonstrate portfolio-quality engineering decisions.
+Features that elevate this FAQ page from generic to portfolio-grade showcase.
 
 | Feature | Value Proposition | Complexity | Notes |
 |---------|-------------------|------------|-------|
-| Type assertion with `satisfies` operator | Proves the JSON data conforms to TypeScript interfaces at import time, catching data/type drift. Portfolio-quality type safety. | LOW | Pattern: `import raw from './exhibits.json'; export const exhibits = raw as Exhibit[];` with compile-time validation. `satisfies` provides even stricter checking if the inferred JSON shape is close enough. Available since TypeScript 4.9. |
-| Consistent type file organization | Single `src/types/` directory with clear naming conventions makes the type system discoverable. | LOW | One type file per domain: `exhibit.types.ts`, `technology.types.ts`, etc. Cross-cutting types (like `Tag`, `ExpertiseLevel`) that currently live in component `.types.ts` files need resolution. |
-| Cross-dependency resolution for shared types | `technologies.ts` imports types from component files (`TechTags.types.ts`, `ExpertiseBadge.types.ts`). This dependency must be cleanly resolved. | MEDIUM | Move `Tag` and `ExpertiseLevel` to `src/types/` and have both data re-exports and components import from there. Types flow outward from `src/types/` to both data and components. |
-| Discriminated union types preserved in JSON | The `exhibitType` discriminant (`'investigation-report' | 'engineering-brief'`) and `ExhibitSection.type` (`'text' | 'table' | 'flow' | 'timeline' | 'metadata'`) must narrow correctly when loaded from JSON. | LOW | JSON string values work with discriminated unions via type assertion. The re-export module's type annotation ensures the literal values match the union. |
-| `as const` category arrays preserved | `faqCategories` uses `as const` for literal types on `id` fields. JSON imports lose `as const` narrowing. | MEDIUM | The re-export module must re-assert the const narrowing. Either define a typed constant with literal types, or use `as const satisfies` on the imported value. This is the one place where JSON import behavior differs meaningfully from inline TS. |
+| Category filter bar with pill buttons | Lets users drill into a category (hiring, expertise, style, process) without scrolling. Live question count shows content density per category. Demonstrates Vue reactivity and component design. | MEDIUM | Pill buttons map 1:1 to existing `faqCategories` array. "All" pseudo-category shows everything. One active filter at a time (radio behavior, not multi-select). `computed` filters `faqItems` by selected category. Count badge on each pill = `faqItems.filter(i => i.category === cat.id).length`. |
+| Exhibit cross-reference callout blocks | Connects FAQ answers to case file evidence. Portfolio-specific — shows the site's content is interconnected, not siloed. Demonstrates attention to information architecture. | MEDIUM | New optional `exhibitNote` field on `FaqItem` type. Renders as a styled aside/callout block with left-border accent (matching existing exhibit detail border accent pattern). Only renders when `exhibitNote` is present. Not a link to exhibit — just a textual reference with visual distinction. |
+| Live question count on filter pills | Shows users how many questions exist per category before they filter. Micro-detail that signals polish. | LOW | Derived from data — `faqItems.filter(i => i.category === id).length` rendered in pill. Updates if items are filtered. |
+| Smooth open/close transition | CSS transition on max-height or grid-template-rows for answer reveal. Avoids jarring jump. | LOW | `grid-template-rows: 0fr` to `1fr` transition is the modern approach (no max-height hack). Wrap answer in container with `overflow: hidden`. BUT — PROJECT.md lists "Animations/transitions" as out of scope. Implement with CSS class toggle only; defer animation to future pass. |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
+Features that seem good but create problems for this specific context.
+
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| Runtime JSON validation (Zod/Valibot) | "What if the JSON is malformed?" | The JSON is co-located in the repo and checked at compile time via TypeScript. Runtime validation adds a dependency and bundle size for data that never changes at runtime. This is a static site, not a CMS. | Use TypeScript type assertions for compile-time validation. Add JSON linting in CI if extra confidence is wanted. |
-| JSON Schema files alongside data | "Document the shape of each JSON file" | TypeScript interfaces ARE the schema. JSON Schema would duplicate them and drift. Maintaining two sources of truth is worse than one. | TypeScript types in `src/types/` are the single source of truth. |
-| Dynamic `import()` for JSON files | "Lazy-load data for performance" | Total data is ~180KB of TypeScript (mostly exhibits at 138KB). As JSON without type definitions, it will be smaller. This is a portfolio site with 9 routes already lazy-loaded. Per-file JSON lazy loading adds complexity for negligible gain. | Static imports. Vite bundles JSON into route chunks automatically via lazy-loaded pages. |
-| YAML/TOML instead of JSON | "More human-readable for content editing" | Adds a build-time transform step, a parser dependency, and breaks `resolveJsonModule`. JSON is natively supported by TypeScript and Vite with zero configuration. | Use JSON. It is not as pretty for hand-editing, but it is zero-config and type-safe. |
-| Auto-generating types from JSON | "Derive types from the data" | Types should be authoritative (designed), not derived (inferred). The existing interfaces have optional fields, union types, and semantic meaning that inference would lose or flatten. | Hand-authored types in `src/types/`, JSON validated against them. |
-| Splitting exhibits.json into per-exhibit files | "One file per exhibit for easier editing" | 15 exhibits is not enough to justify per-file splitting. It would require a dynamic import pattern or a barrel file that reassembles them, adding complexity for no real gain. | Single `exhibits.json` array. Revisit at 50+ exhibits (which is explicitly out of scope per PROJECT.md). |
-| Moving data to `public/` for runtime fetch | "Prepare for CMS by fetching JSON at runtime" | PROJECT.md explicitly puts runtime fetching out of scope. Moving to `public/` loses type safety, tree-shaking, and compile-time validation. | Keep JSON in `src/data/` as static imports. Future CMS milestone can change the data source without changing the type layer. |
-| Barrel index files in `src/types/` | "Export everything from index.ts for cleaner imports" | With 11 type files, barrel files add a maintenance burden and can cause circular import issues. Direct imports are clearer. | Import directly from specific type files: `import type { Exhibit } from '@/types/exhibit.types'`. |
-
----
+| Search/filter text input | "Let users search questions" | 14 questions across 4 categories. Search adds UI complexity, empty-state handling, and debounce logic for zero benefit at this scale. PROJECT.md explicitly lists this as out of scope. | Category filter pills handle navigation. At 14 items, scanning is faster than typing. |
+| Single-open accordion (auto-close others) | "Clean look, one answer visible" | Frustrating on desktop — users want to compare Q4 and Q6 side by side. Forces re-opening previously read answers. Mobile might benefit, but consistency across breakpoints matters more. | Multi-open (each item independent). Users control their own reading flow. |
+| Deep linking to individual questions | "Share link to specific answer" | Adds URL hash management, scroll-into-view logic, and auto-expand-on-load behavior. Over-engineered for 14 questions on a portfolio site. No external consumers are linking to individual FAQ answers. | Category filter state in URL query param (if needed at all — probably not for 14 items). |
+| Expand All / Collapse All buttons | "Power user convenience" | Adds two more buttons to the UI. At 14 items, "expand all" creates the same wall-of-text problem the accordion solves. "Collapse all" is just page reload. | Not needed. Multi-open gives users granular control. |
+| Animated icons (spinning chevrons, morphing plus-to-minus) | "Feels polished" | PROJECT.md explicitly defers animations/transitions. CSS transitions add complexity for a v6.0 launch. | Static icon swap (+/x) via CSS class toggle. Class `.is-open` swaps icon. Revisit animation in a future pass. |
+| Tag-based multi-category filtering | "Some questions span categories" | Multi-tag filtering adds complexity (AND vs OR logic, multi-select UI, clear-all state). 14 items across 4 categories does not need faceted search. PROJECT.md mentions multi-tag categories in target features, but the data currently has single-category assignment and that is sufficient. | Keep single category per item. If a question genuinely spans categories, pick the primary one. The user can always view "All". |
+| Accordion state persistence (localStorage) | "Remember which items were open" | FAQ is not a dashboard. Users visit, read, leave. Persisting open/closed state adds localStorage management for zero user value. | Reset to all-collapsed on page load. |
 
 ## Feature Dependencies
 
 ```
-[Centralized types in src/types/]
-    |
-    +--required-by--> [Type-safe re-export modules in src/data/]
-    |                      |
-    |                      +--required-by--> [JSON files created in src/data/]
-    |
-    +--required-by--> [Component type imports updated]
+[Category filter bar]
+    └──requires──> [FAQ data with category field]  (ALREADY EXISTS in FaqItem.category)
+                       └──requires──> [faqCategories array]  (ALREADY EXISTS in src/data/faq.ts)
 
-[Cross-dependency resolution (Tag, ExpertiseLevel)]
-    |
-    +--required-by--> [technology.types.ts in src/types/]
-    +--required-by--> [Component imports of Tag/ExpertiseLevel updated]
+[Exhibit callout blocks]
+    └──requires──> [Extended FaqItem type with optional exhibitNote field]
+                       └──requires──> [faq.json schema update]
 
-[JSON files + re-export modules complete]
-    |
-    +--required-by--> [Test suite verification]
-    +--required-by--> [Production build verification]
+[Accordion toggle]
+    └──requires──> [Refactored FaqItem.vue with button trigger + open state]
+                       └──independent (no data dependency)
+
+[Live question count]
+    └──requires──> [Category filter bar]  (count renders inside pills)
+
+[Horizontal rule separators]
+    └──independent (CSS only)
 ```
 
 ### Dependency Notes
 
-- **Re-export modules require centralized types:** You cannot write `import raw from './exhibits.json'; export const exhibits: Exhibit[] = raw;` until `Exhibit` is importable from `src/types/`.
-- **JSON files require re-export modules (for zero-breakage):** Creating JSON files without the re-export shim would break all 25+ import statements simultaneously. The shim must exist before the JSON files replace inline data.
-- **Cross-dependency resolution is prerequisite for technologies:** `TechCardData` references `Tag` and `ExpertiseLevel` from component type files (`TechTags.types.ts`, `ExpertiseBadge.types.ts`). These must be relocated or re-exported before `technology.types.ts` can be finalized.
-- **Tests and build verification depend on everything else:** They validate the migration, so they run last in each phase.
-- **Simple data files are independent of each other:** `stats.ts`, `techPills.ts`, `specialties.ts`, etc. can be converted in any order. Only `technologies.ts` (cross-dependency) and `faq.ts` (`as const` handling) need special attention.
-
----
+- **Category filter bar requires existing data:** No data migration needed. `FaqItem.category` and `faqCategories` already exist with the exact shape needed. Filter is pure view logic.
+- **Exhibit callout blocks require type extension:** `FaqItem` interface needs optional `exhibitNote: string` field. JSON entries that reference exhibits get the field; others omit it. Backward-compatible — no existing consumers break.
+- **Accordion is independent of filtering:** Toggle state is per-component instance. Filtering changes which items render, but each rendered item manages its own open/closed state independently.
+- **Live question count enhances filter bar:** Count is derived data (`computed`), not stored. Makes sense to build as part of the filter bar, not separately.
 
 ## MVP Definition
 
-### Launch With (v3.0)
+### Launch With (v6.0)
 
-This is the complete scope -- the milestone is already tightly scoped.
+Minimum set to replace the static FAQ page with an interactive one.
 
-- [ ] All 11 data files converted to JSON + typed re-export pattern
-- [ ] All type definitions centralized in `src/types/`
-- [ ] All existing component imports unbroken (same `@/data/*` paths work)
-- [ ] Type assertions on all re-export modules for compile-time safety
-- [ ] Cross-dependency for `Tag`/`ExpertiseLevel` cleanly resolved (moved to `src/types/`)
-- [ ] `as const` behavior preserved for `faqCategories`
-- [ ] Discriminated unions (`exhibitType`, `section.type`) validated through type layer
-- [ ] 64 tests passing, clean production build
+- [ ] Accordion FaqItem with button trigger, `aria-expanded`, open/closed state — core interaction
+- [ ] +/x icon indicator on each item — visual affordance for interactivity
+- [ ] Multi-open behavior (each item independent) — user-controlled reading flow
+- [ ] Category filter bar with pill buttons — primary navigation enhancement
+- [ ] "All" default filter showing all questions — safe default, no empty state
+- [ ] Live question count on pills — low cost, high polish signal
+- [ ] Horizontal rule separators between items — visual structure for stacked layout
+- [ ] Extended `FaqItem` type with optional `exhibitNote` — data schema for callouts
+- [ ] Exhibit callout block rendering — accent-styled aside when `exhibitNote` present
 
-### Add After Validation (v3.x)
+### Add After Validation (v6.x)
 
-- [ ] JSON formatting/linting added to CI (prettier for JSON files)
-- [ ] Evaluate whether `Tag` and `ExpertiseLevel` in `src/types/` simplifies component imports enough to update component `.types.ts` files
+Features to add once the interactive page is live and reviewed.
 
-### Future Consideration (v4+)
+- [ ] CSS open/close transition (grid-template-rows) — once animations/transitions are in scope
+- [ ] URL query param for active category filter — if Dan wants shareable filtered views
+- [ ] Career-vault FAQ content merged — depends on content review and approval
 
-- [ ] CMS integration replacing JSON files with API responses (types and re-export layer already support this swap -- only re-export modules change)
-- [ ] Per-exhibit file splitting if exhibit count grows past 50
-- [ ] Runtime validation if data source becomes external/untrusted (Zod/Valibot at that point)
+### Future Consideration (v7+)
 
----
+- [ ] Expand All / Collapse All — only if FAQ grows past ~25 questions
+- [ ] Search input — only if FAQ grows past ~40 questions
+- [ ] Deep linking to individual questions — only if external sites need to link to specific answers
 
 ## Feature Prioritization Matrix
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| Centralized types in `src/types/` | HIGH | LOW | P1 |
-| Cross-dependency resolution (Tag/ExpertiseLevel) | HIGH | LOW | P1 |
-| JSON file creation (11 files) | HIGH | LOW | P1 |
-| Re-export modules with type assertions | HIGH | LOW | P1 |
-| `as const` preservation for faqCategories | MEDIUM | LOW | P1 |
-| Discriminated union validation | MEDIUM | LOW | P1 |
-| Test suite verification | HIGH | LOW | P1 |
-| Production build verification | HIGH | LOW | P1 |
+| Accordion toggle | HIGH | LOW | P1 |
+| +/x icon indicator | HIGH | LOW | P1 |
+| Multi-open behavior | HIGH | LOW | P1 |
+| Category filter bar | HIGH | MEDIUM | P1 |
+| "All" default filter | HIGH | LOW | P1 |
+| Live question count | MEDIUM | LOW | P1 |
+| Horizontal rule separators | MEDIUM | LOW | P1 |
+| FaqItem type extension (exhibitNote) | MEDIUM | LOW | P1 |
+| Exhibit callout blocks | MEDIUM | MEDIUM | P1 |
+| CSS open/close transition | LOW | LOW | P2 |
+| URL query param for filter | LOW | LOW | P3 |
+| Career-vault content merge | MEDIUM | MEDIUM | P2 |
 
 **Priority key:**
-- P1: Must have for v3.0 -- everything here is P1 because the milestone scope is already minimal and tightly coupled
+- P1: Must have for v6.0 launch
+- P2: Should have, add when possible
+- P3: Nice to have, future consideration
 
----
+## Existing Data Structure (for dependency clarity)
 
-## Data File Inventory and Conversion Notes
+Current `FaqItem` interface (from `src/types/faq.ts`):
 
-Specific notes per file for roadmap phase planning.
+```typescript
+interface FaqItem {
+  question: string
+  answer: string
+  category: FaqCategoryId  // 'hiring' | 'expertise' | 'style' | 'process'
+}
+```
 
-| File | Size | Types Defined | Import Count | Complexity | Conversion Notes |
-|------|------|---------------|-------------|------------|-----------------|
-| `exhibits.ts` | 138KB | 8 interfaces, 1 type alias, 1 union type | 7 (data + type imports) | HIGH | Largest file. Complex nested structures: `ExhibitSection` with discriminated `type` field, optional arrays of `ExhibitQuote`, `ExhibitFlowStep`, `ExhibitTimelineEntry`, `ExhibitMetadataItem`, `ExhibitResolutionRow`. Most critical to get right. |
-| `technologies.ts` | 25KB | 2 interfaces | 1 (data + type) | MEDIUM | Imports `Tag` from `TechTags.types.ts` and `ExpertiseLevel` from `ExpertiseBadge.types.ts`. Cross-dependency must be resolved before this file can be converted. |
-| `faq.ts` | 7.5KB | 1 interface | 1 (data import) | MEDIUM | Two separate exports: `faqItems` (typed array) and `faqCategories` (const assertion). The `as const` on categories needs special handling in re-export. Category `id` field uses literal string union (`'hiring' | 'expertise' | 'style' | 'process'`). |
-| `philosophyInfluences.ts` | 3.9KB | 1 interface | 1 (data + type) | LOW | Simple flat structure with string arrays (`paragraphs: string[]`). |
-| `findings.ts` | 2.5KB | 1 interface | 1 (data + type) | LOW | Simple flat structure with optional `link` and `tags: string[]`. |
-| `influences.ts` | 1.9KB | 3 interfaces | 1 (data + type) | LOW | Nested but straightforward: `Influence` contains `InfluenceSegment[]` with optional `InfluenceLink`. |
-| `brandElements.ts` | 1.8KB | 1 interface | 1 (data + type) | LOW | Simple flat structure with optional `sourceNote`. |
-| `specialties.ts` | 835B | 1 interface | 0 (data only from pages) | LOW | Two-field interface. Trivial conversion. |
-| `methodologySteps.ts` | 788B | 1 interface | 1 (type import from component) | LOW | Two-field interface. Trivial conversion. |
-| `stats.ts` | 257B | 1 interface | 1 (data + type) | LOW | Two-field interface. Trivial conversion. |
-| `techPills.ts` | 160B | 0 (string array) | 0 (data only) | LOW | No interface needed -- just `string[]`. Simplest possible conversion. |
+Required extension for v6.0:
 
-### Conversion Order Recommendation
+```typescript
+interface FaqItem {
+  question: string
+  answer: string
+  category: FaqCategoryId
+  exhibitNote?: string  // NEW — optional cross-reference text for callout block
+}
+```
 
-Based on dependencies and complexity:
+Current `faqCategories` (from `src/data/faq.ts`) — kept as `as const` in TypeScript (not JSON) for literal type narrowing:
 
-1. **Simple files first** (stats, techPills, specialties, methodologySteps, brandElements) -- build confidence, establish the pattern
-2. **Medium files** (findings, influences, philosophyInfluences) -- slightly more nesting, still independent
-3. **Cross-dependency resolution** (move Tag/ExpertiseLevel to src/types/) -- prerequisite for technologies
-4. **Technologies** -- depends on cross-dependency resolution
-5. **FAQ** -- `as const` handling needs the pattern to be established
-6. **Exhibits** -- largest and most complex, do last when pattern is proven
+```typescript
+const faqCategories = [
+  { id: 'hiring', heading: 'Hiring Logistics', intro: '...' },
+  { id: 'expertise', heading: 'Technical Expertise', intro: '...' },
+  { id: 'style', heading: 'Working Style', intro: '...' },
+  { id: 'process', heading: 'Process & Methodology', intro: '...' },
+]
+```
 
----
+No changes needed to `faqCategories` for v6.0. The filter bar consumes this array directly.
+
+## Existing CSS Patterns to Reuse
+
+| Pattern | Source | Reuse For |
+|---------|--------|-----------|
+| Pill/badge styling | `.expertise-badge`, impact tag pills | Category filter pill buttons |
+| Left-border accent | `.exhibit-type-badge`, exhibit detail border accents | Exhibit callout block left border |
+| Design tokens | `--color-border`, `--space-*`, `--font-size-*` | All new components |
+| Max-width container | `.faq-category { max-width: 800px }` | Keep for accordion layout |
+| Muted text color | `--color-text-muted` | Category intro, callout text |
+
+## Accordion UX Behavior Specification
+
+Standard accordion behavior patterns based on WAI-ARIA Authoring Practices.
+
+### Interaction Model
+
+| Action | Behavior |
+|--------|----------|
+| Click question button | Toggle that item's open/closed state |
+| Enter/Space on focused question | Toggle that item's open/closed state |
+| Tab | Move focus to next focusable element (next question button or page element) |
+| Initial page load | All items collapsed |
+| Filter change | Re-render visible items; all collapsed (filter = fresh context) |
+
+### ARIA Requirements
+
+| Element | Attribute | Value |
+|---------|-----------|-------|
+| Question button | `aria-expanded` | `true` when open, `false` when closed |
+| Question button | `aria-controls` | ID of the answer panel |
+| Answer panel | `id` | Matches `aria-controls` value |
+| Answer panel | `role` | `region` (optional, adds landmark semantics) |
+| Answer panel | `aria-labelledby` | ID of the question button (optional) |
+
+### Filter Bar Interaction
+
+| Action | Behavior |
+|--------|----------|
+| Click category pill | Set active filter; show only items in that category |
+| Click "All" pill | Clear filter; show all items grouped by category |
+| Active pill visual | Filled/highlighted state (distinguish from inactive pills) |
+| Question counts | Update to reflect visible items per category |
 
 ## Sources
 
-- TypeScript `resolveJsonModule` documentation -- already enabled in project `tsconfig.json` (HIGH confidence, verified in codebase)
-- TypeScript `satisfies` operator -- available since TS 4.9, project uses TS 5.x (HIGH confidence)
-- Vite JSON import handling -- native support, tree-shakeable at property level (HIGH confidence, standard Vite behavior)
-- Direct codebase analysis: 25+ import statements across 11 pages/components and 3 test files (HIGH confidence, primary source)
+- Existing codebase analysis: `src/types/faq.ts`, `src/data/faq.ts`, `src/data/json/faq.json`, `src/components/FaqItem.vue`, `src/pages/FaqPage.vue`, `src/assets/css/main.css`
+- PROJECT.md active requirements and out-of-scope boundaries
+- WAI-ARIA Authoring Practices: Accordion pattern (button trigger, `aria-expanded`, `aria-controls`)
+- Established web UX conventions for FAQ accordion pages
 
 ---
-*Feature research for: JSON data externalization in Vue 3 + TypeScript + Vite*
-*Researched: 2026-04-06*
+*Feature research for: Interactive FAQ page with accordion, category filtering, and exhibit cross-references*
+*Researched: 2026-04-08*
