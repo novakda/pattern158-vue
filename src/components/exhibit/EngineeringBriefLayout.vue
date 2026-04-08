@@ -59,7 +59,7 @@ function sectionHasContent(section: ExhibitSection): boolean {
             <tbody>
               <tr v-for="(p, pi) in exhibit.personnel" :key="pi" :class="{ 'personnel-entry-group': p.entryType === 'group', 'personnel-entry-anonymized': p.entryType === 'anonymized' }">
                 <td :data-label="p.name ? 'Name' : (p.title ? 'Title' : 'Role')">{{ p.name || p.title || p.role }}</td>
-                <td data-label="Title">{{ p.title }}</td>
+                <td data-label="Title">{{ p.name ? p.title : p.role }}</td>
                 <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
               </tr>
             </tbody>
