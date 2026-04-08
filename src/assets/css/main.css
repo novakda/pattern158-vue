@@ -2734,6 +2734,17 @@ footer a:hover {
     color: var(--color-accent-on-alt);  /* 5.11:1 on striped rows, passes 4.5:1 */
 }
 
+/* ========== Personnel entryType: Desktop Table Variants ========== */
+.personnel-table tr.personnel-entry-group td {
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.personnel-table tr.personnel-entry-anonymized td:first-child,
+.personnel-table tr.personnel-entry-anonymized td:nth-child(2) {
+    font-style: italic;
+}
+
 /* ========== SHARED: Table Zebra Striping ========== */
 .personnel-table tbody tr:nth-child(even) td,
 .resolution-table tbody tr:nth-child(even) td,
@@ -4018,6 +4029,56 @@ footer a,
     background: var(--color-background-alt);
 }
 
+/* Finding enrichment fields */
+.finding-severity {
+    display: inline-block;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-right: var(--space-xs);
+}
+
+.finding-severity--critical {
+    background: var(--color-error, #dc2626);
+    color: #fff;
+}
+
+.finding-severity--high {
+    background: var(--color-warning, #d97706);
+    color: #fff;
+}
+
+.finding-severity--medium {
+    background: var(--color-info, #2563eb);
+    color: #fff;
+}
+
+.finding-severity--low {
+    background: var(--color-muted, #6b7280);
+    color: #fff;
+}
+
+.finding-category {
+    display: inline-block;
+    padding: 2px var(--space-sm);
+    border-radius: var(--radius-pill);
+    font-size: var(--font-size-xs);
+    background: var(--color-background-alt);
+    color: var(--color-body);
+}
+
+.finding-resolution,
+.finding-outcome {
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-body-muted, var(--color-body));
+    font-style: italic;
+}
+
+
 /* Timeline */
 .page-exhibit-detail .exhibit-timeline {
     position: relative;
@@ -4328,11 +4389,46 @@ footer a,
         display: none;
     }
 
-    /* Style first cell (name) as bold heading when label is hidden */
-    .personnel-table td[data-label="Name"] {
+    /* First cell as h3-style heading (name/title/role cascade per CARD-03) */
+    .personnel-table td:first-child {
         font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
         color: var(--color-heading);
-        font-size: var(--font-size-md);
+        line-height: 1.3;
+        margin-bottom: var(--space-xs);
+    }
+
+    /* Personnel entryType: Mobile Card Variants */
+
+    /* Group entries: compact/muted cards (CARD-01) */
+    .personnel-table tr.personnel-entry-group {
+        opacity: 0.7;
+        border-left: 4px dashed var(--color-border);
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    /* Group label pseudo-element */
+    .personnel-table tr.personnel-entry-group td:first-child::before {
+        content: "GROUP";
+        display: block;
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-muted);
+        margin-bottom: var(--space-xs);
+        font-style: normal;
+        font-family: var(--font-body, inherit);
+    }
+
+    /* Anonymized entries: italic/muted cards (CARD-02) */
+    .personnel-table tr.personnel-entry-anonymized {
+        font-style: italic;
+    }
+
+    .personnel-table tr.personnel-entry-anonymized td:first-child {
+        color: var(--color-text-muted);
     }
 
     /* Hide redundant labels on resolution tables — Issue/Resolution context is clear from card structure */
@@ -4348,6 +4444,199 @@ footer a,
 
     .resolution-table td[data-label="Resolution"] {
         color: var(--color-text-medium);
+    }
+
+    /* Findings: card-based layout on mobile */
+    .findings-table {
+        display: block;
+    }
+
+    .findings-table thead {
+        display: none;
+    }
+
+    .findings-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .findings-table tr {
+        display: block;
+        background: var(--color-background-alt);
+        border-radius: var(--radius-md, 8px);
+        padding: var(--space-md);
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .findings-table td {
+        display: block;
+        padding: 0;
+        border-bottom: none;
+    }
+
+    /* Hide all data-label pseudo-elements by default — must match .page-exhibit-detail specificity */
+    .page-exhibit-detail .findings-table td::before {
+        display: none;
+    }
+
+    /* Finding: styled as h3 heading, no label */
+    .findings-table td[data-label="Finding"] {
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
+        color: var(--color-heading);
+        line-height: 1.3;
+        margin-bottom: var(--space-sm);
+    }
+
+    /* Severity: show label + value on one line */
+    .findings-table td[data-label="Severity"] {
+        margin-bottom: var(--space-xs);
+    }
+
+    .page-exhibit-detail .findings-table td[data-label="Severity"]::before {
+        display: inline;
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-medium);
+        margin-right: var(--space-xs);
+    }
+
+    /* Category: show label + value on one line */
+    .findings-table td[data-label="Category"] {
+        margin-bottom: var(--space-sm);
+    }
+
+    .page-exhibit-detail .findings-table td[data-label="Category"]::before {
+        display: inline;
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-medium);
+        margin-right: var(--space-xs);
+    }
+
+    /* Description: no label */
+    .findings-table td[data-label="Description"] {
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
+
+    /* Personnel: card-based layout on mobile */
+    .personnel-table {
+        display: block;
+    }
+
+    .personnel-table thead {
+        display: none;
+    }
+
+    .personnel-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .personnel-table tr {
+        display: block;
+        background: var(--color-background-alt);
+        border-radius: var(--radius-md, 8px);
+        padding: var(--space-md);
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .personnel-table td {
+        display: block;
+        padding: 0;
+        border-bottom: none;
+    }
+
+    .page-exhibit-detail .personnel-table td::before {
+        display: none;
+    }
+
+    /* Name as h3-style heading */
+    .personnel-table td[data-label="Name"] {
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
+        color: var(--color-heading);
+        line-height: 1.3;
+        margin-bottom: var(--space-xs);
+    }
+
+    /* Role as h3-style heading (involvement variant) */
+    .personnel-table td[data-label="Role"] {
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
+        color: var(--color-heading);
+        line-height: 1.3;
+        margin-bottom: var(--space-xs);
+    }
+
+    .personnel-table td[data-label="Title"],
+    .personnel-table td[data-label="Organization"],
+    .personnel-table td[data-label="Involvement"] {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-medium);
+    }
+
+    /* Technologies: card-based layout on mobile */
+    .technologies-table {
+        display: block;
+    }
+
+    .technologies-table thead {
+        display: none;
+    }
+
+    .technologies-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .technologies-table tr {
+        display: block;
+        background: var(--color-background-alt);
+        border-radius: var(--radius-md, 8px);
+        padding: var(--space-md);
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .technologies-table td {
+        display: block;
+        padding: 0;
+        border-bottom: none;
+    }
+
+    .page-exhibit-detail .technologies-table td::before {
+        display: none;
+    }
+
+    /* Category as h3-style heading */
+    .technologies-table td[data-label="Category"] {
+        font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
+        color: var(--color-heading);
+        line-height: 1.3;
+        margin-bottom: var(--space-xs);
+    }
+
+    .technologies-table td[data-label="Technologies & Tools"] {
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
     }
 }
 

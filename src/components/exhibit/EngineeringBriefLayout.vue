@@ -48,31 +48,19 @@ function sectionHasContent(section: ExhibitSection): boolean {
 
         <div v-if="exhibit.personnel?.length" class="exhibit-section">
           <h2>Personnel</h2>
-          <table class="exhibit-table">
+          <table class="exhibit-table personnel-table">
             <thead>
               <tr>
-                <template v-if="exhibit.personnel[0].involvement">
-                  <th>Role</th>
-                  <th>Involvement</th>
-                </template>
-                <template v-else>
-                  <th>Name</th>
-                  <th>Title</th>
-                  <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
-                </template>
+                <th>Name</th>
+                <th>Title</th>
+                <th>{{ exhibit.personnel[0].organization !== undefined ? 'Organization' : 'Role' }}</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(p, pi) in exhibit.personnel" :key="pi">
-                <template v-if="p.involvement">
-                  <td data-label="Role">{{ p.role }}</td>
-                  <td data-label="Involvement">{{ p.involvement }}</td>
-                </template>
-                <template v-else>
-                  <td data-label="Name">{{ p.name }}</td>
-                  <td data-label="Title">{{ p.title }}</td>
-                  <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
-                </template>
+              <tr v-for="(p, pi) in exhibit.personnel" :key="pi" :class="{ 'personnel-entry-group': p.entryType === 'group', 'personnel-entry-anonymized': p.entryType === 'anonymized' }">
+                <td :data-label="p.name ? 'Name' : (p.title ? 'Title' : 'Role')">{{ p.name || p.title || p.role }}</td>
+                <td data-label="Title">{{ p.title }}</td>
+                <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
               </tr>
             </tbody>
           </table>
@@ -80,7 +68,7 @@ function sectionHasContent(section: ExhibitSection): boolean {
 
         <div v-if="exhibit.technologies?.length" class="exhibit-section">
           <h2>Technologies</h2>
-          <table class="exhibit-table">
+          <table class="exhibit-table technologies-table">
             <thead>
               <tr>
                 <th>Category</th>
@@ -98,37 +86,29 @@ function sectionHasContent(section: ExhibitSection): boolean {
 
         <div v-if="exhibit.findings?.length" class="exhibit-section">
           <h2>{{ exhibit.findingsHeading || 'Findings' }}</h2>
-          <table class="exhibit-table">
+          <table class="exhibit-table findings-table">
             <thead>
               <tr>
                 <th>Finding</th>
-                <template v-if="exhibit.findings[0].background !== undefined">
-                  <th>Background</th>
-                  <th>Resolution</th>
-                </template>
-                <template v-else-if="exhibit.findings[0].severity !== undefined">
-                  <th>Severity</th>
-                  <th>Description</th>
-                </template>
-                <template v-else>
-                  <th>Description</th>
-                </template>
+                <th v-if="exhibit.findings.some(f => f.severity)">Severity</th>
+                <th v-if="exhibit.findings.some(f => f.category)">Category</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(f, fi) in exhibit.findings" :key="fi">
                 <td data-label="Finding">{{ f.finding }}</td>
-                <template v-if="f.background !== undefined">
-                  <td data-label="Background">{{ f.background }}</td>
-                  <td data-label="Resolution">{{ f.resolution }}</td>
-                </template>
-                <template v-else-if="f.severity !== undefined">
-                  <td data-label="Severity">{{ f.severity }}</td>
-                  <td data-label="Description">{{ f.description }}</td>
-                </template>
-                <template v-else>
-                  <td data-label="Description">{{ f.description }}</td>
-                </template>
+                <td v-if="exhibit.findings.some(ff => ff.severity)" data-label="Severity">
+                  <span v-if="f.severity" :class="['finding-severity', 'finding-severity--' + f.severity.toLowerCase()]">{{ f.severity }}</span>
+                </td>
+                <td v-if="exhibit.findings.some(ff => ff.category)" data-label="Category">
+                  <span v-if="f.category" class="finding-category">{{ f.category }}</span>
+                </td>
+                <td data-label="Description">
+                  <span v-if="f.description">{{ f.description }}</span>
+                  <p v-if="f.resolution" class="finding-resolution">{{ f.resolution }}</p>
+                  <p v-if="f.outcome" class="finding-outcome">{{ f.outcome }}</p>
+                </td>
               </tr>
             </tbody>
           </table>

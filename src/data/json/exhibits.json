@@ -314,28 +314,108 @@
     "findings": [
       {
         "finding": "SCORM courses dependent on Cornerstone Network Player",
-        "background": "SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.",
-        "resolution": "Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit."
+        "description": "SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.",
+        "resolution": "Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit.",
+        "category": "protocol"
       },
       {
         "finding": "HTML5 courses failing under AICC protocol",
-        "background": "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
-        "resolution": "Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration."
+        "description": "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
+        "resolution": "Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration.",
+        "category": "protocol"
       },
       {
         "finding": "Quiz bookmarking and reset failures",
-        "background": "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
-        "resolution": "SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints."
+        "description": "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
+        "resolution": "SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints.",
+        "category": "protocol"
       },
       {
         "finding": "No tools to verify SCORM data flow",
-        "background": "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
-        "resolution": "Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology."
+        "description": "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
+        "resolution": "Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology.",
+        "category": "tooling"
       },
       {
         "finding": "Bulk SCORM import not available",
-        "background": "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
-        "resolution": "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment."
+        "description": "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
+        "resolution": "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment.",
+        "category": "tooling"
+      }
+    ],
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Lead Investigator / Solution Architect",
+        "organization": "GP Strategies",
+        "isSelf": true,
+        "entryType": "individual"
+      },
+      {
+        "name": "Tracey Nicholson",
+        "title": "Chief of Learning Services, Metrics, Processes & Technology",
+        "organization": "Electric Boat",
+        "entryType": "individual"
+      },
+      {
+        "name": "Quinn Gladu",
+        "title": "Chief of Learning Services",
+        "organization": "Electric Boat",
+        "entryType": "individual"
+      },
+      {
+        "name": "Chris Sproule",
+        "title": "Director of Learning Technologies",
+        "organization": "GP Strategies",
+        "entryType": "individual"
+      },
+      {
+        "name": "Josh Stoudt",
+        "title": "Senior Director, Learning Solutions",
+        "organization": "GP Strategies",
+        "entryType": "individual"
+      },
+      {
+        "name": "Chris Emmons",
+        "title": "LMS Administrator",
+        "organization": "Electric Boat",
+        "entryType": "individual"
+      },
+      {
+        "name": "Multiple EB Personnel",
+        "title": "49 contacts across departments",
+        "organization": "Electric Boat",
+        "entryType": "group"
+      },
+      {
+        "title": "Program Manager",
+        "organization": "GP Strategies",
+        "role": "Coordinated engagement",
+        "entryType": "anonymized"
+      },
+      {
+        "title": "Co-Investigator",
+        "organization": "GP Strategies",
+        "role": "Assisted with testing",
+        "entryType": "anonymized"
+      },
+      {
+        "title": "Curriculum Developer",
+        "organization": "Electric Boat",
+        "role": "Collaborated on testing",
+        "entryType": "anonymized"
+      },
+      {
+        "title": "Curriculum Developer",
+        "organization": "Electric Boat",
+        "role": "Collaborated on testing",
+        "entryType": "anonymized"
+      },
+      {
+        "title": "Training Analyst Specialist",
+        "organization": "Electric Boat",
+        "role": "Provided technical data",
+        "entryType": "anonymized"
       }
     ]
   },
@@ -423,37 +503,43 @@
       {
         "name": "Dan Novak",
         "title": "Technical Consultant (subject of both cascades)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
         "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
         "name": "Josh Stoudt",
         "title": "Sr. Director of Learning Solutions (15+ years GP leadership)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "Senior Vice President",
         "title": "SVP of Learning Solutions (initiated EB engagement Sept 2017)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
         "name": "Tracey Nicholson",
         "title": "Chief of Learning Services, Metrics, Processes & Technology",
-        "organization": "Electric Boat"
+        "organization": "Electric Boat",
+        "entryType": "individual"
       },
       {
         "name": "Quinn Gladu",
         "title": "Chief of Learning Services",
-        "organization": "Electric Boat"
+        "organization": "Electric Boat",
+        "entryType": "individual"
       },
       {
         "name": "GP On-Site EB Team",
         "title": "3 members who independently relayed feedback (April 2019)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "group"
       }
     ]
   },
@@ -568,22 +654,24 @@
       {
         "name": "Dan Novak",
         "title": "Senior Learning Technologist (\"The Fiddler\")",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "Content Team Manager",
         "title": "Manager, Content Team (led the overall refresh project)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
         "name": "Colleague (\"The Slacker\")",
         "title": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "15+ Team Members",
-        "title": "Content refresh contributors (each recognized with unique nicknames)",
-        "organization": "GP Strategies"
+        "title": "15+ Team Members — Content refresh contributors (each recognized with unique nicknames)",
+        "organization": "GP Strategies",
+        "entryType": "group"
       }
     ],
     "technologies": [
@@ -704,32 +792,34 @@
       {
         "name": "Dan Novak",
         "title": "Computer Programmer / Technical Lead for Functional QA",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
         "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "QA Lead",
         "title": "QA Coordinator (close collaborator on functional testing)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Program Manager",
-        "title": "Engagement coordination and client relationships",
-        "organization": "GP Strategies"
+        "title": "Program Manager — Engagement coordination and client relationships",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Project Lead",
-        "title": "Coordinated rapid-turnaround testing requests with Dan",
-        "organization": "GP Strategies"
+        "title": "Project Lead — Coordinated rapid-turnaround testing requests with Dan",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Wells Fargo Contacts",
-        "title": "Subject matter experts and content owners",
-        "organization": "Wells Fargo"
+        "title": "Wells Fargo Contacts — Subject matter experts and content owners",
+        "organization": "Wells Fargo",
+        "entryType": "group"
       }
     ],
     "technologies": [
@@ -752,6 +842,36 @@
       {
         "category": "QA Methodology",
         "tools": "Interactivity-level estimation framework, functional testing, regression testing, cross-platform validation"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "Legacy format incompatibilities",
+        "severity": "High",
+        "description": "Courses authored in Adobe Presenter and standalone HTML5 required significant structural rework to map into Xyleme's topic-based authoring model. Flash modules needed careful handling to ensure ActionScript interactions functioned when wrapped in Xyleme's SCORM publishing layer.",
+        "category": "architecture",
+        "resolution": "Structural rework completed — courses successfully mapped into Xyleme's topic-based model"
+      },
+      {
+        "finding": "IE runtime environment failures",
+        "severity": "Critical",
+        "description": "Wells Fargo's corporate browser standard was Internet Explorer, which introduced SCORM API communication quirks. Flash-based content exhibited completion tracking failures from a race condition in IE's COM SCORM adapter, exacerbated by Xyleme's thin package latency.",
+        "category": "protocol",
+        "resolution": "Root-caused to race condition in IE's COM SCORM adapter; fix deployed across Flash course portfolio"
+      },
+      {
+        "finding": "High-volume delivery cadence",
+        "severity": "High",
+        "description": "100+ courses in scope over a six-month timeline required a reliable, repeatable QA process. Dan's interactivity-level-based estimation methodology provided the predictability needed to schedule testing across the full portfolio.",
+        "category": "process",
+        "resolution": "Interactivity-level estimation methodology adopted for effort estimation across full portfolio"
+      },
+      {
+        "finding": "Client relationship pressure",
+        "severity": "High",
+        "description": "Wells Fargo was explicitly identified as a critical account. Any delays in testing turnaround would cascade into missed course launch deadlines, potentially damaging the strategic relationship.",
+        "category": "process",
+        "resolution": "Testing schedule maintained despite obstacles; client independently relayed appreciation to GP leadership"
       }
     ]
   },
@@ -881,22 +1001,26 @@
       {
         "name": "Dan Novak",
         "title": "Architect / Developer",
-        "role": "System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling"
+        "role": "System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling",
+        "entryType": "individual"
       },
       {
         "name": "Zach Taylor",
         "title": "Primary Development Collaborator",
-        "role": "GPiLEARN platform engineering"
+        "role": "GPiLEARN platform engineering",
+        "entryType": "individual"
       },
       {
         "name": "Ron Cyran",
         "title": "Program Manager",
-        "role": "GPiLEARN program management and client coordination"
+        "role": "GPiLEARN program management and client coordination",
+        "entryType": "individual"
       },
       {
         "name": "Tom Pizer",
         "title": "Director of Learning Technologies",
-        "role": "Technical direction and hosting infrastructure"
+        "role": "Technical direction and hosting infrastructure",
+        "entryType": "individual"
       }
     ],
     "technologies": [
@@ -928,23 +1052,28 @@
     "findings": [
       {
         "finding": "Cross-domain architecture",
-        "description": "EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains — transparent to both content and LMS"
+        "description": "EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains — transparent to both content and LMS",
+        "category": "architecture"
       },
       {
         "finding": "Protocol agnostic",
-        "description": "SCORM API proxy provided transparent AICC/SCORM protocol translation — identical content packages worked across LMS platforms regardless of protocol dialect"
+        "description": "SCORM API proxy provided transparent AICC/SCORM protocol translation — identical content packages worked across LMS platforms regardless of protocol dialect",
+        "category": "protocol"
       },
       {
         "finding": "Deployment revolution",
-        "description": "Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients"
+        "description": "Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients",
+        "category": "architecture"
       },
       {
         "finding": "Automation at scale",
-        "description": "CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients — global deployments without touching individual systems"
+        "description": "CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients — global deployments without touching individual systems",
+        "category": "tooling"
       },
       {
         "finding": "Cross-industry reuse",
-        "description": "Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) — proving the pattern was reusable, not domain-specific"
+        "description": "Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) — proving the pattern was reusable, not domain-specific",
+        "category": "architecture"
       }
     ]
   },
@@ -1039,37 +1168,38 @@
       {
         "name": "Dan Novak",
         "title": "SCORM/LMS Integration Specialist",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "Director of Learning Technologies",
-        "title": "Management chain and technical oversight",
-        "organization": "GP Strategies"
+        "title": "Director of Learning Technologies — Management chain and technical oversight",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "HSBC Account PM/BA",
-        "title": "Engagement coordination, client relationship management",
-        "organization": "GP Strategies"
+        "title": "HSBC Account PM/BA — Engagement coordination, client relationship management",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Lead Developer",
-        "title": "HSBC deliverables development",
-        "organization": "GP Strategies"
+        "title": "Lead Developer — HSBC deliverables development",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Performance Consultant (Mexico)",
-        "title": "Localized deployments",
-        "organization": "GP Strategies"
+        "title": "Performance Consultant (Mexico) — Localized deployments",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Learning Consultant (UK)",
-        "title": "HSBC global operations",
-        "organization": "GP Strategies"
+        "title": "Learning Consultant (UK) — HSBC global operations",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "22+ US Contacts",
-        "title": "Plus regional representatives",
-        "organization": "HSBC (US, UK, Mexico, India, Philippines)"
+        "title": "22+ US Contacts — Plus regional representatives",
+        "organization": "HSBC (US, UK, Mexico, India, Philippines)",
+        "entryType": "group"
       }
     ],
     "technologies": [
@@ -1096,6 +1226,29 @@
       {
         "category": "International Coordination",
         "tools": "Multi-region deployment (US, UK, Mexico, India, Philippines), localization debugging"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "SCORM API wrapper bug",
+        "severity": "Critical",
+        "description": "The SCORM API wrapper used across HSBC courseware contained a hardcoded exit value that conflicted with SuccessFactors' completion detection logic. Silent failure — no console errors, no visible indication — persisted undetected across multiple LMS migrations.",
+        "category": "protocol",
+        "resolution": "Incorrect exit value fixed; completion tracking restored across affected courses"
+      },
+      {
+        "finding": "Lost Flash source files",
+        "severity": "High",
+        "description": "Legacy Flash-based courses needed updates but original FLA source files had been lost through vendor project handoffs. Required forensic decompilation of published SWF files to recover assets, ActionScript code, and timeline data.",
+        "category": "process",
+        "resolution": "SWF files forensically decompiled to recover source content; assets preserved for future maintenance"
+      },
+      {
+        "finding": "Cross-region deployment inconsistencies",
+        "severity": "High",
+        "description": "Localized HTML5 courses failed to deploy correctly across HSBC's global SAP SuccessFactors instance spanning Mexico, India, and the Philippines. Diagnosis required navigating time zones, language barriers, and regional LMS configuration differences.",
+        "category": "environment",
+        "resolution": "SCORM deployment issues diagnosed and fix coordinated across international stakeholders"
       }
     ]
   },
@@ -1190,22 +1343,23 @@
       {
         "name": "Dan Novak",
         "title": "Lead Technical Engineer (integration architecture)",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "SunTrust Developer",
-        "title": "API and backend development",
-        "organization": "SunTrust (now Truist)"
+        "title": "SunTrust Developer — API and backend development",
+        "organization": "SunTrust (now Truist)",
+        "entryType": "anonymized"
       },
       {
-        "name": "Project Manager/Account Lead",
-        "title": "SunTrust account management and engagement coordination",
-        "organization": "GP Strategies"
+        "title": "Project Manager/Account Lead — SunTrust account management and engagement coordination",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Director of Learning Technologies",
-        "title": "Technical leadership and oversight",
-        "organization": "GP Strategies"
+        "title": "Director of Learning Technologies — Technical leadership and oversight",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1308,17 +1462,27 @@
       {
         "name": "Dan Novak",
         "title": "Senior Learning Technologist",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "LMS Configuration Specialist",
-        "title": "LMS Administrator",
-        "organization": "GP Strategies"
+        "title": "LMS Configuration Specialist / LMS Administrator",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Client Liaison",
-        "title": "Project Manager",
-        "organization": "GP Strategies / Client"
+        "title": "Client Liaison / Project Manager",
+        "organization": "GP Strategies / Client",
+        "entryType": "anonymized"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "LMS configuration mismatch",
+        "severity": "Critical",
+        "description": "High-visibility additive manufacturing course was publishing SCORM completion data correctly, but the LMS was not configured to receive it in the expected format. Failure surfaced only in production after the course had already passed QA.",
+        "category": "architecture",
+        "resolution": "Root cause identified and fix deployed same business day without republishing course content"
       }
     ]
   },
@@ -1441,17 +1605,18 @@
       {
         "name": "Dan Novak",
         "title": "Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "2 Additional Testers",
-        "title": "GP Accessibility Testing Team for TD MIC",
-        "organization": "GP Strategies"
+        "title": "2 Additional Testers — GP Accessibility Testing Team for TD MIC",
+        "organization": "GP Strategies",
+        "entryType": "group"
       },
       {
-        "name": "Senior Learning PM",
-        "title": "TD MIC project coordination and program oversight",
-        "organization": "GP Strategies"
+        "title": "Senior Learning PM — TD MIC project coordination and program oversight",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1605,19 +1770,22 @@
     "role": "NTSB-style forensic analysis — systems thinking over code debugging",
     "personnel": [
       {
-        "name": "Investigation Lead",
-        "title": "Director, GP Strategies",
-        "role": "Project authorization, stakeholder management, investigation oversight"
+        "title": "Investigation Lead / Director",
+        "role": "Project authorization, stakeholder management, investigation oversight",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
         "name": "Dan Novak",
         "title": "Senior Learning Technologist",
-        "role": "Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review"
+        "role": "Technical forensics: Fiddler traces, browser debugging, code analysis, architecture review",
+        "entryType": "individual"
       },
       {
-        "name": "Data Analyst / UX Researcher",
-        "title": "GP Strategies",
-        "role": "Data analysis, UX evaluation, user interviews, behavioral research"
+        "title": "Data Analyst / UX Researcher",
+        "role": "Data analysis, UX evaluation, user interviews, behavioral research",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1645,23 +1813,33 @@
     "findings": [
       {
         "finding": "Memory cache vulnerability",
-        "description": "The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost."
+        "description": "The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost.",
+        "category": "architecture",
+        "severity": "Critical"
       },
       {
         "finding": "\"Congratulations You Failed\" UX",
-        "description": "Courses displayed a completion message after the final assessment — but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered."
+        "description": "Courses displayed a completion message after the final assessment — but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered.",
+        "category": "ux",
+        "severity": "High"
       },
       {
         "finding": "Confusing navigation",
-        "description": "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface — average GM sales reps with no eLearning background had no chance."
+        "description": "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface — average GM sales reps with no eLearning background had no chance.",
+        "category": "ux",
+        "severity": "High"
       },
       {
         "finding": "Mobile workforce / poor WiFi",
-        "description": "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble."
+        "description": "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble.",
+        "category": "environment",
+        "severity": "High"
       },
       {
         "finding": "Short-burst usage pattern",
-        "description": "System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress."
+        "description": "System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress.",
+        "category": "environment",
+        "severity": "High"
       }
     ],
     "findingsHeading": "Findings — Five Concurrent Systemic Failures (Swiss Cheese Model)"
@@ -1774,27 +1952,29 @@
       {
         "name": "Max Glick",
         "title": "Lead Developer / Engineering Manager",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
         "name": "Dan Novak",
         "title": "AI Agent Developer",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
-        "name": "Instructional Designer",
-        "title": "Content Design",
-        "organization": "GP Strategies"
+        "title": "Instructional Designer — Content Design",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "Project Manager",
-        "title": "Program Coordination",
-        "organization": "GP Strategies"
+        "title": "Project Manager — Program Coordination",
+        "organization": "GP Strategies",
+        "entryType": "anonymized"
       },
       {
-        "name": "MCAPS Lead",
-        "title": "Microsoft Account Lead",
-        "organization": "Microsoft"
+        "title": "MCAPS Lead — Microsoft Account Lead",
+        "organization": "Microsoft",
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1817,6 +1997,20 @@
       {
         "category": "Microsoft History",
         "tools": "10-year relationship: Windows 10 eLearning, SCORM integration, accessibility initiative"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "LLM used as data store",
+        "severity": "Critical",
+        "description": "The original declarative agent architecture treated the LLM as both interface and data store. LLMs are probabilistic — they approximate, hallucinate, and lose context across conversation boundaries. For training applications requiring deterministic progress tracking, this was a fundamental architectural mistake.",
+        "category": "architecture"
+      },
+      {
+        "finding": "No separation of deterministic and probabilistic concerns",
+        "severity": "High",
+        "description": "Course catalog, progress tracking, assessment scoring, and navigation paths were all handled through prompt engineering rather than structured data. No auto-save, no persisted state, no deterministic sequence enforcement.",
+        "category": "architecture"
       }
     ]
   },
@@ -1914,20 +2108,26 @@
     "role": "Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable",
     "personnel": [
       {
-        "role": "Dan Novak — Development Lead",
-        "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings."
+        "name": "Dan Novak",
+        "title": "Development Lead",
+        "organization": "Client Organization",
+        "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings.",
+        "entryType": "individual"
       },
       {
-        "role": "External Power Platform Consultancy",
-        "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began."
+        "title": "External Power Platform Consultancy",
+        "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began.",
+        "entryType": "anonymized"
       },
       {
-        "role": "Lead Developer (anonymized)",
-        "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism."
+        "title": "Lead Developer (anonymized)",
+        "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.",
+        "entryType": "anonymized"
       },
       {
-        "role": "Governance Architect (anonymized)",
-        "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization."
+        "title": "Governance Architect (anonymized)",
+        "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization.",
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1956,27 +2156,32 @@
       {
         "finding": "No data model",
         "severity": "Critical",
-        "description": "No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised."
+        "description": "No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised.",
+        "category": "architecture"
       },
       {
         "finding": "No version control",
         "severity": "Critical",
-        "description": "No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net."
+        "description": "No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net.",
+        "category": "process"
       },
       {
         "finding": "Monolithic solution architecture",
         "severity": "High",
-        "description": "One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution."
+        "description": "One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution.",
+        "category": "architecture"
       },
       {
         "finding": "Requirements atomization without context",
         "severity": "High",
-        "description": "Requirements degraded through PPT → Word → Excel → ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories."
+        "description": "Requirements degraded through PPT → Word → Excel → ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories.",
+        "category": "process"
       },
       {
         "finding": "No decomposed user stories",
         "severity": "High",
-        "description": "No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent."
+        "description": "No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent.",
+        "category": "process"
       }
     ],
     "findingsHeading": "Findings — Five Foundational Gaps"
@@ -2044,34 +2249,41 @@
       {
         "name": "Dan Novak",
         "title": "Architect / Developer",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       },
       {
         "name": "Max Glick",
         "title": "Engineering Manager",
-        "organization": "GP Strategies"
+        "organization": "GP Strategies",
+        "entryType": "individual"
       }
     ],
     "findings": [
       {
         "finding": "QA time sink",
-        "description": "Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course"
+        "description": "Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course",
+        "category": "process"
       },
       {
         "finding": "State management parallel",
-        "description": "TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data"
+        "description": "TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data",
+        "category": "architecture"
       },
       {
         "finding": "Tool effectiveness",
-        "description": "State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly"
+        "description": "State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly",
+        "category": "tooling"
       },
       {
         "finding": "Adoption barrier",
-        "description": "Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide"
+        "description": "Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide",
+        "category": "process"
       },
       {
         "finding": "Rustici gap",
-        "description": "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided"
+        "description": "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided",
+        "category": "tooling"
       }
     ]
   },
@@ -2141,12 +2353,13 @@
       {
         "name": "Dan Novak",
         "title": "Frontend Developer / Integration Engineer",
-        "organization": "GP Strategies (BP Account)"
+        "organization": "GP Strategies (BP Account)",
+        "entryType": "individual"
       },
       {
-        "name": "Leo Learning Team",
-        "title": "Platform Development",
-        "organization": "Leo Learning / GP Strategies"
+        "title": "Leo Learning Team — Platform Development",
+        "organization": "Leo Learning / GP Strategies",
+        "entryType": "group"
       }
     ],
     "technologies": [
@@ -2170,23 +2383,28 @@
     "findings": [
       {
         "finding": "Undocumented theming",
-        "description": "Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree"
+        "description": "Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree",
+        "category": "architecture"
       },
       {
         "finding": "Federated architecture",
-        "description": "The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit"
+        "description": "The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit",
+        "category": "architecture"
       },
       {
         "finding": "Familiar pattern",
-        "description": "The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem"
+        "description": "The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem",
+        "category": "architecture"
       },
       {
         "finding": "Scope estimation challenge",
-        "description": "Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends"
+        "description": "Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends",
+        "category": "process"
       },
       {
         "finding": "Cross-system debugging",
-        "description": "Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously"
+        "description": "Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously",
+        "category": "tooling"
       }
     ]
   },
@@ -2295,23 +2513,28 @@
     "findings": [
       {
         "finding": "Pattern recognition",
-        "description": "Same architectural pattern across contexts: CSBB Dispatch (2011) → BP Learning Platform (2024) — federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he'd built his own in 2011"
+        "description": "Same architectural pattern across contexts: CSBB Dispatch (2011) → BP Learning Platform (2024) — federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he'd built his own in 2011",
+        "category": "architecture"
       },
       {
         "finding": "Organic evolution",
-        "description": "Integration expertise naturally leading to AI product work — not deliberate career planning, but organic evolution where the skill thread was real"
+        "description": "Integration expertise naturally leading to AI product work — not deliberate career planning, but organic evolution where the skill thread was real",
+        "category": "process"
       },
       {
         "finding": "Inherited code stewardship",
-        "description": "AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point — system co-ownership without original authorship"
+        "description": "AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point — system co-ownership without original authorship",
+        "category": "process"
       },
       {
         "finding": "Design-to-code pragmatism",
-        "description": "ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation"
+        "description": "ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation",
+        "category": "ux"
       },
       {
         "finding": "Cross-system debugging",
-        "description": "All three projects required tracing issues across system boundaries: GraphQL → backend services, webhook → database → REST API, frontend → AI pipeline"
+        "description": "All three projects required tracing issues across system boundaries: GraphQL → backend services, webhook → database → REST API, frontend → AI pipeline",
+        "category": "tooling"
       }
     ]
   }

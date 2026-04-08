@@ -33,6 +33,7 @@ export interface PersonnelEntry {
   organization?: string
   role?: string
   involvement?: string
+  entryType?: 'individual' | 'group' | 'anonymized'
 }
 
 export interface TechnologyEntry {
@@ -43,8 +44,9 @@ export interface TechnologyEntry {
 export interface FindingEntry {
   finding: string
   description?: string
-  background?: string
   resolution?: string
+  outcome?: string
+  category?: string
   severity?: string
 }
 

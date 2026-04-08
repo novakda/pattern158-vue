@@ -1,5 +1,43 @@
 # Milestones
 
+## v5.2 Personnel Data Normalization & Card UX (Shipped: 2026-04-08)
+
+**Phases completed:** 2 phases, 3 plans, 6 tasks
+
+**Key accomplishments:**
+
+- Added entryType discriminant to PersonnelEntry type and normalized Exhibit L from unique role/involvement schema to standard name/title/organization schema
+- Fixed 26 title-as-name field misplacements across 12 exhibits and added entryType markers to all 66 personnel entries (29 individual, 7 group, 30 anonymized)
+- Personnel entryType-driven card variants with group/anonymized styling on mobile cards and desktop tables, heading fallback cascade, dead involvement branch removed
+
+---
+
+## v5.1 Personnel & Technologies Card Layout (Shipped: 2026-04-08)
+
+**Phases completed:** 1 phase, 1 plan
+
+**Key accomplishments:**
+
+- Personnel and technologies sections get mobile card layout matching findings pattern
+- `.personnel-table` and `.technologies-table` CSS classes with desktop table headers
+- Mobile (≤480px): card view with h3-style headings (name for personnel, category for technologies)
+
+---
+
+## v5.0 Findings Schema Unification (Shipped: 2026-04-08)
+
+**Phases completed:** 4 phases, 4 plans
+
+**Key accomplishments:**
+
+- FindingEntry type unified with 6 optional fields (outcome, category added; background removed)
+- 4 exhibits backfilled with NTSB-style diagnostic findings (D, F, H, K) — user-approved content
+- All 45 findings enriched with category taxonomy; severity on 6 diagnostic exhibits; resolution on 4
+- Layout rendering updated: unified 2-column table, severity/category pills, resolution/outcome text
+- Established findings standard: NTSB-style diagnostic discoveries only, not outcomes or observations
+
+---
+
 ## v4.0 Exhibit Data Normalization (Shipped: 2026-04-07)
 
 **Phases completed:** 3 phases, 6 plans, 4 tasks
