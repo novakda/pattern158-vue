@@ -2,7 +2,7 @@
   {
     "category": "hiring",
     "question": "Are you available for new projects?",
-    "answer": "Yes, I'm available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI'm interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA+), and AI-assisted development tooling."
+    "answer": "Yes, I'm available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI'm interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA / Section 508), and AI-assisted development tooling."
   },
   {
     "category": "hiring",
@@ -22,12 +22,12 @@
   {
     "category": "expertise",
     "question": "Do you work with legacy systems?",
-    "answer": "Yes, legacy system modernization is a core specialty. I've rescued undocumented systems, reverse-engineered abandoned codebases, and integrated legacy platforms with modern architectures.\n\nSee the portfolio for examples like the legacy CMS rescue and cross-domain SCORM framework."
+    "answer": "Yes, legacy system modernization is a core specialty. I've rescued undocumented systems, reverse-engineered abandoned codebases, and integrated legacy platforms with modern architectures.\n\nSee the case files for examples like the legacy CMS rescue and cross-domain SCORM framework."
   },
   {
     "category": "expertise",
     "question": "Are you experienced with AI and automation?",
-    "answer": "Yes. I've designed agentic workflows using GitHub Spec Kit, built Copilot Studio agents for enterprise clients, and use AI-assisted development extensively (GitHub Copilot, Claude Code).\n\nI focus on practical applications - tools that solve real problems, not hype. AI is most valuable for documentation generation, code review, and rapid prototyping."
+    "answer": "Yes. I've designed agentic workflows using GitHub Spec Kit, built Copilot Studio and Power Platform agents for enterprise clients, and use AI-assisted development extensively (GitHub Copilot, Claude Code).\n\nI focus on practical applications - tools that solve real problems, not hype. AI is most valuable for documentation generation, code review, and rapid prototyping."
   },
   {
     "category": "expertise",
@@ -47,7 +47,7 @@
   {
     "category": "style",
     "question": "What's your approach to unclear requirements?",
-    "answer": "I treat it as a forensic investigation. When requirements are undefined or contradictory, I document what exists, map the gaps, and propose solutions grounded in evidence.\n\nSee the featured projects for examples of how I approach undocumented systems and rebuild them systematically. If you have an unclear situation, let's talk \u2014 this is the kind of problem I'm good at solving."
+    "answer": "I treat it as a forensic investigation. When requirements are undefined or contradictory, I document what exists, map the gaps, and propose solutions grounded in evidence.\n\nSee the case files for examples of how I approach undocumented systems and rebuild them systematically. If you have an unclear situation, let's talk \u2014 this is the kind of problem I'm good at solving."
   },
   {
     "category": "style",
