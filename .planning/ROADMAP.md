@@ -10,6 +10,7 @@
 - ✅ **v4.0 Exhibit Data Normalization** — Phases 20-22 (shipped 2026-04-07)
 - ✅ **v5.0 Findings Schema Unification** — Phases 23-26 (shipped 2026-04-08)
 - ✅ **v5.1 Personnel & Technologies Card Layout** — Phase 27 (shipped 2026-04-08)
+- 🚧 **v5.2 Personnel Data Normalization & Card UX** — Phases 28-29 (in progress)
 
 ## Phases
 
@@ -104,6 +105,44 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
 
 </details>
 
+### v5.2 Personnel Data Normalization & Card UX (In Progress)
+
+**Milestone Goal:** Clean up personnel data inconsistencies across 14 exhibits and improve mobile card rendering for edge cases (group entries, anonymized personnel, field misplacement).
+
+- [ ] **Phase 28: Personnel Data Cleanup** - Correct misplaced fields, normalize Exhibit L schema, add entryType markers to all personnel entries
+- [ ] **Phase 29: Personnel Card UX** - Render entryType distinctions on mobile cards and desktop tables with consistent heading logic
+
+## Phase Details
+
+### Phase 28: Personnel Data Cleanup
+**Goal**: All personnel entries across 14 exhibits have correct field placement, consistent schema, and typed entry classification
+**Depends on**: Phase 27 (v5.1 card layout provides the rendering foundation)
+**Requirements**: DATA-01, DATA-02, DATA-03, DATA-04, DATA-05
+**Success Criteria** (what must be TRUE):
+  1. No personnel entry has a title or role stored in the `name` field — names contain person names or are omitted
+  2. Exhibit L personnel use the same `name`/`title`/`organization` schema as all other exhibits (no `role`/`involvement` fields)
+  3. Every personnel entry across all 14 exhibits has an `entryType` value of `'individual'`, `'group'`, or `'anonymized'`
+  4. All 7 group entries are marked `entryType: 'group'` and all anonymized/title-only entries are marked `entryType: 'anonymized'`
+  5. TypeScript types compile cleanly with the new optional `entryType` field and all existing tests pass
+**Plans**: TBD
+
+### Phase 29: Personnel Card UX
+**Goal**: Mobile cards and desktop tables visually distinguish individual, group, and anonymized personnel with consistent heading logic
+**Depends on**: Phase 28 (entryType markers must exist in data before rendering can use them)
+**Requirements**: CARD-01, CARD-02, CARD-03, CARD-04
+**Success Criteria** (what must be TRUE):
+  1. Group personnel entries render as compact/muted cards with reduced visual prominence compared to individual entries
+  2. Anonymized personnel entries render with visible distinction (italic or muted treatment) on mobile cards
+  3. Card headings display the best available field (name if present, then title, then role) consistently across all variants
+  4. Desktop table rows reflect entryType distinctions — muted rows for group entries, italic for anonymized entries
+**Plans**: TBD
+**UI hint**: yes
+
 ## Progress
 
-All milestones through v5.1 complete. See `.planning/milestones/` for archived details.
+**Execution Order:** Phase 28 then Phase 29.
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 28. Personnel Data Cleanup | 0/TBD | Not started | - |
+| 29. Personnel Card UX | 0/TBD | Not started | - |

@@ -41,21 +41,21 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DATA-01 | — | Pending |
-| DATA-02 | — | Pending |
-| DATA-03 | — | Pending |
-| DATA-04 | — | Pending |
-| DATA-05 | — | Pending |
-| CARD-01 | — | Pending |
-| CARD-02 | — | Pending |
-| CARD-03 | — | Pending |
-| CARD-04 | — | Pending |
+| DATA-01 | Phase 28 | Pending |
+| DATA-02 | Phase 28 | Pending |
+| DATA-03 | Phase 28 | Pending |
+| DATA-04 | Phase 28 | Pending |
+| DATA-05 | Phase 28 | Pending |
+| CARD-01 | Phase 29 | Pending |
+| CARD-02 | Phase 29 | Pending |
+| CARD-03 | Phase 29 | Pending |
+| CARD-04 | Phase 29 | Pending |
 
 **Coverage:**
 - v5.2 requirements: 9 total
-- Mapped to phases: 0
-- Unmapped: 9 ⚠️
+- Mapped to phases: 9
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-07*
-*Last updated: 2026-04-07 after initial definition*
+*Last updated: 2026-04-07 after roadmap creation*
