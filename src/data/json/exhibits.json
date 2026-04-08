@@ -502,9 +502,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Technical Consultant (subject of both cascades)",
+        "title": "Technical Consultant",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Subject of both performance cascades"
       },
       {
         "name": "Chris Sproule",
@@ -514,14 +515,16 @@
       },
       {
         "name": "Josh Stoudt",
-        "title": "Sr. Director of Learning Solutions (15+ years GP leadership)",
+        "title": "Sr. Director of Learning Solutions",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "15+ years GP leadership"
       },
       {
-        "title": "SVP of Learning Solutions (initiated EB engagement Sept 2017)",
+        "title": "SVP of Learning Solutions",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Initiated EB engagement Sept 2017"
       },
       {
         "name": "Tracey Nicholson",
@@ -537,9 +540,10 @@
       },
       {
         "name": "GP On-Site EB Team",
-        "title": "3 members who independently relayed feedback (April 2019)",
+        "title": "On-Site Team (3 members)",
         "organization": "GP Strategies",
-        "entryType": "group"
+        "entryType": "group",
+        "role": "Independently relayed feedback (April 2019)"
       }
     ]
   },
@@ -658,9 +662,10 @@
         "entryType": "individual"
       },
       {
-        "title": "Manager, Content Team (led the overall refresh project)",
+        "title": "Manager, Content Team",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Led the overall refresh project"
       },
       {
         "name": "Colleague (\"The Slacker\")",
@@ -670,10 +675,11 @@
         "role": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)"
       },
       {
-        "title": "Content refresh contributors (each recognized with unique nicknames)",
+        "title": "Content Refresh Team",
         "organization": "GP Strategies",
         "entryType": "group",
-        "name": "15+ Team Members"
+        "name": "15+ Team Members",
+        "role": "Each recognized with unique nicknames"
       }
     ],
     "technologies": [
@@ -793,9 +799,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Computer Programmer / Technical Lead for Functional QA",
+        "title": "Computer Programmer",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Technical Lead for Functional QA"
       },
       {
         "name": "Chris Sproule",
@@ -804,9 +811,10 @@
         "entryType": "individual"
       },
       {
-        "title": "QA Coordinator (close collaborator on functional testing)",
+        "title": "QA Coordinator",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Close collaborator on functional testing"
       },
       {
         "title": "Program Manager",
@@ -821,10 +829,11 @@
         "role": "Coordinated rapid-turnaround testing requests with Dan"
       },
       {
-        "title": "Subject matter experts and content owners",
+        "title": null,
         "organization": "Wells Fargo",
         "entryType": "group",
-        "name": "Wells Fargo Contacts"
+        "name": "Wells Fargo Contacts",
+        "role": "Subject matter experts and content owners"
       }
     ],
     "technologies": [
@@ -1011,8 +1020,8 @@
       },
       {
         "name": "Zach Taylor",
-        "title": "Primary Development Collaborator",
-        "role": "GPiLEARN platform engineering",
+        "title": "Developer",
+        "role": "Primary development collaborator; GPiLEARN platform engineering",
         "entryType": "individual"
       },
       {
@@ -1353,9 +1362,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Lead Technical Engineer (integration architecture)",
+        "title": "Lead Technical Engineer",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Integration architecture"
       },
       {
         "title": "SunTrust Developer",
@@ -1624,10 +1634,11 @@
         "role": "Forensic-level Storyline debugging, ARIA patterns, screen reader workarounds"
       },
       {
-        "title": "GP Accessibility Testing Team for TD MIC",
+        "title": null,
         "organization": "GP Strategies",
         "entryType": "group",
-        "name": "2 Additional Testers"
+        "name": "2 Additional Testers",
+        "role": "GP Accessibility Testing Team for TD MIC"
       },
       {
         "title": "Senior Learning PM",
@@ -2135,7 +2146,7 @@
         "entryType": "individual"
       },
       {
-        "title": "External Power Platform Consultancy",
+        "title": "Power Platform Consultants",
         "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began.",
         "entryType": "anonymized",
         "role": "Original architects of the Power Platform solution"
@@ -2380,10 +2391,11 @@
         "entryType": "individual"
       },
       {
-        "title": "Platform Development",
+        "title": null,
         "organization": "Leo Learning / GP Strategies",
         "entryType": "group",
-        "name": "Leo Learning Team"
+        "name": "Leo Learning Team",
+        "role": "Platform Development"
       }
     ],
     "technologies": [

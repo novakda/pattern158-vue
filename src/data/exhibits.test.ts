@@ -99,7 +99,7 @@ describe('PERS-01/PERS-02: personnel migration', () => {
     expect(exhibitL?.personnel?.[0].organization).toBe('Client Organization')
     expect(exhibitL?.personnel?.[0].involvement).toBeTruthy()
     // Entries 1-3 have no name (anonymized/org entries)
-    expect(exhibitL?.personnel?.[1].title).toBe('External Power Platform Consultancy')
+    expect(exhibitL?.personnel?.[1].title).toBe('Power Platform Consultants')
     expect(exhibitL?.personnel?.[1].involvement).toBeTruthy()
   })
 
