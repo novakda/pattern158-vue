@@ -48,7 +48,7 @@ function sectionHasContent(section: ExhibitSection): boolean {
 
         <div v-if="exhibit.personnel?.length" class="exhibit-section">
           <h2>Personnel</h2>
-          <table class="exhibit-table">
+          <table class="exhibit-table personnel-table">
             <thead>
               <tr>
                 <template v-if="exhibit.personnel[0].involvement">
@@ -80,7 +80,7 @@ function sectionHasContent(section: ExhibitSection): boolean {
 
         <div v-if="exhibit.technologies?.length" class="exhibit-section">
           <h2>Technologies</h2>
-          <table class="exhibit-table">
+          <table class="exhibit-table technologies-table">
             <thead>
               <tr>
                 <th>Category</th>
