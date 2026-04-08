@@ -192,7 +192,9 @@ Plans:
   3. Category tag pills are visible below question text in both open and closed states
   4. Question text, filter pills, count label, and answer prose are all left-aligned
   5. Old FaqItem.vue is deleted and global .page-faq CSS in main.css is cleaned up (no specificity conflicts)
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 36-01-PLAN.md — Rewrite FaqPage with accordion, filter, exhibit callouts; delete old FaqItem; clean up CSS
 **UI hint**: yes
 
 ## Progress
