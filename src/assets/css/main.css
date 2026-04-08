@@ -4435,12 +4435,14 @@ footer a,
         display: none;
     }
 
-    /* Finding: bold title, no label */
+    /* Finding: styled as h3 heading, no label */
     .findings-table td[data-label="Finding"] {
         font-weight: 700;
-        font-size: var(--font-size-md);
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
         color: var(--color-heading);
-        margin-bottom: var(--space-xs);
+        line-height: 1.3;
+        margin-bottom: var(--space-sm);
     }
 
     /* Severity: show label + value on one line */
