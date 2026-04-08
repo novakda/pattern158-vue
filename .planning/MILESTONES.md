@@ -1,5 +1,16 @@
 # Milestones
 
+## v6.0 FAQ Page Redesign (Shipped: 2026-04-08)
+
+**Phases completed:** 4 phases, 5 plans, 4 tasks
+
+**Key accomplishments:**
+
+- Accessible FAQ accordion component with WAI-ARIA pattern, category pills, CSS rotate icon, and 13 passing tests
+- Category filter bar with pill buttons, radio-style active state, and live aria-live count label
+
+---
+
 ## v5.2 Personnel Data Normalization & Card UX (Shipped: 2026-04-08)
 
 **Phases completed:** 2 phases, 3 plans, 6 tasks

@@ -4,7 +4,7 @@ milestone: v6.0
 milestone_name: FAQ Page Redesign
 status: executing
 stopped_at: Roadmap created for v6.0
-last_updated: "2026-04-08T19:58:30.491Z"
+last_updated: "2026-04-08T20:03:25.253Z"
 last_activity: 2026-04-08
 progress:
   total_phases: 4

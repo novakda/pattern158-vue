@@ -74,28 +74,15 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ FAQ content accuracy: industry list corrected with verified clients, AI/automation updated, accessibility phrasing aligned (ACCY-01-04) — v5.3
 - ✓ FAQ overlap resolved: Q2 and Q12 shortened to complementary summaries with cross-references to Contact and Philosophy pages (OVLP-01-03) — v5.3
 
+- ✓ FaqItem type extended with id, categories[], exhibitNote?, exhibitUrl?; 7-category unified taxonomy (DATA-01-05) — v6.0
+- ✓ 13 career-vault FAQ questions merged with existing 14, 3 overlaps reconciled, 6 exhibit cross-references (CONT-01-03) — v6.0
+- ✓ FaqAccordionItem with WAI-ARIA pattern, multi-open, +/× icon rotation, keyboard accessible (ACRD-01-05) — v6.0
+- ✓ FaqFilterBar with category pills, single active filter, live count (FLTR-01-04) — v6.0
+- ✓ FaqPage rewritten with accordion, filter bar, exhibit callout blocks, full-width stacked layout (LYOT-01-04) — v6.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-- [ ] Interactive FAQ accordion component with click-to-toggle, multi-open, +/× icon
-- [ ] Category filter bar with pill buttons and live question count
-- [ ] New FAQ data structure: categories array, optional exhibitNote
-- [ ] Career-vault FAQ content merged with existing questions
-- [ ] Exhibit cross-reference callout blocks with accent styling
-- [ ] Full-width stacked layout with horizontal rule separators
-
-## Current Milestone: v6.0 FAQ Page Redesign
-
-**Goal:** Replace the static FAQ layout with an interactive accordion component featuring category filtering, incorporate career-vault FAQ content, and add exhibit cross-reference callouts.
-
-**Target features:**
-- New FAQ data structure with multi-tag categories and optional exhibit cross-references
-- Category filter bar with pill buttons, one active filter at a time, live question count
-- Accordion behavior with multi-open support and animated +/× icon
-- Exhibit callout blocks with left-border accent styling
-- Full-width stacked layout with horizontal rules
-- Content integration: merge career-vault FAQ content with existing questions
 
 ### Out of Scope
 
@@ -109,7 +96,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v5.3 (2026-04-08) | **Status:** Starting v6.0
+**Shipped:** v6.0 (2026-04-08) | **Status:** All milestones through v6.0 complete
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. Personnel data normalized: 26 title-as-name entries corrected, Exhibit L schema unified, all 66 entries typed with entryType (individual/group/anonymized). Mobile cards and desktop tables visually distinguish entry types with compact group cards, italic anonymized entries, and heading cascade (name → title → role). 95 unit tests passing, clean production build.
 
@@ -175,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v6.0 milestone start*
+*Last updated: 2026-04-08 after v6.0 milestone completion*
