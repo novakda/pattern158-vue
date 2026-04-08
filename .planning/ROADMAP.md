@@ -173,4 +173,4 @@ Phases execute in numeric order: 30 -> 31 -> 32
 |-------|-----------|----------------|--------|-----------|
 | 30. Cross-Page Content Audit | v5.3 | 1/1 | Complete    | 2026-04-08 |
 | 31. Content Fixes | v5.3 | 1/1 | Complete    | 2026-04-08 |
-| 32. Overlap Resolution | v5.3 | 1/1 | Complete   | 2026-04-08 |
+| 32. Overlap Resolution | v5.3 | 1/1 | Complete    | 2026-04-08 |
