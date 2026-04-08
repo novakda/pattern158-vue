@@ -800,22 +800,25 @@
         "entryType": "individual"
       },
       {
-        "title": "QA Coordinator",
+        "title": "Functional QA Lead",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Close collaborator on functional testing"
+        "entryType": "individual",
+        "role": "Close collaborator on functional testing",
+        "name": "Deborah Schultz"
       },
       {
-        "title": "Program Manager",
+        "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Engagement coordination and client relationships"
+        "entryType": "individual",
+        "role": "Engagement coordination and client relationships",
+        "name": "Allison McGuire"
       },
       {
         "title": "Project Lead",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Coordinated rapid-turnaround testing requests with Dan"
+        "entryType": "individual",
+        "role": "Coordinated rapid-turnaround testing requests with Dan",
+        "name": "Kelli Shute"
       },
       {
         "title": null,
@@ -1178,14 +1181,16 @@
       {
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Management chain and technical oversight"
+        "entryType": "individual",
+        "role": "Management chain and technical oversight",
+        "name": "Tom Pizer"
       },
       {
-        "title": "HSBC Account PM/BA",
+        "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Engagement coordination, client relationship management"
+        "entryType": "individual",
+        "role": "HSBC account coordination",
+        "name": "Allison McGuire"
       },
       {
         "title": "Software Developer",
@@ -1194,16 +1199,18 @@
         "role": "Lead Developer — HSBC deliverables development"
       },
       {
-        "title": "Performance Consultant (Mexico)",
+        "title": "Performance Consultant",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Localized deployments"
+        "entryType": "individual",
+        "role": "Localized deployments (Mexico)",
+        "name": "Beatriz Ramirez"
       },
       {
-        "title": "Learning Consultant (UK)",
+        "title": "Learning Consultant",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "HSBC global operations"
+        "entryType": "individual",
+        "role": "HSBC global operations (UK)",
+        "name": "John Hindle"
       },
       {
         "title": "Plus regional representatives",
@@ -1358,22 +1365,25 @@
         "role": "Lead Technical Engineer — integration architecture"
       },
       {
-        "title": "SunTrust Developer",
+        "title": "Developer",
         "organization": "SunTrust (now Truist)",
-        "entryType": "anonymized",
-        "role": "API and backend development"
+        "entryType": "individual",
+        "role": "API and backend development",
+        "name": "Chad Teate"
       },
       {
-        "title": "Project Manager/Account Lead",
+        "title": "Project Manager / Account Lead",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "SunTrust account management and engagement coordination"
+        "entryType": "individual",
+        "role": "SunTrust account management and engagement coordination",
+        "name": "Tomasyn Goode"
       },
       {
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "anonymized",
-        "role": "Technical leadership and oversight"
+        "entryType": "individual",
+        "role": "Technical leadership and oversight",
+        "name": "Tom Pizer"
       }
     ],
     "technologies": [
