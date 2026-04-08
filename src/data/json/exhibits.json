@@ -664,14 +664,16 @@
       },
       {
         "name": "Colleague (\"The Slacker\")",
-        "title": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)",
+        "title": "Content Developer",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)"
       },
       {
-        "title": "15+ Team Members — Content refresh contributors (each recognized with unique nicknames)",
+        "title": "Content refresh contributors (each recognized with unique nicknames)",
         "organization": "GP Strategies",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "15+ Team Members"
       }
     ],
     "technologies": [
@@ -807,19 +809,22 @@
         "entryType": "anonymized"
       },
       {
-        "title": "Program Manager — Engagement coordination and client relationships",
+        "title": "Program Manager",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Engagement coordination and client relationships"
       },
       {
-        "title": "Project Lead — Coordinated rapid-turnaround testing requests with Dan",
+        "title": "Project Lead",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Coordinated rapid-turnaround testing requests with Dan"
       },
       {
-        "title": "Wells Fargo Contacts — Subject matter experts and content owners",
+        "title": "Subject matter experts and content owners",
         "organization": "Wells Fargo",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "Wells Fargo Contacts"
       }
     ],
     "technologies": [
@@ -1172,34 +1177,40 @@
         "entryType": "individual"
       },
       {
-        "title": "Director of Learning Technologies — Management chain and technical oversight",
+        "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Management chain and technical oversight"
       },
       {
-        "title": "HSBC Account PM/BA — Engagement coordination, client relationship management",
+        "title": "HSBC Account PM/BA",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Engagement coordination, client relationship management"
       },
       {
-        "title": "Lead Developer — HSBC deliverables development",
+        "title": "Lead Developer",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "HSBC deliverables development"
       },
       {
-        "title": "Performance Consultant (Mexico) — Localized deployments",
+        "title": "Performance Consultant (Mexico)",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Localized deployments"
       },
       {
-        "title": "Learning Consultant (UK) — HSBC global operations",
+        "title": "Learning Consultant (UK)",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "HSBC global operations"
       },
       {
-        "title": "22+ US Contacts — Plus regional representatives",
+        "title": "Plus regional representatives",
         "organization": "HSBC (US, UK, Mexico, India, Philippines)",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "22+ US Contacts"
       }
     ],
     "technologies": [
@@ -1347,19 +1358,22 @@
         "entryType": "individual"
       },
       {
-        "title": "SunTrust Developer — API and backend development",
+        "title": "SunTrust Developer",
         "organization": "SunTrust (now Truist)",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "API and backend development"
       },
       {
-        "title": "Project Manager/Account Lead — SunTrust account management and engagement coordination",
+        "title": "Project Manager/Account Lead",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "SunTrust account management and engagement coordination"
       },
       {
-        "title": "Director of Learning Technologies — Technical leadership and oversight",
+        "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Technical leadership and oversight"
       }
     ],
     "technologies": [
@@ -1604,19 +1618,22 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Most experienced accessibility evaluator on the team; forensic-level Storyline debugging, ARIA patterns, screen reader workarounds",
+        "title": "Senior Accessibility Evaluator",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Forensic-level Storyline debugging, ARIA patterns, screen reader workarounds"
       },
       {
-        "title": "2 Additional Testers — GP Accessibility Testing Team for TD MIC",
+        "title": "GP Accessibility Testing Team for TD MIC",
         "organization": "GP Strategies",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "2 Additional Testers"
       },
       {
-        "title": "Senior Learning PM — TD MIC project coordination and program oversight",
+        "title": "Senior Learning PM",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "TD MIC project coordination and program oversight"
       }
     ],
     "technologies": [
@@ -1770,8 +1787,8 @@
     "role": "NTSB-style forensic analysis — systems thinking over code debugging",
     "personnel": [
       {
-        "title": "Investigation Lead / Director",
-        "role": "Project authorization, stakeholder management, investigation oversight",
+        "title": "Director",
+        "role": "Investigation Lead — Project authorization, stakeholder management, investigation oversight",
         "organization": "GP Strategies",
         "entryType": "anonymized"
       },
@@ -1962,19 +1979,22 @@
         "entryType": "individual"
       },
       {
-        "title": "Instructional Designer — Content Design",
+        "title": "Instructional Designer",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Content Design"
       },
       {
-        "title": "Project Manager — Program Coordination",
+        "title": "Project Manager",
         "organization": "GP Strategies",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Program Coordination"
       },
       {
-        "title": "MCAPS Lead — Microsoft Account Lead",
+        "title": "MCAPS Lead",
         "organization": "Microsoft",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Microsoft Account Lead"
       }
     ],
     "technologies": [
@@ -2117,17 +2137,20 @@
       {
         "title": "External Power Platform Consultancy",
         "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began.",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Original architects of the Power Platform solution"
       },
       {
         "title": "Lead Developer (anonymized)",
         "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Primary developer on the existing Power Platform solution"
       },
       {
         "title": "Governance Architect (anonymized)",
         "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization.",
-        "entryType": "anonymized"
+        "entryType": "anonymized",
+        "role": "Recipient of the findings deliverable"
       }
     ],
     "technologies": [
@@ -2357,9 +2380,10 @@
         "entryType": "individual"
       },
       {
-        "title": "Leo Learning Team — Platform Development",
+        "title": "Platform Development",
         "organization": "Leo Learning / GP Strategies",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "Leo Learning Team"
       }
     ],
     "technologies": [
