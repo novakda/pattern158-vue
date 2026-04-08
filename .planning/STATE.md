@@ -4,14 +4,14 @@ milestone: v5.2
 milestone_name: Personnel Data Normalization & Card UX
 status: planning
 stopped_at: Completed 28-02-PLAN.md
-last_updated: "2026-04-08T03:52:57.083Z"
-last_activity: 2026-04-07 — Roadmap created for v5.2
+last_updated: "2026-04-08T03:56:03.743Z"
+last_activity: 2026-04-08
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 2
   completed_plans: 2
-  percent: 100
+  percent: 0
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-04-07)
 
 ## Current Position
 
-Phase: 28 of 29 (Personnel Data Cleanup)
-Plan: —
+Phase: 29 of 29 (personnel card ux)
+Plan: Not started
 Status: Ready to plan
-Last activity: 2026-04-07 — Roadmap created for v5.2
+Last activity: 2026-04-08
 
 Progress: [░░░░░░░░░░] 0%
 

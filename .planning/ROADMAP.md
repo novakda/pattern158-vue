@@ -147,5 +147,5 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 28. Personnel Data Cleanup | 2/2 | Complete   | 2026-04-08 |
+| 28. Personnel Data Cleanup | 2/2 | Complete    | 2026-04-08 |
 | 29. Personnel Card UX | 0/TBD | Not started | - |
