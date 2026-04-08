@@ -162,6 +162,9 @@ Plans:
   2. FAQ items with exhibit cross-references have structured `exhibitNote` values (not raw markdown)
   3. Every merged FAQ item is tagged with at least one category from the unified taxonomy
   4. Total FAQ count is approximately 25-27 items (14 existing + ~13 new, minus reconciled overlaps)
+**Plans:** 1 plan
+Plans:
+- [ ] 34-01-PLAN.md — Merge 13 career-vault questions, reconcile 3 overlaps, extract exhibit references
 
 ### Phase 35: Interactive Components
 **Goal**: Users can toggle FAQ answers open/closed and filter by category using accessible, tested components
@@ -197,6 +200,6 @@ Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 33. Data Schema & Type Foundation | 1/1 | Complete    | 2026-04-08 |
-| 34. Content Merge | 0/TBD | Not started | - |
+| 34. Content Merge | 0/1 | Not started | - |
 | 35. Interactive Components | 0/TBD | Not started | - |
 | 36. Page Integration & Layout | 0/TBD | Not started | - |
