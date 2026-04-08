@@ -314,28 +314,91 @@
     "findings": [
       {
         "finding": "SCORM courses dependent on Cornerstone Network Player",
-        "background": "SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.",
+        "description": "SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.",
         "resolution": "Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit."
       },
       {
         "finding": "HTML5 courses failing under AICC protocol",
-        "background": "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
+        "description": "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
         "resolution": "Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration."
       },
       {
         "finding": "Quiz bookmarking and reset failures",
-        "background": "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
+        "description": "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
         "resolution": "SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints."
       },
       {
         "finding": "No tools to verify SCORM data flow",
-        "background": "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
+        "description": "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
         "resolution": "Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology."
       },
       {
         "finding": "Bulk SCORM import not available",
-        "background": "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
+        "description": "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
         "resolution": "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment."
+      }
+    ],
+    "personnel": [
+      {
+        "name": "Dan Novak",
+        "title": "Lead Investigator / Solution Architect",
+        "organization": "GP Strategies",
+        "isSelf": true
+      },
+      {
+        "name": "Tracey Nicholson",
+        "title": "Chief of Learning Services, Metrics, Processes & Technology",
+        "organization": "Electric Boat"
+      },
+      {
+        "name": "Quinn Gladu",
+        "title": "Chief of Learning Services",
+        "organization": "Electric Boat"
+      },
+      {
+        "name": "Chris Sproule",
+        "title": "Director of Learning Technologies",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Josh Stoudt",
+        "title": "Senior Director, Learning Solutions",
+        "organization": "GP Strategies"
+      },
+      {
+        "name": "Chris Emmons",
+        "title": "LMS Administrator",
+        "organization": "Electric Boat"
+      },
+      {
+        "name": "Multiple EB Personnel",
+        "title": "49 contacts across departments",
+        "organization": "Electric Boat"
+      },
+      {
+        "title": "Program Manager",
+        "organization": "GP Strategies",
+        "role": "Coordinated engagement"
+      },
+      {
+        "title": "Co-Investigator",
+        "organization": "GP Strategies",
+        "role": "Assisted with testing"
+      },
+      {
+        "title": "Curriculum Developer",
+        "organization": "Electric Boat",
+        "role": "Collaborated on testing"
+      },
+      {
+        "title": "Curriculum Developer",
+        "organization": "Electric Boat",
+        "role": "Collaborated on testing"
+      },
+      {
+        "title": "Training Analyst Specialist",
+        "organization": "Electric Boat",
+        "role": "Provided technical data"
       }
     ]
   },

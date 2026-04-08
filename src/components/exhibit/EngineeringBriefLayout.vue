@@ -102,8 +102,8 @@ function sectionHasContent(section: ExhibitSection): boolean {
             <thead>
               <tr>
                 <th>Finding</th>
-                <template v-if="exhibit.findings[0].background !== undefined">
-                  <th>Background</th>
+                <template v-if="exhibit.findings[0].resolution !== undefined && exhibit.findings[0].severity === undefined">
+                  <th>Description</th>
                   <th>Resolution</th>
                 </template>
                 <template v-else-if="exhibit.findings[0].severity !== undefined">
@@ -118,8 +118,8 @@ function sectionHasContent(section: ExhibitSection): boolean {
             <tbody>
               <tr v-for="(f, fi) in exhibit.findings" :key="fi">
                 <td data-label="Finding">{{ f.finding }}</td>
-                <template v-if="f.background !== undefined">
-                  <td data-label="Background">{{ f.background }}</td>
+                <template v-if="f.resolution !== undefined && f.severity === undefined">
+                  <td data-label="Description">{{ f.description }}</td>
                   <td data-label="Resolution">{{ f.resolution }}</td>
                 </template>
                 <template v-else-if="f.severity !== undefined">

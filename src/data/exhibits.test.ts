@@ -72,9 +72,9 @@ describe('DATA-01/DATA-02: exhibitType discriminant', () => {
 })
 
 describe('PERS-01/PERS-02: personnel migration', () => {
-  it('exactly 13 exhibits have personnel arrays', () => {
+  it('exactly 14 exhibits have personnel arrays', () => {
     const count = exhibits.filter(e => e.personnel && e.personnel.length > 0).length
-    expect(count).toBe(13)
+    expect(count).toBe(14)
   })
 
   it('no exhibit has a personnel table section', () => {
@@ -151,10 +151,10 @@ describe('FIND-01/FIND-02: findings migration', () => {
     })
   })
 
-  it('Exhibit A findings has background/resolution variant', () => {
+  it('Exhibit A findings has description/resolution variant', () => {
     const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
     expect(exhibitA?.findings?.[0].finding).toBeTruthy()
-    expect(exhibitA?.findings?.[0].background).toBeTruthy()
+    expect(exhibitA?.findings?.[0].description).toBeTruthy()
     expect(exhibitA?.findings?.[0].resolution).toBeTruthy()
   })
 
@@ -169,7 +169,6 @@ describe('FIND-01/FIND-02: findings migration', () => {
     const exhibitE = exhibits.find(e => e.label === 'Exhibit E')
     expect(exhibitE?.findings?.[0].finding).toBeTruthy()
     expect(exhibitE?.findings?.[0].description).toBeTruthy()
-    expect(exhibitE?.findings?.[0].background).toBeUndefined()
   })
 
   it('exactly 2 exhibits have custom findingsHeading', () => {

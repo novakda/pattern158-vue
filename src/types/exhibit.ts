@@ -43,8 +43,9 @@ export interface TechnologyEntry {
 export interface FindingEntry {
   finding: string
   description?: string
-  background?: string
   resolution?: string
+  outcome?: string
+  category?: string
   severity?: string
 }
 
