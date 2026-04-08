@@ -2,13 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { exhibits } from '@/data/exhibits'
 
 describe('exhibits data', () => {
-  it('has exactly 15 entries', () => {
-    expect(exhibits).toHaveLength(15)
+  it('has exactly 16 entries', () => {
+    expect(exhibits).toHaveLength(16)
   })
 
   it('every entry has a valid exhibitLink', () => {
     exhibits.forEach(e => {
-      expect(e.exhibitLink).toMatch(/^\/exhibits\/exhibit-[a-o]$/)
+      expect(e.exhibitLink).toMatch(/^\/exhibits\/.+$/)
     })
   })
 
@@ -20,6 +20,17 @@ describe('exhibits data', () => {
   it('Exhibit O has correct label', () => {
     const exhibitO = exhibits.find(e => e.exhibitLink === '/exhibits/exhibit-o')
     expect(exhibitO?.label).toBe('Exhibit O')
+  })
+
+  it('contains Exhibit P entry', () => {
+    const exhibitP = exhibits.find(e => e.exhibitLink === '/exhibits/career-evidence-system')
+    expect(exhibitP).toBeDefined()
+  })
+
+  it('Exhibit P has correct label and exhibitType', () => {
+    const exhibitP = exhibits.find(e => e.exhibitLink === '/exhibits/career-evidence-system')
+    expect(exhibitP?.label).toBe('Exhibit P')
+    expect(exhibitP?.exhibitType).toBe('engineering-brief')
   })
 })
 
@@ -53,9 +64,9 @@ describe('DATA-01/DATA-02: exhibitType discriminant', () => {
     expect(count).toBe(5)
   })
 
-  it('exactly 10 are engineering-brief', () => {
+  it('exactly 11 are engineering-brief', () => {
     const count = exhibits.filter(e => e.exhibitType === 'engineering-brief').length
-    expect(count).toBe(10)
+    expect(count).toBe(11)
   })
 
   it('no exhibit has isDetailExhibit property', () => {
@@ -72,9 +83,9 @@ describe('DATA-01/DATA-02: exhibitType discriminant', () => {
 })
 
 describe('DATA-03: flagship data merged', () => {
-  it('exactly 9 exhibits are flagships', () => {
+  it('exactly 10 exhibits are flagships', () => {
     const count = exhibits.filter(e => e.isFlagship).length
-    expect(count).toBe(9)
+    expect(count).toBe(10)
   })
 
   it('every flagship has summary', () => {

@@ -14,12 +14,12 @@ vi.mock('@unhead/vue', () => ({
 import CaseFilesPage from './CaseFilesPage.vue'
 
 describe('CaseFilesPage', () => {
-  it('renders all 15 exhibits', () => {
+  it('renders all 16 exhibits', () => {
     const wrapper = mount(CaseFilesPage, {
       global: { stubs: { TechTags: true } },
     })
     const cards = wrapper.findAll('.exhibit-card')
-    expect(cards.length).toBe(15)
+    expect(cards.length).toBe(16)
   })
 
   it('groups exhibits into Investigation Reports and Engineering Briefs sections', () => {
