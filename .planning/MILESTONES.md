@@ -1,5 +1,19 @@
 # Milestones
 
+## v5.0 Findings Schema Unification (Shipped: 2026-04-08)
+
+**Phases completed:** 4 phases, 4 plans
+
+**Key accomplishments:**
+
+- FindingEntry type unified with 6 optional fields (outcome, category added; background removed)
+- 4 exhibits backfilled with NTSB-style diagnostic findings (D, F, H, K) — user-approved content
+- All 45 findings enriched with category taxonomy; severity on 6 diagnostic exhibits; resolution on 4
+- Layout rendering updated: unified 2-column table, severity/category pills, resolution/outcome text
+- Established findings standard: NTSB-style diagnostic discoveries only, not outcomes or observations
+
+---
+
 ## v4.0 Exhibit Data Normalization (Shipped: 2026-04-07)
 
 **Phases completed:** 3 phases, 6 plans, 4 tasks

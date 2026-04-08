@@ -51,20 +51,15 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Technologies tables (11 exhibits) promoted to typed `technologies: TechnologyEntry[]` arrays (TECH-01/02/03) — v4.0
 - ✓ Findings tables (7 exhibits, 3 column variants) promoted to typed `findings: FindingEntry[]` arrays with custom headings (FIND-01/02/03) — v4.0
 
+- ✓ FindingEntry unified schema: finding, description?, resolution?, outcome?, category?, severity? — background removed (SCHM-01/02) — v5.0
+- ✓ Findings backfilled for 4 exhibits (D, F, H, K) with NTSB-style diagnostic content (BKFL-01/02/04/05) — v5.0
+- ✓ All 45 findings enriched with category, severity (diagnostic exhibits), resolution (where applicable) (ENRH-01/02/03) — v5.0
+- ✓ Layout rendering: severity badges, category tags, resolution/outcome text in both detail layouts (LYOT-01/02/03/04) — v5.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-## Current Milestone: v5.0 Findings Schema Unification
-
-**Goal:** Unify all exhibit findings into a consistent schema with optional enrichment fields, and backfill findings for exhibits that currently lack them.
-
-**Target features:**
-- Unified FindingEntry schema with optional severity, resolution, outcome, category fields
-- Normalize Exhibit A's background → description field naming
-- Promote findingsHeading to all exhibits warranting custom headings
-- Backfill findings arrays for 8 exhibits currently missing them (extract from narrative sections)
-- Update layout rendering to handle new optional fields
 
 ### Out of Scope
 
@@ -79,9 +74,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v4.0 (2026-04-07) | **Status:** v5.0 in progress
+**Shipped:** v5.0 (2026-04-08) | **Status:** All milestones through v5.0 complete
 
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. 83 unit tests passing, clean production build.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. 86 unit tests passing, clean production build.
 
 ## Context
 
@@ -89,7 +84,7 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,400 LOC Vue + TypeScript, 83 unit tests passing, clean production build.
+- Codebase: ~6,700 LOC Vue + TypeScript, 86 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -122,6 +117,8 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 | First-class typed arrays for recurring table data | Personnel (13), technologies (11), findings (7) tables promoted from generic `string[][]` to typed interfaces; one-off tables (6) stay as generic sections | ✓ Good — 31 sections eliminated, typed fields queryable |
 | Field-presence variant detection in templates | `v-if="exhibit.findings[0].background !== undefined"` detects column variant at render time instead of storing variant type | ✓ Good — no extra discriminant needed, clean templates |
 | `findingsHeading` for non-default headings | Custom findings headings (Exhibits J, L) stored as optional field; layout renders `findingsHeading \|\| 'Findings'` | ✓ Good — preserves original heading text without hardcoding |
+| NTSB-style findings only | Findings must be diagnostic discoveries (what went wrong, why) — not outcomes, observations, or achievements. Some exhibits (G) don't have natural findings — skip rather than force | ✓ Good — Exhibit G skipped, Exhibit K findings revised from 4→2 to remove outcome-style entries |
+| Severity only for diagnostic findings | Severity applies to technical/process issues, not observational content. Investigation-report types and diagnostic engineering-briefs get severity; pattern-recognition exhibits (E, M, N, O) don't | ✓ Good — consistent application across 11 exhibits with findings |
 
 ## Evolution
 
@@ -141,4 +138,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-07 after v5.0 milestone start*
+*Last updated: 2026-04-08 after v5.0 milestone completion*
