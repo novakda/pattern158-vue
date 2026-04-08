@@ -1,13 +1,15 @@
 export interface FaqCategory {
-  id: 'hiring' | 'expertise' | 'style' | 'process'
+  id: string
   heading: string
   intro: string
 }
 
-export type FaqCategoryId = FaqCategory['id']
+export type FaqCategoryId = string
 
 export interface FaqItem {
+  id: string
   question: string
   answer: string
-  category: FaqCategoryId
+  categories: string[]
+  exhibitNote?: string
 }
