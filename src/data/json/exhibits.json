@@ -315,27 +315,32 @@
       {
         "finding": "SCORM courses dependent on Cornerstone Network Player",
         "description": "SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.",
-        "resolution": "Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit."
+        "resolution": "Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit.",
+        "category": "protocol"
       },
       {
         "finding": "HTML5 courses failing under AICC protocol",
         "description": "HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.",
-        "resolution": "Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration."
+        "resolution": "Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration.",
+        "category": "protocol"
       },
       {
         "finding": "Quiz bookmarking and reset failures",
         "description": "AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.",
-        "resolution": "SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints."
+        "resolution": "SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints.",
+        "category": "protocol"
       },
       {
         "finding": "No tools to verify SCORM data flow",
         "description": "EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.",
-        "resolution": "Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology."
+        "resolution": "Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology.",
+        "category": "tooling"
       },
       {
         "finding": "Bulk SCORM import not available",
         "description": "Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.",
-        "resolution": "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment."
+        "resolution": "The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment.",
+        "category": "tooling"
       }
     ],
     "personnel": [
@@ -821,22 +826,30 @@
       {
         "finding": "Legacy format incompatibilities",
         "severity": "High",
-        "description": "Courses authored in Adobe Presenter and standalone HTML5 required significant structural rework to map into Xyleme's topic-based authoring model. Flash modules needed careful handling to ensure ActionScript interactions functioned when wrapped in Xyleme's SCORM publishing layer."
+        "description": "Courses authored in Adobe Presenter and standalone HTML5 required significant structural rework to map into Xyleme's topic-based authoring model. Flash modules needed careful handling to ensure ActionScript interactions functioned when wrapped in Xyleme's SCORM publishing layer.",
+        "category": "architecture",
+        "resolution": "Structural rework completed — courses successfully mapped into Xyleme's topic-based model"
       },
       {
         "finding": "IE runtime environment failures",
         "severity": "Critical",
-        "description": "Wells Fargo's corporate browser standard was Internet Explorer, which introduced SCORM API communication quirks. Flash-based content exhibited completion tracking failures from a race condition in IE's COM SCORM adapter, exacerbated by Xyleme's thin package latency."
+        "description": "Wells Fargo's corporate browser standard was Internet Explorer, which introduced SCORM API communication quirks. Flash-based content exhibited completion tracking failures from a race condition in IE's COM SCORM adapter, exacerbated by Xyleme's thin package latency.",
+        "category": "protocol",
+        "resolution": "Root-caused to race condition in IE's COM SCORM adapter; fix deployed across Flash course portfolio"
       },
       {
         "finding": "High-volume delivery cadence",
         "severity": "High",
-        "description": "100+ courses in scope over a six-month timeline required a reliable, repeatable QA process. Dan's interactivity-level-based estimation methodology provided the predictability needed to schedule testing across the full portfolio."
+        "description": "100+ courses in scope over a six-month timeline required a reliable, repeatable QA process. Dan's interactivity-level-based estimation methodology provided the predictability needed to schedule testing across the full portfolio.",
+        "category": "process",
+        "resolution": "Interactivity-level estimation methodology adopted for effort estimation across full portfolio"
       },
       {
         "finding": "Client relationship pressure",
         "severity": "High",
-        "description": "Wells Fargo was explicitly identified as a critical account. Any delays in testing turnaround would cascade into missed course launch deadlines, potentially damaging the strategic relationship."
+        "description": "Wells Fargo was explicitly identified as a critical account. Any delays in testing turnaround would cascade into missed course launch deadlines, potentially damaging the strategic relationship.",
+        "category": "process",
+        "resolution": "Testing schedule maintained despite obstacles; client independently relayed appreciation to GP leadership"
       }
     ]
   },
@@ -1013,23 +1026,28 @@
     "findings": [
       {
         "finding": "Cross-domain architecture",
-        "description": "EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains — transparent to both content and LMS"
+        "description": "EasyXDM-based communication layer bridged same-origin policy constraints between GP content servers and client LMS domains — transparent to both content and LMS",
+        "category": "architecture"
       },
       {
         "finding": "Protocol agnostic",
-        "description": "SCORM API proxy provided transparent AICC/SCORM protocol translation — identical content packages worked across LMS platforms regardless of protocol dialect"
+        "description": "SCORM API proxy provided transparent AICC/SCORM protocol translation — identical content packages worked across LMS platforms regardless of protocol dialect",
+        "category": "protocol"
       },
       {
         "finding": "Deployment revolution",
-        "description": "Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients"
+        "description": "Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients",
+        "category": "architecture"
       },
       {
         "finding": "Automation at scale",
-        "description": "CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients — global deployments without touching individual systems"
+        "description": "CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients — global deployments without touching individual systems",
+        "category": "tooling"
       },
       {
         "finding": "Cross-industry reuse",
-        "description": "Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) — proving the pattern was reusable, not domain-specific"
+        "description": "Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) — proving the pattern was reusable, not domain-specific",
+        "category": "architecture"
       }
     ]
   },
@@ -1187,17 +1205,23 @@
       {
         "finding": "SCORM API wrapper bug",
         "severity": "Critical",
-        "description": "The SCORM API wrapper used across HSBC courseware contained a hardcoded exit value that conflicted with SuccessFactors' completion detection logic. Silent failure — no console errors, no visible indication — persisted undetected across multiple LMS migrations."
+        "description": "The SCORM API wrapper used across HSBC courseware contained a hardcoded exit value that conflicted with SuccessFactors' completion detection logic. Silent failure — no console errors, no visible indication — persisted undetected across multiple LMS migrations.",
+        "category": "protocol",
+        "resolution": "Incorrect exit value fixed; completion tracking restored across affected courses"
       },
       {
         "finding": "Lost Flash source files",
         "severity": "High",
-        "description": "Legacy Flash-based courses needed updates but original FLA source files had been lost through vendor project handoffs. Required forensic decompilation of published SWF files to recover assets, ActionScript code, and timeline data."
+        "description": "Legacy Flash-based courses needed updates but original FLA source files had been lost through vendor project handoffs. Required forensic decompilation of published SWF files to recover assets, ActionScript code, and timeline data.",
+        "category": "process",
+        "resolution": "SWF files forensically decompiled to recover source content; assets preserved for future maintenance"
       },
       {
         "finding": "Cross-region deployment inconsistencies",
         "severity": "High",
-        "description": "Localized HTML5 courses failed to deploy correctly across HSBC's global SAP SuccessFactors instance spanning Mexico, India, and the Philippines. Diagnosis required navigating time zones, language barriers, and regional LMS configuration differences."
+        "description": "Localized HTML5 courses failed to deploy correctly across HSBC's global SAP SuccessFactors instance spanning Mexico, India, and the Philippines. Diagnosis required navigating time zones, language barriers, and regional LMS configuration differences.",
+        "category": "environment",
+        "resolution": "SCORM deployment issues diagnosed and fix coordinated across international stakeholders"
       }
     ]
   },
@@ -1427,7 +1451,9 @@
       {
         "finding": "LMS configuration mismatch",
         "severity": "Critical",
-        "description": "High-visibility additive manufacturing course was publishing SCORM completion data correctly, but the LMS was not configured to receive it in the expected format. Failure surfaced only in production after the course had already passed QA."
+        "description": "High-visibility additive manufacturing course was publishing SCORM completion data correctly, but the LMS was not configured to receive it in the expected format. Failure surfaced only in production after the course had already passed QA.",
+        "category": "architecture",
+        "resolution": "Root cause identified and fix deployed same business day without republishing course content"
       }
     ]
   },
@@ -1754,23 +1780,33 @@
     "findings": [
       {
         "finding": "Memory cache vulnerability",
-        "description": "The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost."
+        "description": "The LMS held all course state in memory cache. Only saved to database via form submit when the course closed properly. No auto-save, no graceful degradation. Browser crash, tab close, or connection drop = all progress lost.",
+        "category": "architecture",
+        "severity": "Critical"
       },
       {
         "finding": "\"Congratulations You Failed\" UX",
-        "description": "Courses displayed a completion message after the final assessment — but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered."
+        "description": "Courses displayed a completion message after the final assessment — but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered.",
+        "category": "ux",
+        "severity": "High"
       },
       {
         "finding": "Confusing navigation",
-        "description": "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface — average GM sales reps with no eLearning background had no chance."
+        "description": "The vendor's authoring tool produced courses with unintuitive navigation controls. Even expert users with deep courseware experience struggled to use the interface — average GM sales reps with no eLearning background had no chance.",
+        "category": "ux",
+        "severity": "High"
       },
       {
         "finding": "Mobile workforce / poor WiFi",
-        "description": "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble."
+        "description": "GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble.",
+        "category": "environment",
+        "severity": "High"
       },
       {
         "finding": "Short-burst usage pattern",
-        "description": "System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress."
+        "description": "System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress.",
+        "category": "environment",
+        "severity": "High"
       }
     ],
     "findingsHeading": "Findings — Five Concurrent Systemic Failures (Swiss Cheese Model)"
@@ -1932,12 +1968,14 @@
       {
         "finding": "LLM used as data store",
         "severity": "Critical",
-        "description": "The original declarative agent architecture treated the LLM as both interface and data store. LLMs are probabilistic — they approximate, hallucinate, and lose context across conversation boundaries. For training applications requiring deterministic progress tracking, this was a fundamental architectural mistake."
+        "description": "The original declarative agent architecture treated the LLM as both interface and data store. LLMs are probabilistic — they approximate, hallucinate, and lose context across conversation boundaries. For training applications requiring deterministic progress tracking, this was a fundamental architectural mistake.",
+        "category": "architecture"
       },
       {
         "finding": "No separation of deterministic and probabilistic concerns",
         "severity": "High",
-        "description": "Course catalog, progress tracking, assessment scoring, and navigation paths were all handled through prompt engineering rather than structured data. No auto-save, no persisted state, no deterministic sequence enforcement."
+        "description": "Course catalog, progress tracking, assessment scoring, and navigation paths were all handled through prompt engineering rather than structured data. No auto-save, no persisted state, no deterministic sequence enforcement.",
+        "category": "architecture"
       }
     ]
   },
@@ -2077,27 +2115,32 @@
       {
         "finding": "No data model",
         "severity": "Critical",
-        "description": "No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised."
+        "description": "No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised.",
+        "category": "architecture"
       },
       {
         "finding": "No version control",
         "severity": "Critical",
-        "description": "No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net."
+        "description": "No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net.",
+        "category": "process"
       },
       {
         "finding": "Monolithic solution architecture",
         "severity": "High",
-        "description": "One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution."
+        "description": "One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution.",
+        "category": "architecture"
       },
       {
         "finding": "Requirements atomization without context",
         "severity": "High",
-        "description": "Requirements degraded through PPT → Word → Excel → ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories."
+        "description": "Requirements degraded through PPT → Word → Excel → ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories.",
+        "category": "process"
       },
       {
         "finding": "No decomposed user stories",
         "severity": "High",
-        "description": "No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent."
+        "description": "No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent.",
+        "category": "process"
       }
     ],
     "findingsHeading": "Findings — Five Foundational Gaps"
@@ -2176,23 +2219,28 @@
     "findings": [
       {
         "finding": "QA time sink",
-        "description": "Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course"
+        "description": "Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course",
+        "category": "process"
       },
       {
         "finding": "State management parallel",
-        "description": "TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data"
+        "description": "TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data",
+        "category": "architecture"
       },
       {
         "finding": "Tool effectiveness",
-        "description": "State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly"
+        "description": "State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly",
+        "category": "tooling"
       },
       {
         "finding": "Adoption barrier",
-        "description": "Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide"
+        "description": "Direct-labor billing model made non-billable tool development economically invisible — the tool existed but was never formally deployed team-wide",
+        "category": "process"
       },
       {
         "finding": "Rustici gap",
-        "description": "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided"
+        "description": "Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided",
+        "category": "tooling"
       }
     ]
   },
@@ -2291,23 +2339,28 @@
     "findings": [
       {
         "finding": "Undocumented theming",
-        "description": "Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree"
+        "description": "Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree",
+        "category": "architecture"
       },
       {
         "finding": "Federated architecture",
-        "description": "The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit"
+        "description": "The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit",
+        "category": "architecture"
       },
       {
         "finding": "Familiar pattern",
-        "description": "The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem"
+        "description": "The federated integration pattern matched CSBB Dispatch from 2011 — a decade of architectural evolution from custom-built to commercial ecosystem solving the same problem",
+        "category": "architecture"
       },
       {
         "finding": "Scope estimation challenge",
-        "description": "Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends"
+        "description": "Rebranding scope masked underlying integration complexity — what appeared to be a theming engagement required cross-system debugging across all four backends",
+        "category": "process"
       },
       {
         "finding": "Cross-system debugging",
-        "description": "Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously"
+        "description": "Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously",
+        "category": "tooling"
       }
     ]
   },
@@ -2416,23 +2469,28 @@
     "findings": [
       {
         "finding": "Pattern recognition",
-        "description": "Same architectural pattern across contexts: CSBB Dispatch (2011) → BP Learning Platform (2024) — federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he'd built his own in 2011"
+        "description": "Same architectural pattern across contexts: CSBB Dispatch (2011) → BP Learning Platform (2024) — federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he'd built his own in 2011",
+        "category": "architecture"
       },
       {
         "finding": "Organic evolution",
-        "description": "Integration expertise naturally leading to AI product work — not deliberate career planning, but organic evolution where the skill thread was real"
+        "description": "Integration expertise naturally leading to AI product work — not deliberate career planning, but organic evolution where the skill thread was real",
+        "category": "process"
       },
       {
         "finding": "Inherited code stewardship",
-        "description": "AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point — system co-ownership without original authorship"
+        "description": "AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point — system co-ownership without original authorship",
+        "category": "process"
       },
       {
         "finding": "Design-to-code pragmatism",
-        "description": "ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation"
+        "description": "ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation",
+        "category": "ux"
       },
       {
         "finding": "Cross-system debugging",
-        "description": "All three projects required tracing issues across system boundaries: GraphQL → backend services, webhook → database → REST API, frontend → AI pipeline"
+        "description": "All three projects required tracing issues across system boundaries: GraphQL → backend services, webhook → database → REST API, frontend → AI pipeline",
+        "category": "tooling"
       }
     ]
   }
