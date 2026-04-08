@@ -4430,8 +4430,8 @@ footer a,
         border-bottom: none;
     }
 
-    /* Hide all data-label pseudo-elements by default */
-    .findings-table td::before {
+    /* Hide all data-label pseudo-elements by default — must match .page-exhibit-detail specificity */
+    .page-exhibit-detail .findings-table td::before {
         display: none;
     }
 
@@ -4448,7 +4448,7 @@ footer a,
         margin-bottom: var(--space-xs);
     }
 
-    .findings-table td[data-label="Severity"]::before {
+    .page-exhibit-detail .findings-table td[data-label="Severity"]::before {
         display: inline;
         content: attr(data-label) ": ";
         font-weight: 600;
@@ -4464,7 +4464,7 @@ footer a,
         margin-bottom: var(--space-sm);
     }
 
-    .findings-table td[data-label="Category"]::before {
+    .page-exhibit-detail .findings-table td[data-label="Category"]::before {
         display: inline;
         content: attr(data-label) ": ";
         font-weight: 600;
