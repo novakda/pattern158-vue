@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v5.2
-milestone_name: Personnel Data Normalization & Card UX
+milestone: v5.3
+milestone_name: FAQ Content Audit
 status: planning
-stopped_at: Completed 29-01-PLAN.md
-last_updated: "2026-04-08T04:40:09.444Z"
+stopped_at: Milestone started — defining requirements
+last_updated: "2026-04-08"
 last_activity: 2026-04-08
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 3
-  completed_plans: 3
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
   percent: 0
 ---
 
@@ -18,19 +18,17 @@ progress:
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-04-07)
+See: .planning/PROJECT.md (updated 2026-04-08)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 28 — Personnel Data Cleanup
+**Current focus:** Defining requirements for v5.3 FAQ Content Audit
 
 ## Current Position
 
-Phase: 29 of 29 (personnel card ux)
-Plan: Not started
-Status: Ready to plan
-Last activity: 2026-04-08
-
-Progress: [░░░░░░░░░░] 0%
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-04-08 — Milestone v5.3 started
 
 ## Performance Metrics
 
@@ -78,5 +76,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-08
-Stopped at: Completed quick task 260407-v5k: Fix dynamic personnel table header
+Stopped at: Milestone v5.3 started — defining requirements
 Resume file: None

@@ -73,6 +73,15 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+## Current Milestone: v5.3 FAQ Content Audit
+
+**Goal:** Audit the FAQ page against all other site pages, identify content drift and inconsistencies, then fix accuracy issues and restructure where warranted.
+
+**Target features:**
+- Cross-page content audit: compare every FAQ answer against corresponding content on HomePage, TechnologiesPage, PhilosophyPage, ContactPage, CaseFilesPage, and exhibit data
+- Fix stale references (e.g., "portfolio" → "case files", incomplete tech lists, inconsistent phrasing)
+- Restructure FAQ questions/categories based on audit findings — add, remove, or rewrite as needed
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
@@ -152,4 +161,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v5.2 milestone completion*
+*Last updated: 2026-04-08 after v5.3 milestone start*
