@@ -103,15 +103,11 @@ describe('PERS-01/PERS-02: personnel migration', () => {
     expect(exhibitL?.personnel?.[1].involvement).toBeTruthy()
   })
 
-  it('PersonnelEntry type accepts entryType field (DATA-03)', () => {
+  it('PersonnelEntry entryType field is populated (DATA-03)', () => {
     const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
-    // Type check: entryType is a valid field on PersonnelEntry
     const firstPerson = exhibitA?.personnel?.[0]
-    // entryType not yet populated (Plan 02), but field must be valid on the type
     expect(firstPerson).toBeDefined()
-    // Verify the field is accessible without TypeScript error
-    const _typeCheck: string | undefined = firstPerson?.entryType
-    expect(_typeCheck).toBeUndefined() // Not yet populated
+    expect(firstPerson?.entryType).toBe('individual')
   })
 
   it('Exhibit E personnel has role field (Name/Title/Role variant)', () => {
@@ -238,5 +234,86 @@ describe('DATA-03: flagship data merged', () => {
     exhibits.filter(e => e.isFlagship).forEach(e => {
       expect(e.role).toBeTruthy()
     })
+  })
+})
+
+describe('DATA-01/DATA-04/DATA-05: personnel data cleanup', () => {
+  const allPersonnel = exhibits.flatMap(e => e.personnel || [])
+
+  it('no personnel entry has a title stored in the name field (DATA-01)', () => {
+    const titlePatterns = [
+      /^Senior Vice President$/,
+      /^Content Team Manager$/,
+      /^QA Lead$/,
+      /^Program Manager$/,
+      /^Project Lead$/,
+      /^Director of/,
+      /^Lead Developer$/,
+      /^Performance Consultant/,
+      /^Learning Consultant/,
+      /^HSBC Account/,
+      /^SunTrust Developer$/,
+      /^LMS Configuration/,
+      /^Client Liaison$/,
+      /^Senior Learning PM$/,
+      /^Investigation Lead$/,
+      /^Data Analyst/,
+      /^Instructional Designer$/,
+      /^MCAPS Lead$/,
+    ]
+    const entriesWithName = allPersonnel.filter(p => p.name)
+    entriesWithName.forEach(p => {
+      titlePatterns.forEach(pattern => {
+        expect(p.name).not.toMatch(pattern)
+      })
+    })
+  })
+
+  it('every personnel entry has an entryType (DATA-03 populated)', () => {
+    allPersonnel.forEach(p => {
+      expect(p.entryType).toBeDefined()
+      expect(['individual', 'group', 'anonymized']).toContain(p.entryType)
+    })
+  })
+
+  it('total personnel count is 66', () => {
+    expect(allPersonnel).toHaveLength(66)
+  })
+
+  it('exactly 7 group entries (DATA-04)', () => {
+    const groups = allPersonnel.filter(p => p.entryType === 'group')
+    expect(groups).toHaveLength(7)
+  })
+
+  it('group entries are in the expected exhibits', () => {
+    const exhibitsWithGroups = exhibits
+      .filter(e => (e.personnel || []).some(p => p.entryType === 'group'))
+      .map(e => e.label)
+      .sort()
+    expect(exhibitsWithGroups).toEqual([
+      'Exhibit A', 'Exhibit B', 'Exhibit C', 'Exhibit D',
+      'Exhibit F', 'Exhibit I', 'Exhibit N'
+    ])
+  })
+
+  it('Exhibit A has 5 anonymized entries (DATA-05)', () => {
+    const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
+    const anonymized = (exhibitA?.personnel || []).filter(p => p.entryType === 'anonymized')
+    expect(anonymized).toHaveLength(5)
+  })
+
+  it('individual entries all have a name field', () => {
+    const individuals = allPersonnel.filter(p => p.entryType === 'individual')
+    individuals.forEach(p => {
+      expect(p.name).toBeTruthy()
+    })
+  })
+
+  it('anonymized entries do not have a name field (except nickname entries)', () => {
+    const anonymized = allPersonnel.filter(p => p.entryType === 'anonymized')
+    const withName = anonymized.filter(p => p.name)
+    // Only Exhibit C "Colleague (\"The Slacker\")" should have a name
+    expect(withName).toHaveLength(1)
+    expect(withName[0].name).toContain('Slacker')
   })
 })
