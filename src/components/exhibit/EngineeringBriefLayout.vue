@@ -51,16 +51,19 @@ function sectionHasContent(section: ExhibitSection): boolean {
           <table class="exhibit-table personnel-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Title</th>
+                <th>Name / Title</th>
                 <th>Organization</th>
+                <th>Role on Project</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(p, pi) in exhibit.personnel" :key="pi" :class="{ 'personnel-entry-group': p.entryType === 'group', 'personnel-entry-anonymized': p.entryType === 'anonymized' }">
-                <td :data-label="p.name ? 'Name' : (p.title ? 'Title' : 'Role')">{{ p.name || p.title || p.role }}</td>
-                <td data-label="Title">{{ p.name ? p.title : p.role }}</td>
-                <td :data-label="p.organization !== undefined ? 'Organization' : 'Role'">{{ p.organization ?? p.role }}</td>
+                <td data-label="person">
+                  <span v-if="p.name" class="personnel-name">{{ p.name }}</span>
+                  <span class="personnel-title">{{ p.title }}</span>
+                </td>
+                <td v-if="p.organization" data-label="organization">{{ p.organization }}</td><td v-else></td>
+                <td v-if="p.role" data-label="role">{{ p.role }}</td><td v-else></td>
               </tr>
             </tbody>
           </table>

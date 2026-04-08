@@ -2734,15 +2734,34 @@ footer a:hover {
     color: var(--color-accent-on-alt);  /* 5.11:1 on striped rows, passes 4.5:1 */
 }
 
-/* ========== Personnel entryType: Desktop Table Variants ========== */
-.personnel-table tr.personnel-entry-group td {
+/* ========== Personnel: Name/Title stacking in first column ========== */
+.personnel-table .personnel-name {
+    display: block;
+    font-size: var(--font-size-xs);
     color: var(--color-text-muted);
-    font-style: italic;
+    letter-spacing: 0.3px;
 }
 
-.personnel-table tr.personnel-entry-anonymized td:first-child,
-.personnel-table tr.personnel-entry-anonymized td:nth-child(2) {
+.personnel-table .personnel-title {
+    display: block;
+    font-weight: 600;
+    color: var(--color-heading);
+}
+
+/* ========== Personnel entryType: Desktop Table Variants ========== */
+.personnel-table tr.personnel-entry-anonymized .personnel-title,
+.personnel-table tr.personnel-entry-group .personnel-title {
     font-style: italic;
+    font-weight: 400;
+    color: var(--color-text-muted);
+}
+
+.personnel-table tr.personnel-entry-group td {
+    color: var(--color-text-muted);
+}
+
+.personnel-table tr.personnel-entry-group {
+    opacity: 0.8;
 }
 
 /* ========== SHARED: Table Zebra Striping ========== */
@@ -3603,10 +3622,67 @@ footer a:hover {
         overflow-x: visible;
     }
 
-    /* Personnel table specific (exhibit pages) */
-    .personnel-table td:first-child {
+    /* Personnel table: suppress shared labels — layout is self-evident */
+    .personnel-table td[data-label]::before {
+        display: none !important;
+        content: none !important;
+    }
+
+    /* Personnel table: remove shared left border for named individuals */
+    .personnel-table tr:not(.personnel-entry-group):not(.personnel-entry-anonymized) {
+        border-left: none;
+    }
+
+    /* Personnel table: anonymized — solid left border accent */
+    .personnel-table tr.personnel-entry-anonymized {
+        border-left: 4px solid var(--color-border);
+    }
+
+    /* Personnel table: group — dashed left border, reduced opacity */
+    .personnel-table tr.personnel-entry-group {
+        opacity: 0.7;
+        border-left: 4px dashed var(--color-border);
+    }
+
+    /* Personnel table: name/title stacking in first cell */
+    .personnel-table td[data-label="person"] .personnel-name {
+        display: block;
+        font-size: var(--font-size-xs);
+        color: var(--color-text-muted);
+        letter-spacing: 0.3px;
+        margin-bottom: 2px;
+    }
+
+    .personnel-table td[data-label="person"] .personnel-title {
+        display: block;
         font-weight: 700;
+        font-size: var(--font-size-lg);
+        font-family: var(--font-heading, inherit);
         color: var(--color-heading);
+        line-height: 1.3;
+    }
+
+    /* Anonymized/group: italic muted title */
+    .personnel-table tr.personnel-entry-anonymized .personnel-title,
+    .personnel-table tr.personnel-entry-group .personnel-title {
+        font-style: italic;
+        font-weight: 400;
+        color: var(--color-text-muted);
+    }
+
+    /* Organization */
+    .personnel-table td[data-label="organization"] {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-medium);
+    }
+
+    /* Role — hairline separator at bottom of card */
+    .personnel-table td[data-label="role"]:not(:empty) {
+        font-size: var(--font-size-sm);
+        color: var(--color-text-medium);
+        border-top: 1px solid var(--color-border);
+        margin-top: var(--space-sm);
+        padding-top: var(--space-sm);
     }
 
     /* Resolution table specific (testimonials + exhibits) */
@@ -4380,56 +4456,7 @@ footer a,
         display: none;
     }
 
-    /* Hide redundant mobile labels on personnel tables — names/roles are self-evident */
-    .personnel-table td[data-label="Name"]::before,
-    .personnel-table td[data-label="Role"]::before,
-    .personnel-table td[data-label="Title"]::before,
-    .personnel-table td[data-label="Organization"]::before,
-    .personnel-table td[data-label="Department"]::before {
-        display: none;
-    }
-
-    /* First cell as h3-style heading (name/title/role cascade per CARD-03) */
-    .personnel-table td:first-child {
-        font-weight: 700;
-        font-size: var(--font-size-lg);
-        font-family: var(--font-heading, inherit);
-        color: var(--color-heading);
-        line-height: 1.3;
-        margin-bottom: var(--space-xs);
-    }
-
-    /* Personnel entryType: Mobile Card Variants */
-
-    /* Group entries: compact/muted cards (CARD-01) */
-    .personnel-table tr.personnel-entry-group {
-        opacity: 0.7;
-        border-left: 4px dashed var(--color-border);
-        padding: var(--space-sm) var(--space-md);
-    }
-
-    /* Group label pseudo-element */
-    .personnel-table tr.personnel-entry-group td:first-child::before {
-        content: "GROUP";
-        display: block;
-        font-size: var(--font-size-xs);
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: var(--color-text-muted);
-        margin-bottom: var(--space-xs);
-        font-style: normal;
-        font-family: var(--font-body, inherit);
-    }
-
-    /* Anonymized entries: italic/muted cards (CARD-02) */
-    .personnel-table tr.personnel-entry-anonymized {
-        font-style: italic;
-    }
-
-    .personnel-table tr.personnel-entry-anonymized td:first-child {
-        color: var(--color-text-muted);
-    }
+    /* Personnel card rules now in 768px block above — no 480px overrides needed */
 
     /* Hide redundant labels on resolution tables — Issue/Resolution context is clear from card structure */
     .resolution-table td[data-label="Issue"]::before,
@@ -4529,7 +4556,7 @@ footer a,
         line-height: 1.5;
     }
 
-    /* Personnel: card-based layout on mobile */
+    /* Personnel: card-based layout on mobile (v5.1+ breakpoint) */
     .personnel-table {
         display: block;
     }
@@ -4557,37 +4584,6 @@ footer a,
         display: block;
         padding: 0;
         border-bottom: none;
-    }
-
-    .page-exhibit-detail .personnel-table td::before {
-        display: none;
-    }
-
-    /* Name as h3-style heading */
-    .personnel-table td[data-label="Name"] {
-        font-weight: 700;
-        font-size: var(--font-size-lg);
-        font-family: var(--font-heading, inherit);
-        color: var(--color-heading);
-        line-height: 1.3;
-        margin-bottom: var(--space-xs);
-    }
-
-    /* Role as h3-style heading (involvement variant) */
-    .personnel-table td[data-label="Role"] {
-        font-weight: 700;
-        font-size: var(--font-size-lg);
-        font-family: var(--font-heading, inherit);
-        color: var(--color-heading);
-        line-height: 1.3;
-        margin-bottom: var(--space-xs);
-    }
-
-    .personnel-table td[data-label="Title"],
-    .personnel-table td[data-label="Organization"],
-    .personnel-table td[data-label="Involvement"] {
-        font-size: var(--font-size-sm);
-        color: var(--color-text-medium);
     }
 
     /* Technologies: card-based layout on mobile */
