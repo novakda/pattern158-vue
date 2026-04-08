@@ -816,6 +816,28 @@
         "category": "QA Methodology",
         "tools": "Interactivity-level estimation framework, functional testing, regression testing, cross-platform validation"
       }
+    ],
+    "findings": [
+      {
+        "finding": "Legacy format incompatibilities",
+        "severity": "High",
+        "description": "Courses authored in Adobe Presenter and standalone HTML5 required significant structural rework to map into Xyleme's topic-based authoring model. Flash modules needed careful handling to ensure ActionScript interactions functioned when wrapped in Xyleme's SCORM publishing layer."
+      },
+      {
+        "finding": "IE runtime environment failures",
+        "severity": "Critical",
+        "description": "Wells Fargo's corporate browser standard was Internet Explorer, which introduced SCORM API communication quirks. Flash-based content exhibited completion tracking failures from a race condition in IE's COM SCORM adapter, exacerbated by Xyleme's thin package latency."
+      },
+      {
+        "finding": "High-volume delivery cadence",
+        "severity": "High",
+        "description": "100+ courses in scope over a six-month timeline required a reliable, repeatable QA process. Dan's interactivity-level-based estimation methodology provided the predictability needed to schedule testing across the full portfolio."
+      },
+      {
+        "finding": "Client relationship pressure",
+        "severity": "High",
+        "description": "Wells Fargo was explicitly identified as a critical account. Any delays in testing turnaround would cascade into missed course launch deadlines, potentially damaging the strategic relationship."
+      }
     ]
   },
   {
@@ -1160,6 +1182,23 @@
         "category": "International Coordination",
         "tools": "Multi-region deployment (US, UK, Mexico, India, Philippines), localization debugging"
       }
+    ],
+    "findings": [
+      {
+        "finding": "SCORM API wrapper bug",
+        "severity": "Critical",
+        "description": "The SCORM API wrapper used across HSBC courseware contained a hardcoded exit value that conflicted with SuccessFactors' completion detection logic. Silent failure — no console errors, no visible indication — persisted undetected across multiple LMS migrations."
+      },
+      {
+        "finding": "Lost Flash source files",
+        "severity": "High",
+        "description": "Legacy Flash-based courses needed updates but original FLA source files had been lost through vendor project handoffs. Required forensic decompilation of published SWF files to recover assets, ActionScript code, and timeline data."
+      },
+      {
+        "finding": "Cross-region deployment inconsistencies",
+        "severity": "High",
+        "description": "Localized HTML5 courses failed to deploy correctly across HSBC's global SAP SuccessFactors instance spanning Mexico, India, and the Philippines. Diagnosis required navigating time zones, language barriers, and regional LMS configuration differences."
+      }
     ]
   },
   {
@@ -1382,6 +1421,13 @@
         "name": "Client Liaison",
         "title": "Project Manager",
         "organization": "GP Strategies / Client"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "LMS configuration mismatch",
+        "severity": "Critical",
+        "description": "High-visibility additive manufacturing course was publishing SCORM completion data correctly, but the LMS was not configured to receive it in the expected format. Failure surfaced only in production after the course had already passed QA."
       }
     ]
   },
@@ -1880,6 +1926,18 @@
       {
         "category": "Microsoft History",
         "tools": "10-year relationship: Windows 10 eLearning, SCORM integration, accessibility initiative"
+      }
+    ],
+    "findings": [
+      {
+        "finding": "LLM used as data store",
+        "severity": "Critical",
+        "description": "The original declarative agent architecture treated the LLM as both interface and data store. LLMs are probabilistic — they approximate, hallucinate, and lose context across conversation boundaries. For training applications requiring deterministic progress tracking, this was a fundamental architectural mistake."
+      },
+      {
+        "finding": "No separation of deterministic and probabilistic concerns",
+        "severity": "High",
+        "description": "Course catalog, progress tracking, assessment scoring, and navigation paths were all handled through prompt engineering rather than structured data. No auto-save, no persisted state, no deterministic sequence enforcement."
       }
     ]
   },

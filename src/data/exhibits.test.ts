@@ -137,9 +137,9 @@ describe('TECH-01/TECH-02: technologies migration', () => {
 })
 
 describe('FIND-01/FIND-02: findings migration', () => {
-  it('exactly 7 exhibits have findings arrays', () => {
+  it('exactly 11 exhibits have findings arrays', () => {
     const count = exhibits.filter(e => e.findings && e.findings.length > 0).length
-    expect(count).toBe(7)
+    expect(count).toBe(11)
   })
 
   it('no exhibit has a findings table section', () => {
