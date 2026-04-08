@@ -57,7 +57,7 @@
   {
     "category": "process",
     "question": "What's your typical workflow?",
-    "answer": "The pattern repeats across my career:\n\n1. Deconstruct the Chaos: Forensic investigation to understand the system \u2014 map dependencies, identify patterns, document what exists\n2. Build the Tool: Create reusable frameworks to solve root causes, not symptoms \u2014 automate repetitive tasks, standardize processes\n3. Empower the User: Hand off robust, documented tools that make complex processes simple \u2014 clear READMEs, inline comments, training materials\n\nThis pattern shows up whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools."
+    "answer": "A three-step pattern recurs across my career: Deconstruct the Chaos, Build the Tool, Empower the User. Whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools, the same cycle applies.\n\nThe full methodology is detailed on the Philosophy page."
   },
   {
     "category": "process",
