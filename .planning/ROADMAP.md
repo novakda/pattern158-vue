@@ -138,8 +138,9 @@ Plans:
   2. Anonymized personnel entries render with visible distinction (italic or muted treatment) on mobile cards
   3. Card headings display the best available field (name if present, then title, then role) consistently across all variants
   4. Desktop table rows reflect entryType distinctions — muted rows for group entries, italic for anonymized entries
-**Plans**: TBD
-**UI hint**: yes
+**Plans:** 1 plan
+Plans:
+- [ ] 29-01-PLAN.md — Template entryType class bindings, heading cascade, and CSS for all entry variants
 
 ## Progress
 
@@ -148,4 +149,4 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 28. Personnel Data Cleanup | 2/2 | Complete    | 2026-04-08 |
-| 29. Personnel Card UX | 0/TBD | Not started | - |
+| 29. Personnel Card UX | 0/1 | Not started | - |
