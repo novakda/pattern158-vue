@@ -4,12 +4,12 @@ milestone: v6.0
 milestone_name: FAQ Page Redesign
 status: executing
 stopped_at: Roadmap created for v6.0
-last_updated: "2026-04-08T15:21:17.244Z"
-last_activity: 2026-04-08
+last_updated: "2026-04-08T18:48:54.285Z"
+last_activity: 2026-04-08 -- Phase 34 execution started
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 1
+  total_plans: 2
   completed_plans: 1
   percent: 0
 ---
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-08)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 33 — data-schema-type-foundation
+**Current focus:** Phase 34 — content-merge
 
 ## Current Position
 
-Phase: 34
-Plan: Not started
-Status: Executing Phase 33
-Last activity: 2026-04-08
+Phase: 34 (content-merge) — EXECUTING
+Plan: 1 of 1
+Status: Executing Phase 34
+Last activity: 2026-04-08 -- Phase 34 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
