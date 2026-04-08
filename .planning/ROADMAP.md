@@ -99,7 +99,7 @@ Full details: `.planning/milestones/v5.0-ROADMAP.md`
 
 **Milestone Goal:** Apply responsive card layout pattern (desktop table / mobile cards) to personnel and technologies sections, matching the findings-table pattern from v5.0.
 
-- [ ] **Phase 27: Personnel & Technologies Card Layout** - Desktop table classes and mobile card views for both section types across both layouts
+- [x] **Phase 27: Personnel & Technologies Card Layout** - Desktop table classes and mobile card views for both section types across both layouts (completed 2026-04-08)
 
 ## Phase Details
 
@@ -120,4 +120,4 @@ Full details: `.planning/milestones/v5.0-ROADMAP.md`
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 27. Personnel & Technologies Card Layout | 0/TBD | Not started | - |
+| 27. Personnel & Technologies Card Layout | 0/TBD | Complete    | 2026-04-08 |
