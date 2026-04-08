@@ -47,23 +47,23 @@ None — this is a focused content audit milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUDIT-01 | — | Pending |
-| AUDIT-02 | — | Pending |
-| REFS-01 | — | Pending |
-| REFS-02 | — | Pending |
-| ACCY-01 | — | Pending |
-| ACCY-02 | — | Pending |
-| ACCY-03 | — | Pending |
-| ACCY-04 | — | Pending |
-| OVLP-01 | — | Pending |
-| OVLP-02 | — | Pending |
-| OVLP-03 | — | Pending |
+| AUDIT-01 | Phase 30 | Pending |
+| AUDIT-02 | Phase 30 | Pending |
+| REFS-01 | Phase 31 | Pending |
+| REFS-02 | Phase 31 | Pending |
+| ACCY-01 | Phase 31 | Pending |
+| ACCY-02 | Phase 31 | Pending |
+| ACCY-03 | Phase 31 | Pending |
+| ACCY-04 | Phase 31 | Pending |
+| OVLP-01 | Phase 32 | Pending |
+| OVLP-02 | Phase 32 | Pending |
+| OVLP-03 | Phase 32 | Pending |
 
 **Coverage:**
 - v5.3 requirements: 11 total
-- Mapped to phases: 0
-- Unmapped: 11
+- Mapped to phases: 11
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-04-08*
-*Last updated: 2026-04-08 after initial definition*
+*Last updated: 2026-04-08 after roadmap creation*
