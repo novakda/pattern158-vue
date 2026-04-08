@@ -29,7 +29,7 @@ useSeo({
     <h2 :id="`${cat.id}-heading`">{{ cat.heading }}</h2>
     <p class="category-intro">{{ cat.intro }}</p>
     <FaqItem
-      v-for="item in faqItems.filter(i => i.category === cat.id)"
+      v-for="item in faqItems.filter(i => i.categories.includes(cat.id))"
       :key="item.question"
       :question="item.question"
       :answer="item.answer"
