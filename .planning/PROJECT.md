@@ -69,18 +69,33 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Card heading logic uses best available field: name → title → role (CARD-03) — v5.2
 - ✓ Desktop table rows reflect entryType distinctions (CARD-04) — v5.2
 
+- ✓ FAQ cross-page audit: all 14 answers compared against 6 site pages, 13 issues identified and classified (AUDIT-01/02) — v5.3
+- ✓ FAQ stale references fixed: "portfolio"→"case files", tech listing expanded with React/Python/Power Platform/Claude Code (REFS-01/02) — v5.3
+- ✓ FAQ content accuracy: industry list corrected with verified clients, AI/automation updated, accessibility phrasing aligned (ACCY-01-04) — v5.3
+- ✓ FAQ overlap resolved: Q2 and Q12 shortened to complementary summaries with cross-references to Contact and Philosophy pages (OVLP-01-03) — v5.3
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-## Current Milestone: v5.3 FAQ Content Audit
+- [ ] Interactive FAQ accordion component with click-to-toggle, multi-open, +/× icon
+- [ ] Category filter bar with pill buttons and live question count
+- [ ] New FAQ data structure: categories array, optional exhibitNote
+- [ ] Career-vault FAQ content merged with existing questions
+- [ ] Exhibit cross-reference callout blocks with accent styling
+- [ ] Full-width stacked layout with horizontal rule separators
 
-**Goal:** Audit the FAQ page against all other site pages, identify content drift and inconsistencies, then fix accuracy issues and restructure where warranted.
+## Current Milestone: v6.0 FAQ Page Redesign
+
+**Goal:** Replace the static FAQ layout with an interactive accordion component featuring category filtering, incorporate career-vault FAQ content, and add exhibit cross-reference callouts.
 
 **Target features:**
-- Cross-page content audit: compare every FAQ answer against corresponding content on HomePage, TechnologiesPage, PhilosophyPage, ContactPage, CaseFilesPage, and exhibit data
-- Fix stale references (e.g., "portfolio" → "case files", incomplete tech lists, inconsistent phrasing)
-- Restructure FAQ questions/categories based on audit findings — add, remove, or rewrite as needed
+- New FAQ data structure with multi-tag categories and optional exhibit cross-references
+- Category filter bar with pill buttons, one active filter at a time, live question count
+- Accordion behavior with multi-open support and animated +/× icon
+- Exhibit callout blocks with left-border accent styling
+- Full-width stacked layout with horizontal rules
+- Content integration: merge career-vault FAQ content with existing questions
 
 ### Out of Scope
 
@@ -90,12 +105,11 @@ Every page template should be scannable and self-documenting through well-named 
 - Animations/transitions — defer to a future pass
 - SSR/SSG — SPA is sufficient for a portfolio site
 - New exhibit content creation — restructure existing content, don't write new exhibits
-- Interactive search/filter beyond type grouping — 15 items is far below where search adds value
-- Tag-based filtering — useful at 50+ items, premature at 15
+- Search input for FAQ — category filtering is sufficient for ~27 items; search adds value at 50+
 
 ## Current State
 
-**Shipped:** v5.2 (2026-04-08) | **Status:** All milestones through v5.2 complete
+**Shipped:** v5.3 (2026-04-08) | **Status:** Starting v6.0
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. Personnel data normalized: 26 title-as-name entries corrected, Exhibit L schema unified, all 66 entries typed with entryType (individual/group/anonymized). Mobile cards and desktop tables visually distinguish entry types with compact group cards, italic anonymized entries, and heading cascade (name → title → role). 95 unit tests passing, clean production build.
 
@@ -161,4 +175,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v5.3 milestone start*
+*Last updated: 2026-04-08 after v6.0 milestone start*

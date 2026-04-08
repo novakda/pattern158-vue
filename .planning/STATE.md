@@ -1,9 +1,9 @@
 ---
 gsd_state_version: 1.0
-milestone: v5.3
-milestone_name: FAQ Content Audit
-status: planning
-stopped_at: Milestone started — defining requirements
+milestone: v6.0
+milestone_name: FAQ Page Redesign
+status: defining-requirements
+stopped_at: Milestone started
 last_updated: "2026-04-08"
 last_activity: 2026-04-08
 progress:
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-08)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Defining requirements for v5.3 FAQ Content Audit
+**Current focus:** Defining requirements for v6.0
 
 ## Current Position
 
 Phase: Not started (defining requirements)
 Plan: —
 Status: Defining requirements
-Last activity: 2026-04-08 — Milestone v5.3 started
+Last activity: 2026-04-08 — Milestone v6.0 started
 
 ## Performance Metrics
 
@@ -46,28 +46,17 @@ Last activity: 2026-04-08 — Milestone v5.3 started
 
 ## Accumulated Context
 
-| Phase 28 P01 | 1min | 2 tasks | 3 files |
-| Phase 28 P02 | 4min | 2 tasks | 2 files |
-| Phase 29-personnel-card-ux P01 | 4min | 2 tasks | 3 files |
-
 ### Decisions
 
-- [v5.1]: Personnel and technologies mobile card layout matching findings pattern established
-- [v5.0]: Findings desktop table + mobile card view pattern established as reference implementation
-- [v4.0]: Field-presence variant detection in templates (v-if on optional fields) — reuse for card variants
-- [Phase 28]: Split Exhibit L 'Dan Novak - Development Lead' into separate name/title/organization fields; entries without names use title for descriptive role text
-- [Phase 28]: Actual personnel count is 66 not 83; entryType added to all entries with em-dash/slash merge patterns for title consolidation
-- [Phase 29-personnel-card-ux]: td:first-child selector for heading treatment supports dynamic data-label from heading cascade
+Decisions are logged in PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- [v3.0]: faqItems externalized to JSON (src/data/json/faq.json); faqCategories kept as const in TypeScript
+- [v5.3]: FAQ content audited and corrected against site pages
 
 ### Pending Todos
 
 None.
-
-### Quick Tasks Completed
-
-| # | Description | Date | Commit | Directory |
-|---|-------------|------|--------|-----------|
-| 260407-v5k | Fix dynamic personnel table header to static Organization | 2026-04-08 | a406d72 | [260407-v5k](./quick/260407-v5k-fix-dynamic-personnel-table-header-to-st/) |
 
 ### Blockers/Concerns
 
@@ -76,5 +65,5 @@ None.
 ## Session Continuity
 
 Last session: 2026-04-08
-Stopped at: Milestone v5.3 started — defining requirements
+Stopped at: Milestone started
 Resume file: None
