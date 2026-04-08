@@ -148,7 +148,9 @@ Plans:
   3. FAQ industry list is consistent with client references across Contact and Case Files pages
   4. FAQ AI/automation answer reflects current tooling (Claude Code as primary, Copilot Studio, practical AI focus) and "GitHub Spec Kit" reference is verified or corrected
   5. Accessibility standard phrasing is consistent between FAQ and Contact page ("WCAG 2.1 AA" / "Section 508")
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 31-01-PLAN.md — Fix stale references, tech listing, industry list, accessibility phrasing, and internal duplication
 
 ### Phase 32: Overlap Resolution
 **Goal**: FAQ content complements rather than duplicates Contact and Philosophy pages, with each page serving a distinct purpose
@@ -168,5 +170,5 @@ Phases execute in numeric order: 30 -> 31 -> 32
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 30. Cross-Page Content Audit | v5.3 | 1/1 | Complete    | 2026-04-08 |
-| 31. Content Fixes | v5.3 | 0/TBD | Not started | - |
+| 31. Content Fixes | v5.3 | 0/1 | Not started | - |
 | 32. Overlap Resolution | v5.3 | 0/TBD | Not started | - |
