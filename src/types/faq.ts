@@ -12,4 +12,5 @@ export interface FaqItem {
   answer: string
   categories: string[]
   exhibitNote?: string
+  exhibitUrl?: string
 }
