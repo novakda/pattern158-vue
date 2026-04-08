@@ -2145,7 +2145,7 @@
       {
         "name": "Dan Novak",
         "title": "Software Engineer",
-        "organization": "Client Organization",
+        "organization": "GP Strategies",
         "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings.",
         "entryType": "individual",
         "role": "Development Lead"
@@ -2157,13 +2157,13 @@
         "role": "Original architects of the Power Platform solution"
       },
       {
-        "title": "Developer (anonymized)",
+        "title": "Developer",
         "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism.",
         "entryType": "anonymized",
         "role": "Lead developer on the existing Power Platform solution"
       },
       {
-        "title": "Governance Architect (anonymized)",
+        "title": "Governance Architect",
         "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization.",
         "entryType": "anonymized",
         "role": "Recipient of the findings deliverable"
