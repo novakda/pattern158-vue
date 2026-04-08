@@ -353,50 +353,44 @@
         "role": "Lead Investigator"
       },
       {
-        "name": "Charlie Rando",
         "title": "Chief of Learning Services, Metrics, Processes & Technology",
         "organization": "Electric Boat",
         "role": "Primary client contact and technical collaborator",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Josh Stoudt",
         "title": "Senior Director, Learning Solutions",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Multiple EB Personnel",
         "title": "49 contacts across departments",
         "organization": "Electric Boat",
-        "entryType": "group"
+        "entryType": "group",
+        "name": "Multiple EB Personnel"
       },
       {
         "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
         "role": "EB account coordination",
-        "entryType": "individual",
-        "name": "Allison McGuire"
+        "entryType": "anonymized"
       },
       {
         "title": "Functional QA Lead",
         "organization": "GP Strategies",
         "role": "QA testing and co-investigation",
-        "entryType": "individual",
-        "name": "Deborah Schultz"
+        "entryType": "anonymized"
       },
       {
         "title": "Course Developer",
         "organization": "Electric Boat",
         "role": "EB content development and testing",
-        "entryType": "individual",
-        "name": "Sascia Hayden"
+        "entryType": "anonymized"
       },
       {
         "title": "Curriculum Developer",
@@ -408,8 +402,7 @@
         "title": "Training Analyst Specialist",
         "organization": "Electric Boat",
         "role": "Course content and technical data support",
-        "entryType": "individual",
-        "name": "Lisa Jackson"
+        "entryType": "anonymized"
       }
     ]
   },
@@ -502,24 +495,21 @@
         "role": "Technical Consultant (subject of both performance cascades)"
       },
       {
-        "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Josh Stoudt",
         "title": "Sr. Director of Learning Solutions",
         "organization": "GP Strategies",
-        "entryType": "individual",
+        "entryType": "anonymized",
         "role": "15+ years GP leadership"
       },
       {
-        "name": "Charlie Rando",
         "title": "Chief of Learning Services, Metrics, Processes & Technology",
         "organization": "Electric Boat",
         "role": "Primary client contact",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
         "title": "SVP of Learning Solutions",
@@ -528,11 +518,11 @@
         "role": "Initiated EB engagement Sept 2017"
       },
       {
-        "name": "GP On-Site EB Team",
         "title": "Account support and coordination",
         "organization": "GP Strategies",
         "entryType": "group",
-        "role": "Multiple GP staff relayed independent positive feedback about Dan (April 2019)"
+        "role": "Multiple GP staff relayed independent positive feedback about Dan (April 2019)",
+        "name": "GP On-Site EB Team"
       }
     ]
   },
@@ -657,18 +647,18 @@
         "role": "Led the overall refresh project"
       },
       {
-        "name": "Colleague (\"The Slacker\")",
         "title": "Content Developer",
         "organization": "GP Strategies",
         "entryType": "anonymized",
-        "role": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)"
+        "role": "Used automation tool to publish every lesson 3x; built auto-integration of custom code (saving 75+ additional hours)",
+        "name": "Colleague (\"The Slacker\")"
       },
       {
         "title": "Content Refresh Team",
         "organization": "GP Strategies",
         "entryType": "group",
-        "name": "15+ Team Members",
-        "role": "Each recognized with unique nicknames"
+        "role": "Each recognized with unique nicknames",
+        "name": "15+ Team Members"
       }
     ],
     "technologies": [
@@ -794,38 +784,34 @@
         "role": "Technical Lead for Functional QA"
       },
       {
-        "name": "Chris Sproule",
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
         "title": "Functional QA Lead",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Close collaborator on functional testing",
-        "name": "Deborah Schultz"
+        "entryType": "anonymized",
+        "role": "Close collaborator on functional testing"
       },
       {
         "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Engagement coordination and client relationships",
-        "name": "Allison McGuire"
+        "entryType": "anonymized",
+        "role": "Engagement coordination and client relationships"
       },
       {
         "title": "Project Lead",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Coordinated rapid-turnaround testing requests with Dan",
-        "name": "Kelli Shute"
+        "entryType": "anonymized",
+        "role": "Coordinated rapid-turnaround testing requests with Dan"
       },
       {
         "title": null,
         "organization": "Wells Fargo",
         "entryType": "group",
-        "name": "Wells Fargo Contacts",
-        "role": "Subject matter experts and content owners"
+        "role": "Subject matter experts and content owners",
+        "name": "Wells Fargo Contacts"
       }
     ],
     "technologies": [
@@ -1011,22 +997,19 @@
         "entryType": "individual"
       },
       {
-        "name": "Zach Taylor",
         "title": "Developer",
         "role": "Primary development collaborator; GPiLEARN platform engineering",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Ron Cyran",
         "title": "Program Manager",
         "role": "GPiLEARN program management and client coordination",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Tom Pizer",
         "title": "Director of Learning Technologies",
         "role": "Technical direction and hosting infrastructure",
-        "entryType": "individual"
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -1181,16 +1164,14 @@
       {
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Management chain and technical oversight",
-        "name": "Tom Pizer"
+        "entryType": "anonymized",
+        "role": "Management chain and technical oversight"
       },
       {
         "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "HSBC account coordination",
-        "name": "Allison McGuire"
+        "entryType": "anonymized",
+        "role": "HSBC account coordination"
       },
       {
         "title": "Software Developer",
@@ -1201,16 +1182,14 @@
       {
         "title": "Performance Consultant",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Localized deployments (Mexico)",
-        "name": "Beatriz Ramirez"
+        "entryType": "anonymized",
+        "role": "Localized deployments (Mexico)"
       },
       {
         "title": "Learning Consultant",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "HSBC global operations (UK)",
-        "name": "John Hindle"
+        "entryType": "anonymized",
+        "role": "HSBC global operations (UK)"
       },
       {
         "title": "Plus regional representatives",
@@ -1367,23 +1346,20 @@
       {
         "title": "Developer",
         "organization": "SunTrust (now Truist)",
-        "entryType": "individual",
-        "role": "API and backend development",
-        "name": "Chad Teate"
+        "entryType": "anonymized",
+        "role": "API and backend development"
       },
       {
         "title": "Project Manager / Account Lead",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "SunTrust account management and engagement coordination",
-        "name": "Tomasyn Goode"
+        "entryType": "anonymized",
+        "role": "SunTrust account management and engagement coordination"
       },
       {
         "title": "Director of Learning Technologies",
         "organization": "GP Strategies",
-        "entryType": "individual",
-        "role": "Technical leadership and oversight",
-        "name": "Tom Pizer"
+        "entryType": "anonymized",
+        "role": "Technical leadership and oversight"
       }
     ],
     "technologies": [
@@ -1637,8 +1613,8 @@
         "title": null,
         "organization": "GP Strategies",
         "entryType": "group",
-        "name": "2 Additional Testers",
-        "role": "GP Accessibility Testing Team for TD MIC"
+        "role": "GP Accessibility Testing Team for TD MIC",
+        "name": "2 Additional Testers"
       },
       {
         "title": "Senior Learning PM",
@@ -1816,18 +1792,16 @@
         "entryType": "anonymized"
       },
       {
-        "name": "Allison McGuire",
         "title": "Program Manager / Business Analyst",
         "organization": "GP Strategies",
         "role": "Investigation coordination, bi-weekly status meetings, client liaison",
-        "entryType": "individual"
+        "entryType": "anonymized"
       },
       {
-        "name": "Jeff Schuster",
         "title": "LMS Administrator",
         "organization": "General Motors",
         "role": "Primary GM client contact for investigation",
-        "entryType": "individual"
+        "entryType": "anonymized"
       }
     ],
     "technologies": [
@@ -2413,8 +2387,8 @@
         "title": null,
         "organization": "Leo Learning / GP Strategies",
         "entryType": "group",
-        "name": "Leo Learning Team",
-        "role": "Platform Development"
+        "role": "Platform Development",
+        "name": "Leo Learning Team"
       }
     ],
     "technologies": [
