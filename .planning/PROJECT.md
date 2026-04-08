@@ -64,11 +64,14 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ All 7 group entries marked with entryType: 'group' (DATA-04) — v5.2
 - ✓ All anonymized/unnamed personnel marked with entryType: 'anonymized' (DATA-05) — v5.2
 
+- ✓ Group personnel entries render as compact/muted cards with reduced prominence (CARD-01) — v5.2
+- ✓ Anonymized personnel entries render with italic/muted visual distinction (CARD-02) — v5.2
+- ✓ Card heading logic uses best available field: name → title → role (CARD-03) — v5.2
+- ✓ Desktop table rows reflect entryType distinctions (CARD-04) — v5.2
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-*(Defined by REQUIREMENTS.md for v5.2 — Phase 29 remaining)*
 
 ### Out of Scope
 
@@ -95,7 +98,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v5.1 (2026-04-08) | **Status:** v5.2 in progress
+**Shipped:** v5.2 (2026-04-08) | **Status:** All milestones through v5.2 complete
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. 86 unit tests passing, clean production build.
 
@@ -159,4 +162,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after Phase 28 completion*
+*Last updated: 2026-04-08 after Phase 29 completion*
