@@ -62,6 +62,8 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+*(Defined by REQUIREMENTS.md for v5.2)*
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
@@ -73,9 +75,21 @@ Every page template should be scannable and self-documenting through well-named 
 - Interactive search/filter beyond type grouping — 15 items is far below where search adds value
 - Tag-based filtering — useful at 50+ items, premature at 15
 
+## Current Milestone: v5.2 Personnel Data Normalization & Card UX
+
+**Goal:** Clean up personnel data inconsistencies across 14 exhibits and improve mobile card rendering for edge cases (group entries, anonymized personnel, field misplacement).
+
+**Target features:**
+- Move misplaced fields (titles in `name` field, roles in `title`) to correct positions
+- Normalize Exhibit L from `role`/`involvement` schema to standard `name`/`title`/`organization`
+- Flag/distinguish anonymized personnel vs named individuals in the data
+- Compact card treatment for group entries ("15+ Team Members", "Leo Learning Team")
+- Visual distinction for anonymized personnel on mobile cards
+- Consistent heading logic across all personnel card variants
+
 ## Current State
 
-**Shipped:** v5.1 (2026-04-08) | **Status:** All milestones through v5.1 complete
+**Shipped:** v5.1 (2026-04-08) | **Status:** v5.2 in progress
 
 All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. 86 unit tests passing, clean production build.
 
@@ -139,4 +153,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v5.1 milestone completion*
+*Last updated: 2026-04-07 after v5.2 milestone start*
