@@ -10,8 +10,8 @@ Requirements for Personnel Data Normalization & Card UX milestone.
 ### Data Normalization
 
 - [ ] **DATA-01**: Personnel entries with titles/roles in the `name` field are corrected — name contains person name or is omitted, role goes to `title` or `role`
-- [ ] **DATA-02**: Exhibit L personnel normalized from `role`/`involvement` to standard `name`/`title`/`organization` schema
-- [ ] **DATA-03**: PersonnelEntry type extended with optional `entryType` field: `'individual' | 'group' | 'anonymized'`
+- [x] **DATA-02**: Exhibit L personnel normalized from `role`/`involvement` to standard `name`/`title`/`organization` schema
+- [x] **DATA-03**: PersonnelEntry type extended with optional `entryType` field: `'individual' | 'group' | 'anonymized'`
 - [ ] **DATA-04**: All group entries (7 across 7 exhibits) marked with `entryType: 'group'`
 - [ ] **DATA-05**: All anonymized/unnamed personnel (Exhibit A's 5 + title-only entries) marked with `entryType: 'anonymized'`
 
@@ -42,8 +42,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DATA-01 | Phase 28 | Pending |
-| DATA-02 | Phase 28 | Pending |
-| DATA-03 | Phase 28 | Pending |
+| DATA-02 | Phase 28 | Complete |
+| DATA-03 | Phase 28 | Complete |
 | DATA-04 | Phase 28 | Pending |
 | DATA-05 | Phase 28 | Pending |
 | CARD-01 | Phase 29 | Pending |
