@@ -4403,6 +4403,60 @@ footer a,
     .resolution-table td[data-label="Resolution"] {
         color: var(--color-text-medium);
     }
+
+    /* Findings: card-based layout on mobile */
+    .findings-table {
+        display: block;
+    }
+
+    .findings-table thead {
+        display: none;
+    }
+
+    .findings-table tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+
+    .findings-table tr {
+        display: block;
+        background: var(--color-background-alt);
+        border-radius: var(--radius-md, 8px);
+        padding: var(--space-md);
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .findings-table td {
+        display: block;
+        padding: 0;
+        border-bottom: none;
+    }
+
+    .findings-table td::before {
+        display: none;
+    }
+
+    .findings-table td[data-label="Finding"] {
+        font-weight: 700;
+        font-size: var(--font-size-md);
+        color: var(--color-heading);
+        margin-bottom: var(--space-xs);
+    }
+
+    .findings-table td[data-label="Severity"] {
+        margin-bottom: var(--space-xs);
+    }
+
+    .findings-table td[data-label="Category"] {
+        margin-bottom: var(--space-sm);
+    }
+
+    .findings-table td[data-label="Description"] {
+        font-size: var(--font-size-sm);
+        line-height: 1.5;
+    }
 }
 
 [data-theme="dark"] .page-exhibit-detail .exhibit-quote {
