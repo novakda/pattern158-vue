@@ -176,7 +176,10 @@ Plans:
   3. User can Tab to any question and press Enter or Space to toggle it (full keyboard accessibility)
   4. Accordion uses WAI-ARIA pattern: button trigger, aria-expanded, aria-controls on each item
   5. Filter bar shows "All" plus one pill per category; clicking a category shows only matching items with a live question count
-**Plans**: TBD
+**Plans:** 2 plans
+Plans:
+- [ ] 35-01-PLAN.md — FaqAccordionItem component with WAI-ARIA, tests, and stories
+- [ ] 35-02-PLAN.md — FaqFilterBar component with category pills, live count, tests, and stories
 **UI hint**: yes
 
 ### Phase 36: Page Integration & Layout
@@ -201,5 +204,5 @@ Phases execute in numeric order: 33 -> 34 -> 35 -> 36
 |-------|----------------|--------|-----------|
 | 33. Data Schema & Type Foundation | 1/1 | Complete    | 2026-04-08 |
 | 34. Content Merge | 1/1 | Complete    | 2026-04-08 |
-| 35. Interactive Components | 0/TBD | Not started | - |
+| 35. Interactive Components | 0/2 | Not started | - |
 | 36. Page Integration & Layout | 0/TBD | Not started | - |
