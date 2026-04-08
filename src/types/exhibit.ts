@@ -33,6 +33,7 @@ export interface PersonnelEntry {
   organization?: string
   role?: string
   involvement?: string
+  entryType?: 'individual' | 'group' | 'anonymized'
 }
 
 export interface TechnologyEntry {

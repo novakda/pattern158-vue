@@ -2073,19 +2073,21 @@
     "role": "Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable",
     "personnel": [
       {
-        "role": "Dan Novak — Development Lead",
+        "name": "Dan Novak",
+        "title": "Development Lead",
+        "organization": "Client Organization",
         "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings."
       },
       {
-        "role": "External Power Platform Consultancy",
+        "title": "External Power Platform Consultancy",
         "involvement": "Original architects. Produced high-level requirements and recommended experienced Power Platform developers. Left the project before development began."
       },
       {
-        "role": "Lead Developer (anonymized)",
+        "title": "Lead Developer (anonymized)",
         "involvement": "Primary developer on the existing Power Platform solution. Maintained solution exports as the sole versioning mechanism."
       },
       {
-        "role": "Governance Architect (anonymized)",
+        "title": "Governance Architect (anonymized)",
         "involvement": "Recipient of the findings deliverable. Responsible for architectural oversight across the organization."
       }
     ],
