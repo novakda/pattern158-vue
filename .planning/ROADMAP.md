@@ -160,7 +160,9 @@ Plans:
   1. FAQ work arrangement, communication, and independence questions provide value beyond what Contact page CultureFit/RoleFit sections already cover
   2. FAQ "typical workflow" answer is differentiated from Philosophy page "How I Work" section content
   3. Where overlap exists, FAQ adds a distinct angle (e.g., quick-scan summary vs. detailed philosophy, different audience framing, or consolidated reference)
-**Plans**: TBD
+**Plans:** 1 plan
+Plans:
+- [ ] 32-01-PLAN.md — Shorten Q2 and Q12 with cross-references to Contact and Philosophy pages
 
 ## Progress
 
@@ -171,4 +173,4 @@ Phases execute in numeric order: 30 -> 31 -> 32
 |-------|-----------|----------------|--------|-----------|
 | 30. Cross-Page Content Audit | v5.3 | 1/1 | Complete    | 2026-04-08 |
 | 31. Content Fixes | v5.3 | 1/1 | Complete    | 2026-04-08 |
-| 32. Overlap Resolution | v5.3 | 0/TBD | Not started | - |
+| 32. Overlap Resolution | v5.3 | 0/1 | Not started | - |
