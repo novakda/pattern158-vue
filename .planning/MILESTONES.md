@@ -1,14 +1,13 @@
 # Milestones
 
-## v5.3 FAQ Content Audit (Shipped: 2026-04-08)
+## v6.0 FAQ Page Redesign (Shipped: 2026-04-08)
 
-**Phases completed:** 3 phases, 3 plans, 6 tasks
+**Phases completed:** 4 phases, 5 plans, 4 tasks
 
 **Key accomplishments:**
 
-- Systematic audit of all 14 FAQ answers against 6 site pages finding 13 issues: 2 stale references, 2 factual drifts, 5 content overlaps, 4 missing content gaps
-- Corrected 6 FAQ answers: stale references to case files, accurate client/industry list, second-tier tech stack, WCAG/508 phrasing, Power Platform addition, Q2 dedup
-- FAQ Q2 and Q12 shortened to complementary summaries with cross-references to Contact and Philosophy pages
+- Accessible FAQ accordion component with WAI-ARIA pattern, category pills, CSS rotate icon, and 13 passing tests
+- Category filter bar with pill buttons, radio-style active state, and live aria-live count label
 
 ---
 

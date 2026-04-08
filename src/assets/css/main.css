@@ -1475,30 +1475,6 @@ footer a:hover {
 }
 
 /* ================================================================
-   PAGE: FAQ
-   ================================================================ */
-
-/* FAQ Category sections */
-.page-faq .faq-category {
-    max-width: 800px;
-    margin: 0 auto var(--space-2xl);
-    padding: 0 var(--space-md);
-}
-
-.page-faq .faq-category h2 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-3xl);
-    color: var(--color-heading);
-    margin-bottom: var(--space-sm);
-}
-
-.page-faq .category-intro {
-    color: var(--color-text-muted);
-    font-size: var(--font-size-md);
-    margin-bottom: var(--space-lg);
-}
-
-/* ================================================================
    PAGE: Contact (Work With Me)
    ================================================================ */
 
@@ -3477,12 +3453,6 @@ footer a:hover {
     /* FAQ page */
     .page-faq .hero-minimal h1 {
         font-size: var(--font-size-4xl);
-    }
-
-    /* .page-faq .faq-category h2 — removed: uses 3xl on desktop, token scaling handles mobile */
-
-    .page-faq .category-intro {
-        font-size: var(--font-size-base);
     }
 
     /* Contact page */
