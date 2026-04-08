@@ -95,7 +95,7 @@ describe('PERS-01/PERS-02: personnel migration', () => {
   it('Exhibit L personnel uses standard name/title/organization schema (DATA-02)', () => {
     const exhibitL = exhibits.find(e => e.label === 'Exhibit L')
     expect(exhibitL?.personnel?.[0].name).toBe('Dan Novak')
-    expect(exhibitL?.personnel?.[0].title).toBe('Development Lead')
+    expect(exhibitL?.personnel?.[0].title).toBe('Software Engineer')
     expect(exhibitL?.personnel?.[0].organization).toBe('Client Organization')
     expect(exhibitL?.personnel?.[0].involvement).toBeTruthy()
     // Entries 1-3 have no name (anonymized/org entries)

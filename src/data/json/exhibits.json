@@ -346,10 +346,11 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Lead Investigator / Solution Architect",
+        "title": "Solution Architect",
         "organization": "GP Strategies",
         "isSelf": true,
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Lead Investigator"
       },
       {
         "name": "Tracey Nicholson",
@@ -502,10 +503,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Technical Consultant",
+        "title": "Senior Learning Technologist",
         "organization": "GP Strategies",
         "entryType": "individual",
-        "role": "Subject of both performance cascades"
+        "role": "Technical Consultant (subject of both performance cascades)"
       },
       {
         "name": "Chris Sproule",
@@ -1014,8 +1015,8 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Architect / Developer",
-        "role": "System architecture, cross-domain communication layer, SCORM API proxy, package generation tooling",
+        "title": "Software Engineer",
+        "role": "Architect / Developer — system architecture, cross-domain communication layer, SCORM API proxy, package generation tooling",
         "entryType": "individual"
       },
       {
@@ -1181,9 +1182,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "SCORM/LMS Integration Specialist",
+        "title": "Senior Learning Technologist",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "SCORM/LMS Integration Specialist"
       },
       {
         "title": "Director of Learning Technologies",
@@ -1362,10 +1364,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Lead Technical Engineer",
+        "title": "Senior Learning Technologist",
         "organization": "GP Strategies",
         "entryType": "individual",
-        "role": "Integration architecture"
+        "role": "Lead Technical Engineer — integration architecture"
       },
       {
         "title": "SunTrust Developer",
@@ -1628,10 +1630,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Senior Accessibility Evaluator",
+        "title": "Senior Learning Technologist",
         "organization": "GP Strategies",
         "entryType": "individual",
-        "role": "Forensic-level Storyline debugging, ARIA patterns, screen reader workarounds"
+        "role": "Senior Accessibility Evaluator — forensic-level Storyline debugging, ARIA patterns, screen reader workarounds"
       },
       {
         "title": null,
@@ -1985,9 +1987,10 @@
       },
       {
         "name": "Dan Novak",
-        "title": "AI Agent Developer",
+        "title": "Software Engineer",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "AI Agent Developer"
       },
       {
         "title": "Instructional Designer",
@@ -2140,10 +2143,11 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Development Lead",
+        "title": "Software Engineer",
         "organization": "Client Organization",
         "involvement": "Brought in to build model-driven apps on Power Platform with no prior platform experience. Spent a year teaching himself the platform under production conditions, identifying foundational gaps through accumulated firsthand friction, and ultimately conducting AI-assisted forensic analysis to document and deliver the architectural findings.",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Development Lead"
       },
       {
         "title": "Power Platform Consultants",
@@ -2282,9 +2286,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Architect / Developer",
+        "title": "Software Engineer",
         "organization": "GP Strategies",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Architect / Developer"
       },
       {
         "name": "Max Glick",
@@ -2386,9 +2391,10 @@
     "personnel": [
       {
         "name": "Dan Novak",
-        "title": "Frontend Developer / Integration Engineer",
+        "title": "Software Engineer",
         "organization": "GP Strategies (BP Account)",
-        "entryType": "individual"
+        "entryType": "individual",
+        "role": "Frontend Developer / Integration Engineer"
       },
       {
         "title": null,
