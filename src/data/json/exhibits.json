@@ -1673,7 +1673,7 @@
   {
     "label": "Exhibit J",
     "client": "General Motors",
-    "date": "~2017",
+    "date": "2017–2018",
     "title": "GM Learning Portal: Course Completion Anomaly Investigation",
     "exhibitType": "investigation-report",
     "quotes": [
@@ -1814,16 +1814,30 @@
         "role": "Data analysis, UX evaluation, user interviews, behavioral research",
         "organization": "GP Strategies",
         "entryType": "anonymized"
+      },
+      {
+        "name": "Allison McGuire",
+        "title": "Program Manager / Business Analyst",
+        "organization": "GP Strategies",
+        "role": "Investigation coordination, bi-weekly status meetings, client liaison",
+        "entryType": "individual"
+      },
+      {
+        "name": "Jeff Schuster",
+        "title": "LMS Administrator",
+        "organization": "General Motors",
+        "role": "Primary GM client contact for investigation",
+        "entryType": "individual"
       }
     ],
     "technologies": [
       {
         "category": "LMS Platform",
-        "tools": "PeopleSoft-based Enterprise LMS, memory cache architecture, form-based state persistence"
+        "tools": "Raytheon proprietary LMS (PeopleSoft ELM-based), memory cache architecture, form-based state persistence"
       },
       {
         "category": "Authoring Tools",
-        "tools": "Third-party vendor authoring platform (custom navigation, assessment flows, completion triggers)"
+        "tools": "Raytheon Catapult authoring tool (custom navigation, assessment flows), Adobe Captivate, Articulate Storyline"
       },
       {
         "category": "Forensic Analysis",
