@@ -4019,10 +4019,16 @@ footer a,
 }
 
 /* Finding enrichment fields */
+.finding-name-cell {
+    vertical-align: top;
+    white-space: nowrap;
+}
+
 .finding-title {
     display: block;
     font-weight: 600;
     margin-bottom: var(--space-xs);
+    white-space: normal;
 }
 
 .finding-severity {
@@ -4033,6 +4039,7 @@ footer a,
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+    margin-right: var(--space-xs);
 }
 
 .finding-severity--critical {
@@ -4062,7 +4069,6 @@ footer a,
     font-size: var(--font-size-xs);
     background: var(--color-background-alt);
     color: var(--color-body);
-    margin-left: var(--space-xs);
 }
 
 .finding-resolution,
@@ -4070,6 +4076,12 @@ footer a,
     margin-top: var(--space-sm);
     font-size: var(--font-size-sm);
     color: var(--color-body-muted, var(--color-body));
+    font-style: italic;
+}
+
+/* No thead for findings — heading provides context */
+.findings-table thead {
+    display: none;
 }
 
 /* Timeline */
