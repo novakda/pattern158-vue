@@ -92,10 +92,26 @@ describe('PERS-01/PERS-02: personnel migration', () => {
     expect(exhibitB?.personnel?.[0].organization).toBe('GP Strategies')
   })
 
-  it('Exhibit L personnel has involvement field (Role/Involvement variant)', () => {
+  it('Exhibit L personnel uses standard name/title/organization schema (DATA-02)', () => {
     const exhibitL = exhibits.find(e => e.label === 'Exhibit L')
-    expect(exhibitL?.personnel?.[0].role).toBeTruthy()
+    expect(exhibitL?.personnel?.[0].name).toBe('Dan Novak')
+    expect(exhibitL?.personnel?.[0].title).toBe('Development Lead')
+    expect(exhibitL?.personnel?.[0].organization).toBe('Client Organization')
     expect(exhibitL?.personnel?.[0].involvement).toBeTruthy()
+    // Entries 1-3 have no name (anonymized/org entries)
+    expect(exhibitL?.personnel?.[1].title).toBe('External Power Platform Consultancy')
+    expect(exhibitL?.personnel?.[1].involvement).toBeTruthy()
+  })
+
+  it('PersonnelEntry type accepts entryType field (DATA-03)', () => {
+    const exhibitA = exhibits.find(e => e.label === 'Exhibit A')
+    // Type check: entryType is a valid field on PersonnelEntry
+    const firstPerson = exhibitA?.personnel?.[0]
+    // entryType not yet populated (Plan 02), but field must be valid on the type
+    expect(firstPerson).toBeDefined()
+    // Verify the field is accessible without TypeScript error
+    const _typeCheck: string | undefined = firstPerson?.entryType
+    expect(_typeCheck).toBeUndefined() // Not yet populated
   })
 
   it('Exhibit E personnel has role field (Name/Title/Role variant)', () => {
