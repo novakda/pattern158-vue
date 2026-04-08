@@ -44,6 +44,7 @@ const answerId = `faq-answer-${props.item.id}`
       :aria-labelledby="`faq-trigger-${item.id}`"
     >
       <p v-for="(paragraph, i) in item.answer.split('\n\n')" :key="i">{{ paragraph }}</p>
+      <slot />
     </div>
   </div>
 </template>
