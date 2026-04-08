@@ -17,10 +17,10 @@ Requirements for Personnel Data Normalization & Card UX milestone.
 
 ### Card UX
 
-- [ ] **CARD-01**: Group personnel entries render as compact/muted cards — reduced prominence vs individual cards
-- [ ] **CARD-02**: Anonymized personnel entries render with visual distinction (italic/muted treatment or indicator)
-- [ ] **CARD-03**: Card heading logic uses best available field: name → title → role, consistent across all personnel variants
-- [ ] **CARD-04**: Desktop table view handles entryType distinctions (muted row for group, italic for anonymized)
+- [x] **CARD-01**: Group personnel entries render as compact/muted cards — reduced prominence vs individual cards
+- [x] **CARD-02**: Anonymized personnel entries render with visual distinction (italic/muted treatment or indicator)
+- [x] **CARD-03**: Card heading logic uses best available field: name → title → role, consistent across all personnel variants
+- [x] **CARD-04**: Desktop table view handles entryType distinctions (muted row for group, italic for anonymized)
 
 ## Future Requirements
 
@@ -46,10 +46,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-03 | Phase 28 | Complete |
 | DATA-04 | Phase 28 | Complete |
 | DATA-05 | Phase 28 | Complete |
-| CARD-01 | Phase 29 | Pending |
-| CARD-02 | Phase 29 | Pending |
-| CARD-03 | Phase 29 | Pending |
-| CARD-04 | Phase 29 | Pending |
+| CARD-01 | Phase 29 | Complete |
+| CARD-02 | Phase 29 | Complete |
+| CARD-03 | Phase 29 | Complete |
+| CARD-04 | Phase 29 | Complete |
 
 **Coverage:**
 - v5.2 requirements: 9 total

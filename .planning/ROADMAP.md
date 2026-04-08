@@ -110,7 +110,7 @@ Full details: `.planning/milestones/v5.1-ROADMAP.md`
 **Milestone Goal:** Clean up personnel data inconsistencies across 14 exhibits and improve mobile card rendering for edge cases (group entries, anonymized personnel, field misplacement).
 
 - [x] **Phase 28: Personnel Data Cleanup** - Correct misplaced fields, normalize Exhibit L schema, add entryType markers to all personnel entries (completed 2026-04-08)
-- [ ] **Phase 29: Personnel Card UX** - Render entryType distinctions on mobile cards and desktop tables with consistent heading logic
+- [x] **Phase 29: Personnel Card UX** - Render entryType distinctions on mobile cards and desktop tables with consistent heading logic (completed 2026-04-08)
 
 ## Phase Details
 
@@ -138,9 +138,9 @@ Plans:
   2. Anonymized personnel entries render with visible distinction (italic or muted treatment) on mobile cards
   3. Card headings display the best available field (name if present, then title, then role) consistently across all variants
   4. Desktop table rows reflect entryType distinctions — muted rows for group entries, italic for anonymized entries
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 Plans:
-- [ ] 29-01-PLAN.md — Template entryType class bindings, heading cascade, and CSS for all entry variants
+- [x] 29-01-PLAN.md — Template entryType class bindings, heading cascade, and CSS for all entry variants
 
 ## Progress
 
@@ -149,4 +149,4 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 28. Personnel Data Cleanup | 2/2 | Complete    | 2026-04-08 |
-| 29. Personnel Card UX | 0/1 | Not started | - |
+| 29. Personnel Card UX | 1/1 | Complete   | 2026-04-08 |
