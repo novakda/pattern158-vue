@@ -84,23 +84,11 @@ Every page template should be scannable and self-documenting through well-named 
 - Interactive search/filter beyond type grouping — 15 items is far below where search adds value
 - Tag-based filtering — useful at 50+ items, premature at 15
 
-## Current Milestone: v5.2 Personnel Data Normalization & Card UX
-
-**Goal:** Clean up personnel data inconsistencies across 14 exhibits and improve mobile card rendering for edge cases (group entries, anonymized personnel, field misplacement).
-
-**Target features:**
-- Move misplaced fields (titles in `name` field, roles in `title`) to correct positions
-- Normalize Exhibit L from `role`/`involvement` schema to standard `name`/`title`/`organization`
-- Flag/distinguish anonymized personnel vs named individuals in the data
-- Compact card treatment for group entries ("15+ Team Members", "Leo Learning Team")
-- Visual distinction for anonymized personnel on mobile cards
-- Consistent heading logic across all personnel card variants
-
 ## Current State
 
 **Shipped:** v5.2 (2026-04-08) | **Status:** All milestones through v5.2 complete
 
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. 86 unit tests passing, clean production build.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. Personnel data normalized: 26 title-as-name entries corrected, Exhibit L schema unified, all 66 entries typed with entryType (individual/group/anonymized). Mobile cards and desktop tables visually distinguish entry types with compact group cards, italic anonymized entries, and heading cascade (name → title → role). 95 unit tests passing, clean production build.
 
 ## Context
 
@@ -108,7 +96,7 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,700 LOC Vue + TypeScript, 86 unit tests passing, clean production build.
+- Codebase: ~6,700 LOC Vue + TypeScript, 95 unit tests passing, clean production build.
 - Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
 
 ## Constraints
@@ -143,6 +131,8 @@ All 11 data files externalized to JSON with thin TypeScript loaders in `src/data
 | `findingsHeading` for non-default headings | Custom findings headings (Exhibits J, L) stored as optional field; layout renders `findingsHeading \|\| 'Findings'` | ✓ Good — preserves original heading text without hardcoding |
 | NTSB-style findings only | Findings must be diagnostic discoveries (what went wrong, why) — not outcomes, observations, or achievements. Some exhibits (G) don't have natural findings — skip rather than force | ✓ Good — Exhibit G skipped, Exhibit K findings revised from 4→2 to remove outcome-style entries |
 | Severity only for diagnostic findings | Severity applies to technical/process issues, not observational content. Investigation-report types and diagnostic engineering-briefs get severity; pattern-recognition exhibits (E, M, N, O) don't | ✓ Good — consistent application across 11 exhibits with findings |
+| `entryType` discriminant for personnel rendering | Three-way classification (individual/group/anonymized) drives CSS class bindings for mobile cards and desktop table rows — no rendering logic in templates beyond class binding | ✓ Good — clean separation of data classification from visual treatment |
+| Heading cascade `name → title → role` | First available field becomes card heading; dynamic `data-label` matches the field used — handles all personnel variants without separate template branches | ✓ Good — Exhibit L entries with no name correctly show title |
 
 ## Evolution
 
@@ -162,4 +152,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after Phase 29 completion*
+*Last updated: 2026-04-08 after v5.2 milestone completion*

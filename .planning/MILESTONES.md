@@ -1,5 +1,17 @@
 # Milestones
 
+## v5.2 Personnel Data Normalization & Card UX (Shipped: 2026-04-08)
+
+**Phases completed:** 2 phases, 3 plans, 6 tasks
+
+**Key accomplishments:**
+
+- Added entryType discriminant to PersonnelEntry type and normalized Exhibit L from unique role/involvement schema to standard name/title/organization schema
+- Fixed 26 title-as-name field misplacements across 12 exhibits and added entryType markers to all 66 personnel entries (29 individual, 7 group, 30 anonymized)
+- Personnel entryType-driven card variants with group/anonymized styling on mobile cards and desktop tables, heading fallback cascade, dead involvement branch removed
+
+---
+
 ## v5.1 Personnel & Technologies Card Layout (Shipped: 2026-04-08)
 
 **Phases completed:** 1 phase, 1 plan
