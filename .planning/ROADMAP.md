@@ -149,4 +149,4 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 28. Personnel Data Cleanup | 2/2 | Complete    | 2026-04-08 |
-| 29. Personnel Card UX | 1/1 | Complete   | 2026-04-08 |
+| 29. Personnel Card UX | 1/1 | Complete    | 2026-04-08 |
