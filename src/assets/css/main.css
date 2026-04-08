@@ -4430,10 +4430,12 @@ footer a,
         border-bottom: none;
     }
 
+    /* Hide all data-label pseudo-elements by default */
     .findings-table td::before {
         display: none;
     }
 
+    /* Finding: bold title, no label */
     .findings-table td[data-label="Finding"] {
         font-weight: 700;
         font-size: var(--font-size-md);
@@ -4441,14 +4443,39 @@ footer a,
         margin-bottom: var(--space-xs);
     }
 
+    /* Severity: show label + value on one line */
     .findings-table td[data-label="Severity"] {
         margin-bottom: var(--space-xs);
     }
 
+    .findings-table td[data-label="Severity"]::before {
+        display: inline;
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-medium);
+        margin-right: var(--space-xs);
+    }
+
+    /* Category: show label + value on one line */
     .findings-table td[data-label="Category"] {
         margin-bottom: var(--space-sm);
     }
 
+    .findings-table td[data-label="Category"]::before {
+        display: inline;
+        content: attr(data-label) ": ";
+        font-weight: 600;
+        font-size: var(--font-size-xs);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--color-text-medium);
+        margin-right: var(--space-xs);
+    }
+
+    /* Description: no label */
     .findings-table td[data-label="Description"] {
         font-size: var(--font-size-sm);
         line-height: 1.5;
