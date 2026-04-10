@@ -4,6 +4,7 @@ import { useSeo } from '@/composables/useSeo'
 import HeroMinimal from '@/components/HeroMinimal.vue'
 import TechCard from '@/components/TechCard.vue'
 import { technologies } from '@/data/technologies'
+import { hero } from '@/content/technologies'
 
 useBodyClass('page-technologies')
 useSeo({
@@ -14,12 +15,8 @@ useSeo({
 </script>
 
 <template>
-  <HeroMinimal title="Technologies"
-    subtitle="Production-proven expertise across modern engineering and eLearning systems">
-    <p class="hero-intro">Curated expertise spanning modern software development and deep domain knowledge in
-      eLearning platforms. Each technology below reflects real production work—not aspirational skills. Proficiency
-      levels (Deep/Working/Aware) are honest self-assessments based on actual engagement depth, not marketing speak.
-      Project counts and client tags come from verified email archive data.</p>
+  <HeroMinimal :title="hero.title" :subtitle="hero.subtitle">
+    <p class="hero-intro">{{ hero.introParagraph }}</p>
   </HeroMinimal>
 
   <template v-for="category in technologies" :key="category.id">
