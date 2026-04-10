@@ -144,7 +144,17 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
 <details open>
 <summary>v7.0 Static Markdown Export Pipeline (Phases 37-45) -- ACTIVE (started 2026-04-10)</summary>
 
-- [ ] Phase 37: SFC Content Extraction -- move hardcoded prose from 7 Vue files into `src/content/*.ts`, formalize thin-loader invariant, Playwright regression per refactored page
+- [ ] Phase 37: SFC Content Extraction -- move hardcoded prose from 15 Vue files (7 pages + 8 components) into `src/content/*.ts`, formalize thin-loader invariant, Playwright regression per refactored page
+  - **Plans:** 9 plans (7 parallel Wave 1 + 1 Wave 2 gate + 1 Wave 3 gate+checkpoint)
+    - [ ] 037-01-PLAN.md — HomePage extraction + src/content/ scaffold (SFC-01)
+    - [ ] 037-02-PLAN.md — PhilosophyPage + Pattern158Origin + HowIWork + AiClarity (SFC-02)
+    - [ ] 037-03-PLAN.md — FaqPage hero + testimonial extraction (SFC-03)
+    - [ ] 037-04-PLAN.md — ContactPage + RoleFit + CompanyFit + CultureFit + Compensation + ContactMethods (SFC-04)
+    - [ ] 037-05-PLAN.md — AccessibilityPage 9-section extraction (SFC-05)
+    - [ ] 037-06-PLAN.md — TechnologiesPage hero extraction (SFC-06)
+    - [ ] 037-07-PLAN.md — CaseFilesPage + Project Directory extraction (SFC-07)
+    - [ ] 037-08-PLAN.md — 7 browser regression tests via vitest-browser-vue (SFC-01..07)
+    - [ ] 037-09-PLAN.md — LOAD-01 enforcement test + phase gate + visual checkpoint (LOAD-01)
 - [ ] Phase 38: IR + Markdown Primitives + Scaffold -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
 - [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
 - [ ] Phase 40: Exhibit Extractor -- parametric extractor for all 15 exhibits covering 5 section types, typed personnel/technologies/findings arrays, and quotes; snapshot one IR + one EB
