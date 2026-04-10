@@ -145,6 +145,53 @@
 
 ---
 
+## Milestone: v6.0 — FAQ Page Redesign
+
+**Shipped:** 2026-04-08
+**Phases:** 4 | **Plans:** 5
+
+### What Was Built
+
+- FaqItem type extended with `id`, `categories[]`, `exhibitNote?`, `exhibitUrl?`; 7-category unified taxonomy (Phase 33)
+- 13 career-vault FAQ questions merged with 14 existing, 3 overlaps reconciled, 6 exhibit cross-references extracted (Phase 34)
+- FaqAccordionItem with WAI-ARIA pattern, multi-open, +/× icon rotation, full keyboard support (Phase 35-01)
+- FaqFilterBar with category pills, single active filter, live aria-live count label (Phase 35-02)
+- FaqPage rewritten with accordion, filter, exhibit callout blocks, full-width stacked layout; old FaqItem deleted; global .page-faq CSS cleaned up (Phase 36)
+
+### What Worked
+
+- **Replace-not-extend strategy**: Old FaqItem.vue was 15 lines with no state — clean rewrite was cheaper than incremental migration
+- **Content merge after schema**: New content landed on new shape — zero transitional JSON states
+- **CSS Grid rotate over transform**: Accordion icon rotation used a single CSS class instead of JS-driven transform — test-friendly and tokenizable
+- **Category taxonomy up front**: Human-in-the-loop taxonomy design in Phase 33 prevented re-tagging churn during content merge
+- **Storybook stories for filter/accordion components**: Caught aria-live verbalization issues before page integration
+
+### What Was Inefficient
+
+- **Visual verification deferred across multiple phases**: Phase 35 and Phase 36 both carry "visual verification deferred" tech debt — should've been resolved inline while context was warm
+- **Global .page-faq CSS audit late**: Audit of main.css specificity conflicts happened in Phase 36 instead of as a precursor, risking specificity fights during integration
+- **FaqCategoryId type alias orphaned**: Widening to string left an unused alias that Phase 33 didn't catch — tech debt carried to audit
+
+### Patterns Established
+
+- **Flat filtered list over nested groups**: Single filter bar + flat accordion list out-scales per-category sections as content grows (27 items across 7 categories)
+- **Live aria-live count label**: Filter state feedback for screen readers without visible verbosity — reusable pattern for future filterable lists
+- **Exhibit callout component**: Left-bordered accent block for case-file cross-references — applicable beyond FAQ to philosophy/homepage exhibit mentions
+
+### Key Lessons
+
+1. **Content schema changes are cheaper when decoupled from UI rewrites**: Phase 33 (schema) and Phase 35 (components) in separate phases allowed parallel reasoning about data shape and component contract
+2. **Categories-as-array from day one**: Single-category → multi-category migration would have cost more later; getting DATA-02 right in v6.0 was load-bearing
+3. **Visual verification is not optional**: Deferring accordion icon rotation verification and exhibit callout layout to "later" is how tech debt accumulates — should be part of the plan's exit criteria
+
+### Cost Observations
+
+- Model mix: balanced profile (sonnet-primary)
+- Sessions: ~2 sessions across 4 phases (2026-04-08)
+- Notable: Entire milestone from roadmap to ship in a single day — schema + merge + components + integration completed in one push
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -155,6 +202,7 @@
 | v1.1 | 4 | 5 | Introduced audit-first workflow; milestone audit caught requirement gap pre-archival |
 | v2.0 | 6 | 10 | Data-model-first IA restructure; thin dispatcher pattern; gap closure as separate phase |
 | v2.1 | 2 | 2 | Bug-fix-only milestone; TDD for template rendering; sectionHasContent guard pattern |
+| v6.0 | 4 | 5 | FAQ interactive redesign; WAI-ARIA accordion + filter pattern; replace-not-extend for no-state components |
 
 ### Cumulative Quality
 
