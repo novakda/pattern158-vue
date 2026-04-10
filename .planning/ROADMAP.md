@@ -13,6 +13,7 @@
 - ✅ **v5.2 Personnel Data Normalization & Card UX** — Phases 28-29 (shipped 2026-04-08)
 - ✅ **v5.3 FAQ Content Audit** — Phases 30-32 (shipped 2026-04-08)
 - ✅ **v6.0 FAQ Page Redesign** — Phases 33-36 (shipped 2026-04-08)
+- 🚧 **v7.0 Static Markdown Export Pipeline** — Phases 37-45 (active, started 2026-04-10)
 
 ## Phases
 
@@ -137,5 +138,22 @@ Full details: `.planning/milestones/v5.3-ROADMAP.md`
 - [x] Phase 36: Page Integration & Layout (1/1 plans) -- completed 2026-04-08
 
 Full details: `.planning/milestones/v6.0-ROADMAP.md`
+
+</details>
+
+<details open>
+<summary>v7.0 Static Markdown Export Pipeline (Phases 37-45) -- ACTIVE (started 2026-04-10)</summary>
+
+- [ ] Phase 37: SFC Content Extraction -- move hardcoded prose from 7 Vue files into `src/content/*.ts`, formalize thin-loader invariant, Playwright regression per refactored page
+- [ ] Phase 38: IR + Markdown Primitives + Scaffold -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
+- [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
+- [ ] Phase 40: Exhibit Extractor -- parametric extractor for all 15 exhibits covering 5 section types, typed personnel/technologies/findings arrays, and quotes; snapshot one IR + one EB
+- [ ] Phase 41: Monolithic Renderer -- `docs/site-content.md` with heading shift, auto ToC via `github-slugger`, route→anchor link rewriting, GFM-only, generated banner, `remark-parse` monotonic-heading verification
+- [ ] Phase 42: Obsidian Vault Renderer -- `docs/obsidian-vault/` with folder mirror, plural-key YAML frontmatter, flat kebab-case tags, whitelisted unique wikilinks, aliases, sanitized exhibit filenames, `> [!quote]` callouts, FAQ one-note-per-page with block anchors, alt-text captions, all section types, manual Obsidian QA checkpoint
+- [ ] Phase 43: File Writer + Orchestrator -- `fs-writer.ts` clean-wipe + idempotent `\n`-only writes, `index.ts` orchestrator wiring site-map → extractors → renderers → writer, E2E temp-dir test
+- [ ] Phase 44: Build Integration + CI Drift Guard -- chain `build:markdown` after `vite build`, `.gitattributes` + `.gitignore` audit, CI `git diff --exit-code docs/` drift guard, two-run determinism test
+- [ ] Phase 45: Documentation + Final Polish -- `scripts/markdown-export/README.md`, update PROJECT.md, final manual Obsidian QA pass, final visual diff against live site
+
+Full details: `.planning/milestones/v7.0-ROADMAP.md` (created at milestone completion)
 
 </details>
