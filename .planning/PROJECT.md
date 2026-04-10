@@ -84,18 +84,88 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+**v7.0 Static Markdown Export Pipeline — MVP + Quick Wins scope**
+
+**Foundation (prerequisite phase):**
+- [ ] SFC content extraction: move hardcoded prose from 7 Vue files into `src/content/*.ts`, SFCs `v-for` over imported arrays, one Playwright regression test per refactored page, all 95+ existing tests green (SFC-01/02/03/04/05/06/07)
+- [ ] Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed fields (LOAD-01)
+- [ ] `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json` (paths: {}), `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` npm script (SCAF-01/02/03)
+- [ ] `docs/` directory collision audit (Vite outDir, Storybook, Wrangler, Vitest) documented in PLAN (AUDT-01)
+
+**IR + shared primitives:**
+- [ ] `DocNode` discriminated union (Heading, Paragraph, List, Table, Blockquote, Link, Image, HR) + `PageDoc` type (IR-01/02)
+- [ ] Markdown primitives: `heading()`, `paragraph()`, `list()`, `table()`, `blockquote()`, `link()`, `wikilink()`, `caption()` (PRIM-01)
+- [ ] Context-specific escape helpers: `escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`, `escapeCodeBlockContent` with unit tests for pipes, backticks, HTML entities, NBSP, BOM (ESCP-01/02/03/04)
+- [ ] Frontmatter serializer with canonical key order, forbidden singular keys (`tag`, `alias`, `cssclass`), wikilink-in-property quoting (FM-01/02)
+
+**Extractors:**
+- [ ] `site-map.ts` with 7 static routes + dynamic exhibit children, excludes `/review`, `/diag`, 404 (MAP-01)
+- [ ] One extractor per static page: home, philosophy, technologies, case-files, faq, contact, accessibility (EXT-01/02/03/04/05/06/07)
+- [ ] `exhibit.ts` extractor handling all 5 section types (text, table, timeline, metadata, flow) + typed personnel/technologies/findings arrays + quotes across all 15 exhibits (EXB-01/02/03)
+
+**Monolithic renderer (`docs/site-content.md`):**
+- [ ] Heading-level shifting by nav depth (T3) — full exhibit details inline (MONO-01)
+- [ ] Auto-generated ToC at top of monolithic file using `github-slugger` anchors (T4, MONO-02)
+- [ ] Internal link rewriting: route strings → anchor links (T5, MONO-03)
+- [ ] GFM only, no Obsidian-isms in monolithic output (D6, MONO-04)
+- [ ] Generated-file warning banner (HTML comment at top) (D8, MONO-05)
+- [ ] Monotonic heading hierarchy verified via `remark-parse` integration test (MONO-06)
+
+**Obsidian vault renderer (`docs/obsidian-vault/`):**
+- [ ] Folder structure mirrors menu (T8, VAULT-01)
+- [ ] YAML frontmatter: `title`, `aliases`, `tags`, optional `date` — plural keys only (T6, VAULT-02)
+- [ ] Flat kebab-case exhibit tags from `exhibitType` + `findings[].category` (T9, VAULT-03)
+- [ ] Wikilinks between vault notes with whitelist + uniqueness assertion on basenames (T7, VAULT-04)
+- [ ] Aliases for exhibits (label + client) and page title variants (D4, VAULT-05)
+- [ ] Exhibit filename format `Exhibit A - Short Title.md` with sanitized reserved chars (T14, VAULT-06)
+- [ ] Obsidian callout blocks for exhibit quotes (`> [!quote]`) — graceful GitHub degradation (D3, VAULT-07)
+- [ ] FAQ rendered as one note per page with questions as H3 + `^question-id` block anchors (T13, VAULT-08)
+- [ ] Images skipped, alt text emitted as italicized captions (T10, VAULT-09)
+- [ ] GFM tables for personnel / technologies; finding-per-H4 for findings with pill-style inline tags (T11, VAULT-10)
+- [ ] Generated-file warning banner after frontmatter (D8, VAULT-11)
+- [ ] All section types rendered (text / table / timeline / metadata / flow) (T15, VAULT-12)
+- [ ] Manual Obsidian QA pass — tags visible in tag pane, wikilinks resolve, frontmatter parses (QA-01)
+
+**File writer + orchestration:**
+- [ ] Clean wipe of `docs/obsidian-vault/` + idempotent writes, `\n` line endings only (WRIT-01)
+- [ ] `scripts/markdown-export/index.ts` orchestrator wires site-map → extractors → renderers → writer (ORCH-01)
+
+**Build integration:**
+- [ ] `"build": "vue-tsc -b && vite build && npm run build:markdown"` chain (INTG-01)
+- [ ] `docs/**` tracked in git (`.gitignore` audit) + `.gitattributes` entry `docs/** text eol=lf linguist-generated` (INTG-02)
+- [ ] **CI drift guard:** `npm run build:markdown && git diff --exit-code docs/` fails PRs with stale artifacts (INTG-03)
+- [ ] Two-run determinism test in CI: regenerate twice, diff outputs, assert byte-identical (INTG-04)
+
+**Hard constraints / forbidden list (PLAN.md inheritance):**
+- Forbidden: `@/` imports inside `scripts/markdown-export/**`
+- Forbidden: `Date.now()`, `new Date()`, `process.hrtime`, `performance.now()` in generator
+- Forbidden: `Promise.all` on reads feeding ordered output
+- Forbidden: `os.EOL` — always `\n` literals
+- Forbidden: manual editing of files under `docs/`
+- Forbidden: `postinstall` / `prepare` hooks running the generator
+- Forbidden: `assert { type: 'json' }` — use `fs.readFile` + `JSON.parse`
+- Forbidden: singular frontmatter keys `tag`, `alias`, `cssclass`
+- Forbidden: line wrapping of prose in generated markdown
+- Forbidden: mtime/hash-based "skip unchanged" logic
+- Forbidden: parsing `.vue` SFCs from the generator
+
 ## Current Milestone: v7.0 Static Markdown Export Pipeline
 
 **Goal:** Generate two static markdown artifacts alongside the site build — a single monolithic document mirroring the site tree by heading levels, and an Obsidian-ready vault folder with one markdown page per site page organized to match the menu structure.
 
-**Target features:**
-- Build-time markdown generation integrated into `npm run build` + standalone `build:markdown` script
-- Monolithic artifact: `docs/site-content.md` — entire site content, heading levels follow site tree
-- Obsidian artifact: `docs/obsidian-vault/` — folder structure matches menu, one `.md` per page, includes all 15 exhibit detail pages
-- Content sourced from `src/data/*.json` plus a page content map extracted from Vue SFCs where needed
-- Full Obsidian treatment: YAML frontmatter (title, tags, date), `[[wikilinks]]`, exhibit category tags
-- Images skipped, alt text preserved as italicized captions
-- Both artifacts committed under `docs/` for GitHub browsing
+**Scope:** MVP + Quick Wins (all table-stakes T1-T15 + D3 callouts + D4 aliases + D6 GFM-only mono + D8 generated banner). Stretch items (D1 MOC, D2 FAQ↔exhibit backlinks, D5 block anchors) deferred to a future milestone if warranted.
+
+**Key scoping decisions (from research synthesis):**
+- Content sourcing: **Option B** — refactor SFCs to import prose from `src/content/*.ts`, Phase 1 prerequisite
+- Script runtime: **standalone `tsx` script**, NOT a Vite plugin (better iteration speed, testability, isolation)
+- Renderer architecture: **two-mode renderer sharing a `DocNode` IR** — divergences (heading shift, frontmatter, link format) live only in renderer branches
+- Dependencies: **3 new devDeps only** — `tsx`, `yaml`, `github-slugger`. Reject `unified`/`remark`/`turndown`/`gray-matter`/`ts-node`/`vite-node`
+- Tag format: **flat kebab-case** (matches v5.3/v6.0 FAQ taxonomy)
+- FAQ granularity: **one note per page, questions as H3 + block anchors** (clean vault, still deep-linkable)
+- Monolithic depth: **full exhibit details inline** (~50-100 KB, GitHub handles it, honors 'whole site in one file' promise)
+- Imports: **relative only inside `scripts/markdown-export/**`** (`tsx` does not resolve `@/` aliases)
+- Testing: **snapshot testing at small granularity** (one representative exhibit + individual primitives) + two-run determinism test
+- CI drift guard: `npm run build:markdown && git diff --exit-code docs/` is mandatory
 
 ### Out of Scope
 
