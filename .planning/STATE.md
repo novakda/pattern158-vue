@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 037-06-PLAN.md (TechnologiesPage content extraction)
-last_updated: "2026-04-10T23:33:24.806Z"
+stopped_at: Completed 037-03-PLAN.md (parallel Wave 1)
+last_updated: "2026-04-10T23:33:41.904Z"
 last_activity: 2026-04-10 -- Phase 37 execution started
 progress:
   total_phases: 1
@@ -50,6 +50,8 @@ Progress: [          ] 0%
 
 | Phase 037 P01 | 2min | 3 tasks | 2 files |
 | Phase 37 P06 | 106 | 2 tasks | 2 files |
+| Phase 037 P03 | 3min | 2 tasks | 2 files |
+| Phase 37 P05 | 2m 23s | 2 tasks | 2 files |
 
 ### Decisions
 
@@ -57,6 +59,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 
 - [Phase 037]: 037-01: Unicode escapes (\u2019, \u2014, \u2026) for HTML entities in content modules — no HTML entity names in .ts files, enables clean Phase 39 static extraction
 - [Phase 037]: 037-01: Pattern 1 content-module shape established — named typed exports, no default export, consumed via {{ expression }} and v-for
+- [Phase 037]: Named content module faqPage.ts (not faq.ts) to avoid collision with src/data/faq.ts loader
 
 ### Pending Todos
 
@@ -68,6 +71,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-10T23:33:14.926Z
-Stopped at: Completed 037-06-PLAN.md (TechnologiesPage content extraction)
+Last session: 2026-04-10T23:33:41.903Z
+Stopped at: Completed 037-03-PLAN.md (parallel Wave 1)
 Resume file: None
