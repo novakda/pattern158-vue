@@ -146,12 +146,12 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
 
 - [ ] Phase 37: SFC Content Extraction -- move hardcoded prose from 15 Vue files (7 pages + 8 components) into `src/content/*.ts`, formalize thin-loader invariant, Playwright regression per refactored page
   - **Plans:** 9 plans (7 parallel Wave 1 + 1 Wave 2 gate + 1 Wave 3 gate+checkpoint)
-    - [ ] 037-01-PLAN.md — HomePage extraction + src/content/ scaffold (SFC-01)
+    - [x] 037-01-PLAN.md — HomePage extraction + src/content/ scaffold (SFC-01)
     - [ ] 037-02-PLAN.md — PhilosophyPage + Pattern158Origin + HowIWork + AiClarity (SFC-02)
     - [ ] 037-03-PLAN.md — FaqPage hero + testimonial extraction (SFC-03)
     - [ ] 037-04-PLAN.md — ContactPage + RoleFit + CompanyFit + CultureFit + Compensation + ContactMethods (SFC-04)
     - [ ] 037-05-PLAN.md — AccessibilityPage 9-section extraction (SFC-05)
-    - [ ] 037-06-PLAN.md — TechnologiesPage hero extraction (SFC-06)
+    - [x] 037-06-PLAN.md — TechnologiesPage hero extraction (SFC-06)
     - [ ] 037-07-PLAN.md — CaseFilesPage + Project Directory extraction (SFC-07)
     - [ ] 037-08-PLAN.md — 7 browser regression tests via vitest-browser-vue (SFC-01..07)
     - [ ] 037-09-PLAN.md — LOAD-01 enforcement test + phase gate + visual checkpoint (LOAD-01)
