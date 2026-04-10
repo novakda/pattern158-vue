@@ -7,6 +7,7 @@ import TestimonialQuote from '@/components/TestimonialQuote.vue'
 import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
 import { faqItems, faqCategories } from '@/data/faq'
+import { hero, colleagueQuotesHeading, colleagueQuotes } from '@/content/faqPage'
 import type { FaqCategory } from '@/types/faq'
 
 useBodyClass('page-faq')
@@ -49,8 +50,8 @@ const categoryCounts = computed(() => {
 
 <template>
   <HeroMinimal
-    title="Frequently Asked Questions"
-    subtitle="Common questions about working with Dan Novak"
+    :title="hero.title"
+    :subtitle="hero.subtitle"
   />
 
   <section class="faq-section" aria-label="FAQ list">
@@ -91,15 +92,14 @@ const categoryCounts = computed(() => {
 
   <section class="testimonial testimonial-divider">
     <div class="container">
-      <h2 class="section-heading-styled">What Colleagues Say</h2>
+      <h2 class="section-heading-styled">{{ colleagueQuotesHeading }}</h2>
       <TestimonialQuote
-        quote="It's always so nice working with you and having you send these notes so that the developer can get going is helpful and appreciated."
-      />
-      <TestimonialQuote
-        quote="Thank you so much for your efforts in preparing this proposal. It looks fantastic."
-        cite="Director, Accessibility Practice"
-        context="GP Strategies — on an accessibility initiative proposal"
-        variant="secondary"
+        v-for="q in colleagueQuotes"
+        :key="q.quote"
+        :quote="q.quote"
+        :cite="q.cite"
+        :context="q.context"
+        :variant="q.variant"
       />
     </div>
   </section>
