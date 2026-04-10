@@ -7,3 +7,7 @@ dist
 storybook-static
 .claude/worktrees/
 .claude/
+
+# Vitest browser-mode runtime artifacts
+.vitest-attachments/
+src/pages/__screenshots__/
