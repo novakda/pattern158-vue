@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v6.0
-milestone_name: FAQ Page Redesign
-status: shipped
-stopped_at: v6.0 milestone archived
+milestone: v7.0
+milestone_name: Static Markdown Export Pipeline
+status: defining_requirements
+stopped_at: v7.0 milestone started
 last_updated: "2026-04-10T00:00:00.000Z"
 last_activity: 2026-04-10
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 5
-  completed_plans: 5
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-04-10)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Planning next milestone
+**Current focus:** v7.0 Static Markdown Export Pipeline — defining requirements
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: v6.0 shipped — awaiting next milestone
-Last activity: 2026-04-10
+Status: Defining requirements
+Last activity: 2026-04-10 — Milestone v7.0 started
 
-Progress: [██████████] 100%
+Progress: [          ] 0%
 
 ## Performance Metrics
 

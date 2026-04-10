@@ -84,6 +84,19 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
+## Current Milestone: v7.0 Static Markdown Export Pipeline
+
+**Goal:** Generate two static markdown artifacts alongside the site build — a single monolithic document mirroring the site tree by heading levels, and an Obsidian-ready vault folder with one markdown page per site page organized to match the menu structure.
+
+**Target features:**
+- Build-time markdown generation integrated into `npm run build` + standalone `build:markdown` script
+- Monolithic artifact: `docs/site-content.md` — entire site content, heading levels follow site tree
+- Obsidian artifact: `docs/obsidian-vault/` — folder structure matches menu, one `.md` per page, includes all 15 exhibit detail pages
+- Content sourced from `src/data/*.json` plus a page content map extracted from Vue SFCs where needed
+- Full Obsidian treatment: YAML frontmatter (title, tags, date), `[[wikilinks]]`, exhibit category tags
+- Images skipped, alt text preserved as italicized captions
+- Both artifacts committed under `docs/` for GitHub browsing
+
 ### Out of Scope
 
 <!-- Explicit boundaries. Includes reasoning to prevent re-adding. -->
@@ -162,4 +175,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-08 after v6.0 milestone completion*
+*Last updated: 2026-04-10 — v7.0 Static Markdown Export Pipeline milestone started*
