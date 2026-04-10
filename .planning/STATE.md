@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 037-04-PLAN.md
-last_updated: "2026-04-10T23:35:31.240Z"
-last_activity: 2026-04-10 -- Phase 37 execution started
+stopped_at: Completed 037-08-PLAN.md
+last_updated: "2026-04-10T23:44:37.706Z"
+last_activity: 2026-04-10
 progress:
   total_phases: 1
   completed_phases: 0
   total_plans: 9
-  completed_plans: 7
-  percent: 78
+  completed_plans: 8
+  percent: 89
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 37 (SFC Content Extraction) — EXECUTING
-Plan: 1 of 9
-Status: Executing Phase 37
-Last activity: 2026-04-10 -- Phase 37 execution started
+Plan: 2 of 9
+Status: Ready to execute
+Last activity: 2026-04-10
 
 Progress: [          ] 0%
 
@@ -55,6 +55,7 @@ Progress: [          ] 0%
 | Phase 37 P02 | 3 min | 3 tasks | 8 files |
 | Phase 37 P04 | 3 | 3 tasks | 12 files |
 | Phase 037 P07 | 3min | 2 tasks | 2 files |
+| Phase 037 P08 | 4min | 3 tasks | 8 files |
 
 ### Decisions
 
@@ -64,6 +65,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 037]: 037-01: Pattern 1 content-module shape established — named typed exports, no default export, consumed via {{ expression }} and v-for
 - [Phase 037]: Named content module faqPage.ts (not faq.ts) to avoid collision with src/data/faq.ts loader
 - [Phase 37]: Phase 37 structural markup policy: drop inline em/strong from extracted prose, preserve blockquote/cite structural tags with typed PhilosophyQuote data shape
+- [Phase 037]: 037-08: Browser test canonical pattern — render() + createHead() plugin + RouterLinkStub + visible-text locators; tests import the same content modules pages import for round-trip regression coverage
 
 ### Pending Todos
 
@@ -75,6 +77,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-10T23:35:19.869Z
-Stopped at: Completed 037-04-PLAN.md
+Last session: 2026-04-10T23:44:31.075Z
+Stopped at: Completed 037-08-PLAN.md
 Resume file: None
