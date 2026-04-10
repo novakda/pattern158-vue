@@ -1115,12 +1115,15 @@ Phase 37 is fully executable in the current environment.
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> All 6 questions were resolved during `/gsd:plan-phase 37` planning (2026-04-10). Each decision is locked into a specific plan + task. No questions remain open for execution. See `037-01-PLAN.md` through `037-09-PLAN.md` for the concrete implementation.
 
 1. **CaseFilesPage Project Directory — content or data?**
    - What we know: It's structured tabular data, currently inline in the SFC with an explicit comment. §C6 recommends storing in `src/content/caseFiles.ts` as a typed array.
    - What's unclear: Whether Dan prefers a stricter `content/` vs `data/` split.
    - Recommendation: **Discuss-Phase question.** Default to `src/content/caseFiles.ts`.
+   - **RESOLVED:** Store in `src/content/caseFiles.ts` as `ProjectDirectoryGroup[]`. Locked in `037-07-PLAN.md` objective and asserted via `test ! -f src/data/projectDirectory.json` + `test ! -f src/data/projectDirectory.ts` acceptance criteria.
 
 2. **Inline `<strong>` / `<em>` in extracted prose — preserve or drop?**
    - What we know: Several paragraphs use bold lead-ins (e.g., CompanyFitSection.vue, CultureFitSection.vue) and em-phrases (e.g., Pattern158OriginSection "The final page is in the fireplace…"). These contribute to visual emphasis.
@@ -1130,26 +1133,31 @@ Phase 37 is fully executable in the current environment.
      - (b) Use the `{kind, value}` segment shape from Pattern 2 — more code, cleanest Phase 39 handoff
      - (c) Drop inline emphasis during extraction, re-add in Phase 39 via markdown rendering — simplest, slight temporary visual regression
    - Recommended default: **(c)** for everything except genuinely structural blockquotes (moral-spine quote in PhilosophyPage), which get dedicated typed fields.
+   - **RESOLVED:** Hybrid — recommendation (c) by default (drop decorative emphasis), with explicit structural-markup exceptions preserved via dedicated typed fields (blockquote + cite, RoleFit name `<strong>`, CompanyFit thesis `<strong>`). Locked in `037-02-PLAN.md` and `037-04-PLAN.md` under the "Structural Markup Policy" block.
 
 3. **LOAD-01 edge case — `faqCategories` literal registry**
    - What we know: `src/data/faq.ts` declares a non-JSON registry as `as const satisfies`. §D proposes revised wording that allows this.
    - What's unclear: Whether the test in Code Example 1 is strict enough to catch future violations without false positives on the registry.
    - Recommendation: **Planner should verify the test accepts `faq.ts` as-is by running it against the current tree before writing content modules.** If false positive, adjust the regex to whitelist `as const satisfies` blocks.
+   - **RESOLVED:** `037-09-PLAN.md` Task 1 implements an explicit `as const satisfies` allowlist plus a dedicated third `it()` block asserting `src/data/faq.ts` passes the thin-loader invariant. The forbidden-tokens list excludes any pattern that would match literal registries.
 
 4. **CI browser test execution**
    - What we know: `package.json` has `test:browser`. `~/.cache/ms-playwright` is local.
    - What's unclear: Whether CI (if any) runs it.
    - Recommendation: **Wave 0 pre-flight check:** `ls .github/workflows/ 2>&1`. If workflows exist, grep for `test`, `playwright`, `browser`. Document findings in PLAN.md.
+   - **RESOLVED:** `037-01-PLAN.md` Task 1 runs the pre-flight `ls .github/workflows/` check and documents the result. No CI currently runs `test:browser`, so Phase 37 has zero CI work.
 
 5. **Should Phase 37 rename `useSeo({title, ...})` calls to read from `src/content/meta.ts`?**
    - What we know: ARCHITECTURE.md §3 proposes a `src/content/meta.ts` for page titles/descriptions. v7.0 Phase 39 extractors will need page titles.
    - What's unclear: Whether adding meta extraction expands Phase 37 scope unacceptably.
    - Recommendation: **Defer meta.ts to Phase 39.** Phase 37 does not need to touch `useSeo()` calls. The titles are tiny strings; extracting them later is cheap.
+   - **RESOLVED:** Deferred to Phase 39. Plans `037-01`, `037-03`, `037-04`, `037-06` explicitly state "leave `useSeo()` untouched — deferred to Phase 39." No `src/content/meta.ts` file is created in Phase 37.
 
 6. **Testing-library `expect.element(...).toBeVisible()` — browser-mode API availability**
    - What we know: vitest-browser-vue 2.1.0 ships with `expect.element` support per its README, and the README references "locators" from https://vitest.dev/guide/browser/locators.
    - What's unclear: Whether the project's Vitest version (`^4.1.0`) has the `expect.element` global shipped or if the `.toBeVisible()` matcher requires additional imports.
    - Recommendation: **Wave 2 sanity check — write ONE browser test first**, run it, confirm the assertion API. Only then write the other 6.
+   - **RESOLVED:** `037-08-PLAN.md` commits to the `expect.element(page.getByText(...)).toBeVisible()` API directly and uses a sequential task order where Task 1 writes ONE test, runs it, and validates the assertion API before Task 2 writes the remaining 6 browser tests. Fallback policy: if the API fails, substitute `expect(page.getByText(...).element()).toBeDefined()` per the `vitest-browser-vue` README.
 
 ---
 
