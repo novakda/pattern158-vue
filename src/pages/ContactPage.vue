@@ -8,6 +8,7 @@ import ContactMethods from '@/components/ContactMethods.vue'
 import TestimonialQuote from '@/components/TestimonialQuote.vue'
 import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
+import { hero, colleagueQuotes } from '@/content/contact'
 
 useBodyClass('page-contact')
 useSeo({
@@ -18,7 +19,7 @@ useSeo({
 </script>
 
 <template>
-  <HeroMinimal title="Work With Me" subtitle="What I'm looking for — and what I'm not." />
+  <HeroMinimal :title="hero.title" :subtitle="hero.subtitle" />
   <RoleFitSection />
   <CompanyFitSection />
   <CultureFitSection />
@@ -27,14 +28,12 @@ useSeo({
   <section class="testimonial">
     <div class="container">
       <TestimonialQuote
-        quote="Dan, thank you for being such a team player with the GP team and the client, and thank you for your incredible knowledge and expertise."
-        cite="Account Manager, GP Strategies"
-      />
-      <TestimonialQuote
-        quote="You have helped us move the bar to better, more accessible courses and helped me learn a ton."
-        cite="Program Manager, Microsoft Account"
-        context="GP Strategies — Microsoft accessibility initiative"
-        variant="secondary"
+        v-for="q in colleagueQuotes"
+        :key="q.quote"
+        :quote="q.quote"
+        :cite="q.cite"
+        :context="q.context"
+        :variant="q.variant"
       />
     </div>
   </section>
