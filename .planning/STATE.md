@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 038-01-PLAN.md
-last_updated: "2026-04-11T01:53:36.435Z"
+stopped_at: Completed 038-05-PLAN.md
+last_updated: "2026-04-11T01:58:48.623Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 16
-  completed_plans: 10
-  percent: 63
+  completed_plans: 11
+  percent: 69
 ---
 
 # Project State
@@ -58,6 +58,7 @@ Progress: [##        ] 11% (1/9 phases)
 | Phase 037 P08 | 4min | 3 tasks | 8 files |
 | Phase 037 P09 | 2min | 3 tasks | 1 files |
 | Phase 038 P01 | 6m31s | 3 tasks | 7 files |
+| Phase 038 P05 | 4min | 1 tasks | 1 files |
 
 ### Decisions
 
@@ -72,6 +73,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 038]: 038-01: Substituted composite+emitDeclarationOnly+outDir(.tsbuildinfo-scripts) for plan-locked noEmit in tsconfig.scripts.json — TypeScript forbids noEmit on referenced projects and requires composite; functional intent preserved (no JS emitted, only gitignored .d.ts stub)
 - [Phase 038]: 038-01: Vitest 4 does not honor per-project passWithNoTests — hoisted flag to top-level test.passWithNoTests so pnpm test:scripts exits 0 before Wave 2 adds first test files
 - [Phase 038]: 038-01: pnpm is the package manager of record going forward; packageManager field deferred as separate hygiene decision (out of scope for Phase 38)
+- [Phase 038]: 038-05: docs/ collision audit GO verdict — no tool writes to docs/, .gitignore clean, .gitattributes must be created from scratch in Phase 44
 
 ### Pending Todos
 
@@ -83,6 +85,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T01:53:36.434Z
-Stopped at: Completed 038-01-PLAN.md
+Last session: 2026-04-11T01:58:48.621Z
+Stopped at: Completed 038-05-PLAN.md
 Resume file: None

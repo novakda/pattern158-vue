@@ -161,7 +161,7 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
     - [ ] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
     - [ ] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
     - [ ] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
-    - [ ] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
+    - [x] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
     - [ ] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
     - [ ] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)
 - [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
