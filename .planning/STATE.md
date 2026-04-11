@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
-status: ready_to_plan
-stopped_at: Phase 37 complete and verified (10/10 must-haves) — ready to plan Phase 38
-last_updated: "2026-04-11T00:10:18.476Z"
+status: planning
+stopped_at: Phase 38 context gathered
+last_updated: "2026-04-11T00:55:45.009Z"
 last_activity: 2026-04-11
 progress:
-  total_phases: 1
+  total_phases: 2
   completed_phases: 1
   total_plans: 9
   completed_plans: 9
-  percent: 100
+  percent: 11
 ---
 
 # Project State
@@ -79,6 +79,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T00:10:18.474Z
-Stopped at: Completed 037-09-PLAN.md — Phase 37 complete (9/9 plans shipped)
-Resume file: None
+Last session: 2026-04-11T00:55:45.007Z
+Stopped at: Phase 38 context gathered
+Resume file: .planning/phases/038-ir-markdown-primitives-scaffold/038-CONTEXT.md
