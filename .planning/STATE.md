@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 038-06-PLAN.md
-last_updated: "2026-04-11T02:07:41.732Z"
+stopped_at: Completed 038-07-PLAN.md
+last_updated: "2026-04-11T02:09:21.788Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 16
-  completed_plans: 15
-  percent: 94
+  completed_plans: 16
+  percent: 11
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 038 (ir-markdown-primitives-scaffold) — EXECUTING
-Plan: 5 of 7
+Plan: 7 of 7
 Status: Ready to execute
 Last activity: 2026-04-11
 
@@ -63,6 +63,7 @@ Progress: [##        ] 11% (1/9 phases)
 | Phase 038 P03 | 4m | 2 tasks | 8 files |
 | Phase 038 P04 | 4m7s | 1 tasks | 2 files |
 | Phase 038 P06 | 3min | 2 tasks | 12 files |
+| Phase 038 P07 | 3m32s | 2 tasks | 6 files |
 
 ### Decisions
 
@@ -88,6 +89,7 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 038]: 038-06: Wikilink sentinel exported as WIKILINK_HREF_PREFIX constant so Phase 42 Obsidian renderer and tests import from same source of truth — primitives stay render-agnostic per D-09
 - [Phase 038]: 038-06: caption() produces ParagraphNode wrapping EmphasisSpan (block-level italic) so both mono and Obsidian renderers emit italic captions without renderer-specific branching (VAULT-09)
 - [Phase 038]: 038-06: Primitives accept 'string | readonly InlineSpan[]' (readonly modifier) to take both mutable and frozen/as-const arrays without force casts at call sites
+- [Phase 038]: 038-07: list/table/blockquote compound primitives ship with Array.isArray discrimination and per-cell toCell normalization; blockquote wraps DocNode[] (not InlineSpan[]) matching IR types lock-in from 038-02
 
 ### Pending Todos
 
@@ -99,6 +101,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T02:07:41.730Z
-Stopped at: Completed 038-06-PLAN.md
+Last session: 2026-04-11T02:09:21.786Z
+Stopped at: Completed 038-07-PLAN.md
 Resume file: None

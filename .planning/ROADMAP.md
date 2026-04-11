@@ -163,7 +163,7 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
     - [x] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
     - [x] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
     - [x] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
-    - [ ] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)
+    - [x] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)
 - [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
 - [ ] Phase 40: Exhibit Extractor -- parametric extractor for all 15 exhibits covering 5 section types, typed personnel/technologies/findings arrays, and quotes; snapshot one IR + one EB
 - [ ] Phase 41: Monolithic Renderer -- `docs/site-content.md` with heading shift, auto ToC via `github-slugger`, route→anchor link rewriting, GFM-only, generated banner, `remark-parse` monotonic-heading verification
