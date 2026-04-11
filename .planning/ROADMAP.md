@@ -155,7 +155,15 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
     - [x] 037-07-PLAN.md — CaseFilesPage + Project Directory extraction (SFC-07)
     - [x] 037-08-PLAN.md — 7 browser regression tests via vitest-browser-vue (SFC-01..07)
     - [x] 037-09-PLAN.md — LOAD-01 enforcement test + phase gate + visual checkpoint (LOAD-01)
-- [ ] Phase 38: IR + Markdown Primitives + Scaffold -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
+- [ ] Phase 38: IR + Markdown Primitives + Scaffold (7/7 plans) -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
+  - **Plans:** 7 plans (1 Wave 1 serial infrastructure + 4 Wave 2 parallel + 2 Wave 3 primitive parallel)
+    - [ ] 038-01-PLAN.md — pnpm migration, tsconfig.scripts.json, vitest scripts project, build chain (SCAF-01/02/03)
+    - [ ] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
+    - [ ] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
+    - [ ] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
+    - [ ] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
+    - [ ] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
+    - [ ] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)
 - [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
 - [ ] Phase 40: Exhibit Extractor -- parametric extractor for all 15 exhibits covering 5 section types, typed personnel/technologies/findings arrays, and quotes; snapshot one IR + one EB
 - [ ] Phase 41: Monolithic Renderer -- `docs/site-content.md` with heading shift, auto ToC via `github-slugger`, route→anchor link rewriting, GFM-only, generated banner, `remark-parse` monotonic-heading verification
