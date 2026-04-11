@@ -89,14 +89,14 @@ Every page template should be scannable and self-documenting through well-named 
 **Foundation (prerequisite phase):**
 - [x] SFC content extraction: hardcoded prose moved from 15 Vue files (7 pages + 8 delegated components) into 14 `src/content/*.ts` modules, SFCs `v-for` over imported arrays, 7 Playwright browser regression tests per refactored page, 149/149 tests green (SFC-01/02/03/04/05/06/07) — shipped Phase 37
 - [x] Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed/map/ref/reactive/watch; `as const satisfies` literal registries allowlisted; enforcement test in `src/data/__tests__/loaders.thin.test.ts` (LOAD-01) — shipped Phase 37
-- [ ] `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json` (paths: {}), `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` npm script (SCAF-01/02/03)
-- [ ] `docs/` directory collision audit (Vite outDir, Storybook, Wrangler, Vitest) documented in PLAN (AUDT-01)
+- [x] `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json` (paths: {}), pnpm migration + `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` + `test:scripts` npm scripts, Vitest `scripts` project (SCAF-01/02/03) — shipped Phase 38
+- [x] `docs/` directory collision audit (Vite outDir, Storybook, Wrangler, Vitest) produced as `038-DOCS-AUDIT.md` — verdict GO (AUDT-01) — shipped Phase 38
 
 **IR + shared primitives:**
-- [ ] `DocNode` discriminated union (Heading, Paragraph, List, Table, Blockquote, Link, Image, HR) + `PageDoc` type (IR-01/02)
-- [ ] Markdown primitives: `heading()`, `paragraph()`, `list()`, `table()`, `blockquote()`, `link()`, `wikilink()`, `caption()` (PRIM-01)
-- [ ] Context-specific escape helpers: `escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`, `escapeCodeBlockContent` with unit tests for pipes, backticks, HTML entities, NBSP, BOM (ESCP-01/02/03/04)
-- [ ] Frontmatter serializer with canonical key order, forbidden singular keys (`tag`, `alias`, `cssclass`), wikilink-in-property quoting (FM-01/02)
+- [x] `DocNode` discriminated union (6 block kinds) + `InlineSpan` inline tree (6 kinds) + `PageDoc` wrapper + `HeadingLevel` + `assertNever` exhaustiveness helper (IR-01/02) — shipped Phase 38
+- [x] Nine IR primitive factories: `text`, `heading`, `paragraph`, `link`, `wikilink`, `caption`, `list`, `table`, `blockquote` — zero rendering/escape logic (PRIM-01) — shipped Phase 38
+- [x] Context-specific escape helpers: `escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`, `escapeCodeBlockContent` with 53 unit tests (ESCP-01/02/03/04) — shipped Phase 38
+- [x] Frontmatter YAML serializer with canonical key order (title→aliases→tags→date→cssclasses), plural-key enforcement, block-style arrays (FM-01/02) — shipped Phase 38
 
 **Extractors:**
 - [ ] `site-map.ts` with 7 static routes + dynamic exhibit children, excludes `/review`, `/diag`, 404 (MAP-01)
@@ -179,9 +179,9 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v6.0 (2026-04-08) | **Status:** All milestones through v6.0 complete
+**Shipped:** v6.0 (2026-04-08) | **In progress:** v7.0 Static Markdown Export Pipeline (Phase 38 of ~45 complete)
 
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays — 31 generic string[][] sections eliminated, 6 one-off tables remain as generic sections. Findings unified across 11 exhibits with NTSB-style diagnostic content, category taxonomy, severity on diagnostic exhibits, and enriched layout rendering. Personnel data normalized: 26 title-as-name entries corrected, Exhibit L schema unified, all 66 entries typed with entryType (individual/group/anonymized). Mobile cards and desktop tables visually distinguish entry types with compact group cards, italic anonymized entries, and heading cascade (name → title → role). 95 unit tests passing, clean production build.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays. Findings unified across 11 exhibits with NTSB-style diagnostic content. Personnel data normalized with entryType (individual/group/anonymized). Phase 37 extracted hardcoded prose from 15 Vue files into 14 `src/content/*.ts` modules with 7 Playwright browser regression tests. Phase 38 established the markdown export foundation: pnpm migration, `scripts/markdown-export/` scaffold with `tsconfig.scripts.json` project reference, Vitest `scripts` project, three new devDeps (tsx/yaml/github-slugger), the complete IR contract (DocNode/InlineSpan/PageDoc), four context-specific escape helpers, deterministic frontmatter serializer, nine IR primitive factories, and the `docs/` collision audit (verdict GO for Phase 44). 292 tests passing (34 files), clean production build, `build:markdown` orchestrator stub wired into the build chain.
 
 ## Context
 
@@ -245,4 +245,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 — Phase 37 complete (SFC content extraction + LOAD-01 enforced)*
+*Last updated: 2026-04-11 — Phase 38 complete (IR + markdown primitives + scaffold)*
