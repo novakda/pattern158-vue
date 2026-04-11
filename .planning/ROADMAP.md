@@ -160,7 +160,7 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
     - [x] 038-01-PLAN.md — pnpm migration, tsconfig.scripts.json, vitest scripts project, build chain (SCAF-01/02/03)
     - [x] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
     - [x] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
-    - [ ] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
+    - [x] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
     - [x] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
     - [ ] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
     - [ ] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)

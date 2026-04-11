@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 038-03-PLAN.md
-last_updated: "2026-04-11T02:00:43.066Z"
+stopped_at: Completed 038-04-PLAN.md
+last_updated: "2026-04-11T02:01:55.828Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 16
-  completed_plans: 13
-  percent: 81
+  completed_plans: 14
+  percent: 88
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 038 (ir-markdown-primitives-scaffold) — EXECUTING
-Plan: 4 of 7
+Plan: 5 of 7
 Status: Ready to execute
 Last activity: 2026-04-11
 
@@ -61,6 +61,7 @@ Progress: [##        ] 11% (1/9 phases)
 | Phase 038 P05 | 4min | 1 tasks | 1 files |
 | Phase 038 P02 | 5min | 1 tasks | 2 files |
 | Phase 038 P03 | 4m | 2 tasks | 8 files |
+| Phase 038 P04 | 4m7s | 1 tasks | 2 files |
 
 ### Decisions
 
@@ -80,6 +81,9 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 038]: 038-03: Fixed plan-internal test-spec contradiction — parens are NOT in D-19 prose escape set; test expectation corrected to match authoritative character-set spec rather than source implementation
 - [Phase 038]: 038-03: Wikilink backslash sanitized to '-' (filesystem-first) not escaped to '\\' — Obsidian cannot save notes with backslashes in filenames, so filesystem-reservation dominates markdown-escape rule
 - [Phase 038]: 038-03: escapeCodeBlockContent returns { content, fence } instead of pre-assembled string — callers own fence assembly per GFM longer-fence-wins rule, content never mutated
+- [Phase 038]: 038-04: Used yaml Document API with forced QUOTE_DOUBLE Scalar for title + PLAIN default for array items — stringify() defaultStringType is global and cannot be per-field
+- [Phase 038]: 038-04: SINGULAR_TO_PLURAL lookup map replaces plan-suggested '${singular}s' concat (fixes 'alias'→'aliass' bug)
+- [Phase 038]: 038-04: collectionStyle: 'block' is the yaml 2.8.3 ToStringOptions equivalent for forcing block-style arrays (flowLevel: -1 is not a valid ToStringOptions property)
 
 ### Pending Todos
 
@@ -91,6 +95,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T02:00:32.147Z
-Stopped at: Completed 038-03-PLAN.md
+Last session: 2026-04-11T02:01:44.533Z
+Stopped at: Completed 038-04-PLAN.md
 Resume file: None
