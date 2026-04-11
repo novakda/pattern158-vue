@@ -17,5 +17,8 @@
     "baseUrl": ".",
     "types": ["vite/client"]
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "env.d.ts"]
+  "include": ["src/**/*.ts", "src/**/*.vue", "env.d.ts"],
+  "references": [
+    { "path": "./tsconfig.scripts.json" }
+  ]
 }

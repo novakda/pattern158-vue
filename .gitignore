@@ -11,3 +11,8 @@ storybook-static
 # Vitest browser-mode runtime artifacts
 .vitest-attachments/
 src/pages/__screenshots__/
+
+# TypeScript project-references build artifacts (scripts project)
+.tsbuildinfo-scripts/
+tsconfig.scripts.tsbuildinfo
+*.tsbuildinfo
