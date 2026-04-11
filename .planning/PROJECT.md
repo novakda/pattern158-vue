@@ -87,8 +87,8 @@ Every page template should be scannable and self-documenting through well-named 
 **v7.0 Static Markdown Export Pipeline — MVP + Quick Wins scope**
 
 **Foundation (prerequisite phase):**
-- [ ] SFC content extraction: move hardcoded prose from 7 Vue files into `src/content/*.ts`, SFCs `v-for` over imported arrays, one Playwright regression test per refactored page, all 95+ existing tests green (SFC-01/02/03/04/05/06/07)
-- [ ] Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed fields (LOAD-01)
+- [x] SFC content extraction: hardcoded prose moved from 15 Vue files (7 pages + 8 delegated components) into 14 `src/content/*.ts` modules, SFCs `v-for` over imported arrays, 7 Playwright browser regression tests per refactored page, 149/149 tests green (SFC-01/02/03/04/05/06/07) — shipped Phase 37
+- [x] Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed/map/ref/reactive/watch; `as const satisfies` literal registries allowlisted; enforcement test in `src/data/__tests__/loaders.thin.test.ts` (LOAD-01) — shipped Phase 37
 - [ ] `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json` (paths: {}), `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` npm script (SCAF-01/02/03)
 - [ ] `docs/` directory collision audit (Vite outDir, Storybook, Wrangler, Vitest) documented in PLAN (AUDT-01)
 
@@ -245,4 +245,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-10 — v7.0 Static Markdown Export Pipeline milestone started*
+*Last updated: 2026-04-11 — Phase 37 complete (SFC content extraction + LOAD-01 enforced)*
