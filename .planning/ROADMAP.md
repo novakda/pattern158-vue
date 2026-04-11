@@ -144,7 +144,7 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
 <details open>
 <summary>v7.0 Static Markdown Export Pipeline (Phases 37-45) -- ACTIVE (started 2026-04-10)</summary>
 
-- [ ] Phase 37: SFC Content Extraction -- move hardcoded prose from 15 Vue files (7 pages + 8 components) into `src/content/*.ts`, formalize thin-loader invariant, Playwright regression per refactored page
+- [x] Phase 37: SFC Content Extraction (9/9 plans) -- completed 2026-04-10
   - **Plans:** 9 plans (7 parallel Wave 1 + 1 Wave 2 gate + 1 Wave 3 gate+checkpoint)
     - [x] 037-01-PLAN.md — HomePage extraction + src/content/ scaffold (SFC-01)
     - [x] 037-02-PLAN.md — PhilosophyPage + Pattern158Origin + HowIWork + AiClarity (SFC-02)
