@@ -4,7 +4,7 @@ milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
 stopped_at: Completed 038-07-PLAN.md
-last_updated: "2026-04-11T02:09:21.788Z"
+last_updated: "2026-04-11T02:18:34.187Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
@@ -25,8 +25,8 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 
 ## Current Position
 
-Phase: 038 (ir-markdown-primitives-scaffold) — EXECUTING
-Plan: 7 of 7
+Phase: 038
+Plan: Not started
 Status: Ready to execute
 Last activity: 2026-04-11
 
