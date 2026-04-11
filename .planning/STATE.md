@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 038-05-PLAN.md
-last_updated: "2026-04-11T01:58:48.623Z"
+stopped_at: Completed 038-03-PLAN.md
+last_updated: "2026-04-11T02:00:43.066Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 16
-  completed_plans: 11
-  percent: 69
+  completed_plans: 13
+  percent: 81
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-04-10)
 ## Current Position
 
 Phase: 038 (ir-markdown-primitives-scaffold) — EXECUTING
-Plan: 2 of 7
+Plan: 4 of 7
 Status: Ready to execute
 Last activity: 2026-04-11
 
@@ -59,6 +59,8 @@ Progress: [##        ] 11% (1/9 phases)
 | Phase 037 P09 | 2min | 3 tasks | 1 files |
 | Phase 038 P01 | 6m31s | 3 tasks | 7 files |
 | Phase 038 P05 | 4min | 1 tasks | 1 files |
+| Phase 038 P02 | 5min | 1 tasks | 2 files |
+| Phase 038 P03 | 4m | 2 tasks | 8 files |
 
 ### Decisions
 
@@ -74,6 +76,10 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 038]: 038-01: Vitest 4 does not honor per-project passWithNoTests — hoisted flag to top-level test.passWithNoTests so pnpm test:scripts exits 0 before Wave 2 adds first test files
 - [Phase 038]: 038-01: pnpm is the package manager of record going forward; packageManager field deferred as separate hygiene decision (out of scope for Phase 38)
 - [Phase 038]: 038-05: docs/ collision audit GO verdict — no tool writes to docs/, .gitignore clean, .gitattributes must be created from scratch in Phase 44
+- [Phase 038]: 038-02: IR locked — DocNode/InlineSpan as type-alias discriminated unions (tight discriminants), PageDoc as single interface (D-08), BlockquoteNode wraps DocNode[] not InlineSpan[], TableNode cells typed as InlineSpan[][]/[][][], assertNever exported from types.ts
+- [Phase 038]: 038-03: Fixed plan-internal test-spec contradiction — parens are NOT in D-19 prose escape set; test expectation corrected to match authoritative character-set spec rather than source implementation
+- [Phase 038]: 038-03: Wikilink backslash sanitized to '-' (filesystem-first) not escaped to '\\' — Obsidian cannot save notes with backslashes in filenames, so filesystem-reservation dominates markdown-escape rule
+- [Phase 038]: 038-03: escapeCodeBlockContent returns { content, fence } instead of pre-assembled string — callers own fence assembly per GFM longer-fence-wins rule, content never mutated
 
 ### Pending Todos
 
@@ -85,6 +91,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T01:58:48.621Z
-Stopped at: Completed 038-05-PLAN.md
+Last session: 2026-04-11T02:00:32.147Z
+Stopped at: Completed 038-03-PLAN.md
 Resume file: None

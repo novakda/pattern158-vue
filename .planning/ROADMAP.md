@@ -158,8 +158,8 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
 - [ ] Phase 38: IR + Markdown Primitives + Scaffold (7/7 plans) -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
   - **Plans:** 7 plans (1 Wave 1 serial infrastructure + 4 Wave 2 parallel + 2 Wave 3 primitive parallel)
     - [x] 038-01-PLAN.md — pnpm migration, tsconfig.scripts.json, vitest scripts project, build chain (SCAF-01/02/03)
-    - [ ] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
-    - [ ] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
+    - [x] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
+    - [x] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
     - [ ] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
     - [x] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
     - [ ] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
