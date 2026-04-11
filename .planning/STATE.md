@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
 status: executing
-stopped_at: Completed 038-04-PLAN.md
-last_updated: "2026-04-11T02:01:55.828Z"
+stopped_at: Completed 038-06-PLAN.md
+last_updated: "2026-04-11T02:07:41.732Z"
 last_activity: 2026-04-11
 progress:
   total_phases: 2
   completed_phases: 1
   total_plans: 16
-  completed_plans: 14
-  percent: 88
+  completed_plans: 15
+  percent: 94
 ---
 
 # Project State
@@ -62,6 +62,7 @@ Progress: [##        ] 11% (1/9 phases)
 | Phase 038 P02 | 5min | 1 tasks | 2 files |
 | Phase 038 P03 | 4m | 2 tasks | 8 files |
 | Phase 038 P04 | 4m7s | 1 tasks | 2 files |
+| Phase 038 P06 | 3min | 2 tasks | 12 files |
 
 ### Decisions
 
@@ -84,6 +85,9 @@ Decisions are logged in PROJECT.md Key Decisions table.
 - [Phase 038]: 038-04: Used yaml Document API with forced QUOTE_DOUBLE Scalar for title + PLAIN default for array items — stringify() defaultStringType is global and cannot be per-field
 - [Phase 038]: 038-04: SINGULAR_TO_PLURAL lookup map replaces plan-suggested '${singular}s' concat (fixes 'alias'→'aliass' bug)
 - [Phase 038]: 038-04: collectionStyle: 'block' is the yaml 2.8.3 ToStringOptions equivalent for forcing block-style arrays (flowLevel: -1 is not a valid ToStringOptions property)
+- [Phase 038]: 038-06: Wikilink sentinel exported as WIKILINK_HREF_PREFIX constant so Phase 42 Obsidian renderer and tests import from same source of truth — primitives stay render-agnostic per D-09
+- [Phase 038]: 038-06: caption() produces ParagraphNode wrapping EmphasisSpan (block-level italic) so both mono and Obsidian renderers emit italic captions without renderer-specific branching (VAULT-09)
+- [Phase 038]: 038-06: Primitives accept 'string | readonly InlineSpan[]' (readonly modifier) to take both mutable and frozen/as-const arrays without force casts at call sites
 
 ### Pending Todos
 
@@ -95,6 +99,6 @@ None — v6.0 shipped.
 
 ## Session Continuity
 
-Last session: 2026-04-11T02:01:44.533Z
-Stopped at: Completed 038-04-PLAN.md
+Last session: 2026-04-11T02:07:41.730Z
+Stopped at: Completed 038-06-PLAN.md
 Resume file: None
