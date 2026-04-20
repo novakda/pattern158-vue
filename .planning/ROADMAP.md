@@ -195,7 +195,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   - [x] 46-01-PLAN.md — Create scripts/editorial/ placeholder TS files + smoke test (SCAF-01, SCAF-08)
   - [ ] 46-02-PLAN.md — Create tsconfig.editorial.json + register in root references (SCAF-02, SCAF-03)
   - [ ] 46-03-PLAN.md — Add editorial:capture script + 4 dep changes + pnpm install (SCAF-04, SCAF-05)
-  - [ ] 46-04-PLAN.md — Extend Vitest scripts project include + add .gitignore entry (SCAF-06, SCAF-07)
+  - [x] 46-04-PLAN.md — Extend Vitest scripts project include + add .gitignore entry (SCAF-06, SCAF-07)
   - [ ] 46-05-PLAN.md — Wave 2 end-to-end smoke (pnpm build + editorial:capture + test:scripts)
 
 ### Phase 47: Config + Routes (pure logic)
