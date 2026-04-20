@@ -32,7 +32,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 - [x] **CAPT-01
 **: `scripts/editorial/routes.ts` builds a deterministic ordered route list — 7 static routes hardcoded + exhibit slugs from `src/data/json/exhibits.json` via `fs.readFile` + `JSON.parse` (not ESM JSON import assert)
-- [ ] **CAPT-02**: Excluded routes explicitly skipped: `/review`, `/diag/*`, redirect routes (`/portfolio` → `/case-files`, `/testimonials` → `/case-files`), 404 fallback
+- [x] **CAPT-02
+**: Excluded routes explicitly skipped: `/review`, `/diag/*`, redirect routes (`/portfolio` → `/case-files`, `/testimonials` → `/case-files`), 404 fallback
 - [ ] **CAPT-03**: `scripts/editorial/capture.ts` launches headless Chromium via `playwright` (not `@playwright/test`); `--headful` flag available for Cloudflare interstitial fallback
 - [ ] **CAPT-04**: Per-route page-ready detection via `waitForSelector` on `#main-content` plus content-length sanity floor (reject < 200 bytes as likely interstitial)
 - [ ] **CAPT-05**: HTTP response status recorded per route; non-200 logged loudly in run summary but capture continues

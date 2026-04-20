@@ -211,7 +211,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 **Plans:** 6 plans
   - [ ] 47-01-PLAN.md — Lock interface contracts: EditorialConfig (5 fields), Route (4 fields), ConfigError (CAPT-01, WRIT-01)
   - [ ] 47-02-PLAN.md — Implement config.ts: parseArgs + mergeConfig + runPreflight + loadEditorialConfig + HELP_TEXT (WRIT-01, WRIT-02)
-  - [ ] 47-03-PLAN.md — Implement routes.ts: STATIC_ROUTES + EXCLUDED_PREFIXES + isExcluded + buildRoutes reading exhibits.json (CAPT-01, CAPT-02)
+  - [x] 47-03-PLAN.md — Implement routes.ts: STATIC_ROUTES + EXCLUDED_PREFIXES + isExcluded + buildRoutes reading exhibits.json (CAPT-01, CAPT-02)
   - [ ] 47-04-PLAN.md — Vitest config.test.ts: parseArgs/mergeConfig/HELP_TEXT/runPreflight (WRIT-01, WRIT-02)
   - [ ] 47-05-PLAN.md — Vitest routes.test.ts: STATIC_ROUTES/EXCLUDED_PREFIXES/isExcluded/buildRoutes with inline fixtures (CAPT-01, CAPT-02)
   - [ ] 47-06-PLAN.md — Wave 4 smoke gate: pnpm build + pnpm test:scripts + tsx integration smoke + 47-VERIFICATION.md
@@ -285,7 +285,7 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 46. Scaffold | 0/? | Not started | - |
-| 47. Config + Routes | 1/6 | In progress | - |
+| 47. Config + Routes | 3/6 | In progress | - |
 | 48. Capture (Playwright IO) | 0/? | Not started | - |
 | 49. Convert (Turndown) | 0/? | Not started | - |
 | 50. Write + Preflight + Orchestration | 0/? | Not started | - |
