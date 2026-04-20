@@ -283,6 +283,27 @@ export function buildScreenshotPath(
 }
 
 /**
+ * captureScreenshot — wrap page.screenshot with the locked options for CAPT-13:
+ *   fullPage: true (captures beyond the viewport)
+ *   path: absolute PNG destination (caller supplies via buildScreenshotPath)
+ *   type: 'png' (no jpeg quality branch)
+ *
+ * Caller is responsible for ensureScreenshotDir(config) having run once at
+ * the start of the capture phase so the destination directory exists.
+ * Any Playwright error propagates — Plan 48-03's loop wraps with route context.
+ */
+export async function captureScreenshot(
+  page: Page,
+  absPath: string,
+): Promise<void> {
+  await page.screenshot({
+    fullPage: true,
+    path: absPath,
+    type: 'png',
+  })
+}
+
+/**
  * captureRoutes — Playwright-driven per-route capture. STUB in Plan 48-01.
  * Real implementation lands in Plan 48-06 (integration) once Plans 48-02..05 have
  * landed their pure helpers + lifecycle scaffolding.
