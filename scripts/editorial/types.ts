@@ -15,3 +15,8 @@ export type { ConvertedPage } from './convert.ts'
 // ConfigError is re-exported as a runtime value (class), not `export type`,
 // so downstream code can use `err instanceof ConfigError` at runtime.
 export { ConfigError } from './config.ts'
+
+// CaptureError is re-exported as a runtime value (class) for the same reason —
+// Phase 50's index.ts uses `err instanceof CaptureError` at the outermost boundary
+// to map capture failures to exit code 1 (vs. ConfigError → exit 2).
+export { CaptureError } from './capture.ts'
