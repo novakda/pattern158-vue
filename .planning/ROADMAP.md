@@ -165,7 +165,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 **Milestone Goal:** Capture the live rendered pattern158.solutions as a single Markdown document for editorial review; produce a findings doc that informs the v9.0 rebuild direction.
 
 - [ ] **Phase 46: Scaffold** - `scripts/editorial/` directory, `tsconfig.editorial.json`, root `references`, Vitest `scripts` include, 3 devDeps + Playwright bump, `editorial:capture` pnpm script, `.gitignore` entry
-- [ ] **Phase 47: Config + Routes (pure logic)** - `types.ts`, `config.ts` (CLI args + env fallback + preflight), `routes.ts` (exhibit slug loader + ordered route list); heavy unit test coverage
+- [x] **Phase 47: Config + Routes (pure logic)** - `types.ts`, `config.ts` (CLI args + env fallback + preflight), `routes.ts` (exhibit slug loader + ordered route list); heavy unit test coverage
 - [ ] **Phase 48: Capture (Playwright IO)** - chromium launch, per-route selector manifest, FAQ pre-expand + filter-all hooks, cache-buster + no-cache headers, bot-interstitial detection, screenshots, console capture, SEO meta
 - [ ] **Phase 49: Convert (Turndown)** - Turndown 7 + GFM plugin, DOM sanitization, heading demotion (H1 → H3), badge/pill passthrough, fixture unit tests
 - [ ] **Phase 50: Write + Preflight + Orchestration** - atomic temp+rename write, idempotent overwrite, optional dual-write mirror, stdout summary, ToC generation, frontmatter with provenance, per-page metadata blocks, route separators
@@ -209,12 +209,12 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   4. Excluded routes (`/review`, `/diag/*`, `/portfolio` and `/testimonials` redirects, 404 fallback) never appear in the emitted `Route[]`.
   5. Unit tests cover: `routes.ts` ordering, exclusion filtering, exhibit slug integration; `config.ts` CLI/env precedence, missing-config failure, preflight path validation — all green in the `scripts` Vitest project.
 **Plans:** 6 plans
-  - [ ] 47-01-PLAN.md — Lock interface contracts: EditorialConfig (5 fields), Route (4 fields), ConfigError (CAPT-01, WRIT-01)
-  - [ ] 47-02-PLAN.md — Implement config.ts: parseArgs + mergeConfig + runPreflight + loadEditorialConfig + HELP_TEXT (WRIT-01, WRIT-02)
+  - [x] 47-01-PLAN.md — Lock interface contracts: EditorialConfig (5 fields), Route (4 fields), ConfigError (CAPT-01, WRIT-01)
+  - [x] 47-02-PLAN.md — Implement config.ts: parseArgs + mergeConfig + runPreflight + loadEditorialConfig + HELP_TEXT (WRIT-01, WRIT-02)
   - [x] 47-03-PLAN.md — Implement routes.ts: STATIC_ROUTES + EXCLUDED_PREFIXES + isExcluded + buildRoutes reading exhibits.json (CAPT-01, CAPT-02)
   - [x] 47-04-PLAN.md — Vitest config.test.ts: parseArgs/mergeConfig/HELP_TEXT/runPreflight (WRIT-01, WRIT-02)
-  - [ ] 47-05-PLAN.md — Vitest routes.test.ts: STATIC_ROUTES/EXCLUDED_PREFIXES/isExcluded/buildRoutes with inline fixtures (CAPT-01, CAPT-02)
-  - [ ] 47-06-PLAN.md — Wave 4 smoke gate: pnpm build + pnpm test:scripts + tsx integration smoke + 47-VERIFICATION.md
+  - [x] 47-05-PLAN.md — Vitest routes.test.ts: STATIC_ROUTES/EXCLUDED_PREFIXES/isExcluded/buildRoutes with inline fixtures (CAPT-01, CAPT-02)
+  - [x] 47-06-PLAN.md — Wave 4 smoke gate: pnpm build + pnpm test:scripts + tsx integration smoke + 47-VERIFICATION.md
 
 ### Phase 48: Capture (Playwright IO)
 **Goal**: Given a validated `Route[]`, the tool drives headless Chromium through the live production site and returns a `CapturedPage[]` with hydrated main-content HTML, HTTP status, console errors, SEO meta, and per-route PNG screenshots — with every mitigation in place for Cloudflare, SPA timing, FAQ accordion, and silent SPA 404s.
