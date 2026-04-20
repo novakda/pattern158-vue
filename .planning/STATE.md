@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-20T19:16:33.891Z"
+last_updated: "2026-04-20T19:25:47.370Z"
 last_activity: 2026-04-20 -- Phase --phase execution started
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 17
-  completed_plans: 15
-  percent: 88
+  completed_plans: 16
+  percent: 94
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 1 of --name
 Status: Executing Phase --phase
 Last activity: 2026-04-20 -- Phase --phase execution started
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 94%
 
 ## Performance Metrics
 
@@ -81,6 +81,10 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 48 Plan 05: Screenshots land at <dirname(outputPath)>/site-editorial-capture/screenshots/<NN>-<slug>.png — directory literals hardcoded (CONTEXT.md lock), NN is 2-digit floor padding via String(index).padStart(2,'0'), slug seed follows sourceSlug ?? path precedence matching Plan 48-02 buildCaptureUrl
 - Phase 48 Plan 05: ensureScreenshotDir returns Promise<string> (not void) so Plan 48-06 capture loop calls it once outside the loop and reuses the returned path in every buildScreenshotPath(config, i, route) call
 - Phase 48 Plan 05: captureScreenshot locks page.screenshot options to exactly 3 keys (fullPage: true, path: absPath, type: 'png'); no clip, omitBackground, quality, animations, caret, scale; no try/catch — errors propagate for Plan 48-03 route-context wrapping; Promise<void> return prevents buffering PNG in memory
+- Phase 48 Plan 03: capturePage attaches console + pageerror listeners BEFORE page.goto — Playwright does not buffer pre-listener events, so attaching after would silently drop hydration-window errors (CAPT-14 correctness invariant)
+- Phase 48 Plan 03: capturePage operation order LOCKED — goto -> status -> waitForSelector -> FAQ hooks -> meta -> mainHtml -> interstitial -> exhibit-404 -> screenshot -> return. FAQ hooks must run before HTML read (DOM mutation); interstitial after mainHtml (needs bodyBytes+html); exhibit-404 after interstitial (no point asserting on challenge page); screenshot last (after all assertions pass)
+- Phase 48 Plan 03: SPA-404 detection on exhibit routes uses .exhibit-detail-title (h1 class on both InvestigationReportLayout and EngineeringBriefLayout) with strict === 1 count assertion — NotFoundPage does not render this class, so silent 404 at HTTP 200 trips the assertion; double-render also aborts (template regression)
+- Phase 48 Plan 03: inter-request 1500ms delay lives in captureRoutes (Plan 48-06), not capturePage — keeps capturePage pure about a single-route round-trip and single-responsibility; capturePage returns as soon as one route is captured
 
 ### Pending Todos
 
@@ -92,7 +96,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-20T19:16:33.887Z
+Last session: 2026-04-20T19:25:34.804Z
 Current activity: /gsd-new-milestone for v8.0
 Resume file: None
 
