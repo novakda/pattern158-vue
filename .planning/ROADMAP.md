@@ -208,7 +208,13 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. `routes.ts` loads `src/data/json/exhibits.json` via `fs.readFile` + `JSON.parse` (NOT via `@/` alias, NOT via ESM JSON import assertion) and produces an ordered `Route[]`: home → philosophy → technologies → case-files → faq → contact → accessibility → exhibits A–O in exhibits.json order.
   4. Excluded routes (`/review`, `/diag/*`, `/portfolio` and `/testimonials` redirects, 404 fallback) never appear in the emitted `Route[]`.
   5. Unit tests cover: `routes.ts` ordering, exclusion filtering, exhibit slug integration; `config.ts` CLI/env precedence, missing-config failure, preflight path validation — all green in the `scripts` Vitest project.
-**Plans:** 0/? plans complete
+**Plans:** 6 plans
+  - [ ] 47-01-PLAN.md — Lock interface contracts: EditorialConfig (5 fields), Route (4 fields), ConfigError (CAPT-01, WRIT-01)
+  - [ ] 47-02-PLAN.md — Implement config.ts: parseArgs + mergeConfig + runPreflight + loadEditorialConfig + HELP_TEXT (WRIT-01, WRIT-02)
+  - [ ] 47-03-PLAN.md — Implement routes.ts: STATIC_ROUTES + EXCLUDED_PREFIXES + isExcluded + buildRoutes reading exhibits.json (CAPT-01, CAPT-02)
+  - [ ] 47-04-PLAN.md — Vitest config.test.ts: parseArgs/mergeConfig/HELP_TEXT/runPreflight (WRIT-01, WRIT-02)
+  - [ ] 47-05-PLAN.md — Vitest routes.test.ts: STATIC_ROUTES/EXCLUDED_PREFIXES/isExcluded/buildRoutes with inline fixtures (CAPT-01, CAPT-02)
+  - [ ] 47-06-PLAN.md — Wave 4 smoke gate: pnpm build + pnpm test:scripts + tsx integration smoke + 47-VERIFICATION.md
 
 ### Phase 48: Capture (Playwright IO)
 **Goal**: Given a validated `Route[]`, the tool drives headless Chromium through the live production site and returns a `CapturedPage[]` with hydrated main-content HTML, HTTP status, console errors, SEO meta, and per-route PNG screenshots — with every mitigation in place for Cloudflare, SPA timing, FAQ accordion, and silent SPA 404s.
