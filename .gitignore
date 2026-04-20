@@ -16,3 +16,7 @@ src/pages/__screenshots__/
 .tsbuildinfo-scripts/
 tsconfig.scripts.tsbuildinfo
 *.tsbuildinfo
+
+# TypeScript project-references build artifacts (editorial project)
+.tsbuildinfo-editorial/
+tsconfig.editorial.tsbuildinfo
