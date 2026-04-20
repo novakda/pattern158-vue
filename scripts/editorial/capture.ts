@@ -8,6 +8,7 @@
 
 import type { EditorialConfig } from './config.ts'
 import type { Route } from './routes.ts'
+import { chromium, type Browser, type BrowserContextOptions } from 'playwright'
 
 /**
  * Extended CapturedPage shape — locked for Phase 49 (convert.ts consumer).
@@ -94,6 +95,29 @@ export function detectInterstitial(input: {
     return 'DOM contains "challenge-platform" marker — Cloudflare challenge page'
   }
   return null
+}
+
+/**
+ * launchBrowser — single chromium.launch() per run. Respects --headful via
+ * config.headful; headless by default (CAPT-03). Caller owns the returned
+ * Browser and MUST call browser.close() in a finally block (Plan 48-06 does this).
+ */
+export function launchBrowser(config: EditorialConfig): Promise<Browser> {
+  return chromium.launch({ headless: !config.headful })
+}
+
+/**
+ * buildContextOptions — deterministic BrowserContextOptions for the single
+ * context used across all route captures. Fixed 1280x800 viewport + fixed
+ * light colorScheme (CAPT-12); Cache-Control: no-cache applied to every
+ * request originating from this context (CAPT-10).
+ */
+export function buildContextOptions(): BrowserContextOptions {
+  return {
+    viewport: { width: 1280, height: 800 },
+    colorScheme: 'light',
+    extraHTTPHeaders: { 'Cache-Control': 'no-cache' },
+  }
 }
 
 /**
