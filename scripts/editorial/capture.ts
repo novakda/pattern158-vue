@@ -351,6 +351,32 @@ export async function capturePage(
     const httpStatus = response?.status() ?? 0
     const cfCacheStatus = response?.headers()['cf-cache-status']
 
+    // Cloudflare interstitial detection (CAPT-11) — MUST run BEFORE
+    // waitForSelector('#main-content') because real CF challenge pages never
+    // render <main id="main-content">; the selector wait would TimeoutError
+    // first, masking the actionable interstitial message.
+    //
+    // CONTEXT.md <specifics> (line 144) locks the content-length signal to
+    // `response.body().then(b => b.length)` — the raw HTTP response body,
+    // NOT the scoped main-content innerHTML. Read it once here and feed both
+    // byteLength (signal 2) and the utf8 string (signal 3 DOM-marker scan)
+    // through detectInterstitial. page.title() is wrapped in catch('') because
+    // a challenge page may tear down the title lookup before domcontentloaded.
+    const rawBody = (await response?.body()) ?? Buffer.alloc(0)
+    const rawBodyHtml = rawBody.toString('utf8')
+    const preReadyTitle = await page.title().catch(() => '')
+    const interstitialReason = detectInterstitial({
+      title: preReadyTitle,
+      bodyBytes: rawBody.byteLength,
+      html: rawBodyHtml,
+    })
+    if (interstitialReason !== null) {
+      throw new CaptureError(
+        `Cloudflare bot interstitial detected on ${route.path} — ${interstitialReason}`,
+        { route },
+      )
+    }
+
     await page.waitForSelector('#main-content', { timeout: 10_000 })
 
     // FAQ pre-capture hooks (CAPT-07/08) — gated on route path.
@@ -365,20 +391,6 @@ export async function capturePage(
 
     // Main-content scoping (CAPT-06) — NavBar, FooterBar, skip-link excluded.
     const mainHtml = await page.locator('main#main-content').innerHTML()
-
-    // Cloudflare interstitial detection (CAPT-11) — abort the whole run if any
-    // of the three layered signals trips. detectInterstitial is pure (Plan 48-01).
-    const interstitialReason = detectInterstitial({
-      title: pageTitle,
-      bodyBytes: mainHtml.length,
-      html: mainHtml,
-    })
-    if (interstitialReason !== null) {
-      throw new CaptureError(
-        `Cloudflare bot interstitial detected on ${route.path} — ${interstitialReason}`,
-        { route },
-      )
-    }
 
     // Exhibit-route SPA-404 assertion (CAPT-09) — silent NotFoundPage at HTTP 200
     // is detected by missing .exhibit-detail-title (both exhibit layouts render it).

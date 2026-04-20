@@ -311,6 +311,11 @@ describe('captureRoutes integration (mocked Playwright)', () => {
   }
 
   function makeMockPage(opts: MockPageOpts): Record<string, unknown> {
+    // CONTEXT.md <specifics>: the interstitial content-length signal reads
+    // `response.body().then(b => b.length)` — the raw HTTP body buffer. The
+    // mock uses opts.mainHtml as a stand-in body string; for integration
+    // purposes the byteLength and DOM-marker semantics are identical.
+    const bodyBuffer = Buffer.from(opts.mainHtml, 'utf8')
     const page: Record<string, unknown> = {
       on: vi.fn(() => undefined),
       goto: vi.fn(async () => ({
@@ -319,6 +324,7 @@ describe('captureRoutes integration (mocked Playwright)', () => {
           opts.cfCacheStatus !== undefined
             ? { 'cf-cache-status': opts.cfCacheStatus }
             : {},
+        body: async () => bodyBuffer,
       })),
       waitForSelector: vi.fn(async () => undefined),
       waitForFunction: vi.fn(async () => undefined),
