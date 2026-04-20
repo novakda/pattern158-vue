@@ -409,13 +409,77 @@ export async function capturePage(
 }
 
 /**
- * captureRoutes — Playwright-driven per-route capture. STUB in Plan 48-01.
- * Real implementation lands in Plan 48-06 (integration) once Plans 48-02..05 have
- * landed their pure helpers + lifecycle scaffolding.
+ * captureRoutes — Playwright-driven per-route capture (Plan 48-06 integration).
+ *
+ * Thin sequential orchestrator that composes every Wave 1/2/3 helper:
+ *   1. ensureScreenshotDir(config) — fail-loud preflight BEFORE browser boot.
+ *   2. loadFaqItemCount(config.exhibitsJsonPath) — also preflight; missing
+ *      faq.json must fail before spawning Chromium (expensive).
+ *   3. launchBrowser(config) — single Browser per run.
+ *   4. browser.newContext(buildContextOptions()) — single BrowserContext (shared
+ *      CF clearance + Cache-Control header + fixed 1280x800 viewport).
+ *   5. for (let i = 0; i < routes.length; i += 1): capturePage per route,
+ *      push result, then — if NOT the last route — sleep 1500ms via a throwaway
+ *      page.waitForTimeout(). CONTEXT.md: 1500ms deterministic delay via
+ *      Playwright's approved sleep channel (SCAF-08 forbids Node timers and
+ *      parallel-iteration helpers on the ordered route list).
+ *   6. Nested try/finally guarantees context.close + browser.close even on
+ *      CaptureError abort (Cloudflare interstitial, silent 404, FAQ mismatch).
+ *
+ * Error policy (CONTEXT.md "no retries" ethos):
+ *   - CaptureError thrown by capturePage propagates unchanged (preserves the
+ *     original route + reason).
+ *   - Any other thrown value is wrapped in CaptureError with route context so
+ *     Plan 50's index.ts error printer always has a route to display.
  */
-export function captureRoutes(
-  _config: EditorialConfig,
-  _routes: readonly Route[],
+export async function captureRoutes(
+  config: EditorialConfig,
+  routes: readonly Route[],
 ): Promise<readonly CapturedPage[]> {
-  throw new Error('captureRoutes: not implemented until Plan 48-06 integration')
+  // Fail-loud preflight BEFORE browser boot (CONTEXT.md: "fail early" ethos).
+  await ensureScreenshotDir(config)
+  const faqItemCount = await loadFaqItemCount(config.exhibitsJsonPath)
+
+  const browser = await launchBrowser(config)
+  try {
+    const context = await browser.newContext(buildContextOptions())
+    try {
+      const captured: CapturedPage[] = []
+      for (let i = 0; i < routes.length; i += 1) {
+        const route = routes[i]
+        try {
+          const page = await capturePage(context, config, route, i, faqItemCount)
+          captured.push(page)
+        } catch (err) {
+          // Attach route context to non-CaptureError failures so Plan 50's
+          // index.ts error printer always has a route to display.
+          if (err instanceof CaptureError) {
+            throw err
+          }
+          const message = err instanceof Error ? err.message : String(err)
+          throw new CaptureError(
+            `Capture failed for ${route.path}: ${message}`,
+            { route, cause: err },
+          )
+        }
+
+        // Inter-request delay (CONTEXT.md locked: 1500ms). Skip after last route.
+        // Uses page.waitForTimeout on a throwaway page — Playwright's approved
+        // sleep channel; Node timers and wall-clock busy-waits are SCAF-08 forbidden.
+        if (i < routes.length - 1) {
+          const tempPage = await context.newPage()
+          try {
+            await tempPage.waitForTimeout(1500)
+          } finally {
+            await tempPage.close()
+          }
+        }
+      }
+      return captured
+    } finally {
+      await context.close()
+    }
+  } finally {
+    await browser.close()
+  }
 }
