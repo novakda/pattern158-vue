@@ -80,14 +80,14 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Scaffold + Build integration
 
-- [ ] **SCAF-01**: New `scripts/editorial/` directory with flat structure — `index.ts`, `config.ts`, `routes.ts`, `capture.ts`, `convert.ts`, `write.ts`, `types.ts`, `__tests__/`
+- [x] **SCAF-01**: New `scripts/editorial/` directory with flat structure — `index.ts`, `config.ts`, `routes.ts`, `capture.ts`, `convert.ts`, `write.ts`, `types.ts`, `__tests__/`
 - [ ] **SCAF-02**: New `tsconfig.editorial.json` mirroring `tsconfig.scripts.json` — composite=true, rootDir=., `include: ["scripts/editorial/**/*.ts"]`, `paths: {}`, outDir `.tsbuildinfo-editorial`, `lib: ["ES2022"]` (DOM added only if Phase C needs it)
 - [ ] **SCAF-03**: Root `tsconfig.json` `references` array extended with `./tsconfig.editorial.json`
 - [ ] **SCAF-04**: pnpm script `editorial:capture` wired in `package.json`: `tsx scripts/editorial/index.ts`
 - [ ] **SCAF-05**: Three new devDeps installed: `turndown@^7.2.4`, `@joplin/turndown-plugin-gfm@^1.0.64`, `@types/turndown@^5.0.6`; Playwright bumped to `^1.59.1`
 - [ ] **SCAF-06**: Existing Vitest `scripts` project `include` array extended to cover `scripts/editorial/**/*.test.ts` (no new Vitest project)
 - [ ] **SCAF-07**: `.gitignore` entry for `.tsbuildinfo-editorial`
-- [ ] **SCAF-08**: Forbidden patterns enforced in `scripts/editorial/`: no `@/` aliases, no `Date.now()`/`new Date()` for deterministic output, no `os.EOL`, no `Promise.all` over ordered route capture
+- [x] **SCAF-08**: Forbidden patterns enforced in `scripts/editorial/`: no `@/` aliases, no `Date.now()`/`new Date()` for deterministic output, no `os.EOL`, no `Promise.all` over ordered route capture
 
 ### Editorial review (manual phase)
 

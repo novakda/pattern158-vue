@@ -192,7 +192,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   4. Running `pnpm editorial:capture` executes `tsx scripts/editorial/index.ts` and exits cleanly (even if index.ts is a placeholder).
   5. `pnpm test:scripts` discovers and runs tests under `scripts/editorial/__tests__/`; `.tsbuildinfo-editorial` is in `.gitignore`.
 **Plans:** 5 plans
-  - [ ] 46-01-PLAN.md — Create scripts/editorial/ placeholder TS files + smoke test (SCAF-01, SCAF-08)
+  - [x] 46-01-PLAN.md — Create scripts/editorial/ placeholder TS files + smoke test (SCAF-01, SCAF-08)
   - [ ] 46-02-PLAN.md — Create tsconfig.editorial.json + register in root references (SCAF-02, SCAF-03)
   - [ ] 46-03-PLAN.md — Add editorial:capture script + 4 dep changes + pnpm install (SCAF-04, SCAF-05)
   - [ ] 46-04-PLAN.md — Extend Vitest scripts project include + add .gitignore entry (SCAF-06, SCAF-07)
