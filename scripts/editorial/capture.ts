@@ -233,6 +233,56 @@ export async function runFaqPreCaptureHooks(
 }
 
 /**
+ * resolveScreenshotDir — derive the absolute screenshots directory from
+ * config.outputPath. Path shape (LOCKED per CONTEXT.md):
+ *   <dirname(outputPath)>/site-editorial-capture/screenshots
+ *
+ * Pure function. Same config always produces the same path (SCAF-08
+ * determinism).
+ */
+export function resolveScreenshotDir(config: EditorialConfig): string {
+  return nodePath.join(
+    nodePath.dirname(config.outputPath),
+    'site-editorial-capture',
+    'screenshots',
+  )
+}
+
+/**
+ * ensureScreenshotDir — resolve + create the screenshots directory.
+ * Idempotent via fs.mkdir({ recursive: true }). Returns the absolute path
+ * so the caller can feed it straight into buildScreenshotPath without
+ * re-resolving.
+ */
+export async function ensureScreenshotDir(
+  config: EditorialConfig,
+): Promise<string> {
+  const dir = resolveScreenshotDir(config)
+  await fsp.mkdir(dir, { recursive: true })
+  return dir
+}
+
+/**
+ * buildScreenshotPath — compose the absolute PNG filepath for one route.
+ * Filename: `<NN>-<slug>.png` where NN is index zero-padded to 2 digits
+ * (minimum; 3+ digit indices pass through unclamped) and slug is
+ * slugify(route.sourceSlug ?? route.path).
+ *
+ * Determinism: same (config, index, route) => same path. No timestamps.
+ */
+export function buildScreenshotPath(
+  config: EditorialConfig,
+  index: number,
+  route: Route,
+): string {
+  const dir = resolveScreenshotDir(config)
+  const ordinal = String(index).padStart(2, '0')
+  const seed = route.sourceSlug ?? route.path
+  const slug = slugify(seed)
+  return nodePath.join(dir, `${ordinal}-${slug}.png`)
+}
+
+/**
  * captureRoutes — Playwright-driven per-route capture. STUB in Plan 48-01.
  * Real implementation lands in Plan 48-06 (integration) once Plans 48-02..05 have
  * landed their pure helpers + lifecycle scaffolding.
