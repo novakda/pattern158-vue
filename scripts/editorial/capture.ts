@@ -377,7 +377,11 @@ export async function capturePage(
       )
     }
 
-    await page.waitForSelector('#main-content', { timeout: 10_000 })
+    // Page-ready wait (CAPT-04). Selector matches the HTML-scoping selector
+    // on line 393 (main#main-content) so any future template regression that
+    // renamed the outer <main> or introduced a second #main-content node is
+    // caught at the wait, not at the locator.innerHTML() call below.
+    await page.waitForSelector('main#main-content', { timeout: 10_000 })
 
     // FAQ pre-capture hooks (CAPT-07/08) — gated on route path.
     if (route.path === '/faq') {
