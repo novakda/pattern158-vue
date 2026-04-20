@@ -121,6 +121,22 @@ export function buildContextOptions(): BrowserContextOptions {
 }
 
 /**
+ * buildCaptureUrl — append a deterministic `_cb=<slug>` cache-buster query
+ * parameter to `${baseUrl}${route.path}`. Slug seed is route.sourceSlug when
+ * present (exhibit routes) else slugify(route.path). Uses `?` if route.path
+ * has no query string, `&` if it already contains `?` (defensive).
+ *
+ * Determinism: no timestamp, no random — same (baseUrl, route) => same URL.
+ * CAPT-10: cache-buster query param on every request.
+ */
+export function buildCaptureUrl(baseUrl: string, route: Route): string {
+  const seed = route.sourceSlug ?? route.path
+  const slug = slugify(seed)
+  const separator = route.path.includes('?') ? '&' : '?'
+  return `${baseUrl}${route.path}${separator}_cb=${slug}`
+}
+
+/**
  * captureRoutes — Playwright-driven per-route capture. STUB in Plan 48-01.
  * Real implementation lands in Plan 48-06 (integration) once Plans 48-02..05 have
  * landed their pure helpers + lifecycle scaffolding.
