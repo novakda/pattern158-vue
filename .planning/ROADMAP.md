@@ -166,7 +166,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 
 - [ ] **Phase 46: Scaffold** - `scripts/editorial/` directory, `tsconfig.editorial.json`, root `references`, Vitest `scripts` include, 3 devDeps + Playwright bump, `editorial:capture` pnpm script, `.gitignore` entry
 - [x] **Phase 47: Config + Routes (pure logic)** - `types.ts`, `config.ts` (CLI args + env fallback + preflight), `routes.ts` (exhibit slug loader + ordered route list); heavy unit test coverage
-- [ ] **Phase 48: Capture (Playwright IO)** - chromium launch, per-route selector manifest, FAQ pre-expand + filter-all hooks, cache-buster + no-cache headers, bot-interstitial detection, screenshots, console capture, SEO meta
+- [x] **Phase 48: Capture (Playwright IO)** - chromium launch, per-route selector manifest, FAQ pre-expand + filter-all hooks, cache-buster + no-cache headers, bot-interstitial detection, screenshots, console capture, SEO meta
 - [ ] **Phase 49: Convert (Turndown)** - Turndown 7 + GFM plugin, DOM sanitization, heading demotion (H1 → H3), badge/pill passthrough, fixture unit tests
 - [ ] **Phase 50: Write + Preflight + Orchestration** - atomic temp+rename write, idempotent overwrite, optional dual-write mirror, stdout summary, ToC generation, frontmatter with provenance, per-page metadata blocks, route separators
 - [ ] **Phase 51: Editorial Review (manual)** - Dan reads capture in Obsidian, produces structured `FINDINGS.md` cross-referenced to career positioning docs, prioritized blocker / should-fix / nice-to-have
@@ -226,13 +226,13 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Every exhibit route is validated by a post-navigation selector assertion (e.g., `.exhibit-detail h1`); a silent `NotFoundPage` rendered with HTTP 200 is detected and logged as a route failure, not silently captured as empty content.
   4. Cloudflare interactions are handled: cache-buster query + `Cache-Control: no-cache` header on every request; `cf-cache-status` logged per route; bot interstitial ("Just a moment" / < 200-byte response / Cloudflare challenge markup) detected and aborted with a clear error — not silently captured as the interstitial page.
   5. Per-route screenshots (full-page PNG, fixed 1280×800 viewport, fixed light theme) land in `<vault>/career/website/site-editorial-capture/screenshots/`; per-route console errors and SEO meta (title, description) are captured into the run log / per-page metadata structures.
-**Plans:** 1/6 plans complete
+**Plans:** 6/6 plans complete
   - [x] 48-01-PLAN.md — CaptureError + slugify + detectInterstitial + extended CapturedPage (CAPT-11)
-  - [ ] 48-02-PLAN.md — launchBrowser + buildContextOptions + buildCaptureUrl (CAPT-03, CAPT-10, CAPT-12)
+  - [x] 48-02-PLAN.md — launchBrowser + buildContextOptions + buildCaptureUrl (CAPT-03, CAPT-10, CAPT-12)
   - [x] 48-03-PLAN.md — capturePage per-route orchestrator (CAPT-04, CAPT-05, CAPT-06, CAPT-09, CAPT-14, CAPT-15)
   - [x] 48-04-PLAN.md — loadFaqItemCount + runFaqPreCaptureHooks (CAPT-07, CAPT-08)
-  - [ ] 48-05-PLAN.md — Screenshot path + dir + captureScreenshot wrapper (CAPT-13)
-  - [ ] 48-06-PLAN.md — captureRoutes integration + capture.test.ts (CAPT-03, CAPT-10, CAPT-12)
+  - [x] 48-05-PLAN.md — Screenshot path + dir + captureScreenshot wrapper (CAPT-13)
+  - [x] 48-06-PLAN.md — captureRoutes integration + capture.test.ts (CAPT-03, CAPT-10, CAPT-12)
 
 ### Phase 49: Convert (Turndown)
 **Goal**: Given a `CapturedPage[]`, the tool produces clean deterministic Markdown per page — Turndown + GFM plugin with custom rules for Vue-specific noise, heading demotion, and badge/pill preservation — proven by fixture unit tests.

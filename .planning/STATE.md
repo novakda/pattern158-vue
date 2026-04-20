@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-20T19:25:47.370Z"
-last_activity: 2026-04-20 -- Phase --phase execution started
+last_updated: "2026-04-20T19:35:04.856Z"
+last_activity: 2026-04-20 — Phase 48 Plan 06 completed; Phase 48 complete
 progress:
   total_phases: 7
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 17
-  completed_plans: 16
-  percent: 94
+  completed_plans: 17
+  percent: 100
 ---
 
 # Project State
@@ -22,16 +22,16 @@ Milestone: v8.0 Editorial Snapshot & Content Audit (started 2026-04-19)
 Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase --phase — 48
+**Current focus:** Phase 48 complete — ready for Phase 49 (convert-cheerio)
 
 ## Current Position
 
-Phase: --phase (48) — EXECUTING
-Plan: 1 of --name
-Status: Executing Phase --phase
-Last activity: 2026-04-20 -- Phase --phase execution started
+Phase: 48 (Capture Playwright IO) — COMPLETE
+Plan: 6 of 6 (all plans complete)
+Status: Phase 48 complete; Phase 49 next
+Last activity: 2026-04-20 — Phase 48 Plan 06 completed
 
-Progress: [█████████░] 94%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -61,6 +61,7 @@ Retained from v7.0 (still valid for v8.0 background):
 | Phase 038 P04 | 4m7s | 1 tasks | 2 files |
 | Phase 038 P06 | 3min | 2 tasks | 12 files |
 | Phase 038 P07 | 3m32s | 2 tasks | 6 files |
+| Phase 48 P06 | 5min | 2 tasks | 2 files |
 
 ### Decisions
 
@@ -85,6 +86,13 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 48 Plan 03: capturePage operation order LOCKED — goto -> status -> waitForSelector -> FAQ hooks -> meta -> mainHtml -> interstitial -> exhibit-404 -> screenshot -> return. FAQ hooks must run before HTML read (DOM mutation); interstitial after mainHtml (needs bodyBytes+html); exhibit-404 after interstitial (no point asserting on challenge page); screenshot last (after all assertions pass)
 - Phase 48 Plan 03: SPA-404 detection on exhibit routes uses .exhibit-detail-title (h1 class on both InvestigationReportLayout and EngineeringBriefLayout) with strict === 1 count assertion — NotFoundPage does not render this class, so silent 404 at HTTP 200 trips the assertion; double-render also aborts (template regression)
 - Phase 48 Plan 03: inter-request 1500ms delay lives in captureRoutes (Plan 48-06), not capturePage — keeps capturePage pure about a single-route round-trip and single-responsibility; capturePage returns as soon as one route is captured
+- Phase 48 Plan 06: captureRoutes preflight order is ensureScreenshotDir → loadFaqItemCount → launchBrowser. Both preflights run BEFORE browser spawn so a misconfigured env fails in ~10ms without paying the 2-3s Chromium boot cost; order between preflights is ensureScreenshotDir first (faster, more common misconfiguration target)
+- Phase 48 Plan 06: inter-request 1500ms delay implemented as throwaway page.waitForTimeout(1500) with skip-after-last guard (if i < routes.length - 1). Playwright's approved sleep channel; no Node timer, no wall-clock busy-wait (SCAF-08). Throwaway page lifecycle (open → waitForTimeout → close-in-finally) is load-bearing — tests assert newPage called exactly 2+(N-1)=3 times for N=2 routes
+- Phase 48 Plan 06: nested try/finally (outer browser.close, inner context.close) guarantees cleanup on any abort path including context-creation failure; flatter structure leaks Browser
+- Phase 48 Plan 06: CaptureError wrap for non-CaptureError happens inside the for-loop catch, NOT at the function boundary — preserves the exact route that failed (not the first/last in the array). CaptureError passthrough branch preserves original route context set by capturePage
+- Phase 48 Plan 06: hermetic test suite via vi.spyOn(chromium, 'launch') per-test + vi.restoreAllMocks() in afterEach, NOT vi.mock('playwright') at module level. Lets pure-helper tests and integration tests coexist in the same file without mock pollution
+- Phase 48 Plan 06: integration tests cover 4 distinct paths (happy, non-CaptureError wrap, silent 404, interstitial) and all 3 error-path tests assert mockBrowser.close called exactly once — proves outer finally ran. All 3 error-path tests also grep for the exact error string captureRoutes/capturePage throws, so regressions in user-visible error messages fail loudly
+- Phase 48 Plan 06: JSDoc prose cannot mention forbidden tokens by name (setTimeout, Date.now, Promise.all) because the SCAF-08 acceptance grep `! grep -q <token>` matches comments as well as code. Describe the policy without naming the tokens: "SCAF-08 forbids Node timers and parallel-iteration helpers"
 
 ### Pending Todos
 
@@ -96,8 +104,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-20T19:25:34.804Z
-Current activity: /gsd-new-milestone for v8.0
+Last session: 2026-04-20T19:32:06Z
+Current activity: Phase 48 Plan 06 complete — Phase 48 done; ready for Phase 49 (convert-cheerio)
 Resume file: None
 
-**Planned Phase:** 48 (Capture (Playwright IO)) — 6 plans — 2026-04-20T18:48:26.794Z
+**Planned Phase:** 48 (Capture (Playwright IO)) — 6 plans — COMPLETE 2026-04-20T19:32:06Z
