@@ -16,7 +16,7 @@ import * as fsp from 'node:fs/promises'
 import * as nodePath from 'node:path'
 import type { EditorialConfig } from './config.ts'
 import type { Route } from './routes.ts'
-import { chromium, type Browser, type BrowserContextOptions, type Page } from 'playwright'
+import { chromium, type Browser, type BrowserContext, type BrowserContextOptions, type Page } from 'playwright'
 
 /**
  * Extended CapturedPage shape — locked for Phase 49 (convert.ts consumer).
@@ -301,6 +301,66 @@ export async function captureScreenshot(
     path: absPath,
     type: 'png',
   })
+}
+
+/**
+ * capturePage — per-route capture orchestration.
+ *
+ * Orchestrates CAPT-04 (page-ready wait), CAPT-05 (HTTP status), CAPT-06
+ * (main-content scoping), CAPT-09 (exhibit-404 detection), CAPT-11
+ * (interstitial detection), CAPT-13 (screenshot), CAPT-14 (console errors),
+ * CAPT-15 (SEO meta), with FAQ pre-capture hooks (CAPT-07/08) gated on
+ * route.path === '/faq'.
+ *
+ * Inter-request delay (1500ms per CONTEXT.md) is the caller's responsibility
+ * (captureRoutes in Plan 48-06) — this function returns as soon as the single
+ * route is fully captured.
+ */
+export async function capturePage(
+  context: BrowserContext,
+  config: EditorialConfig,
+  route: Route,
+  index: number,
+  faqItemCount: number,
+): Promise<CapturedPage> {
+  const page = await context.newPage()
+  const consoleErrors: string[] = []
+
+  // Attach listeners BEFORE navigation (CAPT-14) — any error between goto
+  // start and main-content ready would otherwise be missed.
+  page.on('console', (msg) => {
+    if (msg.type() === 'error') {
+      consoleErrors.push(msg.text())
+    }
+  })
+  page.on('pageerror', (err) => {
+    consoleErrors.push(err.message)
+  })
+
+  try {
+    const url = buildCaptureUrl(config.baseUrl, route)
+    const response = await page.goto(url, {
+      timeout: 30_000,
+      waitUntil: 'domcontentloaded',
+    })
+
+    const httpStatus = response?.status() ?? 0
+    const cfCacheStatus = response?.headers()['cf-cache-status']
+
+    await page.waitForSelector('#main-content', { timeout: 10_000 })
+
+    // Suppress unused-variable warnings while Task 2 is pending.
+    // Task 2 replaces this throw with the mainHtml read + interstitial
+    // check + FAQ hooks + exhibit-404 assertion + screenshot + return.
+    void httpStatus
+    void cfCacheStatus
+    void faqItemCount
+    void index
+    void consoleErrors
+    throw new Error('capturePage: Task 1 scaffold — Task 2 completes the body')
+  } finally {
+    await page.close()
+  }
 }
 
 /**
