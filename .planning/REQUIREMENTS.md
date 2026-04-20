@@ -50,7 +50,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: Bot-interstitial detection: string match on "Just a moment", Cloudflare challenge markup, or response size anomaly → abort with clear error (CRIT-06)
 - [x] **CAPT-12
 **: Fixed 1280×800 viewport, fixed light theme (via prefers-color-scheme override), sequential navigation with 1–2s inter-request delay
-- [ ] **CAPT-13**: Per-route full-page PNG screenshots captured alongside markdown; saved to `<vault>/career/website/site-editorial-capture/screenshots/` (subdirectory)
+- [x] **CAPT-13
+**: Per-route full-page PNG screenshots captured alongside markdown; saved to `<vault>/career/website/site-editorial-capture/screenshots/` (subdirectory)
 - [ ] **CAPT-14**: Console-error capture per route, aggregated into run log
 - [ ] **CAPT-15**: SEO meta captured per route (title, description) recorded in per-page metadata blocks
 
