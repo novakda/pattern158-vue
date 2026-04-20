@@ -1,7 +1,7 @@
 ---
 phase: 47-config-routes-pure-logic
 gate: smoke
-status: green
+status: passed
 generated: 2026-04-20T17:31:13.379Z
 verified_by: 47-06-PLAN.md Task 2
 ---
