@@ -5,6 +5,12 @@
 //   - non-deterministic timestamp APIs (use injected/fixed timestamps)
 //   - platform-specific line endings (use literal newline only)
 //   - parallel iteration over the ordered route list (use sequential for-of in Phase 48)
+//
+// File-scoped DOM lib reference: Playwright's page.waitForFunction / page.$$eval
+// callbacks run in the browser context and reference `document` + DOM Element
+// types. The editorial tsconfig intentionally omits the 'dom' lib globally
+// (this is a Node tool), so the reference is scoped to this one file.
+/// <reference lib="dom" />
 
 import * as fsp from 'node:fs/promises'
 import * as nodePath from 'node:path'
@@ -161,6 +167,69 @@ export function buildCaptureUrl(baseUrl: string, route: Route): string {
   const slug = slugify(seed)
   const separator = route.path.includes('?') ? '&' : '?'
   return `${baseUrl}${route.path}${separator}_cb=${slug}`
+}
+
+/**
+ * runFaqPreCaptureHooks — FAQ page pre-capture DOM choreography (CAPT-07, CAPT-08).
+ *
+ * Order (LOCKED per CONTEXT.md):
+ *   1. Click [data-filter="all"]; wait for .faq-accordion-item rendered
+ *      count === faqItemCount (10s timeout).
+ *   2. Click every .faq-accordion-item [aria-expanded="false"] sequentially;
+ *      wait for every .faq-accordion-item [aria-expanded] to equal 'true'
+ *      (10s timeout).
+ *
+ * Hard-fail: both waits throw CaptureError with an actionable message on
+ * timeout / count mismatch. Caller (Plan 48-03) attaches the Route to the
+ * error via opts.route when re-throwing.
+ */
+export async function runFaqPreCaptureHooks(
+  page: Page,
+  faqItemCount: number,
+): Promise<void> {
+  // Step 1: filter-all click + count wait (CAPT-08).
+  await page.click('[data-filter="all"]')
+  try {
+    await page.waitForFunction(
+      (expected: number) =>
+        document.querySelectorAll('.faq-accordion-item').length === expected,
+      faqItemCount,
+      { timeout: 10_000 },
+    )
+  } catch (cause) {
+    const actualCount = await page
+      .$$eval('.faq-accordion-item', (els) => els.length)
+      .catch(() => -1)
+    throw new CaptureError(
+      `FAQ rendered count mismatch: expected ${faqItemCount}, got ${actualCount} after filter-all click`,
+      { cause },
+    )
+  }
+
+  // Step 2: sequentially click every aria-expanded="false" trigger (CAPT-07).
+  const collapsedTriggers = await page
+    .locator('.faq-accordion-item [aria-expanded="false"]')
+    .all()
+  for (const trigger of collapsedTriggers) {
+    await trigger.click()
+  }
+
+  // Wait for every trigger to report aria-expanded="true".
+  try {
+    await page.waitForFunction(
+      () =>
+        Array.from(
+          document.querySelectorAll('.faq-accordion-item [aria-expanded]'),
+        ).every((el) => el.getAttribute('aria-expanded') === 'true'),
+      undefined,
+      { timeout: 10_000 },
+    )
+  } catch (cause) {
+    throw new CaptureError(
+      `FAQ accordion expansion timed out: expected ${faqItemCount} expanded items, some remained aria-expanded="false"`,
+      { cause },
+    )
+  }
 }
 
 /**
