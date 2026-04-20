@@ -41,7 +41,10 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'scripts',
-          include: ['scripts/markdown-export/**/*.test.ts'],
+          include: [
+            'scripts/markdown-export/**/*.test.ts',
+            'scripts/editorial/**/*.test.ts',
+          ],
           environment: 'node',
           globals: true,
         },
