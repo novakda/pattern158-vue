@@ -39,8 +39,10 @@ Requirements grouped by category. Each maps to one roadmap phase.
 - [ ] **CAPT-04**: Per-route page-ready detection via `waitForSelector` on `#main-content` plus content-length sanity floor (reject < 200 bytes as likely interstitial)
 - [ ] **CAPT-05**: HTTP response status recorded per route; non-200 logged loudly in run summary but capture continues
 - [ ] **CAPT-06**: Captured content scoped to `<main id="main-content">` only — NavBar, FooterBar, skip-link excluded automatically
-- [ ] **CAPT-07**: FAQ accordion pre-capture hook: click every `[aria-expanded="false"]` in `.faq-accordion-item` before `innerHTML` extraction; assert captured answer count == `faq.json` length (CRIT-01, P158-01)
-- [ ] **CAPT-08**: FAQ filter pre-capture hook: click `[data-filter="all"]` before capture; assert rendered question count == `totalCount` (CRIT-02)
+- [x] **CAPT-07
+**: FAQ accordion pre-capture hook: click every `[aria-expanded="false"]` in `.faq-accordion-item` before `innerHTML` extraction; assert captured answer count == `faq.json` length (CRIT-01, P158-01)
+- [x] **CAPT-08
+**: FAQ filter pre-capture hook: click `[data-filter="all"]` before capture; assert rendered question count == `totalCount` (CRIT-02)
 - [ ] **CAPT-09**: Dynamic-route validation: post-navigation selector assertion (e.g., `.exhibit-detail h1`) rejects silent `NotFoundPage` renders with HTTP 200 (CRIT-04)
 - [x] **CAPT-10
 **: Cloudflare cache-bypass: cache-buster query param + `Cache-Control: no-cache` request header per request; log `cf-cache-status` response header (CRIT-05)

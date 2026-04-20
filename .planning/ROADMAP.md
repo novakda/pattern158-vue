@@ -230,7 +230,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   - [x] 48-01-PLAN.md — CaptureError + slugify + detectInterstitial + extended CapturedPage (CAPT-11)
   - [ ] 48-02-PLAN.md — launchBrowser + buildContextOptions + buildCaptureUrl (CAPT-03, CAPT-10, CAPT-12)
   - [ ] 48-03-PLAN.md — capturePage per-route orchestrator (CAPT-04, CAPT-05, CAPT-06, CAPT-09, CAPT-14, CAPT-15)
-  - [ ] 48-04-PLAN.md — loadFaqItemCount + runFaqPreCaptureHooks (CAPT-07, CAPT-08)
+  - [x] 48-04-PLAN.md — loadFaqItemCount + runFaqPreCaptureHooks (CAPT-07, CAPT-08)
   - [ ] 48-05-PLAN.md — Screenshot path + dir + captureScreenshot wrapper (CAPT-13)
   - [ ] 48-06-PLAN.md — captureRoutes integration + capture.test.ts (CAPT-03, CAPT-10, CAPT-12)
 

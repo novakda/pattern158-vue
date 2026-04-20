@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-20T19:00:27.344Z"
+last_updated: "2026-04-20T19:09:53.385Z"
 last_activity: 2026-04-20 -- Phase --phase execution started
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 17
-  completed_plans: 13
-  percent: 76
+  completed_plans: 14
+  percent: 82
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 1 of --name
 Status: Executing Phase --phase
 Last activity: 2026-04-20 -- Phase --phase execution started
 
-Progress: [████████░░] 76%
+Progress: [████████░░] 82%
 
 ## Performance Metrics
 
@@ -74,6 +74,10 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 48 Plan 02: viewport 1280x800 + colorScheme 'light' hardcoded in buildContextOptions — not configurable; determinism for CAPT-12
 - Phase 48 Plan 02: buildCaptureUrl uses template-literal concat (not URL/URLSearchParams) to preserve determinism; slugs are [a-z0-9-]+ and paths URL-safe
 - Phase 48 Plan 02: sourceSlug-wins precedence for cache-buster slug (route.sourceSlug ?? route.path) — aligns cache-buster slug with screenshot filename slug (Plan 48-05)
+- Path derivation: nodePath.dirname + nodePath.join for faq.json, not string replace — survives directory renames
+- FAQ expansion signal: aria-expanded attribute (a11y contract), not .is-open CSS class
+- File-scoped /// <reference lib="dom" /> in capture.ts instead of adding 'dom' to editorial tsconfig lib — contains browser globals to the one file that drives a browser
+- Sequential for...of over collapsed accordion triggers — extends SCAF-08 no-Promise.all discipline to browser-side DOM actions
 
 ### Pending Todos
 
@@ -85,7 +89,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-20T19:00:27.340Z
+Last session: 2026-04-20T19:09:40.259Z
 Current activity: /gsd-new-milestone for v8.0
 Resume file: None
 
