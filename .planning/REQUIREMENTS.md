@@ -30,7 +30,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Capture
 
-- [ ] **CAPT-01**: `scripts/editorial/routes.ts` builds a deterministic ordered route list — 7 static routes hardcoded + exhibit slugs from `src/data/json/exhibits.json` via `fs.readFile` + `JSON.parse` (not ESM JSON import assert)
+- [x] **CAPT-01
+**: `scripts/editorial/routes.ts` builds a deterministic ordered route list — 7 static routes hardcoded + exhibit slugs from `src/data/json/exhibits.json` via `fs.readFile` + `JSON.parse` (not ESM JSON import assert)
 - [ ] **CAPT-02**: Excluded routes explicitly skipped: `/review`, `/diag/*`, redirect routes (`/portfolio` → `/case-files`, `/testimonials` → `/case-files`), 404 fallback
 - [ ] **CAPT-03**: `scripts/editorial/capture.ts` launches headless Chromium via `playwright` (not `@playwright/test`); `--headful` flag available for Cloudflare interstitial fallback
 - [ ] **CAPT-04**: Per-route page-ready detection via `waitForSelector` on `#main-content` plus content-length sanity floor (reject < 200 bytes as likely interstitial)
@@ -70,7 +71,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Write + Output
 
-- [ ] **WRIT-01**: `scripts/editorial/config.ts` parses CLI args (`--output <path>`, `--base-url <url>`, `--headful`) + env fallbacks (`EDITORIAL_OUT_PATH`, `EDITORIAL_BASE_URL`); fails loud with help text if required config missing
+- [x] **WRIT-01
+**: `scripts/editorial/config.ts` parses CLI args (`--output <path>`, `--base-url <url>`, `--headful`) + env fallbacks (`EDITORIAL_OUT_PATH`, `EDITORIAL_BASE_URL`); fails loud with help text if required config missing
 - [ ] **WRIT-02**: Preflight path validation runs BEFORE browser launch: absolute path, parent dir exists, parent dir writable — fail fast on `ENOENT`/`EACCES`
 - [ ] **WRIT-03**: `scripts/editorial/write.ts` writes via atomic temp-file + rename to handle Obsidian file-lock races; UTF-8 encoding explicit, `\n` line endings only
 - [ ] **WRIT-04**: Idempotent overwrite (no timestamped versioning); re-running replaces prior capture cleanly

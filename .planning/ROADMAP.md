@@ -285,7 +285,7 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 46. Scaffold | 0/? | Not started | - |
-| 47. Config + Routes | 0/? | Not started | - |
+| 47. Config + Routes | 1/6 | In progress | - |
 | 48. Capture (Playwright IO) | 0/? | Not started | - |
 | 49. Convert (Turndown) | 0/? | Not started | - |
 | 50. Write + Preflight + Orchestration | 0/? | Not started | - |
