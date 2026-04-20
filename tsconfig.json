@@ -19,6 +19,7 @@
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "env.d.ts"],
   "references": [
-    { "path": "./tsconfig.scripts.json" }
+    { "path": "./tsconfig.scripts.json" },
+    { "path": "./tsconfig.editorial.json" }
   ]
 }
