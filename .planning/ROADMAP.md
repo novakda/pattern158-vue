@@ -191,7 +191,12 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. `turndown@^7.2.4`, `@joplin/turndown-plugin-gfm@^1.0.64`, `@types/turndown@^5.0.6` are installed; `playwright` is bumped to `^1.59.1`; `pnpm-lock.yaml` reflects all four.
   4. Running `pnpm editorial:capture` executes `tsx scripts/editorial/index.ts` and exits cleanly (even if index.ts is a placeholder).
   5. `pnpm test:scripts` discovers and runs tests under `scripts/editorial/__tests__/`; `.tsbuildinfo-editorial` is in `.gitignore`.
-**Plans:** 0/? plans complete
+**Plans:** 5 plans
+  - [ ] 46-01-PLAN.md — Create scripts/editorial/ placeholder TS files + smoke test (SCAF-01, SCAF-08)
+  - [ ] 46-02-PLAN.md — Create tsconfig.editorial.json + register in root references (SCAF-02, SCAF-03)
+  - [ ] 46-03-PLAN.md — Add editorial:capture script + 4 dep changes + pnpm install (SCAF-04, SCAF-05)
+  - [ ] 46-04-PLAN.md — Extend Vitest scripts project include + add .gitignore entry (SCAF-06, SCAF-07)
+  - [ ] 46-05-PLAN.md — Wave 2 end-to-end smoke (pnpm build + editorial:capture + test:scripts)
 
 ### Phase 47: Config + Routes (pure logic)
 **Goal**: Given CLI args / env vars and the exhibits JSON file, the tool produces a validated `EditorialConfig` and a deterministic, ordered `Route[]` — all without touching the network or browser.

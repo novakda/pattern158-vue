@@ -2,19 +2,13 @@
 gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
-status: active
-started_at: 2026-04-19
-last_updated: "2026-04-19T00:00:00.000Z"
-last_activity: 2026-04-19
-previous_milestone:
-  version: v7.0
-  status: aborted
-  aborted_on: 2026-04-19
-  notice: .planning/v7.0-ABORT-NOTICE.md
+status: Requirements defined, roadmap pending
+last_updated: "2026-04-20T03:31:23.591Z"
+last_activity: 2026-04-19 — v8.0 milestone initialized via /gsd-new-milestone
 progress:
   total_phases: 7
   completed_phases: 0
-  total_plans: 0
+  total_plans: 5
   completed_plans: 0
   percent: 0
 ---
@@ -85,3 +79,5 @@ None. Research complete, requirements defined, ready for roadmap.
 Last session: 2026-04-19
 Current activity: /gsd-new-milestone for v8.0
 Resume file: None
+
+**Planned Phase:** 46 (Scaffold) — 5 plans — 2026-04-20T03:31:23.587Z
