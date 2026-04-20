@@ -6,6 +6,7 @@
 //   - platform-specific line endings (use literal newline only)
 //   - parallel iteration over the ordered route list (use sequential for-of)
 
+import * as fs from 'node:fs'
 import * as path from 'node:path'
 
 export interface EditorialConfig {
@@ -144,6 +145,63 @@ export function mergeConfig(
   }
 }
 
-export function loadEditorialConfig(): EditorialConfig {
-  throw new Error('loadEditorialConfig: not implemented until Phase 47 Plan 02 (WRIT-01)')
+export function runPreflight(config: EditorialConfig): void {
+  // (a) outputPath must be absolute.
+  if (!path.isAbsolute(config.outputPath)) {
+    throw new ConfigError(
+      `outputPath must be absolute: got "${config.outputPath}"`,
+    )
+  }
+  // (b + c) parent directory exists AND is writable.
+  const parentDir = path.dirname(config.outputPath)
+  try {
+    fs.accessSync(parentDir, fs.constants.W_OK)
+  } catch (err) {
+    const cause = err as NodeJS.ErrnoException
+    if (cause.code === 'ENOENT') {
+      throw new ConfigError(
+        `--output resolved to ${config.outputPath} (parent ${parentDir} does not exist)`,
+        cause,
+      )
+    }
+    if (cause.code === 'EACCES') {
+      throw new ConfigError(
+        `--output resolved to ${config.outputPath} (parent ${parentDir} is not writable)`,
+        cause,
+      )
+    }
+    throw new ConfigError(
+      `--output resolved to ${config.outputPath} (preflight on ${parentDir} failed: ${cause.code ?? 'unknown error'})`,
+      cause,
+    )
+  }
+  // (d) baseUrl parses and is https:.
+  let parsed: URL
+  try {
+    parsed = new URL(config.baseUrl)
+  } catch (err) {
+    throw new ConfigError(
+      `base URL must be valid: got "${config.baseUrl}"`,
+      err,
+    )
+  }
+  if (parsed.protocol !== 'https:') {
+    throw new ConfigError(
+      `base URL must use https: scheme: got "${config.baseUrl}" (scheme: ${parsed.protocol})`,
+    )
+  }
+}
+
+export function loadEditorialConfig(
+  argv: readonly string[] = process.argv.slice(2),
+  env: NodeJS.ProcessEnv = process.env,
+): EditorialConfig {
+  const raw = parseArgs(argv)
+  if (raw.help === true) {
+    process.stdout.write(HELP_TEXT + '\n')
+    process.exit(0)
+  }
+  const merged = mergeConfig(raw, env)
+  runPreflight(merged)
+  return merged
 }
