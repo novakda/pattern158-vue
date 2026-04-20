@@ -8,11 +8,14 @@
 //
 // Globals (describe/it/expect) are ambient via tsconfig.editorial.json types.
 
+import * as fs from 'node:fs/promises'
+import * as os from 'node:os'
 import * as path from 'node:path'
 
 import {
   parseArgs,
   mergeConfig,
+  runPreflight,
   ConfigError,
   HELP_TEXT,
 } from '../config.ts'
@@ -182,5 +185,108 @@ describe('HELP_TEXT', () => {
   it('documents the help flag and its short form', () => {
     expect(HELP_TEXT).toContain('--help')
     expect(HELP_TEXT).toContain('-h')
+  })
+})
+
+describe('runPreflight', () => {
+  let tmpRoot: string
+
+  beforeEach(async () => {
+    tmpRoot = await fs.mkdtemp(path.join(os.tmpdir(), 'p47-config-test-'))
+  })
+
+  afterEach(async () => {
+    await fs.rm(tmpRoot, { recursive: true, force: true })
+  })
+
+  function buildValidConfig(overrides: Partial<{
+    outputPath: string
+    baseUrl: string
+    headful: boolean
+    mirror: boolean
+    exhibitsJsonPath: string
+  }>) {
+    return {
+      outputPath: overrides.outputPath ?? path.join(tmpRoot, 'out.md'),
+      baseUrl: overrides.baseUrl ?? 'https://pattern158.solutions',
+      headful: overrides.headful ?? false,
+      mirror: overrides.mirror ?? false,
+      exhibitsJsonPath: overrides.exhibitsJsonPath ?? path.join(tmpRoot, 'exhibits.json'),
+    }
+  }
+
+  it('returns void for a valid config (parent dir writable, https URL)', () => {
+    const c = buildValidConfig({})
+    expect(runPreflight(c)).toBeUndefined()
+  })
+
+  it('throws ConfigError when outputPath is not absolute', () => {
+    const c = buildValidConfig({ outputPath: 'relative/out.md' })
+    expect(() => runPreflight(c)).toThrow(ConfigError)
+    expect(() => runPreflight(c)).toThrow(/outputPath must be absolute/)
+    expect(() => runPreflight(c)).toThrow(/relative\/out\.md/)
+  })
+
+  it('throws ConfigError with cause.code=ENOENT when parent dir does not exist', () => {
+    const c = buildValidConfig({
+      outputPath: path.join(tmpRoot, 'missing-parent', 'out.md'),
+    })
+    expect(() => runPreflight(c)).toThrow(/does not exist/)
+    try {
+      runPreflight(c)
+      expect.unreachable('should have thrown')
+    } catch (err) {
+      expect(err).toBeInstanceOf(ConfigError)
+      const ce = err as ConfigError
+      expect(ce.message).toContain(c.outputPath)
+      expect((ce.cause as NodeJS.ErrnoException | undefined)?.code).toBe('ENOENT')
+    }
+  })
+
+  it('throws ConfigError with cause.code=EACCES when parent dir is not writable', async () => {
+    // Skip when running as root — root bypasses POSIX write-permission denial.
+    if (typeof process.getuid === 'function' && process.getuid() === 0) {
+      return
+    }
+    const readonlyDir = path.join(tmpRoot, 'readonly')
+    await fs.mkdir(readonlyDir)
+    await fs.chmod(readonlyDir, 0o500) // r-x for owner, no write
+    const c = buildValidConfig({ outputPath: path.join(readonlyDir, 'out.md') })
+    try {
+      runPreflight(c)
+      expect.unreachable('should have thrown')
+    } catch (err) {
+      expect(err).toBeInstanceOf(ConfigError)
+      const ce = err as ConfigError
+      expect(ce.message).toMatch(/is not writable/)
+      expect(ce.message).toContain(readonlyDir)
+      expect((ce.cause as NodeJS.ErrnoException | undefined)?.code).toBe('EACCES')
+    }
+    // Restore write so afterEach can clean up.
+    await fs.chmod(readonlyDir, 0o700)
+  })
+
+  it('throws ConfigError when baseUrl is not a parseable URL', () => {
+    const c = buildValidConfig({ baseUrl: 'not-a-url' })
+    expect(() => runPreflight(c)).toThrow(ConfigError)
+    expect(() => runPreflight(c)).toThrow(/base URL must be valid/)
+    expect(() => runPreflight(c)).toThrow(/not-a-url/)
+  })
+
+  it('throws ConfigError when baseUrl uses http: scheme instead of https:', () => {
+    const c = buildValidConfig({ baseUrl: 'http://example.com' })
+    expect(() => runPreflight(c)).toThrow(ConfigError)
+    expect(() => runPreflight(c)).toThrow(/base URL must use https: scheme/)
+    expect(() => runPreflight(c)).toThrow(/http:/)
+  })
+
+  it('throws ConfigError when baseUrl uses ftp: scheme', () => {
+    const c = buildValidConfig({ baseUrl: 'ftp://example.com' })
+    expect(() => runPreflight(c)).toThrow(/base URL must use https: scheme/)
+  })
+
+  it('accepts a baseUrl with https: scheme and a path component', () => {
+    const c = buildValidConfig({ baseUrl: 'https://example.com/some/path' })
+    expect(runPreflight(c)).toBeUndefined()
   })
 })
