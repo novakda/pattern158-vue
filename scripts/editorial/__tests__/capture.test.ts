@@ -433,7 +433,18 @@ describe('captureRoutes integration (mocked Playwright)', () => {
     }
     vi.spyOn(chromium, 'launch').mockResolvedValue(mockBrowser as never)
 
-    await expect(captureRoutes(config, routes)).rejects.toThrow(
+    // Capture the rejection once and assert both class identity AND message.
+    // A regression that threw a bare `Error` with the same message would pass
+    // `.rejects.toThrow(/regex/)` alone but break Plan 50's index.ts instanceof
+    // dispatch (CaptureError → exit 1 vs ConfigError → exit 2).
+    let caught: unknown
+    try {
+      await captureRoutes(config, routes)
+    } catch (err) {
+      caught = err
+    }
+    expect(caught).toBeInstanceOf(CaptureError)
+    expect((caught as CaptureError).message).toMatch(
       /Capture failed for \/boom/,
     )
     expect(mockBrowser.close).toHaveBeenCalledTimes(1)
@@ -467,7 +478,14 @@ describe('captureRoutes integration (mocked Playwright)', () => {
     }
     vi.spyOn(chromium, 'launch').mockResolvedValue(mockBrowser as never)
 
-    await expect(captureRoutes(config, routes)).rejects.toThrow(
+    let caught: unknown
+    try {
+      await captureRoutes(config, routes)
+    } catch (err) {
+      caught = err
+    }
+    expect(caught).toBeInstanceOf(CaptureError)
+    expect((caught as CaptureError).message).toMatch(
       /did not render \.exhibit-detail-title/,
     )
     expect(mockBrowser.close).toHaveBeenCalledTimes(1)
@@ -495,7 +513,14 @@ describe('captureRoutes integration (mocked Playwright)', () => {
     }
     vi.spyOn(chromium, 'launch').mockResolvedValue(mockBrowser as never)
 
-    await expect(captureRoutes(config, routes)).rejects.toThrow(
+    let caught: unknown
+    try {
+      await captureRoutes(config, routes)
+    } catch (err) {
+      caught = err
+    }
+    expect(caught).toBeInstanceOf(CaptureError)
+    expect((caught as CaptureError).message).toMatch(
       /Cloudflare bot interstitial detected/,
     )
     expect(mockBrowser.close).toHaveBeenCalledTimes(1)
