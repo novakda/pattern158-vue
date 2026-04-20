@@ -349,15 +349,60 @@ export async function capturePage(
 
     await page.waitForSelector('#main-content', { timeout: 10_000 })
 
-    // Suppress unused-variable warnings while Task 2 is pending.
-    // Task 2 replaces this throw with the mainHtml read + interstitial
-    // check + FAQ hooks + exhibit-404 assertion + screenshot + return.
-    void httpStatus
-    void cfCacheStatus
-    void faqItemCount
-    void index
-    void consoleErrors
-    throw new Error('capturePage: Task 1 scaffold — Task 2 completes the body')
+    // FAQ pre-capture hooks (CAPT-07/08) — gated on route path.
+    if (route.path === '/faq') {
+      await runFaqPreCaptureHooks(page, faqItemCount)
+    }
+
+    // SEO meta capture (CAPT-15).
+    const pageTitle = await page.title()
+    const description =
+      (await page.locator('meta[name="description"]').getAttribute('content')) ?? ''
+
+    // Main-content scoping (CAPT-06) — NavBar, FooterBar, skip-link excluded.
+    const mainHtml = await page.locator('main#main-content').innerHTML()
+
+    // Cloudflare interstitial detection (CAPT-11) — abort the whole run if any
+    // of the three layered signals trips. detectInterstitial is pure (Plan 48-01).
+    const interstitialReason = detectInterstitial({
+      title: pageTitle,
+      bodyBytes: mainHtml.length,
+      html: mainHtml,
+    })
+    if (interstitialReason !== null) {
+      throw new CaptureError(
+        `Cloudflare bot interstitial detected on ${route.path} — ${interstitialReason}`,
+        { route },
+      )
+    }
+
+    // Exhibit-route SPA-404 assertion (CAPT-09) — silent NotFoundPage at HTTP 200
+    // is detected by missing .exhibit-detail-title (both exhibit layouts render it).
+    if (route.category === 'exhibit') {
+      const exhibitTitleCount = await page.locator('.exhibit-detail-title').count()
+      if (exhibitTitleCount !== 1) {
+        throw new CaptureError(
+          `Exhibit route ${route.path} did not render .exhibit-detail-title (count=${exhibitTitleCount}) — likely silent 404`,
+          { route },
+        )
+      }
+    }
+
+    // Screenshot (CAPT-13) — full-page PNG at the deterministic filename.
+    const screenshotPath = buildScreenshotPath(config, index, route)
+    await captureScreenshot(page, screenshotPath)
+
+    const result: CapturedPage = {
+      route,
+      httpStatus,
+      mainHtml,
+      title: pageTitle,
+      description,
+      consoleErrors: [...consoleErrors],
+      screenshotPath,
+      cfCacheStatus,
+    }
+    return result
   } finally {
     await page.close()
   }
