@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-20T18:54:15.089Z"
+last_updated: "2026-04-20T19:00:27.344Z"
 last_activity: 2026-04-20 -- Phase --phase execution started
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 17
-  completed_plans: 12
-  percent: 71
+  completed_plans: 13
+  percent: 76
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 1 of --name
 Status: Executing Phase --phase
 Last activity: 2026-04-20 -- Phase --phase execution started
 
-Progress: [███████░░░] 71%
+Progress: [████████░░] 76%
 
 ## Performance Metrics
 
@@ -69,6 +69,11 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 48 Plan 01: CaptureError uses options-bag constructor (message, opts?: { route?, cause? }) — route-scoped errors get route as first-class field
 - Phase 48 Plan 01: detectInterstitial returns string | null (pure classifier); caller wraps non-null in CaptureError at call site where Route context is available
 - Phase 48 Plan 01: slugify('/') short-circuits to 'home' before regex pipeline; all other inputs go through trim → lowercase → strip leading / → collapse non-alphanumeric → collapse dashes → trim dashes
+- Phase 48 Plan 02: Playwright imported from 'playwright' (runtime automation package), not '@playwright/test' (test runner) — CAPT-03 explicit constraint
+- Phase 48 Plan 02: launchBrowser inverts config.headful at the boundary — chromium.launch({ headless: !config.headful })
+- Phase 48 Plan 02: viewport 1280x800 + colorScheme 'light' hardcoded in buildContextOptions — not configurable; determinism for CAPT-12
+- Phase 48 Plan 02: buildCaptureUrl uses template-literal concat (not URL/URLSearchParams) to preserve determinism; slugs are [a-z0-9-]+ and paths URL-safe
+- Phase 48 Plan 02: sourceSlug-wins precedence for cache-buster slug (route.sourceSlug ?? route.path) — aligns cache-buster slug with screenshot filename slug (Plan 48-05)
 
 ### Pending Todos
 
@@ -80,7 +85,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-20T18:54:03.572Z
+Last session: 2026-04-20T19:00:27.340Z
 Current activity: /gsd-new-milestone for v8.0
 Resume file: None
 

@@ -34,17 +34,20 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: `scripts/editorial/routes.ts` builds a deterministic ordered route list — 7 static routes hardcoded + exhibit slugs from `src/data/json/exhibits.json` via `fs.readFile` + `JSON.parse` (not ESM JSON import assert)
 - [x] **CAPT-02
 **: Excluded routes explicitly skipped: `/review`, `/diag/*`, redirect routes (`/portfolio` → `/case-files`, `/testimonials` → `/case-files`), 404 fallback
-- [ ] **CAPT-03**: `scripts/editorial/capture.ts` launches headless Chromium via `playwright` (not `@playwright/test`); `--headful` flag available for Cloudflare interstitial fallback
+- [x] **CAPT-03
+**: `scripts/editorial/capture.ts` launches headless Chromium via `playwright` (not `@playwright/test`); `--headful` flag available for Cloudflare interstitial fallback
 - [ ] **CAPT-04**: Per-route page-ready detection via `waitForSelector` on `#main-content` plus content-length sanity floor (reject < 200 bytes as likely interstitial)
 - [ ] **CAPT-05**: HTTP response status recorded per route; non-200 logged loudly in run summary but capture continues
 - [ ] **CAPT-06**: Captured content scoped to `<main id="main-content">` only — NavBar, FooterBar, skip-link excluded automatically
 - [ ] **CAPT-07**: FAQ accordion pre-capture hook: click every `[aria-expanded="false"]` in `.faq-accordion-item` before `innerHTML` extraction; assert captured answer count == `faq.json` length (CRIT-01, P158-01)
 - [ ] **CAPT-08**: FAQ filter pre-capture hook: click `[data-filter="all"]` before capture; assert rendered question count == `totalCount` (CRIT-02)
 - [ ] **CAPT-09**: Dynamic-route validation: post-navigation selector assertion (e.g., `.exhibit-detail h1`) rejects silent `NotFoundPage` renders with HTTP 200 (CRIT-04)
-- [ ] **CAPT-10**: Cloudflare cache-bypass: cache-buster query param + `Cache-Control: no-cache` request header per request; log `cf-cache-status` response header (CRIT-05)
+- [x] **CAPT-10
+**: Cloudflare cache-bypass: cache-buster query param + `Cache-Control: no-cache` request header per request; log `cf-cache-status` response header (CRIT-05)
 - [x] **CAPT-11
 **: Bot-interstitial detection: string match on "Just a moment", Cloudflare challenge markup, or response size anomaly → abort with clear error (CRIT-06)
-- [ ] **CAPT-12**: Fixed 1280×800 viewport, fixed light theme (via prefers-color-scheme override), sequential navigation with 1–2s inter-request delay
+- [x] **CAPT-12
+**: Fixed 1280×800 viewport, fixed light theme (via prefers-color-scheme override), sequential navigation with 1–2s inter-request delay
 - [ ] **CAPT-13**: Per-route full-page PNG screenshots captured alongside markdown; saved to `<vault>/career/website/site-editorial-capture/screenshots/` (subdirectory)
 - [ ] **CAPT-14**: Console-error capture per route, aggregated into run log
 - [ ] **CAPT-15**: SEO meta captured per route (title, description) recorded in per-page metadata blocks
