@@ -6,9 +6,11 @@
 //   - platform-specific line endings (use literal newline only)
 //   - parallel iteration over the ordered route list (use sequential for-of in Phase 48)
 
+import * as fsp from 'node:fs/promises'
+import * as nodePath from 'node:path'
 import type { EditorialConfig } from './config.ts'
 import type { Route } from './routes.ts'
-import { chromium, type Browser, type BrowserContextOptions } from 'playwright'
+import { chromium, type Browser, type BrowserContextOptions, type Page } from 'playwright'
 
 /**
  * Extended CapturedPage shape — locked for Phase 49 (convert.ts consumer).
@@ -95,6 +97,31 @@ export function detectInterstitial(input: {
     return 'DOM contains "challenge-platform" marker — Cloudflare challenge page'
   }
   return null
+}
+
+/**
+ * loadFaqItemCount — source-of-truth count for FAQ assertions (CAPT-07, CAPT-08).
+ * Derives the faq.json path from exhibitsJsonPath (both live in
+ * src/data/json/). Read via fs.readFile + JSON.parse (same mechanism as
+ * routes.ts — SCAF-08 bars path-alias imports, JSON import assertions, and
+ * dynamic-import JSON loading, so direct stdlib I/O is the only option).
+ *
+ * Throws native Error on parse failure / non-array; caller (Plan 48-03)
+ * wraps the error in a CaptureError with route context.
+ */
+export async function loadFaqItemCount(
+  exhibitsJsonPath: string,
+): Promise<number> {
+  const dir = nodePath.dirname(exhibitsJsonPath)
+  const faqJsonPath = nodePath.join(dir, 'faq.json')
+  const fileContents = await fsp.readFile(faqJsonPath, 'utf8')
+  const parsed: unknown = JSON.parse(fileContents)
+  if (!Array.isArray(parsed)) {
+    throw new Error(
+      `faq.json must be a JSON array (read from ${faqJsonPath}; got ${typeof parsed})`,
+    )
+  }
+  return parsed.length
 }
 
 /**
