@@ -324,20 +324,24 @@ export async function capturePage(
   faqItemCount: number,
 ): Promise<CapturedPage> {
   const page = await context.newPage()
-  const consoleErrors: string[] = []
-
-  // Attach listeners BEFORE navigation (CAPT-14) — any error between goto
-  // start and main-content ready would otherwise be missed.
-  page.on('console', (msg) => {
-    if (msg.type() === 'error') {
-      consoleErrors.push(msg.text())
-    }
-  })
-  page.on('pageerror', (err) => {
-    consoleErrors.push(err.message)
-  })
 
   try {
+    const consoleErrors: string[] = []
+
+    // Attach listeners BEFORE navigation (CAPT-14) — any error between goto
+    // start and main-content ready would otherwise be missed. Attachment lives
+    // INSIDE the try block so a throw during page.on() (e.g. "Target closed"
+    // on a racing page teardown) still triggers the finally { page.close() }
+    // cleanup below.
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') {
+        consoleErrors.push(msg.text())
+      }
+    })
+    page.on('pageerror', (err) => {
+      consoleErrors.push(err.message)
+    })
+
     const url = buildCaptureUrl(config.baseUrl, route)
     const response = await page.goto(url, {
       timeout: 30_000,
