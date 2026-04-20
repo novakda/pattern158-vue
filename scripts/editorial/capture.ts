@@ -206,13 +206,16 @@ export async function runFaqPreCaptureHooks(
     )
   }
 
-  // Step 2: sequentially click every aria-expanded="false" trigger (CAPT-07).
-  const collapsedTriggers = await page
-    .locator('.faq-accordion-item [aria-expanded="false"]')
-    .all()
-  for (const trigger of collapsedTriggers) {
-    await trigger.click()
-  }
+  // Step 2: click every aria-expanded="false" trigger (CAPT-07).
+  // In-page JS click avoids stale Locator handles (DOM mutates as each expand
+  // renders answer content) and bypasses actionability checks for off-viewport
+  // triggers on longer FAQ pages.
+  await page.evaluate(() => {
+    const triggers = document.querySelectorAll<HTMLElement>(
+      '.faq-accordion-item [aria-expanded="false"]',
+    )
+    triggers.forEach((t) => t.click())
+  })
 
   // Wait for every trigger to report aria-expanded="true".
   try {
