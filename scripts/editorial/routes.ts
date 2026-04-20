@@ -6,6 +6,8 @@
 //   - platform-specific line endings (use literal newline only)
 //   - parallel iteration over the ordered route list (use sequential for-of)
 
+import * as fs from 'node:fs/promises'
+
 export interface Route {
   readonly path: string
   readonly label: string
@@ -49,6 +51,54 @@ export function isExcluded(routePath: string): boolean {
   return false
 }
 
-export function buildRoutes(_exhibitsJsonPath: string): Promise<readonly Route[]> {
-  throw new Error('buildRoutes: not implemented until Phase 47 Plan 03 Task 2 (CAPT-01)')
+interface ExhibitsJsonEntry {
+  readonly label: string
+  readonly exhibitLink: string
+}
+
+function isExhibitsJsonEntry(value: unknown, index: number): asserts value is ExhibitsJsonEntry {
+  if (typeof value !== 'object' || value === null) {
+    throw new Error(`exhibits.json entry at index ${index} is not an object`)
+  }
+  const e = value as Record<string, unknown>
+  if (typeof e.label !== 'string' || e.label.length === 0) {
+    throw new Error(`exhibits.json entry at index ${index} has no string "label" field`)
+  }
+  if (typeof e.exhibitLink !== 'string' || e.exhibitLink.length === 0) {
+    throw new Error(`exhibits.json entry at index ${index} has no string "exhibitLink" field`)
+  }
+}
+
+const EXHIBIT_LINK_PREFIX = '/exhibits/'
+
+export async function buildRoutes(
+  exhibitsJsonPath: string,
+): Promise<readonly Route[]> {
+  const fileContents = await fs.readFile(exhibitsJsonPath, 'utf8')
+  const parsed: unknown = JSON.parse(fileContents)
+  if (!Array.isArray(parsed)) {
+    throw new Error(
+      `exhibits.json must be a JSON array (read from ${exhibitsJsonPath}; got ${typeof parsed})`,
+    )
+  }
+  const exhibitRoutes: Route[] = []
+  for (let i = 0; i < parsed.length; i += 1) {
+    const entry = parsed[i]
+    isExhibitsJsonEntry(entry, i)
+    if (!entry.exhibitLink.startsWith(EXHIBIT_LINK_PREFIX)) {
+      throw new Error(
+        `exhibits.json entry at index ${i} has invalid exhibitLink ` +
+        `"${entry.exhibitLink}" (must start with "${EXHIBIT_LINK_PREFIX}")`,
+      )
+    }
+    const sourceSlug = entry.exhibitLink.slice(EXHIBIT_LINK_PREFIX.length)
+    exhibitRoutes.push({
+      path: entry.exhibitLink,
+      label: entry.label,
+      category: 'exhibit',
+      sourceSlug,
+    })
+  }
+  const allRoutes: Route[] = [...STATIC_ROUTES, ...exhibitRoutes]
+  return allRoutes.filter((r) => !isExcluded(r.path))
 }
