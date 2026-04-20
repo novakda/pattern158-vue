@@ -1,329 +1,231 @@
-# Technology Stack — v7.0 Static Markdown Export Pipeline
+# v8.0 Stack Research — Editorial Snapshot & Content Audit
 
-**Project:** pattern158-vue
-**Milestone:** v7.0 — Static markdown export (`docs/site-content.md` + `docs/obsidian-vault/`)
-**Researched:** 2026-04-10
-**Overall confidence:** HIGH
+**Scope:** Stack additions for a Playwright-driven live-site capture tool at `scripts/editorial/`.
+**Date:** 2026-04-19
+**Confidence:** HIGH — all versions and maintenance claims verified against npm registry and upstream repos on 2026-04-19.
 
----
-
-## Overview
-
-This milestone layers a narrow build-time utility on top of an already-validated Vue 3 + TypeScript + Vite + pnpm stack. The goal is to read existing `src/data/*.json`, combine it with a small page-content map extracted from Vue SFC hardcoded strings, and emit two markdown artifacts into `docs/`. No Vue runtime, no browser, no bundler output — just typed Node code reading JSON and writing `.md` files.
-
-**Key architectural choice (drives everything below):** use a standalone TypeScript script run via `tsx`, invoked both directly as `build:markdown` and as a post-step from `build`. Do **not** use a Vite plugin and do **not** adopt any markdown AST framework. The content model is already structured (typed JSON), so markdown generation reduces to string templates with a few tiny helpers. Pulling in `unified` / `remark` / `mdast-util-*` would add ~8 transitive packages and an AST abstraction for a problem that is literally "heading, paragraph, bullet list, table, repeat."
+This document deliberately does NOT re-research Vue 3, TypeScript, Vite, pnpm, tsx, or Vitest. Those are validated in `.planning/PROJECT.md` and remain unchanged.
 
 ---
 
-## Recommended Stack
+## 1. Recommended Stack
 
-All versions verified against npm registry on 2026-04-10.
+| Purpose | Choice | Version | Rationale |
+|---------|--------|---------|-----------|
+| Browser automation | `playwright` | `^1.59.1` (already `^1.58.2` installed as transitive for vitest-browser-vue; bump to 1.59.1) | Full package bundles the API client + CLI (`playwright install`) for browser binaries. Already installed — this is the same package vitest-browser-vue pulls in, so no duplicate browser download. Node `>=18` engine matches tsx/project baseline. |
+| HTML → Markdown | `turndown` | `^7.2.4` | Actively maintained (release 2026-04-03, 18 days ago). 11.1k stars. Pluggable `addRule()` API is the right seam for handling Vue-specific markup we'll encounter (RouterLinks rendered as `<a>`, component-wrapped images, etc.). Ships dual CJS+ESM (`lib/turndown.es.js` via `module` field), works with `"type": "module"` + tsx. Has its own embedded DOM via `@mixmark-io/domino` — no jsdom requirement for conversion step. |
+| GFM extensions for Turndown | `@joplin/turndown-plugin-gfm` | `^1.0.64` | **NOT the official `turndown-plugin-gfm`** — that package is dead (last release 2017-12, dep of dead-for-9-years code). Joplin maintains an active fork (released 2025-10-18) with the same API surface. Provides GFM tables, strikethrough, task lists. Portfolio site uses tables (exhibit personnel / technologies / findings) — table support is essential, not nice-to-have. |
+| Turndown TypeScript types | `@types/turndown` | `^5.0.6` | Turndown v7 ships NO bundled types (only `lib/turndown.{cjs,es,umd}.js`). DefinitelyTyped package updated 2025-10-26, covers the v7 API. Dev-only dependency. |
+| Content region isolation | **None** (use Playwright `page.locator('main').innerHTML()`) | — | See §2 — Readability rejected. Site has a stable `<main>` landmark (per existing Vue Router layout), so a CSS-selector extraction in Playwright is simpler and more deterministic than running a readability algorithm. |
+| TypeScript project reference | New `tsconfig.editorial.json` | — | Analogous to `tsconfig.scripts.json`. Separate from `scripts/markdown-export/` to honor the v7.0 abort boundary. `include: ["scripts/editorial/**/*.ts"]`. See §3 for full config. |
 
-### Runtime
+### Installation command
 
-| Package | Version | Role | Dep type |
-|---------|---------|------|----------|
-| `tsx` | `^4.21.0` | Run the export script as TypeScript directly (`tsx scripts/build-markdown.ts`) | `devDependencies` |
-
-### Libraries (dependencies of the script)
-
-| Package | Version | Role | Dep type |
-|---------|---------|------|----------|
-| `yaml` | `^2.8.3` | Emit Obsidian YAML frontmatter (`---\ntitle: ...\n---`) | `devDependencies` |
-| `github-slugger` | `^2.0.0` | Deterministic, collision-safe slugs for file names and wikilink targets | `devDependencies` |
-
-### Everything else: Node standard library
-
-| Node API | Role |
-|----------|------|
-| `node:fs/promises` (`mkdir`, `writeFile`, `rm`) | File I/O for `docs/site-content.md` and `docs/obsidian-vault/*.md` |
-| `node:path` (`join`, `dirname`, `resolve`) | Path composition, cross-platform |
-| `node:url` (`fileURLToPath`, `import.meta.url`) | Resolve script-relative paths in ESM |
-
-### Existing infra (reused, no changes)
-
-| Existing | Role in v7.0 |
-|----------|--------------|
-| `src/data/*.json` + thin TS loaders | Source of truth for exhibits, personnel, technologies, findings, FAQ, philosophy influences, methodology steps, stats, tech pills, brand elements, specialties |
-| `src/types/` barrel | Import `Exhibit`, `PersonnelEntry`, `TechnologyEntry`, `FindingEntry`, `FaqItem` etc. so the script is type-safe end-to-end |
-| `src/router.ts` | Import `routes` to drive the monolithic file's top-level section order and the Obsidian vault folder structure |
-| `typescript ~5.7.0` | Already installed; `tsx` uses it for type-stripping (no emit needed for runtime, but `vue-tsc -b` in `build` still type-checks `scripts/` if included in `tsconfig.json`) |
-| `pnpm` | Add the two deps via `pnpm add -D yaml github-slugger tsx` |
-
-### Total footprint
-
-- **3 new devDependencies** (`tsx`, `yaml`, `github-slugger`)
-- Zero new runtime dependencies
-- Zero Vue/Vite/browser footprint — the script runs in plain Node 24
-
----
-
-## Rationale per Library
-
-### `tsx` vs `ts-node` vs `jiti` vs `esbuild-register`
-
-**Choice: `tsx@^4.21.0`**
-
-- **Why:** Single-binary TypeScript executor built on esbuild. Zero config. Handles ESM, `.ts`, `.tsx`, path aliases, and `import.meta.url` correctly. Actively maintained (4.21.0 is current as of late 2024/2025), de-facto default for "just run this TS file in Node."
-- **Rejected `ts-node`:** Historically slow, ESM support has been awkward (loader flags), has been functionally displaced by tsx and tsx-style tools in 2024–2025 tooling. No advantage here.
-- **Rejected `jiti` (2.6.1):** Excellent but optimized for on-the-fly `require()`-style loading inside other tools (Nuxt, unbuild, ESLint configs). Overkill and not idiomatic for a user-facing script invocation.
-- **Rejected `esbuild-register`:** Requires a `-r` flag dance and is less widely used than tsx. No advantage.
-- **Rejected compiling with `tsc` first:** Adds a build step and a `dist/` directory to manage. `tsx` runs the source directly, which is simpler and matches this project's preference for clarity.
-
-Confidence: **HIGH** (verified current version on npm registry, direct description confirms scope).
-
-### `yaml` vs `js-yaml` vs `gray-matter` vs hand-written
-
-**Choice: `yaml@^2.8.3`** (the package literally named `yaml`, not `js-yaml`)
-
-- **Why:** Pure TypeScript, ESM-native, actively maintained (v3.0.0-0 pre-release currently tagged on npm, proving ongoing development). Supports both high-level `stringify()` and full Document API. Modern, widely used by VitePress, Astro internals, and many Vite plugins. Handles quoting and escaping correctly for values that might contain `:` or `#`.
-- **Rejected `js-yaml@4.1.1`:** Also fine and stable (v4.1.1 is current), but CJS-first and the maintenance cadence has slowed. `yaml` is the more modern TS-first choice and is what most new tooling picks in 2024–2025.
-- **Rejected `gray-matter@4.0.3`:** Frozen at 4.0.3 for years; meant for *parsing* frontmatter out of existing markdown, not *emitting* it. We are writing fresh files — we don't need a parser. Also pulls in `js-yaml` transitively plus `section-matter`, `strip-bom-string`, `kind-of`. Wrong tool.
-- **Rejected hand-written:** Tempting because frontmatter is small, but quoting/escaping edge cases (titles containing `:`, tags containing `#`, dates) are exactly the kind of thing a library exists to handle. Three lines of `YAML.stringify({title, tags, date})` is cleaner than a custom escaper.
-
-Frontmatter emission pattern:
-```ts
-import YAML from 'yaml'
-const frontmatter = `---\n${YAML.stringify({ title, tags, date }).trim()}\n---\n\n`
+```bash
+pnpm add -D turndown@^7.2.4 @joplin/turndown-plugin-gfm@^1.0.64 @types/turndown@^5.0.6
+# playwright already installed as ^1.58.2; bump with:
+pnpm up playwright@latest
+# ensure chromium binary (already present at ~/.cache/ms-playwright/chromium-1217; safe re-run):
+pnpm exec playwright install chromium
 ```
 
-Confidence: **HIGH** (verified on npm registry).
-
-### `github-slugger` vs hand-rolled slug vs `slugify`
-
-**Choice: `github-slugger@^2.0.0`**
-
-- **Why:** Tiny (zero deps), ESM, deterministic, handles collisions automatically (maintains internal state so `slug("Foo")` then `slug("Foo")` returns `foo` then `foo-1`). This is the same slugger used by `remark` and GitHub itself, so the slugs match what a reader would expect when clicking anchor links in the monolithic `site-content.md` on GitHub.
-- **Rejected `slugify`:** Generic, doesn't dedupe, and its aggressive Unicode handling can surprise.
-- **Rejected hand-rolled (`str.toLowerCase().replace(/\s+/g, '-')`):** Works for 95% of cases, fails on `&`, `:`, em-dashes, duplicate headings (exhibit titles can collide with nav titles). Not worth the debugging.
-
-Used for:
-1. Deriving `docs/obsidian-vault/<slug>.md` filenames from page titles
-2. Generating anchor-stable headings in `docs/site-content.md` so GitHub's TOC works
-3. Normalizing wikilink targets so `[[Case Files]]` resolves to a file that actually exists on disk
-
-Confidence: **HIGH** (verified on npm registry, well-known package).
-
-### Markdown generation: string templates, NOT `unified`/`remark`/`mdast-util-*`
-
-**Choice: Plain TypeScript template literals with small helper functions.**
-
-- **Why:** The content model is already structured (typed JSON), and the output grammar is narrow:
-  - headings (`#`, `##`, `###`, `####`)
-  - paragraphs
-  - unordered lists
-  - ordered lists (rare — methodology steps)
-  - tables (personnel/technologies/findings — already typed arrays)
-  - blockquotes (for pull-quotes and attributed quotes)
-  - italic captions (for skipped image alt text)
-  - wikilinks `[[Target]]` (Obsidian variant only)
-- A handful of helper functions cover the whole thing:
-  ```ts
-  const h = (level: number, text: string) => `${'#'.repeat(level)} ${text}\n\n`
-  const p = (text: string) => `${text}\n\n`
-  const ul = (items: string[]) => items.map(i => `- ${i}`).join('\n') + '\n\n'
-  const table = (headers: string[], rows: string[][]) => /* ... */
-  const caption = (alt: string) => `*${alt}*\n\n`
-  const wikilink = (target: string, label?: string) =>
-    label ? `[[${target}|${label}]]` : `[[${target}]]`
-  ```
-- **Rejected `unified` + `remark-stringify` + `mdast-util-to-markdown`:** The unified ecosystem is phenomenal for *transforming* markdown (parse → mutate AST → serialize), which is not what this is. Going AST-first here means:
-  - Building `mdast` node literals by hand (`{type: 'heading', depth: 2, children: [{type: 'text', value: ...}]}`) which is noisier than a template string.
-  - Pulling in `unified`, `remark-stringify`, `mdast-util-to-markdown`, `mdast-util-from-markdown`, `micromark`, `@types/mdast`, and ~15 micromark extensions transitively.
-  - Obsidian wikilinks `[[X]]` are not in CommonMark/GFM, so you'd need a custom mdast extension or post-processing anyway.
-  - Tables in `mdast-util-to-markdown` are finicky with alignment and column widths.
-- **Rejected `markdown-builder` / `markdown-it-writer` / similar builder libs:** All are either unmaintained, tiny one-person projects, or opinionated in ways that collide with Obsidian's flavor. None are worth a dep.
-
-**Crucial point for downstream consumers:** if requirements later grow (syntax highlighting, footnotes, math, diagram blocks), re-evaluate. For v7.0's scope, strings win on simplicity, debuggability, and diff-readability of the committed artifacts.
-
-Confidence: **HIGH** (based on narrow grammar already known from `src/data/*.json` and router structure).
-
-### HTML→Markdown (`turndown`): NOT NEEDED
-
-**Choice: Do not add `turndown`.**
-
-- **Why:** The question asks whether `turndown` is needed for HTML→markdown conversion. It is not, because:
-  1. `src/data/*.json` is plain text, not HTML.
-  2. Vue SFC templates contain structured element trees, not arbitrary HTML blobs. A page content map (see Integration Notes) extracts strings *before* they hit the DOM.
-  3. No exhibit field stores HTML strings (all typed fields are `string`, `string[]`, or structured interfaces).
-- If a stray `<br>` or `<em>` turns up in a data string during implementation, handle it with a regex or add a 10-line string replacer — not a 7.2.4-sized dependency.
-- `turndown@^7.2.4` is current and works well for *scraped* HTML, but scraping a live Vue render is the wrong approach for this milestone (see Anti-Recommendations).
-
-Confidence: **HIGH** (verified the data layer has no HTML strings by reading the project context and data directory listing).
+Net new deps: **3** (`turndown`, `@joplin/turndown-plugin-gfm`, `@types/turndown`). All devDependencies. All pure JS, no native bindings.
 
 ---
 
-## Integration Notes
+## 2. Rejected Alternatives
 
-### File layout
+| Name | Reason Rejected |
+|------|-----------------|
+| `@playwright/test` | Test-runner flavor. We're writing a one-off capture script, not a test suite. `@playwright/test` bundles fixtures, expect assertions, a CLI runner, reporters — none of which this tool needs. Would also collide conceptually with the existing Vitest browser tests. |
+| `playwright-core` | Ships API without the `playwright install` CLI and without browser download management. Since we're adding a user-facing pnpm script Dan will run locally, the `playwright install` UX is valuable. Also, `playwright` is already the installed package (transitive via vitest-browser-vue) — choosing `playwright-core` would add a second Playwright install path with separate versioning. Avoid. |
+| Standalone `playwright/chromium` installer + `playwright-core` | Over-engineering for a portfolio site with ~22 routes. The size savings (~5MB) are irrelevant in a devDependency used on Dan's machine only. Adds cognitive load without benefit. |
+| `turndown-plugin-gfm` (original, not Joplin fork) | **Dead package.** Last release 2017-12-19 (8.3 years stale). Last commit 2017. 8 open issues unresolved. Hard reject for a new 2026 tool. Users in its issue tracker routinely point to the Joplin fork as the live maintenance path. |
+| `node-html-markdown` | Plausible alternative — actively maintained (v2.0.0 released 2025-11-14, ships TS types, claims ~1.57x Turndown speed). Rejected because: (1) much smaller ecosystem (260 stars vs 11.1k) means fewer Stack Overflow answers / prior art when we hit edge cases; (2) its rule-customization surface is narrower than Turndown's `addRule()` — and we will need custom rules for Vue-rendered markup; (3) performance isn't relevant for a ~22-page capture run; (4) Turndown's `@mixmark-io/domino` embedded DOM is a feature, not a bug, for our monolithic concatenation step. Keep as a fallback if Turndown output quality is poor (low probability). |
+| `@mozilla/readability` (+ `jsdom`) | Readability is a content-extraction heuristic designed for arbitrary unknown web pages (Firefox Reader View use case). We control the Vue site's DOM structure and have a semantic `<main>` landmark on every page. Using Readability here adds: `jsdom@29.0.2` (~15MB devDep, heavy), Readability's own fuzzy scoring (may drop content we want to keep — e.g. metadata sidebars on exhibit pages, FAQ accordion items it might score as "boilerplate"), and an extra DOM round-trip (Playwright DOM → HTML string → jsdom DOM → Readability → HTML string → Turndown). We'd be laundering our own known DOM through three parsers to fight our own markup. Reject. If `<main>` selection later proves insufficient, revisit with a narrower page-specific selector strategy before reaching for Readability. |
+| `cheerio` | No legitimate role here. Playwright already exposes a full DOM via `page.evaluate` / `page.locator`. Adding cheerio would mean serializing Playwright's DOM back to HTML only to re-parse it with cheerio — pure waste. Also: explicitly called out in the quality-gate brief as a rejection candidate. |
+| `jsdom` (standalone, not via Readability) | Same objection as cheerio — Playwright already owns the DOM. Only reason to add jsdom would be to feed Readability, which we're not doing. |
+| `turndown-plugin-gfm` monkey-patched / forked ourselves | Maintenance burden for zero benefit. The Joplin fork already exists, is MIT-licensed, and tracks upstream Turndown. Use it. |
+| `pandoc` (shelled out as child process) | Heavyweight dependency external to npm, platform-specific install, not portable across Dan's dev machines, overkill for HTML→MD of a site we wrote ourselves. |
+| `marked` / `remark` / `unified` | These are Markdown→HTML or Markdown-AST pipelines — wrong direction. Not applicable. |
+
+---
+
+## 3. Integration Points
+
+### 3.1 Directory layout
 
 ```
 scripts/
-  build-markdown.ts              # entry point, orchestrates both artifacts
-  markdown/
-    helpers.ts                   # h(), p(), ul(), table(), caption(), wikilink()
-    page-content-map.ts          # hardcoded strings from Vue SFCs, keyed by route
-    render-monolith.ts           # produces docs/site-content.md
-    render-obsidian.ts           # produces docs/obsidian-vault/*.md
-    render-exhibit.ts            # shared exhibit body renderer used by both
-    slugs.ts                     # wraps github-slugger with a shared instance
-docs/
-  site-content.md                # generated (committed)
-  obsidian-vault/
-    Home.md                      # generated (committed)
-    Philosophy.md
-    Technologies.md
-    Case Files.md
-    FAQ.md
-    Contact.md
-    Accessibility.md
-    exhibits/
-      Exhibit A - <title>.md
-      ...
+  editorial/                     ← NEW (this milestone)
+    index.ts                     ← entry invoked by pnpm script
+    capture.ts                   ← Playwright browser driver
+    convert.ts                   ← Turndown configuration + rules
+    routes.ts                    ← builds route list from exhibits.json
+    types.ts                     ← local types (CapturedPage, etc.)
+  markdown-export/               ← UNCHANGED (v7.0 Phase 37-38 output, retained but unused by this tool)
 ```
 
-### `package.json` script changes
+This keeps the v7.0 abort boundary clean. `scripts/editorial/` has zero imports from `scripts/markdown-export/`. If anyone needs to delete `scripts/markdown-export/` later, this tool is unaffected.
 
-```json
+### 3.2 `tsconfig.editorial.json`
+
+Mirrors `tsconfig.scripts.json` exactly except for `outDir` and `include`:
+
+```jsonc
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".tsbuildinfo-editorial",
+    "rootDir": ".",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": ["ES2022", "DOM"],          // DOM added for page.evaluate() typings
+    "types": ["node"],
+    "paths": {},
+    "baseUrl": "."
+  },
+  "include": ["scripts/editorial/**/*.ts"]
+}
+```
+
+Separate config (not shared with `tsconfig.scripts.json`) because:
+1. Abort-boundary hygiene (see §3.1).
+2. This tool needs `"DOM"` in `lib` for `page.evaluate()` callback types — the markdown-export scaffolding doesn't and shouldn't.
+3. Cleaner `.tsbuildinfo-editorial` artifact separates incremental-compile state.
+
+Will need to be referenced from the root `tsconfig.json` `references` array alongside `tsconfig.scripts.json` so `vue-tsc -b` picks it up during `pnpm build`. (Open Question #2 — see §4.)
+
+### 3.3 pnpm script wiring
+
+Add to `package.json` `scripts`:
+
+```jsonc
 {
   "scripts": {
-    "build": "vue-tsc -b && vite build && npm run build:markdown",
-    "build:markdown": "tsx scripts/build-markdown.ts"
+    "editorial:capture": "tsx scripts/editorial/index.ts"
   }
 }
 ```
 
-- `build:markdown` runs standalone (fast iteration during development of the exporter).
-- `build` chains it after `vite build` so `docs/` is regenerated on every production build.
-- **Important:** place `build:markdown` *after* `vite build`, not before, so a broken exporter never blocks the site build.
+- Runs via existing `tsx 4.21.0` devDep (no addition).
+- No `&&` chaining with `build` — this is an on-demand tool, not a build step. Explicitly separate from `build:markdown` (which runs the retained-but-unused v7.0 scaffold).
+- Accepts CLI args / env vars for output path — see Open Question #1.
 
-### Why a standalone script, NOT a Vite plugin
+### 3.4 Reading `src/data/json/exhibits.json`
 
-The question explicitly asks this. A custom Vite plugin using `closeBundle` or `writeBundle` would work, but it is the wrong fit here:
-
-| Concern | Standalone script | Vite plugin |
-|---------|-------------------|-------------|
-| Runs independently of `vite build` | Yes (`pnpm build:markdown`) | No — requires full vite build |
-| Iteration speed during development | Fast (tsx, <1s startup) | Slow (vite cold start) |
-| Can import `src/data/*.json` directly | Yes (Node ESM) | Yes, but via Vite's module graph — overkill |
-| Needs Vite's module graph or transformed output | No | N/A |
-| Plays well with `vue-tsc -b` type checking | Add `scripts/` to `tsconfig` include | Same |
-| Testability in isolation | Trivial (import functions, call them) | Harder (must mock plugin context) |
-| Surface area / failure modes | 1 script | Plugin hook timing + Vite internals |
-
-The only reason to pick a plugin would be if you needed to *consume Vite's build output* (e.g., read the built HTML for link extraction). We don't — we read the source-of-truth JSON and a page content map directly, which is actually more reliable than scraping post-build HTML.
-
-### Vue SFC content extraction strategy
-
-**Recommendation: do NOT parse Vue SFCs at build time. Use a hardcoded `page-content-map.ts` instead.**
-
-Page-level content that lives only in SFC templates (intro paragraphs, section headings, CTAs, etc.) should be lifted into a typed TypeScript module:
+tsx + `tsconfig.editorial.json` with `resolveJsonModule: true` lets `scripts/editorial/routes.ts` do:
 
 ```ts
-// scripts/markdown/page-content-map.ts
-import type { PageContent } from './types'
-
-export const pageContent: Record<string, PageContent> = {
-  '/': {
-    title: 'Home',
-    sections: [
-      { heading: 'Pattern 158', body: '...' },
-      // ...
-    ],
-  },
-  '/philosophy': { /* ... */ },
-  // ...
-}
+import exhibits from '../../src/data/json/exhibits.json' with { type: 'json' };
 ```
 
-**Why this over parsing SFCs:**
-- SFC template parsing requires `@vue/compiler-sfc` + `@vue/compiler-dom`, would need to walk the AST, handle `<template>` root nodes, resolve `v-for`/`v-if`, ignore dynamic expressions — massive complexity.
-- The strings in SFCs are already stable content; extracting them into a map is a **one-time refactor**, not an ongoing build-time concern.
-- The map becomes the single source of truth: future content changes happen in the map, and the Vue templates import from it (completing the CMS-readiness trajectory started in v3.0's JSON externalization).
-- **Bonus:** the extraction itself is the right v7.0 work, not a library choice. The existing SFC templates should be updated (phase 2 or 3 of the milestone) to pull from `page-content-map.ts`, so the map and the site never drift.
+The `with { type: 'json' }` import attribute is Node 22+ stable; tsx handles it. Alternative fallback: `fs.readFileSync` + `JSON.parse` if we want to avoid coupling tsc resolution to `src/`. Either works; the import approach is more type-safe since TS narrows the JSON shape.
 
-The alternative — using a regex to pull strings out of `.vue` files — is brittle and will break on any template change. Don't do it.
+Note: `src/data/json/exhibits.json` sits outside the `scripts/editorial/` include glob, but `resolveJsonModule` + a cross-tree import compile fine. If vue-tsc complains under `-b` composite mode, a secondary pattern is to pass the exhibits list through an env var or a tiny generated manifest — but that's almost certainly overkill.
 
-### Wikilink + slug consistency
+### 3.5 pnpm peer-dep resolution check
 
-Use **one** shared `GithubSlugger` instance across both renderers so:
-1. Anchors in `docs/site-content.md` match section ordering deterministically.
-2. Filenames in `docs/obsidian-vault/` match the targets used in `[[wikilinks]]`.
-3. Collisions are resolved identically on every build (deterministic, repo-diff-friendly).
+None of the 3 new deps have peerDependencies:
 
-Reset the slugger at the start of each artifact render:
-```ts
-import GithubSlugger from 'github-slugger'
-const slugger = new GithubSlugger()
-slugger.reset()
-```
+- `turndown@7.2.4` — `peerDependencies: undefined`, single runtime dep (`@mixmark-io/domino`)
+- `@joplin/turndown-plugin-gfm@1.0.64` — peer-dep-free; the plugin calls `TurndownService.prototype.use()` at runtime
+- `@types/turndown@5.0.6` — type-only, no runtime
 
-### TypeScript config
+No pnpm workspace hoisting or `.npmrc` changes required. No risk of the dreaded pnpm strict-peer-dep warning storms.
 
-Add `scripts/**/*` to `tsconfig.node.json` (or whichever `tsconfig` covers non-app TS). Keep it separate from the app `tsconfig.app.json` so Vue-specific settings don't leak. `tsx` doesn't need a tsconfig to run, but `vue-tsc -b` in the `build` script will type-check the whole project, so the scripts must be discoverable.
+### 3.6 Playwright browser binary management
 
-### Node version
+`playwright` 1.59.1 currently has chromium-1217 cached at `~/.cache/ms-playwright/chromium-1217/`. Bumping from 1.58.2 → 1.59.1 may trigger a fresh chromium download on first run (they version-pin). One-time cost. The capture tool should launch `chromium` headless (no webkit/firefox needed) — cheapest binary.
 
-The project already uses Node 24 (`v24.12.0`). All three new deps support Node 18+. No engines constraint changes needed.
+### 3.7 Runtime vs dev classification
 
-### Obsidian-specific notes
-
-- **Frontmatter:** `title`, `tags` (array, e.g. `[case-file, investigation-report]`), `date` (ISO string, set to build time). Keep it minimal — Obsidian also reads `aliases`, `cssclass`, `publish`, but those are not asked for.
-- **Tag format:** Obsidian tags must not contain spaces. Use kebab-case and use `github-slugger` on the exhibit category to normalize.
-- **Wikilinks with display text:** `[[Exhibit A - Some Title|Exhibit A]]` — use the `|` pipe form when the filename contains punctuation that would look ugly inline.
-- **File naming:** Obsidian tolerates spaces in filenames but not `:`, `/`, `\`, `|`, `?`, `*`, `"`, `<`, `>`. The `github-slugger` output is too aggressive (lowercases everything, drops punctuation) for human-readable filenames — use a lighter sanitizer for filenames and reserve the slugger for anchors/links. A 15-line `sanitizeFilename()` helper covers it.
+All 3 new packages go in `devDependencies`. This tool never runs in production (Cloudflare Pages build), never runs in CI by default, and never ships to users. It's a developer utility that Dan runs against the live production site.
 
 ---
 
-## Anti-Recommendations
+## 4. Open Questions for Dan
 
-What NOT to add. Each of these has been considered and rejected.
+### Q1. Output destination — CLI arg, env var, or config file?
 
-| Do NOT add | Why not |
-|------------|---------|
-| **Astro / Next.js / VitePress / Nuxt Content** | Full static site generators. Massive scope. We already have a Vue SPA that works — the ask is an export utility, not a second rendering pipeline. |
-| **`@vue/compiler-sfc` + AST walking** | To extract template strings. Use a page content map instead (see Integration Notes). |
-| **`unified` / `remark` / `remark-stringify` / `mdast-util-*`** | Powerful but AST-first. Wrong tool for "emit structured JSON as markdown." ~8 transitive deps for zero benefit here. |
-| **`turndown`** | HTML→markdown converter. We have no HTML inputs. Adding it implies scraping the live site, which is the wrong approach. |
-| **`gray-matter`** | Parses frontmatter out of existing files. We are *writing* files. Wrong direction. |
-| **`markdown-it` / `marked`** | Markdown parsers. We're generating, not parsing. |
-| **`js-yaml`** | Works, but `yaml` is the modern TS-first choice and is already the ecosystem default for new Vite-era tooling. |
-| **`ts-node`** | Superseded by `tsx` for script invocation. |
-| **Puppeteer / Playwright page scraping** | "Render the Vue site and scrape the HTML" is tempting because Playwright is already in devDependencies, but it's fundamentally wrong: it couples content export to successful browser rendering, introduces race conditions, strips structure (headings become `<h2>`, alt text becomes `<img alt>`), and can't produce Obsidian wikilinks. The JSON data layer + page content map is the source of truth. |
-| **A custom Vite plugin** | Wrong abstraction for this scope. See table in Integration Notes. A standalone `tsx` script is smaller, faster to iterate on, and independently runnable. |
-| **`prettier` as a library to format generated markdown** | Tempting for pretty output, but adds a large dep just to align table columns. Write the helpers to emit well-formatted markdown in the first place. If needed later, `prettier --write docs/` can be run as a separate post-step without adding a library dependency to the script. |
+The tool writes a single Markdown file to an absolute path (Obsidian vault). Three reasonable patterns:
+
+| Option | Invocation | Tradeoff |
+|--------|------------|----------|
+| **A. CLI arg** | `pnpm editorial:capture --out /c/main/Obsidian\ Vault/career/…/snapshot.md` | Explicit, no hidden state, easy to override per-run. Verbose. |
+| **B. Env var** | `EDITORIAL_OUT=/c/… pnpm editorial:capture` | Good for CI-free local runs, hideable from shell history. Implicit. |
+| **C. `.editorialrc.json` (gitignored)** | `pnpm editorial:capture` | Set once, forget. But adds config-file drift risk and a new ignore entry. |
+
+**Researcher recommendation:** **A + B** — CLI arg wins if provided, env var is fallback, no config file. Matches Unix convention. Fail with an actionable error if neither present.
+
+### Q2. tsconfig composite references
+
+Should `tsconfig.editorial.json` be added to the root `tsconfig.json` `references` array (so `vue-tsc -b` type-checks it on every `pnpm build`)?
+
+**Argument for:** Catches TS errors in the capture tool without a separate script.
+**Argument against:** The editorial tool is an on-demand developer utility — gating `pnpm build` on its type correctness couples unrelated things. If the tool breaks, the site build still needs to ship.
+
+**Researcher recommendation:** **Add to references.** Cost is ~0.5s incremental vue-tsc time. Benefit is the TS safety net. `pnpm build` currently also type-checks `scripts/markdown-export/` (per existing setup) without breaking anything — same pattern.
+
+### Q3. Bump Playwright to 1.59.1 now, or stay at 1.58.2?
+
+vitest-browser-vue@^2.1.0 currently pulls Playwright ^1.58.2. Upgrading to 1.59.1 is a minor bump (same major) and should be transparent, but will force a fresh chromium download (1217 → whatever 1.59.1 pins). If we stay at 1.58.2, we're using an older chromium to capture a site built with current tooling — low risk but worth naming.
+
+**Researcher recommendation:** **Bump to 1.59.1.** Patch-level chromium diffs are immaterial for rendering a portfolio site; staying current is free once the download happens.
+
+### Q4. Strikethrough / task lists — do we actually need them?
+
+The portfolio site uses tables (personnel, technologies, findings). It does NOT use strikethrough or GitHub task lists (`- [ ]`). `@joplin/turndown-plugin-gfm` ships all three as a single package; we can either:
+- Use the full `gfm` plugin (simpler, includes unused strikethrough/task rules at negligible cost)
+- Cherry-pick just `tables` via `import { tables } from '@joplin/turndown-plugin-gfm'`
+
+**Researcher recommendation:** **Full `gfm` plugin.** Zero-cost future-proofing. If the captured output ever contains unexpected `~~strike~~` or `<s>` tags from rich-text content Dan pastes into an exhibit later, it Just Works.
 
 ---
 
-## Open Questions
+## 5. Version Currency Notes
 
-These are for the REQUIREMENTS / planning phase, not blockers on stack choice.
+All versions verified against npm registry on **2026-04-19** via `npm view <pkg> version time.modified`.
 
-1. **Does the Obsidian vault need an `_index.md` / MOC (map of content)?** Obsidian users often want a landing file that links to all pages. Decide during feature planning — adds ~20 lines to the exporter if yes.
-2. **Should exhibit tags be hierarchical (`case-file/investigation-report`) or flat (`investigation-report`)?** Obsidian supports nested tags via `/`. Hierarchy gives better graph view filtering. Defer to Dan's preference.
-3. **Should `docs/site-content.md` include a generated TOC at the top?** GitHub auto-generates one from headings in its markdown rendering, but some viewers don't. Trivial to add if wanted (`github-slugger` already provides stable anchors).
-4. **Build determinism:** should `date:` in frontmatter be commit-based (deterministic, no-diff on rebuilds) or wall-clock time (churns `docs/` on every build)? **Recommendation:** use the latest git commit date of the source file(s) that fed the page, or just the git HEAD commit date, to keep diffs clean. Requires a 5-line `git log -1 --format=%cI` shell call or similar.
-5. **What happens to `/review` and `/diag/personnel` routes?** These look like internal/diagnostic pages. Decide whether to exclude them from both artifacts. **Recommendation:** exclude — they're not portfolio content.
-6. **Redirect routes (`/portfolio`, `/testimonials` → `/case-files`):** clearly excluded (no content of their own), but confirm.
-7. **How are cross-page wikilinks seeded?** Automatic "Exhibit A mentioned in FAQ" detection would require text search across rendered pages. Out of scope for v7.0 unless explicitly wanted — start with only navigationally-obvious links (e.g., every exhibit page links back to `[[Case Files]]`, FAQ exhibit-note entries link to their exhibit).
+| Package | Version | Last modified | Source of truth |
+|---------|---------|---------------|-----------------|
+| `playwright` | 1.59.1 | (latest tag, recent) | npm registry, GitHub repo `microsoft/playwright` |
+| `@playwright/test` | 1.59.1 | (matches playwright) | npm registry |
+| `playwright-core` | 1.59.1 | (matches playwright) | npm registry |
+| `turndown` | 7.2.4 | 2026-04-03 (16 days before research) | npm registry, github.com/mixmark-io/turndown |
+| `turndown-plugin-gfm` (rejected) | 1.0.2 | 2022-05-22 (≈4 years stale) | npm registry, github.com/domchristie/turndown-plugin-gfm |
+| `@joplin/turndown-plugin-gfm` | 1.0.64 | 2025-10-18 (≈6 months old, actively maintained) | npm registry |
+| `@joplin/turndown` (noted, not used) | 4.0.82 | 2025-10-18 | npm registry — Joplin's fork of turndown itself; unused because upstream turndown 7.2.4 is now active again |
+| `@types/turndown` | 5.0.6 | 2025-10-26 | npm registry (DefinitelyTyped) |
+| `node-html-markdown` (rejected) | 2.0.0 | 2025-11-14 | npm registry, github.com/crosstype/node-html-markdown |
+| `@mozilla/readability` (rejected) | 0.6.0 | 2025-03-03 | npm registry, github.com/mozilla/readability |
+| `jsdom` (rejected) | 29.0.2 | 2026-04-07 | npm registry |
+| `tsx` (existing) | 4.21.0 | existing in package.json | no change |
+| `typescript` (existing) | ~5.7.0 | existing in package.json | no change |
+
+### Active-maintenance assertions
+
+- **turndown**: 7.2.3 (2026-04-03) and 7.2.4 (2026-04-03, 3.5 hours later) both shipped on research day -16 → active. 11.1k stars, 109 open issues (healthy for a library this size), 30 open PRs (triaged). Concerns about dormancy between 2018 and 2024 are resolved — 7.2.x cadence has picked up (5 releases since 2024-03). HIGH confidence.
+- **@joplin/turndown-plugin-gfm**: 1.0.64 shipped 2025-10-18 → within 12-month freshness window. The `@joplin/*` scope is maintained as part of the Joplin note-taking app's core — it's a downstream consumer with skin in the game. HIGH confidence.
+- **playwright**: Major-tech company (Microsoft) product, weekly-to-biweekly releases, 1.59.1 current. HIGH confidence.
+- **@types/turndown**: Updated 2025-10-26 to cover current API surface. DefinitelyTyped maintainers ship quickly. MEDIUM-HIGH confidence (always worth a spot-check at install time for drift against turndown 7.2.4's runtime shape).
 
 ---
 
-## Sources
+## Summary for Roadmap
 
-All package versions verified 2026-04-10 via direct npm registry API calls:
+**Net adds:** 3 devDependencies (`turndown`, `@joplin/turndown-plugin-gfm`, `@types/turndown`), 1 new tsconfig file, 1 new pnpm script, 1 new directory (`scripts/editorial/`).
 
-- [tsx on npm registry](https://registry.npmjs.org/tsx/latest) — v4.21.0 (HIGH confidence)
-- [yaml on npm registry](https://registry.npmjs.org/yaml/latest) — v2.8.3, v3.0.0-0 pre-release confirms active maintenance (HIGH)
-- [js-yaml on npm registry](https://registry.npmjs.org/js-yaml/latest) — v4.1.1 (HIGH, used only for comparison)
-- [gray-matter on npm registry](https://registry.npmjs.org/gray-matter/latest) — v4.0.3, frozen, wrong direction anyway (HIGH)
-- [github-slugger on npm registry](https://registry.npmjs.org/github-slugger/latest) — v2.0.0 (HIGH)
-- [turndown on npm registry](https://registry.npmjs.org/turndown/latest) — v7.2.4, not needed (HIGH)
-- [unified on npm registry](https://registry.npmjs.org/unified/latest) — v11.0.5, rejected as overkill (HIGH)
-- [remark on npm registry](https://registry.npmjs.org/remark/latest) — v15.0.1, rejected as overkill (HIGH)
-- [mdast-util-to-markdown on npm registry](https://registry.npmjs.org/mdast-util-to-markdown/latest) — v2.1.2, rejected as overkill (HIGH)
-- [jiti on npm registry](https://registry.npmjs.org/jiti/latest) — v2.6.1, rejected in favor of tsx (HIGH)
-- [Vite Plugin API — Output Generation Hooks](https://vite.dev/guide/api-plugin) — confirms `closeBundle`/`writeBundle` semantics used in plugin-vs-script decision (HIGH)
-- Project files read: `/home/xhiris/projects/pattern158-vue/.planning/PROJECT.md`, `/home/xhiris/projects/pattern158-vue/package.json`, `/home/xhiris/projects/pattern158-vue/vite.config.ts`, `/home/xhiris/projects/pattern158-vue/src/router.ts`, `src/data/` and `src/pages/` directory listings.
+**Net bumps:** `playwright` 1.58.2 → 1.59.1 (recommended, not required).
 
-**Confidence summary for this file:** HIGH across the board. Every version is verified current, every rejection is grounded in either the npm registry data or the project's own structural characteristics (narrow output grammar, already-structured input data, Node 24 environment, existing pnpm/vite/TS toolchain).
+**No:** runtime deps, peer-dep negotiation, workspace config, `.npmrc` changes, native bindings, chromium double-install, jsdom, cheerio, Readability, `@playwright/test`.
+
+**Decision points requiring Dan's lock-in:** Q1 (output path mechanism), Q2 (composite reference), Q3 (Playwright bump), Q4 (full GFM vs tables-only). All four have researcher recommendations; Dan's call.

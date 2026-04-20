@@ -93,7 +93,44 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-**No active milestone.** v7.0 was ABORTED 2026-04-19 after Phases 37-38 shipped. v8.0 (Editorial Snapshot & Content Audit) scoping pending. See `.planning/v7.0-ABORT-NOTICE.md` for pivot rationale.
+**v8.0 Editorial Snapshot & Content Audit** — see `.planning/REQUIREMENTS.md` for full REQ-ID list.
+
+**Capture (15):** Route list from typed sources, excluded routes skipped, headless Chromium, selector-based page-ready, HTTP status recording, `<main>` scoping, FAQ accordion pre-expand + filter-all, dynamic-route 404 detection, Cloudflare cache-bypass, bot-interstitial detection, fixed viewport/theme, per-route PNG screenshots, console-error capture, SEO meta capture (CAPT-01..15).
+
+**Conversion (9):** Turndown 7.2.4 + Joplin GFM plugin, DOM sanitization (strip script/style/data-v-*/aria-hidden), alt-text-only images, heading demotion (page H1 → H3), badge/pill passthrough, DOM-order preservation, href preservation, blank-line collapse, fixture unit tests (CONV-01..09).
+
+**Document shape (7):** Single monolithic file, top-level frontmatter with provenance, per-route `## Route: /path` heading, auto ToC via github-slugger, per-page metadata block, `---` separators, route ordering (home → statics → exhibits A–O) (SHAP-01..07).
+
+**Write + Output (7):** CLI `--output` + env fallback, preflight path validation, atomic temp+rename write, idempotent overwrite, optional `.planning/` mirror, stdout summary, per-route failure logging (WRIT-01..07).
+
+**Scaffold + Build (8):** `scripts/editorial/` flat layout, new `tsconfig.editorial.json` project reference, root `references` extended, `editorial:capture` pnpm script, 3 devDeps + Playwright bump, Vitest `scripts` project extended, `.gitignore` entry, forbidden-pattern discipline (SCAF-01..08).
+
+**Editorial review (5):** Dan reads capture in Obsidian, produces structured `FINDINGS.md` (Inconsistencies / Structural / Copy / Alignment / Open Questions), cross-referenced to career positioning docs, prioritized blocker/should-fix/nice-to-have, auto-emitted template (EDIT-01..05).
+
+**Milestone audit (5):** `v8.0-AUDIT-NOTICE.md` decision record, candidate evaluation for v9.0, go/no-go per option, PROJECT.md + MILESTONES.md + ROADMAP.md updates, RETROSPECTIVE entry (AUDT-01..05).
+
+**Key scoping decisions (locked 2026-04-19):**
+- Playwright (bumped 1.58.2 → 1.59.1) + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` 1.0.64 — all current, actively maintained
+- `scripts/editorial/` kept deliberately separate from `scripts/markdown-export/` (v7.0 retained but unused)
+- Capture from production `https://pattern158.solutions` (not dev server)
+- Route list sourced from `src/data/json/exhibits.json` via runtime `fs.readFile` + `JSON.parse` (no `@/` aliases, no ESM JSON import assertions)
+- Single monolithic Markdown output to `<vault>/career/website/site-editorial-capture.md`
+- Heading strategy: demote page H1 under per-route `## Route: /path`
+- Screenshots: full-page PNGs per route alongside markdown
+- `/review`, `/diag/*`, and redirects excluded from capture
+- Tool committed to main; implementation on feature branch `v8.0/editorial-capture` merging back when validated
+- FAQ accordion pre-expansion + filter-all before capture (CRIT-01/02 mitigation — without this, 27 FAQ answers are captured as empty)
+
+## Current Milestone: v8.0 Editorial Snapshot & Content Audit
+
+**Goal:** Capture the live rendered pattern158.solutions as a single Markdown document for editorial review; produce a findings doc that informs the v9.0 rebuild direction (likely static HTML rebuild or content rewrite).
+
+**Target features:**
+- Playwright-based live-site capture tool in `scripts/editorial/`
+- HTML→Markdown conversion via Turndown + GFM plugin
+- Single Markdown output + per-route PNG screenshots to Obsidian vault
+- Editorial review phase producing structured findings doc
+- Milestone audit deciding v9.0 direction
 
 ### Out of Scope
 

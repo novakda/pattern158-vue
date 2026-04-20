@@ -1,436 +1,275 @@
-# Feature Research: Static Markdown Export Pipeline
+# Feature Landscape — v8.0 Editorial Snapshot & Content Audit
 
-**Milestone:** v7.0 — Static Markdown Export
-**Researched:** 2026-04-10
-**Confidence:** HIGH (Obsidian conventions verified against the official `obsidianmd/obsidian-help` repository; markdown export patterns verified against widely adopted tools and GFM behavior)
+**Domain:** One-off live-site editorial capture tool for pattern158.solutions (Vue 3 SPA, 15 exhibits + 8 static routes) feeding a human editorial pass and subsequent v9.0 direction audit.
+**Researched:** 2026-04-19
+**Overall confidence:** HIGH
 
-## Scope
+## Framing
 
-Two artifacts, both generated at build time and via a standalone `build:markdown` script, both committed under `docs/`:
+v8.0 is a **three-stage cycle**, not a product:
 
-1. **`docs/site-content.md`** — a single monolithic markdown document containing the entire site, where heading levels mirror the site tree (site → section → page → section → subsection).
-2. **`docs/obsidian-vault/`** — a folder per menu section, one `.md` file per site page plus the 15 exhibit detail pages, with YAML frontmatter, `[[wikilinks]]`, and tag taxonomy.
+1. **Capture** — Playwright visits every route, serialises rendered content to one Markdown doc.
+2. **Editorial** — Dan reads the captured doc, annotates issues, drafts a findings document.
+3. **Audit** — Findings + the captured doc feed a decision record that shapes v9.0's direction.
 
-Input sources already available:
-- 11 JSON files in `src/data/json/` (exhibits, faq, technologies, findings, personnel via exhibit sub-arrays, philosophyInfluences, methodologySteps, specialties, stats, brandElements, techPills, influences)
-- 9 live routes + 15 exhibit slug routes in `src/router.ts`
-- Typed interfaces in `src/types/`
-- Some page copy currently lives as literal template text inside `src/pages/*.vue` SFCs and is not in JSON — this is a known extraction dependency.
+Everything below is evaluated against that lifecycle. A "feature" that only pays off if the tool lives for a year is an **anti-feature** here. The tool is disposable; the *output* is what matters.
 
----
-
-## Table Stakes
-
-Features users expect. A markdown export pipeline that lacks any of these will feel broken.
-
-### T1. Deterministic, reproducible output
-**What:** Running the exporter twice on identical input must produce byte-identical files. Sort keys are stable, iteration order is stable, no timestamps in body content.
-**Why expected:** Output is committed to git. Non-deterministic output floods diffs with noise and destroys the "what changed" signal.
-**Complexity:** Low.
-**Dependencies:** None beyond disciplined sort ordering when iterating objects.
-**Note:** A single "generated on" timestamp at the top of `site-content.md` is fine; per-page timestamps inside the vault should use the source data's own `date` fields, not `Date.now()`.
-
-### T2. Build-time integration and standalone script
-**What:** `npm run build` runs the exporter after the Vite build; `npm run build:markdown` runs just the exporter. Both share one implementation.
-**Why expected:** The milestone goal explicitly names both entry points. Standalone is needed for iteration without a full Vite rebuild.
-**Complexity:** Low.
-**Dependencies:** `package.json` scripts, a single exporter entry module importable outside Vite.
-
-### T3. Monolithic document with site-tree heading hierarchy
-**What:** `docs/site-content.md` with `#` (H1) = site title, `##` (H2) = top-level menu pages (Home, Philosophy, Technologies, Case Files, FAQ, Contact, Accessibility), `###`+ for internal page sections. Case Files H2 contains H3 per exhibit, with exhibit sections at H4+.
-**Why expected:** The milestone goal literally says "heading levels follow site tree." A heading hierarchy that skips levels (e.g., H2 → H4) breaks GitHub's auto-TOC and assistive-tech outlines.
-**Complexity:** Medium. Must track current depth while recursively walking data; must rewrite exhibit section headings (which are currently rendered at their own H-level by the Vue layouts) to land at the correct offset.
-**Dependencies:** A mapping from route → display order, plus a heading-depth parameter threaded through every render function.
-
-### T4. Auto-generated table of contents in the monolithic doc
-**What:** A table of contents section between the H1 and the first H2, built from the heading walk. Anchor links use GitHub-flavored markdown slug rules: lowercase, spaces → hyphens, punctuation stripped (except hyphens and underscores).
-**Why expected:** A 15-exhibit, 27-FAQ monolithic doc will be long enough that "browse from the top" is not a reasonable UX. GitHub renders the TOC inline when the file is browsed.
-**Complexity:** Low–Medium. Must mirror the slug algorithm GitHub uses (lower + hyphenate + strip) and de-duplicate collisions with `-1`, `-2` suffixes the way GitHub does.
-**Dependencies:** Heading list captured during render pass; slug utility.
-**Source:** GitHub's slug rules are stable and mirrored by popular libraries (`github-slugger` is the de-facto implementation). HIGH confidence.
-
-### T5. Content-addressable internal cross-references
-**What:** When content in JSON references another page (e.g., FAQ answers that say "see Philosophy page"), the exporter rewrites the reference to the right target for the format:
-- Monolithic: anchor link `[see Philosophy](#philosophy)`
-- Vault: wikilink `[[Philosophy]]`
-**Why expected:** Broken links in exported docs are the #1 smell that an exporter was rushed.
-**Complexity:** Medium. Requires a central route-to-filename and route-to-anchor map, plus a link-rewrite pass that recognizes site-internal URLs (`/exhibits/exhibit-j`, `/philosophy`, etc.) and leaves external URLs alone.
-**Dependencies:** `src/router.ts` is the canonical list. FAQ JSON already carries `exhibitUrl` fields like `/exhibits/exhibit-j` — these must resolve in both formats. HIGH confidence this is needed (verified: 6 `exhibitUrl` entries in `faq.json` plus prose references like "the Philosophy page").
-
-### T6. YAML frontmatter on every vault file
-**What:** Each `.md` in `docs/obsidian-vault/` starts with a `---`-delimited YAML block containing at minimum `title`, `aliases`, `tags`, and (where source data provides it) `date`.
-**Why expected:** Frontmatter is the Obsidian convention for metadata. Without it, the vault looks like a pile of markdown, not an Obsidian vault.
-**Complexity:** Low.
-**Dependencies:** A YAML emitter that quotes strings containing colons, uses list-of-string format for `tags` and `aliases`, and escapes wikilinks with quotes when they appear in property values (Obsidian's documented requirement for `[[Link]]` inside YAML strings).
-**Source:** `obsidianmd/obsidian-help` `en/Editing and formatting/Properties.md`. HIGH confidence.
-
-### T7. Wikilinks between vault notes
-**What:** Internal links in vault files use `[[Note name]]` or `[[Note name|display text]]` syntax, not relative markdown links.
-**Why expected:** Wikilinks are the Obsidian default and the only link format that participates in the graph view, backlinks pane, and link-update-on-rename. The milestone goal explicitly says "Full Obsidian treatment ... `[[wikilinks]]`."
-**Complexity:** Low–Medium. The link rewrite pass (T5) is already required; emitting wikilinks in vault mode is a branch inside that pass.
-**Dependencies:** Same route map as T5. Vault filenames must exactly match the link target (Obsidian matches `[[X]]` to `X.md` by basename, case-insensitive but case-preserving).
-**Source:** `obsidianmd/obsidian-help` `en/Linking notes and files/Internal links.md`. HIGH confidence.
-
-### T8. Folder structure mirrors the menu
-**What:** `docs/obsidian-vault/` top-level folders correspond to the nav menu: Home, Philosophy, Technologies, Case Files, FAQ, Contact, Accessibility. Exhibits live under `Case Files/Exhibits/` (or similar).
-**Why expected:** Milestone goal states "folder structure matches menu." Obsidian renders folders in the file explorer exactly as the filesystem shows them, so the filesystem layout IS the navigation.
-**Complexity:** Low.
-**Dependencies:** A single declaration of the menu → folder map, probably alongside the route map.
-
-### T9. Tag taxonomy for exhibits
-**What:** Each exhibit vault file gets tags drawn from its exhibit properties: `exhibit-type/investigation-report` vs `exhibit-type/engineering-brief`, plus category tags drawn from any findings categories present on the exhibit (already normalized in v5.0).
-**Why expected:** The milestone goal says "exhibit category tags." Obsidian nested tags (`parent/child`) are the idiomatic way to encode typed taxonomies.
-**Complexity:** Low–Medium. Requires deciding the tag namespace up front (see Open Questions).
-**Dependencies:** `exhibitType` discriminant (v2.0) and `findings[].category` (v5.0) are already in place — no data work needed.
-**Source:** `obsidianmd/obsidian-help` `en/Editing and formatting/Tags.md` confirms nested tag syntax and list-format in YAML. HIGH confidence.
-
-### T10. Image handling — skip files, preserve alt text
-**What:** Image references in content are not copied into the output. Instead the exporter emits the alt text as an italicized caption: `*[Image: description of visual content]*`.
-**Why expected:** Milestone goal explicitly says "Images skipped, alt text kept." Preserving alt text keeps the semantic content intact for LLM consumption and for users reading on GitHub.
-**Complexity:** Low.
-**Dependencies:** Source content must actually have alt text. Existing exhibit sections don't currently reference images in prose, so this is mostly defensive; the PagePortraits component and exhibit flagship images would be where this matters if portrait rendering is added later.
-
-### T11. Markdown tables for tabular data (personnel, technologies, findings)
-**What:** Render personnel, technologies, and findings arrays as GitHub-flavored markdown tables, with column headers matching the TypeScript interface field labels. Drop empty columns (e.g., don't emit a "Resolution" column if no finding in that exhibit has a resolution).
-**Why expected:** These are already tables on the site and the data is already typed as `PersonnelEntry[]`, `TechnologyEntry[]`, `FindingEntry[]`. Users coming from GitHub or Obsidian expect markdown tables for tabular data.
-**Complexity:** Medium. Column width padding is trivial; the real work is the column-presence detection pass and escaping pipe characters inside cell content.
-**Dependencies:** v4.0/v5.0 typed arrays. This is why those milestones mattered — without them, finding categories would still be in untyped `string[][]`.
-**See also:** Tabular Data Rendering Strategies section below.
-
-### T12. Accurate heading levels on exhibit sections
-**What:** An exhibit's own section headings (`contextHeading`, `sections[].heading`, `findingsHeading`) must land at the right depth relative to the enclosing document. In the monolithic doc they're H4; in the vault they're H2 (since the exhibit page itself is an H1 title inside the note).
-**Why expected:** The existing exhibit JSON was authored assuming the site layout wraps each exhibit in its own page context, so section headings are written as second-level within the exhibit. The exporter must respect that.
-**Complexity:** Low once the depth parameter is threaded through (T3).
-**Dependencies:** None new.
-
-### T13. FAQ question-per-entry rendering
-**What:** Each FAQ item becomes an H3 (in vault) / appropriate depth (in mono) with the question as heading and the answer as body. Categories become inline tags or a metadata line.
-**Why expected:** The FAQ page is currently an accordion. In markdown, questions-as-headings is the idiomatic equivalent and makes the FAQ TOC-discoverable.
-**Complexity:** Low.
-**Dependencies:** `faq.json`. The `exhibitNote` + `exhibitUrl` fields must trigger a cross-reference callout (T5).
-
-### T14. Stable filenames for vault notes
-**What:** Vault filenames are derived from a deterministic slugify of the page title, with collision avoidance. Exhibit files use `Exhibit A - Cross-Domain SCORM Resolution.md` style (human-readable, matches the site label + title).
-**Why expected:** Obsidian shows filenames as note titles in the sidebar and in wikilink autocomplete. Cryptic filenames break the experience.
-**Complexity:** Low.
-**Dependencies:** Slug utility that tolerates unicode, strips filesystem-hostile characters (`# | ^ : [ ] / \`), and truncates to a safe length.
-**Source:** `obsidianmd/obsidian-help` `en/Linking notes and files/Internal links.md` documents these exact characters as invalid for links: `# | ^ : %% [[ ]]`. HIGH confidence.
-
-### T15. Exhibit sub-content rendering
-**What:** For each exhibit, render all five section variants that appear in the data: `text`, `table`, `timeline`, `metadata`, `flow`. Verified by inspection of `exhibits.json` — these are the only five variants in use.
-**Why expected:** An exporter that silently drops `timeline` or `flow` sections would lose narrative evidence for roughly half the exhibits (timelines appear in investigation reports; flow sections in most engineering briefs).
-**Complexity:** Medium. Each section type needs its own renderer:
-- `text` → heading + paragraphs (split on `\n\n`)
-- `table` → markdown table
-- `timeline` → definition list or bullet list with date as lead
-- `metadata` → markdown table or YAML-like block
-- `flow` → ordered list with each step
-**Dependencies:** Existing typed exhibit section discriminated union (v3.0/v4.0).
+The site is small (23 routes total, all known ahead of time, all on one origin, all static-enough that JSON-sourced slugs are the truth). Treat that as a gift: it lets us skip crawler complexity, queueing, politeness delays, and authentication that real scrapers spend 90% of their code on.
 
 ---
 
-## Differentiators
+## 1. Capture Features
 
-Features that set this exporter apart. Not expected, but they make the vault feel thoughtful.
+What the tool does when it visits a page.
 
-### D1. Case Files index note (MOC) for the vault
-**What:** `docs/obsidian-vault/Case Files/Case Files.md` — an auto-generated Map of Content note that lists all 15 exhibits grouped by type, with one-line descriptions, linked via wikilinks. Each folder also gets an index note.
-**Why valuable:** MOCs (Maps of Content) are the Obsidian-community-standard way to add curated navigation on top of folder-based structure. A vault without index notes forces users to use the file explorer, which is not the intended Obsidian experience.
-**Complexity:** Medium. The grouping logic already exists in `CaseFilesPage.vue`. The exporter just needs to render it as markdown instead of Vue components.
-**Dependencies:** `exhibits.json`, `exhibitType` discriminant.
-**Source confidence:** MEDIUM — "MOC" is a community term popularized by the LYT (Linking Your Thinking) project, not core Obsidian documentation. But it is widely used and community-standard.
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| C1 | Route list from typed sources (hardcoded static list + `exhibits.json` slug enumeration) | table-stakes | trivial | — | Routes are known; no discovery needed. `src/router.ts` and `exhibitLink` fields are the truth. |
+| C2 | Playwright headless Chromium session, single browser context, sequential navigation | table-stakes | trivial | — | Site is ~23 pages. Parallelism adds bugs, not speed. Sequential makes the output deterministic and interleaves cleanly with logging. |
+| C3 | Page-ready detection via `waitForSelector('#main-content')` + `domcontentloaded` | table-stakes | trivial | C2 | Vue SPA with a stable `<main id="main-content">` landmark (confirmed in `App.vue`). Selector-wait beats `networkidle` for SPAs — theme toggles, analytics, and font loaders keep the network alive. |
+| C4 | Per-route URL verification (HTTP status recorded alongside capture) | table-stakes | trivial | C1, C2 | Catches broken exhibit slugs (source-JSON drift) and redirect surprises. `response.status()` is free data — record it, don't gate on it. |
+| C5 | Skip nav / header / footer / skip-link from captured output | table-stakes | trivial | C3 | Scope capture to `<main id="main-content">` only. Otherwise every page starts with the same nav and ends with the same footer, which drowns the editorial signal. |
+| C6 | Capture rendered DOM (`page.$eval('#main-content', el => el.outerHTML)`), not raw HTML from network | table-stakes | trivial | C3 | SPAs have empty `<body>` before hydration. We need the hydrated DOM. |
+| C7 | Handle dynamic content revealed by user interaction (accordions, filters) | **decision required** | moderate | C3, C5 | FAQ page uses an accordion (v6.0). Two options: (a) expand all accordions before capture so all Q/A text is in the doc, (b) capture collapsed state and rely on underlying prose being present in DOM. *Recommendation: pre-expand via `page.evaluate` before capture — editorial review needs the full answer text.* |
+| C8 | Viewport locked to a single size (desktop, e.g. 1280×800) | table-stakes | trivial | C2 | Mobile cards render different DOM shapes (v5.1 personnel cards). Editorial review wants *one* consistent rendering. Choose desktop for maximum content density. |
+| C9 | Fixed theme (light) for capture | table-stakes | trivial | C2 | Theme affects no content, but stabilises snapshots if we ever screenshot. Sets a clean `localStorage.theme = 'light'` before navigation. |
+| C10 | Skip `/portfolio` and `/testimonials` (Vue Router redirects) | table-stakes | trivial | C1 | They resolve to `/case-files`. Capturing them produces duplicate content. Filter from route list. |
+| C11 | Skip `/diag/personnel` and `/review` (internal diagnostic pages) | table-stakes | trivial | C1 | Not part of the editorial site. Dan confirm. |
+| C12 | Handle `NotFoundPage` catch-all | anti-feature | trivial | — | No user-facing editorial content. Skip. |
+| C13 | Screenshots per route alongside Markdown | differentiator | moderate | C3 | Useful for "does this page *look* right?" during editorial review. Visual issues (spacing, overflow, broken layout) don't surface in DOM text. Write to `screenshots/` dir next to the Markdown. PNG, full-page. |
+| C14 | Capture JSON-LD / meta tags / SEO metadata per route | differentiator | trivial | C3 | One-time value: editorial review can flag stale `<meta description>` copy. Small effort — `page.evaluate` on `<head>`. Include as collapsible section per-page. |
+| C15 | Network request log / trace per page | anti-feature | moderate | — | Debug tooling for scrapers. Irrelevant for editorial review. |
+| C16 | Retry / backoff / rate limiting | anti-feature | moderate | — | Local tool hitting a local dev server or Cloudflare CDN. 23 pages, sequential, no politeness needed. |
+| C17 | Authentication / cookies / session state | anti-feature | moderate | — | Public site. No login. |
+| C18 | Capture console errors and page errors | differentiator | trivial | C2 | Cheap (`page.on('pageerror', ...)`). Surfaces JS breakage Dan might not notice via browser. Log to capture report, not into editorial doc. |
+| C19 | Capture against local dev server (`pnpm dev`) vs production | **decision required** | trivial | C1 | *Recommendation: support both, default to production (`pattern158.solutions`).* Production is the canonical source of truth and what human readers see. Dev server useful when iterating on content changes mid-editorial. One CLI flag. |
 
-### D2. Backlinks-friendly cross-references from FAQ to exhibits
-**What:** FAQ answers that reference exhibits produce bidirectional links: the FAQ note wikilinks to the exhibit, and the exhibit's "Referenced in FAQ" callout (auto-generated on the exhibit note) wikilinks back.
-**Why valuable:** Obsidian's backlinks pane already surfaces reverse links automatically — BUT an explicit "Referenced in" section in the note body is visible on GitHub too, which the backlinks pane is not.
-**Complexity:** Medium. Requires a two-pass build: first walk everything to collect references, then emit files with the reverse-index injected.
-**Dependencies:** `exhibitUrl` fields in `faq.json` (already present, 6 entries).
+### Route list for v8.0 (confirmed from `src/router.ts` + `exhibits.json`)
 
-### D3. Obsidian callout blocks for quotes
-**What:** Quote attribution blocks (`quotes[]` in exhibits) render as Obsidian callouts:
-```
-> [!quote] Chief of Learning Services, Electric Boat
-> I'd consider the last couple days a success...
-```
-**Why valuable:** Callouts render as stylized boxes in Obsidian and degrade gracefully to regular blockquotes on GitHub (which ignores the `[!quote]` directive and shows the quote normally). Best of both worlds.
-**Complexity:** Low.
-**Dependencies:** `exhibit.quotes[]` shape (already present).
-**Source:** `obsidianmd/obsidian-help` `en/Editing and formatting/Callouts.md`. HIGH confidence on syntax.
+**Static routes (7 for capture):**
+- `/`
+- `/philosophy`
+- `/faq`
+- `/technologies`
+- `/case-files`
+- `/contact`
+- `/accessibility`
 
-### D4. Aliases for FAQ questions
-**What:** Each FAQ vault note gets `aliases:` in frontmatter covering common phrasings of the question, enabling Obsidian's quick-switcher to find the note by any alias. Exhibit notes get aliases for both the label ("Exhibit A") and the client ("General Dynamics Electric Boat").
-**Why valuable:** Aliases are the #1 reason to use Obsidian frontmatter at all — they make search and wikilink autocomplete dramatically more useful.
-**Complexity:** Low once a policy is set (question → first-sentence alias, exhibit → label + client alias).
-**Dependencies:** None new.
-**Source:** `obsidianmd/obsidian-help` Properties.md confirms `aliases` is a reserved default property. HIGH confidence.
+**Dynamic exhibit routes (15):**
+- `/exhibits/exhibit-a` through `/exhibits/exhibit-o`
 
-### D5. Per-exhibit block anchors for deep linking
-**What:** Key sub-sections (Background, Personnel, Findings, Outcome) get Obsidian block references (`^background`, `^findings`) at the end of their heading paragraphs, so other notes can deep-link with `[[Exhibit A#^findings]]`.
-**Why valuable:** Enables future vault authors (Dan, when taking notes) to reference specific parts of exhibits directly.
-**Complexity:** Low.
-**Dependencies:** None new.
-**Source:** `obsidianmd/obsidian-help` Internal links.md documents `^block-id` syntax. HIGH confidence. Note: block references are Obsidian-only and will appear as literal `^background` in the monolithic doc — only emit them in vault mode.
+**Skipped:** `/portfolio` (redirect), `/testimonials` (redirect), `/diag/personnel` (diagnostic), `/review` (diagnostic), `/:pathMatch(.*)*` (404 catch-all).
 
-### D6. GitHub-renderable monolithic doc (no Obsidian-only syntax)
-**What:** The monolithic `docs/site-content.md` is CommonMark + GFM only. No wikilinks, no callouts with unknown directives, no block refs. Everything renders correctly when browsing on github.com.
-**Why valuable:** The monolithic doc's primary audience is hiring managers skimming on GitHub. Obsidian-isms would show up as broken syntax.
-**Complexity:** Low (just a renderer mode flag).
-**Dependencies:** The renderer must be parameterized by target (`"mono"` vs `"vault"`) from day one.
-
-### D7. Content extraction from Vue SFCs for page copy
-**What:** Pages like HomePage, PhilosophyPage, AccessibilityPage, and ContactPage have significant prose content currently hard-coded in Vue templates. The exporter extracts this via one of three strategies: (a) relocate copy into JSON before exporting, (b) parse SFC `<template>` blocks with a restricted HTML-to-markdown converter, or (c) execute the compiled Vue components and serialize their rendered HTML.
-**Why valuable:** Without this, the exported docs are missing 40%+ of the site's actual content.
-**Complexity:** HIGH. This is the single largest source of risk in the milestone and probably deserves a research flag (see PITFALLS.md).
-**Dependencies:** Depends on the strategy chosen. Strategy (a) is the cleanest and matches the v3.0 "JSON-first data layer" direction but is the most invasive to existing pages.
-
-### D8. Generated-file warning banner
-**What:** First line of every generated file (after frontmatter in vault mode) is an HTML comment: `<!-- AUTO-GENERATED by scripts/build-markdown.ts — DO NOT EDIT — Source: src/data/json/... -->`.
-**Why valuable:** Prevents the inevitable "I edited the docs file and my changes got clobbered" bug report.
-**Complexity:** Trivial.
-**Dependencies:** None.
-
-### D9. Deterministic per-page "created/updated" semantics
-**What:** Vault notes with source data that has a `date` field (exhibits have `date: "2015-2022"`-style ranges) put it in frontmatter as `date:` or `period:`. Notes without source dates omit the field entirely rather than falling back to `Date.now()`.
-**Why valuable:** Obsidian plugins (Dataview, etc.) expect `created:` and `updated:` but NULL/synthetic values poison queries. Better to omit than to fake.
-**Complexity:** Low.
-**Dependencies:** None.
-
-### D10. Tag hierarchy that matches menu structure
-**What:** Beyond exhibit-category tags, every vault note gets a section tag derived from its folder: `#site/philosophy`, `#site/faq`, `#site/case-files/engineering-brief`. Enables Obsidian tag-pane browsing as an alternative to folder browsing.
-**Why valuable:** Redundant nav paths are good in Obsidian — some users navigate by folders, others by tags, others by graph view.
-**Complexity:** Low.
-**Dependencies:** Menu map (T8).
+**Total:** 22 pages captured.
 
 ---
 
-## Anti-Features
+## 2. Conversion Features
 
-Features to explicitly NOT build. Reasons included so they don't get re-added later.
+Rendered HTML → Markdown.
 
-### A1. Dataview queries inside vault notes
-**Why avoid:** Dataview is a community plugin, not core Obsidian. Any `dataview` code block in a generated note breaks when the plugin isn't installed AND emits literal `\`\`\`dataview` on GitHub. If the vault content is supposed to be queryable, the exporter should pre-compute and emit plain markdown tables.
-**Instead:** Pre-compute any cross-exhibit rollups (e.g., "all exhibits with HIGH severity findings") and emit them as regular markdown tables in MOC notes.
-
-### A2. Copying images into the vault
-**Why avoid:** The milestone explicitly says images are skipped. Committing images to `docs/` balloons the repository and duplicates content that already lives in `public/` for the live site.
-**Instead:** Italicized alt-text captions (T10). If visual fidelity becomes important later, link to the live site's image URL as an external `![](https://...)` reference.
-
-### A3. Bidirectional sync or round-tripping
-**Why avoid:** This is an export, not a sync. Parsing edited `docs/` files back into JSON would require a full markdown AST walker and would permanently blur the ownership of content.
-**Instead:** `docs/` is read-only output. Any content change happens in `src/data/json/` and then gets re-exported.
-
-### A4. Search index (flexsearch, lunr, etc.)
-**Why avoid:** GitHub has built-in search over markdown files in a repo. Obsidian has built-in full-text search over vault files. Shipping a third search index is pure overhead.
-**Instead:** Nothing — rely on both platforms' native search.
-
-### A5. Graph view customization or custom CSS snippets
-**Why avoid:** These are per-vault user preferences, not vault content. The exporter should produce a vault that works with default Obsidian and let users customize their own instance.
-**Instead:** Nothing.
-
-### A6. Reproducing Vue component behavior
-**Why avoid:** The ExhibitCard, FaqAccordionItem, etc. are presentational. The data they present is what goes in markdown. Trying to "port" the component structure into markdown makes the exporter a brittle duplicate of the render tree.
-**Instead:** Export from JSON/data, not from the rendered DOM. Vue components should only be consulted when the copy isn't already in JSON (D7).
-
-### A7. Per-section-type custom YAML schemas
-**Why avoid:** Giving `timeline` sections their own frontmatter fields leaks internal section-type plumbing into vault metadata. The frontmatter should describe the whole note (title, tags, aliases, date), not the internal section shapes.
-**Instead:** Frontmatter is page-level only. Section-level metadata goes in body content where it's visible on GitHub.
-
-### A8. Lossless round-trip fidelity with Vue templates
-**Why avoid:** Trying to match the exact rendered HTML of Vue templates (button styles, badge colors, card layouts, etc.) pulls the exporter toward HTML-in-markdown or custom CSS — neither of which works on GitHub or Obsidian out of the box.
-**Instead:** Accept semantic fidelity (right text, right headings, right links, right tables) and skip visual fidelity.
-
-### A9. Multi-language / i18n handling
-**Why avoid:** The site is English-only and has no i18n infrastructure. Adding a language axis to the exporter adds complexity with zero users.
-**Instead:** Single English output. Revisit if i18n is ever added to the site itself.
-
-### A10. Hot-reload / watch mode for the exporter
-**Why avoid:** The exporter runs on `npm run build` and the standalone `build:markdown` script. Watch mode implies the generated files are part of a feedback loop during development — but they're committed artifacts for browsing, not dev-loop files.
-**Instead:** Run `build:markdown` manually when you want to regenerate. If this feels painful, the fix is making the script fast, not adding a watcher.
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| V1 | Turndown as HTML→Markdown engine | table-stakes | trivial | C6 | Mature, actively maintained, plugin ecosystem, used by web2md and similar tools. Training data and community converge here. |
+| V2 | `turndown-plugin-gfm` for tables | table-stakes | trivial | V1 | Personnel, technologies, findings all render as tables. Without GFM plugin, tables become garbage. |
+| V3 | Configure `headingStyle: 'atx'`, `bulletListMarker: '-'`, `codeBlockStyle: 'fenced'` | table-stakes | trivial | V1 | Obsidian-friendly defaults, match Dan's vault conventions. |
+| V4 | Custom Turndown rule for badge/pill spans (strip classes, preserve text) | table-stakes | trivial | V1 | Site has many decorative badges (`.badge-aware`, `.impact-tag`, severity pills). Raw Turndown keeps them as inline text which is correct — just don't let them disappear silently. |
+| V5 | Custom Turndown rule for images: alt-text only (no src, no base64, no reference links) | table-stakes | trivial | V1 | Editorial review is about copy. Alt text *is* copy. Image bytes are not. Emit `[image: alt text]` or similar so alt-text gaps are visible. |
+| V6 | Preserve semantic heading levels from source DOM | table-stakes | trivial | V1 | DOM is already correct — page has one `<h1>`, sections use `<h2>`/`<h3>`. Turndown default behaviour is correct. |
+| V7 | Skip `aria-hidden="true"` elements | table-stakes | trivial | V1 | Decorative icons, SVG noise. Register a custom rule to filter them. |
+| V8 | Readability.js content extraction | anti-feature | moderate | — | Designed for news articles with article/aside/sidebar ambiguity. We already know the content region (`#main-content`). Readability adds guesswork where we have certainty. |
+| V9 | Reading-order preservation via DOM traversal order | table-stakes | trivial | V1 | Turndown walks the DOM in source order. Site has no CSS `order:` flex shenanigans (confirmed by project context — no animations/reorder patterns in v1.0-v6.0 scope). DOM order = reading order. |
+| V10 | Collapse multiple blank lines to one | table-stakes | trivial | V1 | Turndown can over-emit whitespace with nested divs. Post-process with `/\n{3,}/g → '\n\n'`. |
+| V11 | Strip `<script>`, `<style>`, `<noscript>` | table-stakes | trivial | V1 | Turndown defaults handle this but confirm explicitly. |
+| V12 | Preserve link hrefs as Markdown links | table-stakes | trivial | V1 | Editorial review wants to see "link to X" — helps catch broken internal refs. Default Turndown behaviour. |
+| V13 | Rewrite absolute internal links to relative-within-doc anchors | differentiator | moderate | V1, D3 | Nice if `[Exhibit A](/exhibits/exhibit-a)` in body copy links to the exhibit's section *in the same Markdown doc*. Editorial review stays in one doc. Moderate effort; skip if time-pressed. |
+| V14 | Syntax-highlighted code blocks (language detection) | anti-feature | trivial | — | Site has no code samples in prose. Not needed. |
+| V15 | Math / LaTeX preservation | anti-feature | trivial | — | Site has no math. |
 
 ---
 
-## Obsidian Conventions Reference
+## 3. Document-Shape Features
 
-All items in this section are verified against `github.com/obsidianmd/obsidian-help` (`master` branch) — the canonical Obsidian help vault. This is the highest-authority source short of the closed-source app binary itself.
+How the captured pages assemble into one Markdown doc.
 
-### Frontmatter: default (reserved) property names
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| D1 | Single concatenated Markdown file | table-stakes (decided) | trivial | V1 | Decided in milestone framing. One file = one editorial read. Multi-file fragments the review and breaks Ctrl-F across the site. |
+| D2 | Frontmatter block at doc top (capture date, base URL, git SHA of site, tool version, route count) | table-stakes | trivial | — | Provenance. Essential when the doc lives in Obsidian weeks later and Dan asks "when was this captured, against what?" |
+| D3 | Per-page section heading with route path (e.g. `# Route: /exhibits/exhibit-a`) | table-stakes | trivial | V9 | Sets a stable Markdown anchor, gives each page a visual boundary. Use `#` for route headers and demote page-native headings by one level (site's `<h1>` becomes `##` in the combined doc). |
+| D4 | Table of contents at top (route list with anchor links) | table-stakes | trivial | D3 | Navigating a single 15k-line Markdown doc without ToC is painful. Auto-generated from D3. |
+| D5 | Per-page metadata block (URL, HTTP status, page title, meta description, capture timestamp) | table-stakes | trivial | C4, C14, D3 | Small YAML-ish block or callout beneath each route heading. Editorial review needs this context. |
+| D6 | Horizontal rule (`---`) between pages | table-stakes | trivial | D3 | Visual separator. Cheap. |
+| D7 | Route sections ordered: home → static pages → exhibits A-O | table-stakes | trivial | D3 | Matches site IA and reading order a visitor would take. Alphabetical exhibits match existing IA. |
+| D8 | One file per route (multi-file output) | anti-feature | moderate | — | Contradicts D1 (milestone decision). Fragments editorial flow. Dan already rejected. |
+| D9 | HTML sidecar alongside Markdown | anti-feature | moderate | — | If Markdown fidelity fails, debug by inspecting HTML. But Turndown is mature. Don't preemptively add a second output. |
+| D10 | Diff against previous capture (Markdown-level diff) | differentiator | moderate | D1 | Useful if the tool is re-run during editorial pass and Dan wants to see what changed. `git diff` does this for free if the output file lives in a git-tracked location. **Skip in-tool; rely on git.** |
 
-Source: `en/Editing and formatting/Properties.md`.
+---
 
-Obsidian ships with three properties that have special behavior:
+## 4. Output & Storage Features
 
-| Property | Type | Behavior |
-|---|---|---|
-| `tags` | List | Indexed by the tag pane. Must be a YAML list of strings. Do NOT prefix values with `#` inside the list. Nested tags use `/`. |
-| `aliases` | List | Alternate names used in quick-switcher, wikilink autocomplete, and unlinked mentions. Must be a YAML list. |
-| `cssclasses` | List | Adds CSS classes to the note wrapper for styling via CSS snippets. Not relevant to this exporter unless custom styling is needed. |
+Where the file goes and how re-runs behave.
 
-Additional conventional (but not reserved) properties commonly used:
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| O1 | Configurable output path (CLI arg or env var) | table-stakes | trivial | D1 | Output goes to Obsidian vault (outside repo), per milestone framing. Don't hardcode paths. |
+| O2 | Idempotent overwrite (last run wins) | table-stakes | trivial | O1 | The file is derived; regenerating is the happy path. Timestamped filenames create clutter nobody cleans up. If Dan wants history, he puts the target file in a git-tracked dir (vault *is* git-tracked — confirmed from CLAUDE.md) and commits between runs. |
+| O3 | Secondary copy into `.planning/research/` or equivalent repo-local path | differentiator | trivial | O1 | Cheap, and makes the captured doc easy to reference in phase plans without asking Dan to open the vault. Dual-write with the vault path primary. |
+| O4 | Screenshots output dir alongside Markdown | differentiator | trivial | C13, O1 | Already covered by C13. |
+| O5 | Run summary printed to stdout (routes captured, elapsed, errors, byte count of output) | table-stakes | trivial | — | Free ergonomics. No UI complexity. |
+| O6 | JSON run-report sidecar (machine-readable summary) | anti-feature | moderate | — | Solves no human problem. The tool is invoked by Dan, not chained into automation. |
+| O7 | Emit warning/log when a route returns non-200 | table-stakes | trivial | C4, O5 | Don't swallow errors. Surface 404s and 500s loudly. |
+| O8 | Continue past per-route failures (don't abort whole run) | table-stakes | trivial | O7 | One broken exhibit shouldn't kill a 22-page capture. Record the error in the doc at the route's section, keep going. |
 
-| Property | Type | Convention |
-|---|---|---|
-| `title` | Text | Override the displayed title; overrides the filename in some plugins. |
-| `date` / `created` / `updated` | Date or Text | Widely used by community plugins (Dataview, Calendar). No core Obsidian behavior; format matters only if a plugin consumes them. |
-| `publish` | Checkbox | Used by Obsidian Publish. Omit if not using Publish. |
-| `permalink` | Text | Used by Obsidian Publish. Omit. |
-| `description` | Text | Common convention, no special behavior. |
+---
 
-### Frontmatter: YAML format rules (verified)
+## 5. Editorial Review Features
 
-- Property names case-sensitive; values follow YAML spec.
-- Markdown formatting is NOT rendered inside property values — intentional limitation.
-- Nested properties (maps/objects) are not supported in the Obsidian UI (they render only in source mode). Stick to flat keys.
-- Bulk-editing / multi-value operations are not supported in-UI.
-- **Wikilinks inside text properties must be quoted**: `link: "[[Episode IV]]"`. Unquoted wikilinks in properties break.
-- Each property name must be unique within a note.
+The human-in-the-loop stage. These are **practices and artifact shapes**, not tool features — but they belong here because they define what the capture doc has to support.
 
-### Links: syntax matrix (verified)
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| E1 | Dan reads the captured Markdown in Obsidian | table-stakes | N/A | O1 | The whole point. Obsidian gives folding, graph, backlinks, Ctrl-F. No tool change needed beyond putting the file in the vault. |
+| E2 | Dan annotates the captured doc in place (strikethroughs, inline comments, `TODO:` markers) | table-stakes | N/A | E1 | Standard editorial workflow. Capture doc is a working copy. Re-runs must not clobber annotations unprompted — hence O2 overwrite is fine *if* annotations happen in a copy, not the source. See open question Q1. |
+| E3 | Findings document as separate artifact | table-stakes | N/A | E1, E2 | The findings doc is the deliverable that feeds v9.0. Captured Markdown is raw material; findings doc is analysis. Keep them separate. |
+| E4 | Findings doc structured sections: Inconsistencies / Structural Issues / Copy Changes / Alignment Gaps / Open Questions | table-stakes | trivial | E3 | Matches NN/g and standard content audit patterns. Each finding is NTSB-style: what's wrong, where (route + heading), why it matters. Mirrors existing `FindingEntry` conventions from v5.0 — diagnostic, not observational. |
+| E5 | Findings cross-referenced to career positioning docs | table-stakes | trivial | E3 | Milestone explicitly names `career/reference-data/design-philosophy-essay.md`, `career-values-reference.md`, `case-study-gp-accessibility-signoff.md` as the alignment benchmarks. Findings cite which document the captured copy deviates from. |
+| E6 | Findings prioritised (blocker / should-fix / nice-to-have) | table-stakes | trivial | E3 | v9.0 scoping needs "what *must* change before rebuild" vs "what *could* change". |
+| E7 | Findings doc is a template the tool scaffolds | differentiator | trivial | E3 | Tool emits an empty `findings-template.md` with section headers Dan then fills. Saves 2 minutes. Low value but low cost. |
+| E8 | Automated copy-style checker (prose linting, readability score) | anti-feature | significant | — | Scope creep. Adds dependencies for marginal value. Dan's editorial judgment is the value; a linter can't replicate it. |
+| E9 | Inconsistency *detection* from the capture doc | anti-feature | significant | — | "Find all mentions of X and flag where they disagree" sounds great; in practice needs NLP or lots of hand-written rules. Dan's eyes catch these in one read. Revisit in v9.0 if the rebuilt site accretes more pages. |
 
-Source: `en/Linking notes and files/Internal links.md` and `en/Linking notes and files/Embed files.md`.
+---
 
-| Goal | Syntax | Notes |
-|---|---|---|
-| Link to a note | `[[Note name]]` or `[[Note name.md]]` | Equivalent; `.md` optional. |
-| Link with display text | `[[Note name\|Display]]` | Pipe separator. Use for one-off labels; prefer `aliases` for reusable alternate names. |
-| Link to a heading in another note | `[[Note#Heading]]` | Heading text must match exactly. |
-| Link to a sub-heading | `[[Note#Heading#Subheading]]` | Multiple `#` permitted. |
-| Link to a block | `[[Note#^block-id]]` | Block IDs are Latin letters, numbers, dashes only. |
-| Embed a note inline | `![[Note]]` | Renders the note's content inline in Obsidian. On GitHub this shows as literal `![[Note]]` — **only use embeds in vault mode**. |
-| Embed a heading or block | `![[Note#Heading]]` / `![[Note#^id]]` | Same caveat. |
-| Markdown alternative | `[text](Note%20name.md)` | URL-encoded spaces. Works in both Obsidian and GitHub but loses wikilink benefits (no autocomplete, no auto-update on rename). |
+## 6. Milestone Audit Features
 
-**Invalid filename characters** (Obsidian-documented): `# | ^ : %% [[ ]]`. Also avoid OS filesystem reserved characters (`< > : " / \ | ? *` on Windows).
+The v8.0 → v9.0 decision record.
 
-### Tags: format rules (verified)
+| # | Feature | Classification | Complexity | Depends On | Rationale |
+|---|---------|----------------|------------|------------|-----------|
+| A1 | Decision record artifact (one doc, not a deck) | table-stakes | trivial | E3 | Lives in `.planning/` alongside `v7.0-ABORT-NOTICE.md`. Same pattern: name it plainly (`v9.0-DIRECTION-DECISION.md` or similar), cite the findings doc and capture doc, state the verdict. |
+| A2 | Direction decision sections: context, options considered, verdict, rationale, retained work, next actions | table-stakes | trivial | A1 | Mirrors `v7.0-ABORT-NOTICE.md` structure — it works; reuse it. |
+| A3 | Explicit list of v9.0 candidates with go/no-go per option (static HTML rebuild, content rewrite only, framework rebuild, hybrid) | table-stakes | trivial | A1 | Forces the decision to engage with alternatives rather than defaulting. |
+| A4 | Signals that informed the decision (what the capture + findings surfaced) | table-stakes | trivial | A1 | Makes the decision reviewable later. If v9.0 drifts, future-Dan can reread and check whether the signals still apply. |
+| A5 | Rosetta Stone alignment check | table-stakes | trivial | A1 | Milestone framing explicitly connects v8.0 to the longer-term multi-framework portfolio vision. Decision must state: "does this direction serve Rosetta Stone, work against it, or is it orthogonal?" |
+| A6 | Updated `PROJECT.md` and `MILESTONES.md` entries | table-stakes | trivial | A1 | Existing GSD workflow. Handled by `/gsd:complete-milestone`. |
 
-Source: `en/Editing and formatting/Tags.md`.
+---
 
-- Inline tags: `#tagname` in body content.
-- Frontmatter tags: YAML list under `tags:`, without `#` prefix.
-- Allowed characters: letters, numbers, `_`, `-`, `/` (for nesting), most unicode.
-- Must contain at least one non-numeric character (`#1984` is invalid, `#y1984` works).
-- Case-insensitive but casing is preserved on first creation.
-- **No spaces** — use camelCase, PascalCase, snake_case, or kebab-case.
-- Nested tags: `#exhibit-type/investigation-report` matches both the parent `#exhibit-type` and the full nested path in search.
-
-### Callouts (verified, relevant for quotes)
-
-Source: `en/Editing and formatting/Callouts.md`.
+## Feature Dependency Map
 
 ```
-> [!quote] Optional title
-> Quote body. Can span multiple lines.
+C1 (route list) → C4 (status check)
+C2 (browser)    → C3 (ready detection) → C5 (scope to main) → C6 (hydrated DOM)
+                                              ↓
+                            V1..V12 (HTML→Markdown conversion)
+                                              ↓
+              D1 (single file) → D3 (route headings) → D4 (ToC) → D5 (per-page meta)
+                                              ↓
+              O1 (output path) → O2 (idempotent) → O5 (run summary)
+                                              ↓
+              E1 (read) → E2 (annotate) → E3 (findings doc) → E4..E6
+                                              ↓
+              A1 (decision doc) → A2..A5 → A6 (evolve project docs)
 ```
 
-Valid types include `note`, `info`, `tip`, `warning`, `danger`, `quote`, `abstract`, `example`. On GitHub, the `[!quote]` directive is ignored and the content renders as a standard blockquote — graceful degradation.
-
-### MOCs (Maps of Content)
-
-**Source confidence:** MEDIUM (community convention, not core Obsidian doc).
-
-A MOC is an index note that wikilinks out to a collection of related notes. By convention it lives at the root of its folder and shares the folder's name (e.g., `Case Files/Case Files.md`). The note body is usually a hand-curated or auto-generated outline with links, sometimes with short annotations. Obsidian does not enforce any MOC structure — it's pure convention — but the practice is widespread and the term is understood.
+Each arrow is "consumes output of". The chain is short and linear — which is the correct shape for a disposable tool feeding a human editorial pass.
 
 ---
 
-## Tabular Data Rendering Strategies
+## Recommended Scope for v8.0
 
-The site has three first-class typed tables (v4.0): `personnel`, `technologies`, `findings`. The exporter has to pick a markdown rendering strategy for each. Options evaluated:
+### IN (table-stakes, ship this)
 
-| Strategy | Pros | Cons | Verdict |
-|---|---|---|---|
-| **GitHub-flavored markdown tables** | Universal, renders everywhere, grep-friendly, preserves tabular relationships | Wide tables wrap awkwardly on narrow screens (GitHub, Obsidian mobile); pipe characters in cell content must be escaped | **Recommended for `personnel` and `technologies`** |
-| **Definition lists** (`term : definition`) | Natural for name-value pairs | GitHub doesn't render them as definition lists (they appear as literal text with colons); Obsidian renders them with a plugin only | Reject — portability failure |
-| **Nested headings** (`#### Person Name\n- Title: ...\n- Org: ...`) | Generates TOC entries; each entry is wikilink-target-able in Obsidian | Enormous vertical sprawl; 66 personnel entries become 66 headings; pollutes heading hierarchy | Reject for personnel/technologies — acceptable only for findings where there are ~4 per exhibit and each finding has real narrative content |
-| **HTML tables** (`<table>`) | Full control over width and multi-line cells | Break in many Obsidian themes; ugly in raw markdown view; defeats "idiomatic markdown" goal | Reject |
+**Capture:** C1, C2, C3, C4, C5, C6, C7 (pre-expand FAQ accordions), C8, C9, C10, C11, C18 (console errors to log)
 
-### Specific recommendations
+**Conversion:** V1, V2, V3, V4, V5, V6, V7, V9, V10, V11, V12
 
-- **Personnel table** → GitHub markdown table with columns: Name, Title, Organization (drop any column where all rows are empty; for `entryType: 'group'` entries render the single populated field in the Name column with an italicized *(group)* marker).
-- **Technologies table** → GitHub markdown table with columns: Technology, Role/Purpose, Notes.
-- **Findings table** → Hybrid: a nested-heading-per-finding (`#### Finding: ...`) with the supporting fields (description, resolution, outcome, category, severity) as a short bullet list beneath. Rationale: findings have real prose bodies that are badly cramped in table cells, and there are only ~4 per exhibit. Category and severity can also be rendered as inline tags (`#severity/high #category/architecture`) for Obsidian filtering.
-- **Generic `sections[].type === "table"` blocks** → GitHub markdown table from the raw `columns` + `rows` arrays. Straightforward.
-- **Timeline sections** → Bullet list with date-bolded lead: `- **September 5, 2017** — Dan Responds: body text here.`  Avoid tables for timelines because the `body` field is long-form prose.
-- **Flow sections** → Ordered list (`1.`, `2.`, ...) since flow steps are inherently sequential.
-- **Metadata sections** → Two-column markdown table (`| Key | Value |`) since all metadata sections inspected are flat key-value pairs.
+**Document shape:** D1, D2, D3, D4, D5, D6, D7
 
-### Pipe-escaping rule (critical)
+**Output:** O1, O2, O5, O7, O8
 
-Any cell content that contains a literal `|` must escape it as `\|` or wrap the cell in `` ` `` backticks. Content with newlines inside a cell must be replaced with `<br>` (GFM) or joined with `; `. Content in personnel `title` fields currently has no pipes (verified by inspection of `exhibits.json`), but the escape pass is still required defensively.
+**Editorial:** E1, E2, E3, E4, E5, E6
 
----
+**Audit:** A1, A2, A3, A4, A5, A6
 
-## Internal Link Rewriting: Per-Format Rules
+### CONSIDER (differentiators, include if easy)
 
-The site has internal links in several places:
-- `faq.json` → `exhibitUrl: "/exhibits/exhibit-j"` (6 entries) — structured.
-- FAQ answer prose → phrases like "see Philosophy page", "see the FAQ" — unstructured.
-- Exhibit section body text → generally self-contained, no cross-exhibit prose links detected.
-- Vue SFC page templates → `<RouterLink to="/philosophy">` — only visible to the exporter if Strategy (a) of D7 is chosen (copy relocated to JSON).
+- **C13 — Screenshots per route.** Marginal complexity, high editorial value for layout issues. *Recommend: include.*
+- **C14 — SEO metadata capture.** Trivial. *Recommend: include.*
+- **O3 — Dual-write to `.planning/`.** Trivial and convenient. *Recommend: include.*
+- **E7 — Scaffold empty findings-template.** Trivial, mild ergonomics. *Recommend: include.*
+- **V13 — Rewrite internal links to in-doc anchors.** Moderate effort; real editorial value. *Recommend: include if phase budget allows; defer otherwise.*
 
-### Rewrite rules
+### OUT (anti-features, don't build)
 
-| Source form | Monolithic target | Vault target |
-|---|---|---|
-| `/exhibits/exhibit-j` | `[Exhibit J](#exhibit-j-gm-course-completion-investigation)` (GFM slug of the heading) | `[[Exhibit J - GM Course Completion Investigation]]` |
-| `/philosophy` | `[Philosophy](#philosophy)` | `[[Philosophy]]` |
-| `/faq#question-id` | `[FAQ: ...](#faq-question-id)` | `[[FAQ#Question text]]` |
-| External `https://...` URL | Preserved as-is | Preserved as-is |
-| Prose phrase "see the Philosophy page" (unstructured) | Left as-is (no autolinking of prose) | Left as-is |
-
-**Rationale for not autolinking prose:** Auto-detecting "Philosophy page" in free text and rewriting it as a link is an NLP problem with a high false-positive rate. The structured link sources (`exhibitUrl`, explicit route strings) cover the high-signal cases; unstructured prose references stay as prose.
-
-**Slug collision handling:** When two headings would produce the same slug (e.g., two "Background" sections in different exhibits in the monolithic doc), append `-1`, `-2`, etc., matching GitHub's behavior. The `github-slugger` npm package implements this correctly; reimplementation is ~30 lines.
+- Readability.js content extraction (V8) — we already have a known content region
+- Multi-file output (D8) — contradicts milestone decision
+- HTML sidecar (D9) — no known need
+- In-tool diff (D10) — git does it
+- JSON run-report (O6) — no consumer
+- Network log / trace (C15) — debug-tool scope
+- Retry / backoff (C16) — single origin, tiny site
+- Authentication (C17) — public site
+- NotFoundPage capture (C12) — no editorial content
+- Automated copy linter (E8) — adds deps for marginal value
+- Automated inconsistency detection (E9) — rebuild it in v9.0+ if the page count grows
 
 ---
 
-## MVP vs Stretch Prioritization
+## Opinionated Summary
 
-If scope pressure demands a cut, the minimum viable exporter is T1–T15 (all Table Stakes). That produces a working, committed, browse-able pair of artifacts. Differentiators D1, D3, D4, D6, D8 are low-cost additions that dramatically improve perceived quality and should be included if the MVP comes in under budget. D2, D5, D7 are higher-cost and should be sequenced as follow-up work.
+The right shape for v8.0 is a **~200-line script** (`scripts/editorial/capture-site.ts` or similar) that:
 
-**Hard minimum (cannot ship without):**
-T1 (determinism), T2 (build integration), T3 (heading hierarchy), T5 (link rewriting), T6 (frontmatter), T7 (wikilinks), T8 (folder structure), T11 (tables), T15 (all section types rendered).
+1. Reads the route list from `src/router.ts` exports + `exhibits.json` (no sitemap parsing, no crawl).
+2. Launches Playwright, navigates each route sequentially, waits for `#main-content`, pre-expands accordions, snapshots the hydrated `outerHTML` of `#main-content`.
+3. Runs each snapshot through Turndown + GFM plugin with a small custom-rule pack (strip aria-hidden, image→alt, badge passthrough).
+4. Assembles one Markdown file with frontmatter, ToC, and per-route sections separated by `---`.
+5. Writes to the vault path (primary) and `.planning/research/` (mirror).
+6. Prints a summary, exits non-zero if any route 404'd or errored.
 
-**Near-minimum (ship is ugly without):**
-T4 (TOC), T9 (tags), T10 (image handling), T12 (heading depth), T13 (FAQ), T14 (filenames).
+Then Dan opens the captured doc in Obsidian, reads it, annotates it, writes `FINDINGS.md`. Then a short `v9.0-DIRECTION-DECISION.md` cites both and states the rebuild direction. That's the milestone.
 
-**Quick wins to include in MVP if possible:**
-D3 (callouts — low effort, big polish), D6 (mono-doc GFM-only mode — forced by T3 anyway), D8 (generated-file banner — trivial), D4 (aliases — low effort).
+The discipline here: **every feature not on the IN list makes the tool live longer than its purpose.** The tool should be deletable once v9.0 direction is locked, or trivially re-runnable as a sanity check against future iterations. No framework, no CLI lib heavier than `mri`/`yargs`/bare `process.argv`, no plugin system, no config file.
 
 ---
 
-## Open Questions
+## Open Questions for Dan
 
-These are genuine unknowns that will block or shape implementation and should be resolved before or during the requirements phase.
+**Q1 — Re-run and annotations:** If Dan annotates the captured doc inside Obsidian and then re-runs the capture, O2 (idempotent overwrite) clobbers the annotations. Options:
+- (a) Tool always overwrites; annotations live in a *second* file (`EDITORIAL-NOTES.md`) that references the capture.
+- (b) Tool refuses to overwrite if the target file has been modified since last capture (mtime check).
+- (c) Capture filename is content-hash-suffixed (`site-capture-2026-04-19.md`); Dan picks which to annotate.
+- (d) Capture lives in the vault's git, and Dan relies on git to preserve annotations via commits between runs.
 
-1. **Where does page copy for HomePage/PhilosophyPage/ContactPage live?** Significant prose is currently in Vue SFC templates, not JSON. Does v7.0 also move that copy into JSON (D7 strategy a), or does the exporter parse SFCs (strategy b/c)? This single decision probably doubles or halves milestone scope. **Strong recommendation:** extract copy to JSON as part of v7.0 — it aligns with the v3.0 "CMS-ready data layer" direction and makes v7.0 a reinforcing investment rather than a one-off.
+*Recommendation: (a) — clean separation of raw capture and editorial notes. Simplest mental model.*
 
-2. **Tag namespace for exhibit categories.** Should the tag be `#exhibit-type/investigation-report` or `#case-file/investigation-report` or just `#investigation-report`? The nested form is recommended for Obsidian-idiomatic navigation, but requires a naming decision.
+**Q2 — Production vs dev capture (C19):** Default to production URL, or to `pnpm dev`? Production is the canonical source of truth for editorial work; dev is useful during active content editing. *Recommendation: default production, CLI flag `--base-url` to override.*
 
-3. **Should FAQ items be one note per question, or one note per page with questions as H3 sections?** One-note-per-question maximizes wikilink granularity (you can `[[What does 28 years of experience actually mean]]`) but creates 27 small files. One-note-per-page keeps the vault cleaner but makes wikilinks coarser. Recommend: one note per page, questions as H3, with block anchors (`^id`) for deep linking.
+**Q3 — FAQ accordion handling (C7):** Confirm: pre-expand all accordions before capture so all Q/A text is in the doc. Alternative (collapse-state capture) is worse because Markdown won't reflect the rendered-after-interaction state.
 
-4. **Does the monolithic doc include ALL 15 exhibit details, or just a summary with links?** If all details inline, the file is long (estimated 50-100 KB). If summaries only, the "entire site in one file" promise isn't met. Recommend: all details inline — GitHub handles long markdown files fine, and the TOC + anchor links make navigation usable.
+**Q4 — Diagnostic pages (C11):** Confirm `/diag/personnel` and `/review` are excluded. The `ReviewPage` route suggests it might be a reviewer-facing page — if so, should it be captured? If it's internal QA tooling, skip it.
 
-5. **What happens to the `/review` and `/diag/personnel` routes?** These are diagnostic/internal routes not in the user-facing menu. Recommend: exclude from both outputs. They're not part of the "site" that the export is meant to preserve.
+**Q5 — Screenshots (C13):** Include or skip? They add ~3-5MB of PNG to the output tree but are valuable for layout sanity checks during editorial review. Cheap to add, cheap to delete later.
 
-6. **Exhibit filename format — `Exhibit A.md` or `Exhibit A - Title.md` or `exhibit-a.md`?** This affects wikilink ergonomics (`[[Exhibit A]]` is most natural) and filesystem browsing legibility (`Exhibit A - Cross-Domain SCORM Resolution.md` is most informative). Recommend: `Exhibit A - Short Title.md` with `aliases: ["Exhibit A", "Cross-Domain SCORM Resolution", "Electric Boat"]` so both wikilink forms work.
+**Q6 — Internal link rewriting (V13):** Worth the extra complexity, or skip? Editorial review *is* easier when `[See Exhibit A](/exhibits/exhibit-a)` clicks within the doc, but it's not load-bearing. Skip if it pushes v8.0 timeline; add in a later polish phase if worth it.
 
-7. **Does the `docs/` folder get a `.gitattributes` entry marking generated files as linguist-generated?** Would keep the exporter's output from inflating Dan's GitHub language stats. Low-cost, recommend yes.
+**Q7 — Output path primary location:** Where in the Obsidian vault does the capture live? Candidates: `career/website/captures/`, `career/reference-data/`, a new `career/site-capture/` directory. Needs Dan's IA preference.
 
-8. **What Node/TypeScript stack does the exporter run on?** Vite uses Node + ESM. The exporter should be plain TypeScript compiled on the fly (`tsx` or `vite-node`) to keep one toolchain — avoid introducing `ts-node`, Babel, etc. See STACK.md for detail.
+**Q8 — Findings doc template (E7):** Auto-scaffold or not? Trivial either way. If yes, which sections beyond the recommended five (Inconsistencies / Structural Issues / Copy Changes / Alignment Gaps / Open Questions)?
 
 ---
 
 ## Sources
 
-- `github.com/obsidianmd/obsidian-help` (master branch, authoritative Obsidian help vault)
-  - `en/Editing and formatting/Properties.md` — YAML frontmatter conventions, default property names, format rules
-  - `en/Linking notes and files/Internal links.md` — wikilinks, heading links, block links, aliases, invalid characters
-  - `en/Linking notes and files/Embed files.md` — embed syntax (`![[...]]`)
-  - `en/Editing and formatting/Tags.md` — tag format rules, nested tags, YAML list format
-  - `en/Editing and formatting/Callouts.md` — callout syntax, gracefully-degrading directives
-- `src/data/json/exhibits.json` (inspected — all 5 section variants confirmed: text, table, timeline, metadata, flow)
-- `src/data/json/faq.json` (inspected — 6 `exhibitUrl` cross-references confirmed)
-- `src/router.ts` (inspected — 9 primary routes, 2 redirects, 1 dynamic exhibit route, 2 diag routes, 1 catch-all)
-- `.planning/PROJECT.md` (inspected — v7.0 milestone goals)
-- GitHub Flavored Markdown slug behavior: community-standard, implemented by `github-slugger` npm package. MEDIUM confidence (no single canonical spec document, but implementation is stable and widely mirrored).
-- MOC (Map of Content) convention: Linking Your Thinking community. MEDIUM confidence (community convention, not core Obsidian).
+- [Playwright waitForLoadState — BrowserStack (2026)](https://www.browserstack.com/guide/playwright-waitforloadstate) — `networkidle` unreliable for SPAs with ongoing polling/analytics
+- [Playwright WaitUntil option — Browserless](https://www.browserless.io/blog/waituntil-option-for-puppeteer-and-playwright) — selector-wait preferred over load-state for SPAs
+- [mixmark-io/turndown — GitHub](https://github.com/mixmark-io/turndown) — canonical HTML→Markdown library, custom rule API
+- [Turndown Customization — DeepWiki](https://deepwiki.com/mixmark-io/turndown/4-customization) — rule filters, keep/remove, options
+- [turndown-plugin-gfm](https://github.com/mixmark-io/turndown-plugin-gfm) — required for table conversion
+- [Improving Web Scraping with Readability and Table Support — ainoya.dev](https://ainoya.dev/posts/use-readability/) — Readability+Turndown pattern; noted Readability misses content when region is already known
+- [Content Inventory and Auditing 101 — NN/G](https://www.nngroup.com/articles/content-audits/) — standard content audit structure, inventory-then-evaluate pattern
+- [How to conduct a content audit — TechTarget](https://www.techtarget.com/searchcontentmanagement/tip/How-to-conduct-a-content-audit-Step-by-step-with-template) — findings prioritisation taxonomy
+- [Crawlee Playwright Crawler](https://crawlee.dev/js/docs/examples/playwright-crawler) — reference architecture for multi-page capture (intentionally not adopted; our route list is known)
+- Internal: `src/router.ts` (route enumeration), `src/data/json/exhibits.json` (15 exhibit slugs via `exhibitLink` field), `src/App.vue` (`<main id="main-content">` landmark), `.planning/v7.0-ABORT-NOTICE.md` (editorial rationale)

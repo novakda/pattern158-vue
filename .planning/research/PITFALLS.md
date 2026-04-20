@@ -1,822 +1,458 @@
-# Domain Pitfalls — Static Markdown Export Pipeline (v7.0)
+# Domain Pitfalls — v8.0 Editorial Snapshot & Content Audit
 
-**Domain:** Build-time markdown export from Vue 3 + Vite + TypeScript SPA to monolithic `.md` + Obsidian vault
-**Researched:** 2026-04-10
-**Stack under consideration:** Vue 3.5, Vite 6.2, TypeScript 5.7 (`"type": "module"`, `moduleResolution: "bundler"`, `paths: { "@/*": ["./src/*"] }`), data in `src/data/json/*.json` with thin TS loaders, content partially hardcoded in `.vue` SFCs
-**Overall confidence:** MEDIUM-HIGH — Obsidian rules, tsx/esbuild path handling, and Node import attributes verified against official sources; markdown generation, determinism, and commit-generated-files guidance drawn from well-established community practice.
+**Domain:** Playwright-based SPA capture + HTML→Markdown editorial pipeline
+**Project:** pattern158-vue (Vue 3 SPA on Cloudflare Pages)
+**Researched:** 2026-04-19
+**Overall confidence:** HIGH (Vue/Playwright/Turndown behavior is documented; project-specific claims verified against codebase)
 
-> Format note: each pitfall has **Description, Why It Happens, Prevention, Detection, Phase Hint, Severity**.
-> `warn` severity = log a warning and continue; `block` severity = CI/pre-commit must fail hard.
-> Phase hints: **foundation** (script runtime + content model, earliest phases), **implementation** (renderers, frontmatter, wikilinks), **polish** (determinism, CI guards, testing hardening).
+Research lens: what causes a live-site capture pipeline to silently produce **incomplete, wrong, or unreviewable** Markdown when added to an existing Vue 3 + Vite + pnpm portfolio project. Each pitfall lists severity, prevention, and the phase that should address it.
 
 ---
 
-## 1. Vite / Node / TypeScript Runtime Traps
+## 1. Critical Pitfalls
 
-### 1.1 `@/` path alias silently breaks when the script runs outside Vite
+*Would cause silent data loss, wrong content in the captured document, or output that cannot be used for editorial review.*
 
-**Description:** The script imports `import { exhibits } from '@/data/exhibits'` and works in `vite dev`, `vite build`, and inside Storybook — but `tsx scripts/build-markdown.ts` explodes with `Cannot find module '@/data/exhibits'`.
-
-**Why It Happens:**
-- `@/` is a Vite `resolve.alias` AND a TypeScript `paths` entry. Both are **build-time conveniences**; neither is understood by Node's ESM resolver at runtime.
-- tsx uses esbuild in *transform* mode, not *bundle* mode. Per esbuild docs: "using esbuild for import path transformation requires bundling to be enabled, as esbuild's path resolution only happens during bundling." (HIGH confidence — esbuild official docs). So tsx does **not** automatically resolve `tsconfig.paths` for you in the way most devs assume.
-- TypeScript's `paths` is a type-checking hint only; it emits nothing at runtime.
-- `moduleResolution: "bundler"` makes this worse — it silences TS errors about unresolvable aliases because it assumes a bundler will deal with it.
-
+### CRIT-01: FAQ answers (and other content-behind-interaction) captured as empty
+**What goes wrong:** `FaqAccordionItem.vue` renders the answer wrapper with `:hidden="!isOpen || undefined"`. The inner `<p>` elements are always in the DOM, but the wrapping `<div class="faq-answer">` carries the HTML `hidden` attribute when closed. Playwright's `innerText`, `textContent` via `.evaluate()` selecting visible text, or `page.locator(...).allInnerTexts()` will skip content inside `[hidden]`. Turndown run on `element.innerHTML` would *include* it — inconsistency between "what Playwright returned" and "what the editorial reader expected" is the bug.
+Beyond FAQ: any content only present after a click (accordions, tabs, modals, "Show more", hover-disclosure) will be missing.
+**Why it happens:** The v7.0 ABORT lesson #3 (no composition fidelity) applies inside the page too, not just across pages. "Rendered" means more than "route resolved" — component interactive state is also rendering.
+**Consequences:** Editorial document is missing 14+ FAQ answers but looks complete. Dan reviews a partial document, makes decisions on incomplete evidence.
 **Prevention:**
-- **Pick ONE rule** for the markdown script's source files and enforce it:
-  - Option A (recommended): use **relative imports only** inside `scripts/build-markdown/**`. No `@/` anywhere in that subtree. Add an ESLint rule scoped to `scripts/**` that forbids `@/` imports.
-  - Option B: run the script via Vite itself using `vite-node scripts/build-markdown.ts` or a small Vite plugin hooked into `closeBundle`. This gets alias resolution for free but couples the script to Vite's lifecycle (see 1.4).
-- If Option A is chosen, add a `scripts/tsconfig.json` that extends the root but sets `"paths": {}` so `@/` resolves nowhere — this turns the alias into a type error in scripts, not just a runtime crash.
-- Do NOT try to patch this with `tsconfig-paths/register` — that package does not work cleanly with pure ESM (`"type": "module"`) without contortions and it's a time sink.
+- Before capture, on FAQ route: programmatically open every `<button aria-expanded="false">` inside `.faq-accordion-item` (click sequentially or set `aria-expanded=true` + remove `hidden` via `page.evaluate`).
+- Verify by asserting the count of visible answer paragraphs equals `faq.json` length × average paragraphs/answer.
+- Use `element.innerHTML` (not `innerText`) as the Turndown input so `hidden` content is included whether or not the expansion step succeeded — then a subsequent verification counts answer blocks.
+- Document a generic "reveal" step in the capture tool (selector list: `[aria-expanded="false"]`, `details:not([open])`, `[data-state="closed"]`). Extensible by page.
+**Detection:** Post-capture assertion: for the FAQ route, Markdown contains at least N paragraphs where N = question count × min-expected-answer-paragraphs (use 1 to be safe).
+**Severity:** CRITICAL
+**Phase:** Capture phase (route-specific pre-capture hooks) + verification phase (post-capture content assertions)
 
-**Detection:** First run of the script in CI after someone adds an `@/` import. Add a CI step that runs the script in a clean checkout (`npm ci && npm run build:markdown`) before the Vite build, so aliasing failures surface independently of Vite's cache.
-
-**Phase Hint:** foundation
-**Severity:** block
-
----
-
-### 1.2 `"type": "module"` + `.ts` script + JSON import = footgun trio
-
-**Description:** The script tries `import exhibits from '../src/data/json/exhibits.json'` and crashes with either `Unknown file extension ".json"`, `Module needs an import attribute of "type: json"`, or (on older examples) `import assertions are not supported`.
-
-**Why It Happens:**
-- `package.json` has `"type": "module"`, so every `.js`/`.ts` is ESM by default.
-- Node ≥ 22 **dropped** `assert { type: 'json' }` and **requires** `with { type: 'json' }`. Node 20.10+ / 18.20+ added the `with` form. (HIGH confidence — Node.js official docs.)
-- Blog posts and Stack Overflow answers written between 2022 and early 2024 use the old `assert` form, which now throws a syntax error on Node 22+.
-- Vite + TS consumers (`src/data/*.ts`) happily use `import foo from './json/foo.json'` with no attribute because Vite rewrites JSON imports at build time. That pattern will NOT survive outside Vite.
-
+### CRIT-02: FAQ filter bar hides most questions at page load
+**What goes wrong:** `FaqPage` uses `FaqFilterBar` with `activeFilter` state. Depending on default state, only filtered items may be rendered in the accordion list. If the default active filter is a single category, 20+ FAQ items are not in the DOM at all.
+**Why it happens:** Filter systems typically use `v-if` or `.filter()` before `v-for` to exclude non-matching items from the DOM entirely. This is distinct from `hidden` — items literally don't exist.
+**Consequences:** Capture sees only the default-visible subset. Missing content is invisible to any scanner that counts nodes.
 **Prevention:**
-- Use `with { type: 'json' }` everywhere in scripts. Document Node ≥ 20.10 as the minimum and add an `engines.node` field to `package.json`.
-- OR simply `await readFile(url, 'utf8').then(JSON.parse)` in the script — more verbose but zero syntax-version risk and it sidesteps TypeScript's JSON-module type noise entirely.
-- **Recommended:** the script reads JSON via `fs.readFile` + `JSON.parse`, treats JSON files as data not modules, and imports only TypeScript **types** from `src/types/`.
+- Before capture, click the "All" filter pill (`[data-filter="all"]`) to ensure `activeFilter === null`.
+- Assert `totalCount` matches rendered accordion count.
+- Capture the filter pill labels once at the top of the FAQ section, then capture every question regardless of filter state.
+**Detection:** Cross-check captured question count against `src/data/json/faq.json` length (should be equal).
+**Severity:** CRITICAL
+**Phase:** Capture phase (FAQ-specific preparation step)
 
-**Detection:** Run the script under the CI Node version explicitly; don't rely on whatever Node happens to be on a dev laptop.
+### CRIT-03: SPA navigation "complete" before Vue router + Suspense + data have resolved
+**What goes wrong:** Playwright's default `waitUntil: 'load'` or `'networkidle'` is not a reliable proxy for "Vue has rendered the route view." Common failure modes:
+1. `load` fires on initial HTML; the Vue app hasn't mounted yet (empty `<div id="app">`).
+2. `domcontentloaded` fires even earlier — same problem, worse.
+3. `networkidle` waits for no network for 500 ms, but a lazy-loaded route chunk + webfont can race: networkidle fires *during* chunk eval, before the view component renders.
+4. `<Suspense>` or async setup hooks resolve later than the router navigation event.
+5. Route changes via `router-link` in an already-loaded SPA don't trigger any Playwright navigation event at all.
+**Why it happens:** Playwright's navigation primitives are document-centric; Vue's rendering lifecycle is component-centric. There's no built-in bridge.
+**Consequences:** Captured HTML is the previous route, or an empty shell, or a partially hydrated tree. Pages look plausible but may be missing entire sections.
+**Prevention:** Use a content-based readiness signal, not a navigation signal:
+- After every `page.goto(url)` or in-SPA navigation, `await page.waitForSelector('main h1', { state: 'visible' })` or similar per-route known-good selector.
+- For in-SPA navigation, wait for URL change AND known selector AND absence of loading skeletons.
+- As a belt-and-braces option, `await page.waitForFunction(() => document.fonts.ready)` before capture so text layout is stable (not required for DOM content, but good for screenshots).
+- Use per-route selector manifest (e.g., HomePage → `section.home-hero`, FAQPage → `.faq-accordion-item`, ExhibitDetailPage → `h1.exhibit-title`) keyed off the route.
+**Detection:** Before Turndown, assert the captured root element contains >N characters of text. If a page is empty, abort with a loud error rather than writing an empty section.
+**Severity:** CRITICAL
+**Phase:** Capture phase (core waitFor strategy, route-selector manifest)
 
-**Phase Hint:** foundation
-**Severity:** block
-
----
-
-### 1.3 tsx vs ts-node vs vite-node — choosing wrong locks you in
-
-**Description:** Team picks `ts-node` because it's familiar, then spends a day fighting ESM-loader flags, then swaps to `tsx`, then discovers tsx doesn't resolve `@/` aliases, then swaps to `vite-node`, then discovers `vite-node` pulls Vue SFC plugins into the runtime unnecessarily. Meanwhile `PLAN.md` still says "use ts-node."
-
-**Why It Happens:** Each runner has different trade-offs that aren't obvious until you hit them:
-
-| Runner     | ESM native | Resolves tsconfig `paths` | Pulls Vite plugins | Startup |
-|------------|------------|---------------------------|--------------------|---------|
-| tsx        | yes        | **no** (esbuild transform mode — HIGH confidence) | no                 | fast    |
-| ts-node    | painful w/ `type:module` | only with extra loader | no | slow |
-| vite-node  | yes        | yes (via Vite resolve)    | yes (applies full Vite config) | medium |
-
+### CRIT-04: Dynamic exhibit slug failures silently produce empty sections
+**What goes wrong:** `src/data/json/exhibits.json` is the source of 15 exhibit slugs. If the tool iterates slugs and one doesn't resolve on the live site (typo, unpublished, Cloudflare cache returning 404 HTML, redirect), naive capture writes an empty section to the Markdown and moves on.
+**Why it happens:** SPA 404s often return HTTP 200 with a NotFoundPage component (as `NotFoundPage.vue` exists in this project). HTTP status is not a reliable failure signal for SPAs.
+**Consequences:** Editorial document says "Exhibit K" and is blank below it. Reviewer assumes exhibit K has no content.
 **Prevention:**
-- **Decide in foundation phase, write it in PLAN.md, don't revisit.**
-- Recommended default for this project: **tsx + relative imports** (see 1.1). It's already the lowest-friction choice given the existing toolchain and avoids dragging `@vitejs/plugin-vue` into a script that does not touch `.vue` files.
-- If the script ever needs to parse an actual `.vue` SFC (see 2.1), reconsider vite-node at that point — not before.
+- After navigating to each exhibit route, assert presence of a known-good selector (e.g., `.exhibit-detail h1` or `[data-exhibit-type]`).
+- If missing, assert presence of NotFoundPage signature; if found, record the failure in a capture-errors section at the top of the Markdown document rather than omitting.
+- Bound per-page capture with a timeout (e.g., 30s) and fail-loud, not fail-silent.
+- Output a summary at the end of the Markdown: "Captured 15/15 exhibits" or "Captured 14/15 — Exhibit K failed (404)".
+**Detection:** The capture tool's own exit reporting; CI-style summary line.
+**Severity:** CRITICAL
+**Phase:** Orchestration phase (per-route error handling + summary reporting)
 
-**Detection:** A `build:markdown` npm script that's been edited more than twice in the first week is the warning sign.
-
-**Phase Hint:** foundation
-**Severity:** warn
-
----
-
-### 1.4 Wiring into `npm run build` the wrong way
-
-**Description:** The markdown script is glued to the Vite build as `"build": "vue-tsc -b && vite build && tsx scripts/build-markdown.ts"`. Later someone runs `vite build` directly (or a deploy script does), and the markdown output is silently skipped.
-
-**Why It Happens:**
-- npm-script concatenation is invisible to anything that calls Vite directly (Storybook, Wrangler preview, CI steps, future SSG plugins).
-- The shell `&&` form also means a failing markdown step aborts the deploy, which may or may not be desired.
-
+### CRIT-05: Cloudflare edge cache serves stale content; capture doesn't reflect latest deploy
+**What goes wrong:** Cloudflare Pages caches HTML/assets at the edge. If Dan just pushed and captures immediately, the edge may still serve the previous version. Conversely, if the edge cached an old version weeks ago and nothing invalidated it, captures are outdated. Captures are also non-deterministic across POPs: different runs can hit different cache tiers.
+**Why it happens:** CDNs are caches; staleness is a default property, not a bug.
+**Consequences:** Editorial decisions made against a version of the site that doesn't match git HEAD; rebuild direction derived from wrong content.
 **Prevention:**
-- Make the markdown generator a **Vite plugin with a `closeBundle` or `writeBundle` hook** so it runs for every `vite build`, no matter who calls it. `closeBundle` fires after Vite finishes writing all outputs.
-- OR keep it as a standalone script but guard it with a CI assertion: "after `npm run build` the git working tree must be clean" (see 6.1).
-- Do NOT attach it to `postbuild` in `package.json` — npm `postbuild` runs only for `npm run build`, not `pnpm build`, not direct `vite build`, not for `npm run deploy` if that skips `build`.
+- Bypass cache on capture: append a cache-buster query (`?t=<timestamp>`) to each URL, AND set request header `Cache-Control: no-cache` AND `Pragma: no-cache`. Cloudflare will not cache URLs with most query strings by default, but being explicit is safer.
+- Log the `cf-cache-status` response header for every capture; if any say `HIT` or `STALE`, warn.
+- Record the deployed git SHA (fetch from `<meta name="build-sha">` if the build injects one, or from a known `/version.json` endpoint) at capture time and embed in the Markdown frontmatter.
+- Optionally: capture against `localhost:4173` (`pnpm preview`) instead of the live site when absolute reproducibility matters. The v8.0 premise is live capture, but a local-preview mode is useful fallback.
+**Detection:** Compare the captured content against a second capture 60s later; if they differ, cache is in play.
+**Severity:** CRITICAL (for editorial fidelity) / MODERATE (for any single capture)
+**Phase:** Capture phase (HTTP headers + URL strategy); Orchestration phase (version stamping)
 
-**Detection:** Run `vite build` directly (bypassing npm script) in a test and diff `docs/`. If `docs/` changes, the script wasn't attached to Vite itself.
-
-**Phase Hint:** foundation
-**Severity:** warn
-
----
-
-### 1.5 Running inside a Vite plugin hook vs a separate process — hidden coupling
-
-**Description:** The Vite plugin approach (1.4) looks clean but the plugin reaches into `src/data/json/*.json` via `fs` instead of Vite's module graph. Later someone adds a data transform at import time in a `src/data/*.ts` loader (e.g. sorting, computed fields). The markdown output now disagrees with the rendered site because the plugin bypassed the loaders.
-
-**Why It Happens:** Vue components see **loader-processed** data; a plugin that reads raw JSON sees **pre-processed** data. This drift is silent until someone notices the exhibit order in the markdown doesn't match the site.
-
+### CRIT-06: Cloudflare bot/rate-limit protection blocks or fingerprints Playwright
+**What goes wrong:** Cloudflare has a "Bot Fight Mode" and managed challenges that can present CAPTCHAs or return interstitials to automated browsers. Playwright's Chromium has known bot-detection signals (Navigator.webdriver, headless UA). If Pages has any security layer enabled, the capture gets an interstitial instead of content.
+**Why it happens:** Cloudflare is an adversarial environment by design for automation.
+**Consequences:** Captured content is a CAPTCHA page rendered as Markdown.
 **Prevention:**
-- Treat JSON files as the source of truth. Forbid any transformation (sort, filter, computed fields) in `src/data/*.ts` loaders. Loaders may only: import JSON, `as` assert types, re-export. This rule already exists implicitly in v3.0's thin-loader decision — make it explicit in v7.0's PLAN.md.
-- If ordering matters, bake it into the JSON file. If a computed field is needed, compute it identically in both the loader and the markdown generator, and unit-test the equivalence.
-- Alternative: have the markdown generator import the same loader modules (via vite-node) so both consumers go through one code path. Adds coupling — use only if the "no transforms in loaders" rule can't hold.
+- Cloudflare Pages default project settings usually do NOT enable Bot Fight Mode for Pages deployments, but the zone-level setting can override. Verify in the Cloudflare dashboard before building the tool.
+- Use headful mode (non-headless) for capture — reduces fingerprint surface significantly.
+- Set a realistic User-Agent string (not the default Playwright one).
+- Rate-limit captures: 1 request per 2–5s, not parallel per-route. 9 routes × 15 exhibits = 24 captures, which at 3s each is 72s total — acceptable for an editorial tool.
+- Abort early if any response is < 200 bytes or contains known interstitial markers (`"Just a moment"`, `"cf-browser-verification"`).
+**Detection:** Response size sanity check; screenshot-on-failure; look for `cf-ray` header on success.
+**Severity:** CRITICAL (if triggered — total failure) / LOW (probability on Pages default config)
+**Phase:** Capture phase (headful + UA + rate limit); Verification phase (response sanity)
 
-**Detection:** Add a unit test: pick 3 exhibits, assert that `loader.exhibits[i].title === JSON.parse(readFile(...)).exhibits[i].title` and same for any ordering-sensitive field.
-
-**Phase Hint:** foundation
-**Severity:** block
-
----
-
-## 2. Content-Sync Drift Between JSON, Vue SFCs, and Markdown Output
-
-### 2.1 Content hardcoded inside Vue templates is invisible to the extractor
-
-**Description:** `HomePage.vue` has a `<p>` with the project's tagline hardcoded in template markup. The markdown generator reads only `src/data/json/*.json`, so the monolithic `site-content.md` silently omits the homepage tagline. Nobody notices until a hiring manager reads the doc and asks "why does the site say X but the doc say nothing?"
-
-**Why It Happens:**
-- PROJECT.md confirms content is split between JSON data files and hardcoded Vue template strings. The extractor has to reconcile both.
-- Parsing `.vue` SFCs from a Node script is non-trivial: `@vue/compiler-sfc` can give you the template AST, but extracting *prose* from an interpolation-laden template is error-prone (bindings, v-if branches, slot content, child components that own text).
-- Regex scraping `.vue` files is fragile and silently drops whole branches on template edits.
-
-**Prevention (pick ONE and enforce):**
-- **Option A (recommended): "JSON-first" rule.** Any text destined for the markdown export MUST live in JSON or a dedicated `src/data/json/pageContent.json` map. Vue templates may only render JSON fields or structural/UI strings (button labels, aria-labels) that don't belong in docs. Audit every `.vue` page in foundation phase and extract prose strings before any generator code is written. Block new hardcoded prose with a lint rule (`no-restricted-syntax` or a custom check) that flags string literals over N characters in `<template>`.
-- **Option B: "page content map" file.** Create `src/data/json/pageContent.json` keyed by page route with all prose the exporter needs. Vue pages import from it; exporter reads the same file. Lower migration effort than Option A but requires discipline to keep templates from drifting back to hardcoded strings.
-- Do NOT parse `.vue` SFCs with `@vue/compiler-sfc` in the exporter unless you're prepared to maintain a small AST walker. This almost always escalates into a maintenance pit.
-
-**Detection:**
-- Manual audit in foundation phase: grep every `.vue` page for string literals longer than ~40 chars inside `<template>` blocks. Everything that shows up is potential drift.
-- After migration: a CI check that greps `src/pages/**/*.vue` for text nodes >40 chars under `<template>` and fails if any survive outside an approved allowlist.
-
-**Phase Hint:** foundation (audit), implementation (enforcement)
-**Severity:** block (for the audit — if this isn't done first, the rest of the milestone builds on sand)
-
----
-
-### 2.2 Silent drift after content edits — no "did you regenerate?" check
-
-**Description:** Dan edits `src/data/json/exhibits.json` to fix a typo, commits the JSON but forgets `npm run build:markdown`. The committed `docs/site-content.md` now disagrees with the site. This repeats until docs rot completely.
-
-**Why It Happens:** Humans forget. Pre-commit hooks are per-machine. CI usually runs *after* the PR already looks "done."
-
+### CRIT-07: Markdown output is non-deterministic → unusable for diffing between runs
+**What goes wrong:** Editorial review often iterates — capture, edit, re-capture, see what changed. If the captured Markdown changes run-to-run due to non-content sources, every diff is 80% noise and 20% signal. Sources of non-determinism:
+- Analytics scripts injecting content client-side with per-session IDs
+- `Math.random()` keys, UUIDs in `v-bind:key`
+- Timestamps rendered from `Date.now()` in any component
+- `Object.keys()` order on iteration (safe in V8 but not spec-guaranteed across engines)
+- Server-side A/B variants (not applicable here, but flag it)
+- Image srcset with cache-busted URLs changing per-build
+- Turndown's handling of collapsible whitespace when the DOM has different whitespace each run
+**Why it happens:** Browsers and SPAs have many "live" behaviors; none were designed for content-stable scraping.
+**Consequences:** `git diff` between captures becomes useless for editorial review.
 **Prevention:**
-- **CI guard (must-have):** A `verify-markdown` CI job runs `npm run build:markdown` on a clean checkout, then `git diff --exit-code docs/`. Any drift fails the PR. This is the single most valuable pitfall mitigation in this entire milestone.
-- **Pre-commit hint (nice-to-have):** A `lint-staged`/husky hook warns (not blocks) if staged JSON in `src/data/json/**` changed but nothing in `docs/` did. Advisory only — hard enforcement happens in CI.
-- **Never** edit `docs/site-content.md` or files in `docs/obsidian-vault/` by hand. Put a prominent `<!-- GENERATED FILE — DO NOT EDIT. Source: src/data/json/**. Regenerate: npm run build:markdown -->` header on the monolithic file, and an `# DO NOT EDIT` admonition in the Obsidian vault's `README.md`.
-
-**Detection:** The CI guard above. Additionally: a monthly audit step that regenerates in a clean clone and diffs — catches drift even if CI was accidentally bypassed.
-
-**Phase Hint:** polish
-**Severity:** block
+- Before Turndown, strip known-noisy elements: `<script>`, `<style>`, `<noscript>`, any element with `data-analytics`, iframes, tracking pixels.
+- Strip Vue-internal attributes: `data-v-*` (scoped style attributes), `v-cloak` artifacts. These change across builds as the hash suffix changes.
+- Normalize whitespace in Turndown output (collapse multiple blank lines to max 2).
+- Do not include capture timestamps *inside* the body of the Markdown (put them in frontmatter where Obsidian treats them as metadata, not prose). Consider making the frontmatter timestamp stable across "same content" runs — e.g., only update if the body changed.
+- Sort any internally-unordered collections deterministically before emitting (e.g., if the tool outputs a "broken links" summary, sort alphabetically).
+**Detection:** Run the tool twice in succession and `diff` the outputs. Any diff = non-determinism to hunt down.
+**Severity:** CRITICAL (for editorial workflow usefulness)
+**Phase:** Rendering phase (Turndown config + DOM sanitization); Verification phase (double-run diff test)
 
 ---
 
-### 2.3 Partial regeneration — only-changed-files optimization corrupts the vault
+## 2. Moderate Pitfalls
 
-**Description:** To speed up the generator, someone adds "only regenerate files whose source changed." A later refactor renames a heading in `src/data/json/faq.json` — the per-page FAQ note regenerates, but the monolithic `site-content.md` (which also contains that heading) doesn't, because its "source" was unchanged by a naive mtime check.
+*Would degrade editorial usefulness; captured document is usable but noisy, confusing, or lossy.*
 
-**Why It Happens:** Incremental generation is attractive but the dependency graph is one-to-many: a single JSON file feeds both the monolithic artifact and an Obsidian-per-page file. Getting invalidation right is a caching problem.
-
+### MOD-01: NavBar + FooterBar duplicated 24 times in captured Markdown
+**What goes wrong:** Every route on this site renders `<NavBar>` and `<FooterBar>`. With 9 top-level routes + 15 exhibit detail routes = 24 captures, the unchanged nav + footer appears 24 times. If each is ~30 lines of Markdown, that's 720 lines of duplicate navigation content — roughly half the document for content-light pages.
+**Why it happens:** Naive `document.body.innerHTML` → Turndown pipeline captures everything.
 **Prevention:**
-- **Do not optimize.** Regenerate 100% of outputs every run. At this scale (~9 pages + 15 exhibits ≈ 25 files), full regeneration is O(ms). Incremental regen saves nothing and introduces a correctness bug surface.
-- Forbid any mtime/hash-based "skip unchanged" logic in the generator for v7.0. Document this as a constraint in PLAN.md.
+- Strip `<header>`, `<nav>`, `<footer>`, `.nav-bar`, `.footer-bar`, and `.skip-link` selectors before Turndown runs on each page.
+- Capture NavBar and FooterBar **once** at the top (optional "Site Chrome" section) or omit entirely if Dan confirms they're not part of editorial review scope.
+- Target `<main>` for content capture; if absent, fall back to `document.body` minus the stripped regions.
+**Detection:** Manual scan of the output — if the phrase "Case Files" or "philosophy" appears > N times where N = expected mentions, over-capture is likely.
+**Severity:** MODERATE (significantly impairs readability but doesn't lose content)
+**Phase:** Rendering phase (DOM sanitization selector list)
 
-**Detection:** Code review. If a PR adds any file-change detection in the generator, block it.
-
-**Phase Hint:** polish
-**Severity:** warn (blocks if introduced)
-
----
-
-## 3. Determinism & Idempotency
-
-### 3.1 `Object.keys` / `Set` / `Map` iteration order ≠ guaranteed order
-
-**Description:** Frontmatter tags come out as `[vue, typescript, design]` one day and `[typescript, vue, design]` the next. Every PR now has a noisy `docs/` diff. Review fatigue sets in, real changes get lost.
-
-**Why It Happens:**
-- `Set` iteration order is insertion order, which depends on how the generator happened to visit sources — which in turn depends on filesystem enumeration, concurrent Promise resolution, or `Object.keys` on the incoming JSON.
-- `Object.keys` preserves insertion order for string keys, but that order is whatever the JSON parser produced, which is not alphabetical.
-- `Promise.all` on a list of reads can resolve in a non-deterministic order if any step is async.
-
+### MOD-02: Readability.js strips portfolio content it doesn't recognize as article body
+**What goes wrong:** `@mozilla/readability` is trained on news articles. Portfolio pages have hero sections, card grids, stat bars, sidebars — Readability may treat these as "chrome" and remove them. Testimonial quotes, specialty cards, FAQ pills can vanish.
+**Why it happens:** Readability uses heuristics for "dense prose = content, sparse layout = chrome." Portfolio design inverts this assumption.
 **Prevention:**
-- **Sort everything that becomes an ordered list in output**, with an explicit comparator:
-  - Frontmatter keys: fixed canonical order (`title`, `aliases`, `tags`, `date`, `category`, then everything else alphabetically).
-  - Tag arrays: `.sort((a, b) => a.localeCompare(b, 'en'))` — and pass the explicit locale to avoid host-locale drift.
-  - Exhibit ordering in the monolithic doc: sort by `id` (or whatever the JSON slug is), not by filesystem order.
-  - `Set` and `Map` output: convert to sorted array before rendering.
-- Use a YAML serializer that lets you **specify key order** (e.g. `js-yaml` with a custom `sortKeys` function). Don't rely on default serializer order.
-- **Never** use `Promise.all(paths.map(read))` for an ordered output — use a sequential loop or sort the results after.
+- **Do not use Readability.js for this project.** Use an explicit selector strategy: capture `<main>`, strip known chrome (see MOD-01), apply Turndown.
+- If Readability were tried as a fallback, always cross-check output length against raw `<main>` text length — if Readability output is <50% of the raw, suspect over-stripping.
+**Severity:** MODERATE (depending on which content it drops)
+**Phase:** Stack decision phase (explicit rejection of Readability in STACK.md)
 
-**Detection:** Run the generator twice back-to-back in CI and `diff -r` the outputs. Any difference = a determinism bug. Add this as a CI step (cheap — two runs of a 25-file generator).
-
-**Phase Hint:** polish
-**Severity:** block
-
----
-
-### 3.2 `Date.now()` / build-time timestamps in frontmatter
-
-**Description:** Frontmatter gets a `date: 2026-04-10T14:23:17.492Z`. Every `npm run build:markdown` produces a new diff even when nothing changed. Eventually someone disables the CI guard in 2.2 "because it's too noisy," and drift protection dies.
-
-**Why It Happens:** "Add a build timestamp" sounds harmless and Obsidian's default templates include a `date` property, so it feels idiomatic. It is incompatible with a commit-generated-files workflow.
-
+### MOD-03: Missing `<main>` on some pages → empty capture or full-body capture
+**What goes wrong:** The capture tool defaults to `<main>` as the content root. If a page's template wraps content in a different landmark (`<article>`, a `<section>` without `<main>`), the selector fails.
+**Why it happens:** Vue templates are flexible; not every page is required to have `<main>`. The project has an `App.vue` shell likely wrapping `<router-view>` in `<main>` once, but individual pages vary.
 **Prevention:**
-- **Forbid `Date.now()`, `new Date()`, `process.hrtime`, and `performance.now()` in the generator output.** Add a grep-based lint in CI: `grep -rE 'Date\.now|new Date\(' scripts/build-markdown && exit 1`.
-- If a `date` frontmatter field is genuinely useful:
-  - Use the **last git commit date** of the *source* JSON file (`git log -1 --format=%cI -- path/to/file.json`) as an ISO date-only string (strip time).
-  - OR use a hand-maintained `publishedAt` / `updatedAt` field in the source JSON.
-  - OR omit `date` entirely. This is the safest default. Obsidian does not require it.
-- Pin the timezone if you keep a date: format as UTC `YYYY-MM-DD`, never local-time.
+- Audit the rendered DOM once: on a real capture run, log the structure of `document.body` for each route. If every route has a single consistent `<main>`, use it. If not, establish a selector manifest keyed by route.
+- Fallback strategy: if `<main>` not found, capture `<body>` minus chrome selectors, and log a warning.
+**Detection:** Per-route content-length sanity check (see CRIT-03 detection).
+**Severity:** MODERATE
+**Phase:** Research phase (DOM audit) + Capture phase (selector manifest)
 
-**Detection:** Run generator twice with a 1-second sleep between runs, diff output, expect zero changes.
-
-**Phase Hint:** polish
-**Severity:** block
-
----
-
-### 3.3 Floating-point / locale-dependent number formatting
-
-**Description:** Stats like "28+ years" render as `28.0` on one machine and `28` on another, or `1,234` vs `1234`, because the generator used `num.toLocaleString()` without a locale.
-
-**Why It Happens:** `toLocaleString()` reads the host OS locale. CI runners, dev laptops, and WSL shells will disagree.
-
+### MOD-04: Turndown heading level drift when Markdown is composed across routes
+**What goes wrong:** Each page's `<h1>` becomes `# Title` in Markdown. Concatenating 24 pages produces 24 `# Title` lines — Obsidian (and Markdown outline viewers) treat them all as top-level. If the tool instead writes `# Route Name` as an H1 per route, the page's internal H1 becomes an H2, and all `<h2>` become H3s, and so on. If not done consistently, heading semantics drift.
+**Why it happens:** Flat concatenation vs. nested structure has different heading-level requirements; the choice has to be made and enforced.
 **Prevention:**
-- Always pass an explicit locale: `num.toLocaleString('en-US', { ... })`.
-- For integers destined for prose, prefer `String(num)` and hand-format. Reserve `toLocaleString` for values where grouping separators actually matter.
-- Same rule applies to any `Intl.*` formatter — pin locale + options.
+- Decide structure up front. Recommended: `# Pattern 158 Site Capture` (document title, H1 once), `## Route: /home` (per-route H2), page's content demoted one level (every `<h1>` → H2-equivalent is a problem because it collides — so demote to H3). Use Turndown's `headingStyle` with a custom rule that offsets all heading levels by the route's nesting depth.
+- Or: use a thematic break (`---`) between routes, keeping original heading levels within each section. Simpler, less semantic.
+- Lock the choice in a design doc; test with a "document has one H1" assertion.
+**Severity:** MODERATE (affects Obsidian outline navigation — a core editorial review affordance)
+**Phase:** Rendering phase (heading offset rule); Design phase (document structure decision)
 
-**Detection:** Same two-run diff as 3.1.
-
-**Phase Hint:** polish
-**Severity:** warn
-
----
-
-### 3.4 Non-deterministic line endings (CRLF vs LF)
-
-**Description:** Generated files land with LF on a Linux CI runner and CRLF when someone regenerates on Windows. Every cross-platform commit becomes a whole-file diff.
-
-**Why It Happens:**
-- Node's `fs.writeFile` writes whatever you give it. Templates using `\n` directly are fine; templates using `os.EOL` or backtick-embedded CR are not.
-- Git's `core.autocrlf` + unconfigured `.gitattributes` can rewrite on checkout or commit.
-
+### MOD-05: Turndown drops or mangles nested lists
+**What goes wrong:** Known Turndown issues include:
+- Nested `<ol>` inside `<ul>` losing indentation or ordinal markers
+- `<li>` containing block elements (`<p>`, `<div>`) being flattened
+- Whitespace between `</li>` and next `<li>` becoming significant
+**Why it happens:** Turndown is a heuristic translator; complex nested HTML has ambiguous Markdown representations.
 **Prevention:**
-- Generator always writes `\n` literals. Never `os.EOL`, never `\r\n`.
-- Add to `.gitattributes`: `docs/** text eol=lf` and `*.md text eol=lf`.
-- Final output always ends with **exactly one** trailing newline (POSIX). No trailing whitespace on any line (strip before write).
+- Check the rendered site for nested lists. The PhilosophyPage, MethodologyStep components, and exhibit content may have them.
+- Configure Turndown with `bulletListMarker: '-'` and `listIndent: '  '` explicitly (don't rely on defaults).
+- Test round-trip: render known-good HTML through Turndown, parse Markdown back with a Markdown renderer, compare structure. If it's lossy, use `turndown-plugin-gfm` or custom rules.
+- For tables (exhibit data), use `turndown-plugin-gfm` for GFM table support, since base Turndown doesn't handle `<table>` at all.
+**Severity:** MODERATE
+**Phase:** Rendering phase (Turndown configuration + plugin set)
 
-**Detection:** Two-run diff on a Windows machine and a Linux runner; files must byte-match.
-
-**Phase Hint:** polish
-**Severity:** warn
-
----
-
-## 4. Obsidian-Specific Traps
-
-> All rules below verified against Obsidian official help: Internal Links, Tags, and Properties pages (publish-01.obsidian.md mirror). Confidence HIGH unless noted.
-
-### 4.1 Wikilink collision when two notes share a basename
-
-**Description:** `docs/obsidian-vault/pages/Philosophy.md` and `docs/obsidian-vault/exhibits/Philosophy.md` (say, an exhibit renamed in a refactor) both exist. A wikilink `[[Philosophy]]` resolves to whichever Obsidian indexed first. Clicking it from the other file jumps to the wrong note.
-
-**Why It Happens:**
-- Obsidian resolves `[[Basename]]` to **any note with that basename in the vault**, regardless of folder. When two notes share a basename, resolution is ambiguous and Obsidian picks one (usually shortest-path, but this is not guaranteed across versions).
-- Our vault export has two namespaces (pages/ and exhibits/) that can absolutely collide — exhibit titles can match page titles, and individual FAQ notes could collide with future content.
-
+### MOD-06: Tables with `rowspan`/`colspan` or complex formatting broken by Turndown
+**What goes wrong:** GFM tables don't support row/column spans; Turndown's GFM plugin either crashes, flattens, or drops content. Exhibit tables on this site use personnel/technologies/findings data — check if any use spans.
+**Why it happens:** Markdown table syntax is strictly rectangular.
 **Prevention:**
-- **Every generated note has a globally unique basename.** Enforcement options:
-  - Prefix exhibit notes: `Exhibit A - Flagship.md`, not `Flagship.md`.
-  - Prefix page notes with namespace if ambiguous: `Page - Philosophy.md` vs `Exhibit - Philosophy.md`.
-  - OR use **full-path wikilinks** everywhere: `[[exhibits/Philosophy|Philosophy]]`. Obsidian supports this and it disambiguates. But it requires discipline in every link the generator emits.
-- **Uniqueness check in the generator:** build a `Map<basename, filepath>`, assert no collisions, fail the build with a clear message if any exist. This is cheap and catches the bug before it ships.
+- Audit rendered tables for spans. If found, capture as HTML blocks in Markdown (Obsidian renders HTML inline) rather than converting to Markdown tables. Turndown's `keep` rule can preserve `<table>` as-is.
+- Configure Turndown with `keep: ['table']` for tables that exceed GFM's expressiveness, or make a custom rule.
+- Desktop/mobile layouts differ on this site (findings have a mobile card view); capture in desktop viewport (`1280x800`) to get the table representation, not the cards.
+**Severity:** MODERATE (depends on how many tables are complex)
+**Phase:** Rendering phase (table handling strategy)
 
-**Detection:** The generator's uniqueness assertion. Also: run `find docs/obsidian-vault -name '*.md' | xargs -n1 basename | sort | uniq -d` in CI and fail on any output.
-
-**Phase Hint:** implementation
-**Severity:** block
-
----
-
-### 4.2 Reserved characters in Obsidian filenames and wikilinks
-
-**Description:** Exhibit title contains `:` (e.g. "Pattern 158: Origin Story"). Generator naively writes `Pattern 158: Origin Story.md`. Obsidian refuses to accept it on some platforms, or the wikilink `[[Pattern 158: Origin Story]]` is broken because `#`, `|`, `^` are link-meta characters.
-
-**Why It Happens:** Per Obsidian official docs (HIGH confidence), these characters must be avoided in filenames: `# | ^ : %% [[ ]]`. Additionally, OS filesystem restrictions apply: Windows disallows `< > : " / \ | ? *`; macOS allows colons in the Finder but stores them as `/` on-disk; Linux allows almost anything except `/` and NUL but you still shouldn't rely on that.
-
+### MOD-07: DOM order ≠ visual order with flexbox/grid `order` or absolute positioning
+**What goes wrong:** If any component uses CSS `order`, `flex-direction: row-reverse`, `grid-template-areas` with visual rearrangement, or absolute positioning, the DOM (source) order does not match what a human reading top-to-bottom, left-to-right sees. Turndown walks DOM order, so the Markdown reading order will be wrong.
+**Why it happens:** CSS can visually reorder content without changing DOM.
+**Project-specific check:** A quick grep for `order:` or `order-` in scoped styles and design tokens is worth doing. The site's design system mostly uses flow layout, but HomePage and stats bars might use grid.
 **Prevention:**
-- **Filename sanitizer** applied to every generated filename, in a fixed canonical order:
-  1. Replace each of `# | ^ : % [ ]` with `-` (or drop).
-  2. Replace each of `< > " / \ ? *` with `-`.
-  3. Collapse consecutive `-` to a single `-`.
-  4. Trim leading/trailing whitespace and `-`.
-  5. Truncate to 200 chars (leave room under the common 255-byte filename limit once UTF-8 is counted).
-  6. Reject empty result — throw a build error, never silently write `.md`.
-- **Keep the original title in frontmatter** (`title: "Pattern 158: Origin Story"`) and in the in-file `# H1`, so the human-readable title is preserved even though the filename is sanitized.
-- Wikilinks use the sanitized filename but a display alias for the original: `[[Pattern 158 - Origin Story|Pattern 158: Origin Story]]`.
-- Snapshot the sanitizer behavior with unit tests covering all the reserved characters, Unicode, empty input, and over-length input.
+- Grep the source for `order:` (CSS property), `flex-direction: *-reverse`, `position: absolute`, `grid-template-areas`. Audit each hit for visual-vs-DOM order mismatch.
+- Where mismatch exists, fix the source if feasible (DOM order should match visual order for accessibility anyway), or document as a capture caveat.
+- Editorial doc should note any route where capture order ≠ visual order.
+**Detection:** Manual spot-check: scroll the page, compare to captured Markdown for the same page.
+**Severity:** MODERATE (content present but read in wrong order)
+**Phase:** Research phase (audit CSS); Capture phase (document known exceptions)
 
-**Detection:** Unit tests on the sanitizer + a generator assertion that the written filename round-trips through the sanitizer unchanged.
+### MOD-08: Webfonts still loading → text positional shift (screenshots only, not text capture)
+**What goes wrong:** If capture also includes screenshots, webfont loading can cause Flash of Unstyled Text / shifted layout, producing misleading visuals.
+**Why it happens:** Fonts are async.
+**Prevention:** `await page.evaluate(() => document.fonts.ready)` before any screenshot. No impact on text capture.
+**Severity:** MODERATE (for screenshots) / NONE (for text)
+**Phase:** Capture phase (if screenshots are in scope)
 
-**Phase Hint:** implementation
-**Severity:** block
-
----
-
-### 4.3 `[[Note#Heading]]` anchor mismatch
-
-**Description:** Wikilink `[[Philosophy#Design Principles]]` doesn't resolve because the target file's heading is `## Design principles` (lowercase `p`), or `## Design Principles ` (trailing space), or was renamed.
-
-**Why It Happens:**
-- Obsidian heading matching is case-insensitive and whitespace-trimmed, but exact otherwise. A typo in the link or a rename of the heading breaks the link silently — Obsidian shows it as unresolved but the generator doesn't know.
-- Headings also can't contain the `#`, `|`, `^`, `[`, `]` characters, same as filenames, or the wikilink parser stops at them.
-
+### MOD-09: Smart quotes and em/en dashes: preservation vs. normalization
+**What goes wrong:** The exhibits.json source uses `'` (right single quote / U+2019) in prose — visible in the very first exhibit: "I'd consider the last couple days a success". The rendered HTML preserves it; Turndown's default behavior is to preserve it in Markdown. But if any part of the pipeline coerces through ASCII, these become `'` or worse `â€™` (mojibake). Similarly for em dashes (`—`, U+2014), en dashes (`–`), and ellipsis (`…`).
+**Why it happens:** Encoding mismatches anywhere in the toolchain (browser → Node → file write).
 **Prevention:**
-- **Never hand-write heading anchors.** The generator produces wikilinks by looking up the target file's actual heading list. Build a `Map<filepath, string[]>` of headings during a first pass, then reference from a second pass.
-- Strip `# | ^ [ ]` from headings before emitting them (same rule as filenames, minus `:` which is allowed in headings).
-- Emit an **internal-link manifest** during generation: a machine-readable list of every `[[link]]` the generator produced and whether its target file + heading actually exists. Assert empty "unresolved" list at end of build.
+- Ensure all I/O is explicit UTF-8: `fs.writeFile(path, content, { encoding: 'utf8' })`, Playwright default is UTF-8 for text extraction, Node's default is UTF-8 on Linux/WSL2.
+- Do not call `.normalize()` / `.toASCII()` on content anywhere in the pipeline.
+- Sanity check: after capture, grep the output for `â€` or `Â` — these are the telltales of double-UTF-8 encoding (mojibake).
+- Do not "smart-quote" or "dumb-quote" automatically; preserve what's on the site. If Dan wants to normalize during editorial, that's a separate editorial decision, not an automated transform.
+**Severity:** MODERATE (readable but ugly) / CRITICAL if mojibake (unreadable)
+**Phase:** Rendering phase (UTF-8 explicit) + Verification phase (mojibake grep)
 
-**Detection:** The internal-link manifest assertion. Additionally, a post-generation script that parses all `.md` files, extracts every `[[...#...]]`, and verifies each one resolves. This is essentially a free link-checker once the manifest exists.
-
-**Phase Hint:** implementation
-**Severity:** block
-
----
-
-### 4.4 Frontmatter reserved / default properties — tags, aliases, cssclasses
-
-**Description:** Generator emits `tag: [foo, bar]` instead of `tags: [foo, bar]`. Obsidian ignores it — no error, just no tags in the tag pane. Three months later someone wonders why the category filter in Obsidian doesn't work.
-
-**Why It Happens:** Per Obsidian official docs (HIGH confidence):
-- Default/reserved frontmatter properties: `tags`, `aliases`, `cssclasses`.
-- The old singular forms (`tag`, `alias`, `cssclass`) **lost default status in Obsidian 1.9** and should not be used.
-- Publish-specific properties: `publish`, `permalink`, `description`, `image`, `cover`. These will behave specially if we ever use Obsidian Publish. Don't collide with them.
-- Property names are unique per note — you can't have two `tags` keys.
-- Once a property type is assigned to a name vault-wide, every note with that property must use the same type (list vs text vs number). Mixing types corrupts the property display.
-
+### MOD-10: Obsidian vault write fails silently or overwrites edits in progress
+**What goes wrong:** Writing to a path outside the repo (`/c/main/Obsidian Vault/...` per global CLAUDE.md) has several failure modes on WSL2:
+- Path doesn't exist → `ENOENT`. Parent directory missing.
+- Permissions: WSL2 `/c/` mounts via `drvfs`; permissions model differs from native Linux. Writes usually work but symlinks and `chmod` don't.
+- Obsidian has the file open and is writing to it: Obsidian auto-saves, so captures during an editing session can cause a write race — Obsidian's save could overwrite the capture's save, or vice versa.
+- File locking: Windows holds file handles more aggressively than Linux; Obsidian might lock the file briefly during its save cycle.
+- Path with spaces (`Obsidian Vault`) requires correct escaping in shell commands.
+**Why it happens:** WSL2 + Obsidian + filesystem interop is a three-way interaction surface.
 **Prevention:**
-- Generator uses exactly: `tags`, `aliases`, `cssclasses` (plural). Unit test on the frontmatter serializer that forbids singular forms.
-- Don't emit `tag:`, `alias:`, `cssclass:` ever. Treat them as forbidden property names.
-- Don't use our own property names that collide with `publish`, `permalink`, `description`, `image`, `cover` unless we mean the Publish semantics.
-- Keep custom properties (title, date if any, category, exhibitType) in a stable, **documented** schema in the generator — write it down in `scripts/build-markdown/README.md` or in PLAN.md so future changes know what's reserved. Pin each property's type and never vary it across notes.
+- Require the output path as a config value; fail loud with a specific error if the directory doesn't exist (don't auto-create the vault).
+- Write to a `.tmp` file in the vault, then atomic rename to the final name (`fs.rename` is atomic on same filesystem).
+- Before writing, check if the target file exists and is newer than the capture start time — if so, warn and require a `--force` flag (protects against overwriting Dan's in-progress edits).
+- Output path from config, not hardcoded.
+- Document the "close Obsidian before re-running" convention, or at least "don't have the target file open."
+**Detection:** Post-write, re-read the file and byte-compare against what was written. If mismatch, error.
+**Severity:** MODERATE (data loss in edge cases)
+**Phase:** Writer phase (atomic write, staleness check, explicit config)
 
-**Detection:** Unit tests on the frontmatter serializer. Also open the vault in Obsidian once in foundation phase to visually verify tags show up in the tag pane — training data can't substitute for actually launching the app.
-
-**Phase Hint:** implementation
-**Severity:** block
-
----
-
-### 4.5 Obsidian tag format rules — spaces, leading digits, nested tags
-
-**Description:** Generator emits `tags: ["Investigation Report", "1984"]`. Both are invalid Obsidian tags: spaces are prohibited, and tags must contain at least one non-numeric character. Obsidian silently discards them.
-
-**Why It Happens:** Per Obsidian official docs (HIGH confidence):
-- Tags: letters, numbers, `_`, `-`, `/` (for nesting), Unicode.
-- **No spaces.** Use camelCase / PascalCase / snake_case / kebab-case.
-- **Must contain at least one non-numerical character.** `#1984` is invalid; `#y1984` works.
-- Forward slash creates nested hierarchies: `inbox/to-read`. Searching a parent tag matches all children.
-- Case-insensitive in function but preserves first-used casing in display.
-
+### MOD-11: Images captured as base64 inflate file size; URLs go dead later
+**What goes wrong:** Turndown default for `<img>` is `![alt](src)`. If `src` is a relative path on the live site (`/images/foo.png`), the captured Markdown has broken image references when viewed outside the site context. If the tool rewrites to absolute URLs (`https://pattern158.solutions/images/foo.png`), the images work — until the site is rebuilt and the paths change. Inline base64 inflates the Markdown to multi-megabyte and makes diffs useless.
+**Why it happens:** Portable Markdown and source Markdown have different image-handling needs.
 **Prevention:**
-- **Tag sanitizer** applied to every tag:
-  1. Replace spaces with `-` (or `_`, pick one — kebab-case is the conventional community default).
-  2. Strip characters outside `[A-Za-z0-9_\-/]` plus Unicode letters. Keep this conservative — forbid emoji unless explicitly wanted, to avoid file encoding headaches.
-  3. If the result is purely numeric, prefix with a letter (e.g. `y2026`) or throw.
-  4. Normalize casing to one convention project-wide. Recommendation: **kebab-case**, because tag arrays in YAML look cleaner.
-- For nested tags: define a small map from category → `category/subcategory` path. Do not auto-split on arbitrary punctuation.
-- **Decision to make in foundation phase:** flat tags (`investigation-report`, `engineering-brief`) or nested (`case-file/investigation-report`, `case-file/engineering-brief`). Nested is more Obsidian-idiomatic but commits you to a taxonomy that's painful to rename later. Flat is safer for v7.0. The v5.3/v6.0 FAQ taxonomy (7 categories) is already flat — match that pattern.
+- For editorial review, prefer **absolute URLs** — Obsidian can display them inline, they stay viewable as long as the live site is up.
+- Add alt-text preservation as the fallback (never lose `alt`).
+- Do NOT inline as base64 (breaks the determinism goal and bloats diffs).
+- Optional: download referenced images to a sibling `_assets/` folder in the vault and rewrite to local paths. More complex; only worth it if the editorial horizon is long.
+- Document the choice clearly in a header comment of the output.
+**Severity:** MODERATE (editorial usefulness depends on image context)
+**Phase:** Rendering phase (Turndown image rule); Writer phase (if downloading assets)
 
-**Detection:** Unit tests on the tag sanitizer. Open the vault in Obsidian's tag pane and verify all expected tags appear and none are missing.
-
-**Phase Hint:** implementation
-**Severity:** block
-
----
-
-### 4.6 Circular wikilinks + unresolved links showing up as "ghost notes"
-
-**Description:** Exhibit A links to Exhibit B which links back to Exhibit A. The exporter copies these fine, but then links to "HomePage" or "CaseFiles" that don't exist as notes because the generator only produced exhibit notes. Obsidian shows them as unresolved (ghost) notes — click and you get a "Create note?" prompt.
-
-**Why It Happens:**
-- Circular links are fine in Obsidian (they're just a graph). The real trap is links to *pages that the generator didn't create*.
-- Internal navigation in the Vue site uses route paths (`/case-files`, `/philosophy`), which don't translate to wikilink targets.
-
+### MOD-12: Inline code and whitespace-around-code mangled by Turndown
+**What goes wrong:** Turndown default preserves inline code (`<code>` → `` `code` ``), but:
+- Whitespace before/after inline code can be collapsed or extended depending on surrounding context.
+- `<code>` inside `<pre>` should become a fenced code block; sometimes becomes indented code.
+- `<code>` with HTML entities (`&lt;`) should decode to `<` in the backtick block.
+**Why it happens:** Markdown's code semantics are context-sensitive.
 **Prevention:**
-- **Link-target whitelist.** The generator tracks every `.md` file it writes. When emitting any wikilink, it checks the target is in the whitelist. If not, it either (a) drops the link and keeps the display text, or (b) fails the build. Recommendation: **drop-and-keep-text by default, with a warning count printed at end of build. Block if warning count exceeds a small threshold (say, 5).**
-- **Map Vue router paths to note basenames** in a single place (`scripts/build-markdown/routeMap.ts`). Every link conversion goes through this map. Unknown routes fail loudly.
-- Make sure all 9 site routes (per PROJECT.md) produce a note, so internal nav links always have a target.
+- Configure Turndown: `codeBlockStyle: 'fenced'`, `fence: '```'`.
+- Test with known-good fixture HTML containing code (e.g., from exhibit content that mentions technical terms in `<code>`).
+- Preserve language hints if the source has them (`<code class="language-ts">` → ```` ```ts ````).
+**Severity:** MODERATE (technical-exhibit readability)
+**Phase:** Rendering phase (Turndown config)
 
-**Detection:** Post-build script that greps all `.md` files for `[[...]]` and asserts every target exists (same manifest pattern as 4.3).
-
-**Phase Hint:** implementation
-**Severity:** warn (block if manifest unresolved count > 0)
-
----
-
-## 5. Markdown Generation Traps
-
-### 5.1 Unescaped pipe `|` inside table cells
-
-**Description:** A personnel entry's role field contains `Engineer | Tech Lead`. Generator renders a table row `| Jane | Engineer | Tech Lead | ACME |`. The table has too many columns in GitHub's and Obsidian's renderer, breaking layout or misaligning cells.
-
-**Why It Happens:** GFM table cells use `|` as column separator. To include a literal pipe, it must be escaped as `\|`. This is the single most common markdown-table bug and the personnel/technologies/findings arrays that v4.0 promoted to first-class typed arrays are the highest-risk source because they will almost certainly render as tables.
-
+### MOD-13: Capture run hits production and skews analytics / triggers alerts
+**What goes wrong:** If pattern158.solutions has analytics (GA, Plausible, Cloudflare Analytics), capture runs inflate pageview counts. If anything alerts on traffic spikes (unlikely on a portfolio site but worth flagging), alerts fire.
+**Why it happens:** Automated browsers look like real users to analytics.
 **Prevention:**
-- Write an `escapeTableCell(s)` helper. Apply to **every** cell. Rules:
-  - Replace `\` with `\\` first.
-  - Replace `|` with `\|`.
-  - Replace newlines with `<br>` (GFM allows limited HTML in tables).
-  - Preserve other characters as-is.
-- Unit test with: pipes, backslashes, newlines, empty string, leading/trailing whitespace, HTML entities.
-- Alternative: for prose-heavy content, skip tables and use definition lists or H3 sub-sections. Tables are brittle; use them only for genuinely tabular data.
-
-**Detection:** Unit tests on the escape helper. Visual inspection in Obsidian of any exhibit that has personnel/technologies/findings.
-
-**Phase Hint:** implementation
-**Severity:** block
+- Set a distinctive UA (`pattern158-editorial-capture/1.0 (playwright)`) so analytics can filter it out.
+- In the capture tool, block analytics scripts via `page.route()` — intercept requests to known analytics domains (google-analytics, plausible, cloudflare-insights) and abort. Side benefit: faster captures, reduces determinism issues (CRIT-07).
+**Severity:** MODERATE (cosmetic — analytics pollution)
+**Phase:** Capture phase (request interception)
 
 ---
 
-### 5.2 Unescaped `<`, `>`, `*`, `_`, `` ` `` in prose
+## 3. Minor Pitfalls
 
-**Description:** A finding's description contains `value < 0` or `React.Component<Props>`. Markdown renders partially, the `<` starts an HTML tag that never closes, and the rest of the paragraph disappears.
+*Cosmetic or preferential; don't break editorial review but make it less polished.*
 
-**Why It Happens:** CommonMark and GFM treat `<` as a possible HTML tag opener. Markdown also treats `*` / `_` as emphasis and `` ` `` as code span. Any of these in raw prose can corrupt rendering.
+### MIN-01: Excess blank lines between sections
+**What:** Turndown can emit 3+ blank lines where 1 or 2 suffice. Not a bug — heuristic choices.
+**Prevention:** Post-process Markdown: collapse 3+ newlines to 2.
+**Severity:** MINOR
+**Phase:** Rendering phase (post-processor)
 
-**Prevention:**
-- Write an `escapeProse(s)` helper. Rules:
-  - Escape `\` → `\\`
-  - Escape `` ` `` → `` \` ``
-  - Escape `*` → `\*`
-  - Escape `_` → `\_` (only word-boundary ones in theory; escape all for safety)
-  - Escape `[` → `\[` and `]` → `\]` (prevent accidental link syntax)
-  - Replace `<` with `&lt;` and `>` with `&gt;` **unless** the string is inside a code block.
-  - Leave `#` alone inside prose (it's only meaningful at start of line).
-- **Use different escape helpers for different contexts**: `escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`, `escapeCodeBlockContent` (no escaping — only check for triple-backtick collisions, see 5.4). Keep them in one module, unit-tested together.
-- Do not use a "one-size-fits-all escape" function. Context matters.
+### MIN-02: Internal anchor links (`href="#section-id"`) go dead across documents
+**What:** On the live site, `[Jump to section](#findings)` works. In the captured Markdown, if sections are flattened or renamed, the anchor doesn't resolve.
+**Prevention:** Either rewrite anchors to point at the Markdown heading slug (use `github-slugger`, already installed in package.json), or strip anchor-only links. Document the choice.
+**Severity:** MINOR
+**Phase:** Rendering phase
 
-**Detection:** Unit tests per helper. Visual inspection in Obsidian and on GitHub.
+### MIN-03: ARIA-only content (e.g., `aria-label` on icons) not captured
+**What:** `<button aria-label="Close">×</button>` — Turndown captures `×`, loses the label. For editorial review, icon buttons mostly don't have content to edit, so this is fine.
+**Prevention:** If important, custom Turndown rule to prefer `aria-label` over text content for icon-only buttons. Probably not needed.
+**Severity:** MINOR
+**Phase:** N/A unless user reports missing content
 
-**Phase Hint:** implementation
-**Severity:** block
+### MIN-04: Scoped style attributes (`data-v-<hash>`) leak into output
+**What:** Vue SFCs with `<style scoped>` add `data-v-abc123` to every element. Turndown drops these (it drops attributes it doesn't know). But custom rules preserving HTML may include them.
+**Prevention:** Strip `data-v-*` attributes in DOM sanitization step before Turndown.
+**Severity:** MINOR
+**Phase:** Rendering phase (DOM sanitization)
 
----
+### MIN-05: Route order in capture arbitrary
+**What:** Iterating over `exhibits.json` gives JSON-file order. NavBar order may differ. If the Markdown document is expected to match "reading the site as a visitor would," NavBar order is the right source.
+**Prevention:** Define capture order explicitly: Home → NavBar routes in NavBar order → exhibit detail pages in CaseFilesPage order. Document in tool config.
+**Severity:** MINOR (affects review flow, not content)
+**Phase:** Orchestration phase
 
-### 5.3 Blank-line handling around lists and code blocks
-
-**Description:** Generator emits a list immediately after a paragraph with no blank line: `Foo\n- bar\n- baz`. CommonMark-strict parsers treat `- bar` as part of the paragraph (or as a loose list, depending). GitHub's renderer is lenient, Obsidian's is slightly different, and a CommonMark linter in CI will fail.
-
-**Why It Happens:** Markdown block rules require a blank line before certain block elements (lists, code fences, headings, tables) to ensure they start a new block. It's easy to miss when concatenating strings.
-
-**Prevention:**
-- **Block builder abstraction.** Instead of concatenating strings, represent the document as an array of block objects (`heading`, `paragraph`, `list`, `table`, `codeBlock`, `frontmatter`) and render at the end with `blocks.map(render).join('\n\n')`. The double-newline join guarantees blank-line separation between blocks.
-- Exactly one blank line between blocks, two at the end of the document (trailing newline).
-- Inside a list item, nested content (continuation paragraphs, sub-lists) needs 2 or 4 spaces of indentation — document the convention and use it consistently.
-- Do not manually emit `\n\n` in render functions; rely on the join.
-
-**Detection:**
-- Run all generated files through a markdown linter (`markdownlint-cli2`) in CI. Preset a config that enforces blank lines around lists/headings/code blocks (`MD022`, `MD031`, `MD032`).
-- Visual spot-check in both GitHub's preview and Obsidian.
-
-**Phase Hint:** implementation
-**Severity:** warn (block if markdownlint fails CI)
+### MIN-06: No "last captured" metadata embedded
+**What:** Dan can't tell when the Markdown was last generated.
+**Prevention:** Frontmatter with `captured_at`, `source_url`, `site_version_sha` (if available), `tool_version`.
+**Severity:** MINOR
+**Phase:** Writer phase (frontmatter generator)
 
 ---
 
-### 5.4 Triple-backtick inside code block content
+## 4. Project-Specific Warnings
 
-**Description:** A code sample in an exhibit contains the literal characters ` ``` ` (maybe a nested markdown example). Generator wraps it in a triple-backtick fence. The inner backticks close the fence early, everything after leaks into the document.
+*Pitfalls specific to the pattern158-vue codebase and its live deployment.*
 
-**Why It Happens:** Markdown fence rules: a fence opened with N backticks is closed by a line of ≥N backticks of the same character.
+### P158-01: FAQ accordion is the flagship behind-interaction content
+**Why it matters:** 27 FAQ items (14 original + 13 vault-merged) are the densest prose on the site after exhibit details. Missing them in capture loses a disproportionate amount of Dan's voice and positioning.
+**Specific behavior:** `FaqAccordionItem.vue:39-48` wraps the answer in a `<div>` with `:hidden="!isOpen || undefined"`. Inner paragraphs always exist in DOM. The filter bar (`FaqPage`) also filters items out via reactive state.
+**Two actions required before capture:**
+  1. Click "All" filter (`[data-filter="all"]`)
+  2. Open every accordion (`.faq-accordion-item:not(.is-open) .faq-accordion-trigger[aria-expanded="false"]` → click each, or use the `is-open` class presence as the idempotency check)
+**Verification:** Captured Markdown should contain the `answer` text of every item in `src/data/json/faq.json`. Add a post-capture assertion.
+**Severity:** CRITICAL → see CRIT-01
 
-**Prevention:**
-- Scan each code block's content for the longest run of backticks (call it `m`), then open and close with `max(m+1, 3)` backticks. Code fences can be 3, 4, 5, … backticks.
-- Always specify a language hint (` ```ts ` not ` ``` `) — small win for readability, zero cost.
-- Strip trailing whitespace from each line of the code block before emission.
+### P158-02: Exhibit detail pages have desktop-only table variants
+**Why it matters:** v5.1 added personnel/technologies/findings mobile card layouts matching the findings pattern. Desktop (≥ certain breakpoint) renders `<table>`; mobile renders stacked cards. The two versions carry the same data but *different* HTML structures. Capturing both duplicates; capturing only mobile loses the tabular relationships; capturing only desktop matches how a reviewer looking for "the data" would expect to see it.
+**Action:** Capture at desktop viewport (`1280x800` or wider) so tables are used. Flag mobile-only content like entryType styling that might not have a desktop equivalent in the same detail.
+**Severity:** MODERATE (content present either way, but structure matters for tables)
 
-**Detection:** Unit test with a code block containing ` ``` ` and with 4-backtick inputs. Assert round-trip parses as a single fenced block.
+### P158-03: Exhibits are data-driven; the JSON is the source, but the rendered output is the truth
+**Why it matters:** v7.0 ABORT lesson — data modules alone cannot reconstruct the rendered page. 15 exhibits × variable number of sections (text, table, timeline, metadata, flow, personnel, technologies, findings) × conditional rendering (sectionHasContent guard from v2.1) means the DOM is the ground truth. If the tool tries to "shortcut" by reading JSON directly, it will re-create the v7.0 failure mode.
+**Action:** Never fall back to reading JSON for exhibit content. The whole point of v8.0 is to capture rendered output. Document this invariant in the tool.
+**Severity:** CRITICAL (for getting v8.0 right vs. repeating v7.0's mistake)
 
-**Phase Hint:** implementation
-**Severity:** block (it corrupts the whole document downstream of the bad block)
+### P158-04: Pages listing (audited: `src/pages/`)
+Actual routes for capture planning:
+  - `/` (HomePage)
+  - `/philosophy` (PhilosophyPage)
+  - `/technologies` (TechnologiesPage)
+  - `/case-files` (CaseFilesPage) + 15 exhibit detail slugs
+  - `/faq` (FaqPage)
+  - `/contact` (ContactPage)
+  - `/accessibility` (AccessibilityPage)
+  - `/review` (ReviewPage) — present in pages/
+  - `/personnel-diag` (PersonnelDiagPage) — likely internal/debug; decide whether to include
+**Action:** Include a route manifest in the tool config, not an auto-discovery crawler. Explicit list = reproducible. Skip `/personnel-diag` unless Dan confirms it's for editorial review.
+**Severity:** MINOR (configuration clarity)
 
----
+### P158-05: NotFoundPage returns 200 OK (SPA default)
+**Why it matters:** See CRIT-04. Bad slug → NotFoundPage renders → HTTP 200 → scraper thinks it succeeded.
+**Action:** Known selector assertion per route (e.g., exhibit detail must have `[data-exhibit-type]` or `.exhibit-label`). If selector absent, treat as failure.
+**Severity:** CRITICAL → see CRIT-04
 
-### 5.5 To-wrap-or-not-to-wrap: line wrapping ruins diffs
+### P158-06: Theme toggle (dark/light) affects rendered colors, not content
+**Why it matters:** Not a capture problem (colors aren't in Markdown), but screenshot captures would vary.
+**Action:** If screenshots included, pin theme via `localStorage` in a `page.addInitScript()` hook so runs are deterministic.
+**Severity:** MINOR (only applies if screenshots are in scope)
 
-**Description:** Generator wraps prose at 80 columns "for readability." Someone edits a single word in a paragraph — the wrap re-flows and the diff looks like the whole paragraph changed. PR reviewers can't tell what actually moved.
+### P158-07: `pnpm build` runs `build:markdown` which runs v7.0's `scripts/markdown-export/index.ts`
+**Why it matters:** v7.0 was aborted, but `package.json` still has `"build": "vue-tsc -b && vite build && pnpm build:markdown"`. The v8.0 tool must not collide with or clobber the (retained but dormant) v7.0 output. They should occupy different directories.
+**Action:** v8.0 tool lives in `scripts/editorial/` (per ABORT-NOTICE.md recommendation), writes to the Obsidian vault (external path), not to the repo. Zero collision with `scripts/markdown-export/`.
+**Severity:** MINOR (already anticipated in ABORT-NOTICE.md)
 
-**Why It Happens:** Line wrapping is cosmetic but destroys diffability for content-driven files.
+### P158-08: `github-slugger` and `yaml` already in devDeps — reuse them
+**Why it matters:** No need to add new deps for slug generation or YAML frontmatter. Reuse what Phase 38 shipped.
+**Action:** v8.0 writer imports `github-slugger` for heading slugs (useful if anchor rewriting, MIN-02) and `yaml` for frontmatter.
+**Severity:** MINOR (efficiency)
 
-**Prevention:**
-- **Never wrap prose.** One paragraph = one line, regardless of length.
-- Markdown renderers handle soft-wrap at display time. Obsidian does this. GitHub does this. VS Code does this. There is zero benefit to hard-wrapping the source.
-- Exception: YAML frontmatter arrays can be multi-line if they're long, because that's standard YAML. Use block style (`- foo\n- bar`) for arrays of 3+ items, inline (`[foo, bar]`) for 1-2.
+### P158-09: Playwright 1.58 already installed with browsers provisioned for tests
+**Why it matters:** No new browser installs needed; piggyback on the existing playwright install.
+**Action:** Use `import { chromium } from 'playwright'`. Consider launching with `channel: 'chromium'` and headful during development, headless for CI-like runs.
+**Severity:** MINOR (efficiency)
 
-**Detection:** A linter rule that enforces wrapping is the *wrong* detection. The correct detection is code review discipline: reject PRs to the generator that introduce any `wrap(text, N)` logic.
+### P158-10: The live site `pattern158.solutions` is not Wrangler preview; capture URL must be the production URL
+**Why it matters:** The repo's `pnpm preview` runs `wrangler dev` — that's local Cloudflare Workers simulation, not the deployed site. Editorial review is of the live deployed artifact.
+**Action:** Config default: `https://pattern158.solutions`. Allow override to `http://localhost:4173` or wrangler dev for local testing of the capture tool itself.
+**Severity:** MINOR (config clarity)
 
-**Phase Hint:** implementation
-**Severity:** warn
+### P158-11: The Obsidian vault path is `/c/main/Obsidian Vault/` on this machine (WSL2)
+**Why it matters:** Hardcoding this path couples the tool to Dan's machine. Other contributors / CI runs fail.
+**Action:** Config file or env var (`EDITORIAL_VAULT_PATH`). Default to a repo-local `.planning/editorial-captures/` if vault path not configured. Ensures tool is portable.
+**Severity:** MODERATE (portability)
 
----
-
-### 5.6 Heading collisions inside a single document and ToC anchor normalization
-
-**Description:** Monolithic `site-content.md` has two `## Findings` sections (one under Exhibit A, one under Exhibit B). A generated ToC anchor link `#findings` points to whichever renders first. Click from Exhibit B's ToC row jumps back to Exhibit A.
-
-**Why It Happens:**
-- GitHub's markdown renderer generates anchor slugs by lowercasing, replacing spaces with `-`, and stripping punctuation. Duplicates get `-1`, `-2` suffixes.
-- Obsidian's algorithm is slightly different.
-- A hand-generated ToC will disagree with whichever parser you didn't test against.
-
-**Prevention:**
-- **Avoid duplicate headings in the monolithic doc.** Prefix sub-section headings with the exhibit id: `## Exhibit A — Findings`, `## Exhibit B — Findings`. This also reads better.
-- **Don't generate a ToC manually.** GitHub renders markdown files with a built-in ToC in the file view; Obsidian has its own Outline pane. A hand-rolled `[Jump to Findings](#findings)` table duplicates work and will drift.
-- If a ToC is required (e.g. someone explicitly wants it at the top of the monolithic doc), use a library like `markdown-toc` or `remark-toc` and regenerate it as part of the build — never hand-maintained.
-
-**Detection:** Script that greps all headings from the monolithic file, finds duplicates, fails build.
-
-**Phase Hint:** implementation
-**Severity:** warn
-
----
-
-## 6. Build Pipeline & Committed-Generated-Files Traps
-
-### 6.1 Committing generated files is usually an anti-pattern — mitigations when it's intentional
-
-**Description:** `docs/site-content.md` is committed to the repo. Every content change produces a two-file commit (source + generated), PRs get noisy, merge conflicts in the generated file become routine.
-
-**Why It Happens:** The stated goal is "GitHub browsing" — so the files must be visible on GitHub, which means committed. This is a legitimate use case for committing generated files, but it has well-known trade-offs.
-
-**Prevention (mitigations for a *deliberate* committed-generated-files pattern):**
-
-1. **Determinism first.** Without strict determinism (section 3), every mitigation below fails. This is the non-negotiable prerequisite.
-2. **CI drift guard** (restated from 2.2): `npm run build:markdown && git diff --exit-code docs/`. Fails any PR that didn't regenerate.
-3. **"DO NOT EDIT" header** on every generated file:
-   ```
-   <!--
-   THIS FILE IS GENERATED. DO NOT EDIT.
-   Source: src/data/json/**
-   Regenerate: npm run build:markdown
-   -->
-   ```
-4. **Pre-commit hint** (advisory only): a `lint-staged` entry that warns if staged files include edits to `docs/` but no corresponding edits to `src/data/json/**` or generator scripts. Warn, don't block — this catches accidental hand-edits but lets intentional generator changes through.
-5. **Merge strategy for `docs/**`**: accept that merge conflicts in `docs/` are resolved by regenerating from source. Document the recipe: "on conflict in `docs/`, run `npm run build:markdown` and accept its output."
-6. **CODEOWNERS (optional)**: add `docs/ @dan` so PR-time review catches hand-edits.
-
-**Alternative: don't commit them at all.** Serve via GitHub Actions artifacts or a release workflow. Downside: GitHub rendered view disappears. Decision point for foundation phase — but PROJECT.md already committed to "committed under `docs/` for GitHub browsing," so accept and mitigate.
-
-**Detection:** CI guard (#2 above) is the primary detector.
-
-**Phase Hint:** polish
-**Severity:** block (for the CI guard specifically)
+### P158-12: Cloudflare Pages may rewrite `/some-route` to `/index.html` (SPA fallback)
+**Why it matters:** Standard SPA deployment: any unknown path serves index.html which the SPA router then handles. This means the HTTP response for `/case-files/exhibit-a` is byte-identical to `/` initially — the URL-specific content is JS-rendered. Confirms that `goto + waitForSelector` is the right pattern; URL-based HTTP checks are useless.
+**Action:** Do not use HTTP status or response body inspection to validate "page loaded." Always use DOM-based checks after JS execution.
+**Severity:** MODERATE → addressed by CRIT-03 prevention
 
 ---
 
-### 6.2 Generation timing: install-time vs build-time vs on-demand
-
-**Description:** Team debates whether to put generation in `postinstall`, `build`, or `prepare`. Each has failure modes.
-
-**Why It Happens:**
-- `postinstall` runs on every `npm install` — adds latency to every CI run and every `node_modules` reinstall, for zero benefit if the source hasn't changed.
-- `prepare` runs on install AND on publish — even worse, and this isn't a publishable package.
-- Running only in `build` means `npm run test` / Storybook runs don't regenerate, which is correct behavior.
-- On-demand only (`npm run build:markdown`) means forgetfulness (see 2.2).
-
-**Prevention:**
-- **Build-time + CI drift guard.** Generation runs as part of `vite build` (ideally as a Vite plugin, see 1.4), and CI enforces that `git diff docs/` is clean after build. That's the entire contract.
-- Do NOT hook into `postinstall` or `prepare`. Document this in PLAN.md as a forbidden choice.
-- Provide `npm run build:markdown` as a standalone entry point for fast local iteration, but don't make anything *depend* on it.
-
-**Detection:** Code review — reject any PR that adds `postinstall` / `prepare` hooks for markdown generation.
-
-**Phase Hint:** foundation
-**Severity:** warn
-
----
-
-### 6.3 Generated files in the wrong directory break everything downstream
-
-**Description:** Generator writes to `docs/` which turns out to also be the GitHub Pages publish directory, or the Vite build output directory, or the Storybook build output, or all three. Generated markdown gets wiped on every build, or accidentally deployed, or served as web content.
-
-**Why It Happens:** `docs/` is heavily overloaded in the JavaScript ecosystem. Multiple tools default to reading or writing it.
-
-**Prevention:**
-- **Audit directory conflicts in foundation phase.** Verify that `docs/`:
-  - Is NOT in Vite's `outDir` (currently defaults to `dist/` — vite.config.ts has no explicit `outDir`, so safe).
-  - Is NOT a Storybook build output (Storybook defaults to `storybook-static/`, so safe).
-  - Is NOT a Cloudflare Pages / Wrangler publish directory — **needs explicit verification against `wrangler.toml`** before writing into `docs/`.
-  - Is NOT scanned by Vitest (tests live under `src/` today, should be safe, but verify).
-- Add `docs/` to deployment ignore lists if deployed content is served from `dist/` only.
-- Consider a more specific name like `docs/markdown-export/` if `docs/` is risky — a sub-namespace inside docs is free insurance.
-- Document the directory structure in PLAN.md with a note: "These directories are ONLY for the markdown export. Do not commit other docs here."
-
-**Detection:** Run a full `npm run build && npm run build:markdown && npm run deploy -- --dry-run` sequence in foundation phase and inspect what ended up where.
-
-**Phase Hint:** foundation
-**Severity:** block
-
----
-
-## 7. Scope Creep — Features to Firmly Say NO To
-
-Each of these sounds small and will appear in review comments or follow-up issues. Write them in PLAN.md as explicit non-goals with a one-sentence reason.
-
-### 7.1 Search index
-
-**Description:** "Let's add a `docs/search-index.json` so the generated docs are searchable." Sounds small. Involves tokenization, stop words, scoring, a runtime to consume it, deciding what "searching markdown" even means.
-
-**Prevention:** NO for v7.0. Obsidian already has full-text search for the vault. GitHub has full-text search for the monolithic file. There is no consumer for a custom search index.
-
-**Phase Hint:** scope-boundary (document in PLAN.md out-of-scope)
-**Severity:** block (if someone tries to add it)
-
----
-
-### 7.2 Graph export / vault visualization
-
-**Description:** "Can we also emit a `.mermaid` or `.gexf` graph of the wikilink structure?"
-
-**Prevention:** NO. Obsidian's built-in graph view already shows the vault graph. A separate graph export is work for no consumer.
-
-**Phase Hint:** scope-boundary
-**Severity:** block
-
----
-
-### 7.3 Full HTML rendering alongside markdown
-
-**Description:** "While we're generating markdown, why not also generate rendered HTML so we have a static copy of the site?"
-
-**Prevention:** NO. This is SSG, which is explicitly out-of-scope in PROJECT.md for v7.0. Markdown and HTML are different products with different fidelity requirements. Doing both doubles scope.
-
-**Phase Hint:** scope-boundary
-**Severity:** block
-
----
-
-### 7.4 Asset copying (images, CSS, downloadable files)
-
-**Description:** "Copy all images into `docs/obsidian-vault/assets/` so the vault is self-contained."
-
-**Prevention:** NO. PROJECT.md already states "Images skipped, alt text preserved as italicized captions." Hold this line. Asset pipelines drag in:
-- Image format conversions (Obsidian wants `.png`/`.jpg`, site may have `.webp`/`.svg`)
-- Alt text vs caption rendering decisions
-- Sizing decisions (vault can't easily do responsive images)
-- Committing binary files to git (size bloat)
-- Wikilink vs markdown image syntax (`![[image.png]]` vs `![](image.png)`)
-
-**Phase Hint:** scope-boundary
-**Severity:** block
-
----
-
-### 7.5 Bidirectional sync (editing markdown regenerates JSON)
-
-**Description:** "So can Dan also edit the markdown in Obsidian and have it sync back to the JSON source?"
-
-**Prevention:** NO, NO, NO. One-way generation only. Bidirectional sync is a product category, not a feature. Document loud and clear: **JSON is source of truth. Markdown is a derived artifact. Edits to markdown are destroyed on next regen.**
-
-**Phase Hint:** scope-boundary
-**Severity:** block
-
----
-
-### 7.6 "Just a few more frontmatter fields"
-
-**Description:** A frontmatter schema that grows by one field per week: `author`, `status`, `lastReviewed`, `reviewer`, `confidence`, `visibility`, `relatedExhibits`, `supersedes`, …
-
-**Prevention:** Freeze the frontmatter schema in foundation phase. Any new field requires an explicit PLAN.md amendment and a stated Obsidian-side consumer ("I want to filter exhibits by `status` in the Obsidian tag pane" is a valid consumer; "it might be useful someday" is not).
-
-**Phase Hint:** scope-boundary
-**Severity:** warn
-
----
-
-## 8. Testing Traps
-
-### 8.1 Snapshot fragility
-
-**Description:** Every minor generator edit updates dozens of snapshot files. Team learns to `--update-snapshots` blindly, real regressions slip through.
-
-**Why It Happens:** Snapshot testing the whole markdown output couples tests to every cosmetic detail (blank lines, heading capitalization, frontmatter key order).
-
-**Prevention:**
-- **Snapshot at the smallest useful granularity.** Test individual renderers: `renderFrontmatter(input)`, `renderWikilink(input)`, `escapeTableCell(input)`, `renderFindings(findings)`. Each snapshot is a few lines.
-- **End-to-end test is a determinism test, not a snapshot test.** Run the generator twice, assert byte-equality of both runs. Do NOT snapshot the full `site-content.md` — that file should change whenever source content changes, which is most PRs.
-- **One golden-path integration test**: for a single representative exhibit (e.g. Exhibit A), snapshot its full generated `.md` file. This catches structural breakage without snapshotting everything.
-
-**Detection:** Measure snapshot update frequency. If snapshots update in more than ~10% of content-layer PRs, the snapshots are too fine-grained.
-
-**Phase Hint:** polish
-**Severity:** warn
-
----
-
-### 8.2 Trailing-whitespace and invisible-character drift
-
-**Description:** A test passes locally but fails in CI because the generator emitted `"foo \n"` (trailing space) on one platform and `"foo\n"` on another, or because a non-breaking space (U+00A0) snuck in from copy-pasted source content.
-
-**Why It Happens:**
-- Some template string compositions end up with stray trailing spaces from interpolation like `` `${value} ${maybeEmpty}` ``.
-- Source JSON may contain invisible Unicode characters (BOM, NBSP, zero-width spaces) from content that was pasted from Word docs or web pages.
-
-**Prevention:**
-- **Generator post-process**: before writing each file, strip trailing whitespace on every line, normalize line endings to `\n`, strip any U+FEFF BOM at start, normalize NBSP (U+00A0) to regular space in prose (but preserve it inside code blocks if ever needed).
-- Run the output through a lightweight whitespace normalizer as the very last step.
-- Unit test the normalizer with fixtures containing all the invisible characters.
-- Use a `.editorconfig` for `docs/*.md` specifying LF + trim trailing whitespace + final newline.
-
-**Detection:** `git diff` on the generator output will surface trailing whitespace in red if git is configured normally. Also: a CI step that runs `grep -nP ' $' docs/` and fails if anything matches.
-
-**Phase Hint:** polish
-**Severity:** block
-
----
-
-### 8.3 Windows vs Unix line ending drift
-
-Covered under 3.4. Cross-referenced here for the testing checklist.
-
-**Prevention:** `.gitattributes` pinning `docs/** text eol=lf`, generator writes `\n` literals only, CI test on at least one Linux runner validates byte-exact output.
-
-**Phase Hint:** polish
-**Severity:** warn
-
----
-
-### 8.4 Testing Obsidian rendering without actually opening Obsidian
-
-**Description:** All unit tests pass. Files look right in GitHub. Dan opens the vault in Obsidian — wikilinks are broken, tags don't show up, frontmatter is parsed as "no properties."
-
-**Why It Happens:** Obsidian is not a pure CommonMark renderer. It has its own property parser, its own wikilink resolver, its own tag index. Unit-testing against a CommonMark parser catches some issues but not these.
-
-**Prevention:**
-- **Manual QA checkpoint**: early in the implementation phase (not at the end), open the generated vault in a real Obsidian instance. Check: tag pane shows expected tags, wikilinks resolve, frontmatter properties appear in the properties panel, search finds expected content. Write down findings as phase exit criteria.
-- Maintain a small "vault sanity check" document: 5-10 items to manually verify per release. Check it at every milestone boundary.
-- Consider screenshotting the Obsidian properties pane for a representative file and committing it to `docs/.qa/` as a visual baseline.
-
-**Detection:** Manual. There is no substitute for opening Obsidian. Automation of Obsidian rendering is not practical for a small project.
-
-**Phase Hint:** implementation (first check) + polish (final check)
-**Severity:** block (milestone cannot ship without at least one manual Obsidian QA pass)
-
----
-
-### 8.5 Markdown linter as a gate, not a dumping ground
-
-**Description:** `markdownlint-cli2` runs in CI and has a growing list of disabled rules because each one was "too strict" for some file. Eventually the linter disables enough rules to be useless.
-
-**Why It Happens:** Markdown linters have many rules; some conflict with generator output choices. Disabling rules file-by-file is the path of least resistance.
-
-**Prevention:**
-- **Pick a minimal lint set** in foundation phase and don't grow it. Recommended starter rules: `MD022` (blanks around headings), `MD031` (blanks around fences), `MD032` (blanks around lists), `MD040` (fenced code language), `MD041` (first line H1 or frontmatter), `MD047` (file ends with newline). These are all either already enforced by the generator or cheap to satisfy.
-- **Disable in config, not per-file.** If a rule doesn't fit, disable it globally with a one-line comment explaining why. Per-file disables are a smell.
-- Markdownlint is supplementary to determinism tests (3.1) and Obsidian manual QA (8.4). Don't treat it as the primary gate.
-
-**Detection:** Code review of `.markdownlint.json`. If the disabled list grows in any single PR, push back.
-
-**Phase Hint:** polish
-**Severity:** warn
-
----
-
-## Phase-Specific Warnings (Cross-Cutting Summary)
-
-| Phase          | Likely Pitfalls (section refs)                                                                   | Mitigation                                                                                  |
-|----------------|-------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| **foundation** | 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 6.2, 6.3                                                           | Pick script runtime. Audit content sources. Audit `docs/` directory collisions. Write it in PLAN.md before coding. |
-| **implementation** | 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 5.1, 5.2, 5.3, 5.4, 5.6, 8.4 (first pass)                     | Build renderers with escape helpers and uniqueness checks. Manual Obsidian QA checkpoint mid-phase. |
-| **polish**     | 2.2, 2.3, 3.1, 3.2, 3.3, 3.4, 6.1, 8.1, 8.2, 8.3, 8.4 (final), 8.5                              | Determinism tests, CI drift guard, line-ending/whitespace hardening, final Obsidian QA.    |
-| **all phases** | 7.1–7.6 (scope creep)                                                                           | Say NO in PR review. Point at PROJECT.md and this PITFALLS.md.                             |
-
----
-
-## Hard "Forbidden" List (for PLAN.md)
-
-Copy-paste candidate for the PLAN.md of each phase:
-
-- Forbidden: `@/` imports inside `scripts/build-markdown/**`.
-- Forbidden: `Date.now()`, `new Date()`, `process.hrtime`, `performance.now()` anywhere in the generator output.
-- Forbidden: `Promise.all` on read operations whose results feed ordered output.
-- Forbidden: `os.EOL` in the generator. Always `\n` literals.
-- Forbidden: manual editing of any file under `docs/`.
-- Forbidden: `postinstall` or `prepare` hooks that run the generator.
-- Forbidden: hand-written ToC anchors or heading-anchor wikilinks. Generator computes them or throws.
-- Forbidden: `assert { type: 'json' }` import syntax. Use `with { type: 'json' }` or `fs.readFile` + `JSON.parse`.
-- Forbidden: singular frontmatter keys `tag`, `alias`, `cssclass`. Only plural forms.
-- Forbidden: line wrapping of prose in generated markdown.
-- Forbidden: mtime/hash-based "skip unchanged" logic in the generator.
-- Forbidden: bidirectional sync (markdown → JSON).
-- Forbidden: asset/image copying into the vault.
-- Forbidden: full HTML rendering alongside markdown.
-- Forbidden: parsing `.vue` SFCs from the generator. Prose goes in JSON.
+## 5. Prevention Matrix
+
+| Pitfall | Severity | Phase | Verification approach |
+|---|---|---|---|
+| CRIT-01 FAQ answers behind accordion | CRITICAL | Capture | Post-capture: answer count matches `faq.json` item count |
+| CRIT-02 FAQ filter hides items | CRITICAL | Capture | Set filter to "All" before capture; assert rendered count = total |
+| CRIT-03 Navigation completes before Vue renders | CRITICAL | Capture | Per-route `waitForSelector` of known-good selector; content-length sanity check |
+| CRIT-04 Dynamic exhibit slug 404 | CRITICAL | Orchestration | Post-nav selector assertion; NotFoundPage signature detection; captured-count summary |
+| CRIT-05 Cloudflare edge cache serves stale | CRITICAL | Capture | Cache-buster query; log `cf-cache-status`; embed build SHA in frontmatter |
+| CRIT-06 Cloudflare bot detection / rate limit | CRITICAL | Capture | Headful Chromium; realistic UA; rate-limited sequential captures; interstitial detection |
+| CRIT-07 Non-deterministic Markdown output | CRITICAL | Rendering / Verification | Double-run `diff` test as part of tool's self-test |
+| MOD-01 NavBar/FooterBar duplication | MODERATE | Rendering | Strip `<nav>`, `<footer>`; target `<main>` |
+| MOD-02 Readability strips portfolio content | MODERATE | Stack decision | Reject Readability in STACK.md |
+| MOD-03 Missing `<main>` | MODERATE | Research + Capture | DOM audit pass + per-route selector manifest |
+| MOD-04 Heading level drift | MODERATE | Rendering | Document structure decision + "single H1 in document" assertion |
+| MOD-05 Nested list mangling | MODERATE | Rendering | Turndown config + round-trip tests against fixture HTML |
+| MOD-06 Table with rowspan/colspan | MODERATE | Rendering | Audit rendered tables; `keep: ['table']` fallback; desktop viewport |
+| MOD-07 DOM ≠ visual order (CSS `order`) | MODERATE | Research + Capture | CSS grep + manual spot-check + document exceptions |
+| MOD-08 Webfonts pending layout shift | MODERATE (screenshots only) | Capture | `document.fonts.ready` before screenshot |
+| MOD-09 Smart quotes / em-dash / mojibake | MODERATE-CRITICAL | Rendering + Verification | Explicit UTF-8 I/O; `â€` grep post-capture |
+| MOD-10 Obsidian vault write race / file lock | MODERATE | Writer | Atomic write via temp+rename; staleness check; config path |
+| MOD-11 Image handling (base64 vs URL) | MODERATE | Rendering | Absolute URLs with alt preserved; document choice |
+| MOD-12 Inline code whitespace | MODERATE | Rendering | Turndown `codeBlockStyle: 'fenced'`; fixture tests |
+| MOD-13 Capture pollutes analytics | MODERATE | Capture | Distinctive UA + `page.route()` block of analytics domains |
+| MIN-01 Excess blank lines | MINOR | Rendering | Post-process: collapse 3+ newlines to 2 |
+| MIN-02 Dead anchor links | MINOR | Rendering | Rewrite to slugs via `github-slugger` or strip |
+| MIN-03 ARIA-only content lost | MINOR | N/A | Only address if content loss noticed |
+| MIN-04 `data-v-*` attribute leakage | MINOR | Rendering | Strip `data-v-*` in DOM sanitization |
+| MIN-05 Arbitrary route order | MINOR | Orchestration | Explicit route list in config, matching NavBar + CaseFiles order |
+| MIN-06 No capture metadata | MINOR | Writer | Frontmatter: `captured_at`, `source_url`, `site_version_sha`, `tool_version` |
+| P158-01 FAQ behind-interaction | CRITICAL | Capture (FAQ-specific preparation step) | Open-all + filter-all idempotent; count assertion |
+| P158-02 Desktop table vs mobile card | MODERATE | Capture | Fixed 1280×800 viewport |
+| P158-03 Never fall back to JSON | CRITICAL (avoiding v7.0 re-occurrence) | Architecture | Tool invariant: all content comes from rendered DOM; no JSON reads |
+| P158-04 Route manifest explicit | MINOR | Orchestration | Config-driven manifest, not auto-crawl |
+| P158-05 SPA 404 = HTTP 200 | CRITICAL → CRIT-04 | Capture | Known-good selector per route |
+| P158-06 Theme toggle + screenshots | MINOR | Capture (if screenshots) | Pin theme via `addInitScript` + localStorage |
+| P158-07 Coexist with v7.0 `build:markdown` | MINOR | Repo layout | `scripts/editorial/` separate from `scripts/markdown-export/` |
+| P158-08 Reuse `yaml` + `github-slugger` | MINOR | Stack | Don't add duplicate deps |
+| P158-09 Reuse installed Playwright | MINOR | Stack | Import from existing `playwright` devDep |
+| P158-10 Live URL not Wrangler preview | MINOR | Config | Default to `https://pattern158.solutions`, override via config |
+| P158-11 Obsidian vault path portability | MODERATE | Config | Env var or config file; sensible repo-local default |
+| P158-12 SPA HTML fallback makes HTTP checks useless | MODERATE | Capture | DOM-based validation only |
 
 ---
 
 ## Sources
 
-- **Obsidian Properties (reserved field names, types):** https://publish-01.obsidian.md/access/f786db9fac45774fa4f0d8112e232d67/Editing%20and%20formatting/Properties.md — HIGH confidence (official Obsidian Help publish mirror)
-- **Obsidian Tags (format rules, nesting, invalid characters):** https://publish-01.obsidian.md/access/f786db9fac45774fa4f0d8112e232d67/Editing%20and%20formatting/Tags.md — HIGH confidence
-- **Obsidian Internal Links (wikilink syntax, disallowed filename characters `# | ^ : %% [[ ]]`):** https://publish-01.obsidian.md/access/f786db9fac45774fa4f0d8112e232d67/Linking%20notes%20and%20files/Internal%20links.md — HIGH confidence
-- **Node.js import attributes (`with { type: 'json' }` mandatory in Node 22+):** https://nodejs.org/api/esm.html#import-attributes — HIGH confidence
-- **esbuild tsconfig support (paths/baseUrl only resolved in bundle mode, not transform mode):** https://esbuild.github.io/content-types/#tsconfig-json — HIGH confidence
-- **tsx documentation (confirms tsconfig paths support is delegated to esbuild):** https://tsx.is/typescript — HIGH confidence for the esbuild-delegation claim
-- **Project context:** `.planning/PROJECT.md` v7.0 milestone, `package.json`, `tsconfig.json`, `vite.config.ts` — HIGH confidence (read directly)
-- **Markdown generation, determinism, committed-generated-files guidance:** drawn from well-established community practice (GFM spec, CommonMark spec, and general software-engineering experience with generated files). MEDIUM confidence — not verified against a single authoritative source per claim, but each claim is well-documented in multiple ecosystem sources. Flag for validation: 5.3 blank-line behavior around lists differs slightly between CommonMark-strict and GitHub's renderer; test in both to be sure.
+- **Direct code inspection:**
+  - `/home/xhiris/projects/pattern158-vue/src/components/FaqAccordionItem.vue` (confirmed `:hidden="!isOpen || undefined"` behavior)
+  - `/home/xhiris/projects/pattern158-vue/src/components/FaqFilterBar.vue` (filter state mechanism)
+  - `/home/xhiris/projects/pattern158-vue/src/data/json/exhibits.json` (15 exhibits, smart-quote source evidence)
+  - `/home/xhiris/projects/pattern158-vue/src/pages/` (route listing)
+  - `/home/xhiris/projects/pattern158-vue/package.json` (existing deps, scripts conflict check)
+- **Planning context:**
+  - `/home/xhiris/projects/pattern158-vue/.planning/v7.0-ABORT-NOTICE.md` (fidelity failure modes informing v8.0 direction)
+  - `/home/xhiris/projects/pattern158-vue/.planning/RETROSPECTIVE.md` (v7.0 lessons: composition fidelity, reading-order fidelity, dynamic routes)
+  - `/home/xhiris/projects/pattern158-vue/.planning/PROJECT.md` (stack constraints, Key Decisions)
+- **Training-data-informed claims** (flagged where relevant):
+  - Playwright navigation semantics (`waitUntil` options, `waitForSelector`) — HIGH confidence from Playwright docs stable across 1.x releases
+  - Turndown behavior on nested lists, tables, smart quotes — MEDIUM confidence; verify against specific v2.x behavior during implementation
+  - Cloudflare Pages edge caching, Bot Fight Mode defaults — MEDIUM confidence; verify against Cloudflare dashboard before relying on defaults
+  - Readability.js design assumptions (news-article heuristics) — HIGH confidence based on mozilla/readability README and issue tracker history
+  - WSL2 `/c/` drvfs semantics — HIGH confidence (stable Microsoft documentation)

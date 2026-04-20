@@ -1,311 +1,241 @@
-# v7.0 Research Synthesis — Static Markdown Export Pipeline
+# v8.0 Research Synthesis — Editorial Snapshot & Content Audit
 
-**Milestone:** v7.0 — emit two committed markdown artifacts from the existing Vue 3 + TypeScript + Vite site content
-**Researched:** 2026-04-10
-**Inputs:** STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md
-**Synthesis confidence:** HIGH (all four researchers converged on the same core decisions)
-
----
-
-## 1. Milestone Recap
-
-Two build-time artifacts, both committed under `docs/`:
-
-1. **`docs/site-content.md`** — single monolithic markdown doc, heading levels mirror the site tree. Primary audience: hiring managers skimming on GitHub.
-2. **`docs/obsidian-vault/`** — one `.md` per site page + 15 exhibit detail pages, folder structure mirrors the menu, YAML frontmatter, `[[wikilinks]]`, exhibit category tags. Primary audience: future CMS / Obsidian workflow.
-
-Triggered by both `npm run build` (chained after `vite build`) and `npm run build:markdown` (standalone).
-
-**User-confirmed decisions (from milestone intake):**
-
-- Both trigger modes (chained + standalone)
-- Output committed in repo at fixed `docs/` path
-- Scope = all site pages + every exhibit detail (exclude `/review`, `/diag`, 404)
-- Full Obsidian treatment — frontmatter, wikilinks, category tags
-- Content sourced from JSON data + page templates (prose extracted from SFCs, NOT headless Vue render / SFC AST parsing)
-- Images skipped, alt text preserved as italicized captions
+**Date:** 2026-04-19
+**Inputs:** STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md (+ PROJECT.md, v7.0-ABORT-NOTICE.md for context)
+**Overall confidence:** HIGH — all 4 researchers converge on the same mental model; verified against codebase and live upstream registries on research day.
 
 ---
 
-## 2. Recommended Stack
+## 1. Milestone Framing
 
-**3 new devDependencies only** — everything else is Node standard library.
+v8.0 is a **disposable, ~500-LOC, Playwright-driven capture tool** (`scripts/editorial/`) that visits every route on the live pattern158.solutions site, converts each page's rendered `<main>` to Markdown, and assembles one monolithic document for an editorial review pass. Output lives in the Obsidian vault at `career/website/site-editorial-capture.md`, is read and annotated by Dan, then feeds a `FINDINGS.md` doc and a milestone audit that decides v9.0's rebuild direction.
+
+The milestone explicitly replaces aborted v7.0. v7.0 extracted *source* modules as canonical truth; v8.0 treats the *rendered live site* as canonical truth for editorial judgment. Three-stage lifecycle — Capture → Editorial → Audit — is a pipeline feeding a human decision, not a product. `scripts/editorial/` shares zero imports with `scripts/markdown-export/` so the v7.0 retention boundary stays clean.
+
+---
+
+## 2. Stack Decisions (Locked)
+
+### Add (3 new devDependencies)
 
 | Package | Version | Role |
-|---|---|---|
-| `tsx` | `^4.21.0` | Run the export script as TypeScript directly |
-| `yaml` | `^2.8.3` | Emit Obsidian YAML frontmatter |
-| `github-slugger` | `^2.0.0` | Deterministic slugs for filenames and anchor-stable headings |
+|---------|---------|------|
+| `turndown` | `^7.2.4` | HTML→Markdown engine. Active again as of 2026-04-03. Embedded `@mixmark-io/domino` DOM means no jsdom. |
+| `@joplin/turndown-plugin-gfm` | `^1.0.64` | GFM tables (essential for personnel/technologies/findings). |
+| `@types/turndown` | `^5.0.6` | TS types (upstream ships no types). DefinitelyTyped. |
 
-Standard library: `node:fs/promises`, `node:path`, `node:url`.
+### Bump
 
-**Explicitly rejected:**
+- `playwright` 1.58.2 → `^1.59.1` (recommended; minor, transparent, one-time fresh chromium download).
 
-- `unified` / `remark` / `mdast-util-*` — AST framework, ~8 transitive deps for a narrow grammar already known from typed JSON
-- `turndown` — no HTML inputs
-- `gray-matter` — parses frontmatter; we're emitting, not parsing
-- `@vue/compiler-sfc` — prose extraction from templates is a maintenance pit (see §4)
-- `ts-node` — superseded by `tsx`; ESM support awkward
-- `vite-node` — pulls full Vite config + Vue plugins into a script that touches no `.vue` files
-- `prettier` as a library — use well-formatted helpers instead
-- Custom Vite plugin — wrong abstraction (standalone script is smaller, faster to iterate, independently runnable)
+### Reuse (already installed)
 
-**Markdown generation:** plain TypeScript template literals with small helper functions. The output grammar is narrow (headings, paragraphs, lists, tables, blockquotes, wikilinks). A handful of helpers covers everything:
+- `playwright` (transitive via `vitest-browser-vue`), `tsx` 4.21.0, `yaml`, `github-slugger`.
 
-```ts
-const h = (level: number, text: string) => `${'#'.repeat(level)} ${text}\n\n`
-const p = (text: string) => `${text}\n\n`
-const ul = (items: string[]) => items.map(i => `- ${i}`).join('\n') + '\n\n'
-const table = (headers: string[], rows: string[][]) => /* ... */
-const caption = (alt: string) => `*${alt}*\n\n`
-const wikilink = (target: string, label?: string) =>
-  label ? `[[${target}|${label}]]` : `[[${target}]]`
-```
+### Rejected
 
----
-
-## 3. Feature Categories
-
-### Table Stakes (hard minimum — ship is broken without these)
-
-| ID | Feature | Complexity |
-|---|---|---|
-| T1 | Deterministic, reproducible output (byte-identical across runs) | Low |
-| T2 | Build-time integration + standalone script sharing one implementation | Low |
-| T3 | Monolithic doc with site-tree heading hierarchy | Medium |
-| T5 | Content-addressable internal cross-references (anchors in mono, wikilinks in vault) | Medium |
-| T6 | YAML frontmatter on every vault file (`title`, `aliases`, `tags`, `date?`) | Low |
-| T7 | Wikilinks between vault notes | Low-Medium |
-| T8 | Folder structure mirrors the menu | Low |
-| T11 | GFM markdown tables for personnel / technologies / findings | Medium |
-| T15 | All 5 exhibit section variants rendered (text, table, timeline, metadata, flow) | Medium |
-
-### Near-minimum (ship is ugly without these)
-
-| ID | Feature |
+| Rejected | Why |
 |---|---|
-| T4 | Auto-generated ToC in monolithic doc |
-| T9 | Tag taxonomy for exhibits |
-| T10 | Image handling (skip files, italicize alt text) |
-| T12 | Accurate heading depth for exhibit sections |
-| T13 | FAQ question-per-entry rendering |
-| T14 | Stable, collision-free filenames for vault notes |
-
-### Quick wins (cheap polish — should ship with MVP)
-
-| ID | Feature |
-|---|---|
-| D3 | Obsidian callout blocks for exhibit quotes (`> [!quote]`) — graceful GitHub degradation |
-| D4 | Aliases for FAQ questions / exhibits |
-| D6 | Monolithic doc uses GFM only (no Obsidian-isms) |
-| D8 | Generated-file warning banner on every file |
-
-### Higher-cost differentiators (sequence as follow-up if scope tight)
-
-| ID | Feature |
-|---|---|
-| D1 | Case Files index note / MOC (Map of Content) |
-| D2 | Backlinks-friendly FAQ→exhibit cross-references |
-| D5 | Per-exhibit block anchors (`^background`, `^findings`) for deep linking |
-| D7 | Content extraction from Vue SFCs (becomes Phase 1 — see §5) |
-| D9 | Deterministic per-page date semantics (omit if no source date) |
-| D10 | Tag hierarchy matching menu structure |
-
-### Anti-features (explicit NO in PLAN.md)
-
-Dataview queries, image copying, bidirectional sync, search index, graph view customization, reproducing Vue component behavior, per-section-type custom YAML schemas, lossless HTML fidelity, i18n, watch mode.
+| `@playwright/test` | Test-runner flavor — we're writing a script, not a suite. |
+| `playwright-core` | Loses `playwright install` UX; second install path. |
+| `turndown-plugin-gfm` (original) | Dead since 2017; 8+ years stale. |
+| `node-html-markdown` | Smaller ecosystem, narrower rule API than Turndown's `addRule()`. |
+| `@mozilla/readability` + `jsdom` | Heuristic for unknown pages; we already know `<main>`. |
+| `cheerio` / standalone `jsdom` | Playwright already owns the DOM — re-parsing is waste. |
+| `pandoc` | External native binary, platform-coupled, overkill. |
+| `marked` / `remark` / `unified` | Wrong direction (MD→HTML). |
 
 ---
 
-## 4. Architecture Decisions
+## 3. Feature Scope
 
-### 4.1 Content sourcing: refactor SFCs (Option B — unanimous)
+### IN — Table-stakes (ship this)
 
-Three options were considered. All four researchers chose **Option B**:
+**Capture (12):** Route list from typed sources (C1); headless sequential Chromium (C2); selector-based page-ready via `#main-content` (C3); HTTP status recording (C4); `<main>` scope only (C5); hydrated DOM via `page.locator('main').innerHTML()` (C6); **pre-expand FAQ accordions + set "All" filter (C7)**; fixed 1280×800 viewport (C8); fixed light theme (C9); skip redirect routes (C10); skip `/diag/*` and `/review` (C11); console-error capture to run log (C18).
 
-- **A** Manual page content map duplicated from SFCs → rejected (two sources of truth, drift over time)
-- **B** Refactor SFCs to import content from `src/content/*.ts` → **recommended**
-- **C** Parse SFCs statically with `@vue/compiler-sfc` → rejected (AST walking is brittle, component composition adds re-implementation cost)
+**Conversion (11):** Turndown (V1); GFM tables plugin (V2); Obsidian-friendly config (V3); badge/pill passthrough (V4); image→alt-only (V5); preserve heading levels (V6); skip `aria-hidden` (V7); DOM-order reading preservation (V9); collapse 3+ blank lines (V10); strip script/style/noscript (V11); preserve link hrefs (V12).
 
-**Scope of the refactor** (verified by inspection):
+**Document shape (7):** Single concatenated file (D1); frontmatter with provenance (D2); per-route `##` headings + demote page H1 (D3); auto-ToC (D4); per-page metadata block (D5); `---` separators (D6); ordered home → static → exhibits A–O (D7).
 
-- `HomePage.vue` — intro heading, intro paragraph, 2 teaser quotes. Small.
-- `PhilosophyPage.vue` + `HowIWorkSection.vue` + `AiClaritySection.vue` + `Pattern158OriginSection.vue` — ~8 paragraphs, 2 quotes. Medium.
-- `FaqPage.vue`, `ContactPage.vue`, `AccessibilityPage.vue`, `TechnologiesPage.vue` — small intros. Small.
-- Total: ~150-200 lines of prose moved mechanically. Guarded by existing 95 unit tests + one new Playwright browser test per refactored page.
+**Output (5):** Configurable path via CLI/env (O1); idempotent overwrite (O2); stdout summary (O5); loud non-200 warnings (O7); continue past per-route failures (O8).
 
-### 4.2 Standalone `tsx` script, NOT a Vite plugin
+**Editorial (6):** Obsidian-based read (E1); in-place annotation (E2); separate findings doc (E3); structured findings sections — Inconsistencies / Structural / Copy / Alignment / Open Questions (E4); cross-reference to career positioning docs (E5); blocker / should-fix / nice-to-have prioritization (E6).
 
-| Concern | Standalone script | Vite plugin |
-|---|---|---|
-| Runs independently of `vite build` | Yes | No |
-| Iteration speed during dev | <1s (tsx) | Slow (vite cold start) |
-| Testability in isolation | Trivial | Harder (mock plugin context) |
-| Failure modes | 1 script | Plugin hook timing + Vite internals |
+**Audit (6):** Decision record artifact (A1); v7.0-ABORT-style structure (A2); explicit go/no-go per v9.0 candidate (A3); signals that informed the decision (A4); Rosetta Stone alignment check (A5); evolve PROJECT.md + MILESTONES.md (A6).
 
-Chained via `"build": "vue-tsc -b && vite build && npm run build:markdown"`. `build:markdown` runs **after** `vite build` so a broken exporter never blocks the site build.
+### CONSIDER — Differentiators
 
-### 4.3 Two-mode renderer sharing a DocNode IR
+- **C13 screenshots per route** — trivial, real value for layout sanity checks. Recommend: include.
+- **C14 SEO metadata capture** — trivial; surfaces stale meta descriptions. Recommend: include.
+- **O3 dual-write mirror to `.planning/research/`** — trivial convenience. Recommend: include.
+- **E7 scaffold empty findings template** — trivial ergonomics. Recommend: include.
+- **V13 rewrite internal links to in-doc anchors** — moderate effort; defer if budget tight.
 
-```
-Extractors → PageDoc[] (DocNode union) → [Monolithic renderer | Obsidian renderer] → FS writer
-```
+### OUT — Anti-features
 
-- **DocNode union** — `Heading | Paragraph | List | Table | Blockquote | Link | Image | HR`
-- **PageDoc** — frontmatter metadata (title, slug, navPath, tags, date) + `DocNode[]` body
-- **Shared primitives** — `heading()`, `paragraph()`, `list()`, `table()`, `blockquote()`, `link()`, `wikilink()`
-- **Divergences**: monolithic shifts heading levels by nav depth, emits anchor links, no frontmatter; obsidian keeps declared heading levels, emits `[[wikilinks]]`, emits YAML frontmatter and folder structure.
-
-### 4.4 Directory layout
-
-```
-scripts/markdown-export/
-  index.ts                    # orchestrator
-  site-map.ts                 # routes → extractors, nav hierarchy
-  content/*.ts                # per-page extractors (pure functions)
-  ir/{nodes,page}.ts          # DocNode + PageDoc types
-  markdown/{primitives,escape,frontmatter}.ts
-  renderers/{monolithic,obsidian}.ts
-  writers/fs-writer.ts
-  __tests__/*.test.ts
-
-src/content/                  # NEW — prose extracted from .vue SFCs
-  meta.ts
-  home.ts, philosophy.ts, ...
-  sections/*.ts               # HowIWorkSection, AiClaritySection, Pattern158OriginSection prose
-
-docs/
-  site-content.md             # committed
-  obsidian-vault/             # committed
-    index.md
-    case-files/exhibits/exhibit-*.md
-    ...
-
-tsconfig.scripts.json         # extends root, includes scripts/**, targets Node ESM
-```
-
-### 4.5 `tsx` + relative imports (NOT `@/`)
-
-**Critical finding from PITFALLS §1.1:** `tsx` uses esbuild in *transform* mode, which does NOT resolve `tsconfig.paths`. Using `@/` inside `scripts/**` will crash at runtime. Enforcement:
-
-- `scripts/tsconfig.json` sets `"paths": {}` so `@/` becomes a type error in scripts
-- Lint rule scoped to `scripts/**` forbids `@/` imports
-- Document in PLAN.md as forbidden
-
-### 4.6 JSON loading: `fs.readFile` + `JSON.parse`
-
-Avoid `import foo from 'x.json' with { type: 'json' }` despite it being correct — it drags TypeScript JSON-module type noise and couples to Node version. Read JSON via `fs.readFile` in the exporter; import only **types** from `src/types/`.
-
-### 4.7 Thin-loader invariant (must be formalized)
-
-Already implicit in v3.0 but must be explicit in v7.0 PLAN.md: loaders in `src/data/*.ts` may only `import JSON`, `as` assert types, and re-export. **No sort/filter/computed fields**, otherwise the exporter (which reads JSON directly) and the Vue site (which reads loaders) will drift silently.
+Readability.js content extraction (V8); multi-file output (D8); HTML sidecar (D9); in-tool Markdown diff (D10); JSON run-report (O6); network trace log (C15); retry/backoff (C16); auth/session (C17); NotFoundPage capture (C12); automated copy linter (E8); automated inconsistency detection (E9).
 
 ---
 
-## 5. Critical Pitfalls (drive phase ordering and forbidden lists)
+## 4. Architecture Summary
 
-### 5.1 Block-severity traps (must be mitigated before ship)
+### Directory layout (flat, ~300–580 LOC total)
 
-| Section | Pitfall | Mitigation |
-|---|---|---|
-| 1.1 | `@/` alias breaks under tsx | Relative imports only in `scripts/**` + lint rule |
-| 1.2 | `type: module` + JSON import footgun | Use `fs.readFile` + `JSON.parse`, not import attributes |
-| 1.5 | Loader transforms cause JSON vs rendered-data drift | Thin-loader invariant enforced in PLAN.md |
-| 2.1 | Prose hardcoded in `.vue` templates invisible to extractor | Phase 1 SFC refactor + lint rule blocking string literals > N chars in templates |
-| 2.2 | Silent drift after content edits (no "did you regenerate?" check) | **CI drift guard: `npm run build:markdown && git diff --exit-code docs/`** — single most valuable mitigation in the milestone |
-| 3.1 | Non-deterministic iteration order causes noisy diffs | Sort everything that becomes ordered output with explicit comparators |
-| 3.2 | `Date.now()` in frontmatter defeats drift guard | Forbid `Date.now()` / `new Date()` in generator; use git commit dates or omit |
-| 4.1 | Wikilink basename collisions | Generator uniqueness assertion on vault basenames |
-| 4.2 | Reserved characters in Obsidian filenames (`# \| ^ : %% [ ]`) | Filename sanitizer with snapshot tests; original title preserved in frontmatter |
-| 4.3 | Wikilink heading anchor mismatches | Two-pass build: collect heading map, then reference; assert empty "unresolved" list |
-| 4.4 | Wrong frontmatter keys (`tag` vs `tags`) | Unit test frontmatter serializer; forbid singular forms |
-| 4.5 | Obsidian tag format violations (spaces, numeric-only) | Tag sanitizer + kebab-case normalization |
-| 5.1 | Unescaped `\|` in table cells breaks layout | `escapeTableCell()` helper applied to every cell |
-| 5.2 | Unescaped `<`, `*`, `_`, `` ` `` in prose corrupts rendering | Context-specific escape helpers (`escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`) |
-| 5.4 | Triple-backtick inside code block content | Scan for longest backtick run, fence with `max(m+1, 3)` |
-| 6.1 | Committed generated files anti-pattern without determinism | Determinism + CI drift guard + DO NOT EDIT headers |
-| 6.3 | `docs/` directory collisions with other tools | Audit against Vite outDir, Storybook, Wrangler, Vitest in foundation phase |
-| 8.2 | Trailing-whitespace and invisible-character drift | Post-process strip trailing whitespace, normalize NBSP/BOM, final newline |
-| 8.4 | Passing unit tests but broken in real Obsidian | **Manual Obsidian QA checkpoint** mid-implementation and pre-ship |
+```
+scripts/editorial/
+├── index.ts         # CLI entry — orchestrates phases, exit codes
+├── config.ts        # argv + env → typed EditorialConfig
+├── routes.ts        # buildRouteList(exhibits) — pure
+├── capture.ts       # Playwright: launch → for-each-route → innerHTML
+├── convert.ts       # Turndown + custom rules — pure
+├── write.ts         # preflight + atomic write
+├── types.ts         # Route, CapturedPage, EditorialConfig
+└── __tests__/
+    ├── routes.test.ts
+    ├── convert.test.ts
+    └── config.test.ts
+```
 
-### 5.2 Forbidden list (copy into PLAN.md as hard constraints)
+### TypeScript integration
 
-- `@/` imports inside `scripts/markdown-export/**`
-- `Date.now()`, `new Date()`, `process.hrtime`, `performance.now()` in generator output
-- `Promise.all` on reads whose results feed ordered output
-- `os.EOL` — always `\n` literals
-- Manual editing of any file under `docs/`
-- `postinstall` / `prepare` hooks running the generator
-- Hand-written ToC anchors or heading-anchor wikilinks (generator computes or throws)
-- `assert { type: 'json' }` import syntax
-- Singular frontmatter keys `tag`, `alias`, `cssclass`
-- Line wrapping of prose in generated markdown
-- mtime/hash-based "skip unchanged" logic
-- Bidirectional sync (markdown → JSON)
-- Asset / image copying into the vault
-- Full HTML rendering alongside markdown
-- Parsing `.vue` SFCs from the generator (prose must live in JSON/TS)
+- **New `tsconfig.editorial.json`** — near-copy of `tsconfig.scripts.json`, `"include": ["scripts/editorial/**/*.ts"]`, `"outDir": ".tsbuildinfo-editorial"`. `"paths": {}` for forbidden-pattern isolation.
+- **Add to root `tsconfig.json` `references`** — `vue-tsc -b` picks it up during `pnpm build`.
+- **Forbidden patterns extended:** no `@/` aliases; no `Date.now()`/`new Date()` for deterministic fields; no `os.EOL`; no `Promise.all` over ordered capture; no postinstall hooks.
 
-### 5.3 Scope creep to firmly say NO to
+### Vitest integration
 
-Search index, graph export, full HTML rendering, asset copying, bidirectional sync, "just a few more frontmatter fields."
+**Extend the existing `scripts` Vitest project `include` array** to cover `scripts/editorial/**/*.test.ts`. No 4th project.
+
+### Data flow
+
+```
+exhibits.json ─→ routes.ts (pure buildRouteList)
+                      │
+CLI/env args ─────────┤
+                      ▼
+              Route[] (ordered)
+                      ▼
+              capture.ts (Playwright chromium.launch, sequential)
+                      ▼
+              CapturedPage[] { route, title, html, status, error? }
+                      ▼
+              convert.ts (Turndown + GFM + custom rules)
+                      ▼
+              write.ts (validateOutputPath → atomic tmp+rename)
+                      ▼
+    <vault>/career/website/site-editorial-capture.md
+```
+
+Preflight runs BEFORE browser launch — fail fast on `ENOENT`/permissions.
+
+### Phase-count recommendation
+
+**Seven phases (A–G):** A Scaffold → B Config+Routes (pure logic) → C Capture (Playwright IO) → D Convert (Turndown) → E Write+Preflight+Integration → F Editorial review (manual, no code) → G Milestone audit + v9.0 decision doc. Strictly sequential.
 
 ---
 
-## 6. Recommended Phase Ordering
+## 5. Critical Pitfalls & Required Mitigations
 
-Researcher consensus on dependency graph:
+| # | Pitfall | Prevention |
+|---|---------|------------|
+| **CRIT-01** | FAQ answers behind accordion captured as empty (`:hidden="!isOpen \|\| undefined"`) | Pre-capture hook clicks every `[aria-expanded="false"]` in `.faq-accordion-item`; use `innerHTML` not `innerText`; assert answer count == `faq.json` length. |
+| **CRIT-02** | FAQ filter bar excludes most questions from DOM | Click `[data-filter="all"]` before capture; assert rendered count == `totalCount`. |
+| **CRIT-03** | SPA navigation "complete" before Vue router/Suspense/data resolve | Per-route known-good `waitForSelector`; content-length sanity check before Turndown. |
+| **CRIT-04** | Exhibit slug 404 silently renders `NotFoundPage` with HTTP 200 | Post-nav selector assertion (`.exhibit-detail h1`); NotFoundPage signature detection; captured-count summary. |
+| **CRIT-05** | Cloudflare edge cache serves stale content | Cache-buster query + `Cache-Control: no-cache` headers; log `cf-cache-status`; embed git SHA in frontmatter. |
+| **CRIT-06** | Cloudflare bot detection serves interstitial instead of content | Headful option available; realistic UA; rate-limit 1 req/2-5s; detect `"Just a moment"` / response size < 200 bytes. |
+| **CRIT-07** | Non-deterministic Markdown → run-to-run diffs useless | Strip `<script>`, `<style>`, `data-v-*`, analytics BEFORE Turndown; no body-embedded timestamps; double-run diff as self-test. |
+
+**Project-specific CRITICAL warnings:**
+- **P158-01** FAQ accordion — 27 items, densest prose — MUST open all + filter "All".
+- **P158-03** Never fall back to reading JSON directly for exhibit content — that is the v7.0 failure mode this milestone exists to correct.
+- **P158-05** SPA 404 = HTTP 200 → DOM-based validation is the only reliable signal.
+
+---
+
+## 6. Consolidated Open Questions for Dan
+
+### A. Output & invocation (load-bearing)
+
+- **Q-OUT-1** Output path mechanism. **Recommend: CLI `--output` primary, `EDITORIAL_OUT_PATH` env fallback, fail-loud if neither.**
+- **Q-OUT-2** Primary vault location — user specified `career/website/site-editorial-capture.md`. Confirmed.
+- **Q-OUT-3** Dual-write mirror to `.planning/research/`? Recommend yes (trivial).
+- **Q-OUT-4** Re-run + annotation handling — recommend captures stay raw; annotations in separate `EDITORIAL-NOTES.md`.
+
+### B. Capture behavior (load-bearing)
+
+- **Q-CAP-1** Base URL — `https://pattern158.solutions` production default, `--base-url` override.
+- **Q-CAP-2** Confirm FAQ pre-expand + "All" filter strategy (CRIT-01 / CRIT-02 / P158-01 mitigation).
+- **Q-CAP-3** Confirm `/diag/personnel` and `/review` are excluded.
+- **Q-CAP-4** Playwright bump 1.58.2 → 1.59.1 now? Recommend yes.
+- **Q-CAP-5** Headful vs. headless — headless default, headful flag for Cloudflare interstitial fallback?
+
+### C. Output shape
+
+- **Q-SHAPE-1** Single monolithic file — milestone framing decided this.
+- **Q-SHAPE-2** Heading level strategy — demote page H1 under per-route `##`, OR keep original levels with `---` separators?
+- **Q-SHAPE-3** Screenshots per route — include? Recommend yes.
+- **Q-SHAPE-4** Internal link rewriting (V13) — recommend defer.
+
+### D. Build & integration
+
+- **Q-BLD-1** Add `tsconfig.editorial.json` to root `references`? Recommend yes.
+- **Q-BLD-2** Full `@joplin/turndown-plugin-gfm` vs. tables-only cherry-pick? Recommend full plugin.
+- **Q-BLD-3** Tool committed vs. throwaway post-v9.0? Recommend keep.
+
+### E. Findings & audit
+
+- **Q-AUDIT-1** Auto-emit empty findings doc template (E7)? Recommend yes.
+
+---
+
+## 7. Recommended Phase Breakdown (7 phases, sequential)
 
 | Phase | Name | Scope |
-|---|---|---|
-| **1** | **SFC content extraction** | Move hardcoded prose from 7 Vue files into `src/content/*.ts`. Run full test suite + one Playwright regression per page. Gate: all tests green, visual parity. **This is the highest-risk phase — do it first, bounded, page by page.** |
-| **2** | **IR + shared primitives** | Scaffold `scripts/markdown-export/`. Define `DocNode` / `PageDoc` types. Implement `primitives.ts`, `escape.ts`, `frontmatter.ts` with unit tests. Add `tsx` dep, `tsconfig.scripts.json`, `build:markdown` stub. Gate: primitives unit tests green. |
-| **3** | **Extractors (non-exhibit pages)** | `site-map.ts` + 7 static-page extractors. Unit tests per extractor. Gate: every extractor returns valid `PageDoc`. |
-| **4** | **Exhibit extractor** | All 5 section types, all three typed arrays (personnel, technologies, findings), all 15 exhibits. Snapshot one investigation-report + one engineering-brief. Gate: all 15 exhibits extract without errors. |
-| **5** | **Monolithic renderer** | Heading-level shifting, anchor-based link resolution, GFM-only output. Snapshot `site-content.md`. Integration test: re-parse with `remark-parse`, assert monotonic heading hierarchy. |
-| **6** | **Obsidian renderer** | Frontmatter, wikilinks, folder hierarchy, callouts, tag taxonomy. Uniqueness assertion on basenames. Link-target whitelist. Snapshot vault manifest. **First manual Obsidian QA checkpoint.** |
-| **7** | **File writer + orchestrator** | `fs-writer.ts` with clean wipe + idempotent writes. Wire `index.ts`. E2E test in temp dir. Gate: `npm run build:markdown` produces both artifacts. |
-| **8** | **Build integration + CI drift guard** | Chain `build:markdown` after `vite build`. Add `.gitattributes` (`docs/** text eol=lf`). **CI job: regenerate + `git diff --exit-code docs/`**. Two-run determinism test in CI. Gate: full `npm run build` green, drift guard passes. |
-| **9** | **Documentation + final polish** | `scripts/markdown-export/README.md`. Update PROJECT.md. Final manual Obsidian QA pass. Gate: milestone complete. |
-
-**Rationale for Phase 1 first:** the SFC refactor is both the highest-risk phase and the prerequisite for every later phase. Running tests + Playwright checks in isolation is cheaper than doing the refactor while also debugging the exporter. This matches the v3.0 pattern where JSON externalization preceded any data-driven rendering work.
+|-------|------|-------|
+| **A (46)** | Scaffold | `tsconfig.editorial.json`, root `references` update, Vitest `scripts` include update, `.gitignore` entry, pnpm script `editorial:capture`, install 3 devDeps, placeholder `index.ts` |
+| **B (47)** | Config + Routes (pure) | `types.ts`, `config.ts` (`parseArgs` + env fallback), `routes.ts` (`loadExhibits` + `buildRouteList`) + unit tests |
+| **C (48)** | Capture (Playwright IO) | `capture.ts` — chromium launch, per-route selector manifest, `waitForSelector` + content-length check, `innerHTML()`, FAQ pre-expand + filter-all hooks, cache-buster + no-cache headers, analytics block, error-per-route recording |
+| **D (49)** | Convert (Turndown) | `convert.ts` — Turndown v7 + GFM plugin, custom rules (strip `data-v-*`, aria-hidden, chrome selectors, image→alt, badge passthrough), heading-offset rule, whitespace collapse; fixture unit tests |
+| **E (50)** | Write + Preflight + Orchestration | `write.ts` (validate → temp → atomic rename), `index.ts` wiring, exit codes, stdout summary, ToC generation, frontmatter (`captured_at`, `source_url`, `site_version_sha`, `tool_version`), optional dual-write + screenshots |
+| **F (51)** | Editorial Review | Dan reads capture; produces `career/website/site-editorial-findings.md` — Inconsistencies / Structural / Copy / Alignment / Open Questions; cross-referenced to career positioning docs; prioritized |
+| **G (52)** | Milestone Audit → v9.0 Direction | Decision doc mirroring `v7.0-ABORT-NOTICE.md` structure; v9.0 direction locked |
 
 ---
 
-## 7. Open Questions (resolve during requirements / discuss-phase)
+## 8. Cross-Researcher Conflicts
 
-1. **FAQ granularity** — one note per question (27 files, wikilink-addressable) or one note per page with H3 per question + block anchors? Recommendation: **one note per page, questions as H3, block anchors for deep linking.**
-2. **Tag namespace** — flat (`investigation-report`) or nested (`case-file/investigation-report`)? Recommendation: **flat** (matches v5.3/v6.0 FAQ taxonomy, safer to rename).
-3. **Monolithic doc depth** — full exhibit details inline (~50-100 KB) or summaries with links? Recommendation: **full details inline** — GitHub handles it, TOC + anchors make navigation usable.
-4. **MOC for Case Files** — include `docs/obsidian-vault/Case Files/Case Files.md` index note? Recommendation: **yes** (D1 — Medium complexity, high perceived value).
-5. **Date metadata for static pages** — omit, git commit date, or build date? Recommendation: **omit for static pages, preserve exhibit dates as-is**.
-6. **Exhibit filename format** — `Exhibit A.md`, `Exhibit A - Title.md`, or `exhibit-a.md`? Recommendation: **`Exhibit A - Short Title.md` with multi-alias frontmatter** so `[[Exhibit A]]` and `[[Title]]` both resolve.
-7. **`.gitattributes` linguist-generated marker** — mark `docs/**` as generated so they don't inflate GitHub language stats? Recommendation: **yes** (low cost).
-8. **FAQ ↔ exhibit backlinks injection** — auto-generate "Referenced in FAQ" callouts on exhibit notes (D2)? Two-pass build required. Recommendation: **stretch — defer if scope tight**.
-9. **Block anchors (D5)** — add `^background`, `^findings` to exhibit notes for deep linking? Vault-only emission. Recommendation: **stretch — low cost, include if time permits**.
+Two minor conflicts; neither load-bearing.
 
----
+### Conflict 1: `"lib": ["ES2022", "DOM"]` vs. `"lib": ["ES2022"]`
 
-## 8. Consensus Recommendations (cross-researcher agreement)
+Resolution: start with `["ES2022"]` (stricter), add DOM only if Phase C surfaces unresolvable `page.evaluate()` callback typing errors. Cheap to flip.
 
-Every recommendation below was independently reached by at least 3 of the 4 researchers:
+### Conflict 2: pnpm script name (`editorial:capture` vs. `capture:editorial`)
 
-1. **Phase 1 = SFC content refactor.** Hardcoded prose in `.vue` templates is the biggest drift risk. Extract before any exporter code.
-2. **Standalone `tsx` script, NOT a Vite plugin.** Iteration speed, testability, decoupling from Vite lifecycle.
-3. **Two-mode renderer sharing a DocNode IR.** Monolithic and Obsidian consume the same `PageDoc[]` through the same primitives; divergences live only in the renderers.
-4. **Snapshot testing is the test strategy spine.** Small, targeted snapshots (one representative exhibit, individual primitives) + determinism two-run test — NOT a whole-file `site-content.md` snapshot.
-5. **CI drift guard is mandatory** — `npm run build:markdown && git diff --exit-code docs/` is the single most valuable mitigation in the milestone.
-6. **Only 3 new devDependencies** — `tsx`, `yaml`, `github-slugger`. Reject `unified`/`remark`/`turndown`/`gray-matter`/`ts-node`/`vite-node`.
-7. **Relative imports only in `scripts/**`** — `tsx` does not resolve `@/` aliases. Enforce via separate tsconfig + lint rule.
-8. **Thin-loader invariant** — formalize v3.0's implicit rule that `src/data/*.ts` loaders may not sort/filter/compute, so exporter (reading JSON) and site (reading loaders) can't drift.
-9. **Manual Obsidian QA checkpoints** — mid-implementation and pre-ship. Unit tests don't catch Obsidian-specific rendering issues. Milestone cannot ship without at least one manual QA pass.
-10. **Freeze the frontmatter schema in foundation phase.** Any new field requires a PLAN.md amendment with a stated Obsidian-side consumer.
+Resolution: existing repo convention is verb-first (`build:markdown`, `test:scripts`). Recommend **`editorial:capture`** (milestone-first namespacing); lock in Phase A.
+
+### No conflicts on
+
+Directory layout, Turndown + Joplin GFM + types stack, rejection of Readability/cheerio/jsdom/`@playwright/test`, Vitest `scripts` project extension, separate `tsconfig.editorial.json`, FAQ pre-expand + filter "All" mitigation, production URL default, CLI + env var output path, seven-phase strictly-sequential build order.
 
 ---
 
-## Sources
+## 9. Confidence Assessment
 
-- `.planning/research/STACK.md` — toolchain verification against npm registry (2026-04-10)
-- `.planning/research/FEATURES.md` — Obsidian conventions verified against `obsidianmd/obsidian-help` master
-- `.planning/research/ARCHITECTURE.md` — direct codebase inspection (pages, components, data, types, router)
-- `.planning/research/PITFALLS.md` — Obsidian rules, tsx/esbuild path handling, Node import attributes verified against official sources
+| Area | Confidence | Notes |
+|------|-----------|-------|
+| Stack | HIGH | Versions verified against npm registry 2026-04-19. |
+| Features | HIGH | Route list verified from `src/router.ts` + `exhibits.json`. |
+| Architecture | HIGH | Mirrors `scripts/markdown-export/` Phase 38 pattern. |
+| Pitfalls | HIGH | Vue/Playwright/Turndown behavior documented; FAQ accordion verified in codebase. |
+| Cloudflare bot/cache | MEDIUM | Zone-level settings should be verified in dashboard before Phase C. |
+| Turndown on nested lists / complex tables | MEDIUM | Phase D fixture tests will confirm against actual site markup. |
+
+### Gaps to address during phase planning
+
+1. Cloudflare zone settings verification (Bot Fight Mode off, cache-bypass works).
+2. DOM audit per route — not every page may have consistent `<main>`.
+3. Turndown custom-rule scope for badges/pills/cards — unknown until Phase C output inspected.
+4. Mojibake risk on WSL2 write — post-write `â€` grep in Phase E verification.
+5. Obsidian file-lock race — atomic temp+rename mitigates; Phase E test should exercise "Obsidian has file open" case.

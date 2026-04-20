@@ -1,615 +1,445 @@
-# Architecture: Static Markdown Export Pipeline (v7.0)
+# Architecture — v8.0 Editorial Snapshot & Content Audit
 
-**Project:** pattern158-vue
-**Milestone:** v7.0 — Static Markdown Export
-**Researched:** 2026-04-10
-**Overall confidence:** HIGH (existing codebase inspected directly; Vite layout convention verified against official docs)
-
----
-
-## 1. Overview
-
-The v7.0 milestone adds a build-time pipeline that emits two markdown artifacts from the same content that powers the running site:
-
-1. **Monolithic artifact** — `docs/site-content.md`: one file, entire site, hierarchical heading levels mirroring the nav tree.
-2. **Obsidian vault artifact** — `docs/obsidian-vault/`: one `.md` per page, folder structure mirroring the menu, YAML frontmatter, `[[wikilinks]]`, category tags.
-
-The pipeline runs three ways, all driven from the same orchestrator:
-
-- **Standalone:** `npm run build:markdown` (fast iteration during v7.0 development)
-- **Integrated:** `npm run build` runs the markdown export after the Vite build completes
-- **Manual test:** `npm run test` snapshots the two artifacts and fails if they drift
-
-The core architectural choice: the export pipeline is a **pure Node.js TypeScript program that imports the existing `src/data/*.ts` thin loaders directly**. It does NOT run Vue, does NOT require a browser, and does NOT touch the Vite dev server. It shares the project's tsconfig paths (`@/data/*`, `@/types/*`) so the data layer is consumed with zero duplication.
-
-The single hard problem is **content sourcing for prose that currently lives inside `.vue` templates**. This document recommends a specific path (option B: partial SFC refactor) and details its scope.
+**Milestone:** v8.0 (live-site editorial capture; successor to aborted v7.0)
+**New directory:** `scripts/editorial/`
+**Researched:** 2026-04-19
+**Overall confidence:** HIGH (integration pattern mirrors v7.0 Phase 38, verified against existing files)
 
 ---
 
-## 2. Proposed Directory Layout
+## Guiding Principle
+
+v8.0 is a **one-off editorial tool**, not a long-lived pipeline. Over-engineering is the named risk. Every decision below is biased toward "smallest viable structure that honors the existing project's invariants."
+
+The existing `scripts/markdown-export/` in this repo is the template for *how* a scripts subproject integrates (pnpm, tsconfig project reference, Vitest `scripts` project, forbidden-pattern discipline). It is **not** the template for *shape*. `scripts/markdown-export/` is a multi-phase pipeline with IR, primitives, renderers, writers. `scripts/editorial/` should be substantially flatter.
+
+---
+
+## 1. Proposed Directory Structure
 
 ```
-pattern158-vue/
-├── scripts/                          # NEW — build-time tooling (Vite convention: not in src/)
-│   └── markdown-export/
-│       ├── index.ts                  # Orchestrator entry — npm run build:markdown target
-│       ├── site-map.ts               # Declarative page → route → content source registry
-│       ├── content/                  # Page content extractors (one per page)
-│       │   ├── home.ts
-│       │   ├── philosophy.ts
-│       │   ├── technologies.ts
-│       │   ├── case-files.ts
-│       │   ├── faq.ts
-│       │   ├── contact.ts
-│       │   ├── accessibility.ts
-│       │   └── exhibit.ts            # Parametric — called 15x, once per exhibit
-│       ├── ir/                       # Intermediate representation types
-│       │   ├── nodes.ts              # DocNode union (Heading, Paragraph, List, Table, ...)
-│       │   └── page.ts               # PageDoc (metadata + DocNode[])
-│       ├── markdown/                 # Shared markdown primitives (renderer-agnostic)
-│       │   ├── primitives.ts         # heading(), paragraph(), list(), table(), link(), blockquote()
-│       │   ├── escape.ts             # Character escaping, HTML entity unescaping
-│       │   └── frontmatter.ts        # YAML frontmatter builder
-│       ├── renderers/
-│       │   ├── monolithic.ts         # PageDoc[] → single string (site-content.md)
-│       │   └── obsidian.ts           # PageDoc[] → { path: string, content: string }[]
-│       ├── writers/
-│       │   └── fs-writer.ts          # Writes to docs/, cleans stale files, idempotent
-│       └── __tests__/
-│           ├── primitives.test.ts
-│           ├── monolithic.snapshot.test.ts
-│           └── obsidian.snapshot.test.ts
+scripts/
+├── markdown-export/          # v7.0 — RETAINED, not extended by v8.0
+│   ├── ir/ primitives/ escape/ frontmatter/ index.ts
 │
-├── src/                              # unchanged — runtime Vue code only
-│   ├── content/                      # NEW — prose extracted from .vue SFCs
-│   │   ├── home.ts                   # intro paragraphs, section headings
-│   │   ├── philosophy.ts             # design-thinking, moral-spine sections
-│   │   ├── sections/                 # section components backing JSON
-│   │   │   ├── howIWork.ts           # was HowIWorkSection.vue template text
-│   │   │   ├── aiClarity.ts          # was AiClaritySection.vue template text
-│   │   │   ├── pattern158Origin.ts   # was Pattern158OriginSection.vue template text
-│   │   │   └── testimonialBlocks.ts  # recurring "What Colleagues Say" quote sets
-│   │   └── meta.ts                   # Page titles, slugs, nav order, SEO descriptions
-│   ├── data/                         # unchanged
-│   ├── types/                        # unchanged
-│   ├── pages/                        # MODIFIED — import from src/content/ instead of hardcoding prose
-│   └── components/                   # MODIFIED — HowIWorkSection etc. v-for over imported content
-│
-├── docs/                             # NEW — committed build output
-│   ├── site-content.md
-│   └── obsidian-vault/
-│       ├── index.md
-│       ├── philosophy.md
-│       ├── case-files/
-│       │   ├── index.md
-│       │   └── exhibits/
-│       │       ├── exhibit-a.md
-│       │       └── ... (15 files)
-│       └── ...
-│
-├── package.json                      # MODIFIED — build:markdown script, build script chain
-└── tsconfig.scripts.json             # NEW — extends tsconfig, includes scripts/
+└── editorial/                # v8.0 — NEW
+    ├── index.ts              # CLI entry point — orchestrates the capture
+    ├── config.ts             # Resolves env vars / CLI args → typed Config object
+    ├── routes.ts             # Builds route list from exhibits.json + static routes
+    ├── capture.ts            # Playwright: launch → for-each-route → page.content()
+    ├── convert.ts            # Turndown service + custom rules → Markdown
+    ├── write.ts              # fs.writeFile with preflight directory check
+    ├── types.ts              # Local types (Route, CapturedPage, EditorialOptions)
+    └── __tests__/
+        ├── routes.test.ts    # Pure — route-list builder given fixture exhibits
+        └── convert.test.ts   # Pure — fixture HTML strings → expected Markdown
 ```
 
-**Rationale for `scripts/` at repo root (not `src/export/` or `tools/`):**
+### File role summary
 
-- `src/` is reserved by Vite convention for code shipped to the browser. Putting build-time Node code in `src/` causes tree-shaking confusion and risks accidental bundling.
-- `scripts/` is the dominant convention in Vue/Vite ecosystem projects for Node-side tooling that is invoked via `npm run` but not bundled.
-- `tools/` is used by some repos but typically implies external-facing dev tools; `scripts/` better signals "project-internal npm scripts".
-- The pipeline is one coherent program — it gets its own subdirectory (`scripts/markdown-export/`) rather than being sprayed across multiple files at `scripts/` root.
+| File | LOC estimate | Role | Pure/IO |
+|------|-------------:|------|---------|
+| `index.ts` | 40–80 | CLI entry; parses argv, invokes phases in order, handles exit codes | IO |
+| `config.ts` | 30–60 | Reads `process.argv` + `process.env`, validates, returns `EditorialConfig` | IO-adjacent (reads env) but logic is pure-testable |
+| `routes.ts` | 40–80 | `buildRouteList(exhibits)` — pure function; reads `exhibits.json` via fs at entry | Pure core + thin IO boundary |
+| `capture.ts` | 80–150 | Orchestrates Playwright; exports `capturePages(routes, baseUrl) → CapturedPage[]` | IO (browser) |
+| `convert.ts` | 60–120 | `htmlToMarkdown(html) → string`; Turndown service + custom rules for the site's patterns | Pure (HTML in, MD out) |
+| `write.ts` | 30–50 | `writeCapture(path, markdown)` — preflight + write | IO (disk) |
+| `types.ts` | 20–40 | `Route`, `CapturedPage`, `EditorialConfig` — local, not shared with `scripts/markdown-export/` | - |
 
-**Rationale for `src/content/`:**
+Total: ~300–580 LOC for the whole tool. This is intentionally smaller than `scripts/markdown-export/`'s current footprint.
 
-- Content extracted from `.vue` SFCs has to live somewhere importable by both the runtime Vue pages and the build-time exporter.
-- Placing it under `src/` lets Vue pages import it with the existing `@/content/*` path alias — no alias changes required.
-- Keeping it separate from `src/data/` preserves the meaning of `data/` (structured records, JSON-backed) vs `content/` (prose, string-backed).
+### What's deliberately NOT here
+
+- **No `capture/`, `convert/`, `output/` subdirectories.** At ~300-580 LOC total, subdirectories add navigation cost without locality benefit. Flat is correct at this scale.
+- **No `ir/` or reuse of `scripts/markdown-export/primitives/`.** Those primitives encode a source-module-first mental model (the one v7.0 abandoned). v8.0 works from rendered HTML; Turndown output is the IR. Importing the v7.0 primitives would re-introduce the coupling the abort notice explicitly severs.
+- **No `fixtures/` directory.** Test HTML strings live inline in the test files until we have enough fixtures that extraction pays off (current estimate: we never will — this is one-off).
+- **No `cli/` wrapper separate from `index.ts`.** The entry *is* the CLI. Splitting them is the v7.0 orchestrator pattern; v8.0 doesn't need it.
 
 ---
 
-## 3. Module Inventory
+## 2. TypeScript & Build Integration
 
-### New modules
+### Decision: **New `tsconfig.editorial.json` + new project reference in root**
 
-| Module | Responsibility | Consumers |
-|--------|---------------|-----------|
-| `scripts/markdown-export/index.ts` | Orchestrator: load site-map → run extractors → render both artifacts → write files | `npm run build:markdown`, `npm run build` |
-| `scripts/markdown-export/site-map.ts` | Single source of truth for which pages exist, their order, nav hierarchy, file paths, and which extractor handles them | Orchestrator |
-| `scripts/markdown-export/content/*.ts` | Per-page extractors. Each exports `extract(): PageDoc`. Reads from `src/data/*` and `src/content/*`. Pure function, no side effects. | Orchestrator |
-| `scripts/markdown-export/content/exhibit.ts` | Parametric extractor: `extract(exhibit: Exhibit): PageDoc`. Called once per exhibit (15x). | Orchestrator |
-| `scripts/markdown-export/ir/nodes.ts` | `DocNode` discriminated union: Heading, Paragraph, List, OrderedList, Table, Blockquote, CodeBlock, Link, Image (alt → caption), HorizontalRule | Extractors, renderers |
-| `scripts/markdown-export/ir/page.ts` | `PageDoc` type: frontmatter metadata (title, slug, navPath, tags, date) + `DocNode[]` body | Extractors, renderers |
-| `scripts/markdown-export/markdown/primitives.ts` | Stateless markdown string builders: `heading(level, text)`, `list(items)`, `table(cols, rows)`, `link(text, href)`, `blockquote(text, cite?)` | Both renderers |
-| `scripts/markdown-export/markdown/escape.ts` | `escapeMd(s)`, `unescapeHtmlEntities(s)` — converts `&mdash;` to `—`, escapes `*`, `_`, `[`, `]` in prose | Primitives |
-| `scripts/markdown-export/markdown/frontmatter.ts` | `frontmatter(meta)` → YAML block for Obsidian files | Obsidian renderer |
-| `scripts/markdown-export/renderers/monolithic.ts` | `render(pages: PageDoc[]): string`. Promotes `PageDoc[]` to one document, shifting heading levels by nav depth. Resolves internal links to anchor fragments. | Orchestrator |
-| `scripts/markdown-export/renderers/obsidian.ts` | `render(pages: PageDoc[]): {path, content}[]`. Emits one file per page with frontmatter, converts internal links to `[[wikilinks]]`. | Orchestrator |
-| `scripts/markdown-export/writers/fs-writer.ts` | Idempotent write: wipes `docs/obsidian-vault/` cleanly, writes new files, preserves directory. | Orchestrator |
-| `src/content/meta.ts` | `pageMeta` record: per-route { title, navPath, navOrder, seoDescription, obsidianFilename }. Runtime pages can use this instead of duplicating title strings in `useSeo()` calls. | Pages, site-map, extractors |
-| `src/content/home.ts` | HomePage intro heading + paragraphs + teaser quote set as typed data. | HomePage.vue, home extractor |
-| `src/content/philosophy.ts` | PhilosophyPage design-thinking + moral-spine prose. | PhilosophyPage.vue, philosophy extractor |
-| `src/content/sections/howIWork.ts` | Three methodology steps as `{ heading, paragraphs: string[] }[]`. | HowIWorkSection.vue, philosophy extractor |
-| `src/content/sections/aiClarity.ts` | Prose block for AiClaritySection. | AiClaritySection.vue, philosophy extractor |
-| `src/content/sections/pattern158Origin.ts` | Prose block for Pattern158OriginSection. | Pattern158OriginSection.vue, philosophy extractor |
-| `src/content/sections/testimonialBlocks.ts` | Named quote sets (`philosophyColleagueQuotes`, `faqColleagueQuotes`) used by the recurring "What Colleagues Say" blocks. | PhilosophyPage.vue, FaqPage.vue, extractors |
-| `tsconfig.scripts.json` | Extends root tsconfig, includes `scripts/**/*`, targets Node ESM, no DOM lib. | `tsx` / `vite-node` runner |
+Mirror the `tsconfig.scripts.json` pattern exactly. Do not piggyback on `tsconfig.scripts.json`, and do not rely on "just tsx runs it without typechecking."
 
-### Modified modules
+#### Rationale
 
-| Module | Change | Reason |
-|--------|--------|--------|
-| `package.json` | Add `build:markdown` script running `tsx scripts/markdown-export/index.ts`. Modify `build` to `vue-tsc -b && vite build && npm run build:markdown`. Add `tsx` to devDependencies. | Pipeline integration |
-| `src/pages/HomePage.vue` | Replace intro `<h2>` + `<p>` literals with `{{ homeContent.introHeading }}` and `v-for` over `homeContent.introParagraphs`. Move `teaserQuotes` const into `src/content/home.ts`. | Make prose importable by extractor |
-| `src/pages/PhilosophyPage.vue` | Replace design-thinking and moral-spine hardcoded prose with imports from `src/content/philosophy.ts`. Move testimonial pair to `testimonialBlocks.ts`. | Same |
-| `src/pages/FaqPage.vue` | Move colleague testimonial pair to `testimonialBlocks.ts`. | Same |
-| `src/pages/ContactPage.vue` | Move hardcoded intro prose (if any) to `src/content/contact.ts`. | Same |
-| `src/pages/AccessibilityPage.vue` | Move prose paragraphs to `src/content/accessibility.ts`. | Same |
-| `src/pages/TechnologiesPage.vue` | Move any section headings/intros to `src/content/technologies.ts`. | Same |
-| `src/components/HowIWorkSection.vue` | Replace three hardcoded `<li>` blocks with `v-for` over imported steps array. | Same |
-| `src/components/AiClaritySection.vue` | Replace template literal with import + render loop. | Same |
-| `src/components/Pattern158OriginSection.vue` | Same. | Same |
-| `src/components/HeroMinimal.vue` | No change (already prop-driven). | — |
-| `.gitignore` | Ensure `docs/` is NOT ignored. | Committed output |
-| `vitest.config.ts` (if needed) | Ensure `scripts/**/__tests__/**` is picked up by unit project. | Test discovery |
+Three reasons, in descending order:
 
-### Unchanged
+1. **Forbidden-pattern isolation.** `tsconfig.scripts.json` has `"paths": {}` to make `@/*` resolution impossible inside `scripts/markdown-export/**`. v8.0 needs the same guarantee — the forbidden list (no `@/`, no `os.EOL`, no non-deterministic `Date.now()` etc.) applies equally to `scripts/editorial/`. A separate tsconfig with `"paths": {}` + `"include": ["scripts/editorial/**/*.ts"]` is the mechanical enforcement.
+2. **Separation from v7.0.** The abort notice (`.planning/v7.0-ABORT-NOTICE.md` §"Immediate") explicitly says editorial "lives outside `scripts/markdown-export/` to keep v7.0 and the pivot cleanly separated." If they share a tsconfig, they share a TS project graph, and a breaking edit in one can surface as a type error in the other. Separate projects mean independent decay/evolution.
+3. **`vue-tsc -b` picks it up for free.** The root `tsconfig.json` already has a `"references"` array. Adding a second entry `{ "path": "./tsconfig.editorial.json" }` hooks it into the build chain with zero other changes. `pnpm build` already calls `vue-tsc -b` and will type-check all referenced projects.
 
-Everything in `src/data/`, `src/types/`, the router, existing exhibit components, layouts, and 15 exhibit JSON files. The exhibit extractor reads directly from `exhibits.ts` — no SFC refactor needed for exhibit detail pages because they are already 100% data-driven.
+#### `tsconfig.editorial.json` shape
 
----
+Near-copy of `tsconfig.scripts.json`, with only two things changed:
 
-## 4. Content Sourcing Decision
-
-This is the highest-leverage decision in the milestone.
-
-### The three options
-
-**Option A — Manual page content map in TS that duplicates page strings**
-Create `src/content/*.ts` with the prose copy-pasted from the SFCs. Leave `.vue` files untouched. The extractor reads only from `src/content/`.
-
-- Pros: Fastest to ship. Zero risk of breaking the running site. No Vue refactor.
-- Cons: Two sources of truth. Every future copy edit requires touching both files. The risk of drift between the live site and the markdown artifact is unbounded over time. Defeats a core purpose of the artifact (faithful mirror of site content).
-- Verdict: Reject. Duplication is the exact failure mode the milestone should avoid.
-
-**Option B — Refactor Vue SFCs to import content from TS** (RECOMMENDED)
-Move hardcoded prose out of `.vue` templates into `src/content/*.ts`. SFCs `v-for` over imported arrays. Both runtime rendering and build-time extraction read the same source.
-
-- Pros: Single source of truth. Aligns with the v3.0/v4.0 pattern already established for JSON data (content decoupled from code). Makes future CMS migration trivially easy. Extractor is a one-line import. The refactor is bounded: inspection of the pages shows prose concentrated in ~7 SFC files.
-- Cons: Touches runtime Vue code — needs to pass existing 95 unit tests and visual regression. Modest additional scope vs option A.
-- Scope audit (verified by inspection):
-  - `HomePage.vue` — 1 intro heading, 1 intro paragraph, 1 "Featured Projects" heading, 1 "From the Field" heading + subtitle, 2 teaser quotes. Small.
-  - `PhilosophyPage.vue` — 2 content sections (design-thinking ~4 paragraphs, moral-spine ~4 paragraphs + 1 blockquote), 1 closing line, 1 testimonial block of 2 quotes. Medium.
-  - `HowIWorkSection.vue` — 3 methodology steps, each with heading + 2-3 paragraphs. Small.
-  - `AiClaritySection.vue`, `Pattern158OriginSection.vue` — small (each <20 lines of prose).
-  - `FaqPage.vue` — 1 testimonial block. Tiny.
-  - `ContactPage.vue`, `AccessibilityPage.vue`, `TechnologiesPage.vue` — small intros.
-  - Total: roughly 150-200 lines of prose to move. Mechanical refactor.
-- Verdict: **Recommended primary path.**
-
-**Option C — Parse Vue SFCs statically with `@vue/compiler-sfc`**
-Run `parse()` on each SFC, walk the template AST, extract text nodes.
-
-- Pros: Zero runtime Vue refactor. "Just works" on existing code.
-- Cons:
-  - Template AST walking for content extraction is genuinely complex: text is interleaved with component tags, directives, interpolations, slots, conditional blocks, scoped CSS class references. Producing clean markdown requires re-implementing a subset of Vue template semantics in the extractor.
-  - Component content (`<HowIWorkSection />`) has no text at the page level — the extractor would need to recursively expand component trees to reach the prose, re-implementing component composition.
-  - Brittle: any template structure change (rewording an `h2`, reordering paragraphs, adding a wrapping `<div>`) can silently break extraction or produce garbled output. The build would pass but the artifact would rot.
-  - HTML entities (`&mdash;`, `&ldquo;`, `&rdquo;`, `&x2014;`) litter the existing templates and would need un-escaping.
-  - Debugging markdown drift means debugging the AST walker — slow and specialized.
-- Verdict: Reject. This is the clever option. The milestone wants clarity.
-
-### Recommendation: Option B
-
-Treat the SFC refactor as a prerequisite phase (not a separate milestone). This is the same pattern used in v3.0 when data was moved from TS to JSON — a one-time cost that pays dividends for every future content change.
-
-**Mitigation for the "touches runtime code" risk:**
-
-1. Do the refactor page-by-page, not all at once. Run the existing test suite after each page.
-2. The refactor is purely structural — strings move from template literals to `.ts` exports, then SFC v-for renders them. Visual output is byte-identical if done correctly.
-3. Add one Playwright browser-mode regression test per refactored page that asserts the key heading + first paragraph text appears in the rendered DOM. This guards against accidental omissions during the extraction.
-4. HTML entities in the source (`&mdash;`, `&ldquo;`) should be converted to Unicode characters during the move. This is a small cleanup that also improves the markdown output automatically.
-
----
-
-## 5. Data Flow
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ SOURCES (existing)                                              │
-│                                                                 │
-│  src/data/json/*.json   src/data/*.ts    src/types/*.ts         │
-│  (11 data files)        (thin loaders)   (type definitions)     │
-│                                                                 │
-│  src/content/*.ts       src/content/sections/*.ts               │
-│  (NEW: page prose)      (NEW: section prose)                    │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ SITE MAP (scripts/markdown-export/site-map.ts)                  │
-│                                                                 │
-│  const siteMap: PageSpec[] = [                                  │
-│    { slug: 'home',         route: '/',          navOrder: 0,    │
-│      extract: homeExtract, navPath: [] },                       │
-│    { slug: 'philosophy',   route: '/philosophy', navOrder: 1,   │
-│      extract: philosophyExtract, navPath: [] },                 │
-│    ...                                                          │
-│    { slug: 'case-files',   route: '/case-files', navOrder: 4,   │
-│      extract: caseFilesExtract, navPath: [],                    │
-│      children: exhibits.map(e => ({                             │
-│        slug: e.slug,                                            │
-│        route: e.exhibitLink,                                    │
-│        extract: () => exhibitExtract(e),                        │
-│        navPath: ['case-files']                                  │
-│      }))                                                        │
-│    },                                                           │
-│  ]                                                              │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │  orchestrator walks tree
-                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ EXTRACTORS (scripts/markdown-export/content/*.ts)               │
-│                                                                 │
-│  Each extractor is pure: (inputs) → PageDoc                     │
-│                                                                 │
-│  homeExtract()          — reads home.ts + specialties +         │
-│                           stats + influences + findings         │
-│  philosophyExtract()    — reads philosophy.ts + sections/* +    │
-│                           brandElements + philosophyInfluences  │
-│  faqExtract()           — reads faq.ts, groups by category      │
-│  caseFilesExtract()     — reads exhibits.ts, groups by type     │
-│  exhibitExtract(e)      — reads one Exhibit, walks sections     │
-│  ...                                                            │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │  returns PageDoc[]
-                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ INTERMEDIATE REPRESENTATION                                     │
-│                                                                 │
-│  type DocNode =                                                 │
-│    | { type: 'heading'; level: 1|2|3|4; text: string; id?: str} │
-│    | { type: 'paragraph'; text: string }                        │
-│    | { type: 'list'; ordered: boolean; items: string[] }        │
-│    | { type: 'table'; headers: string[]; rows: string[][] }     │
-│    | { type: 'blockquote'; text: string; cite?: string }        │
-│    | { type: 'link'; text: string; href: string; internal:bool} │
-│    | { type: 'image'; alt: string }    // rendered as caption   │
-│    | { type: 'hr' }                                             │
-│                                                                 │
-│  interface PageDoc {                                            │
-│    slug: string                                                 │
-│    title: string                                                │
-│    navPath: string[]       // ['case-files'] for exhibits       │
-│    navOrder: number                                             │
-│    tags: string[]          // for Obsidian frontmatter          │
-│    date?: string                                                │
-│    description?: string                                         │
-│    body: DocNode[]                                              │
-│    internalLinks: InternalLink[]   // collected during extract  │
-│  }                                                              │
-└──────────────────────┬──────────────────────────────────────────┘
-                       │
-              ┌────────┴────────┐
-              ▼                 ▼
-┌─────────────────────┐  ┌──────────────────────┐
-│ MONOLITHIC RENDERER │  │ OBSIDIAN RENDERER    │
-│                     │  │                      │
-│ - Walks siteMap in  │  │ - Walks siteMap;     │
-│   nav order         │  │   each PageDoc       │
-│ - For each PageDoc: │  │   becomes one file   │
-│   shifts heading    │  │ - Adds YAML          │
-│   levels by         │  │   frontmatter        │
-│   navPath.length+1  │  │ - Converts internal  │
-│ - Internal links    │  │   links to           │
-│   become anchors    │  │   [[wikilinks]]      │
-│   (#slug-heading-1) │  │ - Adds category tags │
-│ - Emits TOC at top  │  │ - Respects navPath   │
-│                     │  │   → folder hierarchy │
-│ Uses shared         │  │                      │
-│ primitives for      │  │ Uses shared          │
-│ heading/list/table  │  │ primitives + extra   │
-│                     │  │ wikilink helper      │
-└─────────┬───────────┘  └──────────┬───────────┘
-          │                         │
-          │ string                  │ { path, content }[]
-          ▼                         ▼
-┌─────────────────────────────────────────────────────────────────┐
-│ FILE WRITER (scripts/markdown-export/writers/fs-writer.ts)      │
-│                                                                 │
-│  - Wipes docs/obsidian-vault/ (clean rebuild)                   │
-│  - Writes docs/site-content.md                                  │
-│  - Creates directories for Obsidian folder structure            │
-│  - Writes each Obsidian file                                    │
-│  - Logs summary (N pages, M bytes)                              │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### Extraction contracts (examples)
-
-```ts
-// scripts/markdown-export/content/home.ts
-import { homeContent } from '@/content/home'
-import { specialties } from '@/data/specialties'
-import { stats } from '@/data/stats'
-import { findings } from '@/data/findings'
-import type { PageDoc } from '../ir/page'
-
-export function homeExtract(): PageDoc {
-  return {
-    slug: 'home',
-    title: 'Pattern 158 — Dan Novak',
-    navPath: [],
-    navOrder: 0,
-    tags: ['home'],
-    body: [
-      { type: 'heading', level: 1, text: homeContent.heroHeading },
-      { type: 'paragraph', text: homeContent.heroSubhead },
-      { type: 'heading', level: 2, text: homeContent.introHeading },
-      ...homeContent.introParagraphs.map(p => ({ type: 'paragraph' as const, text: p })),
-      { type: 'heading', level: 3, text: 'Specialties' },
-      { type: 'list', ordered: false, items: specialties.map(s => `**${s.title}** — ${s.description}`) },
-      // ... stats, findings, teaser quotes ...
-    ],
-    internalLinks: [{ text: 'View All Case Files', href: '/case-files' }],
-  }
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "composite": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "outDir": ".tsbuildinfo-editorial",
+    "rootDir": ".",
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "lib": ["ES2022"],
+    "types": ["node"],
+    "paths": {},
+    "baseUrl": "."
+  },
+  "include": ["scripts/editorial/**/*.ts"]
 }
 ```
 
-```ts
-// scripts/markdown-export/content/exhibit.ts
-import type { Exhibit } from '@/types'
-import type { PageDoc } from '../ir/page'
+Changes from `tsconfig.scripts.json`:
+- `"outDir": ".tsbuildinfo-editorial"` (separate tsbuildinfo; the root `.gitignore` likely already covers `.tsbuildinfo*` — verify in planning)
+- `"include": ["scripts/editorial/**/*.ts"]`
 
-export function exhibitExtract(exhibit: Exhibit): PageDoc {
-  const slug = exhibit.exhibitLink.replace('/exhibits/', '')
-  const body: DocNode[] = [
-    { type: 'heading', level: 1, text: `${exhibit.label}: ${exhibit.title}` },
-    { type: 'paragraph', text: `**Client:** ${exhibit.client}  |  **Date:** ${exhibit.date}` },
+Everything else locked identical. `"paths": {}` is the load-bearing discipline line.
+
+#### Root `tsconfig.json` change
+
+Add one line to the references array:
+
+```json
+"references": [
+  { "path": "./tsconfig.scripts.json" },
+  { "path": "./tsconfig.editorial.json" }
+]
+```
+
+No other root tsconfig changes.
+
+#### Forbidden patterns that extend to `scripts/editorial/`
+
+From `scripts/markdown-export/`'s hard-won discipline:
+- No `@/` path alias imports (enforced by `"paths": {}`)
+- No imports from `src/...` via relative paths (NOTE: this is the one we have to loosen slightly — see §3 Route-list loading)
+- No `Date.now()`, `new Date()`, `process.hrtime()`, `performance.now()` (determinism — but the capture itself is inherently non-deterministic because it's a live-site scrape; see §7)
+- No `os.EOL` — always `\n`
+- No `Promise.all` on operations that must be ordered (route capture order matters for editorial reading flow)
+- No `postinstall` or `prepare` hooks
+
+One nuance: the editorial tool captures the live site at a point in time, so it is *inherently* non-reproducible across runs. The spirit of "determinism" from v7.0 translated for v8.0 means: **within a single run, output should be deterministic order (routes processed in declared order, single-threaded)**. It does NOT mean "same input produces same output across weeks" — that's impossible when the input is a live website.
+
+---
+
+## 3. Data & Output Flow
+
+```
+ ┌────────────────────────────────────────────────────────────┐
+ │  src/data/json/exhibits.json   (authoritative slug source) │
+ └──────────────────────────┬─────────────────────────────────┘
+                            │ fs.readFile + JSON.parse in routes.ts
+                            ▼
+ ┌──────────────────────────────────┐      ┌─────────────────────┐
+ │  Static routes (hardcoded list)  │──┐   │ CLI args / env vars │
+ │  /, /philosophy, /faq, ...       │  │   │ BASE_URL, OUT_PATH  │
+ └──────────────────────────────────┘  │   └──────────┬──────────┘
+                                       ▼              │
+                          ┌───────────────────┐       │
+                          │   Route[]         │       │
+                          │   (ordered)       │       │
+                          └─────────┬─────────┘       │
+                                    │                 │
+                                    ▼                 ▼
+                          ┌───────────────────────────────┐
+                          │  capture.ts (Playwright)      │
+                          │  chromium.launch              │
+                          │  for route of routes:         │
+                          │    page.goto(base + route)    │
+                          │    page.waitForLoadState      │
+                          │    html = page.content()      │
+                          │    main = page.locator('main')│
+                          │          .innerHTML()         │
+                          └─────────────┬─────────────────┘
+                                        ▼
+                          ┌──────────────────────────────┐
+                          │  CapturedPage[]              │
+                          │  { route, title, html,       │
+                          │    status, error? }          │
+                          └─────────────┬────────────────┘
+                                        ▼
+                          ┌──────────────────────────────┐
+                          │  convert.ts (Turndown)       │
+                          │  per page: HTML → Markdown   │
+                          │  then join with page headers │
+                          └─────────────┬────────────────┘
+                                        ▼
+                          ┌──────────────────────────────┐
+                          │  write.ts                    │
+                          │  preflight: dir exists &     │
+                          │    writable?                 │
+                          │  fs.writeFile(OUT_PATH, md)  │
+                          └──────────────────────────────┘
+                                        ▼
+              /mnt/c/main/Obsidian Vault/career/website/
+                           site-editorial-capture.md
+```
+
+### Route list loading — thin-loader invariant interpretation
+
+The thin-loader rule in `src/data/*.ts` forbids sort/filter/computed/map/ref/reactive/watch. It applies to **Vue-side** loaders whose job is to re-export JSON with type assertions so components get strongly-typed data without processing work at import time.
+
+**That invariant does NOT apply to `scripts/editorial/routes.ts`** for two reasons:
+
+1. Scope: the invariant is scoped to `src/data/**`, not project-wide. `scripts/**` has always been allowed to do derivational work (v7.0 extractors were planned to do exactly that).
+2. Purpose: the whole point of `routes.ts` is to *derive* a URL list from exhibit data — that is inherently transformational. Making it a thin re-export would just push the derivation somewhere else.
+
+**How `routes.ts` reads `exhibits.json`:**
+
+Use `fs.readFile` + `JSON.parse` at runtime. Do **not** use `import exhibits from '../../src/data/json/exhibits.json'` with `assert { type: 'json' }` (forbidden list; brittle across bundlers).
+
+```ts
+// scripts/editorial/routes.ts (shape)
+import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
+
+const EXHIBITS_PATH = resolve(
+  import.meta.dirname,
+  '..', '..', 'src', 'data', 'json', 'exhibits.json'
+)
+
+export async function loadExhibits(): Promise<ExhibitLite[]> {
+  const raw = await readFile(EXHIBITS_PATH, 'utf8')
+  return JSON.parse(raw) as ExhibitLite[]
+}
+
+export function buildRouteList(exhibits: ExhibitLite[]): Route[] {
+  const staticRoutes: Route[] = [
+    { path: '/', label: 'Home' },
+    { path: '/philosophy', label: 'Philosophy' },
+    { path: '/faq', label: 'FAQ' },
+    { path: '/technologies', label: 'Technologies' },
+    { path: '/case-files', label: 'Case Files' },
+    { path: '/contact', label: 'Contact' },
+    { path: '/accessibility', label: 'Accessibility' },
   ]
-  if (exhibit.contextText) {
-    body.push({ type: 'heading', level: 2, text: exhibit.contextHeading ?? 'Context' })
-    body.push({ type: 'paragraph', text: exhibit.contextText })
-  }
-  if (exhibit.personnel?.length) {
-    body.push({ type: 'heading', level: 2, text: 'Personnel' })
-    body.push({
-      type: 'table',
-      headers: ['Name', 'Title', 'Organization'],
-      rows: exhibit.personnel.map(p => [p.name ?? '', p.title ?? '', p.organization ?? '']),
-    })
-  }
-  // ... technologies, findings, sections (text/table/flow/timeline/metadata), quotes ...
-  return {
-    slug: `exhibits/${slug}`,
-    title: `${exhibit.label}: ${exhibit.title}`,
-    navPath: ['case-files', 'exhibits'],
-    navOrder: 0,
-    tags: ['exhibit', exhibit.exhibitType, ...exhibit.impactTags],
-    date: exhibit.date,
-    description: exhibit.summary ?? exhibit.contextText,
-    body,
-    internalLinks: [],
-  }
+  const exhibitRoutes: Route[] = exhibits.map(e => ({
+    path: `/exhibits/${e.slug}`,
+    label: `${e.label} — ${e.title}`,
+  }))
+  return [...staticRoutes, ...exhibitRoutes]
 }
 ```
 
----
+Rationale: `buildRouteList` is a **pure function** — trivially unit-testable with fixture input (§4). The IO boundary (`readFile`) is the thinnest possible wrapper around it.
 
-## 6. Two-Renderer Strategy
+The static route list is hardcoded **inside `routes.ts`**, not pulled from `src/router.ts`. Reason: `src/router.ts` uses `() => import()` lazy-loaded component refs and redirect objects, which means naïvely importing it from scripts pulls in Vue's ecosystem (components, router-link, SFCs). The static route list for a portfolio site is six entries long and changes rarely — duplicating it in `routes.ts` is cheaper than building a router-agnostic introspection bridge. Accept the minor duplication; add a comment in both files noting they must stay in sync; the editorial tool is one-off anyway.
 
-### Shared layer
+### Output destination — CLI arg (primary) + env var (fallback)
 
-Both renderers consume the same `PageDoc[]` and the same markdown primitives:
+The user runs this as a one-off command from their own shell. The target is an absolute path outside the repo (Obsidian vault at `/mnt/c/main/Obsidian Vault/career/website/site-editorial-capture.md`).
+
+**Decision: accept both, prefer CLI arg over env var; default to env var if arg missing; error if neither.**
+
+```
+Priority:
+  1. --output <path>          CLI flag        (highest precedence)
+  2. EDITORIAL_OUT_PATH env   (fallback)
+  3. No default               (fail fast if neither set)
+```
+
+Rationale:
+- **CLI arg is primary** because the user is running the tool ad-hoc, not in a CI pipeline. Typing `--output /path` in the command line is the most grep-able, most discoverable form.
+- **Env var is the fallback** because one-off runs get repetitive — the user likely wants to set `EDITORIAL_OUT_PATH` once in their shell profile or `.envrc` and stop thinking about it.
+- **No hardcoded default** because hardcoding `/mnt/c/main/Obsidian Vault/...` would bake Dan's specific filesystem into the repo. Even though this tool is one-off and won't ship, it reads well for the editorial review (someone other than Dan reading `.planning/` should see "configurable output path," not "Dan's private path").
+- **`--base-url`** should be the same shape: `--base-url https://pattern158.solutions` or env `EDITORIAL_BASE_URL`, defaulting to `https://pattern158.solutions` (the site is already public; this default is safe to hardcode).
+
+### Preflight check in `write.ts`
+
+Before the expensive Playwright launch, `index.ts` calls `write.ts`'s preflight validator:
 
 ```ts
-// scripts/markdown-export/markdown/primitives.ts
-export const heading = (level: 1|2|3|4|5|6, text: string) =>
-  `${'#'.repeat(level)} ${text}\n`
-
-export const paragraph = (text: string) =>
-  `${text}\n`
-
-export const list = (items: string[], ordered = false) =>
-  items.map((item, i) => `${ordered ? `${i+1}.` : '-'} ${item}`).join('\n') + '\n'
-
-export const table = (headers: string[], rows: string[][]) => {
-  const head = `| ${headers.join(' | ')} |`
-  const sep  = `| ${headers.map(() => '---').join(' | ')} |`
-  const body = rows.map(r => `| ${r.join(' | ')} |`).join('\n')
-  return `${head}\n${sep}\n${body}\n`
+// write.ts (shape)
+export async function validateOutputPath(path: string): Promise<void> {
+  // 1. Absolute? (reject relative paths — editorial writes outside repo)
+  if (!isAbsolute(path)) throw new Error(`--output must be absolute, got: ${path}`)
+  // 2. Parent directory exists?
+  const dir = dirname(path)
+  try { await stat(dir) }
+  catch { throw new Error(`Output directory does not exist: ${dir}`) }
+  // 3. Writable? (touch a temp file alongside)
+  try {
+    const probe = join(dir, `.editorial-probe-${process.pid}`)
+    await writeFile(probe, '')
+    await unlink(probe)
+  } catch { throw new Error(`Output directory not writable: ${dir}`) }
 }
-
-export const blockquote = (text: string, cite?: string) => {
-  const lines = text.split('\n').map(l => `> ${l}`).join('\n')
-  return cite ? `${lines}\n> — ${cite}\n` : `${lines}\n`
-}
-
-export const link = (text: string, href: string) => `[${text}](${href})`
-export const wikilink = (text: string, target?: string) =>
-  target ? `[[${target}|${text}]]` : `[[${text}]]`
 ```
 
-Both renderers share a `renderNode(node: DocNode): string` function that dispatches on `node.type` and calls the right primitive.
+**Call order in `index.ts`:** validate args → preflight output path → load exhibits → build route list → launch browser → capture → convert → write. Preflight BEFORE browser launch avoids spending 30 seconds scraping only to fail on `ENOENT` at the last step.
 
-### Divergences
+---
 
-| Aspect | Monolithic | Obsidian |
-|--------|-----------|----------|
-| Output shape | One string | Array of `{path, content}` |
-| Heading levels | Shifted by nav depth: top-level pages get `#`, children get `##`, grandchildren get `###`. `PageDoc` heading of level N renders as `#`.repeat(depth + N). | Kept as declared in `PageDoc`. H1 = page title. |
-| Internal links | Markdown anchor links: `[text](#case-files-exhibit-a)`. Anchor slugs are generated from the shifted heading. | Obsidian wikilinks: `[[case-files/exhibits/exhibit-a\|text]]`. Path matches folder layout. |
-| Page breaks | `\n\n---\n\n` between top-level pages, no separator for children | N/A — files are separate |
-| Frontmatter | None (raw markdown) | YAML block with `title`, `tags`, `date?`, `description?`, `aliases?` |
-| TOC | Auto-generated at top of monolithic file from `PageDoc[]` walk | None (Obsidian has built-in outline) |
-| Image handling | `*Alt text caption*` italic caption | Same |
-| Tag rendering | N/A (tags are metadata only) | Inline `#tag` at top of body + in frontmatter |
-| Title derivation | First `heading` DocNode is used as-is; the page title in siteMap is the monolithic section marker | `PageDoc.title` becomes frontmatter `title`, body H1 is also `PageDoc.title` |
+## 4. Test Strategy
 
-### Renderer signature
+### Testable vs untestable
+
+| Component | Testable? | How |
+|-----------|-----------|-----|
+| `routes.ts` — `buildRouteList()` | YES, trivially | Unit test: fixture exhibits array in, expected `Route[]` out. No IO. |
+| `convert.ts` — `htmlToMarkdown()` | YES, valuable | Unit test: fixture HTML strings in, expected Markdown out. Turndown + custom rules are deterministic. |
+| `config.ts` — `parseArgs()` | YES, light | Unit test: `parseArgs(['--output', '/tmp/x'])` returns expected config; missing required → throws. |
+| `capture.ts` — `capturePages()` | NO (unit). Integration only. | Launches real Playwright against real URL. Test by running against the live site once. |
+| `write.ts` — `validateOutputPath()` | YES, with tmpdir fixture | Use `os.tmpdir()` for positive cases; nonexistent dir for negative cases. |
+| `write.ts` — `writeCapture()` | Marginal | Trivial one-liner around `fs.writeFile`. Not worth mocking. |
+| `index.ts` | NO | Pure orchestration. Test via running the real tool. |
+
+### Coverage target
+
+Unit tests for `routes.ts` + `convert.ts` + `config.ts` + `validateOutputPath` should cover the non-IO logic. The rest is "tested by running it." Explicitly state in the phase plan: **integration verification is "run the tool once against the live site, review the output markdown, and confirm it opens cleanly in Obsidian."** That is Dan's manual acceptance check — don't pretend unit tests can replace it.
+
+### Vitest integration — decision
+
+**Extend the existing `scripts` Vitest project to cover both `scripts/markdown-export/` and `scripts/editorial/`.** Do not create a fourth `editorial` project.
+
+Change in `vitest.config.ts`:
 
 ```ts
-// scripts/markdown-export/renderers/monolithic.ts
-export function renderMonolithic(pages: PageDoc[], siteMap: PageSpec[]): string
-
-// scripts/markdown-export/renderers/obsidian.ts
-export interface ObsidianFile { path: string; content: string }
-export function renderObsidian(pages: PageDoc[], siteMap: PageSpec[]): ObsidianFile[]
+{
+  extends: true,
+  test: {
+    name: 'scripts',
+    include: [
+      'scripts/markdown-export/**/*.test.ts',
+      'scripts/editorial/**/*.test.ts',  // NEW
+    ],
+    environment: 'node',
+    globals: true,
+  },
+}
 ```
 
-Both take the full page set so they can resolve cross-page links.
+Rationale: both script subprojects have identical test requirements (Node env, no Vue, no DOM globals, `globals: true`). A fourth project adds config bloat for zero semantic benefit. Separation of concerns is already provided by the two tsconfig project references (type-checking is separate); test runtime can share.
 
-### Divergence that stays in renderers only
+**`pnpm test:scripts` continues to work unchanged** and now runs both subprojects' tests together. No new pnpm test script needed for editorial.
 
-- Level shifting (monolithic concern)
-- Frontmatter (obsidian concern)
-- Link format (both have their own strategy)
-- File naming (obsidian concern)
+### What about Playwright in tests?
 
-Everything else — `DocNode` → markdown string — is shared primitives. If a third renderer (e.g., "flat concatenation" or "per-page monolithic") were added later, it would only need to plug in three helpers: link format, heading level transform, page separator.
+The repo already has Playwright installed (v1.58.2) via the `@vitest/browser-playwright` provider used by the `browser` Vitest project. **No new Playwright install is needed** — the `scripts/editorial/capture.ts` code does `import { chromium } from 'playwright'` and consumes the already-installed dep. This is a meaningful architectural win: no new devDep, no peer-dep concerns, no Playwright browser binary re-download (if `pnpm exec playwright install chromium` was run once, it's cached).
 
----
-
-## 7. Build Order Recommendation
-
-Phases are ordered to respect the dependency graph: content sources → IR → primitives → renderers → orchestration → integration → tests → docs. Each phase should ship green tests before the next begins.
-
-**Phase 1 — Content source extraction (SFC refactor)**
-Move hardcoded prose from `.vue` templates into `src/content/*.ts`. Do it page by page, running tests after each:
-1. Create `src/content/meta.ts` with per-page titles/descriptions/nav order.
-2. `HomePage.vue` → `src/content/home.ts`.
-3. `PhilosophyPage.vue` + `HowIWorkSection.vue` + `AiClaritySection.vue` + `Pattern158OriginSection.vue` → `src/content/philosophy.ts` + `src/content/sections/*.ts`.
-4. `ContactPage.vue`, `AccessibilityPage.vue`, `TechnologiesPage.vue`, `FaqPage.vue` → `src/content/*.ts`.
-5. Add one browser test per refactored page asserting first heading + first paragraph text.
-Gate: all 95+ existing tests green, new browser assertions green, `npm run build` succeeds, manual visual diff of each page.
-
-**Phase 2 — IR and shared primitives**
-No runtime code changes in this phase.
-1. Create `scripts/markdown-export/` scaffold.
-2. Define `ir/nodes.ts` and `ir/page.ts` types.
-3. Implement `markdown/primitives.ts` with unit tests for every primitive.
-4. Implement `markdown/escape.ts` (entity unescaping + markdown escaping) with unit tests.
-5. Implement `markdown/frontmatter.ts` with unit tests.
-6. Add `tsconfig.scripts.json`, add `tsx` dep, add `build:markdown` script (pointing at a stub that prints "hello").
-Gate: primitives unit tests green; `npm run build:markdown` runs without error.
-
-**Phase 3 — Extractors (non-exhibit pages)**
-1. Define `site-map.ts` with the 7 static routes.
-2. Implement one extractor per page: `home.ts`, `philosophy.ts`, `technologies.ts`, `case-files.ts` (index only, not children), `faq.ts`, `contact.ts`, `accessibility.ts`.
-3. Write unit tests that assert each extractor returns a `PageDoc` with expected top-level structure (heading count, title, nav path).
-Gate: every extractor returns a valid `PageDoc`.
-
-**Phase 4 — Exhibit extractor**
-1. Implement `exhibit.ts` extractor handling all `ExhibitSection` types (text, table, flow, timeline, metadata) and first-class arrays (personnel, technologies, findings).
-2. Add children to `site-map.ts` by mapping `exhibits` array.
-3. Unit tests: feed a fixture exhibit through extractor, assert structure. Test all section types, both exhibit types, edge cases (missing findings, custom findingsHeading, group/anonymized personnel, entity unescaping).
-Gate: all 15 exhibits extract without errors, snapshot locked for one representative exhibit.
-
-**Phase 5 — Monolithic renderer**
-1. Implement `renderers/monolithic.ts` with heading-level shifting and anchor-based internal link resolution.
-2. Snapshot test: full pipeline → `site-content.md` → committed snapshot. Any accidental change fails the test loudly.
-3. Integration test: parse the generated markdown back with a markdown parser (e.g., `marked` or `remark`) and assert heading hierarchy is well-formed (no H3 without an H2 parent, etc.).
-Gate: `site-content.md` snapshot committed, looks correct by manual review.
-
-**Phase 6 — Obsidian renderer**
-1. Implement `renderers/obsidian.ts` with frontmatter, wikilinks, folder hierarchy.
-2. Snapshot test for the full `docs/obsidian-vault/` tree (hash of sorted file list + content hashes).
-3. Integration test: load vault in a throwaway Obsidian-compatible parser or just verify YAML frontmatter parses cleanly and all wikilink targets exist as files.
-Gate: vault snapshot committed, opens cleanly in Obsidian (manual verification — human smoke test).
-
-**Phase 7 — File writer + orchestrator**
-1. Implement `writers/fs-writer.ts` with clean wipe of `docs/obsidian-vault/` and idempotent writes.
-2. Wire orchestrator `index.ts`: load site-map → run all extractors → render both artifacts → write to disk.
-3. End-to-end test: `npm run build:markdown` in isolated temp dir, verify files exist and sizes are in expected ranges.
-Gate: `npm run build:markdown` produces both artifacts cleanly in `docs/`.
-
-**Phase 8 — Build integration**
-1. Modify `package.json` `build` script to chain markdown export after `vite build`.
-2. Verify `npm run build` passes.
-3. Verify `docs/` changes land in git status after build.
-4. Update `.gitignore` to confirm `docs/` is tracked.
-Gate: full `npm run build` green, artifacts checked into version control.
-
-**Phase 9 — Documentation + polish**
-1. Add `scripts/markdown-export/README.md` explaining architecture and how to add a new page.
-2. Update `PROJECT.md` with v7.0 completion notes and key decisions.
-3. Run one final full audit: open every generated exhibit page in Obsidian, compare against live site side-by-side.
-Gate: milestone complete.
+Note: the `browser` Vitest project uses Playwright via a different code path (the `@vitest/browser-playwright` provider wraps it). That doesn't conflict with direct `import { chromium } from 'playwright'` in a Node-environment script. They can coexist because they hit different APIs of the same underlying installed package.
 
 ---
 
-## 8. Testing Strategy
+## 5. Suggested Build Order
 
-### Unit tests (scripts/markdown-export/__tests__/)
+This order flows phases from infrastructure outward, each phase shippable independently and each with a clear test gate. Parallelism is explicitly avoided — this is a small tool and sequential phases keep the milestone legible.
 
-- `primitives.test.ts` — One test per primitive. Heading escaping, list ordering, table alignment, blockquote multi-line, link escaping, wikilink with and without alias. Fast, stateless, 20-30 tests.
-- `escape.test.ts` — `&mdash;` → `—`, `&ldquo;` → `"`, `*` in prose → `\*`, leave code blocks alone.
-- `frontmatter.test.ts` — YAML escaping, array tags, date format, optional fields.
-- `ir.test.ts` — Type guards for `DocNode` discriminated union (smoke test TypeScript is catching malformed nodes).
+### Phase A — Scaffold (foundation)
+Mirror v7.0 Phase 38-01 exactly.
+- Create `tsconfig.editorial.json` with `"paths": {}`, `"include": ["scripts/editorial/**/*.ts"]`.
+- Add `{ "path": "./tsconfig.editorial.json" }` to root `tsconfig.json` `references`.
+- Extend `vitest.config.ts` `scripts` project `include` array to add `scripts/editorial/**/*.test.ts`.
+- Add pnpm script: `"capture:editorial": "tsx scripts/editorial/index.ts"`.
+- Install new devDep: `pnpm add -D turndown @types/turndown`. (Playwright already present.)
+- Scaffold `scripts/editorial/index.ts` as placeholder that logs a banner and exits 0 (mirrors Phase 38-01's placeholder pattern).
+- Acceptance: `pnpm exec vue-tsc -b` green, `pnpm capture:editorial` exits 0, `pnpm test:scripts` still green.
 
-### Extractor unit tests
+### Phase B — Config + Routes (pure logic first)
+Build the testable pure logic before wiring any IO.
+- `scripts/editorial/types.ts` — `EditorialConfig`, `Route`, `CapturedPage`, `ExhibitLite`.
+- `scripts/editorial/config.ts` — `parseArgs(argv)` + `loadConfig()` (applies env var fallback).
+- `scripts/editorial/routes.ts` — `loadExhibits()` + `buildRouteList(exhibits)`.
+- Tests: `routes.test.ts` with fixture exhibits, `config.test.ts` with various argv combos.
+- Acceptance: `pnpm test:scripts` green with new tests; running `tsx scripts/editorial/index.ts --output /tmp/x.md` builds a route list (logs it) without launching a browser yet.
 
-One test file per extractor. Each asserts:
-- Returned `PageDoc.title` matches meta.
-- `body` contains at least one heading of the expected level.
-- Body length is within expected range (± tolerance).
-- Internal links match expected routes.
+### Phase C — Capture (Playwright layer)
+Introduce the IO layer. Highest failure-mode density.
+- `scripts/editorial/capture.ts` — `capturePages(routes, baseUrl): Promise<CapturedPage[]>`.
+- Strategy: launch chromium headless, for-each-route navigate with `waitUntil: 'domcontentloaded'`, then `page.waitForLoadState('networkidle', { timeout: 5000 })`, grab `page.locator('main').innerHTML()`.
+- Include a failure mode: if navigation fails or `main` locator is absent, record the error in `CapturedPage.error` and continue to next route. Do NOT abort the whole run for one bad page.
+- Acceptance: run against live pattern158.solutions, confirm all routes return HTML.
 
-For `exhibit.ts`, parametrize over all 15 exhibits and run smoke assertions (extract succeeds, body is non-empty, tables have matching column counts). Then do a deep structural snapshot for one representative `investigation-report` and one `engineering-brief`.
+### Phase D — Convert (Turndown layer)
+Pure logic again — fully unit-testable.
+- `scripts/editorial/convert.ts` — `htmlToMarkdown(html, options): string`.
+- Turndown v7 configured with ATX headings, `-` bullet markers, fenced code blocks.
+- Custom rules for site-specific patterns discovered in Phase C's captured output (examples likely: ExhibitCard structure, findings severity badges, personnel cards).
+- Fixture-driven tests: inline HTML string in, expected Markdown out.
+- Acceptance: `pnpm test:scripts` green; running the full pipeline now produces a legible `.md` file.
 
-### Renderer snapshot tests
+### Phase E — Write + Preflight (finalize output)
+- `scripts/editorial/write.ts` — `validateOutputPath()` + `writeCapture()`.
+- `scripts/editorial/index.ts` — wire all phases in order, error handling, exit codes.
+- Acceptance: full end-to-end run: `pnpm capture:editorial --output "/mnt/c/main/Obsidian Vault/career/website/site-editorial-capture.md"` produces the file, Dan opens it in Obsidian and confirms it's readable.
 
-This is the heart of the test suite.
+### Phase F — Editorial review (no code)
+- Dan reads the captured markdown.
+- Produces findings in `career/website/site-editorial-findings.md` (Obsidian vault, alongside the capture).
+- No code changes in this phase.
 
-- `monolithic.snapshot.test.ts` — Run full pipeline, compare against committed `site-content.md` snapshot. Any diff fails. Rebaseline deliberately with `--update-snapshots`.
-- `obsidian.snapshot.test.ts` — Run full pipeline, produce a normalized manifest of the vault (sorted file paths + SHA-256 of each content), compare against committed snapshot.
+### Phase G — Milestone audit → v9.0 direction decision
+- Write `.planning/milestones/v8.0-phases/XXX-EDITORIAL-AUDIT.md` summarizing findings and recommending rebuild direction (static HTML first vs alternative).
+- Update PROJECT.md Validated / Out-of-Scope.
 
-Rationale for snapshots: the purpose of the artifact is textual fidelity. Snapshot testing is the only way to catch accidental drift from a seemingly-innocuous code change elsewhere (e.g., someone adds an `&ldquo;` to the FAQ JSON). The diff is human-readable and rebaselining is a one-liner.
+### Where findings docs live
 
-### Integration tests
+**Capture output** → Obsidian vault only (`career/website/site-editorial-capture.md`). The capture is derived from a live site; it should not be versioned in the Vue repo. Even a brief check-in would produce noise (differs every run) and pollute git history.
 
-- `full-export.test.ts` — Run `index.ts` programmatically in a temp dir, assert both artifacts exist with non-trivial size, assert no extra files, assert `docs/obsidian-vault/` has the expected folder structure.
-- `markdown-validity.test.ts` — Parse the generated monolithic file with `remark-parse`, assert no parse errors, walk the AST and verify heading hierarchy is monotonic (no jumps from H1 to H3).
-- `wikilink-integrity.test.ts` — For every wikilink in the vault, assert the target file exists.
+**Editorial findings (Dan's manual review notes)** → Obsidian vault (`career/website/site-editorial-findings.md`). Findings are working documents; the vault is where Dan already stores editorial work.
 
-### Regression tests (runtime site)
+**Milestone audit (GSD-level decision record)** → `.planning/milestones/v8.0-phases/XXX-EDITORIAL-AUDIT.md`. This is a project-planning artifact, belongs in `.planning/`, follows the same pattern as `.planning/phases/038-ir-markdown-primitives-scaffold/038-DOCS-AUDIT.md`.
 
-From Phase 1 (SFC refactor):
-- One Playwright browser test per refactored page asserting the first heading and first paragraph text are visible. Guards against accidental content omission during the move from template to `.ts`.
+### Gitignore concerns
 
-### CI gate
+Add to `.gitignore`:
+```
+# v8.0 editorial — typecheck artifacts
+.tsbuildinfo-editorial
+.tsbuildinfo-editorial/
+```
 
-`npm test` should run unit + snapshots + integration tests. A failing snapshot blocks PR merge until either content was intentionally changed (rebaseline) or unintentionally (fix the bug).
+No other gitignore changes needed. The editorial tool writes to an absolute path outside the repo; no files land inside the working tree that need ignoring. Confirm `.tsbuildinfo-scripts` is already in `.gitignore` from Phase 38; if so, the new `.tsbuildinfo-editorial` follows the same pattern.
 
 ---
 
-## 9. Open Questions
+## 6. Open Questions for Dan
 
-These are genuine unknowns that phase planning should flag for clarification or research, not gaps in this architecture doc:
+These are decisions that affect Phase A/B scoping but aren't blocking for research completion. The roadmap creation should prompt these during milestone planning.
 
-1. **Link resolution in the monolithic artifact:** When `HomePage` links to `/case-files`, the monolithic renderer needs to convert that to an anchor. What anchor format? GitHub-flavored slugs (`#case-files`)? Auto-generated from the heading? If two headings collide ("Findings" appears in many exhibits), how are collisions resolved? Recommendation: prefix anchors with the nav path (`#case-files-exhibit-a-findings`).
+1. **Per-page Markdown files or single monolith?** The abort notice says "a single Markdown document of all rendered page content in reading order." That's probably right (editorial review reads better as a single scroll), but Obsidian handles split files well too, and a split would make diff-ing captures across runs much easier if the tool is ever re-run. Proposed default: **single monolith** per the abort notice, but Phase B/E should expose this as a CLI flag (`--split` / `--monolith` with monolith as default).
 
-2. **Obsidian filename collisions:** Obsidian uses filenames as wikilink targets. Two exhibits with the same title would collide. Current exhibits use unique labels (`Exhibit A`, `Exhibit B`) so this is probably safe, but the renderer should assert uniqueness and fail loudly if collisions appear.
+2. **Static route list: hardcoded or router-file scraped?** Current recommendation: hardcoded in `routes.ts` with comment pointing to `src/router.ts`. Alternative: a separate `scripts/editorial/fetch-routes.ts` that runs `tsx` against a small extractor that reads `src/router.ts` via regex. The extractor approach is a whole phase of work and brittle; hardcoding is five lines and obvious. **Flagging for Dan to veto.**
 
-3. **Date metadata for non-exhibit pages:** Exhibits have dates. Static pages (Home, Philosophy) don't. Should the Obsidian frontmatter `date` be omitted, set to the git commit date, or set to the build date? Recommendation: omit for static pages, preserve exhibit dates as-is.
+3. **Screenshot artifacts alongside markdown?** Playwright makes this nearly free (`page.screenshot()`). Could be written to a sibling directory in the vault (`career/website/site-editorial-capture-screenshots/`). Editorial value: visually-rendered design decisions (spacing, badge colors, card layouts) don't survive HTML→Markdown conversion. Downside: ~15 PNGs, file-size cost in the vault. **Flagging for Dan — defer to milestone planning.**
 
-4. **Do the two testimonial blocks on Philosophy and FAQ pages belong in the export?** They are decorative recurrences of testimonials that probably live in a future `testimonials.json`. For v7.0, recommend: yes, export them as-is. If they become duplicates of a future testimonials page, dedupe at that milestone.
+4. **Networkidle timeout tuning.** Proposed 5s is a guess. Real-world SPA with lazy-loaded routes may need 10s. Finalize during Phase C when running against the real site.
 
-5. **Storybook stories** — should they also be exported? Recommendation: no. Stories are developer documentation, not site content. Out of scope.
+5. **Handling authenticated routes.** The site has no auth — confirmed in `src/router.ts` (all routes are public). No concern, but confirm before Phase C.
 
-6. **The `/review` and `/diag/personnel` routes** — these are internal/diagnostic pages. Recommendation: exclude from `site-map.ts` entirely. Document the exclusion in the site-map file.
+6. **Turndown custom-rule scope.** The site uses semantic HTML (`<main>`, `<article>`, `<section>`, `<h2>`, `<table>`). Turndown handles all of these out of the box. But severity badges (colored spans), personnel cards (nested divs), findings tables (structured markup) may render as noise without custom rules. Scope of Phase D custom rules unknown until Phase C's output is inspected. **Budget flex: Phase D may be bigger than the 60-120 LOC estimate if the site's markup is rich.**
 
-7. **Image handling:** milestone spec says "images skipped, alt text preserved as italicized captions". Where does alt text come from? The site uses very few images in prose (mostly decorative). Need to audit actual image usage during Phase 1 content extraction to determine whether this even applies in practice. Recommendation: implement the caption fallback but expect most pages to emit zero image nodes.
-
-8. **Build performance:** Running the markdown export as part of `npm run build` adds time. For 22 pages (7 static + 15 exhibits) with pure in-memory extraction + string concatenation, expected cost is <500ms — negligible. If it grows, consider gating behind a flag.
-
-9. **Does `tsx` play well with the existing tsconfig paths (`@/data/*`)?** It should — `tsx` honors `tsconfig.json` paths natively — but worth verifying in Phase 2. Fallback is `vite-node scripts/markdown-export/index.ts` which inherits Vite's resolver.
+7. **Is the tool committed to the repo, or is it throwaway?** Recommendation: **committed**. Even though it's one-off for this editorial pass, (a) it costs ~500 LOC so keeping it is cheap, (b) the Rosetta Stone vision in the abort notice implies similar captures against future framework implementations, (c) the committed code serves as a portfolio artifact itself. But Dan may prefer throwaway-in-a-separate-branch-never-merged. **Default to committed; flag for confirmation.**
 
 ---
 
-## Sources
+## Confidence Assessment
 
-- Direct inspection of `/home/xhiris/projects/pattern158-vue/src/` (pages, components, data, types, router)
-- `/home/xhiris/projects/pattern158-vue/.planning/PROJECT.md` — milestone scope and current state
-- `/home/xhiris/projects/pattern158-vue/package.json` — existing build scripts and dependencies
-- [Vite Guide — Getting Started](https://vite.dev/guide/) — project structure conventions (`src/` for runtime, tooling outside)
-- [Vite Guide — Building for Production](https://vite.dev/guide/build) — build hook conventions
-- Established v3.0 pattern in this codebase: JSON externalization via thin TS loaders — the same decoupling pattern is recommended for prose in v7.0
+| Area | Confidence | Source |
+|------|-----------|--------|
+| tsconfig project-reference pattern | HIGH | Directly mirrors existing `tsconfig.scripts.json` + Phase 38-01 plan |
+| Vitest `scripts` project extension | HIGH | Current vitest.config.ts read verbatim; include array is trivially extensible |
+| Turndown v7 API + Node support | HIGH | Context7 `/mixmark-io/turndown` (v7 uses domino internally, no jsdom needed) |
+| Playwright `chromium.launch` pattern | HIGH | Context7 `/microsoft/playwright` — official library-js docs |
+| Forbidden-pattern application to editorial | HIGH | Abort notice + Phase 38-01 plan both explicit |
+| Route list strategy (hardcode vs extract) | MEDIUM | Recommendation is clear; final call is Dan's preference |
+| Screenshot inclusion | LOW | Not mentioned in abort notice; speculative addition |
+| Integration with `vitest-browser-vue` Playwright | HIGH | Both consume the same installed `playwright` package; different APIs, no conflict |
+
+---
+
+## Summary for Roadmap
+
+**One-off tool, ~500 LOC, flat structure, five source files + tests.** Integration points: new `tsconfig.editorial.json` project reference (mirrors `tsconfig.scripts.json`), extended Vitest `scripts` project `include`, one new pnpm script (`capture:editorial`), one new devDep (`turndown`). Output goes to Obsidian vault only, no repo artifacts. Seven phases suggested (A-G), phases A-E are code, F is manual review, G is decision document. Build order is strict-sequential — parallelism is a risk, not a benefit, at this scale.
