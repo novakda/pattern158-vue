@@ -196,7 +196,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   - [ ] 46-02-PLAN.md — Create tsconfig.editorial.json + register in root references (SCAF-02, SCAF-03)
   - [ ] 46-03-PLAN.md — Add editorial:capture script + 4 dep changes + pnpm install (SCAF-04, SCAF-05)
   - [x] 46-04-PLAN.md — Extend Vitest scripts project include + add .gitignore entry (SCAF-06, SCAF-07)
-  - [ ] 46-05-PLAN.md — Wave 2 end-to-end smoke (pnpm build + editorial:capture + test:scripts)
+  - [x] 46-05-PLAN.md — Wave 2 end-to-end smoke (pnpm build + editorial:capture + test:scripts)
 
 ### Phase 47: Config + Routes (pure logic)
 **Goal**: Given CLI args / env vars and the exhibits JSON file, the tool produces a validated `EditorialConfig` and a deterministic, ordered `Route[]` — all without touching the network or browser.
