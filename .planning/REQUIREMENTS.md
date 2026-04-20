@@ -42,7 +42,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 - [ ] **CAPT-08**: FAQ filter pre-capture hook: click `[data-filter="all"]` before capture; assert rendered question count == `totalCount` (CRIT-02)
 - [ ] **CAPT-09**: Dynamic-route validation: post-navigation selector assertion (e.g., `.exhibit-detail h1`) rejects silent `NotFoundPage` renders with HTTP 200 (CRIT-04)
 - [ ] **CAPT-10**: Cloudflare cache-bypass: cache-buster query param + `Cache-Control: no-cache` request header per request; log `cf-cache-status` response header (CRIT-05)
-- [ ] **CAPT-11**: Bot-interstitial detection: string match on "Just a moment", Cloudflare challenge markup, or response size anomaly → abort with clear error (CRIT-06)
+- [x] **CAPT-11
+**: Bot-interstitial detection: string match on "Just a moment", Cloudflare challenge markup, or response size anomaly → abort with clear error (CRIT-06)
 - [ ] **CAPT-12**: Fixed 1280×800 viewport, fixed light theme (via prefers-color-scheme override), sequential navigation with 1–2s inter-request delay
 - [ ] **CAPT-13**: Per-route full-page PNG screenshots captured alongside markdown; saved to `<vault>/career/website/site-editorial-capture/screenshots/` (subdirectory)
 - [ ] **CAPT-14**: Console-error capture per route, aggregated into run log

@@ -226,8 +226,8 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Every exhibit route is validated by a post-navigation selector assertion (e.g., `.exhibit-detail h1`); a silent `NotFoundPage` rendered with HTTP 200 is detected and logged as a route failure, not silently captured as empty content.
   4. Cloudflare interactions are handled: cache-buster query + `Cache-Control: no-cache` header on every request; `cf-cache-status` logged per route; bot interstitial ("Just a moment" / < 200-byte response / Cloudflare challenge markup) detected and aborted with a clear error — not silently captured as the interstitial page.
   5. Per-route screenshots (full-page PNG, fixed 1280×800 viewport, fixed light theme) land in `<vault>/career/website/site-editorial-capture/screenshots/`; per-route console errors and SEO meta (title, description) are captured into the run log / per-page metadata structures.
-**Plans:** 0/6 plans complete
-  - [ ] 48-01-PLAN.md — CaptureError + slugify + detectInterstitial + extended CapturedPage (CAPT-11)
+**Plans:** 1/6 plans complete
+  - [x] 48-01-PLAN.md — CaptureError + slugify + detectInterstitial + extended CapturedPage (CAPT-11)
   - [ ] 48-02-PLAN.md — launchBrowser + buildContextOptions + buildCaptureUrl (CAPT-03, CAPT-10, CAPT-12)
   - [ ] 48-03-PLAN.md — capturePage per-route orchestrator (CAPT-04, CAPT-05, CAPT-06, CAPT-09, CAPT-14, CAPT-15)
   - [ ] 48-04-PLAN.md — loadFaqItemCount + runFaqPreCaptureHooks (CAPT-07, CAPT-08)
@@ -291,7 +291,7 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 |-------|----------------|--------|-----------|
 | 46. Scaffold | 0/? | Not started | - |
 | 47. Config + Routes | 3/6 | In progress | - |
-| 48. Capture (Playwright IO) | 0/? | Not started | - |
+| 48. Capture (Playwright IO) | 1/6 | In progress | - |
 | 49. Convert (Turndown) | 0/? | Not started | - |
 | 50. Write + Preflight + Orchestration | 0/? | Not started | - |
 | 51. Editorial Review (manual) | 0/0 | Not started | - |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-20T16:51:23.817Z"
-last_activity: 2026-04-20 -- Phase 46 execution started
+last_updated: "2026-04-20T18:54:15.089Z"
+last_activity: 2026-04-20 -- Phase --phase execution started
 progress:
   total_phases: 7
-  completed_phases: 1
-  total_plans: 11
-  completed_plans: 5
-  percent: 45
+  completed_phases: 2
+  total_plans: 17
+  completed_plans: 12
+  percent: 71
 ---
 
 # Project State
@@ -22,16 +22,16 @@ Milestone: v8.0 Editorial Snapshot & Content Audit (started 2026-04-19)
 Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 46 — Scaffold
+**Current focus:** Phase --phase — 48
 
 ## Current Position
 
-Phase: 46 (Scaffold) — EXECUTING
-Plan: 1 of 5
-Status: Executing Phase 46
-Last activity: 2026-04-20 -- Phase 46 execution started
+Phase: --phase (48) — EXECUTING
+Plan: 1 of --name
+Status: Executing Phase --phase
+Last activity: 2026-04-20 -- Phase --phase execution started
 
-Progress: [          ] 0% (0/7 phases)
+Progress: [███████░░░] 71%
 
 ## Performance Metrics
 
@@ -66,6 +66,10 @@ Retained from v7.0 (still valid for v8.0 background):
 
 Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decisions table as they land.
 
+- Phase 48 Plan 01: CaptureError uses options-bag constructor (message, opts?: { route?, cause? }) — route-scoped errors get route as first-class field
+- Phase 48 Plan 01: detectInterstitial returns string | null (pure classifier); caller wraps non-null in CaptureError at call site where Route context is available
+- Phase 48 Plan 01: slugify('/') short-circuits to 'home' before regex pipeline; all other inputs go through trim → lowercase → strip leading / → collapse non-alphanumeric → collapse dashes → trim dashes
+
 ### Pending Todos
 
 None.
@@ -76,8 +80,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-19
+Last session: 2026-04-20T18:54:03.572Z
 Current activity: /gsd-new-milestone for v8.0
 Resume file: None
 
-**Planned Phase:** 47 () — 0 plans — 2026-04-20T16:51:23.806Z
+**Planned Phase:** 48 (Capture (Playwright IO)) — 6 plans — 2026-04-20T18:48:26.794Z
