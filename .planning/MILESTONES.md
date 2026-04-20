@@ -1,5 +1,24 @@
 # Milestones
 
+## v7.0 Static Markdown Export Pipeline (ABORTED: 2026-04-19)
+
+**Phases attempted:** 2 shipped (37, 38), 1 planned (39), 6 not started (40-45)
+**Plans:** 16/~20 completed across Phases 37-38 before abort
+**Abort notice:** `.planning/v7.0-ABORT-NOTICE.md`
+
+**What shipped before abort:**
+
+- Phase 37: Hardcoded prose extracted from 15 Vue files into 14 `src/content/*.ts` modules; SFCs `v-for` over imported arrays; 7 Playwright browser regression tests; thin-loader invariant formalized (SFC-01..07, LOAD-01)
+- Phase 38: `scripts/markdown-export/` scaffold with separate tsconfig + Vitest project + pnpm migration; three new devDeps (tsx, yaml, github-slugger); complete IR contract (DocNode + InlineSpan + PageDoc); four context-specific escape helpers with 53 unit tests; frontmatter YAML serializer with canonical key order; nine IR primitive factories; `docs/` collision audit (SCAF-01..03, AUDT-01, IR-01/02, ESCP-01..04, FM-01/02, PRIM-01)
+
+**Why aborted:**
+
+The real need is editorial, not publication. v7.0's source-module extraction approach misses hardcoded component text, data modules rendered into prose, reading-order fidelity, composition decisions, and dynamic exhibit routes. For editorial work, the rendered live site is the highest-fidelity representation. Replaced by v8.0 Playwright-based live-site editorial capture.
+
+**What's retained:** `src/content/*.ts` modules improved the Vue codebase independent of the pipeline. IR primitives in `scripts/markdown-export/` are shipped, tested, and harmless. Phase 39 planning docs retained as design reference.
+
+---
+
 ## v6.0 FAQ Page Redesign (Shipped: 2026-04-08)
 
 **Phases completed:** 4 phases, 5 plans, 4 tasks

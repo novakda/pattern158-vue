@@ -13,7 +13,7 @@
 - ✅ **v5.2 Personnel Data Normalization & Card UX** — Phases 28-29 (shipped 2026-04-08)
 - ✅ **v5.3 FAQ Content Audit** — Phases 30-32 (shipped 2026-04-08)
 - ✅ **v6.0 FAQ Page Redesign** — Phases 33-36 (shipped 2026-04-08)
-- 🚧 **v7.0 Static Markdown Export Pipeline** — Phases 37-45 (active, started 2026-04-10)
+- 🛑 **v7.0 Static Markdown Export Pipeline** — Phases 37-45 (ABORTED 2026-04-19, 2 of 9 phases shipped — see `.planning/v7.0-ABORT-NOTICE.md`)
 
 ## Phases
 
@@ -141,37 +141,19 @@ Full details: `.planning/milestones/v6.0-ROADMAP.md`
 
 </details>
 
-<details open>
-<summary>v7.0 Static Markdown Export Pipeline (Phases 37-45) -- ACTIVE (started 2026-04-10)</summary>
+<details>
+<summary>v7.0 Static Markdown Export Pipeline (Phases 37-45) -- ABORTED 2026-04-19</summary>
 
-- [x] Phase 37: SFC Content Extraction (9/9 plans) -- completed 2026-04-10
-  - **Plans:** 9 plans (7 parallel Wave 1 + 1 Wave 2 gate + 1 Wave 3 gate+checkpoint)
-    - [x] 037-01-PLAN.md — HomePage extraction + src/content/ scaffold (SFC-01)
-    - [x] 037-02-PLAN.md — PhilosophyPage + Pattern158Origin + HowIWork + AiClarity (SFC-02)
-    - [x] 037-03-PLAN.md — FaqPage hero + testimonial extraction (SFC-03)
-    - [x] 037-04-PLAN.md — ContactPage + RoleFit + CompanyFit + CultureFit + Compensation + ContactMethods (SFC-04)
-    - [x] 037-05-PLAN.md — AccessibilityPage 9-section extraction (SFC-05)
-    - [x] 037-06-PLAN.md — TechnologiesPage hero extraction (SFC-06)
-    - [x] 037-07-PLAN.md — CaseFilesPage + Project Directory extraction (SFC-07)
-    - [x] 037-08-PLAN.md — 7 browser regression tests via vitest-browser-vue (SFC-01..07)
-    - [x] 037-09-PLAN.md — LOAD-01 enforcement test + phase gate + visual checkpoint (LOAD-01)
-- [ ] Phase 38: IR + Markdown Primitives + Scaffold (7/7 plans) -- `scripts/markdown-export/` scaffold, `tsconfig.scripts.json`, 3 new devDeps, `DocNode`/`PageDoc` types, escape + frontmatter + primitives with unit tests, `docs/` collision audit
-  - **Plans:** 7 plans (1 Wave 1 serial infrastructure + 4 Wave 2 parallel + 2 Wave 3 primitive parallel)
-    - [x] 038-01-PLAN.md — pnpm migration, tsconfig.scripts.json, vitest scripts project, build chain (SCAF-01/02/03)
-    - [x] 038-02-PLAN.md — DocNode + InlineSpan + PageDoc IR types (IR-01/02)
-    - [x] 038-03-PLAN.md — escape helpers: prose, table-cell, wikilink target, code-block (ESCP-01/02/03/04)
-    - [x] 038-04-PLAN.md — frontmatter YAML serializer with canonical order + forbidden singular keys (FM-01/02)
-    - [x] 038-05-PLAN.md — docs/ directory collision audit (AUDT-01)
-    - [x] 038-06-PLAN.md — primitives: text, heading, paragraph, link, wikilink, caption (PRIM-01 part 1)
-    - [x] 038-07-PLAN.md — primitives: list, table, blockquote (PRIM-01 part 2)
-- [ ] Phase 39: Static Page Extractors -- `site-map.ts` with 7 static routes + one extractor per static page (home, philosophy, technologies, case-files, faq, contact, accessibility)
-- [ ] Phase 40: Exhibit Extractor -- parametric extractor for all 15 exhibits covering 5 section types, typed personnel/technologies/findings arrays, and quotes; snapshot one IR + one EB
-- [ ] Phase 41: Monolithic Renderer -- `docs/site-content.md` with heading shift, auto ToC via `github-slugger`, route→anchor link rewriting, GFM-only, generated banner, `remark-parse` monotonic-heading verification
-- [ ] Phase 42: Obsidian Vault Renderer -- `docs/obsidian-vault/` with folder mirror, plural-key YAML frontmatter, flat kebab-case tags, whitelisted unique wikilinks, aliases, sanitized exhibit filenames, `> [!quote]` callouts, FAQ one-note-per-page with block anchors, alt-text captions, all section types, manual Obsidian QA checkpoint
-- [ ] Phase 43: File Writer + Orchestrator -- `fs-writer.ts` clean-wipe + idempotent `\n`-only writes, `index.ts` orchestrator wiring site-map → extractors → renderers → writer, E2E temp-dir test
-- [ ] Phase 44: Build Integration + CI Drift Guard -- chain `build:markdown` after `vite build`, `.gitattributes` + `.gitignore` audit, CI `git diff --exit-code docs/` drift guard, two-run determinism test
-- [ ] Phase 45: Documentation + Final Polish -- `scripts/markdown-export/README.md`, update PROJECT.md, final manual Obsidian QA pass, final visual diff against live site
+- [x] Phase 37: SFC Content Extraction (9/9 plans) -- completed 2026-04-10 -- SHIPPED, retained
+- [x] Phase 38: IR + Markdown Primitives + Scaffold (7/7 plans) -- completed 2026-04-11 -- SHIPPED, retained
+- [~] Phase 39: Static Page Extractors -- PLANNED, not executed (039-01-PLAN.md, 039-02-PLAN.md retained as reference)
+- [ ] Phase 40-45 -- not started
 
-Full details: `.planning/milestones/v7.0-ROADMAP.md` (created at milestone completion)
+**Abort reason:** Pivoted to Playwright-based live-site editorial capture (v8.0). The pipeline was well-engineered for producing derived renderings from `src/content/*.ts` modules, but the actual current need is editorial capture of the rendered live site.
+
+**Retained:** `src/content/*.ts` prose modules (Phase 37), IR + escape helpers + primitives in `scripts/markdown-export/` (Phase 38), Phase 39 planning docs as design reference.
+
+Full details: `.planning/milestones/v7.0-ROADMAP.md`
+Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 
 </details>

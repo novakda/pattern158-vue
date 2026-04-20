@@ -2,16 +2,18 @@
 gsd_state_version: 1.0
 milestone: v7.0
 milestone_name: Static Markdown Export Pipeline
-status: executing
-stopped_at: Completed 038-07-PLAN.md
-last_updated: "2026-04-11T02:18:34.187Z"
-last_activity: 2026-04-11
+status: aborted
+stopped_at: Phase 039 planning (Phases 037 and 038 shipped and retained)
+last_updated: "2026-04-19T00:00:00.000Z"
+last_activity: 2026-04-19
+aborted_on: 2026-04-19
+abort_reason: Pivoted to Playwright-based live-site editorial capture (see .planning/v7.0-ABORT-NOTICE.md)
 progress:
-  total_phases: 2
+  total_phases: 9
   completed_phases: 2
   total_plans: 16
   completed_plans: 16
-  percent: 11
+  percent: 22
 ---
 
 # Project State
@@ -19,18 +21,24 @@ progress:
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-04-10)
+Abort notice: .planning/v7.0-ABORT-NOTICE.md (2026-04-19)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 038 — ir-markdown-primitives-scaffold
+**Current focus:** v7.0 ABORTED — no active GSD milestone work. Next direction TBD after editorial pass (see abort notice).
 
 ## Current Position
 
-Phase: 038
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-04-11
+Milestone: v7.0
+Status: ABORTED 2026-04-19
+Last activity before abort: 2026-04-11 (038-07-PLAN.md completed)
 
-Progress: [##        ] 11% (1/9 phases)
+Progress at abort: [##        ] 22% (2/9 phases shipped)
+  - Phase 037 (SFC Content Extraction): SHIPPED, retained
+  - Phase 038 (IR Markdown Primitives): SHIPPED, retained
+  - Phase 039 (Static Page Extractors): planning only, not executed — planning docs retained for reference
+  - Phases 040-045: not started
+
+No active phase. See abort notice for next steps.
 
 ## Performance Metrics
 

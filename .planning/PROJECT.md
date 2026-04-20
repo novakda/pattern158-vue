@@ -80,92 +80,20 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ FaqFilterBar with category pills, single active filter, live count (FLTR-01-04) — v6.0
 - ✓ FaqPage rewritten with accordion, filter bar, exhibit callout blocks, full-width stacked layout (LYOT-01-04) — v6.0
 
+- ✓ SFC content extraction: hardcoded prose moved from 15 Vue files (7 pages + 8 delegated components) into 14 `src/content/*.ts` modules, SFCs `v-for` over imported arrays, 7 Playwright browser regression tests per refactored page, 149/149 tests green (SFC-01/02/03/04/05/06/07) — v7.0 (Phase 37, shipped before abort)
+- ✓ Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed/map/ref/reactive/watch; `as const satisfies` literal registries allowlisted; enforcement test in `src/data/__tests__/loaders.thin.test.ts` (LOAD-01) — v7.0 (Phase 37, shipped before abort)
+- ✓ `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json`, pnpm migration, `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` + `test:scripts` npm scripts, Vitest `scripts` project (SCAF-01/02/03) — v7.0 (Phase 38, shipped before abort)
+- ✓ `docs/` directory collision audit produced as `038-DOCS-AUDIT.md` — verdict GO (AUDT-01) — v7.0 (Phase 38, shipped before abort)
+- ✓ `DocNode` discriminated union (6 block kinds) + `InlineSpan` inline tree (6 kinds) + `PageDoc` wrapper + `HeadingLevel` + `assertNever` (IR-01/02) — v7.0 (Phase 38, shipped before abort)
+- ✓ Nine IR primitive factories: `text`, `heading`, `paragraph`, `link`, `wikilink`, `caption`, `list`, `table`, `blockquote` (PRIM-01) — v7.0 (Phase 38, shipped before abort)
+- ✓ Four context-specific escape helpers with 53 unit tests (ESCP-01/02/03/04) — v7.0 (Phase 38, shipped before abort)
+- ✓ Frontmatter YAML serializer with canonical key order + plural-key enforcement + block-style arrays (FM-01/02) — v7.0 (Phase 38, shipped before abort)
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-**v7.0 Static Markdown Export Pipeline — MVP + Quick Wins scope**
-
-**Foundation (prerequisite phase):**
-- [x] SFC content extraction: hardcoded prose moved from 15 Vue files (7 pages + 8 delegated components) into 14 `src/content/*.ts` modules, SFCs `v-for` over imported arrays, 7 Playwright browser regression tests per refactored page, 149/149 tests green (SFC-01/02/03/04/05/06/07) — shipped Phase 37
-- [x] Thin-loader invariant formalized: `src/data/*.ts` loaders may only import JSON + assert types + re-export; no sort/filter/computed/map/ref/reactive/watch; `as const satisfies` literal registries allowlisted; enforcement test in `src/data/__tests__/loaders.thin.test.ts` (LOAD-01) — shipped Phase 37
-- [x] `scripts/markdown-export/` scaffold with separate `tsconfig.scripts.json` (paths: {}), pnpm migration + `tsx` + `yaml` + `github-slugger` devDeps, `build:markdown` + `test:scripts` npm scripts, Vitest `scripts` project (SCAF-01/02/03) — shipped Phase 38
-- [x] `docs/` directory collision audit (Vite outDir, Storybook, Wrangler, Vitest) produced as `038-DOCS-AUDIT.md` — verdict GO (AUDT-01) — shipped Phase 38
-
-**IR + shared primitives:**
-- [x] `DocNode` discriminated union (6 block kinds) + `InlineSpan` inline tree (6 kinds) + `PageDoc` wrapper + `HeadingLevel` + `assertNever` exhaustiveness helper (IR-01/02) — shipped Phase 38
-- [x] Nine IR primitive factories: `text`, `heading`, `paragraph`, `link`, `wikilink`, `caption`, `list`, `table`, `blockquote` — zero rendering/escape logic (PRIM-01) — shipped Phase 38
-- [x] Context-specific escape helpers: `escapeProse`, `escapeTableCell`, `escapeWikilinkTarget`, `escapeCodeBlockContent` with 53 unit tests (ESCP-01/02/03/04) — shipped Phase 38
-- [x] Frontmatter YAML serializer with canonical key order (title→aliases→tags→date→cssclasses), plural-key enforcement, block-style arrays (FM-01/02) — shipped Phase 38
-
-**Extractors:**
-- [ ] `site-map.ts` with 7 static routes + dynamic exhibit children, excludes `/review`, `/diag`, 404 (MAP-01)
-- [ ] One extractor per static page: home, philosophy, technologies, case-files, faq, contact, accessibility (EXT-01/02/03/04/05/06/07)
-- [ ] `exhibit.ts` extractor handling all 5 section types (text, table, timeline, metadata, flow) + typed personnel/technologies/findings arrays + quotes across all 15 exhibits (EXB-01/02/03)
-
-**Monolithic renderer (`docs/site-content.md`):**
-- [ ] Heading-level shifting by nav depth (T3) — full exhibit details inline (MONO-01)
-- [ ] Auto-generated ToC at top of monolithic file using `github-slugger` anchors (T4, MONO-02)
-- [ ] Internal link rewriting: route strings → anchor links (T5, MONO-03)
-- [ ] GFM only, no Obsidian-isms in monolithic output (D6, MONO-04)
-- [ ] Generated-file warning banner (HTML comment at top) (D8, MONO-05)
-- [ ] Monotonic heading hierarchy verified via `remark-parse` integration test (MONO-06)
-
-**Obsidian vault renderer (`docs/obsidian-vault/`):**
-- [ ] Folder structure mirrors menu (T8, VAULT-01)
-- [ ] YAML frontmatter: `title`, `aliases`, `tags`, optional `date` — plural keys only (T6, VAULT-02)
-- [ ] Flat kebab-case exhibit tags from `exhibitType` + `findings[].category` (T9, VAULT-03)
-- [ ] Wikilinks between vault notes with whitelist + uniqueness assertion on basenames (T7, VAULT-04)
-- [ ] Aliases for exhibits (label + client) and page title variants (D4, VAULT-05)
-- [ ] Exhibit filename format `Exhibit A - Short Title.md` with sanitized reserved chars (T14, VAULT-06)
-- [ ] Obsidian callout blocks for exhibit quotes (`> [!quote]`) — graceful GitHub degradation (D3, VAULT-07)
-- [ ] FAQ rendered as one note per page with questions as H3 + `^question-id` block anchors (T13, VAULT-08)
-- [ ] Images skipped, alt text emitted as italicized captions (T10, VAULT-09)
-- [ ] GFM tables for personnel / technologies; finding-per-H4 for findings with pill-style inline tags (T11, VAULT-10)
-- [ ] Generated-file warning banner after frontmatter (D8, VAULT-11)
-- [ ] All section types rendered (text / table / timeline / metadata / flow) (T15, VAULT-12)
-- [ ] Manual Obsidian QA pass — tags visible in tag pane, wikilinks resolve, frontmatter parses (QA-01)
-
-**File writer + orchestration:**
-- [ ] Clean wipe of `docs/obsidian-vault/` + idempotent writes, `\n` line endings only (WRIT-01)
-- [ ] `scripts/markdown-export/index.ts` orchestrator wires site-map → extractors → renderers → writer (ORCH-01)
-
-**Build integration:**
-- [ ] `"build": "vue-tsc -b && vite build && npm run build:markdown"` chain (INTG-01)
-- [ ] `docs/**` tracked in git (`.gitignore` audit) + `.gitattributes` entry `docs/** text eol=lf linguist-generated` (INTG-02)
-- [ ] **CI drift guard:** `npm run build:markdown && git diff --exit-code docs/` fails PRs with stale artifacts (INTG-03)
-- [ ] Two-run determinism test in CI: regenerate twice, diff outputs, assert byte-identical (INTG-04)
-
-**Hard constraints / forbidden list (PLAN.md inheritance):**
-- Forbidden: `@/` imports inside `scripts/markdown-export/**`
-- Forbidden: `Date.now()`, `new Date()`, `process.hrtime`, `performance.now()` in generator
-- Forbidden: `Promise.all` on reads feeding ordered output
-- Forbidden: `os.EOL` — always `\n` literals
-- Forbidden: manual editing of files under `docs/`
-- Forbidden: `postinstall` / `prepare` hooks running the generator
-- Forbidden: `assert { type: 'json' }` — use `fs.readFile` + `JSON.parse`
-- Forbidden: singular frontmatter keys `tag`, `alias`, `cssclass`
-- Forbidden: line wrapping of prose in generated markdown
-- Forbidden: mtime/hash-based "skip unchanged" logic
-- Forbidden: parsing `.vue` SFCs from the generator
-
-## Current Milestone: v7.0 Static Markdown Export Pipeline
-
-**Goal:** Generate two static markdown artifacts alongside the site build — a single monolithic document mirroring the site tree by heading levels, and an Obsidian-ready vault folder with one markdown page per site page organized to match the menu structure.
-
-**Scope:** MVP + Quick Wins (all table-stakes T1-T15 + D3 callouts + D4 aliases + D6 GFM-only mono + D8 generated banner). Stretch items (D1 MOC, D2 FAQ↔exhibit backlinks, D5 block anchors) deferred to a future milestone if warranted.
-
-**Key scoping decisions (from research synthesis):**
-- Content sourcing: **Option B** — refactor SFCs to import prose from `src/content/*.ts`, Phase 1 prerequisite
-- Script runtime: **standalone `tsx` script**, NOT a Vite plugin (better iteration speed, testability, isolation)
-- Renderer architecture: **two-mode renderer sharing a `DocNode` IR** — divergences (heading shift, frontmatter, link format) live only in renderer branches
-- Dependencies: **3 new devDeps only** — `tsx`, `yaml`, `github-slugger`. Reject `unified`/`remark`/`turndown`/`gray-matter`/`ts-node`/`vite-node`
-- Tag format: **flat kebab-case** (matches v5.3/v6.0 FAQ taxonomy)
-- FAQ granularity: **one note per page, questions as H3 + block anchors** (clean vault, still deep-linkable)
-- Monolithic depth: **full exhibit details inline** (~50-100 KB, GitHub handles it, honors 'whole site in one file' promise)
-- Imports: **relative only inside `scripts/markdown-export/**`** (`tsx` does not resolve `@/` aliases)
-- Testing: **snapshot testing at small granularity** (one representative exhibit + individual primitives) + two-run determinism test
-- CI drift guard: `npm run build:markdown && git diff --exit-code docs/` is mandatory
+**No active milestone.** v7.0 was ABORTED 2026-04-19 after Phases 37-38 shipped. v8.0 (Editorial Snapshot & Content Audit) scoping pending. See `.planning/v7.0-ABORT-NOTICE.md` for pivot rationale.
 
 ### Out of Scope
 
@@ -176,12 +104,15 @@ Every page template should be scannable and self-documenting through well-named 
 - SSR/SSG — SPA is sufficient for a portfolio site
 - New exhibit content creation — restructure existing content, don't write new exhibits
 - Search input for FAQ — category filtering is sufficient for ~27 items; search adds value at 50+
+- **v7.0 static markdown export pipeline (Phases 39-45)** — ABORTED 2026-04-19. Extractors (MAP-01, EXT-01..07, EXB-01..03), monolithic renderer (MONO-01..06), Obsidian vault renderer (VAULT-01..12, QA-01), writer + orchestrator (WRIT-01, ORCH-01), build integration + drift guard (INTG-01..04) are not being pursued. Source-module extraction misses the fidelity needed for editorial work (hardcoded component text, reading-order, composition, dynamic exhibits). Replaced by v8.0 live-site editorial capture. Phase 37 `src/content/*.ts` modules and Phase 38 IR primitives remain in place — harmless, may be reused if pipeline direction is ever resurfaced.
 
 ## Current State
 
-**Shipped:** v6.0 (2026-04-08) | **In progress:** v7.0 Static Markdown Export Pipeline (Phase 38 of ~45 complete)
+**Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, Phases 37-38 of 45 shipped, see `.planning/v7.0-ABORT-NOTICE.md`) | **No active milestone** — v8.0 Editorial Snapshot & Content Audit scoping pending
 
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays. Findings unified across 11 exhibits with NTSB-style diagnostic content. Personnel data normalized with entryType (individual/group/anonymized). Phase 37 extracted hardcoded prose from 15 Vue files into 14 `src/content/*.ts` modules with 7 Playwright browser regression tests. Phase 38 established the markdown export foundation: pnpm migration, `scripts/markdown-export/` scaffold with `tsconfig.scripts.json` project reference, Vitest `scripts` project, three new devDeps (tsx/yaml/github-slugger), the complete IR contract (DocNode/InlineSpan/PageDoc), four context-specific escape helpers, deterministic frontmatter serializer, nine IR primitive factories, and the `docs/` collision audit (verdict GO for Phase 44). 292 tests passing (34 files), clean production build, `build:markdown` orchestrator stub wired into the build chain.
+All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays. Findings unified across 11 exhibits with NTSB-style diagnostic content. Personnel data normalized with entryType (individual/group/anonymized).
+
+v7.0 Phase 37 extracted hardcoded prose from 15 Vue files into 14 `src/content/*.ts` modules with 7 Playwright browser regression tests. Phase 38 established a markdown export foundation (pnpm migration, `scripts/markdown-export/` scaffold, IR contract, escape helpers, frontmatter serializer, nine primitive factories, `docs/` collision audit). Both phases' output is retained and still valid — but the remaining v7.0 extractor/renderer pipeline is not being built. Dan is pivoting to Playwright-based live-site editorial capture (v8.0) because the rendered site is higher-fidelity than source-module extraction for the actual current need (editorial review and subsequent rebuild direction decision). 292 tests passing (34 files), clean production build.
 
 ## Context
 
@@ -245,4 +176,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-11 — Phase 38 complete (IR + markdown primitives + scaffold)*
+*Last updated: 2026-04-19 — v7.0 aborted, v8.0 scoping pending (see .planning/v7.0-ABORT-NOTICE.md)*

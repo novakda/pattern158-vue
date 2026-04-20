@@ -4,6 +4,61 @@
 
 ---
 
+## Milestone: v7.0 — Static Markdown Export Pipeline (ABORTED)
+
+**Aborted:** 2026-04-19
+**Phases attempted:** 2 shipped (37, 38), 1 planned (39), 6 not started | **Plans:** 16 completed before abort | **Abort notice:** `.planning/v7.0-ABORT-NOTICE.md`
+
+### What Was Built (before abort)
+
+- 14 `src/content/*.ts` prose modules extracted from 15 Vue files, SFCs now `v-for` over imported typed arrays, 7 Playwright browser regression tests per refactored page
+- Thin-loader invariant formalized with enforcement test (`src/data/__tests__/loaders.thin.test.ts`)
+- `scripts/markdown-export/` scaffold: separate `tsconfig.scripts.json` project reference, pnpm migration, Vitest `scripts` project, three devDeps (tsx, yaml, github-slugger), `build:markdown` + `test:scripts` npm scripts
+- Complete IR contract: `DocNode` discriminated union (6 block kinds), `InlineSpan` inline tree (6 kinds), `PageDoc` wrapper, `HeadingLevel`, `assertNever` exhaustiveness helper
+- Four context-specific escape helpers with 53 unit tests (prose, table-cell, wikilink target, code-block)
+- Frontmatter YAML serializer with canonical key order, plural-key enforcement, block-style arrays
+- Nine IR primitive factories (text, heading, paragraph, link, wikilink, caption, list, table, blockquote) with zero rendering/escape logic
+- `docs/` directory collision audit (verdict GO)
+
+### What Was Aborted and Why
+
+**Scope stopped:** Phase 39 (static page extractors) planning docs written but not executed; Phases 40-45 (exhibit extractor, monolithic renderer, Obsidian vault renderer, writer/orchestrator, build integration, docs) not started.
+
+**Reason:** The pipeline was well-engineered for producing derived renderings from `src/content/*.ts` modules with type preservation, drift detection, and round-trip guarantees. But the actual current need is **editorial, not publication** — reading the full rendered site as a single semantic document to identify inconsistencies with recent career positioning work and make structural/copy decisions before a rebuild.
+
+Source-module extraction misses what editorial work needs:
+
+1. **Incomplete coverage** — `src/content/*.ts` captures prose Phase 37 extracted, but data modules (`src/data/json/*.json`) only appear as prose when rendered; hardcoded component text only surfaces at render time
+2. **No reading-order fidelity** — source modules are unordered; templates define the order readers encounter
+3. **No composition fidelity** — component composition, conditional rendering, dynamic data interpolation only exist in rendered output
+4. **Dynamic routes** — exhibit detail pages and case file filtering only materialize real prose when hit
+
+v7.0 also locks in a direction (Vue canonical → derived Markdown) that may need to be reversed for a longer-term Rosetta Stone vision (neutral content → multiple framework implementations).
+
+### Key Lessons
+
+1. **Engineering quality ≠ fit for purpose.** Phase 37 and 38 shipped with high craft — composable IR, 53-test escape helper coverage, deterministic frontmatter, round-trip test scaffolding. That quality was real but solving the wrong problem. Before deeper investment, validate that the *output shape* (source-derived Markdown) is what the user will actually consume. In this case, the user needed rendered-site Markdown, not source-module Markdown.
+2. **Editorial fidelity lives at the render layer.** If the goal is to read, edit, and restructure content, capture the rendered site — not the authoring source. This is the same lesson 11ty and SSG taxonomies teach: templates define reading order, components define composition, data modules alone cannot reconstruct either.
+3. **Know when to abort versus pivot in place.** An abort was the right call here because v7.0 and v8.0 solve different problems, not variations of the same problem. A pivot-in-place would have kept accruing architectural commitments to the wrong direction. Writing a dedicated ABORT-NOTICE.md that preserves the reasoning is worth the small cost — future-you (or a successor) will want it.
+4. **Shipped foundation work is not wasted.** Phase 37 improved the Vue codebase independent of the pipeline — the `src/content/*.ts` modules are still the right place for extracted prose. Phase 38's IR primitives are shipped, tested, and harmless to leave in place. If a future pipeline direction resurfaces, the work isn't lost; if it doesn't, the existing codebase benefits anyway.
+
+### Patterns Established
+
+- **Content module pattern (src/content/\*.ts):** named typed exports, no default export, consumed via `{{ expression }}` and `v-for` — established in Phase 37, applicable beyond any pipeline
+- **Thin-loader invariant:** `src/data/*.ts` loaders may only import JSON + assert types + re-export; no transformation logic; `as const satisfies` literal registries allowlisted — guards against loader drift regardless of consumer
+- **IR + primitive architecture:** discriminated unions for block nodes, factory functions for construction, renderer-agnostic primitives, per-renderer branching for format divergences — reusable design even if this specific pipeline is shelved
+- **Abort-notice convention:** root `.planning/v7.0-ABORT-NOTICE.md` as primary record + `milestones/v7.0-MILESTONE-AUDIT.md` as archival mirror + RETROSPECTIVE entry. Preserves reasoning without requiring a GSD-native abort command (none exists)
+
+### Cost Observations
+
+- Model mix: balanced profile across all phases
+- Phase 37 duration: ~2026-04-10 (1 day, 9 plans)
+- Phase 38 duration: 2026-04-10 → 2026-04-11 (~2 days, 7 plans)
+- Phase 39 planning only: 2026-04-11 (never executed)
+- Abort: 2026-04-19 (8 days after Phase 38 shipped — time spent on career positioning work and design-philosophy documents that informed the pivot)
+
+---
+
 ## Milestone: v1.1 — Exhibit Content Consistency
 
 **Shipped:** 2026-03-19
