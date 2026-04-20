@@ -212,7 +212,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   - [ ] 47-01-PLAN.md — Lock interface contracts: EditorialConfig (5 fields), Route (4 fields), ConfigError (CAPT-01, WRIT-01)
   - [ ] 47-02-PLAN.md — Implement config.ts: parseArgs + mergeConfig + runPreflight + loadEditorialConfig + HELP_TEXT (WRIT-01, WRIT-02)
   - [x] 47-03-PLAN.md — Implement routes.ts: STATIC_ROUTES + EXCLUDED_PREFIXES + isExcluded + buildRoutes reading exhibits.json (CAPT-01, CAPT-02)
-  - [ ] 47-04-PLAN.md — Vitest config.test.ts: parseArgs/mergeConfig/HELP_TEXT/runPreflight (WRIT-01, WRIT-02)
+  - [x] 47-04-PLAN.md — Vitest config.test.ts: parseArgs/mergeConfig/HELP_TEXT/runPreflight (WRIT-01, WRIT-02)
   - [ ] 47-05-PLAN.md — Vitest routes.test.ts: STATIC_ROUTES/EXCLUDED_PREFIXES/isExcluded/buildRoutes with inline fixtures (CAPT-01, CAPT-02)
   - [ ] 47-06-PLAN.md — Wave 4 smoke gate: pnpm build + pnpm test:scripts + tsx integration smoke + 47-VERIFICATION.md
 
