@@ -125,7 +125,34 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ## Traceability
 
-Traceability section populated by roadmap creation. Every REQ-ID must map to exactly one phase in `.planning/ROADMAP.md`.
+Every REQ-ID maps to exactly one phase in `.planning/ROADMAP.md`. 56/56 requirements mapped.
+
+| Phase | REQ-IDs | Count |
+|-------|---------|-------|
+| Phase 46 — Scaffold | SCAF-01, SCAF-02, SCAF-03, SCAF-04, SCAF-05, SCAF-06, SCAF-07, SCAF-08 | 8 |
+| Phase 47 — Config + Routes (pure logic) | CAPT-01, CAPT-02, WRIT-01, WRIT-02 | 4 |
+| Phase 48 — Capture (Playwright IO) | CAPT-03, CAPT-04, CAPT-05, CAPT-06, CAPT-07, CAPT-08, CAPT-09, CAPT-10, CAPT-11, CAPT-12, CAPT-13, CAPT-14, CAPT-15 | 13 |
+| Phase 49 — Convert (Turndown) | CONV-01, CONV-02, CONV-03, CONV-04, CONV-05, CONV-06, CONV-07, CONV-08, CONV-09 | 9 |
+| Phase 50 — Write + Preflight + Orchestration | SHAP-01, SHAP-02, SHAP-03, SHAP-04, SHAP-05, SHAP-06, SHAP-07, WRIT-03, WRIT-04, WRIT-05, WRIT-06, WRIT-07 | 12 |
+| Phase 51 — Editorial Review (manual) | EDIT-01, EDIT-02, EDIT-03, EDIT-04, EDIT-05 | 5 |
+| Phase 52 — Milestone Audit + v9.0 Direction | AUDT-01, AUDT-02, AUDT-03, AUDT-04, AUDT-05 | 5 |
+| **Total** | | **56** |
+
+### Per-REQ-ID lookup
+
+| REQ-ID | Phase |
+|--------|-------|
+| SCAF-01..08 | Phase 46 |
+| CAPT-01 | Phase 47 |
+| CAPT-02 | Phase 47 |
+| CAPT-03..15 | Phase 48 |
+| CONV-01..09 | Phase 49 |
+| SHAP-01..07 | Phase 50 |
+| WRIT-01 | Phase 47 |
+| WRIT-02 | Phase 47 |
+| WRIT-03..07 | Phase 50 |
+| EDIT-01..05 | Phase 51 |
+| AUDT-01..05 | Phase 52 |
 
 ## Decision Lineage
 
@@ -133,3 +160,4 @@ Traceability section populated by roadmap creation. Every REQ-ID must map to exa
 - v8.0 scope defined 2026-04-19 via `/gsd-new-milestone` with 4-parallel-researcher pass
 - Research outputs: `.planning/research/STACK.md`, `FEATURES.md`, `ARCHITECTURE.md`, `PITFALLS.md`, `SUMMARY.md`
 - User-locked decisions 2026-04-19: heading demotion, screenshots included, /review excluded, tool committed to main
+- v8.0 roadmap (7 phases, 46–52, strict sequential) created 2026-04-19
