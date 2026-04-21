@@ -11,6 +11,7 @@ export type { EditorialConfig } from './config.ts'
 export type { Route } from './routes.ts'
 export type { CapturedPage } from './capture.ts'
 export type { ConvertedPage } from './convert.ts'
+export type { RouteFailure, DocumentAssemblyInput } from './document.ts'
 
 // ConfigError is re-exported as a runtime value (class), not `export type`,
 // so downstream code can use `err instanceof ConfigError` at runtime.
