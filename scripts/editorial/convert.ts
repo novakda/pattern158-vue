@@ -15,6 +15,12 @@
 /// <reference lib="dom" />
 
 import { Window } from 'happy-dom'
+import TurndownService from 'turndown'
+// Ambient module shim for the untyped upstream GFM plugin lives at
+// scripts/editorial/turndown-plugin-gfm.d.ts; it is picked up by the editorial
+// tsconfig include glob and exposes `gfm`, `tables`, `taskListItems`, and
+// `strikethrough` as TurndownService.Plugin functions.
+import { gfm } from '@joplin/turndown-plugin-gfm'
 import type { CapturedPage } from './capture.ts'
 
 export interface ConvertedPage {
@@ -102,6 +108,80 @@ export function sanitizeHtml(rawHtml: string): string {
   demoteHeadings(document as unknown as Document)
   // Step 5: serialize body.innerHTML.
   return document.body.innerHTML
+}
+
+/**
+ * configureTurndown — factory for a configured TurndownService. Returns a fresh
+ * instance each call (callers own the lifecycle; GFM plugin registration is
+ * idempotent per-instance). Custom rules register BEFORE .use(gfm) so the
+ * GFM plugin's own rules don't shadow ours.
+ *
+ * Service config is locked per 49-CONTEXT.md (atx headings, `-` bullet marker,
+ * fenced code blocks, `*` em, `**` strong, inlined links). linkReferenceStyle
+ * is set to 'full' per the CONTEXT contract even though it is only consulted
+ * when linkStyle === 'referenced'.
+ *
+ * CONV-01: Turndown 7.2.4 + @joplin/turndown-plugin-gfm full plugin.
+ * CONV-03: images emit alt text only — no ![]() Markdown, no base64 data URLs.
+ * CONV-05: `.badge`, `.badge-xxx`, `.pill`, `.chip`, `.tag`, `.tag-xxx`,
+ *          `.severity-xxx`, and `.category-xxx` spans render as bold.
+ * CONV-06: DOM-order preservation is Turndown's default — verified by Plan 49-04 tests.
+ * CONV-07: hrefs preserved verbatim via linkStyle: 'inlined'.
+ *
+ * Default import of TurndownService works under NodeNext + esModuleInterop
+ * because the upstream d.ts uses `export = TurndownService`; the ambient shim
+ * for the GFM plugin provides a matching `TurndownService` default-type import.
+ */
+export function configureTurndown(): TurndownService {
+  const service = new TurndownService({
+    headingStyle: 'atx',
+    bulletListMarker: '-',
+    codeBlockStyle: 'fenced',
+    emDelimiter: '*',
+    strongDelimiter: '**',
+    linkStyle: 'inlined',
+    linkReferenceStyle: 'full',
+  })
+
+  // CONV-03: alt-text-only image rule. Override Turndown's default image
+  // handler so `![]( )` Markdown and base64 data URLs never appear in output.
+  // Empty / missing alt collapses the image to an empty string (skipped).
+  service.addRule('image-alt-only', {
+    filter: 'img',
+    replacement: (_content, node) => {
+      const alt = node.getAttribute('alt') ?? ''
+      return alt.length === 0 ? '' : alt
+    },
+  })
+
+  // CONV-05: pattern158 design-system badge/pill passthrough as **bold**.
+  // Class allowlist matches Phase 5+/7+ design tokens: badge, badge-*, pill,
+  // chip, tag, tag-*, severity-*, category-*. The `badge-\w+` alternation
+  // catches compound variants like `badge-high` that appear standalone
+  // (without a co-occurring `.badge` base class). Nested icon subtrees
+  // flatten to text-only via Turndown's natural content recursion.
+  //
+  // ReDoS safety: the regex uses only bounded `\w+` quantifiers across a
+  // small alternation. No nested quantifiers, linear-time NFA. Input length
+  // is bounded by an element's `class` attribute (<500 chars in practice).
+  service.addRule('pattern158-badges', {
+    filter: (node) => {
+      const tag = node.nodeName.toLowerCase()
+      if (tag !== 'span' && tag !== 'a') return false
+      const cls = node.getAttribute('class') ?? ''
+      return /(^|\s)(badge|badge-\w+|pill|chip|tag|tag-\w+|severity-\w+|category-\w+)(\s|$)/.test(cls)
+    },
+    replacement: (content) => {
+      const trimmed = content.trim()
+      return trimmed.length === 0 ? '' : `**${trimmed}**`
+    },
+  })
+
+  // CONV-01: GFM plugin AFTER custom rules — so tables/strikethrough/task-list
+  // rules from the plugin don't shadow the image + badge rules above.
+  service.use(gfm)
+
+  return service
 }
 
 export function convertCapturedPage(_page: CapturedPage): ConvertedPage {
