@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
-status: verifying
-last_updated: "2026-04-21T00:38:06.723Z"
+status: executing
+last_updated: "2026-04-21T00:49:05.372Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 21
-  completed_plans: 18
-  percent: 86
+  completed_plans: 19
+  percent: 90
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 ## Current Position
 
 Phase: 49 (Convert Turndown) — IN PROGRESS
-Plan: 1 of 4 (49-01 complete)
-Status: Plan 49-01 complete — sanitizeHtml + demoteHeadings landed in `3a208bf`; 49-02 next
+Plan: 2 of 4 (49-01 complete)
+Status: Ready to execute
 Last activity: 2026-04-21
 
-Progress: [█████████░] 86%
+Progress: [█████████░] 90%
 
 ## Performance Metrics
 
@@ -99,6 +99,9 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 49 Plan 01: demoteHeadings uses .forEach (not for-of) because editorial tsconfig lib: [ES2022] + file-scoped DOM triple-slash does NOT include DOM.Iterable; for-of on NodeListOf fails type-check (auto-fix Rule 3 during execution)
 - Phase 49 Plan 01: heading rewrite uses createElement + replaceWith because Element.tagName is read-only; querySelectorAll returns a static NodeList snapshot so mutation during iteration is safe; clamp newLevel = Math.min(6, currentLevel + 2)
 - Phase 49 Plan 01: JSDoc prose must avoid the literal rejected-parser package name because the acceptance grep is line-based and matches comments as well as code (same SCAF-08 comment discipline locked in Phase 48 Plan 06)
+- Ambient module shim colocation: untyped upstream package's .d.ts lives next to consumer (scripts/editorial/turndown-plugin-gfm.d.ts); tsconfig include glob covers it without a typings/ dir or global.d.ts
+- JSDoc end-marker hazard discovered: the byte sequence */ inside a block comment prematurely closes it; keep glob wildcards (badge-*, tag-*) out of /** */ doc blocks — use backticked literals or use line-comments (//) where the hazard is harmless
+- Turndown default import works under esModuleInterop + NodeNext: 'import TurndownService from turndown' compiles directly because @types/turndown uses export = TurndownService
 
 ### Pending Todos
 
@@ -110,7 +113,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T00:37:00Z
+Last session: 2026-04-21T00:48:49.789Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 

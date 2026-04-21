@@ -63,15 +63,20 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Conversion
 
-- [ ] **CONV-01**: `scripts/editorial/convert.ts` uses Turndown 7.2.4 with `@joplin/turndown-plugin-gfm` full plugin (tables, task lists, strikethrough)
+- [x] **CONV-01
+**: `scripts/editorial/convert.ts` uses Turndown 7.2.4 with `@joplin/turndown-plugin-gfm` full plugin (tables, task lists, strikethrough)
 - [x] **CONV-02
 **: Pre-conversion DOM sanitization strips `<script>`, `<style>`, `<noscript>`, elements with `aria-hidden="true"`, and all `data-v-*` Vue SFC attributes (CRIT-07)
-- [ ] **CONV-03**: Image handling: alt-text only output (not inline base64, not image references)
+- [x] **CONV-03
+**: Image handling: alt-text only output (not inline base64, not image references)
 - [x] **CONV-04
 **: Heading-demotion rule: page H1 → H3 (shift all headings down by 2), because each route gets a `## Route: /path` wrapper heading
-- [ ] **CONV-05**: Badge/pill inline spans pass through as Markdown (e.g., category tags, severity badges); preserve as bold or italic rather than dropping
-- [ ] **CONV-06**: DOM-order reading preservation — no reordering; Turndown walks DOM in document order
-- [ ] **CONV-07**: Link hrefs preserved verbatim (no internal-link rewriting for v1 — deferred)
+- [x] **CONV-05
+**: Badge/pill inline spans pass through as Markdown (e.g., category tags, severity badges); preserve as bold or italic rather than dropping
+- [x] **CONV-06
+**: DOM-order reading preservation — no reordering; Turndown walks DOM in document order
+- [x] **CONV-07
+**: Link hrefs preserved verbatim (no internal-link rewriting for v1 — deferred)
 - [ ] **CONV-08**: Blank-line collapse: 3+ consecutive blank lines reduced to 2 in final output
 - [ ] **CONV-09**: Unit tests with inline HTML fixtures covering: plain prose, GFM table, nested list, badge span, image with alt, heading hierarchy, aria-hidden strip
 
