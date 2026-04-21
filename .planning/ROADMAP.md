@@ -262,7 +262,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   5. Running `pnpm editorial:capture` end-to-end against the live site produces a well-formed Markdown file Dan can open in Obsidian with readable structure for every non-excluded route (no interstitial text, no chrome leakage, no empty FAQ answers, no silent 404s captured as content).
 **Plans:** 3 plans
   - [ ] 50-01-PLAN.md — document.ts + document.test.ts: assembleDocument/buildFrontmatter/buildToc/buildRouteSection/buildFailedRouteSection/slugForRoute + RouteFailure interface (SHAP-01..06)
-  - [ ] 50-02-PLAN.md — write.ts + write.test.ts: atomicWrite + writePrimaryAndMirror (WRIT-03, WRIT-04, WRIT-05)
+  - [x] 50-02-PLAN.md — write.ts + write.test.ts: atomicWrite + writePrimaryAndMirror (WRIT-03, WRIT-04, WRIT-05)
   - [ ] 50-03-PLAN.md — index.ts + index.test.ts: main() orchestrator + isInterstitialFailure + buildToolVersion + extractSiteVersionSha (SHAP-07, WRIT-06, WRIT-07)
 
 ### Phase 51: Editorial Review (manual)

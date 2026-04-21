@@ -104,9 +104,12 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: `scripts/editorial/config.ts` parses CLI args (`--output <path>`, `--base-url <url>`, `--headful`) + env fallbacks (`EDITORIAL_OUT_PATH`, `EDITORIAL_BASE_URL`); fails loud with help text if required config missing
 - [x] **WRIT-02
 **: Preflight path validation runs BEFORE browser launch: absolute path, parent dir exists, parent dir writable — fail fast on `ENOENT`/`EACCES`
-- [ ] **WRIT-03**: `scripts/editorial/write.ts` writes via atomic temp-file + rename to handle Obsidian file-lock races; UTF-8 encoding explicit, `\n` line endings only
-- [ ] **WRIT-04**: Idempotent overwrite (no timestamped versioning); re-running replaces prior capture cleanly
-- [ ] **WRIT-05**: Optional dual-write mirror to `.planning/research/site-editorial-capture.md` for repo-scoped review (CLI flag: `--mirror`)
+- [x] **WRIT-03
+**: `scripts/editorial/write.ts` writes via atomic temp-file + rename to handle Obsidian file-lock races; UTF-8 encoding explicit, `\n` line endings only
+- [x] **WRIT-04
+**: Idempotent overwrite (no timestamped versioning); re-running replaces prior capture cleanly
+- [x] **WRIT-05
+**: Optional dual-write mirror to `.planning/research/site-editorial-capture.md` for repo-scoped review (CLI flag: `--mirror`)
 - [ ] **WRIT-06**: Stdout run summary: N routes captured, M failed, total size, output path, elapsed time; exit code 0 only on all routes ≥200 bytes
 - [ ] **WRIT-07**: Per-route failure logged with route, error, response status; capture continues for remaining routes
 

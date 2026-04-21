@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: verifying
-last_updated: "2026-04-21T02:42:18.500Z"
+last_updated: "2026-04-21T02:51:54.792Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 24
-  completed_plans: 22
-  percent: 92
+  completed_plans: 23
+  percent: 96
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 4 of 4 (49-01 complete)
 Status: Phase complete — ready for verification
 Last activity: 2026-04-21
 
-Progress: [██████████] 100%
+Progress: [██████████] 96%
 
 ## Performance Metrics
 
@@ -111,6 +111,10 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 49 Plan 04: convert.test.ts asserts on @joplin/turndown-plugin-gfm actual emitted form (padded cells + padded bullet markers) not the plan's unpadded literal samples — Rule 1 auto-fix to 3 assertion sites; semantic intent preserved, deterministic output locked
 - Phase 49 Plan 04: 14 describe blocks mapped 1:1 to CONTEXT.md lines 86-100 scenarios (11 primary + determinism + DOM-order + bonus convertCapturedPages batch); scenario-binding acceptance-gate via grep on exact describe titles — dropping any scenario fails the gate loudly
 - Phase 49 Plan 04: 260 -> 304 test delta (44 new cases, 21 it/it.each declarations, 28 it.each tuple rows); 19 -> 20 test files; 100% hermetic (no fs I/O, no external fixtures)
+- Phase 50 Plan 02: atomicWrite uses PID-suffix temp filename (${absPath}.tmp-${process.pid}) + fsp.rename with best-effort fsp.unlink.catch(() => undefined) cleanup — prevents stale sibling temp files on either writeFile or rename failure; rename sequence is WRIT-03 lock
+- Phase 50 Plan 02: writePrimaryAndMirror primary-first / mirror-best-effort ordering LOCKED — primary atomicWrite failure rejects the whole function; mirror block (mkdir recursive + atomicWrite) runs only after primary succeeds; mirror failure LOGS to stderr ('[editorial-capture] mirror write failed: <msg>') and returns { primaryPath } without mirrorPath; test 2e locks primary-reject → mirror-never-attempted
+- Phase 50 Plan 02: vi.spyOn(fsp, ...) rejected under Vitest 4 ESM NodeNext — namespace bindings are non-configurable ('Cannot redefine property'); replaced with vi.mock('node:fs/promises', async () => ({ ...await vi.importActual(...), writeFile/rename/unlink/mkdir: state.X })) + vi.hoisted state holders; real-fs describe block re-delegates mocks via realFsp = await vi.importActual(...) so one test file covers both mocked unit and tmpdir-based integration
+- Phase 50 Plan 02: MIRROR_RELATIVE_PATH is a file-scope const (.planning/research/site-editorial-capture.md) — not exposed in EditorialConfig; resolved via nodePath.resolve(process.cwd(), MIRROR_RELATIVE_PATH); making it user-configurable would expose path-traversal surface and contradicts CONTEXT.md line 281 lock
 
 ### Pending Todos
 
@@ -122,7 +126,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T02:42:18.495Z
+Last session: 2026-04-21T02:51:54.788Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 
