@@ -77,7 +77,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: DOM-order reading preservation — no reordering; Turndown walks DOM in document order
 - [x] **CONV-07
 **: Link hrefs preserved verbatim (no internal-link rewriting for v1 — deferred)
-- [ ] **CONV-08**: Blank-line collapse: 3+ consecutive blank lines reduced to 2 in final output
+- [x] **CONV-08
+**: Blank-line collapse: 3+ consecutive blank lines reduced to 2 in final output
 - [ ] **CONV-09**: Unit tests with inline HTML fixtures covering: plain prose, GFM table, nested list, badge span, image with alt, heading hierarchy, aria-hidden strip
 
 ### Document shape

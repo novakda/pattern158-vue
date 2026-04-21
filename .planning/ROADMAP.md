@@ -246,8 +246,8 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   5. Unit tests with inline HTML fixtures demonstrate correct output for: plain prose, GFM table, nested list, badge/pill span passthrough (preserved as bold or italic, not dropped), image with alt, heading hierarchy, aria-hidden strip — all green.
 **Plans:** 4 plans
   - [x] 49-01-PLAN.md — sanitizeHtml + demoteHeadings (CONV-02, CONV-04)
-  - [ ] 49-02-PLAN.md — configureTurndown factory with img + badge rules + GFM plugin (CONV-01, CONV-03, CONV-05, CONV-06, CONV-07)
-  - [ ] 49-03-PLAN.md — collapseBlankLines + convertCapturedPage + convertCapturedPages + ConvertedPage extension (CONV-08)
+  - [x] 49-02-PLAN.md — configureTurndown factory with img + badge rules + GFM plugin (CONV-01, CONV-03, CONV-05, CONV-06, CONV-07)
+  - [x] 49-03-PLAN.md — collapseBlankLines + convertCapturedPage + convertCapturedPages + ConvertedPage extension (CONV-08)
   - [ ] 49-04-PLAN.md — convert.test.ts 11 hermetic scenarios (CONV-09)
 
 ### Phase 50: Write + Preflight + Orchestration
@@ -296,7 +296,7 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | 46. Scaffold | 0/? | Not started | - |
 | 47. Config + Routes | 3/6 | In progress | - |
 | 48. Capture (Playwright IO) | 1/6 | In progress | - |
-| 49. Convert (Turndown) | 1/4 | In progress | - |
+| 49. Convert (Turndown) | 3/4 | In progress | - |
 | 50. Write + Preflight + Orchestration | 0/? | Not started | - |
 | 51. Editorial Review (manual) | 0/0 | Not started | - |
 | 52. Milestone Audit + v9.0 Direction | 0/? | Not started | - |

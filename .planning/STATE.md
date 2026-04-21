@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-21T00:49:05.372Z"
+last_updated: "2026-04-21T00:57:43.971Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 21
-  completed_plans: 19
-  percent: 90
+  completed_plans: 20
+  percent: 95
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 ## Current Position
 
 Phase: 49 (Convert Turndown) — IN PROGRESS
-Plan: 2 of 4 (49-01 complete)
+Plan: 3 of 4 (49-01 complete)
 Status: Ready to execute
 Last activity: 2026-04-21
 
-Progress: [█████████░] 90%
+Progress: [██████████] 95%
 
 ## Performance Metrics
 
@@ -102,6 +102,11 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Ambient module shim colocation: untyped upstream package's .d.ts lives next to consumer (scripts/editorial/turndown-plugin-gfm.d.ts); tsconfig include glob covers it without a typings/ dir or global.d.ts
 - JSDoc end-marker hazard discovered: the byte sequence */ inside a block comment prematurely closes it; keep glob wildcards (badge-*, tag-*) out of /** */ doc blocks — use backticked literals or use line-comments (//) where the hazard is harmless
 - Turndown default import works under esModuleInterop + NodeNext: 'import TurndownService from turndown' compiles directly because @types/turndown uses export = TurndownService
+- Phase 49 Plan 03: ConvertedPage extended from Phase 46 placeholder 5-field shape to locked 8-field shape per CONTEXT.md lines 72-84 — added readonly consoleErrors/screenshotPath/cfCacheStatus? so Phase 48 capture metadata flows through to Phase 50 writer in a single object per page
+- Phase 49 Plan 03: collapseBlankLines uses /\n{3,}/g (bounded quantifier, linear-time, ReDoS-safe); no code-block exemption needed because Turndown fenced blocks never emit 3+ consecutive blank lines inside fences
+- Phase 49 Plan 03: convertCapturedPage constructs a fresh TurndownService per page via configureTurndown() — stateless, no cross-page rule-state leakage; factory is cheap; empty mainHtml yields empty markdown (no throw, per CONTEXT.md line 110)
+- Phase 49 Plan 03: convertCapturedPages uses explicit 'const out = []; for (const page of pages) out.push(convertCapturedPage(page))' accumulator pattern over .map — SCAF-08 visibility; CONTEXT.md line 106 sequential for-of; canonical pattern for ordered readonly arrays where no parallelism helps
+- Phase 49 Plan 03: types.ts source unchanged — TypeScript type re-exports forward-by-name, so the extended ConvertedPage shape propagates through 'export type { ConvertedPage } from ./convert.ts' automatically; verified by pnpm build exit 0 (TS2305/TS2315 would have fired on shape mismatch)
 
 ### Pending Todos
 
@@ -113,7 +118,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T00:48:49.789Z
+Last session: 2026-04-21T00:57:43.967Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 
