@@ -7,7 +7,7 @@
 <domain>
 ## Phase Boundary
 
-Wire `scripts/editorial/index.ts` end-to-end: `loadConfig` → `loadRoutes` → per-route `capturePage` (with Phase 50–owned resilience, NOT strict `captureRoutes`) → `convertCapturedPage` → assemble monolithic Markdown document → atomic write → summary. Produces `<vault>/career/website/site-editorial-capture.md` (+ optional `.planning/research/` mirror). Implements `scripts/editorial/write.ts` + `scripts/editorial/document.ts` (document assembly) as new modules.
+Wire `scripts/editorial/index.ts` end-to-end: `loadConfig` → `buildRoutes` → per-route `capturePage` (with Phase 50–owned resilience, NOT strict `captureRoutes`) → `convertCapturedPage` → assemble monolithic Markdown document → atomic write → summary. Produces `<vault>/career/website/site-editorial-capture.md` (+ optional `.planning/research/` mirror). Implements `scripts/editorial/write.ts` + `scripts/editorial/document.ts` (document assembly) as new modules.
 
 **Not in scope:** capture/convert logic (Phase 48/49), editorial review of the produced artifact (Phase 51), v9.0 direction decision (Phase 52).
 
@@ -102,7 +102,7 @@ try {
   - **Captured-at** per-route is the per-route navigation timestamp — but since capture is sequential and deterministic, we inject the RUN-START time for every route's per-page `Captured` line. Phase 48 does not record per-route timestamps; using run-start keeps the document deterministic (byte-equal re-runs on identical input). If per-route timestamps become valuable, revisit in v9.0.
   - **Console errors**: NOT in the metadata block (too noisy for editorial review). Surfaced in the stdout summary only.
 - **Route separator (SHAP-06)** — `\n\n---\n\n` between routes. Between the last route body and EOF: newline then end.
-- **Route ordering (SHAP-07)** — delegated to Phase 47's `loadRoutes(config)`. Already locked.
+- **Route ordering (SHAP-07)** — delegated to Phase 47's `buildRoutes(config)`. Already locked.
 
 ### Write Semantics (WRIT-03..05)
 
@@ -206,7 +206,7 @@ export async function writePrimaryAndMirror(config: EditorialConfig, content: st
 ```
 
 **`scripts/editorial/index.ts`** — rewrite of the Phase 46 placeholder:
-- `main()` — async. Orchestrates: loadConfig, loadRoutes, browser+context setup, per-route capture (w/ resilience), convert, assemble, write, summary. Exits with proper code.
+- `main()` — async. Orchestrates: loadConfig, buildRoutes, browser+context setup, per-route capture (w/ resilience), convert, assemble, write, summary. Exits with proper code.
 - No new exports needed — this is the CLI entry.
 
 ### Test Surface
@@ -260,7 +260,7 @@ export async function writePrimaryAndMirror(config: EditorialConfig, content: st
 ### Reusable Assets
 - `scripts/editorial/capture.ts` (Phase 48) — exports `capturePage`, `launchBrowser`, `buildContextOptions`, `loadFaqItemCount`, `runFaqPreCaptureHooks`, `ensureScreenshotDir`, `buildCaptureUrl`, `CaptureError`. Phase 50 composes these; does NOT use `captureRoutes` (too strict).
 - `scripts/editorial/convert.ts` (Phase 49) — exports `convertCapturedPage`, `convertCapturedPages`. Phase 50 uses `convertCapturedPage` per-route inside the orchestration loop (consistent with the per-route resilience pattern).
-- `scripts/editorial/routes.ts` (Phase 47) — `loadRoutes(config)` produces ordered `Route[]`. Phase 50 invokes once at startup.
+- `scripts/editorial/routes.ts` (Phase 47) — `buildRoutes(config)` produces ordered `Route[]`. Phase 50 invokes once at startup.
 - `scripts/editorial/config.ts` (Phase 47) — `loadConfig()` produces `EditorialConfig`. Phase 50 invokes once at startup.
 - `scripts/editorial/index.ts` (Phase 46 placeholder) — rewritten entirely in Phase 50.
 - `scripts/editorial/write.ts` (Phase 46 placeholder) — replaced; Phase 46 body is a throwing stub.
