@@ -130,8 +130,8 @@ export function sanitizeHtml(rawHtml: string): string {
  *
  * Service config is locked per 49-CONTEXT.md (atx headings, `-` bullet marker,
  * fenced code blocks, `*` em, `**` strong, inlined links). linkReferenceStyle
- * is set to 'full' per the CONTEXT contract even though it is only consulted
- * when linkStyle === 'referenced'.
+ * is omitted: Turndown only consults it when linkStyle === 'referenced', and
+ * linkStyle is locked to 'inlined', so the option would be dead config.
  *
  * CONV-01: Turndown 7.2.4 + @joplin/turndown-plugin-gfm full plugin.
  * CONV-03: images emit alt text only — no ![]() Markdown, no base64 data URLs.
@@ -152,7 +152,6 @@ export function configureTurndown(): TurndownService {
     emDelimiter: '*',
     strongDelimiter: '**',
     linkStyle: 'inlined',
-    linkReferenceStyle: 'full',
   })
 
   // CONV-03: alt-text-only image rule. Override Turndown's default image
