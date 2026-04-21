@@ -29,6 +29,9 @@ export interface ConvertedPage {
   readonly httpStatus: number
   readonly title: string
   readonly description: string
+  readonly consoleErrors: readonly string[]
+  readonly screenshotPath: string
+  readonly cfCacheStatus?: string
 }
 
 /**
@@ -184,6 +187,81 @@ export function configureTurndown(): TurndownService {
   return service
 }
 
-export function convertCapturedPage(_page: CapturedPage): ConvertedPage {
-  throw new Error('convertCapturedPage: not implemented until Phase 49 (CONV-01)')
+/**
+ * collapseBlankLines — post-Turndown cleanup. Reduces any run of 3+ consecutive
+ * newlines to exactly two (one blank line). Idempotent: applying twice yields
+ * the same result as applying once. Runs exactly once at the end of
+ * convertCapturedPage.
+ *
+ * Code-block exemption is NOT needed: Turndown emits fenced blocks with
+ * triple-backticks (or tildes) and does not produce 3+ consecutive blank lines
+ * inside fences — verified by Plan 49-04 unit tests.
+ *
+ * ReDoS safety: the regex `\n{3,}` is a single bounded quantifier with no
+ * nested groups, no alternation, linear-time NFA. Input length bounded by the
+ * converted markdown size per page.
+ *
+ * CONV-08.
+ */
+export function collapseBlankLines(markdown: string): string {
+  return markdown.replace(/\n{3,}/g, '\n\n')
+}
+
+/**
+ * convertCapturedPage — full per-page conversion pipeline.
+ *
+ * Steps:
+ *   1. sanitizeHtml(page.mainHtml) — Plan 49-01 DOM cleanup + heading demote.
+ *   2. configureTurndown() — Plan 49-02 factory, fresh TurndownService per
+ *      page. Stateless — no cross-page rule-state leakage.
+ *   3. service.turndown(sanitized) — HTML → raw markdown.
+ *   4. collapseBlankLines(raw) — CONV-08 blank-line cleanup.
+ *   5. Assemble ConvertedPage carrying all 8 fields from the input CapturedPage
+ *      (plus the converted markdown) for Phase 50's writer.
+ *
+ * Empty mainHtml yields an empty markdown string — no throw (per
+ * 49-CONTEXT.md line 110: "If mainHtml is empty string, output is empty
+ * markdown. No ConvertError class").
+ *
+ * CONV-02 determinism self-test: same page in → byte-equal markdown out.
+ * Plan 49-04 asserts this with the richest combined fixture.
+ */
+export function convertCapturedPage(page: CapturedPage): ConvertedPage {
+  const sanitized = sanitizeHtml(page.mainHtml)
+  const service = configureTurndown()
+  const rawMarkdown = service.turndown(sanitized)
+  const markdown = collapseBlankLines(rawMarkdown)
+  return {
+    route: page.route,
+    markdown,
+    httpStatus: page.httpStatus,
+    title: page.title,
+    description: page.description,
+    consoleErrors: page.consoleErrors,
+    screenshotPath: page.screenshotPath,
+    cfCacheStatus: page.cfCacheStatus,
+  }
+}
+
+/**
+ * convertCapturedPages — sequential per-page conversion over the ordered
+ * CapturedPage[]. Uses a plain for-of loop; the parallel-iteration helpers
+ * SCAF-08 forbids on the ordered route list would preserve length but not
+ * guarantee ordering without additional work, and the conversion pipeline is
+ * CPU-bound pure computation where parallelism buys nothing anyway.
+ *
+ * Invariants:
+ *   - output.length === pages.length (no filtering, no skipping)
+ *   - output[i] corresponds to pages[i] (order preserved)
+ *   - no retries on per-page errors — a thrown error from convertCapturedPage
+ *     aborts the whole batch (per 49-CONTEXT.md "fail early" ethos)
+ */
+export function convertCapturedPages(
+  pages: readonly CapturedPage[],
+): readonly ConvertedPage[] {
+  const out: ConvertedPage[] = []
+  for (const page of pages) {
+    out.push(convertCapturedPage(page))
+  }
+  return out
 }
