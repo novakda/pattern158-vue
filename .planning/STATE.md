@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: verifying
-last_updated: "2026-04-21T03:10:15.282Z"
+last_updated: "2026-04-21T03:35:58.093Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
   completed_phases: 5
   total_plans: 24
-  completed_plans: 24
+  completed_plans: 25
   percent: 100
 ---
 
@@ -119,6 +119,11 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 50 Plan 03: ExitSentinel throw pattern via vi.spyOn(process, 'exit').mockImplementation(() => throw) — test-time substitute for process.exit lets tests await main() rejection and inspect code via spy.mock.calls without killing the Vitest runner
 - Phase 50 Plan 03: Multi-module vi.mock graph extends Plan 50-02's vi.hoisted pattern to 7 modules (node:child_process + config/routes/capture/convert/document/write) — all factories use ...actual spread to preserve original class exports so instanceof checks in index.ts still succeed
 - Phase 50 Plan 03: CLI-invocation guard via 'if (import.meta.url === `file://${process.argv[1]}`) main().catch(handleTopLevelError)' — idiomatic Node-ESM entrypoint detection that gates side-effectful invocation; test imports of { main } do not trigger the pipeline
+- Phase 51 Plan 01: emitFindingsScaffold helper lives in write.ts (not a new findings-scaffold.ts module) — sits next to atomicWrite/writePrimaryAndMirror, shares SCAF-08 discipline, one-import-site in index.ts
+- Phase 51 Plan 01: SCAFFOLD_TEMPLATE authored as module-top-level quoted-literal concatenation with explicit \n — template-literal form with real newlines would be SCAF-08-adjacent and harder to audit; concat form makes every newline visible
+- Phase 51 Plan 01: idempotency probe uses fsp.access(path, F_OK) + try/catch — throw-on-absent flows naturally into write branch; cheaper than stat (no struct read)
+- Phase 51 Plan 01: non-fatal failure contract locked at caller boundary — helper throws on write failure, index.ts wraps in .catch that logs [editorial-capture] scaffold emission failed (non-fatal) and returns null; exit code never flipped by scaffold errors
+- Phase 51 Plan 01: findingsScaffoldPath threaded through stderr JSON summary (null/absolute-path); stdout 'Findings scaffold: <path>' line emitted ONLY on new write — avoids daily noise after initial run
 
 ### Pending Todos
 
@@ -130,7 +135,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T03:10:15.277Z
+Last session: 2026-04-21T03:35:42.427Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 

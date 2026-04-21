@@ -133,7 +133,7 @@ Requirements grouped by category. Each maps to one roadmap phase.
 - [ ] **EDIT-02**: `FINDINGS.md` produced at `<vault>/career/website/site-editorial-findings.md` with structured sections: Inconsistencies / Structural / Copy / Alignment Gaps / Open Questions
 - [ ] **EDIT-03**: Findings cross-reference career positioning docs: `career/reference-data/design-philosophy-essay.md`, `career-values-reference.md`, `case-study-gp-accessibility-signoff.md`
 - [ ] **EDIT-04**: Each finding prioritized: blocker / should-fix / nice-to-have
-- [ ] **EDIT-05**: Findings doc scaffold template auto-created by capture tool run (empty sections ready to fill) if not already present
+- [x] **EDIT-05**: Findings doc scaffold template auto-created by capture tool run (empty sections ready to fill) if not already present
 
 ### Milestone audit + v9.0 direction
 
