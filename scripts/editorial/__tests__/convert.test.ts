@@ -76,6 +76,20 @@ describe('heading demotion (CONV-04)', () => {
     const output = sanitizeHtml(input)
     expect(output).toContain(expected)
   })
+
+  it('preserves attributes (class/id/aria-label/data-*) on the demoted heading', () => {
+    // WR-01 regression guard: rewriting h1→h3 via createElement used to drop
+    // every attribute on the original heading. The attribute-copy loop must
+    // carry class/id/aria-label/data-other verbatim onto the new element.
+    const input = '<h1 class="page-title" id="top" aria-label="Page header" data-other="keep">X</h1>'
+    const output = sanitizeHtml(input)
+    expect(output).toContain('<h3')
+    expect(output).toContain('class="page-title"')
+    expect(output).toContain('id="top"')
+    expect(output).toContain('aria-label="Page header"')
+    expect(output).toContain('data-other="keep"')
+    expect(output).toContain('>X</h3>')
+  })
 })
 
 describe('pattern158-badges rule (CONV-05)', () => {

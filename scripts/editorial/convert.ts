@@ -60,6 +60,12 @@ export function demoteHeadings(doc: Document): void {
     const newLevel = Math.min(6, currentLevel + 2)
     if (newLevel === currentLevel) return
     const newEl = doc.createElement(`h${newLevel}`)
+    // Copy attributes verbatim — sanitizeHtml's prior data-v-* walk has
+    // already removed SFC attrs, so this preserves class/id/aria-label/
+    // data-*/lang/dir/role/etc. per the 49-CONTEXT.md preserve contract.
+    for (const attr of Array.from(oldEl.attributes)) {
+      newEl.setAttribute(attr.name, attr.value)
+    }
     newEl.innerHTML = oldEl.innerHTML
     oldEl.replaceWith(newEl)
   })
