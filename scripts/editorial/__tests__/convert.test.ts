@@ -115,6 +115,20 @@ describe('pattern158-badges rule (CONV-05)', () => {
     expect(md).not.toContain('**plain**')
     expect(md).toContain('plain')
   })
+
+  // IN-02 regression guards — ensure the badge regex does not bold adjacent
+  // or lookalike tokens. Guards against future regex drift (e.g., someone
+  // removing the word-boundary anchors or adding `\w*` suffix matching).
+  it.each([
+    ['tags (plural)',   '<span class="tags">plain</span>'],
+    ['tagged',          '<span class="tagged">plain</span>'],
+    ['badger',          '<span class="badger">plain</span>'],
+    ['prefixed-badge',  '<span class="my-badge">plain</span>'],
+  ])('does not bold %s', (_desc, input) => {
+    const md = configureTurndown().turndown(sanitizeHtml(input))
+    expect(md).not.toContain('**plain**')
+    expect(md).toContain('plain')
+  })
 })
 
 describe('pattern158-badges rule (CONV-05) — icon flatten', () => {
