@@ -102,11 +102,35 @@ Every page template should be scannable and self-documenting through well-named 
 
 <!-- Current scope. Building toward these. -->
 
-**v9.0 direction — pending human verdict.** v8.0 shipped the editorial capture tool and a live artifact. Dan's editorial findings (EDIT-01..04) and v9.0 direction verdict (AUDT-02/03) are queued behind the human review step. Candidate directions tracked in `.planning/v8.0-AUDIT-NOTICE.md`: static HTML rebuild / content rewrite in Vue / framework rebuild / other. Rosetta Stone alignment check explicit. No active milestone until v9.0 scope is locked.
+**v9.0 Continue tiddlywiki intake and conversion** — see `.planning/REQUIREMENTS.md` for full REQ-ID list.
 
-## Current Milestone: (none — v8.0 shipped, v9.0 pending direction verdict)
+**Canonical source reframe:** The live `pattern158.solutions` site is the single source of truth for tiddler generation — NOT the project's JSON files (`src/data/json/*.json`) or Obsidian vault content. The editorial-capture pipeline (Playwright DOM + screenshots) feeds everything downstream. What ships to production IS the wiki input.
 
-**Status:** v8.0 complete — tool shipped + live-validated. Editorial findings and v9.0 verdict are human work, intentionally deferred outside autonomous mode. Once the verdict is recorded in `.planning/v8.0-AUDIT-NOTICE.md`, use `/gsd:new-milestone` to start v9.0.
+**DOM extraction (~6 extractors):** Structured parsers over captured HTML — FAQ items, exhibit sections, personnel rows, findings, technologies, testimonials, pages. Screenshots are the visual-fidelity fallback where DOM structure is lossy.
+
+**Atomic decomposition (~150-200 tiddlers):** ~66 personnel + ~45 findings + ~40-80 technologies become individual tiddlers with cross-exhibit linking. Iter 1's page + FAQ + exhibit-overview tiddlers continue; atomic types stack on top.
+
+**Tzk-style living wiki:** private/public tiddler split via tags, build pipeline, git-backed workflow, Pattern 158 brand theme matching the Vue site (colors, typography, layout).
+
+**Test coverage + iter-1 fixes:** extractor unit tests, fix empty exhibit sections rendering bug, improve page body conversion quality.
+
+**Key scoping decisions (locked 2026-04-21):**
+- Source of truth: **live pattern158.solutions via Playwright**, not JSON. Screenshots + DOM as needed for structure.
+- Out of scope for v9.0: career-vault intake, email-archive intake, Obsidian-broader intake. Live site only.
+- Iter 1's `scripts/tiddlywiki/generate.ts` remains but is refactored to consume captured HTML via new DOM-extractor layer.
+- Single-file wiki output continues (`npx tiddlywiki tiddlywiki --build index`). Tzk-style build pipeline augments but doesn't replace.
+
+## Current Milestone: v9.0 Continue tiddlywiki intake and conversion
+
+**Goal:** Turn `pattern158.solutions` into a tzk-style living TiddlyWiki: structured DOM extractors, atomic tiddlers for personnel/findings/technologies, Pattern 158 brand theme, private/public publishing workflow.
+
+**Target features:**
+- Canonical-source-is-the-live-site pipeline (DOM extractors over captured HTML + screenshots)
+- Atomic tiddler decomposition (personnel, findings, technologies)
+- Pattern 158 TiddlyWiki theme (brand-matched)
+- Tzk-style private/public tiddler split + build pipeline
+- Extractor test suite
+- Iter-1 rough-edge fixes
 
 ### Out of Scope
 
