@@ -137,11 +137,13 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Milestone audit + v9.0 direction
 
-- [ ] **AUDT-01**: Decision-record artifact at `.planning/v8.0-AUDIT-NOTICE.md` (mirroring `v7.0-ABORT-NOTICE.md` structure)
+- [x] **AUDT-01
+**: Decision-record artifact at `.planning/v8.0-AUDIT-NOTICE.md` (mirroring `v7.0-ABORT-NOTICE.md` structure)
 - [ ] **AUDT-02**: Audit documents: context from findings, options considered for v9.0, verdict with rationale, retained work, Rosetta Stone alignment check, next actions
 - [ ] **AUDT-03**: Explicit go/no-go per candidate v9.0 direction: static HTML rebuild, content rewrite in Vue, framework rebuild, other
 - [ ] **AUDT-04**: PROJECT.md, MILESTONES.md, ROADMAP.md updated to reflect v8.0 completion and v9.0 scope
-- [ ] **AUDT-05**: Retrospective entry added to `.planning/RETROSPECTIVE.md` with lessons learned
+- [x] **AUDT-05
+**: Retrospective entry added to `.planning/RETROSPECTIVE.md` with lessons learned
 
 ## Future Requirements (deferred)
 

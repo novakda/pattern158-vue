@@ -1,5 +1,24 @@
 # Milestones
 
+## v8.0 Editorial Snapshot & Content Audit (Shipped: 2026-04-20)
+
+**Phases completed:** 7 phases (46-52), 24 plans, 401 tests
+
+**Key accomplishments:**
+
+- Playwright-based live-site editorial capture tool (`scripts/editorial/`) that drives headless Chromium through production `pattern158.solutions`, scoped to `<main id="main-content">` with Cloudflare cache-bypass, 3-signal bot-interstitial detection, silent-SPA-404 detection, FAQ accordion pre-expansion + filter-all hooks, per-route full-page PNG screenshots, SEO meta + console-error capture
+- HTML→Markdown conversion via Turndown 7.2.4 + full `@joplin/turndown-plugin-gfm` plugin with `happy-dom` pre-sanitization (strip `<script>`/`<style>`/`<noscript>`/`[aria-hidden="true"]` subtrees + every `data-v-*` attr), heading demotion (H1→H3), badge/pill class-allowlist rendered as `**bold**`, alt-text-only image rule, blank-line collapse
+- Full orchestration in `index.ts` with per-route resilience (drives `capturePage` directly, not the strict `captureRoutes`), atomic `tmp+rename` writes with PID-suffix, optional `.planning/research/` mirror, stdout human summary + stderr JSON for CI
+- Monolithic editorial artifact at `<vault>/career/website/site-editorial-capture.md` with YAML frontmatter provenance (`captured_at`, `source_url`, `site_version_sha`, `tool_version`), auto-generated ToC via `github-slugger`, per-route `## Route: /path` heading + blockquote metadata (omit-empty), `---` separators
+- Live run against production captures all 22 non-excluded routes in ~42s with zero failures (~186 KB Markdown + 22 screenshots)
+- Auto-emitted findings scaffold at `<vault>/career/website/site-editorial-findings.md` (idempotent non-overwriting) to anchor the editorial review phase
+
+**Partial completion:** Editorial findings authorship (EDIT-01..04) and v9.0 direction verdict (AUDT-02/03) are intentionally manual and deferred to Dan's human review — tracked in `.planning/v8.0-AUDIT-NOTICE.md`.
+
+**Milestone notice:** `.planning/v8.0-AUDIT-NOTICE.md`
+
+---
+
 ## v7.0 Static Markdown Export Pipeline (ABORTED: 2026-04-19)
 
 **Phases attempted:** 2 shipped (37, 38), 1 planned (39), 6 not started (40-45)

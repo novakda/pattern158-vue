@@ -4,6 +4,64 @@
 
 ---
 
+## Milestone: v8.0 — Editorial Snapshot & Content Audit (SHIPPED)
+
+**Shipped:** 2026-04-20
+**Phases completed:** 7 (46-52) | **Plans:** 24 | **Tests added:** ~260 new across 7 new `__tests__` files (401 total) | **Milestone notice:** `.planning/v8.0-AUDIT-NOTICE.md`
+
+### What Was Built
+
+- Playwright-based live-site editorial capture tool at `scripts/editorial/` — headless Chromium driver against production `pattern158.solutions` with Cloudflare mitigation (cache-buster + `Cache-Control: no-cache` + 3-signal interstitial abort), `<main id="main-content">` scoping, FAQ accordion pre-expansion + filter-all hooks, silent-SPA-404 detection, per-route full-page PNG screenshots at fixed 1280×800 light theme, SEO meta + console-error capture
+- Turndown 7.2.4 + full `@joplin/turndown-plugin-gfm` conversion with `happy-dom` pre-sanitization (strip `<script>`/`<style>`/`<noscript>`/`[aria-hidden="true"]` subtrees + every `data-v-*` SFC attribute), heading demotion (H1→H3 with h6 clamp), badge/pill class-allowlist rendered as `**bold**`, alt-text-only image rule, blank-line collapse, byte-equal determinism proven by unit tests
+- Single monolithic Markdown artifact at `<vault>/career/website/site-editorial-capture.md` with YAML frontmatter provenance (`captured_at`, `source_url`, `site_version_sha`, `tool_version`), auto-generated ToC via `github-slugger`, per-route `## Route: /path` heading + omit-empty blockquote metadata, `---` separators; atomic `tmp+rename` write with PID suffix, optional `--mirror` dual-write, idempotent
+- Orchestrator-owned per-route resilience (Phase 50 drives `capturePage` directly instead of the strict `captureRoutes`) — interstitial aborts whole run, other `CaptureError`s are logged and capture continues; exit code 0 only when all routes return 200 status AND ≥200 bytes AND zero failures; stdout human summary + stderr JSON for CI
+- Auto-emitted findings scaffold at `<vault>/career/website/site-editorial-findings.md` (EDIT-05) — idempotent non-overwriting; seeds Inconsistencies / Structural / Copy / Alignment Gaps / Open Questions with priority labels + career-doc cross-reference stubs
+- Live production run validated end-to-end: 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown output + 22 screenshots
+
+### What Was Deferred (intentionally human work)
+
+- **EDIT-01..04 (Phase 51):** Dan reads the captured artifact in Obsidian, populates the findings scaffold with prioritized cross-referenced findings against the three career positioning docs. Tool side (EDIT-05) is shipped.
+- **AUDT-02 / AUDT-03 (Phase 52):** v9.0 direction verdict per candidate (static HTML rebuild, Vue content rewrite, framework rebuild, other) with Rosetta Stone alignment check. Audit notice template is in place (`.planning/v8.0-AUDIT-NOTICE.md`) with TBD verdict sections ready to populate.
+
+### What Went Well
+
+- **Live smoke found a real bug.** Phase 48 verification passed all automated gates (5/5 must-haves, 309 tests green), but a 2-route smoke against production caught a stale-Locator regression in the FAQ accordion expansion loop (`.all()` handles went stale after the first click mutated the DOM). Switched to in-page JS `document.querySelectorAll(...).forEach(t => t.click())` — atomic from Playwright's perspective, bypasses actionability checks. Lesson: **automated tests + live smoke catch different failure classes.** Mocked-browser tests don't exercise DOM mutation semantics; live smoke does.
+- **Plan-checker iterative feedback paid off across Phases 49–50.** Checker caught real issues before execution each time:
+  - Phase 49: missing `/// <reference lib="dom" />` directive under `tsconfig.editorial.json`'s ES2022-only lib; `@mixmark-io/domino` not hoisted under pnpm strict isolation (switched to `happy-dom`); missing TypeScript shim for `@joplin/turndown-plugin-gfm`; badge regex missing `badge-\w+` alternation
+  - Phase 50: contradictory `buildToc` signature across plan sections; Task 1/Task 2 export-surface mismatch in orchestrator; CLI-guard robustness against paths with spaces/unicode
+- **CONTEXT.md lock discipline scaled cleanly.** Every phase's CONTEXT.md became the single source of truth for planner + executor + verifier + code-reviewer. Grey-area decisions captured once, honored verbatim downstream.
+- **Atomic commits per task paid off for debuggability.** When Phase 48's FAQ bug was found and fixed, the fix landed as one atomic commit (`fix(48): atomic in-page click for FAQ accordion expansion`) with the original logic and its replacement clearly isolated in history.
+- **Strict-vs-resilient capture boundary worked.** Phase 48's `captureRoutes` stays strict (abort on first error) to enforce editorial-artifact trustworthiness; Phase 50 bypasses it and drives `capturePage` directly with its own per-route try/catch for real-world run resilience. Clean API separation — neither module had to compromise.
+
+### What Would Be Done Differently in v9.0
+
+- **SCAF-08 grep gates bit comments repeatedly.** Line-based greps can't distinguish code from comments, so any JSDoc or SCAF-08 banner that referenced a forbidden token (`Date.now()`, `Promise.all`, package-name strings with `@/`) tripped the gate. Every executor agent hit this and had to rephrase prose mid-execution. A smarter gate would be token-aware (AST-based or language-grammar-aware). For v9.0, either relax the grep to operate on non-comment lines or use a dedicated lint rule with AST context.
+- **Smart-discuss grey-area tables are still too granular for well-spec'd phases.** Phases 48, 49, 50 each had 5 ROADMAP success criteria + 9–13 REQ-IDs — many decisions were pre-locked, leaving only 3–4 genuinely gray areas per phase. The discuss-phase framework still asked per-question overrides even when "Accept all" was the realistic user path 90%+ of the time. Consider a fast-path "all defaults" single-click for phases with ≤3 genuine gray areas.
+- **State/roadmap SDK handlers had format drift.** Multiple executor agents flagged `state.advance-plan`, `state.record-metric`, and `roadmap.update-plan-progress` as failing to parse the project's current STATE.md / ROADMAP.md shapes. Manual fallback edits worked but accumulated technical debt. For v9.0, either standardize on the SDK's expected shapes or update SDK handlers to be robust to format variations.
+- **Phase 51 "manual" designation could be more explicit.** The phase's 5 REQ-IDs mixed 1 executable (EDIT-05) with 4 human (EDIT-01..04). Autonomous mode had no first-class way to express "this phase has a tool side and a human side." Considering a `manual: true` or `partial: { tool, human }` annotation in ROADMAP.md for future hybrid phases.
+
+### Decisions Locked for Future Reference
+
+- **Cache-buster shape**: `?_cb=<route-slug>` (deterministic per route, stable across runs). Never timestamp-based.
+- **Interstitial detection**: layered 3-signal (title + body size + `cf-chl-opt`/`challenge-platform` markup). Any match aborts.
+- **FAQ hook ordering**: filter-all click FIRST, then expand-all click. In-page JS click (NOT Playwright Locator iteration) to avoid stale handles.
+- **Pre-Turndown sanitization phase**: strip subtrees → walk `data-v-*` attrs → demote headings → serialize to HTML string → hand to Turndown. NOT a Turndown filter-rule chain.
+- **Document assembly via `yaml` package + minimal builder.** The v7.0 `scripts/markdown-export/frontmatter/serialize.ts` has Obsidian-note-specific constraints (canonical `title`/`tags`/`aliases` key order, forbidden singular keys) that DON'T generalize to provenance frontmatter. Don't force reuse — write a small dedicated builder when shapes diverge.
+- **`captured_at` wall-clock read** lives in `index.ts` at the orchestration boundary (exactly 1 `new Date()`, exactly 2 `execSync` for git sha + dirty check). Library modules (`capture.ts`, `convert.ts`, `document.ts`, `write.ts`) stay pure.
+- **Per-route resilience belongs in the orchestrator, not the capture library.** `captureRoutes` remains strict; `index.ts` wraps `capturePage` calls with `try/catch` + interstitial re-throw + log-and-continue on other `CaptureError`s.
+
+### Metrics
+
+- **Plans shipped:** 24 across 7 phases (46: 5, 47: 6, 48: 6, 49: 4, 50: 3, 51: 1 tool-only, 52: 1 doc-only)
+- **Test growth:** ~260 new tests (baseline 143 from v7.0 retained → 401 at v8.0 completion)
+- **Live artifact size:** ~186 KB Markdown + 22 full-page PNGs
+- **End-to-end capture time:** ~42 seconds against production Cloudflare-fronted site
+- **Autonomous iteration time:** entire v8.0 (Phases 48-52 portion, after Phases 46-47 completed prior) drove to shipped tool + live-validated artifact in a single autonomous session
+- **Code review findings:** Phase 48: 2 MED + 3 LOW + 6 INFO (all fixed or explicitly deferred); Phase 49: 1 WARN + 7 INFO (all WARNING + quick-win INFOs fixed); Phase 50: 2 WARN + 5 INFO (both WARNINGs fixed)
+- **Plan-checker revisions required:** Phase 48: 0 iterations; Phase 49: 1 iteration (2 blockers + 4 warnings resolved); Phase 50: 1 iteration (2 blockers + 3 warnings resolved)
+
+---
+
 ## Milestone: v7.0 — Static Markdown Export Pipeline (ABORTED)
 
 **Aborted:** 2026-04-19

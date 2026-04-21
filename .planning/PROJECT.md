@@ -89,48 +89,24 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ Four context-specific escape helpers with 53 unit tests (ESCP-01/02/03/04) — v7.0 (Phase 38, shipped before abort)
 - ✓ Frontmatter YAML serializer with canonical key order + plural-key enforcement + block-style arrays (FM-01/02) — v7.0 (Phase 38, shipped before abort)
 
+- ✓ `scripts/editorial/` flat-layout tool with `tsconfig.editorial.json` project reference, `editorial:capture` pnpm script, Playwright 1.59.1 + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` + happy-dom + yaml + github-slugger deps, Vitest `scripts` project extended, SCAF-08 forbidden-pattern grep discipline (SCAF-01..08) — v8.0
+- ✓ `loadEditorialConfig` + hand-rolled CLI arg parser (`--output`, `--base-url`, `--headful`, `--mirror`) + env fallback + typed `ConfigError` exit-2, preflight path/URL validation; `buildRoutes` deterministic ordered `Route[]` from static list + `exhibits.json`, excluded-set filter (CAPT-01, CAPT-02, WRIT-01, WRIT-02) — v8.0
+- ✓ Playwright `capturePage` orchestrator with single-browser single-context fresh-page-per-route lifecycle, 1500ms deterministic delay, 30s+10s timeouts, no retries (abort-on-error in strict `captureRoutes`), Cloudflare cache-buster + no-cache + 3-signal interstitial abort, `<main id="main-content">` scoping, FAQ filter-all-then-expand hooks, silent-SPA-404 detection via `.exhibit-detail-title`, per-route full-page PNG screenshots at 1280×800 light, SEO meta + console errors captured (CAPT-03..15) — v8.0
+- ✓ Turndown 7.2.4 + full `@joplin/turndown-plugin-gfm` plugin with happy-dom pre-sanitization (strip `<script>`/`<style>`/`<noscript>`/`[aria-hidden="true"]` + every `data-v-*` attr), heading demotion H1→H3 (h6 clamp), badge/pill class-allowlist `**bold**`, alt-text-only image rule, blank-line collapse, byte-equal determinism proven (CONV-01..09) — v8.0
+- ✓ `document.ts` assembler (YAML frontmatter with provenance, ToC via github-slugger, per-route `## Route: /path` + omit-empty blockquote metadata, `---` separators), `write.ts` atomic temp+rename with PID suffix + optional `.planning/research/` mirror, `index.ts` orchestrator with per-route resilience (drives `capturePage` directly, not strict `captureRoutes`), stdout + stderr-JSON summary, exit-code preconditions (SHAP-01..07, WRIT-03..07) — v8.0
+- ✓ `emitFindingsScaffold` idempotent non-overwriting findings-template emission at `<vault>/career/website/site-editorial-findings.md` (EDIT-05) — v8.0
+- ✓ Live production run validated: 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown + 22 screenshots at `<vault>/career/website/site-editorial-capture.md` — v8.0
+- ✓ v8.0 milestone audit notice `.planning/v8.0-AUDIT-NOTICE.md` (AUDT-01), RETROSPECTIVE.md v8.0 entry (AUDT-05), PROJECT.md/MILESTONES.md/ROADMAP.md v8.0-complete updates (AUDT-04 partial — v9.0 scope pending human verdict) — v8.0
+
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-**v8.0 Editorial Snapshot & Content Audit** — see `.planning/REQUIREMENTS.md` for full REQ-ID list.
+**v9.0 direction — pending human verdict.** v8.0 shipped the editorial capture tool and a live artifact. Dan's editorial findings (EDIT-01..04) and v9.0 direction verdict (AUDT-02/03) are queued behind the human review step. Candidate directions tracked in `.planning/v8.0-AUDIT-NOTICE.md`: static HTML rebuild / content rewrite in Vue / framework rebuild / other. Rosetta Stone alignment check explicit. No active milestone until v9.0 scope is locked.
 
-**Capture (15):** Route list from typed sources, excluded routes skipped, headless Chromium, selector-based page-ready, HTTP status recording, `<main>` scoping, FAQ accordion pre-expand + filter-all, dynamic-route 404 detection, Cloudflare cache-bypass, bot-interstitial detection, fixed viewport/theme, per-route PNG screenshots, console-error capture, SEO meta capture (CAPT-01..15).
+## Current Milestone: (none — v8.0 shipped, v9.0 pending direction verdict)
 
-**Conversion (9):** Turndown 7.2.4 + Joplin GFM plugin, DOM sanitization (strip script/style/data-v-*/aria-hidden), alt-text-only images, heading demotion (page H1 → H3), badge/pill passthrough, DOM-order preservation, href preservation, blank-line collapse, fixture unit tests (CONV-01..09).
-
-**Document shape (7):** Single monolithic file, top-level frontmatter with provenance, per-route `## Route: /path` heading, auto ToC via github-slugger, per-page metadata block, `---` separators, route ordering (home → statics → exhibits A–O) (SHAP-01..07).
-
-**Write + Output (7):** CLI `--output` + env fallback, preflight path validation, atomic temp+rename write, idempotent overwrite, optional `.planning/` mirror, stdout summary, per-route failure logging (WRIT-01..07).
-
-**Scaffold + Build (8):** `scripts/editorial/` flat layout, new `tsconfig.editorial.json` project reference, root `references` extended, `editorial:capture` pnpm script, 3 devDeps + Playwright bump, Vitest `scripts` project extended, `.gitignore` entry, forbidden-pattern discipline (SCAF-01..08).
-
-**Editorial review (5):** Dan reads capture in Obsidian, produces structured `FINDINGS.md` (Inconsistencies / Structural / Copy / Alignment / Open Questions), cross-referenced to career positioning docs, prioritized blocker/should-fix/nice-to-have, auto-emitted template (EDIT-01..05).
-
-**Milestone audit (5):** `v8.0-AUDIT-NOTICE.md` decision record, candidate evaluation for v9.0, go/no-go per option, PROJECT.md + MILESTONES.md + ROADMAP.md updates, RETROSPECTIVE entry (AUDT-01..05).
-
-**Key scoping decisions (locked 2026-04-19):**
-- Playwright (bumped 1.58.2 → 1.59.1) + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` 1.0.64 — all current, actively maintained
-- `scripts/editorial/` kept deliberately separate from `scripts/markdown-export/` (v7.0 retained but unused)
-- Capture from production `https://pattern158.solutions` (not dev server)
-- Route list sourced from `src/data/json/exhibits.json` via runtime `fs.readFile` + `JSON.parse` (no `@/` aliases, no ESM JSON import assertions)
-- Single monolithic Markdown output to `<vault>/career/website/site-editorial-capture.md`
-- Heading strategy: demote page H1 under per-route `## Route: /path`
-- Screenshots: full-page PNGs per route alongside markdown
-- `/review`, `/diag/*`, and redirects excluded from capture
-- Tool committed to main; implementation on feature branch `v8.0/editorial-capture` merging back when validated
-- FAQ accordion pre-expansion + filter-all before capture (CRIT-01/02 mitigation — without this, 27 FAQ answers are captured as empty)
-
-## Current Milestone: v8.0 Editorial Snapshot & Content Audit
-
-**Goal:** Capture the live rendered pattern158.solutions as a single Markdown document for editorial review; produce a findings doc that informs the v9.0 rebuild direction (likely static HTML rebuild or content rewrite).
-
-**Target features:**
-- Playwright-based live-site capture tool in `scripts/editorial/`
-- HTML→Markdown conversion via Turndown + GFM plugin
-- Single Markdown output + per-route PNG screenshots to Obsidian vault
-- Editorial review phase producing structured findings doc
-- Milestone audit deciding v9.0 direction
+**Status:** v8.0 complete — tool shipped + live-validated. Editorial findings and v9.0 verdict are human work, intentionally deferred outside autonomous mode. Once the verdict is recorded in `.planning/v8.0-AUDIT-NOTICE.md`, use `/gsd:new-milestone` to start v9.0.
 
 ### Out of Scope
 
@@ -145,11 +121,11 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, Phases 37-38 of 45 shipped, see `.planning/v7.0-ABORT-NOTICE.md`) | **No active milestone** — v8.0 Editorial Snapshot & Content Audit scoping pending
+**Shipped:** v8.0 Editorial Snapshot & Content Audit (2026-04-20) | **Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, see `.planning/v7.0-ABORT-NOTICE.md`) | **No active milestone** — v9.0 pending editorial findings + direction verdict
 
-All 11 data files externalized to JSON with thin TypeScript loaders in `src/data/`. Type definitions centralized in `src/types/` with barrel exports. Data layer is CMS-ready — content lives in pure JSON, types in TypeScript, and all component imports remain unchanged through backward-compatible loader pattern. Recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays. Findings unified across 11 exhibits with NTSB-style diagnostic content. Personnel data normalized with entryType (individual/group/anonymized).
+v8.0 delivered the Playwright-based live-site editorial capture tool (`scripts/editorial/`) shipped and validated against production — 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown artifact + 22 full-page screenshots at `<vault>/career/website/site-editorial-capture.md`. Tool uses headless Chromium + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` + happy-dom pre-sanitization, with Cloudflare mitigation, FAQ accordion pre-expansion, silent-SPA-404 detection, atomic `tmp+rename` writes, auto-emitted findings scaffold. 401 unit tests green across 24 test files. Milestone audit notice at `.planning/v8.0-AUDIT-NOTICE.md` records the completion; v9.0 direction verdict (static HTML / Vue rewrite / framework rebuild / other) and Dan's editorial findings (EDIT-01..04) are queued for human review.
 
-v7.0 Phase 37 extracted hardcoded prose from 15 Vue files into 14 `src/content/*.ts` modules with 7 Playwright browser regression tests. Phase 38 established a markdown export foundation (pnpm migration, `scripts/markdown-export/` scaffold, IR contract, escape helpers, frontmatter serializer, nine primitive factories, `docs/` collision audit). Both phases' output is retained and still valid — but the remaining v7.0 extractor/renderer pipeline is not being built. Dan is pivoting to Playwright-based live-site editorial capture (v8.0) because the rendered site is higher-fidelity than source-module extraction for the actual current need (editorial review and subsequent rebuild direction decision). 292 tests passing (34 files), clean production build.
+Prior shipped work still stands: all 11 data files externalized to JSON with thin TypeScript loaders; type definitions centralized with barrel exports; recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays; findings unified across 11 exhibits with NTSB-style diagnostic content; personnel data normalized with entryType. v7.0 retained output (Phase 37 `src/content/*.ts` prose modules + Phase 38 IR primitives in `scripts/markdown-export/`) remains in place — harmless and potentially reusable.
 
 ## Context
 
