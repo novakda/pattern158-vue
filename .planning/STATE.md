@@ -135,8 +135,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T03:35:42.427Z
-Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
+Last session: 2026-04-21
+Current activity: v8.0 structural close-out — AUDT-02/03 verdict + Rosetta Stone alignment written into `.planning/v8.0-AUDIT-NOTICE.md`; PROJECT.md Current State swapped from "No active milestone" to "Active: v9.0". EDIT-01..04 editorial findings remain open as non-blocking async work.
 Resume file: None
 
-**Planned Phase:** 49 (Convert (Turndown)) — 4 plans — IN PROGRESS (1/4 complete; 49-01 shipped 2026-04-21T00:31:48Z)
+**Next step:** v9.0 roadmap creation — break the 34 REQs (EXTR × 8, ATOM × 5, THEME × 5, TZK × 5, FIX × 4, TEST × 4, DOC × 3) into phases per GSD `/gsd:new-milestone` workflow.

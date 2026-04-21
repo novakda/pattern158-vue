@@ -145,7 +145,7 @@ Every page template should be scannable and self-documenting through well-named 
 
 ## Current State
 
-**Shipped:** v8.0 Editorial Snapshot & Content Audit (2026-04-20) | **Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, see `.planning/v7.0-ABORT-NOTICE.md`) | **No active milestone** — v9.0 pending editorial findings + direction verdict
+**Shipped:** v8.0 Editorial Snapshot & Content Audit (2026-04-20) | **Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, see `.planning/v7.0-ABORT-NOTICE.md`) | **Active:** v9.0 Continue tiddlywiki intake and conversion (direction locked 2026-04-21, roadmap pending — see `.planning/v8.0-AUDIT-NOTICE.md` verdict)
 
 v8.0 delivered the Playwright-based live-site editorial capture tool (`scripts/editorial/`) shipped and validated against production — 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown artifact + 22 full-page screenshots at `<vault>/career/website/site-editorial-capture.md`. Tool uses headless Chromium + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` + happy-dom pre-sanitization, with Cloudflare mitigation, FAQ accordion pre-expansion, silent-SPA-404 detection, atomic `tmp+rename` writes, auto-emitted findings scaffold. 401 unit tests green across 24 test files. Milestone audit notice at `.planning/v8.0-AUDIT-NOTICE.md` records the completion; v9.0 direction verdict (static HTML / Vue rewrite / framework rebuild / other) and Dan's editorial findings (EDIT-01..04) are queued for human review.
 
@@ -213,4 +213,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-19 — v7.0 aborted, v8.0 scoping pending (see .planning/v7.0-ABORT-NOTICE.md)*
+*Last updated: 2026-04-21 — v8.0 shipped, v9.0 direction locked (tzk-style living TiddlyWiki), roadmap pending. See `.planning/v8.0-AUDIT-NOTICE.md` (verdict) and `.planning/REQUIREMENTS.md` (v9.0 scope).*
