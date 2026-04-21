@@ -33,6 +33,7 @@ import {
 } from './capture.ts'
 import { convertCapturedPages } from './convert.ts'
 import { assembleDocument, type RouteFailure } from './document.ts'
+import { writeStaticSite } from './static-html.ts'
 import { emitFindingsScaffold, writePrimaryAndMirror } from './write.ts'
 
 /**
@@ -253,6 +254,20 @@ export async function main(): Promise<void> {
     },
   )
 
+  // 8b. Static HTML emission (v9.0 starter). Non-fatal: failures logged to
+  //     stderr, exit code unchanged. Requires `dist/assets/*.css` from a prior
+  //     `pnpm build` — if the CSS dir is missing, pages emit unstyled.
+  const staticSiteResult = await writeStaticSite(
+    process.cwd(),
+    'static-site',
+    captured,
+  ).catch((err) => {
+    process.stderr.write(
+      `[editorial-capture] static-site emission failed (non-fatal): ${String(err)}\n`,
+    )
+    return null
+  })
+
   // 9. Summary computation — exit-code health flags + metrics.
   const endHrtime = process.hrtime.bigint()
   const elapsedMs = Number((endHrtime - startHrtime) / 1_000_000n)
@@ -275,6 +290,11 @@ export async function main(): Promise<void> {
   if (scaffoldEmitted !== null) {
     process.stdout.write(
       `                    Findings scaffold: ${scaffoldEmitted}\n`,
+    )
+  }
+  if (staticSiteResult !== null) {
+    process.stdout.write(
+      `                    Static site: ${staticSiteResult.outputDir} (${staticSiteResult.pages.length} pages, ${staticSiteResult.cssFiles.length} CSS files)\n`,
     )
   }
   if (failures.length > 0) {
@@ -300,6 +320,13 @@ export async function main(): Promise<void> {
     outputPath: primaryPath,
     mirrorPath,
     findingsScaffoldPath: scaffoldEmitted,
+    staticSite: staticSiteResult === null
+      ? null
+      : {
+          outputDir: staticSiteResult.outputDir,
+          pages: staticSiteResult.pages.length,
+          cssFiles: staticSiteResult.cssFiles.length,
+        },
     outputBytes,
     elapsedMs,
     failures: failures.map((f) => ({

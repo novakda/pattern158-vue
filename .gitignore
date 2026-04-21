@@ -20,3 +20,6 @@ tsconfig.scripts.tsbuildinfo
 # TypeScript project-references build artifacts (editorial project)
 .tsbuildinfo-editorial/
 tsconfig.editorial.tsbuildinfo
+
+# v9.0 static-site generator output (captured via pnpm editorial:capture — regenerable)
+/static-site/
