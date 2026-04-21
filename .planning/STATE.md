@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: verifying
-last_updated: "2026-04-21T02:51:54.792Z"
+last_updated: "2026-04-21T03:10:15.282Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 24
-  completed_plans: 23
-  percent: 96
+  completed_plans: 24
+  percent: 100
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 4 of 4 (49-01 complete)
 Status: Phase complete — ready for verification
 Last activity: 2026-04-21
 
-Progress: [██████████] 96%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -115,6 +115,10 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 50 Plan 02: writePrimaryAndMirror primary-first / mirror-best-effort ordering LOCKED — primary atomicWrite failure rejects the whole function; mirror block (mkdir recursive + atomicWrite) runs only after primary succeeds; mirror failure LOGS to stderr ('[editorial-capture] mirror write failed: <msg>') and returns { primaryPath } without mirrorPath; test 2e locks primary-reject → mirror-never-attempted
 - Phase 50 Plan 02: vi.spyOn(fsp, ...) rejected under Vitest 4 ESM NodeNext — namespace bindings are non-configurable ('Cannot redefine property'); replaced with vi.mock('node:fs/promises', async () => ({ ...await vi.importActual(...), writeFile/rename/unlink/mkdir: state.X })) + vi.hoisted state holders; real-fs describe block re-delegates mocks via realFsp = await vi.importActual(...) so one test file covers both mocked unit and tmpdir-based integration
 - Phase 50 Plan 02: MIRROR_RELATIVE_PATH is a file-scope const (.planning/research/site-editorial-capture.md) — not exposed in EditorialConfig; resolved via nodePath.resolve(process.cwd(), MIRROR_RELATIVE_PATH); making it user-configurable would expose path-traversal surface and contradicts CONTEXT.md line 281 lock
+- Phase 50 Plan 03: namespace child-process import (import * as childProcess from 'node:child_process') — required to keep the SCAF-08 grep-exact-count allowlist of two literal execSync occurrences satisfied; destructured import produced 3 (import + 2 calls), namespace form produces 2 (both calls)
+- Phase 50 Plan 03: ExitSentinel throw pattern via vi.spyOn(process, 'exit').mockImplementation(() => throw) — test-time substitute for process.exit lets tests await main() rejection and inspect code via spy.mock.calls without killing the Vitest runner
+- Phase 50 Plan 03: Multi-module vi.mock graph extends Plan 50-02's vi.hoisted pattern to 7 modules (node:child_process + config/routes/capture/convert/document/write) — all factories use ...actual spread to preserve original class exports so instanceof checks in index.ts still succeed
+- Phase 50 Plan 03: CLI-invocation guard via 'if (import.meta.url === `file://${process.argv[1]}`) main().catch(handleTopLevelError)' — idiomatic Node-ESM entrypoint detection that gates side-effectful invocation; test imports of { main } do not trigger the pipeline
 
 ### Pending Todos
 
@@ -126,7 +130,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T02:51:54.788Z
+Last session: 2026-04-21T03:10:15.277Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 

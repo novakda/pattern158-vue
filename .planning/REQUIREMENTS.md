@@ -96,7 +96,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: Per-page metadata block: captured-at, HTTP status, title, description (inline after route heading)
 - [x] **SHAP-06
 **: `---` horizontal-rule separator between captured routes
-- [ ] **SHAP-07**: Route ordering: home → philosophy → technologies → case-files → faq → contact → accessibility → exhibits A–O (exhibits.json order)
+- [x] **SHAP-07
+**: Route ordering: home → philosophy → technologies → case-files → faq → contact → accessibility → exhibits A–O (exhibits.json order)
 
 ### Write + Output
 
@@ -110,8 +111,10 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: Idempotent overwrite (no timestamped versioning); re-running replaces prior capture cleanly
 - [x] **WRIT-05
 **: Optional dual-write mirror to `.planning/research/site-editorial-capture.md` for repo-scoped review (CLI flag: `--mirror`)
-- [ ] **WRIT-06**: Stdout run summary: N routes captured, M failed, total size, output path, elapsed time; exit code 0 only on all routes ≥200 bytes
-- [ ] **WRIT-07**: Per-route failure logged with route, error, response status; capture continues for remaining routes
+- [x] **WRIT-06
+**: Stdout run summary: N routes captured, M failed, total size, output path, elapsed time; exit code 0 only on all routes ≥200 bytes
+- [x] **WRIT-07
+**: Per-route failure logged with route, error, response status; capture continues for remaining routes
 
 ### Scaffold + Build integration
 
