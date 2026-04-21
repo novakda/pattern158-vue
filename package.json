@@ -8,6 +8,7 @@
     "build": "vue-tsc -b && vite build && pnpm build:markdown",
     "build:markdown": "tsx scripts/markdown-export/index.ts",
     "editorial:capture": "tsx scripts/editorial/index.ts",
+    "tiddlywiki:generate": "tsx scripts/tiddlywiki/generate.ts",
     "preview": "pnpm build && wrangler dev",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

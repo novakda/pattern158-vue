@@ -23,3 +23,7 @@ tsconfig.editorial.tsbuildinfo
 
 # v9.0 static-site generator output (captured via pnpm editorial:capture — regenerable)
 /static-site/
+
+# v9.0 tiddlywiki generator artifacts
+/tiddlywiki/output/
+/tiddlywiki/tiddlers/$__StoryList.tid
