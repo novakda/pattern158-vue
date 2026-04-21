@@ -120,6 +120,9 @@ const state = vi.hoisted(() => {
       primaryPath: '/tmp/editorial-mock/out.md',
       mirrorPath: undefined,
     })),
+    emitFindingsScaffold: vi.fn<
+      (capturePath: string) => Promise<string | null>
+    >(async () => null),
   }
 })
 
@@ -208,6 +211,8 @@ vi.mock('../write.ts', async () => {
     ...actual,
     writePrimaryAndMirror: (cfg: EditorialConfig, content: string) =>
       state.writePrimaryAndMirror(cfg, content),
+    emitFindingsScaffold: (capturePath: string) =>
+      state.emitFindingsScaffold(capturePath),
   }
 })
 
@@ -316,6 +321,7 @@ function resetState(): void {
     primaryPath: '/tmp/editorial-mock/out.md',
     mirrorPath: undefined,
   }))
+  state.emitFindingsScaffold.mockReset().mockImplementation(async () => null)
 }
 
 // ---------------------------------------------------------------------------
@@ -375,6 +381,17 @@ describe('main (orchestration) — happy path', () => {
     expect(state.writePrimaryAndMirror).toHaveBeenCalledTimes(1)
     expect(state.writePrimaryAndMirror.mock.calls[0][1]).toBe('DOC')
 
+    // Phase 51 EDIT-05: scaffold emission fires AFTER writePrimaryAndMirror
+    // with the primary path returned from the write. Call-order assertion
+    // locks the insertion point (must not fire before the write resolves).
+    expect(state.emitFindingsScaffold).toHaveBeenCalledTimes(1)
+    expect(state.emitFindingsScaffold.mock.calls[0][0]).toBe(
+      '/tmp/editorial-mock/out.md',
+    )
+    const writeOrder = state.writePrimaryAndMirror.mock.invocationCallOrder[0]
+    const scaffoldOrder = state.emitFindingsScaffold.mock.invocationCallOrder[0]
+    expect(scaffoldOrder).toBeGreaterThan(writeOrder)
+
     // Exit code 0 for a fully healthy run.
     expect(exitSpy).toHaveBeenCalledWith(0)
 
@@ -389,10 +406,66 @@ describe('main (orchestration) — happy path', () => {
       captured: number
       failed: number
       failures: unknown[]
+      findingsScaffoldPath: string | null
     }
     expect(parsed.captured).toBe(2)
     expect(parsed.failed).toBe(0)
     expect(parsed.failures).toEqual([])
+    // Scaffold mock returns null by default (file already exists) — JSON
+    // carries findingsScaffoldPath: null and no stdout scaffold line.
+    expect(parsed.findingsScaffoldPath).toBeNull()
+    expect(stdout).not.toContain('Findings scaffold:')
+  })
+
+  it('scaffold emission — emitFindingsScaffold returns path → stdout line + JSON findingsScaffoldPath populated', async () => {
+    const homeRoute = makeRoute('/', 'Home')
+    state.buildRoutes.mockImplementation(async () => [homeRoute])
+    state.capturePage.mockImplementation(
+      async (_ctx, _cfg, route: Route) => makeCapturedPage(route),
+    )
+    // First-run scaffold emission returns the absolute scaffold path.
+    state.emitFindingsScaffold.mockImplementation(
+      async () => '/tmp/editorial-mock/site-editorial-findings.md',
+    )
+
+    await expect(main()).rejects.toThrow(ExitSentinel)
+
+    const stdout = joinWriteCalls(stdoutSpy)
+    expect(stdout).toContain('Findings scaffold:')
+    expect(stdout).toContain('/tmp/editorial-mock/site-editorial-findings.md')
+
+    const stderr = joinWriteCalls(stderrSpy)
+    const parsed = JSON.parse(stderr.trim().split('\n').pop() as string) as {
+      findingsScaffoldPath: string | null
+    }
+    expect(parsed.findingsScaffoldPath).toBe(
+      '/tmp/editorial-mock/site-editorial-findings.md',
+    )
+  })
+
+  it('scaffold emission — emitFindingsScaffold rejects → logged as non-fatal; exit 0; JSON carries null', async () => {
+    const homeRoute = makeRoute('/', 'Home')
+    state.buildRoutes.mockImplementation(async () => [homeRoute])
+    state.capturePage.mockImplementation(
+      async (_ctx, _cfg, route: Route) => makeCapturedPage(route),
+    )
+    state.emitFindingsScaffold.mockImplementation(async () => {
+      throw new Error('EACCES: scaffold write denied')
+    })
+
+    await expect(main()).rejects.toThrow(ExitSentinel)
+
+    // Scaffold failure is non-fatal — exit code remains 0 for a healthy run.
+    expect(exitSpy).toHaveBeenCalledWith(0)
+
+    const stderr = joinWriteCalls(stderrSpy)
+    expect(stderr).toContain('scaffold emission failed (non-fatal)')
+    expect(stderr).toContain('EACCES: scaffold write denied')
+
+    const parsed = JSON.parse(stderr.trim().split('\n').pop() as string) as {
+      findingsScaffoldPath: string | null
+    }
+    expect(parsed.findingsScaffoldPath).toBeNull()
   })
 })
 
