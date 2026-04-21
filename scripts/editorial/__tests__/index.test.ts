@@ -216,6 +216,23 @@ vi.mock('../write.ts', async () => {
   }
 })
 
+// Prevent test runs from clobbering the real ./static-site/ output by stubbing
+// writeStaticSite to a no-op. Tests don't exercise static-site emission — a
+// dedicated suite in static-html.test.ts covers that path with tmpdir fixtures.
+vi.mock('../static-html.ts', async () => {
+  const actual = await vi.importActual<typeof import('../static-html.ts')>(
+    '../static-html.ts',
+  )
+  return {
+    ...actual,
+    writeStaticSite: async () => ({
+      outputDir: '/tmp/test-static-site-noop',
+      pages: [],
+      cssFiles: [],
+    }),
+  }
+})
+
 // ---------------------------------------------------------------------------
 // Imports AFTER vi.mock (hoisted). CaptureError + ConfigError must come from
 // the ACTUAL modules so `instanceof` checks in index.ts line up — the vi.mock
