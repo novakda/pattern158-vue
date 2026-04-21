@@ -260,7 +260,10 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Writes are atomic (temp-file + rename) with explicit UTF-8 encoding and `\n`-only line endings; running the tool twice in a row produces identical file contents (idempotent overwrite, no timestamped version history); `--mirror` flag additionally writes `.planning/research/site-editorial-capture.md`.
   4. Stdout summary after every run reports: N routes captured, M failed, total output size, output path, elapsed time; exit code is 0 only when every route returned ≥ 200 bytes AND status 200 — any per-route failure is logged with route, error, and response status but does NOT abort subsequent routes.
   5. Running `pnpm editorial:capture` end-to-end against the live site produces a well-formed Markdown file Dan can open in Obsidian with readable structure for every non-excluded route (no interstitial text, no chrome leakage, no empty FAQ answers, no silent 404s captured as content).
-**Plans:** 0/? plans complete
+**Plans:** 3 plans
+  - [ ] 50-01-PLAN.md — document.ts + document.test.ts: assembleDocument/buildFrontmatter/buildToc/buildRouteSection/buildFailedRouteSection/slugForRoute + RouteFailure interface (SHAP-01..06)
+  - [ ] 50-02-PLAN.md — write.ts + write.test.ts: atomicWrite + writePrimaryAndMirror (WRIT-03, WRIT-04, WRIT-05)
+  - [ ] 50-03-PLAN.md — index.ts + index.test.ts: main() orchestrator + isInterstitialFailure + buildToolVersion + extractSiteVersionSha (SHAP-07, WRIT-06, WRIT-07)
 
 ### Phase 51: Editorial Review (manual)
 **Goal**: Dan has read the captured Markdown in Obsidian, cross-referenced it against career positioning docs, and produced a structured findings document at `<vault>/career/website/site-editorial-findings.md` that will anchor the v9.0 direction decision in Phase 52.
@@ -297,6 +300,6 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | 47. Config + Routes | 3/6 | In progress | - |
 | 48. Capture (Playwright IO) | 1/6 | In progress | - |
 | 49. Convert (Turndown) | 3/4 | In progress | - |
-| 50. Write + Preflight + Orchestration | 0/? | Not started | - |
+| 50. Write + Preflight + Orchestration | 0/3 | Planned | - |
 | 51. Editorial Review (manual) | 0/0 | Not started | - |
 | 52. Milestone Audit + v9.0 Direction | 0/? | Not started | - |
