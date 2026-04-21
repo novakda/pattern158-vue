@@ -28,6 +28,7 @@ const state = vi.hoisted(() => {
     rename: vi.fn(async (_from: string, _to: string) => undefined),
     unlink: vi.fn(async (_p: string) => undefined),
     mkdir: vi.fn(async (_p: string, _o: unknown) => undefined),
+    access: vi.fn(async (_p: string, _mode?: number) => undefined),
   }
 })
 
@@ -45,12 +46,14 @@ vi.mock('node:fs/promises', async () => {
     rename: (from: string, to: string) => state.rename(from, to),
     unlink: (p: string) => state.unlink(p),
     mkdir: (p: string, o: unknown) => state.mkdir(p, o),
+    access: (p: string, mode?: number) => state.access(p, mode),
   }
 })
 
 // Module-under-test is imported AFTER vi.mock (hoisted) so it resolves
 // to the mocked module.
-const { atomicWrite, writePrimaryAndMirror } = await import('../write.ts')
+const { atomicWrite, emitFindingsScaffold, SCAFFOLD_TEMPLATE, writePrimaryAndMirror } =
+  await import('../write.ts')
 // For real-fs tests we also need unmocked access.
 const realFsp =
   await vi.importActual<typeof import('node:fs/promises')>(
@@ -78,6 +81,7 @@ function resetAllMocks(): void {
   state.rename.mockReset().mockImplementation(async () => undefined)
   state.unlink.mockReset().mockImplementation(async () => undefined)
   state.mkdir.mockReset().mockImplementation(async () => undefined)
+  state.access.mockReset().mockImplementation(async () => undefined)
 }
 
 describe('atomicWrite (mocked fsp)', () => {
@@ -289,6 +293,11 @@ describe('atomicWrite + writePrimaryAndMirror (real fs)', () => {
     state.mkdir.mockImplementation((p, o) =>
       realFsp.mkdir(p as string, o as never).then(() => undefined),
     )
+    state.access.mockImplementation((p, mode) =>
+      realFsp
+        .access(p as string, mode as number | undefined)
+        .then(() => undefined),
+    )
     tmpDir = await realFsp.mkdtemp(
       nodePath.join(os.tmpdir(), 'editorial-write-test-'),
     )
@@ -365,5 +374,150 @@ describe('atomicWrite + writePrimaryAndMirror (real fs)', () => {
     } finally {
       cwdSpy.mockRestore()
     }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Phase 51 — emitFindingsScaffold (EDIT-05)
+// ---------------------------------------------------------------------------
+
+describe('SCAFFOLD_TEMPLATE (Phase 51 EDIT-05)', () => {
+  it('contains all 5 section headings (H2) locked per 51-CONTEXT.md', () => {
+    expect(SCAFFOLD_TEMPLATE).toContain('## Inconsistencies')
+    expect(SCAFFOLD_TEMPLATE).toContain('## Structural')
+    expect(SCAFFOLD_TEMPLATE).toContain('## Copy')
+    expect(SCAFFOLD_TEMPLATE).toContain('## Alignment Gaps')
+    expect(SCAFFOLD_TEMPLATE).toContain('## Open Questions')
+  })
+
+  it('contains all 3 priority label strings (blocker / should-fix / nice-to-have)', () => {
+    expect(SCAFFOLD_TEMPLATE).toContain('blocker')
+    expect(SCAFFOLD_TEMPLATE).toContain('should-fix')
+    expect(SCAFFOLD_TEMPLATE).toContain('nice-to-have')
+  })
+
+  it('contains all 3 career positioning doc references', () => {
+    expect(SCAFFOLD_TEMPLATE).toContain('design-philosophy-essay.md')
+    expect(SCAFFOLD_TEMPLATE).toContain('career-values-reference.md')
+    expect(SCAFFOLD_TEMPLATE).toContain('case-study-gp-accessibility-signoff.md')
+  })
+})
+
+describe('emitFindingsScaffold (mocked fsp)', () => {
+  beforeEach(() => {
+    resetAllMocks()
+  })
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('file absent → writes SCAFFOLD_TEMPLATE to sibling path; returns absolute scaffold path', async () => {
+    // access rejects → file does not exist → scaffold branch fires.
+    state.access.mockRejectedValue(
+      Object.assign(new Error('ENOENT'), { code: 'ENOENT' }),
+    )
+
+    const capturePath = '/vault/career/website/site-editorial-capture.md'
+    const result = await emitFindingsScaffold(capturePath)
+
+    const expectedScaffoldPath =
+      '/vault/career/website/site-editorial-findings.md'
+    expect(result).toBe(expectedScaffoldPath)
+
+    // access probed the sibling scaffold path exactly once.
+    expect(state.access).toHaveBeenCalledTimes(1)
+    expect(state.access.mock.calls[0][0]).toBe(expectedScaffoldPath)
+
+    // writeFile fired once with SCAFFOLD_TEMPLATE + utf8 encoding.
+    expect(state.writeFile).toHaveBeenCalledTimes(1)
+    const [writePath, writeContent, writeOpts] = state.writeFile.mock.calls[0]
+    expect(writePath).toBe(expectedScaffoldPath)
+    expect(writeContent).toBe(SCAFFOLD_TEMPLATE)
+    expect(writeOpts).toEqual({ encoding: 'utf8' })
+  })
+
+  it('file already exists → returns null WITHOUT writing (idempotency contract)', async () => {
+    // access resolves → file exists → scaffold write is skipped.
+    state.access.mockResolvedValue(undefined)
+
+    const capturePath = '/vault/career/website/site-editorial-capture.md'
+    const result = await emitFindingsScaffold(capturePath)
+
+    expect(result).toBeNull()
+
+    // access probed once, writeFile NEVER called (preserves Dan's findings).
+    expect(state.access).toHaveBeenCalledTimes(1)
+    expect(state.writeFile).not.toHaveBeenCalled()
+  })
+
+  it('derives sibling scaffold path from capture output dirname', async () => {
+    state.access.mockRejectedValue(new Error('ENOENT'))
+
+    // Verify path derivation for a different vault layout — the scaffold
+    // always lands next to the capture artifact, regardless of nesting.
+    const capturePath = '/mnt/c/main/Obsidian Vault/career/website/site-editorial-capture.md'
+    const result = await emitFindingsScaffold(capturePath)
+
+    expect(result).toBe(
+      '/mnt/c/main/Obsidian Vault/career/website/site-editorial-findings.md',
+    )
+  })
+})
+
+describe('emitFindingsScaffold (real fs)', () => {
+  let tmpDir: string
+
+  beforeEach(async () => {
+    state.writeFile.mockImplementation((p, c, o) =>
+      realFsp
+        .writeFile(p as string, c as string, o as never)
+        .then(() => undefined),
+    )
+    state.access.mockImplementation((p, mode) =>
+      realFsp
+        .access(p as string, mode as number | undefined)
+        .then(() => undefined),
+    )
+    tmpDir = await realFsp.mkdtemp(
+      nodePath.join(os.tmpdir(), 'editorial-scaffold-test-'),
+    )
+  })
+  afterEach(async () => {
+    await realFsp
+      .rm(tmpDir, { recursive: true, force: true })
+      .catch(() => undefined)
+    resetAllMocks()
+  })
+
+  it('first run — scaffold written with exact SCAFFOLD_TEMPLATE bytes', async () => {
+    const capturePath = nodePath.join(tmpDir, 'site-editorial-capture.md')
+    // No capture file needed for the scaffold logic — only its path matters.
+
+    const result = await emitFindingsScaffold(capturePath)
+
+    const expectedScaffoldPath = nodePath.join(
+      tmpDir,
+      'site-editorial-findings.md',
+    )
+    expect(result).toBe(expectedScaffoldPath)
+
+    const bytes = await realFsp.readFile(expectedScaffoldPath, 'utf8')
+    expect(bytes).toBe(SCAFFOLD_TEMPLATE)
+  })
+
+  it('second run with findings already present — null returned; existing bytes preserved verbatim', async () => {
+    const capturePath = nodePath.join(tmpDir, 'site-editorial-capture.md')
+    const scaffoldPath = nodePath.join(tmpDir, 'site-editorial-findings.md')
+
+    // Seed the findings file with Dan's in-progress content.
+    const dansFindings =
+      '# Site Editorial Findings\n\n## Inconsistencies\n- IMPORTANT: navbar brand color drift\n'
+    await realFsp.writeFile(scaffoldPath, dansFindings, 'utf8')
+
+    const result = await emitFindingsScaffold(capturePath)
+
+    // Idempotency: null return + original bytes untouched.
+    expect(result).toBeNull()
+    expect(await realFsp.readFile(scaffoldPath, 'utf8')).toBe(dansFindings)
   })
 })
