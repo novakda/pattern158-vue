@@ -333,6 +333,13 @@ export function handleTopLevelError(err: unknown): void {
 // `import { main } from '../index.ts'` resolves a different import.meta.url
 // (the test file path) from process.argv[1] (the vitest runner path), so the
 // guard evaluates false and the pipeline stays dormant at import time.
-if (import.meta.url === `file://${process.argv[1]}`) {
+//
+// `fileURLToPath` is the Node-idiomatic ESM entrypoint-detection idiom: it
+// decodes the `file://` URL in import.meta.url back to a raw filesystem path
+// (un-escaping spaces, unicode, and URL-reserved characters), so the
+// comparison with the raw `process.argv[1]` path holds on any checkout
+// location. The previous `file://` string-concatenation broke on paths with
+// spaces or percent-encoded characters.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main().catch(handleTopLevelError)
 }
