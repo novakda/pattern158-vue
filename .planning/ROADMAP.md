@@ -244,7 +244,11 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Images emit alt-text only (no inline base64, no image Markdown references); links preserve their `href` verbatim with no internal rewriting; DOM document order is preserved end-to-end.
   4. Heading demotion rule shifts every page heading down by 2 levels so the page H1 becomes H3 (which nests cleanly under the `## Route: /path` wrapper heading added in Phase 50); 3+ consecutive blank lines collapse to 2 in the final output.
   5. Unit tests with inline HTML fixtures demonstrate correct output for: plain prose, GFM table, nested list, badge/pill span passthrough (preserved as bold or italic, not dropped), image with alt, heading hierarchy, aria-hidden strip — all green.
-**Plans:** 0/? plans complete
+**Plans:** 4 plans
+  - [ ] 49-01-PLAN.md — sanitizeHtml + demoteHeadings (CONV-02, CONV-04)
+  - [ ] 49-02-PLAN.md — configureTurndown factory with img + badge rules + GFM plugin (CONV-01, CONV-03, CONV-05, CONV-06, CONV-07)
+  - [ ] 49-03-PLAN.md — collapseBlankLines + convertCapturedPage + convertCapturedPages + ConvertedPage extension (CONV-08)
+  - [ ] 49-04-PLAN.md — convert.test.ts 11 hermetic scenarios (CONV-09)
 
 ### Phase 50: Write + Preflight + Orchestration
 **Goal**: `index.ts` wires the full pipeline end-to-end (config → routes → capture → convert → write) and produces the single monolithic Markdown document at `<vault>/career/website/site-editorial-capture.md` with correct document shape — frontmatter with provenance, auto-generated ToC, per-route headings, per-page metadata blocks, separators — written atomically and idempotently.
@@ -292,7 +296,7 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | 46. Scaffold | 0/? | Not started | - |
 | 47. Config + Routes | 3/6 | In progress | - |
 | 48. Capture (Playwright IO) | 1/6 | In progress | - |
-| 49. Convert (Turndown) | 0/? | Not started | - |
+| 49. Convert (Turndown) | 0/4 | Planned | - |
 | 50. Write + Preflight + Orchestration | 0/? | Not started | - |
 | 51. Editorial Review (manual) | 0/0 | Not started | - |
 | 52. Milestone Audit + v9.0 Direction | 0/? | Not started | - |
