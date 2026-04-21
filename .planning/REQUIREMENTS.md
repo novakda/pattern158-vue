@@ -90,9 +90,47 @@ Rough edges from the v9.0 starter tiddlywiki generator.
 
 ## v9.0 Traceability
 
-Roadmap pending (see step 10 of new-milestone workflow). Each REQ-ID will map to exactly one phase.
+Roadmap created 2026-04-21 (see `.planning/ROADMAP.md` Phase 53–59). Each REQ maps to exactly one phase.
 
-**Counts:** 34 v9.0 requirements across 7 categories — EXTR (8), ATOM (5), THEME (5), TZK (5), FIX (4), TEST (4), DOC (3).
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| EXTR-01 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-02 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-03 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-04 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-05 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-06 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-07 | Phase 53 (DOM Extraction) | Pending |
+| EXTR-08 | Phase 53 (DOM Extraction) | Pending |
+| ATOM-01 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-02 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-03 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-04 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-05 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| FIX-01 | Phase 55 (Iter-1 Fixes) | Pending |
+| FIX-02 | Phase 55 (Iter-1 Fixes) | Pending |
+| FIX-03 | Phase 55 (Iter-1 Fixes) | Pending |
+| FIX-04 | Phase 55 (Iter-1 Fixes) | Pending |
+| TEST-01 | Phase 56 (Tests) | Pending |
+| TEST-02 | Phase 56 (Tests) | Pending |
+| TEST-03 | Phase 56 (Tests) | Pending |
+| TEST-04 | Phase 56 (Tests) | Pending |
+| THEME-01 | Phase 57 (Wiki Theme) | Pending |
+| THEME-02 | Phase 57 (Wiki Theme) | Pending |
+| THEME-03 | Phase 57 (Wiki Theme) | Pending |
+| THEME-04 | Phase 57 (Wiki Theme) | Pending |
+| THEME-05 | Phase 57 (Wiki Theme) | Pending |
+| TZK-01 | Phase 58 (Tzk-Style Structure) | Pending |
+| TZK-02 | Phase 58 (Tzk-Style Structure) | Pending |
+| TZK-03 | Phase 58 (Tzk-Style Structure) | Pending |
+| TZK-04 | Phase 58 (Tzk-Style Structure) | Pending |
+| TZK-05 | Phase 58 (Tzk-Style Structure) | Pending |
+| DOC-01 | Phase 59 (Documentation) | Pending |
+| DOC-02 | Phase 59 (Documentation) | Pending |
+| DOC-03 | Phase 59 (Documentation) | Pending |
+
+**Coverage:** 34 v9.0 requirements, 34 mapped, 0 unmapped ✓
+**Counts:** 7 phases — EXTR (8 REQs), ATOM (5), FIX (4), TEST (4), THEME (5), TZK (5), DOC (3).
 
 ---
 

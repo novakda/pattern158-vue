@@ -2,11 +2,11 @@
 gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
-status: defining_requirements
-last_updated: "2026-04-21T12:00:00.000Z"
+status: roadmap_ready
+last_updated: "2026-04-21T18:00:00.000Z"
 last_activity: 2026-04-21
 progress:
-  total_phases: 0
+  total_phases: 7
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -26,10 +26,10 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 53 of 59 (not started — roadmap created, ready to plan)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-04-21 — Milestone v9.0 started
+Status: Roadmap complete; next step is `/gsd:plan-phase 53` (DOM Extraction) or `/gsd:discuss-phase 53` for context-gathering first
+Last activity: 2026-04-21 — v9.0 roadmap created (7 phases, 34 REQs mapped)
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -136,7 +136,7 @@ None. Research complete, requirements defined, ready for roadmap.
 ## Session Continuity
 
 Last session: 2026-04-21
-Current activity: v8.0 structural close-out — AUDT-02/03 verdict + Rosetta Stone alignment written into `.planning/v8.0-AUDIT-NOTICE.md`; PROJECT.md Current State swapped from "No active milestone" to "Active: v9.0". EDIT-01..04 editorial findings remain open as non-blocking async work.
+Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 
-**Next step:** v9.0 roadmap creation — break the 34 REQs (EXTR × 8, ATOM × 5, THEME × 5, TZK × 5, FIX × 4, TEST × 4, DOC × 3) into phases per GSD `/gsd:new-milestone` workflow.
+**Next step:** `/gsd:plan-phase 53` (DOM Extraction) — or `/gsd:discuss-phase 53` first if you want to surface gray areas before planning.

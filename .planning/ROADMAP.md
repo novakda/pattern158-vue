@@ -14,7 +14,8 @@
 - ✅ **v5.3 FAQ Content Audit** — Phases 30-32 (shipped 2026-04-08)
 - ✅ **v6.0 FAQ Page Redesign** — Phases 33-36 (shipped 2026-04-08)
 - 🛑 **v7.0 Static Markdown Export Pipeline** — Phases 37-45 (ABORTED 2026-04-19, 2 of 9 phases shipped — see `.planning/v7.0-ABORT-NOTICE.md`)
-- 🚧 **v8.0 Editorial Snapshot & Content Audit** — Phases 46-52 (in progress, started 2026-04-19)
+- ✅ **v8.0 Editorial Snapshot & Content Audit** — Phases 46-52 (shipped 2026-04-20, see `.planning/v8.0-AUDIT-NOTICE.md`)
+- 🚧 **v9.0 Continue tiddlywiki intake and conversion** — Phases 53-59 (in progress, started 2026-04-21)
 
 ## Phases
 
@@ -159,8 +160,8 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 
 </details>
 
-<details open>
-<summary>v8.0 Editorial Snapshot & Content Audit (Phases 46-52) -- IN PROGRESS</summary>
+<details>
+<summary>v8.0 Editorial Snapshot & Content Audit (Phases 46-52) -- SHIPPED 2026-04-20</summary>
 
 **Milestone Goal:** Capture the live rendered pattern158.solutions as a single Markdown document for editorial review; produce a findings doc that informs the v9.0 rebuild direction.
 
@@ -176,6 +177,27 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 - Phase 48 is the highest failure-mode density (Cloudflare interstitial, FAQ accordion, SPA timing, 404 detection) — most likely candidate for `/gsd-research-phase` before planning.
 - Phase 49 Turndown custom-rule scope is unknown until Phase 48 output is inspected — budget flex expected.
 - Phase 51 is manual editorial work, not code — phase hook exists but no executable tasks.
+
+</details>
+
+<details open>
+<summary>v9.0 Continue tiddlywiki intake and conversion (Phases 53-59) -- IN PROGRESS</summary>
+
+**Milestone Goal:** Turn `pattern158.solutions` into a tzk-style living TiddlyWiki with **canonical-source-is-the-live-site** architecture. Structured DOM extractors feed atomic tiddlers (personnel + findings + technologies + testimonials), Pattern 158 brand theme, tzk-inspired private/public publishing workflow.
+
+- [ ] **Phase 53: DOM Extraction** — 8 extractor modules under `scripts/tiddlywiki/extractors/` parse captured HTML into typed domain entities; inline-HTML fixture tests per extractor; foundation for all downstream work
+- [ ] **Phase 54: Atomic Tiddler Generation** — per-person / per-finding / per-technology / per-testimonial tiddlers (~150-200 total) with locked title formats, tag lists, cross-links; integrity check enforces zero orphaned `[[...]]` links
+- [ ] **Phase 55: Iter-1 Fixes** — empty exhibit sections fixed; page-body conversion quality via extractor pipeline; FAQ "See also" footer enriched; Case Files Index as sortable/filterable table
+- [ ] **Phase 56: Tests** — extractor unit tests + per-tiddler-type generator tests + e2e smoke (local fixture http-server round-trip) + cross-link integrity test; `pnpm test:scripts` green
+- [ ] **Phase 57: Wiki Theme (Pattern 158 brand)** — color tokens + typography matching Vue design tokens, sidebar nav / topbar, type-specific ViewTemplate layouts, badge/pill CSS passthrough, dark/light parity
+- [ ] **Phase 58: Tzk-Style Structure** — default `public` tag, `pnpm tiddlywiki:build-public` filtered build, `pnpm tiddlywiki:generate` re-read + rewrite flow, directory layout `tiddlers/`/`output/`/`config/`/`build/`, deploy-ready single-file wiki
+- [ ] **Phase 59: Documentation** — `scripts/tiddlywiki/README.md` (architecture), tzk workflow doc (private/public + deploy + git cadence), contributor editing guide (direct-edit vs regenerate + merge-conflict resolution)
+
+**Risk flags:**
+- Phase 53 extractor reliability depends on stable DOM class hooks; a Vue template refactor could break extractors silently — test coverage (Phase 56) gates the rest of the milestone.
+- Phase 54 atomic decomposition scale (~66 personnel + ~45 findings + ~40-80 technologies) tests idempotency and cross-link integrity assumptions; orphan bugs tend to surface only at full scale.
+- Phase 57 theme work is CSS-intensive; likely candidate for `/gsd-ui-phase` design-contract step before planning if token-mapping scope is wide.
+- Phase 58 tzk directory layout + build scripts interact with the existing `tiddlywiki/` iter-1 output; requires refactor discipline to not break the iter-1 generator still in use.
 
 </details>
 
@@ -288,13 +310,99 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. `.planning/PROJECT.md`, `.planning/MILESTONES.md`, and `.planning/ROADMAP.md` are updated to reflect v8.0 completion and the locked v9.0 scope — the v8.0 milestone line carries ✅ and a shipped date; v9.0 appears with defined scope pointing to the audit decision.
   4. `.planning/RETROSPECTIVE.md` has a v8.0 entry covering lessons learned (at minimum: what the editorial capture revealed, what worked in the Playwright-based approach, what would be done differently in v9.0).
   5. The Rosetta Stone alignment check is explicit in the audit — i.e., the v9.0 direction is evaluated against the longer-term multi-framework portfolio vision, not chosen in isolation.
-**Plans:** 1/1 structural tool-side plan complete ✅ (audit notice + retrospective + doc updates shipped); AUDT-02/03 verdict (v9.0 direction) is human work deferred
+**Plans:** 1/1 structural tool-side plan complete ✅ (audit notice + retrospective + doc updates shipped); AUDT-02/03 verdict locked 2026-04-21
   - [x] 52-01 (inline) — `.planning/v8.0-AUDIT-NOTICE.md` template with TBD verdict sections + MILESTONES.md v8.0 entry + RETROSPECTIVE.md v8.0 entry + PROJECT.md Active→Validated + ROADMAP.md phase-complete updates (AUDT-01, AUDT-04 partial, AUDT-05)
+  - [x] 52-02 (inline, 2026-04-21) — v8.0-AUDIT-NOTICE.md verdict table populated (NO-GO × 3, GO for tzk-style living wiki), Rosetta Stone alignment written, PROJECT.md Current State swapped to Active: v9.0 (AUDT-02, AUDT-03, AUDT-04 finished)
+
+### Phase 53: DOM Extraction
+**Goal**: Every captured HTML page from the v8.0 editorial-capture pipeline is parseable into typed domain entities via dedicated extractors under `scripts/tiddlywiki/extractors/` — one module per entity kind, each exporting a pure typed `emit` function over inline-HTML fixtures.
+**Depends on**: v8.0 editorial-capture pipeline (consumes its captured HTML + screenshots); iter-1 `scripts/tiddlywiki/generate.ts` refactored to route non-exhibit pages through the new extractor layer (JSON-source path becomes fallback).
+**Requirements**: EXTR-01, EXTR-02, EXTR-03, EXTR-04, EXTR-05, EXTR-06, EXTR-07, EXTR-08
+**Success Criteria** (what must be TRUE):
+  1. Eight extractor modules exist under `scripts/tiddlywiki/extractors/` (`faq.ts`, `exhibit.ts`, `personnel.ts`, `findings.ts`, `technologies.ts`, `testimonials.ts`, `pages.ts`, `case-files-index.ts`), each exporting a typed emit function over parsed HTML input.
+  2. Inline-HTML fixture tests live alongside each extractor and cover shape, edge cases (missing fields, empty sections, malformed DOM), and DOM-order preservation where relevant — all green under `pnpm test:scripts`.
+  3. Running all 8 extractors against the live 22-route capture produces expected entity counts (~66 personnel, ~45 findings, ~40-80 technologies, ≥6 testimonials, 15 exhibits, ≥5 page-content records, 1 case-files index).
+  4. Extractors are idempotent: same captured HTML input yields byte-identical structured output across runs.
+  5. `FaqItem` extractor falls back to `src/data/json/faq.json` when live capture is stale (EXTR-01), demonstrating the "live-site-canonical, JSON-fallback" contract.
+**Plans:** TBD (one plan per REQ-ID or clustered; locked during `/gsd:plan-phase 53`).
+
+### Phase 54: Atomic Tiddler Generation
+**Goal**: Extracted entity data is decomposed into per-entity tiddler files with cross-references — a person becomes one tiddler, a finding becomes one tiddler, a technology becomes one tiddler, a testimonial becomes one tiddler — producing ~150-200 atomic tiddlers alongside the existing page/FAQ/exhibit-overview tiddlers. Exhibit tiddlers gain cross-link sections.
+**Depends on**: Phase 53 (atomic generators consume typed extractor output)
+**Requirements**: ATOM-01, ATOM-02, ATOM-03, ATOM-04, ATOM-05
+**Success Criteria** (what must be TRUE):
+  1. Per-person tiddlers emit with title `{Name}` (or `{Role} @ {Organization}` for anonymized entries), tags `person` / `[[{Client}]]` / `entry-type-{individual|group|anonymized}`, and body listing all exhibits the person appears in (ATOM-01).
+  2. Per-finding tiddlers emit with title `{Exhibit Label} Finding: {truncated finding}`, tags `finding` / `severity-{level}` / `category-{slug}` / `[[{Exhibit Label}]]`, body containing finding + description + resolution + outcome (ATOM-02).
+  3. Per-technology tiddlers (`Tech: {Name}`) and per-testimonial tiddlers (`Testimonial: {Attribution truncated}`) emit with locked tag lists and aggregated exhibit back-references (ATOM-03, ATOM-04).
+  4. Exhibit tiddlers list Personnel / Findings / Technologies / Testimonials as `[[...]]` wikitext links; cross-link integrity check runs as part of generate script and fails on any orphaned link (ATOM-05).
+  5. Running `pnpm tiddlywiki:generate` twice in a row on unchanged captured HTML produces byte-identical tiddler file contents (idempotent).
+**Plans:** TBD (locked during `/gsd:plan-phase 54`).
+
+### Phase 55: Iter-1 Fixes
+**Goal**: The iter-1 tiddlywiki generator rough edges are corrected, and the iter-1 HTML→wikitext page converter path is replaced by the new DOM-extractor-driven pipeline for non-exhibit pages — while keeping iter-1 working through the migration (refactor, don't rewrite).
+**Depends on**: Phase 53 (extractor output), Phase 54 (atomic tiddler plumbing)
+**Requirements**: FIX-01, FIX-02, FIX-03, FIX-04
+**Success Criteria** (what must be TRUE):
+  1. `exhibitsToTiddlers` walks subsections fully and emits their body text even when sub-headings are present — no more empty `!! Background` / `!! Personnel` / `!! Sequence of Events` headings in the generated wiki (FIX-01).
+  2. Home, Philosophy, Technologies pages produce clean wikitext via `scripts/tiddlywiki/extractors/pages.ts` — no HTML-heavy output (FIX-02); iter-1 HTML→wikitext converter path retired for pages.
+  3. Per-FAQ tiddler footer lists sibling FAQs in the same category + any linked exhibit callouts, replacing the generic `[[FAQ Index]]` stub (FIX-03).
+  4. Case Files Index renders as sortable/filterable table (columns: date, client, type, label) — not a flat bulleted list (FIX-04).
+  5. Iter-1 `scripts/tiddlywiki/generate.ts` remains runnable throughout the phase; regression smoke asserts no previously-working tiddler is lost.
+**Plans:** TBD (locked during `/gsd:plan-phase 55`).
+
+### Phase 56: Tests
+**Goal**: Extractor behavior, tiddler-generator behavior, end-to-end capture→generate flow, and cross-link integrity are all covered by automated tests in the `scripts` Vitest project — correctness is locked before visual + publishing work lands in Phases 57/58.
+**Depends on**: Phases 53, 54, 55 (tests target the code those phases produce)
+**Requirements**: TEST-01, TEST-02, TEST-03, TEST-04
+**Success Criteria** (what must be TRUE):
+  1. Every extractor module has unit tests with inline HTML fixtures asserting on structured output shapes — covers edge cases (missing fields, empty sections, malformed DOM). `pnpm test:scripts` exercises all eight (TEST-01).
+  2. Per-tiddler-type generator tests cover tiddler shape, tag list correctness, field completeness, and cross-link integrity for every atomic type (TEST-02).
+  3. End-to-end smoke test: local http-server serving a fixture HTML site → `pnpm editorial:capture` → `pnpm tiddlywiki:generate` → assert expected tiddler count + presence of key tiddlers. Runs hermetic (no network; no dependency on live production) (TEST-03).
+  4. Cross-link integrity test iterates every tiddler body, parses all `[[...]]` wikitext links, verifies the target tiddler exists; test output lists any orphaned links (TEST-04).
+  5. `pnpm test:scripts` exit code 0 across the full suite (existing + new Phase 56 additions).
+**Plans:** TBD (locked during `/gsd:plan-phase 56`).
+
+### Phase 57: Wiki Theme (Pattern 158 brand)
+**Goal**: The deployed TiddlyWiki visually matches the Vue site — color tokens, typography, sidebar layout, tiddler-chrome hierarchy, badge/pill styles — with dark/light parity. Exhibit / person / finding tiddlers render with type-specific ViewTemplate layouts.
+**Depends on**: Phase 54 (tiddler types exist to style)
+**Requirements**: THEME-01, THEME-02, THEME-03, THEME-04, THEME-05
+**Success Criteria** (what must be TRUE):
+  1. Pattern 158 color palette (primary, accent, background, foreground) applied to TW CSS variables with full dark/light parity (THEME-01).
+  2. Heading + body font families, sizes, and line-heights align with Vue site design tokens (THEME-02).
+  3. Sidebar navigation shows Pages / Case Files / Index / Tags structure; topbar branding + tiddler chrome match Pattern 158 visual hierarchy (THEME-03).
+  4. Exhibit tiddlers render with special layout (metadata header + sections + cross-links footer); person tiddlers use compact bio layout; finding tiddlers use severity-colored header (THEME-04).
+  5. TW CSS mirrors Vue site's `.badge`/`.pill`/`.tag-*`/`.severity-*`/`.category-*` styles so wikitext bold + raw HTML badge spans render visually consistent (THEME-05).
+**Plans:** TBD (locked during `/gsd:plan-phase 57`; likely candidate for `/gsd-ui-phase` design-contract pre-step if token-mapping scope is wide).
+
+### Phase 58: Tzk-Style Structure
+**Goal**: Tzk-inspired directory layout and build pipeline exists; tiddlers carry `public`/`private` tags; filtered public build produces a deployable single-file wiki at `tiddlywiki/output/index.html` with only public content. Git is the source of truth for tiddler files.
+**Depends on**: Phase 54 (tiddlers exist), Phase 56 (tests lock correctness), Phase 57 (theme for final visual output)
+**Requirements**: TZK-01, TZK-02, TZK-03, TZK-04, TZK-05
+**Success Criteria** (what must be TRUE):
+  1. Tiddlers tagged `public` by default; `private` tag available for drafts/notes; tag-based filter controls the deployed set (TZK-01).
+  2. `pnpm tiddlywiki:build-public` runs `tiddlywiki` with filter `[!tag[private]]` producing `tiddlywiki/output/index.html` with public-only content; `pnpm tiddlywiki:build-all` builds full wiki for local authoring (TZK-02).
+  3. `pnpm tiddlywiki:generate` re-reads captured HTML and emits fresh tiddlers to `tiddlywiki/tiddlers/`; `git diff` cleanly surfaces what changed since last capture (TZK-03).
+  4. `tiddlywiki/output/index.html` is publish-ready (only public tiddlers, Pattern 158 theme applied, no draft content) suitable for `pattern158.solutions/wiki/` or similar subpath (TZK-04).
+  5. Directory structure: `tiddlywiki/tiddlers/` (canonical source, committed), `tiddlywiki/output/` (gitignored build artifacts), `tiddlywiki/config/` (theme CSS + site-meta tiddlers), `tiddlywiki/build/` (build scripts), `tiddlywiki/README.md` (workflow doc) — all in place (TZK-05).
+**Plans:** TBD (locked during `/gsd:plan-phase 58`).
+
+### Phase 59: Documentation
+**Goal**: Three READMEs/workflow docs exist — architecture + tzk workflow + contributor editing — sufficient for a new contributor (or future-me) to understand the pipeline, iterate safely, and resolve conflicts without re-discovering the system.
+**Depends on**: Phases 53–58 (docs describe the completed system)
+**Requirements**: DOC-01, DOC-02, DOC-03
+**Success Criteria** (what must be TRUE):
+  1. `scripts/tiddlywiki/README.md` covers overview, DOM-extractor architecture, tiddler-types diagram, commands, troubleshooting (DOC-01).
+  2. Tzk workflow doc (likely `tiddlywiki/README.md`) covers private-vs-public workflow, deploy steps, git cadence, tag taxonomy, how-to-iterate (DOC-02).
+  3. Contributor/editing guide documents direct-edit-in-TW vs regeneration-from-source, merge-conflict resolution on tiddler files, when to re-capture vs when to edit in place (DOC-03).
+  4. All three docs link to each other where cross-referenced; a new reader can start from any of them and navigate the whole system.
+  5. Examples in the docs reflect the shipped state (no TODOs, no references to deferred work).
+**Plans:** TBD (locked during `/gsd:plan-phase 59`).
 
 ## Progress
 
-**Execution Order:**
-v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 -> 52. Each phase blocks the next; no parallel execution.
+### v8.0 (shipped)
+
+**Execution Order:** v8.0 phases executed in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 -> 52.
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -303,5 +411,21 @@ v8.0 phases execute in strict numeric order: 46 -> 47 -> 48 -> 49 -> 50 -> 51 ->
 | 48. Capture (Playwright IO) | 6/6 | Complete ✅ | 2026-04-20 |
 | 49. Convert (Turndown) | 4/4 | Complete ✅ | 2026-04-20 |
 | 50. Write + Preflight + Orchestration | 3/3 | Complete ✅ | 2026-04-20 |
-| 51. Editorial Review (manual) | 1/1 tool; 0/4 human | Tool shipped; EDIT-01..04 human-deferred | 2026-04-20 (tool) |
-| 52. Milestone Audit + v9.0 Direction | 1/1 structural; verdict pending | Structural shipped; AUDT-02/03 verdict deferred | 2026-04-20 (structural) |
+| 51. Editorial Review (manual) | 1/1 tool; 0/4 human | Tool shipped; EDIT-01..04 documented as non-blocking async work | 2026-04-20 (tool) |
+| 52. Milestone Audit + v9.0 Direction | 2/2 | Complete ✅ — verdict locked 2026-04-21 (tzk-style living wiki) | 2026-04-21 |
+
+### v9.0 (in progress)
+
+**Execution Order:** v9.0 phases execute by dependency — foundation first, tests gate visual/publish work. Default order: 53 → 54 → 55 → 56 → 57 → 58 → 59 (53/54 may cluster with 55; 57 may proceed in parallel with 58 once 54 + 56 land).
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 53. DOM Extraction | 0/TBD | Not started | — |
+| 54. Atomic Tiddler Generation | 0/TBD | Not started | — |
+| 55. Iter-1 Fixes | 0/TBD | Not started | — |
+| 56. Tests | 0/TBD | Not started | — |
+| 57. Wiki Theme (Pattern 158 brand) | 0/TBD | Not started | — |
+| 58. Tzk-Style Structure | 0/TBD | Not started | — |
+| 59. Documentation | 0/TBD | Not started | — |
+
+**Coverage:** 34/34 v9.0 requirements mapped (EXTR × 8 → P53, ATOM × 5 → P54, FIX × 4 → P55, TEST × 4 → P56, THEME × 5 → P57, TZK × 5 → P58, DOC × 3 → P59).
