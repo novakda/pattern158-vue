@@ -33,7 +33,7 @@ import {
 } from './capture.ts'
 import { convertCapturedPages } from './convert.ts'
 import { assembleDocument, type RouteFailure } from './document.ts'
-import { writePrimaryAndMirror } from './write.ts'
+import { emitFindingsScaffold, writePrimaryAndMirror } from './write.ts'
 
 /**
  * isInterstitialFailure — discriminator for Cloudflare interstitial aborts.
@@ -239,6 +239,20 @@ export async function main(): Promise<void> {
     documentContent,
   )
 
+  // 8a. Findings scaffold emission (EDIT-05, Phase 51). Non-fatal: any error
+  //     is logged to stderr and swallowed so scaffold failures never flip the
+  //     exit code of an otherwise-successful capture. Returns null when the
+  //     scaffold file already exists (idempotent — Dan's in-progress findings
+  //     survive subsequent capture runs).
+  const scaffoldEmitted = await emitFindingsScaffold(primaryPath).catch(
+    (err) => {
+      process.stderr.write(
+        `[editorial-capture] scaffold emission failed (non-fatal): ${String(err)}\n`,
+      )
+      return null
+    },
+  )
+
   // 9. Summary computation — exit-code health flags + metrics.
   const endHrtime = process.hrtime.bigint()
   const elapsedMs = Number((endHrtime - startHrtime) / 1_000_000n)
@@ -257,6 +271,11 @@ export async function main(): Promise<void> {
   )
   if (mirrorPath !== undefined) {
     process.stdout.write(`                    Mirror: ${mirrorPath}\n`)
+  }
+  if (scaffoldEmitted !== null) {
+    process.stdout.write(
+      `                    Findings scaffold: ${scaffoldEmitted}\n`,
+    )
   }
   if (failures.length > 0) {
     const summary = failures
@@ -280,6 +299,7 @@ export async function main(): Promise<void> {
     failed: failures.length,
     outputPath: primaryPath,
     mirrorPath,
+    findingsScaffoldPath: scaffoldEmitted,
     outputBytes,
     elapsedMs,
     failures: failures.map((f) => ({
