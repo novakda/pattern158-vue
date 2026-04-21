@@ -97,7 +97,10 @@ export function demoteHeadings(doc: Document): void {
 export function sanitizeHtml(rawHtml: string): string {
   const window = new Window()
   const document = window.document
-  document.documentElement.innerHTML = `<html><body>${rawHtml}</body></html>`
+  // Assign directly to body.innerHTML — equivalent parse result to setting
+  // documentElement.innerHTML with a wrapping <html><body>...</body></html>,
+  // and avoids relying on parser leniency around nested <html> tags.
+  document.body.innerHTML = rawHtml
   // Step 2: strip subtrees.
   document.querySelectorAll('script, style, noscript, [aria-hidden="true"]').forEach((el) => el.remove())
   // Step 3: strip every data-v-* attribute on every element.
