@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
 status: executing
-last_updated: "2026-04-21T00:57:43.971Z"
+last_updated: "2026-04-21T01:08:13.529Z"
 last_activity: 2026-04-21
 progress:
   total_phases: 7
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 21
-  completed_plans: 20
-  percent: 95
+  completed_plans: 21
+  percent: 100
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 ## Current Position
 
 Phase: 49 (Convert Turndown) — IN PROGRESS
-Plan: 3 of 4 (49-01 complete)
+Plan: 4 of 4 (49-01 complete)
 Status: Ready to execute
 Last activity: 2026-04-21
 
-Progress: [██████████] 95%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -63,6 +63,7 @@ Retained from v7.0 (still valid for v8.0 background):
 | Phase 038 P07 | 3m32s | 2 tasks | 6 files |
 | Phase 48 P06 | 5min | 2 tasks | 2 files |
 | Phase 49 P01 | 3min | 1 tasks | 1 files |
+| Phase 49 P04 | 5m 8s | 1 tasks | 1 files |
 
 ### Decisions
 
@@ -107,6 +108,9 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 49 Plan 03: convertCapturedPage constructs a fresh TurndownService per page via configureTurndown() — stateless, no cross-page rule-state leakage; factory is cheap; empty mainHtml yields empty markdown (no throw, per CONTEXT.md line 110)
 - Phase 49 Plan 03: convertCapturedPages uses explicit 'const out = []; for (const page of pages) out.push(convertCapturedPage(page))' accumulator pattern over .map — SCAF-08 visibility; CONTEXT.md line 106 sequential for-of; canonical pattern for ordered readonly arrays where no parallelism helps
 - Phase 49 Plan 03: types.ts source unchanged — TypeScript type re-exports forward-by-name, so the extended ConvertedPage shape propagates through 'export type { ConvertedPage } from ./convert.ts' automatically; verified by pnpm build exit 0 (TS2305/TS2315 would have fired on shape mismatch)
+- Phase 49 Plan 04: convert.test.ts asserts on @joplin/turndown-plugin-gfm actual emitted form (padded cells + padded bullet markers) not the plan's unpadded literal samples — Rule 1 auto-fix to 3 assertion sites; semantic intent preserved, deterministic output locked
+- Phase 49 Plan 04: 14 describe blocks mapped 1:1 to CONTEXT.md lines 86-100 scenarios (11 primary + determinism + DOM-order + bonus convertCapturedPages batch); scenario-binding acceptance-gate via grep on exact describe titles — dropping any scenario fails the gate loudly
+- Phase 49 Plan 04: 260 -> 304 test delta (44 new cases, 21 it/it.each declarations, 28 it.each tuple rows); 19 -> 20 test files; 100% hermetic (no fs I/O, no external fixtures)
 
 ### Pending Todos
 
@@ -118,7 +122,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21T00:57:43.967Z
+Last session: 2026-04-21T01:07:59.230Z
 Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 

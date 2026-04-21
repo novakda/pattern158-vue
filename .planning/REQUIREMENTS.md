@@ -79,7 +79,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 **: Link hrefs preserved verbatim (no internal-link rewriting for v1 — deferred)
 - [x] **CONV-08
 **: Blank-line collapse: 3+ consecutive blank lines reduced to 2 in final output
-- [ ] **CONV-09**: Unit tests with inline HTML fixtures covering: plain prose, GFM table, nested list, badge span, image with alt, heading hierarchy, aria-hidden strip
+- [x] **CONV-09
+**: Unit tests with inline HTML fixtures covering: plain prose, GFM table, nested list, badge span, image with alt, heading hierarchy, aria-hidden strip
 
 ### Document shape
 
