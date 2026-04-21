@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v8.0
 milestone_name: Editorial Snapshot & Content Audit
-status: executing
-last_updated: "2026-04-20T19:35:04.856Z"
-last_activity: 2026-04-20 — Phase 48 Plan 06 completed; Phase 48 complete
+status: verifying
+last_updated: "2026-04-21T00:38:06.723Z"
+last_activity: 2026-04-21
 progress:
   total_phases: 7
   completed_phases: 3
-  total_plans: 17
-  completed_plans: 17
-  percent: 100
+  total_plans: 21
+  completed_plans: 18
+  percent: 86
 ---
 
 # Project State
@@ -22,16 +22,16 @@ Milestone: v8.0 Editorial Snapshot & Content Audit (started 2026-04-19)
 Prior milestone: v7.0 ABORTED (.planning/v7.0-ABORT-NOTICE.md)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Phase 48 complete — ready for Phase 49 (convert-cheerio)
+**Current focus:** Phase 49 Plan 01 complete — ready for Plan 49-02 (configureTurndown + GFM plugin)
 
 ## Current Position
 
-Phase: 48 (Capture Playwright IO) — COMPLETE
-Plan: 6 of 6 (all plans complete)
-Status: Phase 48 complete; Phase 49 next
-Last activity: 2026-04-20 — Phase 48 Plan 06 completed
+Phase: 49 (Convert Turndown) — IN PROGRESS
+Plan: 1 of 4 (49-01 complete)
+Status: Plan 49-01 complete — sanitizeHtml + demoteHeadings landed in `3a208bf`; 49-02 next
+Last activity: 2026-04-21
 
-Progress: [██████████] 100%
+Progress: [█████████░] 86%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Retained from v7.0 (still valid for v8.0 background):
 | Phase 038 P06 | 3min | 2 tasks | 12 files |
 | Phase 038 P07 | 3m32s | 2 tasks | 6 files |
 | Phase 48 P06 | 5min | 2 tasks | 2 files |
+| Phase 49 P01 | 3min | 1 tasks | 1 files |
 
 ### Decisions
 
@@ -93,6 +94,11 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 48 Plan 06: hermetic test suite via vi.spyOn(chromium, 'launch') per-test + vi.restoreAllMocks() in afterEach, NOT vi.mock('playwright') at module level. Lets pure-helper tests and integration tests coexist in the same file without mock pollution
 - Phase 48 Plan 06: integration tests cover 4 distinct paths (happy, non-CaptureError wrap, silent 404, interstitial) and all 3 error-path tests assert mockBrowser.close called exactly once — proves outer finally ran. All 3 error-path tests also grep for the exact error string captureRoutes/capturePage throws, so regressions in user-visible error messages fail loudly
 - Phase 48 Plan 06: JSDoc prose cannot mention forbidden tokens by name (setTimeout, Date.now, Promise.all) because the SCAF-08 acceptance grep `! grep -q <token>` matches comments as well as code. Describe the policy without naming the tokens: "SCAF-08 forbids Node timers and parallel-iteration helpers"
+- Phase 49 Plan 01: DOM parser locked to happy-dom (top-level devDep, pnpm-hoist safe); the transitive-only domino parser rejected because a direct import from convert.ts breaks under pnpm strict hoisting; Turndown's internal parser not publicly exposed as standalone API
+- Phase 49 Plan 01: sanitizeHtml sub-step order LOCKED — parse happy-dom window → strip script/style/noscript/[aria-hidden=true] subtrees → data-v-* attribute walk via Array.from(el.attributes) snapshot → demoteHeadings → serialize body.innerHTML
+- Phase 49 Plan 01: demoteHeadings uses .forEach (not for-of) because editorial tsconfig lib: [ES2022] + file-scoped DOM triple-slash does NOT include DOM.Iterable; for-of on NodeListOf fails type-check (auto-fix Rule 3 during execution)
+- Phase 49 Plan 01: heading rewrite uses createElement + replaceWith because Element.tagName is read-only; querySelectorAll returns a static NodeList snapshot so mutation during iteration is safe; clamp newLevel = Math.min(6, currentLevel + 2)
+- Phase 49 Plan 01: JSDoc prose must avoid the literal rejected-parser package name because the acceptance grep is line-based and matches comments as well as code (same SCAF-08 comment discipline locked in Phase 48 Plan 06)
 
 ### Pending Todos
 
@@ -104,8 +110,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-20T19:32:06Z
-Current activity: Phase 48 Plan 06 complete — Phase 48 done; ready for Phase 49 (convert-cheerio)
+Last session: 2026-04-21T00:37:00Z
+Current activity: Phase 49 Plan 01 complete — sanitizeHtml + demoteHeadings landed (`3a208bf`); next up Plan 49-02 (configureTurndown + GFM plugin)
 Resume file: None
 
-**Planned Phase:** 48 (Capture (Playwright IO)) — 6 plans — COMPLETE 2026-04-20T19:32:06Z
+**Planned Phase:** 49 (Convert (Turndown)) — 4 plans — IN PROGRESS (1/4 complete; 49-01 shipped 2026-04-21T00:31:48Z)
