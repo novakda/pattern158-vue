@@ -84,12 +84,18 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 ### Document shape
 
-- [ ] **SHAP-01**: Single monolithic Markdown file (not per-page splits)
-- [ ] **SHAP-02**: Top-level frontmatter with provenance: `captured_at` (ISO 8601 UTC, deterministic from run start), `source_url`, `site_version_sha` (from `<meta name="git-sha">` or `/version.json` if present), `tool_version` (pnpm script + git SHA)
-- [ ] **SHAP-03**: Per-route sections use `## Route: /path` heading; page original H1 demoted to H3
-- [ ] **SHAP-04**: Auto-generated ToC at top, one entry per route, using `github-slugger` for anchor IDs (reuse existing devDep)
-- [ ] **SHAP-05**: Per-page metadata block: captured-at, HTTP status, title, description (inline after route heading)
-- [ ] **SHAP-06**: `---` horizontal-rule separator between captured routes
+- [x] **SHAP-01
+**: Single monolithic Markdown file (not per-page splits)
+- [x] **SHAP-02
+**: Top-level frontmatter with provenance: `captured_at` (ISO 8601 UTC, deterministic from run start), `source_url`, `site_version_sha` (from `<meta name="git-sha">` or `/version.json` if present), `tool_version` (pnpm script + git SHA)
+- [x] **SHAP-03
+**: Per-route sections use `## Route: /path` heading; page original H1 demoted to H3
+- [x] **SHAP-04
+**: Auto-generated ToC at top, one entry per route, using `github-slugger` for anchor IDs (reuse existing devDep)
+- [x] **SHAP-05
+**: Per-page metadata block: captured-at, HTTP status, title, description (inline after route heading)
+- [x] **SHAP-06
+**: `---` horizontal-rule separator between captured routes
 - [ ] **SHAP-07**: Route ordering: home → philosophy → technologies → case-files → faq → contact → accessibility → exhibits A–O (exhibits.json order)
 
 ### Write + Output
