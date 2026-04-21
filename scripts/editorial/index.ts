@@ -18,6 +18,8 @@
 // both code and comments.
 
 import * as childProcess from 'node:child_process'
+import { fileURLToPath } from 'node:url'
+import type { BrowserContext } from 'playwright'
 import { loadEditorialConfig, ConfigError } from './config.ts'
 import { buildRoutes } from './routes.ts'
 import {
@@ -147,63 +149,68 @@ export async function main(): Promise<void> {
   const faqItemCount = await loadFaqItemCount(config.exhibitsJsonPath)
 
   // 4. Browser + context + resilient per-route loop.
+  //
+  // The context is declared outside the try and assigned inside, so a throw
+  // from `browser.newContext(...)` still hits the outer finally — which then
+  // no-ops `context?.close()` (undefined) and proceeds to `browser.close()`.
+  // This preserves the original nested-cleanup invariant without the latent
+  // dereference risk if any awaitable is inserted between the assignment and
+  // the per-route loop.
   const browser = await launchBrowser(config)
   const captured: CapturedPage[] = []
   const failures: RouteFailure[] = []
+  let context: BrowserContext | undefined
   try {
-    const context = await browser.newContext(buildContextOptions())
-    try {
-      for (let i = 0; i < routes.length; i += 1) {
-        const route = routes[i]
-        try {
-          const page = await capturePage(
-            context,
-            config,
-            route,
-            i,
-            faqItemCount,
-          )
-          captured.push(page)
-        } catch (err) {
-          if (isInterstitialFailure(err)) {
-            // Interstitial is fatal — abort whole run via re-throw so the
-            // nested finallys fire (context.close → browser.close) before
-            // the top-level catch maps to exit 1.
-            throw err
-          }
-          if (err instanceof CaptureError) {
-            failures.push({ route, error: err })
-          } else {
-            // Wrap non-CaptureError so the summary JSON always carries a
-            // typed error with route context (mirrors Phase 48's per-route
-            // wrap-with-route pattern — consistent error surface here).
-            const message = err instanceof Error ? err.message : String(err)
-            failures.push({
-              route,
-              error: new CaptureError(
-                `Capture failed for ${route.path}: ${message}`,
-                { route, cause: err },
-              ),
-            })
-          }
+    context = await browser.newContext(buildContextOptions())
+    for (let i = 0; i < routes.length; i += 1) {
+      const route = routes[i]
+      try {
+        const page = await capturePage(
+          context,
+          config,
+          route,
+          i,
+          faqItemCount,
+        )
+        captured.push(page)
+      } catch (err) {
+        if (isInterstitialFailure(err)) {
+          // Interstitial is fatal — abort whole run via re-throw so the
+          // outer finally fires (context.close → browser.close) before
+          // the top-level catch maps to exit 1.
+          throw err
         }
-        // Inter-request 1500ms delay via throwaway page. Skip after last
-        // route. Playwright's approved sleep channel — Node timer primitives
-        // and wall-clock busy-waits are SCAF-08-forbidden library-side, and
-        // index.ts follows the same discipline for the inter-request pause.
-        if (i < routes.length - 1) {
-          const tempPage = await context.newPage()
-          try {
-            await tempPage.waitForTimeout(1500)
-          } finally {
-            await tempPage.close()
-          }
+        if (err instanceof CaptureError) {
+          failures.push({ route, error: err })
+        } else {
+          // Wrap non-CaptureError so the summary JSON always carries a
+          // typed error with route context (mirrors Phase 48's per-route
+          // wrap-with-route pattern — consistent error surface here).
+          const message = err instanceof Error ? err.message : String(err)
+          failures.push({
+            route,
+            error: new CaptureError(
+              `Capture failed for ${route.path}: ${message}`,
+              { route, cause: err },
+            ),
+          })
         }
       }
-    } finally {
-      await context.close()
+      // Inter-request 1500ms delay via throwaway page. Skip after last
+      // route. Playwright's approved sleep channel — Node timer primitives
+      // and wall-clock busy-waits are SCAF-08-forbidden library-side, and
+      // index.ts follows the same discipline for the inter-request pause.
+      if (i < routes.length - 1) {
+        const tempPage = await context.newPage()
+        try {
+          await tempPage.waitForTimeout(1500)
+        } finally {
+          await tempPage.close()
+        }
+      }
     }
   } finally {
+    await context?.close()
     await browser.close()
   }
 
