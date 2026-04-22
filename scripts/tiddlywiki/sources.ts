@@ -2,10 +2,23 @@
 // Per-content-type tiddler generators.
 // Input: project JSON data files + static-site HTML pages.
 // Output: Tiddler[] arrays per source type.
+// SCAF-08 policy: no wall-clock reads, no instantiated dates, no parallel
+// iteration helpers, deterministic output.
 
 import { promises as fsp } from 'node:fs'
 import * as nodePath from 'node:path'
 
+import type {
+  Exhibit,
+  FindingEntry,
+  PersonnelEntry,
+  TechnologyEntry,
+  Testimonial,
+} from './extractors/types.ts'
+import {
+  buildExhibitCrossLinks,
+  type ExhibitEntities,
+} from './generators/exhibit-cross-links.ts'
 import { htmlToWikitext } from './html-to-wikitext.ts'
 import type { Tiddler } from './tid-writer.ts'
 
@@ -128,30 +141,31 @@ function humanizeCategory(slug: string): string {
 // Exhibits → tiddlers
 // ---------------------------------------------------------------------------
 
+export interface ExhibitsToTiddlersContext {
+  readonly extractedExhibits: readonly Exhibit[]
+  readonly personnel: readonly PersonnelEntry[]
+  readonly findings: readonly FindingEntry[]
+  readonly technologies: readonly TechnologyEntry[]
+  readonly testimonials: readonly Testimonial[]
+}
+
 export function exhibitsToTiddlers(
   exhibits: readonly ExhibitJson[],
+  ctx?: ExhibitsToTiddlersContext,
 ): Tiddler[] {
+  const byLabel = new Map<string, Exhibit>()
+  if (ctx !== undefined) {
+    for (const ex of ctx.extractedExhibits) byLabel.set(ex.label, ex)
+  }
   return exhibits.map((ex) => {
     const title = `${ex.label} — ${ex.title}`
-    const tags = [
-      'exhibit',
-      ex.exhibitType,
-      ex.client,
-    ]
+    const tags = ['exhibit', ex.exhibitType, ex.client]
     const sections: string[] = []
 
-    if (ex.summary) {
-      sections.push(`''Summary:'' ${ex.summary}`)
-    }
-    if (ex.role) {
-      sections.push(`''Role:'' ${ex.role}`)
-    }
-    if (ex.date) {
-      sections.push(`''Date:'' ${ex.date}`)
-    }
-    if (ex.emailCount !== undefined) {
-      sections.push(`''Email count:'' ${ex.emailCount}`)
-    }
+    if (ex.summary) sections.push(`''Summary:'' ${ex.summary}`)
+    if (ex.role) sections.push(`''Role:'' ${ex.role}`)
+    if (ex.date) sections.push(`''Date:'' ${ex.date}`)
+    if (ex.emailCount !== undefined) sections.push(`''Email count:'' ${ex.emailCount}`)
 
     if (ex.contextText) {
       const heading = ex.contextHeading ?? 'Context'
@@ -160,22 +174,23 @@ export function exhibitsToTiddlers(
 
     if (ex.sections && ex.sections.length > 0) {
       for (const sec of ex.sections) {
+        const parentText = sec.text ?? ''
+        const nonEmptySubs = (sec.subsections ?? []).filter(
+          (s) => (s.text ?? '').length > 0,
+        )
+        if (parentText.length === 0 && nonEmptySubs.length === 0) continue
         if (sec.heading) sections.push(`\n!! ${sec.heading}`)
-        if (sec.text) sections.push(`\n${sec.text}`)
-        if (sec.subsections) {
-          for (const sub of sec.subsections) {
-            if (sub.heading) sections.push(`\n!!! ${sub.heading}`)
-            if (sub.text) sections.push(`\n${sub.text}`)
-          }
+        if (parentText.length > 0) sections.push(`\n${parentText}`)
+        for (const sub of nonEmptySubs) {
+          if (sub.heading) sections.push(`\n!!! ${sub.heading}`)
+          sections.push(`\n${sub.text}`)
         }
       }
     }
 
     if (ex.impactTags && ex.impactTags.length > 0) {
       sections.push(`\n! Impact Tags\n`)
-      for (const tag of ex.impactTags) {
-        sections.push(`* ${tag}`)
-      }
+      for (const tag of ex.impactTags) sections.push(`* ${tag}`)
     }
 
     if (ex.quotes && ex.quotes.length > 0) {
@@ -187,20 +202,36 @@ export function exhibitsToTiddlers(
       }
     }
 
-    if (ex.personnel && ex.personnel.length > 0) {
-      sections.push(
-        `\n! Personnel\n\n{{!!personnel-count}} personnel entries — see the detail page for the full table. //(Iteration 2: split to atomic personnel tiddlers.)//\n`,
-      )
-    }
-    if (ex.technologies && ex.technologies.length > 0) {
-      sections.push(
-        `\n! Technologies\n\n{{!!technologies-count}} technologies — see the detail page for the full list. //(Iteration 2: link to Technology tiddlers.)//\n`,
-      )
-    }
-    if (ex.findings && ex.findings.length > 0) {
-      sections.push(
-        `\n! Findings\n\n{{!!findings-count}} findings captured. //(Iteration 2: split to atomic Finding tiddlers.)//\n`,
-      )
+    // Cross-link footer via Phase 54 producer (buildExhibitCrossLinks).
+    const extracted = byLabel.get(ex.label)
+    if (ctx !== undefined && extracted !== undefined) {
+      const entities: ExhibitEntities = {
+        personnel: ctx.personnel,
+        findings: ctx.findings,
+        technologies: ctx.technologies,
+        testimonials: ctx.testimonials,
+      }
+      const links = buildExhibitCrossLinks(extracted, entities)
+      const footerBlocks: string[] = []
+      if (links.personnelLinks.length > 0) {
+        const lines = links.personnelLinks.map((l) => `* ${l}`).join('\n')
+        footerBlocks.push(`! Personnel\n\n${lines}`)
+      }
+      if (links.findingsLinks.length > 0) {
+        const lines = links.findingsLinks.map((l) => `* ${l}`).join('\n')
+        footerBlocks.push(`! Findings\n\n${lines}`)
+      }
+      if (links.technologiesLinks.length > 0) {
+        const lines = links.technologiesLinks.map((l) => `* ${l}`).join('\n')
+        footerBlocks.push(`! Technologies\n\n${lines}`)
+      }
+      if (links.testimonialsLinks.length > 0) {
+        const lines = links.testimonialsLinks.map((l) => `* ${l}`).join('\n')
+        footerBlocks.push(`! Testimonials\n\n${lines}`)
+      }
+      if (footerBlocks.length > 0) {
+        sections.push(`\n---\n\n${footerBlocks.join('\n\n')}`)
+      }
     }
 
     const fields: Record<string, string> = {
@@ -213,9 +244,6 @@ export function exhibitsToTiddlers(
     }
     if (ex.role) fields.role = ex.role
     if (ex.emailCount !== undefined) fields['email-count'] = String(ex.emailCount)
-    if (ex.personnel) fields['personnel-count'] = String(ex.personnel.length)
-    if (ex.technologies) fields['technologies-count'] = String(ex.technologies.length)
-    if (ex.findings) fields['findings-count'] = String(ex.findings.length)
 
     return {
       title,
