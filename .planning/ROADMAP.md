@@ -15,7 +15,7 @@
 - ✅ **v6.0 FAQ Page Redesign** — Phases 33-36 (shipped 2026-04-08)
 - 🛑 **v7.0 Static Markdown Export Pipeline** — Phases 37-45 (ABORTED 2026-04-19, 2 of 9 phases shipped — see `.planning/v7.0-ABORT-NOTICE.md`)
 - ✅ **v8.0 Editorial Snapshot & Content Audit** — Phases 46-52 (shipped 2026-04-20, see `.planning/v8.0-AUDIT-NOTICE.md`)
-- 🚧 **v9.0 Continue tiddlywiki intake and conversion** — Phases 53-59 (in progress, started 2026-04-21)
+- ✅ **v9.0 Continue tiddlywiki intake and conversion** — Phases 53-59 (shipped 2026-04-22, 34/34 REQs, see `.planning/v9.0-MILESTONE-AUDIT.md`)
 
 ## Phases
 
@@ -181,7 +181,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 </details>
 
 <details open>
-<summary>v9.0 Continue tiddlywiki intake and conversion (Phases 53-59) -- IN PROGRESS</summary>
+<summary>v9.0 Continue tiddlywiki intake and conversion (Phases 53-59) -- SHIPPED 2026-04-22</summary>
 
 **Milestone Goal:** Turn `pattern158.solutions` into a tzk-style living TiddlyWiki with **canonical-source-is-the-live-site** architecture. Structured DOM extractors feed atomic tiddlers (personnel + findings + technologies + testimonials), Pattern 158 brand theme, tzk-inspired private/public publishing workflow.
 
