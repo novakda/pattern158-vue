@@ -346,7 +346,15 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Per-technology tiddlers (`Tech: {Name}`) and per-testimonial tiddlers (`Testimonial: {Attribution truncated}`) emit with locked tag lists and aggregated exhibit back-references (ATOM-03, ATOM-04).
   4. Exhibit tiddlers list Personnel / Findings / Technologies / Testimonials as `[[...]]` wikitext links; cross-link integrity check runs as part of generate script and fails on any orphaned link (ATOM-05).
   5. Running `pnpm tiddlywiki:generate` twice in a row on unchanged captured HTML produces byte-identical tiddler file contents (idempotent).
-**Plans:** TBD (locked during `/gsd:plan-phase 54`).
+**Plans:** 8 plans
+  - [ ] 54-01-PLAN.md — Shared types.ts + helpers.ts (truncateAtWordBoundary, formatExhibitTitle, wikiLink) + helpers.test.ts
+  - [ ] 54-02-PLAN.md — person.ts + person.test.ts with identity-keyed grouping (ATOM-01)
+  - [ ] 54-03-PLAN.md — finding.ts + finding.test.ts with 60-char word-boundary truncation + severity/category slugs (ATOM-02)
+  - [ ] 54-04-PLAN.md — technology.ts + technology.test.ts with case-insensitive merge + first-casing-wins display (ATOM-03)
+  - [ ] 54-05-PLAN.md — testimonial.ts + testimonial.test.ts with 40-char attribution truncation + anonymous fallback (ATOM-04)
+  - [ ] 54-06-PLAN.md — exhibit-cross-links.ts + test with CrossLinkBundle producer (ATOM-05 producer)
+  - [ ] 54-07-PLAN.md — integrity-check.ts + test with verifyCrossLinkIntegrity orphan detector (ATOM-05 consumer)
+  - [ ] 54-08-PLAN.md — Wave 3 smoke gate: pnpm build + pnpm test:scripts + SCAF-08 grep + 54-VERIFICATION.md
 
 ### Phase 55: Iter-1 Fixes
 **Goal**: The iter-1 tiddlywiki generator rough edges are corrected, and the iter-1 HTML→wikitext page converter path is replaced by the new DOM-extractor-driven pipeline for non-exhibit pages — while keeping iter-1 working through the migration (refactor, don't rewrite).
