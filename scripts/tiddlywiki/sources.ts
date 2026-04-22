@@ -8,6 +8,7 @@
 import { promises as fsp } from 'node:fs'
 import * as nodePath from 'node:path'
 
+import { normalizeExhibitLabel } from './extract-all.ts'
 import type {
   Exhibit,
   FindingEntry,
@@ -209,15 +210,26 @@ export function exhibitsToTiddlers(
   exhibits: readonly ExhibitJson[],
   ctx?: ExhibitsToTiddlersContext,
 ): Tiddler[] {
+  // Keyed on the normalized (short) label so the ExhibitJson-side lookup
+  // below matches regardless of whether the JSON uses verbose ("Exhibit A")
+  // or short ("A") labels. Phase 55.1-hotfix — prevents orphan double-prefix.
   const byLabel = new Map<string, Exhibit>()
   if (ctx !== undefined) {
-    for (const ex of ctx.extractedExhibits) byLabel.set(ex.label, ex)
+    for (const ex of ctx.extractedExhibits) {
+      byLabel.set(normalizeExhibitLabel(ex.label), ex)
+    }
   }
   return exhibits.map((ex) => {
-    const title = `${ex.label} — ${ex.title}`
+    // Exhibit tiddler title is the canonical short form "Exhibit <letter>" so
+    // [[Exhibit A]] cross-links emitted by Phase 54 atomic generators resolve.
+    // The marketing title moves into the body as a top-level heading — same
+    // information, link-compatible title shape. Phase 55.1-hotfix.
+    const shortLabel = normalizeExhibitLabel(ex.label)
+    const title = `Exhibit ${shortLabel}`
     const tags = ['exhibit', ex.exhibitType, ex.client]
     const sections: string[] = []
 
+    if (ex.title) sections.push(`! ${ex.title}`)
     if (ex.summary) sections.push(`''Summary:'' ${ex.summary}`)
     if (ex.role) sections.push(`''Role:'' ${ex.role}`)
     if (ex.date) sections.push(`''Date:'' ${ex.date}`)
@@ -259,7 +271,7 @@ export function exhibitsToTiddlers(
     }
 
     // Cross-link footer via Phase 54 producer (buildExhibitCrossLinks).
-    const extracted = byLabel.get(ex.label)
+    const extracted = byLabel.get(shortLabel)
     if (ctx !== undefined && extracted !== undefined) {
       const entities: ExhibitEntities = {
         personnel: ctx.personnel,
@@ -324,18 +336,25 @@ function compareByLabel(a: ExhibitJson, b: ExhibitJson): number {
 }
 
 // Case Files Index tiddler — sortable table of every exhibit row (FIX-04).
+// The Case column links to the short-form exhibit tiddler ("Exhibit A") and
+// the Title column carries the marketing title as plain text so the table
+// stays scannable without inventing per-marketing-title tiddlers. Unpiped
+// [[...]] link form keeps the integrity-check regex (locked — Phase 54)
+// happy. Phase 55.1-hotfix.
 export function caseFilesIndexTiddler(
   exhibits: readonly ExhibitJson[],
 ): Tiddler {
   const sorted = exhibits.slice().sort(compareByLabel)
   const rows: string[] = []
   for (const ex of sorted) {
-    const caseLink = `[[${ex.label} — ${ex.title}]]`
-    rows.push(`|${ex.date} |${ex.client} |${typeCellFor(ex.exhibitType)} |${caseLink} |`)
+    const shortLabel = normalizeExhibitLabel(ex.label)
+    const exhibitTitle = `Exhibit ${shortLabel}`
+    const caseLink = `[[${exhibitTitle}]]`
+    rows.push(`|${ex.date} |${ex.client} |${typeCellFor(ex.exhibitType)} |${caseLink} |${ex.title} |`)
   }
   const text =
     `All case files in a sortable table. Click a column header in TiddlyWiki to sort; filter by tag to narrow (tags: investigation-report, engineering-brief, {client}).\n\n` +
-    `|!Date |!Client |!Type |!Case |\n` +
+    `|!Date |!Client |!Type |!Case |!Title |\n` +
     rows.join('\n') +
     '\n'
   return {
@@ -370,8 +389,9 @@ export function defaultLinkMap(exhibits: readonly ExhibitJson[]): LinkMap {
     '/accessibility': 'Accessibility',
   }
   for (const ex of exhibits) {
-    const slug = ex.label.toLowerCase().replace(/\s+/g, '-')
-    map[`/exhibits/${slug}`] = `${ex.label} — ${ex.title}`
+    const shortLabel = normalizeExhibitLabel(ex.label)
+    const slug = shortLabel.toLowerCase().replace(/\s+/g, '-')
+    map[`/exhibits/${slug}`] = `Exhibit ${shortLabel}`
   }
   return map
 }

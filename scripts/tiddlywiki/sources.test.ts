@@ -43,6 +43,58 @@ const BASE_EXTRACTED: Exhibit = {
   emailCount: 0,
 }
 
+// ---- 55.1-hotfix: exhibit tiddler title shape ----
+
+describe('exhibitsToTiddlers — title is "Exhibit <label>" (no marketing suffix)', () => {
+  it('emits title "Exhibit A" for label "A"', () => {
+    const input: ExhibitJson[] = [{ ...BASE_EXHIBIT }]
+    const tiddlers = exhibitsToTiddlers(input)
+    expect(tiddlers[0].title).toBe('Exhibit A')
+  })
+  it('normalizes verbose JSON label "Exhibit A" to title "Exhibit A"', () => {
+    const input: ExhibitJson[] = [
+      { ...BASE_EXHIBIT, label: 'Exhibit A' },
+    ]
+    const tiddlers = exhibitsToTiddlers(input)
+    expect(tiddlers[0].title).toBe('Exhibit A')
+  })
+})
+
+describe('exhibitsToTiddlers — marketing title moves into body as top-level heading', () => {
+  it('prepends the marketing title as "! <title>" at the start of the body', () => {
+    const input: ExhibitJson[] = [{ ...BASE_EXHIBIT }]
+    const tiddlers = exhibitsToTiddlers(input)
+    expect(tiddlers[0].text).toContain('! Sample Investigation')
+  })
+})
+
+describe('exhibitsToTiddlers — cross-link lookup tolerates verbose JSON labels', () => {
+  it('matches bundle.exhibits[*] to ExhibitJson via normalized short label', () => {
+    const personnel: PersonnelEntry[] = [
+      {
+        name: 'Jane Doe',
+        title: '',
+        organization: 'Acme',
+        role: 'Lead',
+        entryType: 'individual',
+        sourceExhibitLabel: 'A',
+      },
+    ]
+    const ctx = {
+      extractedExhibits: [BASE_EXTRACTED], // label: 'A'
+      personnel,
+      findings: [] as FindingEntry[],
+      technologies: [] as TechnologyEntry[],
+      testimonials: [] as Testimonial[],
+    }
+    // JSON label verbose — must still resolve to the extracted exhibit keyed
+    // on short label, so the Personnel footer emits the [[Jane Doe]] link.
+    const input: ExhibitJson[] = [{ ...BASE_EXHIBIT, label: 'Exhibit A' }]
+    const tiddlers = exhibitsToTiddlers(input, ctx)
+    expect(tiddlers[0].text).toContain('[[Jane Doe]]')
+  })
+})
+
 describe('exhibitsToTiddlers — orphan heading is dropped', () => {
   it('drops a section with empty text and no subsections', () => {
     const input: ExhibitJson[] = [
@@ -298,22 +350,22 @@ describe('faqItemsToTiddlers — FAQ Index backlink always present', () => {
 // ---- FIX-04: caseFilesIndexTiddler → sortable table ----
 
 describe('caseFilesIndexTiddler — header row', () => {
-  it('emits the canonical table header', () => {
+  it('emits the canonical 5-column table header', () => {
     const exhibits: ExhibitJson[] = [
       { label: 'A', client: 'Acme', date: '2024', title: 'Sample', exhibitType: 'investigation-report' },
     ]
     const t = caseFilesIndexTiddler(exhibits)
-    expect(t.text).toContain('|!Date |!Client |!Type |!Case |')
+    expect(t.text).toContain('|!Date |!Client |!Type |!Case |!Title |')
   })
 })
 
 describe('caseFilesIndexTiddler — data row shape', () => {
-  it('emits a row with date, client, type-cell, and [[label — title]] link', () => {
+  it('emits a row with date, client, type-cell, [[Exhibit A]] link, and marketing title', () => {
     const exhibits: ExhibitJson[] = [
       { label: 'A', client: 'Acme', date: '2024', title: 'Sample', exhibitType: 'investigation-report' },
     ]
     const t = caseFilesIndexTiddler(exhibits)
-    expect(t.text).toContain('|2024 |Acme |Investigation |[[A — Sample]] |')
+    expect(t.text).toContain('|2024 |Acme |Investigation |[[Exhibit A]] |Sample |')
   })
 })
 
@@ -324,8 +376,8 @@ describe('caseFilesIndexTiddler — type cell mapping', () => {
       { label: 'B', client: 'Beta', date: '2025', title: 'Bri', exhibitType: 'engineering-brief' },
     ]
     const t = caseFilesIndexTiddler(exhibits)
-    expect(t.text).toContain('|2024 |Acme |Investigation |[[A — Inv]] |')
-    expect(t.text).toContain('|2025 |Beta |Brief |[[B — Bri]] |')
+    expect(t.text).toContain('|2024 |Acme |Investigation |[[Exhibit A]] |Inv |')
+    expect(t.text).toContain('|2025 |Beta |Brief |[[Exhibit B]] |Bri |')
   })
 })
 
@@ -335,7 +387,7 @@ describe('caseFilesIndexTiddler — unknown type falls through', () => {
       { label: 'X', client: 'Xco', date: '2020', title: 'Misc', exhibitType: 'other' as unknown as ExhibitJson['exhibitType'] },
     ]
     const t = caseFilesIndexTiddler(exhibits)
-    expect(t.text).toContain('|2020 |Xco |other |[[X — Misc]] |')
+    expect(t.text).toContain('|2020 |Xco |other |[[Exhibit X]] |Misc |')
   })
 })
 
@@ -347,9 +399,9 @@ describe('caseFilesIndexTiddler — sort order by label', () => {
       { label: 'B', client: 'B', date: '2025', title: 'BB', exhibitType: 'engineering-brief' },
     ]
     const t = caseFilesIndexTiddler(exhibits)
-    const posA = t.text.indexOf('[[A — AA]]')
-    const posB = t.text.indexOf('[[B — BB]]')
-    const posC = t.text.indexOf('[[C — CC]]')
+    const posA = t.text.indexOf('[[Exhibit A]]')
+    const posB = t.text.indexOf('[[Exhibit B]]')
+    const posC = t.text.indexOf('[[Exhibit C]]')
     expect(posA).toBeGreaterThan(-1)
     expect(posB).toBeGreaterThan(posA)
     expect(posC).toBeGreaterThan(posB)
