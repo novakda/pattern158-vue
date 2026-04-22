@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit A]]]]
+title: A Finding: Quiz bookmarking and reset failures
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Quiz bookmarking and reset failures
+
+! Description
+
+AICC could not properly reset quizzes for multiple attempts. Bookmarking was unreliable, limiting course design options for EB's curriculum development team.
+
+! Resolution
+
+SCORM HTML5 with the cross-domain wrapper properly supports bookmarking, reset, and multiple quiz attempts. Curriculum developers gained new design freedom previously unavailable under AICC constraints.
+

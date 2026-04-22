@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit A]]]]
+title: A Finding: No tools to verify SCORM data flow
+type: text/vnd.tiddlywiki
+
+! Finding
+
+No tools to verify SCORM data flow
+
+! Description
+
+EB's IT department was disabling troubleshooting tools (Inspect Element) on workstations. There was no way to observe data moving between courses and the LMS during testing or debugging.
+
+! Resolution
+
+Dan provided an LMS simulation tool that captures and displays all course-to-LMS communication. The tool was also usable for training EB staff on SCORM data concepts and troubleshooting methodology.
+

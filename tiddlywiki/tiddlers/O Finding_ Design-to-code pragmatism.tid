@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-ux [[[[Exhibit O]]]]
+title: O Finding: Design-to-code pragmatism
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Design-to-code pragmatism
+
+! Description
+
+ContentAIQ required translating Adobe XD mockups from a graphic artist into interactive React components, navigating the gap between static visual design and functional UI implementation
+

@@ -1,0 +1,23 @@
+created: 20260421000000000
+faq-id: cross-system-integration
+modified: 20260421000000000
+tags: public faq architecture
+title: How do you approach cross-system integration? What does that actually look like?
+type: text/vnd.tiddlywiki
+
+Integration architecture is where most of my career impact has landed. The core discipline: understand each system on its own terms, then find the reliable path between them.
+
+The CSBB Dispatch Framework is the largest example. Energy utilities like FPL, Exelon, NRG, and Calpine each ran different LMS platforms with different SCORM versions. GP Strategies needed one content catalog to work everywhere. I built a SCORM API proxy with a plugin model, separate adapters for SCORM 1.2, SCORM 2004, and AICC, so the proxy detected the client runtime and routed calls to the right adapter. ACL-based tenant isolation meant competing utilities could share hosting infrastructure. The Generator toolchain automated client onboarding. That architecture ran in production for 10+ years across 20+ clients.
+
+I independently arrived at the same architectural pattern Rustici later commercialized as SCORM Dispatch, five years before their product launched.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[How do you handle architecture decisions when there are real trade-offs with no clean answer?]]
+
+[[FAQ Index]]
+

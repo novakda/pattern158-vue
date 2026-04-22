@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-process [[[[Exhibit O]]]]
+title: O Finding: Inherited code stewardship
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Inherited code stewardship
+
+! Description
+
+AICPA Bridge Adapter demonstrated the ability to step into complex codebases built by others, becoming an L3 escalation point — system co-ownership without original authorship
+

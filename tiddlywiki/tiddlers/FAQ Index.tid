@@ -1,0 +1,52 @@
+created: 20260421000000000
+modified: 20260421000000000
+tags: public page faq
+title: FAQ Index
+type: text/vnd.tiddlywiki
+
+Frequently asked questions, organized by category. Each question is its own tiddler — tagged with its category and the `faq` tag. Filter by category tag to narrow the view.
+
+! Ai Tooling
+* [[What's your experience with AI-assisted development and LLM integration?]]
+
+! Approach
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What's your actual problem-solving methodology?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[How do you approach troubleshooting?]]
+* [[What's your typical workflow?]]
+* [[Do you write documentation?]]
+
+! Architecture
+* [[How do you approach cross-system integration? What does that actually look like?]]
+* [[How do you handle architecture decisions when there are real trade-offs with no clean answer?]]
+
+! Collaboration
+* [[How do you work with stakeholders who have conflicting priorities?]]
+* [[How do you push back on technical decisions you disagree with?]]
+* [[How do you handle communication?]]
+* [[Do you work well with distributed teams?]]
+* [[Are you comfortable working independently?]]
+* [[Do you write documentation?]]
+
+! Expertise
+* [[What technologies do you specialize in?]]
+* [[What industries have you worked in?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+
+! Hiring
+* [[Are you available for new projects?]]
+* [[What's your work arrangement preference?]]
+* [[What are your contract rates?]]
+
+! Legacy
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[When should you replace a legacy system vs. stabilize it?]]
+
+

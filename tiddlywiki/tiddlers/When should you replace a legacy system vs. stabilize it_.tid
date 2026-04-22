@@ -1,0 +1,23 @@
+created: 20260421000000000
+faq-id: replace-vs-stabilize-legacy
+modified: 20260421000000000
+tags: public faq legacy
+title: When should you replace a legacy system vs. stabilize it?
+type: text/vnd.tiddlywiki
+
+The Ready2Role story taught me the most important lesson: sometimes the right answer is not to replace a legacy system but to stabilize it and keep it producing value while you invest new development effort elsewhere.
+
+Replace when: the system can't be understood, can't be safely modified, and its failure modes are unpredictable. Stabilize when: you can understand the failure modes, extension is possible from the outside, and replacement would disrupt more than it solves.
+
+Documentation is the real lesson underneath this. A single developer leaving without a handoff created years of unnecessary risk and technical debt. The cost of that knowledge loss compounded for over a decade. Write the documentation as if the person who needs it most is someone who's never seen the system, because that person is future-you, or it's whoever inherits this from you.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+
+[[FAQ Index]]
+

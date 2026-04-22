@@ -1,0 +1,32 @@
+created: 20260421000000000
+faq-id: documentation-practices
+modified: 20260421000000000
+tags: public faq approach collaboration
+title: Do you write documentation?
+type: text/vnd.tiddlywiki
+
+Yes, extensively. I believe tools are as good as their documentation. I write clear READMEs, inline code comments, architecture decision records (ADRs), and handoff guides.
+
+Documentation isn't an afterthought — it's part of the deliverable. If I build it, I document it so the next person (or future me) can understand and maintain it.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Are you comfortable working independently?]]
+* [[Do you work well with distributed teams?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you handle communication?]]
+* [[How do you push back on technical decisions you disagree with?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[How do you work with stakeholders who have conflicting priorities?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

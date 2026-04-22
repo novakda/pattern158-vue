@@ -1,0 +1,86 @@
+client: HSBC
+created: 20260421000000000
+exhibit-date: 2015–2022
+exhibit-type: engineering-brief
+label: Exhibit F
+modified: 20260421000000000
+tags: public exhibit engineering-brief HSBC
+title: Exhibit F
+type: text/vnd.tiddlywiki
+
+! Cross-Platform SCORM Forensics & Legacy Recovery
+''Date:'' 2015–2022
+
+! Context
+
+Tier 1 global banking client across 5 countries. Found a SCORM API wrapper bug causing silent session termination, decompiled Flash SWFs to recover lost source files, and coordinated SCORM deployment fixes across Mexico, India, and the Philippines.
+
+! Impact Tags
+
+* SCORM Forensics
+* Global Banking
+* Flash Recovery
+* SAP SuccessFactors
+* Security/Compliance
+* International Deployment
+* 5 Countries
+
+! Testimonials
+
+<<<
+Thanks so much for your great work making the fixes. HSBC LMS team has approved the updated courseware!
+<<<
+''— Project Manager, GP Strategies (HSBC Account)''
+
+
+---
+
+! Personnel
+
+* [[22+ US Contacts]]
+* [[Dan Novak]]
+* [[HSBC account coordination @ GP Strategies]]
+* [[HSBC global operations (UK) @ GP Strategies]]
+* [[Lead Developer — HSBC deliverables development @ GP Strategies]]
+* [[Localized deployments (Mexico) @ GP Strategies]]
+* [[Management chain and technical oversight @ GP Strategies]]
+
+! Findings
+
+* [[F Finding: Cross-region deployment inconsistencies]]
+* [[F Finding: Lost Flash source files]]
+* [[F Finding: SCORM API wrapper bug]]
+
+! Technologies
+
+* [[Tech: AICC]]
+* [[Tech: ActionScript source extraction]]
+* [[Tech: Flash/SWF decompilation]]
+* [[Tech: HTML5]]
+* [[Tech: India]]
+* [[Tech: JavaScript]]
+* [[Tech: LMS API integration]]
+* [[Tech: Mexico]]
+* [[Tech: Multi-region deployment (US]]
+* [[Tech: Philippines)]]
+* [[Tech: SAP SuccessFactors (global instance)]]
+* [[Tech: SCORM 1.2]]
+* [[Tech: SCORM 2004]]
+* [[Tech: Section 508]]
+* [[Tech: SumTotal]]
+* [[Tech: UK]]
+* [[Tech: Vue.js application development]]
+* [[Tech: WCAG 2.1]]
+* [[Tech: asset extraction from compiled binaries]]
+* [[Tech: cmi.core.exit debugging]]
+* [[Tech: financial services compliance standards]]
+* [[Tech: localization debugging]]
+* [[Tech: multi-region LMS deployment]]
+* [[Tech: responsive design]]
+* [[Tech: security/credential management (IDAM training)]]
+* [[Tech: timeline data recovery]]
+* [[Tech: xAPI (Tin Can)]]
+
+! Testimonials
+
+* [[Testimonial: Project Manager, GP Strategies (HSBC…]]

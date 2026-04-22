@@ -1,0 +1,82 @@
+client: General Motors
+created: 20260421000000000
+email-count: 618 emails
+exhibit-date: 2017–2018
+exhibit-type: investigation-report
+label: Exhibit J
+modified: 20260421000000000
+role: NTSB-style forensic analysis — systems thinking over code debugging
+tags: public exhibit investigation-report [[General Motors]]
+title: Exhibit J
+type: text/vnd.tiddlywiki
+
+! GM Learning Portal: Course Completion Anomaly Investigation
+''Summary:'' Investigated 19% course incompletion rate (4x baseline) initially framed as tracking bug. Multi-angle investigation revealed five concurrent systemic failures: memory cache vulnerability with no auto-save, "Congratulations You Failed" UX pattern, confusing navigation, mobile workforce on poor WiFi, and short-burst usage pattern conflicting with hour-long desktop design. Platform eventually abandoned — indirect validation of findings.
+''Role:'' NTSB-style forensic analysis — systems thinking over code debugging
+''Date:'' 2017–2018
+''Email count:'' 618 emails
+
+! Investigation Summary
+
+GM reported a 4x spike in incomplete courses after migrating to a new LMS. Initial assumption: tracking bug. Multi-angle forensic investigation — technical forensics, UX analysis, and user research — identified five concurrent systemic failures aligned in a “Swiss cheese model.” The root cause wasn’t a single bug; it was a systemic mismatch between how the platform was designed and how people actually worked.
+
+! Impact Tags
+
+* NTSB Methodology
+* Systems Thinking
+* Forensic Analysis
+* User Research
+* Swiss Cheese Model
+* 4x Completion Spike
+* General Motors
+
+! Testimonials
+
+<<<
+I'm reviewing this now. Looks fantastic, great work.
+<<<
+''— General Motors''
+
+
+---
+
+! Personnel
+
+* [[Dan Novak]]
+* [[Data analysis, UX evaluation, user interviews, behavioral research @ GP Strategies]]
+* [[Investigation coordination, bi-weekly status meetings, client liaison @ GP Strategies]]
+* [[Investigation lead — project authorization, stakeholder management, investigation oversight @ GP Strategies]]
+* [[Primary GM client contact for investigation @ General Motors]]
+
+! Findings
+
+* [[J Finding: "Congratulations You Failed" UX]]
+* [[J Finding: Confusing navigation]]
+* [[J Finding: Memory cache vulnerability]]
+* [[J Finding: Mobile workforce / poor WiFi]]
+* [[J Finding: Short-burst usage pattern]]
+
+! Technologies
+
+* [[Tech: Adobe Captivate]]
+* [[Tech: Articulate Storyline]]
+* [[Tech: Course navigation analysis]]
+* [[Tech: Fiddler (HTTP traffic capture]]
+* [[Tech: NTSB air crash investigation model]]
+* [[Tech: Raytheon Catapult authoring tool (custom navigation]]
+* [[Tech: Raytheon proprietary LMS (PeopleSoft ELM-based)]]
+* [[Tech: Swiss cheese model]]
+* [[Tech: WiFi connectivity assessment]]
+* [[Tech: assessment flows)]]
+* [[Tech: browser DevTools]]
+* [[Tech: course-to-LMS communication tracing)]]
+* [[Tech: form-based state persistence]]
+* [[Tech: memory cache architecture]]
+* [[Tech: mobile usage pattern discovery]]
+* [[Tech: multi-angle forensic investigation]]
+* [[Tech: systems thinking]]
+* [[Tech: user interviews (GM sales reps)]]
+
+! Testimonials
+
+* [[Testimonial: General Motors]]

@@ -1,0 +1,30 @@
+created: 20260421000000000
+faq-id: enterprise-accessibility-work
+modified: 20260421000000000
+tags: public faq expertise
+title: What does enterprise accessibility work actually involve beyond running automated tools?
+type: text/vnd.tiddlywiki
+
+Automated tools catch maybe 30% of real accessibility issues. The rest require using the content the way a screen reader user would.
+
+I designed an enterprise accessibility testing methodology from scratch because the one I needed didn't exist. Existing WCAG guidelines assumed static pages, not interactive, JavaScript-driven content with drag-and-drop, timed assessments, audio players, and branching navigation.
+
+The methodology I built works in three layers: WCAG 2.1 and Section 508 as the baseline (focus management, keyboard navigation, semantic structure, color contrast). ARIA Authoring Practices for the interactive patterns WCAG doesn't cover well, custom widgets, live regions for dynamic content updates, role assignments for non-standard UI components. And hands-on screen reader testing with both JAWS and NVDA as the ground truth.
+
+I applied this across roughly 100 courses for HSBC, PNC, and TD Bank. Colleagues adopted the methodology for their own projects. Accessibility is a design constraint you build around from the start, not a remediation pass at the end.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What industries have you worked in?]]
+* [[What technologies do you specialize in?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+
+[[FAQ Index]]
+

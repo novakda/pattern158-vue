@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit H]]]]
+title: H Finding: LMS configuration mismatch
+type: text/vnd.tiddlywiki
+
+! Finding
+
+LMS configuration mismatch
+
+! Description
+
+High-visibility additive manufacturing course was publishing SCORM completion data correctly, but the LMS was not configured to receive it in the expected format. Failure surfaced only in production after the course had already passed QA.
+
+! Resolution
+
+Root cause identified and fix deployed same business day without republishing course content
+

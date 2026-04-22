@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit K]]]]
+title: K Finding: No separation of deterministic and probabilistic concerns
+type: text/vnd.tiddlywiki
+
+! Finding
+
+No separation of deterministic and probabilistic concerns
+
+! Description
+
+Course catalog, progress tracking, assessment scoring, and navigation paths were all handled through prompt engineering rather than structured data. No auto-save, no persisted state, no deterministic sequence enforcement.
+

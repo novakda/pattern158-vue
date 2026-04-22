@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit L]]]]
+title: L Finding: Monolithic solution architecture
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Monolithic solution architecture
+
+! Description
+
+One large solution for the entire system instead of a modular core with separate solutions per model-driven app. Deployment required manually identifying dependencies and copying components to a new fresh solution.
+

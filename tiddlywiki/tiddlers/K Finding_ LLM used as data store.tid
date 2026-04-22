@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit K]]]]
+title: K Finding: LLM used as data store
+type: text/vnd.tiddlywiki
+
+! Finding
+
+LLM used as data store
+
+! Description
+
+The original declarative agent architecture treated the LLM as both interface and data store. LLMs are probabilistic — they approximate, hallucinate, and lose context across conversation boundaries. For training applications requiring deterministic progress tracking, this was a fundamental architectural mistake.
+

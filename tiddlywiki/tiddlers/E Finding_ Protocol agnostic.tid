@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit E]]]]
+title: E Finding: Protocol agnostic
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Protocol agnostic
+
+! Description
+
+SCORM API proxy provided transparent AICC/SCORM protocol translation — identical content packages worked across LMS platforms regardless of protocol dialect
+

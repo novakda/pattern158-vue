@@ -1,0 +1,38 @@
+{
+  "description": "Pattern 158 — Dan Novak Portfolio",
+  "plugins": [
+    "tiddlywiki/tiddlyweb",
+    "tiddlywiki/filesystem"
+  ],
+  "themes": [
+    "tiddlywiki/vanilla",
+    "tiddlywiki/snowwhite"
+  ],
+  "build": {
+    "index": [
+      "--render",
+      "$:/core/save/all",
+      "index.html",
+      "text/plain"
+    ],
+    "public-index": [
+      "--output",
+      "tiddlywiki/output",
+      "--render",
+      "$:/core/save/all",
+      "index.html",
+      "text/plain",
+      "",
+      "publishFilter",
+      "+[!tag[private]]"
+    ],
+    "all-index": [
+      "--output",
+      "tiddlywiki/output",
+      "--render",
+      "$:/core/save/all",
+      "all.html",
+      "text/plain"
+    ]
+  }
+}

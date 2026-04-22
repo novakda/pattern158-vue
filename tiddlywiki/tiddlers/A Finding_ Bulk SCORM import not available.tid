@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit A]]]]
+title: A Finding: Bulk SCORM import not available
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Bulk SCORM import not available
+
+! Description
+
+Cornerstone only allowed single-course uploads. GP's enterprise course library (1,000+ courses) could not be practically migrated to EB's LMS using the one-at-a-time upload process.
+
+! Resolution
+
+The team tested Cornerstone's new bulk Course Publication tool with 7 SCORM courses from the enterprise course library. Successfully validated the migration path for future large-scale course library deployment.
+

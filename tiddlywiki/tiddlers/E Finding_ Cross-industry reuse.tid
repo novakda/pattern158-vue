@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit E]]]]
+title: E Finding: Cross-industry reuse
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Cross-industry reuse
+
+! Description
+
+Architecture originally built for energy utilities was successfully adapted for defense sector (General Dynamics Electric Boat) — proving the pattern was reusable, not domain-specific
+

@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-ux [[[[Exhibit J]]]]
+title: J Finding: "Congratulations You Failed" UX
+type: text/vnd.tiddlywiki
+
+! Finding
+
+"Congratulations You Failed" UX
+
+! Description
+
+Courses displayed a completion message after the final assessment — but that wasn't the last page. Users had to navigate to one more slide to trigger SCORM completion. The UI actively misled learners into closing before completion registered.
+

@@ -1,0 +1,23 @@
+created: 20260421000000000
+faq-id: architecture-trade-offs
+modified: 20260421000000000
+tags: public faq architecture
+title: How do you handle architecture decisions when there are real trade-offs with no clean answer?
+type: text/vnd.tiddlywiki
+
+I make the trade-off explicit and accept it deliberately. With the CSBB Dispatch Framework, I chose centralization over distribution. A centralized host meant one update reached all 20+ clients simultaneously, version consistency guaranteed. The downside was a single point of failure. I accepted that because the alternative, distributing content to each client, meant losing version control and coordinating bug fixes across 20 separate IT departments with their own change windows.
+
+At AICPA, I saw the other side of the same decision: a webhook-driven sync service where PostgreSQL tracked per-subaccount sync state as an idempotency layer, designed to tolerate upstream schema changes without breaking downstream integrations. Different constraints, different answer.
+
+Same discipline: document the trade-offs in writing, make the constraints visible to everyone, and let each group see why the others' priorities matter.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[How do you approach cross-system integration? What does that actually look like?]]
+
+[[FAQ Index]]
+

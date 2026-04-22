@@ -1,0 +1,68 @@
+client: SunTrust (now Truist)
+created: 20260421000000000
+exhibit-date: 2015–2018
+exhibit-type: engineering-brief
+label: Exhibit G
+modified: 20260421000000000
+tags: public exhibit engineering-brief [[SunTrust (now Truist)]]
+title: Exhibit G
+type: text/vnd.tiddlywiki
+
+! AWARE Platform: Custom SCORM-to-API Integration
+''Date:'' 2015–2018
+
+! Context
+
+Team investigated and documented the learning platform situation, producing a detailed findings report with recommended path forward. Client requested follow-up meeting to discuss implementation options based on the quality of the technical analysis.
+
+! Impact Tags
+
+* Client-Facing
+* SunTrust
+* Technical Writing
+* Forensic Analysis
+* Custom Integration Architecture
+* SCORM-to-API Wrapper
+* API Design Consultation
+* Enterprise Security
+
+! Testimonials
+
+<<<
+Thanks for the thorough documentation of the issue and solution. Do you have a figure?
+<<<
+''— SunTrust (Client)''
+
+
+---
+
+! Personnel
+
+* [[API and backend development @ SunTrust (now Truist)]]
+* [[Dan Novak]]
+* [[SunTrust account management and engagement coordination @ GP Strategies]]
+* [[Technical leadership and oversight @ GP Strategies]]
+
+! Technologies
+
+* [[Tech: AICC (reference implementation for HTTP-based patterns)]]
+* [[Tech: API endpoint testing)]]
+* [[Tech: Adobe Captivate (compatibility testing)]]
+* [[Tech: Chrome]]
+* [[Tech: Fiddler (HTTP traffic analysis]]
+* [[Tech: Firefox]]
+* [[Tech: Internet Explorer 10]]
+* [[Tech: Internet Explorer 8]]
+* [[Tech: JavaScript (custom wrapper)]]
+* [[Tech: Lectora (SCORM output analysis)]]
+* [[Tech: REST API client]]
+* [[Tech: SCORM 1.2 (JavaScript API adapter]]
+* [[Tech: SCORM-to-API translation layer]]
+* [[Tech: authentication]]
+* [[Tech: browser DevTools]]
+* [[Tech: data model mapping)]]
+* [[Tech: state persistence]]
+
+! Testimonials
+
+* [[Testimonial: SunTrust (Client)]]

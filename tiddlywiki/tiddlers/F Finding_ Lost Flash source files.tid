@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-process [[[[Exhibit F]]]]
+title: F Finding: Lost Flash source files
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Lost Flash source files
+
+! Description
+
+Legacy Flash-based courses needed updates but original FLA source files had been lost through vendor project handoffs. Required forensic decompilation of published SWF files to recover assets, ActionScript code, and timeline data.
+
+! Resolution
+
+SWF files forensically decompiled to recover source content; assets preserved for future maintenance
+

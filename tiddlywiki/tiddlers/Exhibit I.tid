@@ -1,0 +1,63 @@
+client: TD Bank (via GP Strategies)
+created: 20260421000000000
+exhibit-date: 2021–2024
+exhibit-type: engineering-brief
+label: Exhibit I
+modified: 20260421000000000
+tags: public exhibit engineering-brief [[TD Bank (via GP Strategies)]]
+title: Exhibit I
+type: text/vnd.tiddlywiki
+
+! Enterprise Accessibility Initiative: Methodology Creation
+''Date:'' 2021–2024
+
+! Context
+
+Most experienced accessibility evaluator on the TD Bank engagement (2021–2024). Contributed to GP’s WCAG 2.1 AA evaluation methodology and brought forensic-level ARIA debugging, JAWS/NVDA interaction protocols, and Storyline-specific screen reader workarounds developed through prior HSBC and PNC Bank engagements.
+
+! Impact Tags
+
+* Methodology Creation
+* TD Bank
+* Accessibility
+* Multi-Client Deployment
+* 479 Emails (2022)
+
+! Testimonials
+
+<<<
+Thank you for all your amazing work!
+<<<
+''— Senior Learning Project Manager, GP Strategies''
+
+
+---
+
+! Personnel
+
+* [[2 Additional Testers]]
+* [[Dan Novak]]
+* [[TD MIC project coordination and program oversight @ GP Strategies]]
+
+! Technologies
+
+* [[Tech: ARIA Authoring Practices]]
+* [[Tech: ARIA patterns]]
+* [[Tech: Articulate Storyline (HTML output analysis]]
+* [[Tech: HSBC]]
+* [[Tech: JAWS (Job Access With Speech)]]
+* [[Tech: Keyboard navigation]]
+* [[Tech: NVDA (NonVisual Desktop Access)]]
+* [[Tech: PNC Bank]]
+* [[Tech: Section 508]]
+* [[Tech: TD Bank]]
+* [[Tech: UOB (4 major financial institutions)]]
+* [[Tech: WCAG 2.1 (Level A and AA)]]
+* [[Tech: cross-browser ARIA testing]]
+* [[Tech: custom navigation)]]
+* [[Tech: issue triage (critical/major/minor)]]
+* [[Tech: sprint integration (SCRUM)]]
+
+! Testimonials
+
+* [[Testimonial: Senior Learning Project Manager, GP…]]

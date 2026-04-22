@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit D]]]]
+title: D Finding: Legacy format incompatibilities
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Legacy format incompatibilities
+
+! Description
+
+Courses authored in Adobe Presenter and standalone HTML5 required significant structural rework to map into Xyleme's topic-based authoring model. Flash modules needed careful handling to ensure ActionScript interactions functioned when wrapped in Xyleme's SCORM publishing layer.
+
+! Resolution
+
+Structural rework completed — courses successfully mapped into Xyleme's topic-based model
+

@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-process [[[[Exhibit L]]]]
+title: L Finding: Requirements atomization without context
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Requirements atomization without context
+
+! Description
+
+Requirements degraded through PPT → Word → Excel → ADO conversion chain. Individual tickets looked actionable but had lost architectural context. Epic-level summaries treated as stories.
+

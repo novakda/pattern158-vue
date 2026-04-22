@@ -1,0 +1,63 @@
+client: Microsoft (MCAPS)
+created: 20260421000000000
+email-count: Recent engagement
+exhibit-date: 2025–2026
+exhibit-type: investigation-report
+label: Exhibit K
+modified: 20260421000000000
+role: Hybrid AI architecture innovation — zero to POC in ~4 weeks
+tags: public exhibit investigation-report [[Microsoft (MCAPS)]]
+title: Exhibit K
+type: text/vnd.tiddlywiki
+
+! Microsoft MCAPS: AI-Led Training Agent
+''Summary:'' Architectural breakthrough on Microsoft Copilot Studio project: structured data for state (JSON), AI for interaction (LLM). Pure prompt engineering cannot enforce deterministic state — LLMs are probabilistic. Solution: catalog/progress/scores in structured data (deterministic), AI transforms content and manages conversation (intelligence). Pattern applicable beyond training: any domain requiring both intelligence and reliability.
+''Role:'' Hybrid AI architecture innovation — zero to POC in ~4 weeks
+''Date:'' 2025–2026
+''Email count:'' Recent engagement
+
+! Investigation Summary
+
+Building on a decade of GP Strategies’ embedded work on Microsoft accounts, Dan was brought in to evolve their AI training agent in Copilot Studio. Zero platform experience to functional POC in ~4 weeks. The breakthrough: separating deterministic state (structured JSON) from AI interaction (content delivery), creating a hybrid architecture that solved the reliability challenges of the original declarative approach.
+
+! Impact Tags
+
+* Zero to POC in ~4 Weeks
+* AI Architecture
+* Hybrid AI/Structured Data
+* 10-Year Relationship
+
+---
+
+! Personnel
+
+* [[Content Design @ GP Strategies]]
+* [[Dan Novak]]
+* [[Max Glick]]
+* [[Microsoft Account Lead @ Microsoft]]
+* [[Program Coordination @ GP Strategies]]
+
+! Findings
+
+* [[K Finding: LLM used as data store]]
+* [[K Finding: No separation of deterministic and probabilistic concerns]]
+
+! Technologies
+
+* [[Tech: 10-year relationship: Windows 10 eLearning]]
+* [[Tech: AI code interpreter)]]
+* [[Tech: Adaptive Cards (navigation UI]]
+* [[Tech: Azure OpenAI Service]]
+* [[Tech: Hybrid AI/structured-data architecture]]
+* [[Tech: LLM guardrails (topic flow constraints]]
+* [[Tech: Microsoft Copilot Studio (topic-based conversation design]]
+* [[Tech: Microsoft Teams]]
+* [[Tech: SCORM integration]]
+* [[Tech: Structured JSON (course catalog]]
+* [[Tech: accessibility initiative]]
+* [[Tech: assessment forms]]
+* [[Tech: deterministic navigation enforcement)]]
+* [[Tech: deterministic state management]]
+* [[Tech: progress tracking]]
+* [[Tech: state persistence)]]
+* [[Tech: structured learner interactions)]]

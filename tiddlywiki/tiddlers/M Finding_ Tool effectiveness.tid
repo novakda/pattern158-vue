@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit M]]]]
+title: M Finding: Tool effectiveness
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Tool effectiveness
+
+! Description
+
+State capture and restore reduced targeted test cycles from hours to minutes — any scenario reproducible instantly
+

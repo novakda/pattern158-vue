@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit A]]]]
+title: A Finding: SCORM courses dependent on Cornerstone Network Player
+type: text/vnd.tiddlywiki
+
+! Finding
+
+SCORM courses dependent on Cornerstone Network Player
+
+! Description
+
+SCORM requires a player to communicate between the course and the LMS. If the Cornerstone Network Player went down, all SCORM courses stopped functioning. AICC was used as a workaround but had significant limitations.
+
+! Resolution
+
+Dan provided a cross-domain SCORM wrapper that eliminates dependency on the Cornerstone Network Player entirely. A SCORM 2004 version was prototyped within one week of the on-site visit.
+

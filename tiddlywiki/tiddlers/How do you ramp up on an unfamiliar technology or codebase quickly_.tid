@@ -1,0 +1,34 @@
+created: 20260421000000000
+faq-id: ramp-up-unfamiliar-technology
+modified: 20260421000000000
+tags: public faq approach expertise
+title: How do you ramp up on an unfamiliar technology or codebase quickly?
+type: text/vnd.tiddlywiki
+
+My pattern: map the platform's boundaries, figure out where the abstractions leak, and build around the constraints. This is the same approach whether it's a new platform, an inherited codebase with no docs, or a protocol I've never worked with before.
+
+On ContentAIQ, I joined an existing React/TypeScript codebase with Jest tests and Azure DevOps CI pipelines and had to get productive fast in their specific patterns and conventions while shipping features alongside the existing team. On MCAPS, I dove into Copilot Studio documentation and started building immediately, learning through the work itself. On Ready2Role, I had a running production system I couldn't read and had to reconstruct from compiled artifacts.
+
+The throughline: trace the data flow, find the boundaries, and build from there. Don't wait until you understand everything. Build something small that tests your assumptions, and let the system tell you where you're wrong.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What industries have you worked in?]]
+* [[What technologies do you specialize in?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+
