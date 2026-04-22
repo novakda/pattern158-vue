@@ -324,7 +324,17 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Running all 8 extractors against the live 22-route capture produces expected entity counts (~66 personnel, ~45 findings, ~40-80 technologies, ≥6 testimonials, 15 exhibits, ≥5 page-content records, 1 case-files index).
   4. Extractors are idempotent: same captured HTML input yields byte-identical structured output across runs.
   5. `FaqItem` extractor falls back to `src/data/json/faq.json` when live capture is stale (EXTR-01), demonstrating the "live-site-canonical, JSON-fallback" contract.
-**Plans:** TBD (one plan per REQ-ID or clustered; locked during `/gsd:plan-phase 53`).
+**Plans:** 10 plans
+  - [ ] 53-01-PLAN.md — Shared types.ts (9 entity interfaces + ExtractorError + parseHtml) + tsconfig.scripts.json/vitest include globs extended
+  - [ ] 53-02-PLAN.md — faq.ts + faq.test.ts with emitFaqItems + emitFaqItemsFromJson fallback (EXTR-01)
+  - [ ] 53-03-PLAN.md — exhibit.ts + exhibit.test.ts with emitExhibit single-entity walker (EXTR-02)
+  - [ ] 53-04-PLAN.md — personnel.ts + personnel.test.ts with individual/group/anonymized discrimination (EXTR-03)
+  - [ ] 53-05-PLAN.md — findings.ts + findings.test.ts with findings-table row-walker (EXTR-04)
+  - [ ] 53-06-PLAN.md — technologies.ts + technologies.test.ts with comma-split tokenizer (EXTR-05)
+  - [ ] 53-07-PLAN.md — testimonials.ts + testimonials.test.ts with dual testimonial-quote + exhibit-quote shapes (EXTR-06)
+  - [ ] 53-08-PLAN.md — pages.ts + pages.test.ts with heading-anchored segment walker (EXTR-07)
+  - [ ] 53-09-PLAN.md — case-files-index.ts + case-files-index.test.ts with source-page-order entries (EXTR-08)
+  - [ ] 53-10-PLAN.md — Wave 3 smoke gate: pnpm build + pnpm test:scripts + SCAF-08 grep + 53-VERIFICATION.md
 
 ### Phase 54: Atomic Tiddler Generation
 **Goal**: Extracted entity data is decomposed into per-entity tiddler files with cross-references — a person becomes one tiddler, a finding becomes one tiddler, a technology becomes one tiddler, a testimonial becomes one tiddler — producing ~150-200 atomic tiddlers alongside the existing page/FAQ/exhibit-overview tiddlers. Exhibit tiddlers gain cross-link sections.
