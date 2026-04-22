@@ -20,8 +20,15 @@ export function htmlToWikitext(
   const window = new Window()
   const { document } = window
   document.body.innerHTML = html
+  // happy-dom's HTMLBodyElement is structurally compatible with the
+  // standard-DOM Node type our renderers consume, but TypeScript's DOM
+  // typings (file-scoped via /// <reference lib="dom" />) reject the
+  // nominal mismatch. Single cast at the producer boundary — same
+  // pattern as extractors/types.ts parseHtml. Phase 58 Plan 58-05
+  // unblock-the-build fix (tsconfig.scripts.json de-excluded this file).
+  const rootNode = document.body as unknown as Node
   const out: string[] = []
-  renderChildren(document.body, out, linkMap)
+  renderChildren(rootNode, out, linkMap)
   return normalize(out.join(''))
 }
 

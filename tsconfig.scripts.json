@@ -23,11 +23,5 @@
     "scripts/markdown-export/**/*.ts",
     "scripts/tiddlywiki/**/*.ts"
   ],
-  "exclude": [
-    "scripts/tiddlywiki/generate.ts",
-    "scripts/tiddlywiki/sources.ts",
-    "scripts/tiddlywiki/sources.test.ts",
-    "scripts/tiddlywiki/html-to-wikitext.ts",
-    "scripts/tiddlywiki/verify-integrity.ts"
-  ]
+  "exclude": []
 }

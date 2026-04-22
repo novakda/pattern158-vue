@@ -97,12 +97,14 @@ export function tiddlersToJson(tiddlers: readonly Tiddler[]): string {
  * `$(publishFilter)$`). Passing empty-string template preserves the
  * existing `render '$:/core/save/all' filename type` invocation shape.
  *
- * The `--output output` prefix is only needed for the public/all targets
- * so the user running `pnpm tiddlywiki:build-public` from the project
- * root lands files in `tiddlywiki/output/` rather than the TiddlyWiki
- * edition default. The legacy `index` target is preserved without
- * `--output` for backward compatibility with any pre-Phase-58 scripts or
- * documentation (npx tiddlywiki tiddlywiki --build index).
+ * The `--output tiddlywiki/output` prefix lands files in
+ * `tiddlywiki/output/` when run from the project root (TiddlyWiki's
+ * `--output <pathname>` resolves a relative path against the CWD of the
+ * CLI, per core/language/en-GB/Help/output.tid). Pnpm scripts always run
+ * from the project root, so the prefix is deterministic. The legacy
+ * `index` target stays `--output`-free for backward compatibility with
+ * any pre-Phase-58 scripts or documentation (npx tiddlywiki tiddlywiki
+ * --build index).
  */
 export async function writeTiddlywikiInfo(outputDir: string): Promise<string> {
   const manifest = {
@@ -118,18 +120,18 @@ export async function writeTiddlywikiInfo(outputDir: string): Promise<string> {
       ],
       'public-index': [
         '--output',
-        'output',
+        'tiddlywiki/output',
         '--render',
         '$:/core/save/all',
         'index.html',
         'text/plain',
         '',
         'publishFilter',
-        '[!tag[private]]',
+        '+[!tag[private]]',
       ],
       'all-index': [
         '--output',
-        'output',
+        'tiddlywiki/output',
         '--render',
         '$:/core/save/all',
         'all.html',
