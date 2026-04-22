@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: verifying
-last_updated: "2026-04-22T07:21:16.241Z"
+last_updated: "2026-04-22T08:26:45.068Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
-  total_plans: 42
-  completed_plans: 41
-  percent: 98
+  total_plans: 49
+  completed_plans: 47
+  percent: 96
 ---
 
 # Project State
@@ -31,7 +31,7 @@ Plan: 10 of 10
 Status: Phase complete — ready for verification
 Last activity: 2026-04-22
 
-Progress: [██████████] 98%
+Progress: [██████████] 96%
 
 ## Performance Metrics
 
@@ -159,6 +159,7 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 54 Plan 03: slugifyTerm in finding.ts mirrors Phase 53 faq.ts slugify (two-regex chain: /[^a-z0-9]+/g -> '-' then /^-+|-+$/g -> ''); fallback tokens severity-unknown/category-uncategorized only when slug collapses to empty
 - Phase 54 Plan 03: Finding tiddler exhibit back-ref tag is a literal '[[Exhibit L]]' string (not wikiLink(formatExhibitTitle(...))) — matches ATOM-01 client-tag precedent and keeps tags a flat string[]
 - Phase 54 Plan 03: bodyFor uses parts[] accumulator with .length > 0 guards so empty finding fields collapse to omitted heading blocks — section order (finding → description → resolution → outcome) preserved regardless of which subset populated
+- Phase 55 Plan 06 (FIX-04): Case Files Index body is a 4-column TiddlyWiki table (|!Date |!Client |!Type |!Case |) sorted by label ascending via .slice().sort(compareByLabel); typeCellFor maps investigation-report->Investigation, engineering-brief->Brief, else passthrough; two module-scope helpers (typeCellFor, compareByLabel) live above caseFilesIndexTiddler; iter-1 JSDoc block dropped in favor of a single line-comment per codebase no-JSDoc convention
 
 ### Pending Todos
 
@@ -170,7 +171,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T07:21:16.236Z
+Last session: 2026-04-22T08:26:45.064Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 

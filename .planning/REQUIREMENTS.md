@@ -84,7 +84,8 @@ Rough edges from the v9.0 starter tiddlywiki generator.
 - [ ] **FIX-01**: Empty exhibit sections render correctly — `exhibitsToTiddlers` walks subsections fully, emits their text even when headings are present; no more empty `!! Background` / `!! Personnel` / `!! Sequence of Events` headings.
 - [ ] **FIX-02**: Page body conversion quality improved — Home, Philosophy, Technologies pages produce clean wikitext (not HTML-heavy) via the DOM extractor pipeline (replaces the iter-1 HTML→wikitext converter path for pages).
 - [ ] **FIX-03**: FAQ "See also" footer enriched — per-FAQ tiddler's footer lists sibling FAQs in the same category + any linked exhibit callouts, not just the generic `[[FAQ Index]]` stub.
-- [ ] **FIX-04**: Case Files Index improvements — renders with tiddler title as filterable-searchable table (sortable by date, client, type) rather than simple bulleted list.
+- [x] **FIX-04
+**: Case Files Index improvements — renders with tiddler title as filterable-searchable table (sortable by date, client, type) rather than simple bulleted list.
 
 ### Tests
 
