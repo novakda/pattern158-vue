@@ -1,14 +1,24 @@
 ---
 phase: 55-iter-1-fixes
 plan: 07
-status: failed
-orphan_count: 267
-affected_tiddler_count: 235
-unique_missing_targets: 14
+status: resolved
+orphan_count: 0
+affected_tiddler_count: 0
+unique_missing_targets: 0
 generated_at: 2026-04-22
+resolved_at: 2026-04-22
+resolution: 55.1-hotfix
 ---
 
-# Phase 55 Orphan Report
+# Phase 55 Orphan Report — RESOLVED
+
+> **RESOLVED 2026-04-22 via 55.1-hotfix.** Two Phase-55-scope changes — `normalizeExhibitLabel` helper in `scripts/tiddlywiki/extract-all.ts` and short-form exhibit tiddler titles in `scripts/tiddlywiki/sources.ts:exhibitsToTiddlers` — aligned the label dialect across the extractor/generator boundary without touching `extractors/` or `generators/`. The 267 orphans are now 0; see `55-HOTFIX-SUMMARY.md`. Contents below preserved for historical context.
+>
+> **Current integrity gate:** `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` → `[55-07] PASS: 367 tiddlers, 0 orphaned links.`
+>
+> ---
+
+# Phase 55 Orphan Report (historical)
 
 **Gate:** `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` — **FAIL**
 **Total orphan occurrences:** 267 `[[target]]` links across 235 source tiddlers.

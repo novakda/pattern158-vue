@@ -1,27 +1,28 @@
 ---
 phase: 55
 phase_name: Iter-1 Fixes
-status: failed
+status: passed
 verified_at: 2026-04-22
+hotfix_applied: 2026-04-22
 ---
 
 # Phase 55 Verification
 
-## Status: FAILED
+## Status: PASSED (after 55.1-hotfix)
 
-FIX-01..04 delivered end-to-end on disk (all four per-plan smoke-checks green). The phase-close **integrity HARD GATE fails**: `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` reports 267 orphaned `[[Exhibit Exhibit <letter>]]` links across 235 atomic tiddlers. Root cause crosses the Phase 53/54 boundary — fix is NOT in Plan 55-07 scope. See `55-ORPHAN-REPORT.md` for the full diagnostic and recommended hotfix options.
+FIX-01..04 delivered end-to-end on disk. The phase-close **integrity HARD GATE now passes**: `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` reports 0 orphaned links across 367 tiddlers.
 
-Phase 55 cannot close until the upstream fix lands and the integrity gate exits 0.
+The 267 orphaned `[[Exhibit Exhibit <letter>]]` links originally reported were resolved by the 55.1-hotfix documented in `55-HOTFIX-SUMMARY.md` — two coordinated changes in `extract-all.ts` and `sources.ts` that aligned the exhibit label dialect across the extractor/generator boundary without touching `extractors/` or `generators/`.
 
 ## Smoke Gates
 
 | Gate | Command | Result |
 |------|---------|--------|
 | Build | `pnpm build` | exit 0 |
-| Scripts tests | `pnpm test:scripts --run` | exit 0 — 564 tests / 41 files passed |
-| Generate | `pnpm tiddlywiki:generate` | exit 0 — 367 tiddlers composed, 344 .tid files on disk |
-| Tiddler count | `ls tiddlywiki/tiddlers/ \| wc -l` | 344 (threshold ≥ 100 — passed 3.4×) |
-| Integrity | `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` | **exit 1 — 267 orphaned link(s) across 235 tiddler(s)** |
+| Scripts tests | `pnpm test:scripts --run` | exit 0 — 577 tests / 41 files passed (up from 564 pre-hotfix; +13 tests for normalize helper + exhibit-title shape + cross-link lookup) |
+| Generate | `pnpm tiddlywiki:generate` | exit 0 — 367 tiddlers composed, 343 .tid files on disk |
+| Tiddler count | `ls tiddlywiki/tiddlers/ \| wc -l` | 343 (threshold ≥ 100 — passed 3.4×) |
+| Integrity | `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` | **exit 0 — 0 orphaned link(s)** |
 
 ## Requirements Coverage
 
@@ -36,36 +37,18 @@ All four FIX REQs have on-disk evidence from their respective plans. Each produc
 
 ## Integrity Audit
 
-**verifyCrossLinkIntegrity orphan count: 267 (across 235 tiddlers)**
+**verifyCrossLinkIntegrity orphan count: 0 (post-hotfix)**
 
-**Unique missing targets (14):**
+**Pre-hotfix state (historical):** 267 orphans across 235 tiddlers, 14 unique missing targets of shape `"Exhibit Exhibit <letter>"`.
 
-```
-Exhibit Exhibit A
-Exhibit Exhibit B
-Exhibit Exhibit C
-Exhibit Exhibit D
-Exhibit Exhibit E
-Exhibit Exhibit F
-Exhibit Exhibit G
-Exhibit Exhibit H
-Exhibit Exhibit I
-Exhibit Exhibit J
-Exhibit Exhibit K
-Exhibit Exhibit L
-Exhibit Exhibit M
-Exhibit Exhibit N
-```
+**Fix summary (see `55-HOTFIX-SUMMARY.md` for details):**
 
-**Orphan-shape diagnosis (short form — full text in `55-ORPHAN-REPORT.md`):**
+- `scripts/tiddlywiki/extract-all.ts` — added `normalizeExhibitLabel(raw)` helper; strips a leading `"Exhibit "` prefix. Applied inside the exhibit-iteration loop so `bundle.exhibits[*].label`, `sourceExhibitLabel` on every personnel/finding/technology entry, and `sourcePageLabel` on exhibit testimonials all use the short form (`"A"`). The live static-site HTML's `.exhibit-label` carries `"Exhibit A"`; normalization converts it back to `"A"` before threading downstream.
+- `scripts/tiddlywiki/sources.ts` — `exhibitsToTiddlers` now emits title `"Exhibit A"` (not `"Exhibit A — <marketing title>"`), and moves the marketing title into the body as a top-level heading. `byLabel` lookup key normalized to short form so verbose JSON labels still resolve. `caseFilesIndexTiddler` changed to a 5-column table — marketing title moved from the link text to a dedicated `!Title` column so the `!Case` column can be the unpiped `[[Exhibit A]]` link (the integrity-check regex uses the pre-pipe segment as its resolution target; pretty-link form would orphan). `defaultLinkMap` updated to point `/exhibits/<letter>` to the new short-form tiddler title.
 
-- Every orphan is a `[[Exhibit Exhibit <letter>]]` link emitted by a Phase 54 atomic generator (`person.ts`, `finding.ts`, `technology.ts`, `testimonial.ts` via `helpers.formatExhibitTitle`).
-- `formatExhibitTitle(label)` assumes short labels (`"A"`) and prefixes `"Exhibit "`. Plan 55-01's `extract-all.ts` populates `sourceExhibitLabel` with verbose DOM-extracted labels (`"Exhibit A"`). Composition yields `"Exhibit Exhibit A"`.
-- Additionally, `exhibitsToTiddlers` builds exhibit tiddler titles as `"Exhibit A — <marketing title>"`, so no tiddler named simply `"Exhibit A"` exists on disk either — fixing the double-prefix alone is not sufficient.
+**Phase 53/54 boundary held.** Changes live exclusively in `extract-all.ts` and `sources.ts` (both Phase 55 scope). `extractors/` and `generators/` directories unchanged.
 
-**Fix location crosses Phase 53/54 boundary.** Plan 55-07 explicitly forbids modifying `scripts/tiddlywiki/extractors/` or `scripts/tiddlywiki/generators/`. Surfacing to developer per plan's orphan-handling policy. Recommended hotfix: add thin alias tiddlers per exhibit (Option C in ORPHAN-REPORT) — does not require extractor/generator edits.
-
-See `55-ORPHAN-REPORT.md` for full root-cause analysis, fix options, and next actions.
+See `55-HOTFIX-SUMMARY.md` for root-cause analysis, change inventory, and test evidence. `55-ORPHAN-REPORT.md` now carries a `RESOLVED` annotation at the top.
 
 ## Phase Boundary Confirmation
 
@@ -100,21 +83,22 @@ Phase boundary held — no touch to extractors/ or generators/ or to the iter-1 
 
 ## Known Follow-ups
 
-- **HOTFIX REQUIRED — orphan resolution.** See `55-ORPHAN-REPORT.md`. Recommended: Option C (alias tiddlers) — cheapest, no Phase 53/54 module touch. Authoring as a Phase 55.1-hotfix or rolling into Phase 56 TEST work.
-- **Phase 56 TEST-01..04** — dedicated test hardening (regression fixtures, byte-identical-across-runs assertion). The verify-integrity script from this plan becomes a permanent CI gate.
+- **55.1-hotfix delivered 2026-04-22.** Integrity gate now green. See `55-HOTFIX-SUMMARY.md`.
+- **Phase 56 TEST-01..04** — dedicated test hardening (regression fixtures, byte-identical-across-runs assertion). The verify-integrity script from this plan is now a permanent CI gate (currently exits 0).
 - **Phase 58** — retire `html-to-wikitext.ts` on disk (currently unreachable from the default path; module kept per CONTEXT.md locked refactor-don't-rewrite clause).
 
 ## Next Phase
 
-**Phase 55 is NOT ready to close.** Required sequence:
+**Phase 55 is CLOSED.**
 
-1. Hotfix plan authored to resolve the 14 unique-target orphan set.
-2. `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` must exit 0 on the live corpus.
-3. This document amended status `failed` → `passed`; `55-ORPHAN-REPORT.md` archived.
-4. Then: Phase 56 — Tests (TEST-01..04).
+- [x] Hotfix resolved the 14 unique-target orphan set (fix lived in Phase 55 scope; no extractor/generator edits).
+- [x] `pnpm tsx scripts/tiddlywiki/verify-integrity.ts` exits 0 on the live corpus.
+- [x] This document status flipped `failed` → `passed`; `55-ORPHAN-REPORT.md` annotated RESOLVED.
+- [ ] Then: Phase 56 — Tests (TEST-01..04).
 
 ---
 
-*Plan: 55-07*
+*Plan: 55-07 (hotfix: 55.1)*
 *Verified: 2026-04-22*
-*Smoke gate machinery: in place; hotfix needed to turn gate green*
+*Hotfix applied: 2026-04-22*
+*Smoke gate machinery: in place and green*
