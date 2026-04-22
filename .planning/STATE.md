@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
-status: roadmap_ready
-last_updated: "2026-04-21T18:00:00.000Z"
-last_activity: 2026-04-21
+status: executing
+last_updated: "2026-04-22T05:39:43.704Z"
+last_activity: 2026-04-22 Phase 53 Plan 01 complete (DOM extractor scaffold)
 progress:
-  total_phases: 7
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
-  percent: 0
+  total_phases: 14
+  completed_phases: 5
+  total_plans: 34
+  completed_plans: 26
+  percent: 76
 ---
 
 # Project State
@@ -22,16 +22,16 @@ Milestone: v9.0 Continue tiddlywiki intake and conversion (started 2026-04-21)
 Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.planning/v8.0-AUDIT-NOTICE.md`)
 
 **Core value:** Every page template should be scannable and self-documenting through well-named components that enforce design consistency
-**Current focus:** Defining v9.0 requirements — tzk-style living wiki with canonical-source-is-live-site architecture
+**Current focus:** Phase 53 — DOM Extraction
 
 ## Current Position
 
-Phase: 53 of 59 (not started — roadmap created, ready to plan)
-Plan: —
-Status: Roadmap complete; next step is `/gsd:plan-phase 53` (DOM Extraction) or `/gsd:discuss-phase 53` for context-gathering first
-Last activity: 2026-04-21 — v9.0 roadmap created (7 phases, 34 REQs mapped)
+Phase: 53 — dom-extraction — EXECUTING
+Plan: 2 of 10
+Status: Plan 01 complete; Wave 2 (plans 53-02..53-09) ready to run in parallel
+Last activity: 2026-04-22 Phase 53 Plan 01 complete (DOM extractor scaffold)
 
-Progress: [░░░░░░░░░░] 0%
+Progress: [████████░░] 76%
 
 ## Performance Metrics
 
@@ -64,6 +64,7 @@ Retained from v7.0 (still valid for v8.0 background):
 | Phase 48 P06 | 5min | 2 tasks | 2 files |
 | Phase 49 P01 | 3min | 1 tasks | 1 files |
 | Phase 49 P04 | 5m 8s | 1 tasks | 1 files |
+| Phase 53 P01 | 4m 28s | 3 tasks | 3 files |
 
 ### Decisions
 
@@ -124,6 +125,11 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 51 Plan 01: idempotency probe uses fsp.access(path, F_OK) + try/catch — throw-on-absent flows naturally into write branch; cheaper than stat (no struct read)
 - Phase 51 Plan 01: non-fatal failure contract locked at caller boundary — helper throws on write failure, index.ts wraps in .catch that logs [editorial-capture] scaffold emission failed (non-fatal) and returns null; exit code never flipped by scaffold errors
 - Phase 51 Plan 01: findingsScaffoldPath threaded through stderr JSON summary (null/absolute-path); stdout 'Findings scaffold: <path>' line emitted ONLY on new write — avoids daily noise after initial run
+- Phase 53 Plan 01: single shared tsconfig.scripts.json extended to cover scripts/tiddlywiki/**/*.ts — editorial tsconfig stays on its own project (different outDir, same compilerOptions shape); new tsconfig.tiddlywiki.json would be redundant
+- Phase 53 Plan 01: ExtractorError options-bag constructor (message, opts?: { extractor?, cause? }) — runtime class export (not export type) so err instanceof ExtractorError works at runtime; mirrors Phase 48 CaptureError and Phase 47 ConfigError
+- Phase 53 Plan 01: parseHtml returns 'document as unknown as Document' cast at producer boundary — single cast in shared helper lets every Wave-2 extractor consume standard-lib DOM types under the file-scoped /// <reference lib="dom" /> without per-site re-casts; mirrors convert.ts line 120 pattern
+- Phase 53 Plan 01: all extractor entity fields readonly; optional-in-JSON fields become required-with-default-in-output (empty string / empty array / 0) — extractors own defaulting, callers get total shapes with no '| undefined' noise at consumption sites
+- Phase 53 Plan 01: tsconfig.scripts.json gains explicit exclude list for pre-Phase-53 tiddlywiki files (generate.ts, sources.ts, html-to-wikitext.ts) — Rule 1 auto-fix: broader include glob surfaced pre-existing TS5097 (.ts-extension imports need allowImportingTsExtensions) + TS2345 (happy-dom HTMLBodyElement vs standard DOM Node) errors that cannot be fixed without modifying those files, and Phase 53 scope forbids modification (deferred to Phase 55 FIX-02). tid-writer.ts stays included (clean compile)
 
 ### Pending Todos
 
@@ -135,7 +141,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-21
+Last session: 2026-04-22T05:39:43.699Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 

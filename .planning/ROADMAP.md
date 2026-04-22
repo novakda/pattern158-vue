@@ -325,7 +325,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   4. Extractors are idempotent: same captured HTML input yields byte-identical structured output across runs.
   5. `FaqItem` extractor falls back to `src/data/json/faq.json` when live capture is stale (EXTR-01), demonstrating the "live-site-canonical, JSON-fallback" contract.
 **Plans:** 10 plans
-  - [ ] 53-01-PLAN.md — Shared types.ts (9 entity interfaces + ExtractorError + parseHtml) + tsconfig.scripts.json/vitest include globs extended
+  - [x] 53-01-PLAN.md — Shared types.ts (9 entity interfaces + ExtractorError + parseHtml) + tsconfig.scripts.json/vitest include globs extended
   - [ ] 53-02-PLAN.md — faq.ts + faq.test.ts with emitFaqItems + emitFaqItemsFromJson fallback (EXTR-01)
   - [ ] 53-03-PLAN.md — exhibit.ts + exhibit.test.ts with emitExhibit single-entity walker (EXTR-02)
   - [ ] 53-04-PLAN.md — personnel.ts + personnel.test.ts with individual/group/anonymized discrimination (EXTR-03)
@@ -430,7 +430,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 53. DOM Extraction | 0/TBD | Not started | — |
+| 53. DOM Extraction | 1/10 | In progress (Wave 1 complete; Wave 2 ready) | — |
 | 54. Atomic Tiddler Generation | 0/TBD | Not started | — |
 | 55. Iter-1 Fixes | 0/TBD | Not started | — |
 | 56. Tests | 0/TBD | Not started | — |
