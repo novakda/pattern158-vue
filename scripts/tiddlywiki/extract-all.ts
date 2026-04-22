@@ -70,6 +70,26 @@ interface ExhibitJsonLite {
   readonly label: string
 }
 
+// Normalize an exhibit label to the canonical short form used across the
+// tiddler pipeline. The DOM-extracted label from static-site HTML is verbose
+// (e.g. "Exhibit A") because `.exhibit-label` text is authored that way; the
+// src/data/json/exhibits.json `label` field is also verbose. Test fixtures
+// and the downstream atomic generators (Phase 54 person/finding/technology/
+// testimonial) expect the short form (e.g. "A") so that
+// `formatExhibitTitle(label)` emits exactly one "Exhibit " prefix — otherwise
+// we produce the "Exhibit Exhibit A" double-prefix orphan class (55-07).
+//
+// Contract: strip a leading "Exhibit " prefix (single space, case-insensitive)
+// if present; otherwise return the input unchanged. No trim/normalize beyond
+// that — downstream code already trims.
+export function normalizeExhibitLabel(raw: string): string {
+  const prefix = 'exhibit '
+  if (raw.length > prefix.length && raw.slice(0, prefix.length).toLowerCase() === prefix) {
+    return raw.slice(prefix.length)
+  }
+  return raw
+}
+
 // Normalize an exhibit label to its static-site HTML filename. Accepts both
 // short labels (e.g. "A") and verbose labels (e.g. "Exhibit A") — the live
 // src/data/json/exhibits.json uses the verbose form while test fixtures use
@@ -157,8 +177,14 @@ export async function extractAll(projectRoot: string): Promise<ExtractedBundle> 
     } catch {
       continue
     }
-    exhibits.push(exhibit)
-    const label = exhibit.label
+    // Normalize the DOM-extracted exhibit label to the short form (e.g. "A")
+    // so every downstream consumer — bundle.exhibits[*].label, Phase 54 atomic
+    // generators' sourceExhibitLabel match-keys, sources.ts exhibit cross-link
+    // byLabel lookup — speaks the same label dialect. Without this, the live
+    // static-site HTML yields "Exhibit A" and formatExhibitTitle re-prefixes
+    // to "Exhibit Exhibit A" — the 55-07 orphan class.
+    const label = normalizeExhibitLabel(exhibit.label)
+    exhibits.push({ ...exhibit, label })
     for (const p of emitPersonnel(html, { sourceExhibitLabel: label })) {
       personnelByExhibit.push(p)
     }
