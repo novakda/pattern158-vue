@@ -66,6 +66,32 @@ export interface ComposeInput {
   readonly faqItemsJson: readonly FaqJsonItem[]
 }
 
+/**
+ * TZK-01: apply the `public` tag to every generator-emitted tiddler that does
+ * not already declare itself private OR public. Generators emit readonly tag
+ * arrays (Object.freeze-safe), so we return a new Tiddler object with a fresh
+ * tags array rather than mutating in place.
+ *
+ * Rules (Phase 58):
+ *   - Tiddler carries `private` tag → leave tags alone (respect authoring).
+ *   - Tiddler already carries `public` tag → leave tags alone (idempotent).
+ *   - Otherwise → prepend `public` to tags.
+ *
+ * Idempotent: withPublicTag(withPublicTag(t)) deep-equals withPublicTag(t).
+ */
+export function withPublicTag(tiddler: Tiddler): Tiddler {
+  const hasPrivate = tiddler.tags.includes('private')
+  const hasPublic = tiddler.tags.includes('public')
+  if (hasPrivate || hasPublic) return tiddler
+  return {
+    title: tiddler.title,
+    type: tiddler.type,
+    tags: ['public', ...tiddler.tags],
+    fields: tiddler.fields,
+    text: tiddler.text,
+  }
+}
+
 export function composeAllTiddlers(input: ComposeInput): Tiddler[] {
   const { bundle, exhibitsJson, faqItemsJson } = input
 
@@ -94,7 +120,7 @@ export function composeAllTiddlers(input: ComposeInput): Tiddler[] {
   const technologyTiddlers = emitTechnologyTiddlers(bundle.technologiesByExhibit)
   const testimonialTiddlers = emitTestimonialTiddlers(bundle.testimonials)
 
-  return [
+  const composed: Tiddler[] = [
     ...siteMetaTiddlers(),
     ...pageContentToTiddlers(bundle.pages),
     caseFilesIndexTiddler(exhibitsJson),
@@ -114,6 +140,14 @@ export function composeAllTiddlers(input: ComposeInput): Tiddler[] {
       exhibitLabels: bundle.exhibits.map((e) => e.label),
     }),
   ]
+
+  // TZK-01: default every generator-emitted tiddler to the `public` tag. The
+  // transform is a no-op for any tiddler that already carries `public` or
+  // `private`, preserving user-authored drafts round-tripped through the
+  // generator.
+  const withPublic: Tiddler[] = []
+  for (const t of composed) withPublic.push(withPublicTag(t))
+  return withPublic
 }
 
 async function main(): Promise<void> {
