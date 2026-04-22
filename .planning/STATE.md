@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: executing
-last_updated: "2026-04-22T05:54:58.363Z"
+last_updated: "2026-04-22T07:13:40.678Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
-  total_plans: 34
-  completed_plans: 34
-  percent: 100
+  total_plans: 42
+  completed_plans: 35
+  percent: 83
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 ## Current Position
 
 Phase: 53 — dom-extraction — EXECUTING
-Plan: 7 of 10
+Plan: 8 of 10
 Status: Ready to execute
 Last activity: 2026-04-22
 
-Progress: [██████████] 100%
+Progress: [████████░░] 83%
 
 ## Performance Metrics
 
@@ -142,6 +142,9 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 53 Plan 07: :scope > p child-combinator in exhibit-quote text extraction prevents nested p capture; footer === null flow-sensitive narrowing avoids non-null assertion in firstNonRoleSpan call
 - Phase 53 Plan 05 (EXTR-04): DESCRIPTION_SPAN_SELECTOR uses child combinator to prevent finding-resolution inner spans from leaking into description field
 - Phase 53 Plan 05 (EXTR-04): severity and outcome emit empty string (no DOM hooks in current static-site HTML); forward-compat for Phase 54 ATOM-02 overlay from exhibits.json
+- Phase 54 Plan 01: truncateAtWordBoundary ellipsis is single codepoint '…' (U+2026), not three ASCII dots; reserves 1 char of budget for ellipsis (sliceBudget = maxLen - 1)
+- Phase 54 Plan 01: generators/types.ts uses 'export type { ... }' (not 'export { ... }') to avoid runtime edge-load of happy-dom Window imported by extractors/types.ts — generators never need happy-dom
+- Phase 54 Plan 01: formatExhibitTitle trims label argument so extractor edge cases ('  J  ') still produce canonical 'Exhibit J'; wikiLink is a pure [[...]] wrapper with no escaping
 
 ### Pending Todos
 
@@ -153,8 +156,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T05:54:50.699Z
+Last session: 2026-04-22T07:13:31.783Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
-Resume file: Parallel executor git race on f41d0f6 documented in 53-05-SUMMARY.md
+Resume file: None
 
 **Next step:** `/gsd:plan-phase 53` (DOM Extraction) — or `/gsd:discuss-phase 53` first if you want to surface gray areas before planning.
