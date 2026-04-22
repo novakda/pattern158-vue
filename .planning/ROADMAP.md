@@ -366,7 +366,14 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   3. Per-FAQ tiddler footer lists sibling FAQs in the same category + any linked exhibit callouts, replacing the generic `[[FAQ Index]]` stub (FIX-03).
   4. Case Files Index renders as sortable/filterable table (columns: date, client, type, label) — not a flat bulleted list (FIX-04).
   5. Iter-1 `scripts/tiddlywiki/generate.ts` remains runnable throughout the phase; regression smoke asserts no previously-working tiddler is lost.
-**Plans:** TBD (locked during `/gsd:plan-phase 55`).
+**Plans:** 7 plans
+  - [ ] 55-01-PLAN.md — extract-all.ts orchestrator (Phase 53 extractors → ExtractedBundle)
+  - [ ] 55-02-PLAN.md — pageContentToTiddlers + generate.ts page path swap (FIX-02)
+  - [ ] 55-03-PLAN.md — exhibit subsection walker fix + cross-link footer wiring (FIX-01)
+  - [ ] 55-04-PLAN.md — atomic tiddler generators (person/finding/technology/testimonial) wired into generate.ts
+  - [ ] 55-05-PLAN.md — FAQ footer enrichment (siblings + exhibit callouts) (FIX-03)
+  - [ ] 55-06-PLAN.md — Case Files Index as sortable TiddlyWiki table (FIX-04)
+  - [ ] 55-07-PLAN.md — composeAllTiddlers refactor + verify-integrity.ts HARD GATE + 55-VERIFICATION.md
 
 ### Phase 56: Tests
 **Goal**: Extractor behavior, tiddler-generator behavior, end-to-end capture→generate flow, and cross-link integrity are all covered by automated tests in the `scripts` Vitest project — correctness is locked before visual + publishing work lands in Phases 57/58.
