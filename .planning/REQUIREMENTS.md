@@ -29,7 +29,8 @@ Requirements grouped by category. Each maps to one roadmap phase.
 
 Structured parsers over captured HTML. Foundation for everything else.
 
-- [ ] **EXTR-01**: `scripts/tiddlywiki/extractors/faq.ts` parses `.faq-accordion-item` DOM from captured FAQ page — emits `FaqItem[]` with question, answer, categories, id. Fallback to `src/data/json/faq.json` if live capture is stale.
+- [x] **EXTR-01
+**: `scripts/tiddlywiki/extractors/faq.ts` parses `.faq-accordion-item` DOM from captured FAQ page — emits `FaqItem[]` with question, answer, categories, id. Fallback to `src/data/json/faq.json` if live capture is stale.
 - [x] **EXTR-02
 **: `scripts/tiddlywiki/extractors/exhibit.ts` parses exhibit detail page DOM — emits structured `Exhibit` with label, client, date, title, exhibitType, context, sections (with nested subsections), impactTags, summary, role, emailCount.
 - [x] **EXTR-03

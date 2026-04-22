@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: executing
-last_updated: "2026-04-22T05:50:21.907Z"
+last_updated: "2026-04-22T05:51:09.065Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
   total_plans: 34
-  completed_plans: 29
-  percent: 85
+  completed_plans: 30
+  percent: 88
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 ## Current Position
 
 Phase: 53 — dom-extraction — EXECUTING
-Plan: 3 of 10
+Plan: 4 of 10
 Status: Ready to execute
 Last activity: 2026-04-22
 
-Progress: [█████████░] 85%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
@@ -133,6 +133,7 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 53 Plan 03: normalizeExhibitType uses lowercase+dash-collapse with safe fallback to engineering-brief; collectSubsections walks section.children with for-of accumulator (not :scope queries); KNOWN_SIBLING_HEADINGS filter keeps Personnel/Technologies/Findings out of Exhibit.sections (sibling extractors own them); CONTEXT_HEADING_CANDIDATES={Background,Context} first-match-wins
 - Plan 53-04: Row selector scoped to 'table.personnel-table tbody tr' to avoid cross-table leakage
 - Plan 53-04: deriveEntryType checks anonymized BEFORE group — identity protection wins over group-membership labeling when both classes present
+- 53-02: emitFaqItems returns readonly FaqItem[] via NodeList forEach; emitFaqItemsFromJson is the caller-invoked fallback sibling
 
 ### Pending Todos
 
@@ -144,7 +145,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T05:50:21.902Z
+Last session: 2026-04-22T05:51:09.061Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 
