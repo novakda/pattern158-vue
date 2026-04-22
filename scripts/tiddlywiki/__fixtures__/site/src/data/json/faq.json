@@ -1,0 +1,20 @@
+[
+  {
+    "id": "what-does-the-fixture-cover",
+    "question": "What does the fixture cover?",
+    "answer": "The fixture exercises every DOM extractor in one hermetic pass.",
+    "categories": ["general"]
+  },
+  {
+    "id": "how-many-fixture-exhibits-exist",
+    "question": "How many fixture exhibits exist?",
+    "answer": "Two: Exhibit A and Exhibit B, each with their own personnel and findings.",
+    "categories": ["general"]
+  },
+  {
+    "id": "does-the-fixture-reference-an-exhibit",
+    "question": "Does the fixture reference an exhibit?",
+    "answer": "Yes — see Exhibit A for a sample engagement.",
+    "categories": ["references"]
+  }
+]

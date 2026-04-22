@@ -1,0 +1,23 @@
+[
+  {
+    "label": "Exhibit A",
+    "client": "Fixture Client Alpha",
+    "date": "2020",
+    "title": "Fixture Investigation Alpha",
+    "exhibitType": "investigation-report",
+    "quotes": [
+      {
+        "text": "Great fixture work on Exhibit A.",
+        "attribution": "Alpha Lead",
+        "role": "sponsor"
+      }
+    ]
+  },
+  {
+    "label": "Exhibit B",
+    "client": "Fixture Client Beta",
+    "date": "2021",
+    "title": "Fixture Engineering Brief Beta",
+    "exhibitType": "engineering-brief"
+  }
+]
