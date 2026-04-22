@@ -1,0 +1,34 @@
+created: 20260421000000000
+list-after: $:/core/ui/ViewTemplate/title
+modified: 20260421000000000
+tags: $:/tags/ViewTemplate
+title: $:/plugins/pattern158/view/exhibit
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$list filter="[all[current]tag[exhibit]]" variable="ignore">
+<div class="p158-exhibit-meta">
+<dl>
+<$list filter="[all[current]has[client]]" variable="ignore">
+<dt>Client</dt>
+<dd><$view field="client"/></dd>
+</$list>
+<$list filter="[all[current]has[exhibit-date]]" variable="ignore">
+<dt>Date</dt>
+<dd><$view field="exhibit-date"/></dd>
+</$list>
+<$list filter="[all[current]has[exhibit-type]]" variable="ignore">
+<dt>Type</dt>
+<dd><$view field="exhibit-type"/></dd>
+</$list>
+<$list filter="[all[current]has[role]]" variable="ignore">
+<dt>Role</dt>
+<dd><$view field="role"/></dd>
+</$list>
+<$list filter="[all[current]has[email-count]]" variable="ignore">
+<dt>Email Count</dt>
+<dd><$view field="email-count"/></dd>
+</$list>
+</dl>
+</div>
+</$list>
