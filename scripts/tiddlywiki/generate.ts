@@ -67,7 +67,13 @@ async function main(): Promise<void> {
     ...siteMetaTiddlers(),
     ...pageContentToTiddlers(bundle.pages),
     caseFilesIndexTiddler(exhibits),
-    ...exhibitsToTiddlers(exhibits),
+    ...exhibitsToTiddlers(exhibits, {
+      extractedExhibits: bundle.exhibits,
+      personnel: bundle.personnelByExhibit,
+      findings: bundle.findingsByExhibit,
+      technologies: bundle.technologiesByExhibit,
+      testimonials: bundle.testimonials,
+    }),
     faqIndexTiddler(faqItems),
     ...faqItemsToTiddlers(faqItems),
   ]
