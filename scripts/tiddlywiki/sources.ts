@@ -67,13 +67,69 @@ export interface FaqJsonItem {
 // FAQ → tiddlers
 // ---------------------------------------------------------------------------
 
-export function faqItemsToTiddlers(items: readonly FaqJsonItem[]): Tiddler[] {
+export interface FaqFooterContext {
+  readonly exhibitLabels: readonly string[]
+}
+
+const EXHIBIT_REF_REGEX = /\bExhibit\s+([A-Z])\b/g
+
+export function faqItemsToTiddlers(
+  items: readonly FaqJsonItem[],
+  ctx?: FaqFooterContext,
+): Tiddler[] {
+  // Precompute: category → list of questions in that category
+  const questionsByCategory = new Map<string, string[]>()
+  for (const item of items) {
+    for (const cat of item.categories) {
+      const bucket = questionsByCategory.get(cat)
+      if (bucket === undefined) questionsByCategory.set(cat, [item.question])
+      else bucket.push(item.question)
+    }
+  }
+  const knownExhibitLabels = ctx?.exhibitLabels ?? []
+  const knownExhibitSet = new Set(knownExhibitLabels)
+
   return items.map((item) => {
+    // Siblings
+    const siblings = new Set<string>()
+    for (const cat of item.categories) {
+      const bucket = questionsByCategory.get(cat) ?? []
+      for (const q of bucket) {
+        if (q !== item.question) siblings.add(q)
+      }
+    }
+    const sortedSiblings = Array.from(siblings).sort()
+
+    // Exhibit refs
+    const foundLabels = new Set<string>()
+    if (knownExhibitSet.size > 0) {
+      for (const match of item.answer.matchAll(EXHIBIT_REF_REGEX)) {
+        const label = match[1]
+        if (knownExhibitSet.has(label)) foundLabels.add(label)
+      }
+    }
+    const sortedLabels = Array.from(foundLabels).sort()
+
+    // Assemble footer
+    const footerBlocks: string[] = []
+    if (sortedSiblings.length > 0) {
+      const lines = sortedSiblings.map((q) => `* [[${q}]]`).join('\n')
+      footerBlocks.push(`! Related questions\n\n${lines}`)
+    }
+    if (sortedLabels.length > 0) {
+      const lines = sortedLabels.map((l) => `* [[Exhibit ${l}]]`).join('\n')
+      footerBlocks.push(`! Referenced exhibits\n\n${lines}`)
+    }
+    const footerBody = footerBlocks.length > 0
+      ? `${footerBlocks.join('\n\n')}\n\n`
+      : ''
+
     const body =
       `${renderAnswerParagraphs(item.answer)}\n\n` +
       `---\n\n` +
       `!! See also\n\n` +
-      `[[FAQ Index]]\n`
+      `${footerBody}[[FAQ Index]]\n`
+
     return {
       title: item.question,
       type: 'text/vnd.tiddlywiki',

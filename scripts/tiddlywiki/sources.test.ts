@@ -5,7 +5,12 @@
 
 import { describe, expect, it } from 'vitest'
 
-import { exhibitsToTiddlers, type ExhibitJson } from './sources.ts'
+import {
+  exhibitsToTiddlers,
+  faqItemsToTiddlers,
+  type ExhibitJson,
+  type FaqJsonItem,
+} from './sources.ts'
 import type {
   Exhibit,
   FindingEntry,
@@ -179,5 +184,112 @@ describe('exhibitsToTiddlers — horizontal rule before cross-link footer', () =
     const input: ExhibitJson[] = [{ ...BASE_EXHIBIT }]
     const tiddlers = exhibitsToTiddlers(input, ctx)
     expect(tiddlers[0].text).toMatch(/---\s*\n\s*! Personnel/)
+  })
+})
+
+// ---- FIX-03: faqItemsToTiddlers footer enrichment ----
+
+describe('faqItemsToTiddlers — sibling FAQ detection', () => {
+  it('links to another FAQ in the same category', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'q1', question: 'Q one?', answer: 'A one.', categories: ['hiring'] },
+      { id: 'q2', question: 'Q two?', answer: 'A two.', categories: ['hiring'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items)
+    expect(tiddlers[0].text).toContain('! Related questions')
+    expect(tiddlers[0].text).toContain('[[Q two?]]')
+  })
+})
+
+describe('faqItemsToTiddlers — sibling dedupe + sort across multiple categories', () => {
+  it('unions siblings across categories, dedupes, sorts alphabetically', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'a', question: 'A Question?', answer: 'ans a', categories: ['hiring', 'expertise'] },
+      { id: 'b', question: 'B Question?', answer: 'ans b', categories: ['hiring'] },
+      { id: 'c', question: 'C Question?', answer: 'ans c', categories: ['expertise'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items)
+    const bodyA = tiddlers[0].text
+    expect(bodyA).toContain('[[B Question?]]')
+    expect(bodyA).toContain('[[C Question?]]')
+    const posB = bodyA.indexOf('[[B Question?]]')
+    const posC = bodyA.indexOf('[[C Question?]]')
+    expect(posB).toBeGreaterThan(-1)
+    expect(posC).toBeGreaterThan(-1)
+    expect(posB).toBeLessThan(posC)
+  })
+})
+
+describe('faqItemsToTiddlers — no siblings', () => {
+  it('omits the Related questions block but keeps FAQ Index backlink', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'solo', question: 'Alone?', answer: 'solo.', categories: ['unique-cat'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items)
+    expect(tiddlers[0].text).not.toContain('! Related questions')
+    expect(tiddlers[0].text).toContain('[[FAQ Index]]')
+  })
+})
+
+describe('faqItemsToTiddlers — exhibit callout when referenced in answer', () => {
+  it('emits Referenced exhibits block for known labels', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'q', question: 'About J?', answer: 'See Exhibit J for context.', categories: ['x'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items, { exhibitLabels: ['J'] })
+    expect(tiddlers[0].text).toContain('! Referenced exhibits')
+    expect(tiddlers[0].text).toContain('[[Exhibit J]]')
+  })
+})
+
+describe('faqItemsToTiddlers — unknown exhibit label filtered out', () => {
+  it('omits exhibits the project does not have', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'q', question: 'About Z?', answer: 'See Exhibit Z.', categories: ['x'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items, { exhibitLabels: ['A', 'B'] })
+    expect(tiddlers[0].text).not.toContain('[[Exhibit Z]]')
+  })
+})
+
+describe('faqItemsToTiddlers — multiple exhibit refs dedupe + sort', () => {
+  it('dedupes repeated refs and sorts labels alphabetically', () => {
+    const items: FaqJsonItem[] = [
+      {
+        id: 'q',
+        question: 'About A and C?',
+        answer: 'See Exhibit A and Exhibit A and Exhibit C.',
+        categories: ['x'],
+      },
+    ]
+    const tiddlers = faqItemsToTiddlers(items, { exhibitLabels: ['A', 'B', 'C'] })
+    const body = tiddlers[0].text
+    const posA = body.indexOf('[[Exhibit A]]')
+    const posC = body.indexOf('[[Exhibit C]]')
+    expect(posA).toBeGreaterThan(-1)
+    expect(posC).toBeGreaterThan(-1)
+    expect(posA).toBeLessThan(posC)
+    const count = (body.match(/\[\[Exhibit A\]\]/g) ?? []).length
+    expect(count).toBe(1)
+  })
+})
+
+describe('faqItemsToTiddlers — ctx undefined', () => {
+  it('omits the exhibit block entirely when ctx is not provided', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'q', question: 'About J?', answer: 'See Exhibit J.', categories: ['x'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items)
+    expect(tiddlers[0].text).not.toContain('! Referenced exhibits')
+  })
+})
+
+describe('faqItemsToTiddlers — FAQ Index backlink always present', () => {
+  it('includes [[FAQ Index]] at the footer end', () => {
+    const items: FaqJsonItem[] = [
+      { id: 'q', question: 'Q?', answer: 'A.', categories: ['x'] },
+    ]
+    const tiddlers = faqItemsToTiddlers(items)
+    expect(tiddlers[0].text).toMatch(/\[\[FAQ Index\]\]\s*$/)
   })
 })
