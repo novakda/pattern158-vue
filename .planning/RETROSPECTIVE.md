@@ -4,6 +4,58 @@
 
 ---
 
+## Milestone: v9.0 — Continue tiddlywiki intake and conversion (SHIPPED)
+
+**Shipped:** 2026-04-22
+**Phases completed:** 7 (53-59) | **Plans:** 25 (53: 10, 54: 8, 55: 7 + hotfix) + 4 planless SUMMARY-only phases (56/57/58/59 executed end-to-end) | **Tests added:** ~190 new (~401 baseline from v8.0 → 593 at v9.0 completion) | **Milestone audit:** `.planning/milestones/v9.0-MILESTONE-AUDIT.md`
+
+### What Was Built
+
+- Eight DOM extractors under `scripts/tiddlywiki/extractors/` — FAQ, exhibit, personnel, findings, technologies, testimonials, pages, case-files-index — each exporting a pure typed `emit` function over `happy-dom`-parsed input with inline-HTML fixture tests covering shape, edge cases, and DOM-order preservation. Foundation for everything downstream.
+- Six atomic tiddler generators under `scripts/tiddlywiki/generators/` — per-person / per-finding / per-technology / per-testimonial plus exhibit cross-link bundles and `verify-integrity.ts` orphan detector. ~250 atomic tiddlers inside the 367-tiddler final corpus.
+- Iter-1 generator refactored (not rewritten): `exhibitsToTiddlers` walks nested subsections (no more empty `!! Background` headings); `pageContentToTiddlers` replaces the iter-1 HTML→wikitext converter path for non-exhibit pages; FAQ footer enriched with siblings + exhibit callouts; Case Files Index rendered as sortable 4-column TiddlyWiki table; composeAllTiddlers refactor + HARD GATE enforcing 0 orphaned cross-links.
+- Pattern 158 brand theme: color tokens, typography, 4 type-specific ViewTemplates (exhibit / person / finding / default), badge/pill CSS passthrough, dark/light parity matching the Vue site's design tokens.
+- Tzk-inspired private/public structure — `public` default tag, `private` opt-out via `+[!tag[private]]` filter (intersection prefix locked via canary-tiddler smoke test: sentinel absent from public build, present in all build), `pnpm tiddlywiki:build-public` + `pnpm tiddlywiki:build-all` targets producing 2.8 MB deploy-ready HTML, `tiddlywiki/` layout (`tiddlers/`/`output/`/`config/`/`build/`).
+- Three contributor docs (4,919 words total): `scripts/tiddlywiki/README.md` (DOM-extractor architecture), `tiddlywiki/README.md` (tzk workflow + deploy + git cadence), `tiddlywiki/CONTRIBUTING.md` (direct-edit vs regenerate + merge-conflict resolution).
+- 593 scripts tests passing; hermetic e2e smoke (fixture http-server round-trip, 27 fixture tiddlers, 0 orphans); full-corpus integrity test; all 7 milestone gates green in the audit.
+
+### What Went Well
+
+- **Phase-boundary LOCK made parallel-layer development safe.** Extractors (pure DOM parse) → generators (pure data transforms) → wiring (generate.ts composes) — no cross-boundary modifications during extension work. Each layer owns its test surface. Plan 53 tests never broke when Plan 54 shipped; Plan 54 tests never broke when Plan 55 wired generate.ts.
+- **happy-dom everywhere paid off.** One parser across the v8.0 editorial convert pipeline and the v9.0 tiddlywiki extractors — one dependency, one deprecation surface. File-scoped `/// <reference lib="dom" />` reused across both pipelines without leaking browser globals into shared lib.
+- **Phase 55 HARD GATE caught the exhibit-title drift.** The hotfix canonicalizing exhibit tiddler title to short form (`"Exhibit A"`) surfaced 267 orphaned cross-links that never would have been visible without the integrity check running at full corpus scale. Single-source constants + grep-based title canon lock means future drift trips CI.
+- **Canary-tiddler smoke test locked the tzk filter semantics.** `[!tag[private]]` unions with `saveTiddlerFilter`; `+[!tag[private]]` with the intersection prefix narrows correctly. Subtle; would have been missed without a sentinel-tiddler verification artifact. The canary is worth more than 10 unit tests.
+- **SCAF-08 discipline scaled.** The v8.0 grep-based forbidden-token gates (`Date.now`, `Promise.all`, `@/` alias, `setTimeout`) transferred to v9.0's tiddlywiki codebase unchanged — producers stay deterministic and idempotent without any new infrastructure.
+- **No JSDoc convention survived contact with the audit.** The `/** */` end-marker hazard flagged during v8.0 executor work (glob wildcards like `badge-*` inside block comments closing the comment prematurely) was codified in CONVENTIONS.md. Zero incidents across v9.0's 593 tests.
+- **Planless execution for 56/57/58/59 worked when scope was tight.** Phases 56–59 each had SUMMARY-only trails (no per-plan PLAN.md files) because their goals were gate-checkable without decomposition (run the test suite, apply the brand palette, wire the build targets, write the READMEs). The milestone audit verified them just as rigorously as the multi-plan phases.
+
+### What Would Be Done Differently
+
+- **REQUIREMENTS.md checkbox hygiene lagged execution.** Live REQ checkboxes stayed mostly `[ ]` throughout v9.0 even as phases completed — the audit's 34/34 verdict was derived from phase SUMMARY.md existence rather than checkbox state. This created a divergence the milestone-close archive had to reconcile manually. For future milestones, close each phase by flipping its REQ-IDs in REQUIREMENTS.md before moving on, OR drop the live checkbox list and rely purely on phase SUMMARY.md + audit.
+- **Phase-dir archival wasn't automatic.** `/gsd-cleanup` retroactively archived phases 46-59 into `milestones/v{8,9}.0-phases/` at milestone-close time, not at phase-ship time. The `gsd-sdk query milestone.complete` handler turned out to be a stub (calls `phases archive` with no args, always errors). All milestone-close archival (REQUIREMENTS/ROADMAP snapshots, MILESTONES.md entry, PROJECT.md evolution) was AI-driven manually. Worth opening an issue on the SDK for this.
+- **Deferred-from-v8.0 items crossed a milestone boundary ambiguously.** EDIT-01..04 (human editorial writeup) and AUDT-02/03 (v9.0 verdict doc) rode along in the active `REQUIREMENTS.md` during v9.0 execution without a clear status — are they v8.0 debt or v9.0 scope? Resolved at v9.0 close by documenting them as "carried-forward deferrals" in both archive headers. A cleaner boundary contract would be: deferred items graduate into a standing `DEFERRED.md` file at milestone close, not ride the next REQUIREMENTS.md.
+- **The `milestone.complete` CLI handler is a stub.** `gsd-sdk query milestone.complete "v9.0" --name "..."` just calls `phasesArchive([])` which errors on missing version. Worth upstreaming a real handler (or at least a clear error telling the caller to pass the version through).
+- **Progress section in ROADMAP.md drifted during execution.** The live ROADMAP.md Progress tables still said "In progress" / "0/TBD" for Phases 53–59 at milestone-close time — nobody was updating them as phases shipped. For v10.0, either auto-update via `state.advance-plan` or drop the live progress section entirely in favor of `gsd-sdk query roadmap.analyze` on demand.
+
+### Decisions Locked for Future Reference
+
+- **Canonical source = live pattern158.solutions** via Playwright DOM + screenshots. Project JSON files + Obsidian vault are editorial reference, not canonical. Prevents drift between shipped site and generated wiki.
+- **Atomic decomposition as a first-class pattern**: per-entity tiddlers alongside page / FAQ / exhibit-overview tiddlers enable cross-linking at scale. Integrity gate enforces graph consistency.
+- **Phase-boundary LOCK**: extractors (pure DOM parse) → generators (pure data transforms) → wiring in generate.ts. No cross-boundary modifications during extension work. Keep this pattern for future multi-layer refactors.
+- **Exhibit tiddler title canon = short form** (`"Exhibit A"`). Long form (`"Exhibit A: Meridian Legacy System"`) drifts; short form is the tag target + wikilink target + tiddler title source of truth.
+- **Tzk `+[!tag[private]]` filter syntax lock**: intersection prefix required. Verified via canary-tiddler sentinel. Raw `[!tag[private]]` is a bug.
+- **`pnpm tiddlywiki:generate` is the regeneration entrypoint**; git diff surfaces what changed since last capture. Source of truth is git; tiddler files are committable.
+
+### Metrics
+
+- **Plans shipped:** 25 explicit plans across 3 phases (53: 10, 54: 8, 55: 7 + hotfix) + 4 planless SUMMARY-only phases (56/57/58/59)
+- **Test growth:** ~190 new tests (baseline 401 from v8.0 → 593 at v9.0 completion)
+- **Final corpus size:** 367 tiddlers (~250 atomic, 117 composite), 0 orphaned cross-links, 2.8 MB HTML per build variant
+- **Phase 55 hotfix impact:** 267 orphaned cross-links resolved by single canonicalization change (long-form → short-form exhibit titles)
+- **Audit gates:** 7/7 green (pnpm build, test:scripts 593 passing, tiddlywiki:generate 367 tiddlers, verify-integrity 0 orphans, build-public 2.8 MB, build-all 2.8 MB, hermetic e2e 6/6 with 27 fixture tiddlers)
+
+---
+
 ## Milestone: v8.0 — Editorial Snapshot & Content Audit (SHIPPED)
 
 **Shipped:** 2026-04-20
