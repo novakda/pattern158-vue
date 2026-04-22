@@ -110,7 +110,9 @@ async function main(): Promise<void> {
     ...technologyTiddlers,
     ...testimonialTiddlers,
     faqIndexTiddler(faqItems),
-    ...faqItemsToTiddlers(faqItems),
+    ...faqItemsToTiddlers(faqItems, {
+      exhibitLabels: bundle.exhibits.map((e) => e.label),
+    }),
   ]
 
   await fsp.mkdir(TIDDLER_DIR, { recursive: true })
