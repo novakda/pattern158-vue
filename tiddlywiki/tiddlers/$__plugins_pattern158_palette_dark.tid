@@ -1,0 +1,124 @@
+created: 20260421000000000
+modified: 20260421000000000
+description: Pattern 158 brand palette — dark mode
+name: Pattern 158 Dark
+tags: $:/tags/Palette
+title: $:/plugins/pattern158/palette/dark
+type: application/x-tiddler-dictionary
+
+alert-background: #ff8c99
+alert-border: #c85a66
+alert-highlight: #d9b232
+alert-muted-foreground: #ababab
+background: #1a2838
+blockquote-bar: <<colour muted-foreground>>
+button-background:
+button-foreground:
+button-border:
+code-background: #243447
+code-border: #5d7289
+code-foreground: #e8e8e8
+diff-delete-background: #4a2a2a
+diff-delete-foreground: <<colour foreground>>
+diff-equal-background:
+diff-equal-foreground: <<colour foreground>>
+diff-insert-background: #1f3a2a
+diff-insert-foreground: <<colour foreground>>
+diff-invisible-background:
+diff-invisible-foreground: <<colour muted-foreground>>
+dirty-indicator: #ff8c99
+download-background: #30c9dc
+download-foreground: #0a1e2e
+dragger-background: <<colour foreground>>
+dragger-foreground: <<colour background>>
+dropdown-background: #243447
+dropdown-border: #5d7289
+dropdown-tab-background-selected: #2a3f54
+dropdown-tab-background: #1a2838
+dropzone-background: rgba(48,201,220,0.18)
+external-link-background-hover: inherit
+external-link-background-visited: inherit
+external-link-background: inherit
+external-link-foreground-hover: inherit
+external-link-foreground-visited: #20b8cc
+external-link-foreground: #30c9dc
+foreground: #e8e8e8
+menubar-background: #0d1b2a
+menubar-foreground: #e8e8e8
+message-background: #243447
+message-border: #5d7289
+message-foreground: #e8e8e8
+modal-backdrop: <<colour foreground>>
+modal-background: #2a3f54
+modal-border: #5d7289
+modal-footer-background: #243447
+modal-footer-border: #5d7289
+modal-header-border: #5d7289
+muted-foreground: #ababab
+notification-background: #243447
+notification-border: #5d7289
+page-background: #1a2838
+pre-background: #243447
+pre-border: #5d7289
+primary: #30c9dc
+select-tag-background: #2a3f54
+select-tag-foreground: #e8e8e8
+sidebar-button-foreground: #e8e8e8
+sidebar-controls-foreground-hover: #30c9dc
+sidebar-controls-foreground: #ababab
+sidebar-foreground-shadow: rgba(0,0,0,0.6)
+sidebar-foreground: #e8e8e8
+sidebar-muted-foreground-hover: #e8e8e8
+sidebar-muted-foreground: #ababab
+sidebar-tab-background-selected: #2a3f54
+sidebar-tab-background: #1a2838
+sidebar-tab-border-selected: <<colour tab-border-selected>>
+sidebar-tab-border: <<colour tab-border>>
+sidebar-tab-divider: <<colour tab-divider>>
+sidebar-tab-foreground-selected:
+sidebar-tab-foreground: <<colour tab-foreground>>
+sidebar-tiddler-link-foreground-hover: #20b8cc
+sidebar-tiddler-link-foreground: #30c9dc
+site-title-foreground: #e8e8e8
+static-alert-foreground: #a8a8a8
+tab-background-selected: #2a3f54
+tab-background: #243447
+tab-border-selected: #5d7289
+tab-border: #3d5266
+tab-divider: #5d7289
+tab-foreground-selected: <<colour tab-foreground>>
+tab-foreground: #e8e8e8
+table-border: #5d7289
+table-footer-background: #243447
+table-header-background: #243447
+tag-background: #30c9dc
+tag-foreground: #0a1e2e
+tiddler-background: #2a3f54
+tiddler-border: #5d7289
+tiddler-controls-foreground-hover: #30c9dc
+tiddler-controls-foreground-selected: #30c9dc
+tiddler-controls-foreground: #ababab
+tiddler-editor-background: #243447
+tiddler-editor-border-image: #5d7289
+tiddler-editor-border: #5d7289
+tiddler-editor-fields-even: #2a3f54
+tiddler-editor-fields-odd: #243447
+tiddler-info-background: #243447
+tiddler-info-border: #5d7289
+tiddler-info-tab-background: #2a3f54
+tiddler-link-background: <<colour background>>
+tiddler-link-foreground: #30c9dc
+tiddler-subtitle-foreground: #ababab
+tiddler-title-foreground: #e8e8e8
+toolbar-new-button:
+toolbar-options-button:
+toolbar-save-button:
+toolbar-info-button:
+toolbar-control-panel-button:
+toolbar-advanced-search-button:
+toolbar-close-all-button:
+toolbar-permaview-button:
+toolbar-unfold-all-button:
+toolbar-fold-all-button:
+untagged-background: #5d7289
+very-muted-foreground: #5d7289

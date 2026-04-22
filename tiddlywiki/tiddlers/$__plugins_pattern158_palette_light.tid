@@ -1,0 +1,124 @@
+created: 20260421000000000
+modified: 20260421000000000
+description: Pattern 158 brand palette — light mode
+name: Pattern 158 Light
+tags: $:/tags/Palette
+title: $:/plugins/pattern158/palette/light
+type: application/x-tiddler-dictionary
+
+alert-background: #c82333
+alert-border: #a61d28
+alert-highlight: #8f6d00
+alert-muted-foreground: #666666
+background: #faf9f6
+blockquote-bar: <<colour muted-foreground>>
+button-background:
+button-foreground:
+button-border:
+code-background: #e8e8e8
+code-border: #dddddd
+code-foreground: #2d3436
+diff-delete-background: #ffe6e6
+diff-delete-foreground: <<colour foreground>>
+diff-equal-background:
+diff-equal-foreground: <<colour foreground>>
+diff-insert-background: #e6f5e6
+diff-insert-foreground: <<colour foreground>>
+diff-invisible-background:
+diff-invisible-foreground: <<colour muted-foreground>>
+dirty-indicator: #c82333
+download-background: #0e7c8c
+download-foreground: <<colour background>>
+dragger-background: <<colour foreground>>
+dragger-foreground: <<colour background>>
+dropdown-background: <<colour background>>
+dropdown-border: <<colour muted-foreground>>
+dropdown-tab-background-selected: #faf9f6
+dropdown-tab-background: #e8e8e8
+dropzone-background: rgba(14,124,140,0.15)
+external-link-background-hover: inherit
+external-link-background-visited: inherit
+external-link-background: inherit
+external-link-foreground-hover: inherit
+external-link-foreground-visited: #0a6a78
+external-link-foreground: #0e7c8c
+foreground: #2d3436
+menubar-background: #1a2838
+menubar-foreground: #faf9f6
+message-background: #e8e8e8
+message-border: #dddddd
+message-foreground: #2d3436
+modal-backdrop: <<colour foreground>>
+modal-background: <<colour background>>
+modal-border: #dddddd
+modal-footer-background: #f0f0f0
+modal-footer-border: #dddddd
+modal-header-border: #dddddd
+muted-foreground: #666666
+notification-background: #faf9f6
+notification-border: #dddddd
+page-background: #faf9f6
+pre-background: #e8e8e8
+pre-border: #dddddd
+primary: #0e7c8c
+select-tag-background: <<colour background>>
+select-tag-foreground: <<colour foreground>>
+sidebar-button-foreground: <<colour foreground>>
+sidebar-controls-foreground-hover: #0e7c8c
+sidebar-controls-foreground: #666666
+sidebar-foreground-shadow: rgba(255,255,255,0.8)
+sidebar-foreground: #2d3436
+sidebar-muted-foreground-hover: #2d3436
+sidebar-muted-foreground: #666666
+sidebar-tab-background-selected: #faf9f6
+sidebar-tab-background: #e8e8e8
+sidebar-tab-border-selected: <<colour tab-border-selected>>
+sidebar-tab-border: <<colour tab-border>>
+sidebar-tab-divider: <<colour tab-divider>>
+sidebar-tab-foreground-selected:
+sidebar-tab-foreground: <<colour tab-foreground>>
+sidebar-tiddler-link-foreground-hover: #0a6a78
+sidebar-tiddler-link-foreground: #0e7c8c
+site-title-foreground: #1a2838
+static-alert-foreground: #737373
+tab-background-selected: #faf9f6
+tab-background: #e8e8e8
+tab-border-selected: #dddddd
+tab-border: #cccccc
+tab-divider: #dddddd
+tab-foreground-selected: <<colour tab-foreground>>
+tab-foreground: #2d3436
+table-border: #dddddd
+table-footer-background: #e8e8e8
+table-header-background: #e8e8e8
+tag-background: #1a2838
+tag-foreground: #faf9f6
+tiddler-background: <<colour background>>
+tiddler-border: <<colour background>>
+tiddler-controls-foreground-hover: #0e7c8c
+tiddler-controls-foreground-selected: #0e7c8c
+tiddler-controls-foreground: #666666
+tiddler-editor-background: #ffffff
+tiddler-editor-border-image: #dddddd
+tiddler-editor-border: #dddddd
+tiddler-editor-fields-even: #f5f5f5
+tiddler-editor-fields-odd: #ffffff
+tiddler-info-background: #e8e8e8
+tiddler-info-border: #dddddd
+tiddler-info-tab-background: #faf9f6
+tiddler-link-background: <<colour background>>
+tiddler-link-foreground: #0e7c8c
+tiddler-subtitle-foreground: #666666
+tiddler-title-foreground: #1a2838
+toolbar-new-button:
+toolbar-options-button:
+toolbar-save-button:
+toolbar-info-button:
+toolbar-control-panel-button:
+toolbar-advanced-search-button:
+toolbar-close-all-button:
+toolbar-permaview-button:
+toolbar-unfold-all-button:
+toolbar-fold-all-button:
+untagged-background: #dddddd
+very-muted-foreground: #dddddd

@@ -1,0 +1,256 @@
+created: 20260421000000000
+modified: 20260421000000000
+tags: $:/tags/Stylesheet
+title: $:/plugins/pattern158/styles
+type: text/vnd.tiddlywiki
+
+\rules only filteredtranscludeinline transcludeinline macrodef macrocallinline macrocallblock
+
+<style>
+/* ================================================================
+   Pattern 158 — TiddlyWiki brand stylesheet
+   Phase 57: THEME-01/02/05 — color tokens, typography, badge/pill parity
+   Source of truth: src/assets/css/main.css (:root tokens)
+   ================================================================ */
+
+/* --- Pattern 158 brand tokens ---
+   Mapped onto the document root so wikitext that references
+   var(--p158-*) resolves consistently inside the wiki sandbox.
+*/
+html body.tc-body {
+    --p158-primary: #0e7c8c;
+    --p158-primary-hover: #0a6a78;
+    --p158-primary-on-dark: #20b8cc;
+    --p158-primary-on-alt: #0c6f7e;
+    --p158-accent: #8f6d00;
+    --p158-accent-on-alt: #7a5c00;
+    --p158-background: #faf9f6;
+    --p158-background-alt: #e8e8e8;
+    --p158-surface: #ffffff;
+    --p158-text: #2d3436;
+    --p158-text-muted: #666666;
+    --p158-text-light: #737373;
+    --p158-heading: #1a2838;
+    --p158-inverse: #1a2838;
+    --p158-inverse-text: #faf9f6;
+    --p158-border: #dddddd;
+    --p158-danger: #c82333;
+
+    --p158-font-heading: 'Bebas Neue', 'Arial Black', sans-serif;
+    --p158-font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --p158-font-mono: 'JetBrains Mono', 'Courier New', monospace;
+
+    --p158-radius-sm: 3px;
+    --p158-radius-md: 4px;
+    --p158-radius-pill: 20px;
+}
+
+/* Dark mode: palette switcher sets body[data-theme="dark"] via our custom
+   controller, but TW's native palette mechanism is the canonical dark
+   switch — both work because token overrides target :root-equivalents. */
+[data-theme="dark"] html body.tc-body,
+html body.tc-body[data-theme="dark"] {
+    --p158-background: #1a2838;
+    --p158-background-alt: #243447;
+    --p158-surface: #2a3f54;
+    --p158-text: #e8e8e8;
+    --p158-text-muted: #ababab;
+    --p158-text-light: #a8a8a8;
+    --p158-heading: #e8e8e8;
+    --p158-primary: #30c9dc;
+    --p158-accent: #d9b232;
+    --p158-border: #5d7289;
+    --p158-danger: #ff8c99;
+}
+
+/* --- Typography parity ---
+   TW uses its own font stack; override the main content + headings to
+   match Pattern 158 (Bebas Neue display, Inter body, JetBrains Mono code).
+*/
+body.tc-body {
+    font-family: var(--p158-font-body);
+    color: var(--p158-text);
+    background: var(--p158-background);
+}
+
+body.tc-body h1,
+body.tc-body h2,
+body.tc-body h3,
+body.tc-body h4,
+body.tc-body h5,
+body.tc-body h6,
+.tc-titlebar,
+.tc-tiddler-title,
+.tc-site-title {
+    font-family: var(--p158-font-heading);
+    color: var(--p158-heading);
+    letter-spacing: 0.5px;
+}
+
+body.tc-body pre,
+body.tc-body code,
+body.tc-body kbd,
+body.tc-body samp {
+    font-family: var(--p158-font-mono);
+}
+
+/* Link accents: Pattern 158 teal */
+body.tc-body .tc-tiddlylink,
+body.tc-body a.tc-tiddlylink {
+    color: var(--p158-primary);
+}
+
+body.tc-body .tc-tiddlylink:hover {
+    color: var(--p158-primary-hover);
+}
+
+/* --- Badge / pill / tag / severity / category parity ---
+   Mirrors src/assets/css/main.css class rules — flat backgrounds only
+   (no gradients or shadows) for wikitext-embedded spans.
+*/
+body.tc-body .badge,
+body.tc-body .pill {
+    display: inline-block;
+    padding: 0.125rem 0.625rem;
+    border-radius: var(--p158-radius-pill);
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-family: var(--p158-font-mono);
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+    background: var(--p158-background-alt);
+    color: var(--p158-text);
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+
+body.tc-body .badge {
+    border-radius: var(--p158-radius-sm);
+}
+
+/* Expertise badges (badge-deep / badge-working / badge-aware) */
+body.tc-body .badge-deep {
+    background: var(--p158-primary);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .badge-working {
+    background: var(--p158-accent);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .badge-aware {
+    background: var(--p158-text-muted);
+    color: var(--p158-inverse-text);
+}
+
+/* Severity — lead color for findings */
+body.tc-body .severity-critical {
+    background: var(--p158-danger);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .severity-high {
+    background: var(--p158-accent);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .severity-medium {
+    background: var(--p158-primary);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .severity-low {
+    background: var(--p158-text-muted);
+    color: var(--p158-inverse-text);
+}
+
+body.tc-body .severity-unknown {
+    background: var(--p158-border);
+    color: var(--p158-text);
+}
+
+/* Category — neutral pill for finding/technology classification */
+body.tc-body .category-tooling,
+body.tc-body .category-integration,
+body.tc-body .category-architecture,
+body.tc-body .category-data,
+body.tc-body .category-process,
+body.tc-body .category-security,
+body.tc-body .category-performance,
+body.tc-body .category-accessibility {
+    background: var(--p158-background-alt);
+    color: var(--p158-heading);
+    border: 1px solid var(--p158-border);
+}
+
+/* Tag pills — generic .tag-* styling (tags in tiddler meta etc.) */
+body.tc-body .tag-client,
+body.tc-body .tag-tech,
+body.tc-body .tag-role,
+body.tc-body .tag-domain {
+    background: var(--p158-inverse);
+    color: var(--p158-inverse-text);
+    padding: 0.125rem 0.5rem;
+    border-radius: var(--p158-radius-pill);
+    font-size: 0.75rem;
+}
+
+body.tc-body .tag-highlight {
+    background: var(--p158-primary);
+    color: var(--p158-inverse-text);
+}
+
+/* --- Pattern 158 ViewTemplate wrapper containers ---
+   Used by $:/plugins/pattern158/view/* templates (see below).
+*/
+.p158-exhibit-meta,
+.p158-person-meta,
+.p158-finding-header,
+.p158-testimonial-quote {
+    border-radius: var(--p158-radius-md);
+    padding: 0.75rem 1rem;
+    margin: 0 0 1rem 0;
+    background: var(--p158-surface);
+    border: 1px solid var(--p158-border);
+}
+
+.p158-exhibit-meta dt {
+    font-family: var(--p158-font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--p158-text-muted);
+    font-weight: 700;
+}
+
+.p158-exhibit-meta dd {
+    margin: 0 0 0.5rem 0;
+    color: var(--p158-text);
+}
+
+.p158-finding-header {
+    border-left: 6px solid var(--p158-primary);
+}
+
+.p158-finding-header.severity-critical { border-left-color: var(--p158-danger); }
+.p158-finding-header.severity-high     { border-left-color: var(--p158-accent); }
+.p158-finding-header.severity-medium   { border-left-color: var(--p158-primary); }
+.p158-finding-header.severity-low      { border-left-color: var(--p158-text-muted); }
+.p158-finding-header.severity-unknown  { border-left-color: var(--p158-border); }
+
+.p158-testimonial-quote {
+    border-left: 4px solid var(--p158-accent);
+    font-style: italic;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+}
+
+.p158-testimonial-quote cite {
+    display: block;
+    margin-top: 0.5rem;
+    font-style: normal;
+    font-size: 0.875rem;
+    color: var(--p158-text-muted);
+}
+</style>
