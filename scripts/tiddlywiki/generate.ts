@@ -1,33 +1,36 @@
 // scripts/tiddlywiki/generate.ts
-// v9.0 starter: generate a TiddlyWiki source folder from Pattern 158 data.
+// v9.0 orchestrator: reads static-site/ HTML + src/data/json/*.json,
+// runs the Phase 53 extractor layer via extract-all.ts, composes the
+// tiddler list via Phase 54 generators + iter-1 sources.ts helpers, and
+// writes tiddlywiki/tiddlers/*.tid + pattern158-tiddlers.json + tiddlywiki.info.
+// SCAF-08 policy: no wall-clock reads, no instantiated dates, no parallel
+// iteration helpers.
 //
-// Input sources:
-//   - src/data/json/faq.json      → per-question FAQ tiddlers + FAQ Index
-//   - src/data/json/exhibits.json → per-exhibit tiddlers + Case Files Index
-//   - static-site/*.html          → page tiddlers (Home, Philosophy, etc.)
+// Input sources (discovered via extractAll):
+//   - static-site/*.html (page + exhibit + case-files + faq HTML)
+//   - src/data/json/faq.json (FAQ fallback)
+//   - src/data/json/exhibits.json (iter-1 exhibit JSON; migration in Plan 55-03+)
 //
 // Output:
-//   - tiddlywiki/tiddlers/*.tid         (canonical source; git-trackable)
-//   - tiddlywiki/pattern158-tiddlers.json  (byproduct for drag-drop import)
-//   - tiddlywiki/tiddlywiki.info        (TW5 build manifest)
+//   - tiddlywiki/tiddlers/*.tid          (canonical source; git-trackable)
+//   - tiddlywiki/pattern158-tiddlers.json (drag-drop byproduct)
+//   - tiddlywiki/tiddlywiki.info         (TW5 build manifest)
 //
-// Build the single-file HTML wiki:
-//   npx tiddlywiki tiddlywiki --build index
+// Build single-file wiki:  npx tiddlywiki tiddlywiki --build index
 
 import { promises as fsp } from 'node:fs'
 import * as nodePath from 'node:path'
 
+import { extractAll } from './extract-all.ts'
+import { pageContentToTiddlers } from './page-content-to-tiddlers.ts'
 import {
   type ExhibitJson,
   type FaqJsonItem,
   caseFilesIndexTiddler,
-  defaultLinkMap,
   exhibitsToTiddlers,
   faqIndexTiddler,
   faqItemsToTiddlers,
-  pageSpecsToTiddlers,
   siteMetaTiddlers,
-  type PageSpec,
 } from './sources.ts'
 import {
   type Tiddler,
@@ -41,34 +44,6 @@ const OUTPUT_ROOT = nodePath.join(PROJECT_ROOT, 'tiddlywiki')
 const TIDDLER_DIR = nodePath.join(OUTPUT_ROOT, 'tiddlers')
 const JSON_BYPRODUCT = nodePath.join(OUTPUT_ROOT, 'pattern158-tiddlers.json')
 
-const PAGES: readonly PageSpec[] = [
-  {
-    title: 'Home',
-    sourceHtmlPath: 'static-site/index.html',
-    tags: ['page'],
-  },
-  {
-    title: 'Philosophy',
-    sourceHtmlPath: 'static-site/philosophy.html',
-    tags: ['page'],
-  },
-  {
-    title: 'Technologies',
-    sourceHtmlPath: 'static-site/technologies.html',
-    tags: ['page'],
-  },
-  {
-    title: 'Contact',
-    sourceHtmlPath: 'static-site/contact.html',
-    tags: ['page'],
-  },
-  {
-    title: 'Accessibility',
-    sourceHtmlPath: 'static-site/accessibility.html',
-    tags: ['page'],
-  },
-]
-
 async function readJson<T>(relativePath: string): Promise<T> {
   const abs = nodePath.join(PROJECT_ROOT, relativePath)
   const raw = await fsp.readFile(abs, { encoding: 'utf8' })
@@ -76,18 +51,21 @@ async function readJson<T>(relativePath: string): Promise<T> {
 }
 
 async function main(): Promise<void> {
-  const faqItems = await readJson<readonly FaqJsonItem[]>(
-    'src/data/json/faq.json',
-  )
+  const bundle = await extractAll(PROJECT_ROOT)
+
+  // Exhibits + FAQ still driven by the JSON source-of-truth for iter-1
+  // tiddler generators (exhibitsToTiddlers / faqItemsToTiddlers consume the
+  // JSON shapes). Plans 55-03..06 will migrate each consumer incrementally.
   const exhibits = await readJson<readonly ExhibitJson[]>(
     'src/data/json/exhibits.json',
   )
-
-  const linkMap = defaultLinkMap(exhibits)
+  const faqItems = await readJson<readonly FaqJsonItem[]>(
+    'src/data/json/faq.json',
+  )
 
   const tiddlers: Tiddler[] = [
     ...siteMetaTiddlers(),
-    ...(await pageSpecsToTiddlers(PROJECT_ROOT, PAGES, linkMap)),
+    ...pageContentToTiddlers(bundle.pages),
     caseFilesIndexTiddler(exhibits),
     ...exhibitsToTiddlers(exhibits),
     faqIndexTiddler(faqItems),
@@ -105,7 +83,7 @@ async function main(): Promise<void> {
   })
 
   const metaCount = siteMetaTiddlers().length
-  const pageCount = PAGES.length
+  const pageCount = bundle.pages.length
   const exhibitCount = exhibits.length + 1 // +1 for index
   const faqCount = faqItems.length + 1 // +1 for index
   process.stdout.write(
