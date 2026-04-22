@@ -66,6 +66,9 @@ importers:
       storybook:
         specifier: ^10.2.19
         version: 10.3.4(@testing-library/dom@10.4.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      tiddlywiki:
+        specifier: ^5.4.0
+        version: 5.4.0
       tsx:
         specifier: 4.21.0
         version: 4.21.0
@@ -2006,6 +2009,11 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  tiddlywiki@5.4.0:
+    resolution: {integrity: sha512-KD7kskwijrj4tOBjHY0XldQiQ2bnNNEsCXcGaYdIUeTqEMoKVK436Gkscc+qUwQE7APRyQ6t1gvbOKOLly1MvA==}
+    engines: {node: '>=20.0.0'}
+    hasBin: true
 
   tiny-invariant@1.3.3:
     resolution: {integrity: sha512-+FbBPE1o9QAYvviau/qC5SE3caw21q3xkvWKBtja5vgqOWIHHJ3ioaq1VPfn/Szqctz2bU/oYeKd9/z5BL+PVg==}
@@ -4057,6 +4065,8 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  tiddlywiki@5.4.0: {}
 
   tiny-invariant@1.3.3: {}
 
