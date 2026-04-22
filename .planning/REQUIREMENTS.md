@@ -38,7 +38,8 @@ Structured parsers over captured HTML. Foundation for everything else.
 - [ ] **EXTR-04**: `scripts/tiddlywiki/extractors/findings.ts` parses findings sections on exhibit pages — emits `FindingEntry[]` with finding, description, resolution, outcome, category, severity + source-exhibit back-reference.
 - [x] **EXTR-05
 **: `scripts/tiddlywiki/extractors/technologies.ts` parses technology sections — emits `TechnologyEntry[]` with name, context, aggregated exhibit cross-references.
-- [ ] **EXTR-06**: `scripts/tiddlywiki/extractors/testimonials.ts` parses blockquote + attribution across all pages — emits `Testimonial[]` with text, attribution, role, source-page back-reference.
+- [x] **EXTR-06
+**: `scripts/tiddlywiki/extractors/testimonials.ts` parses blockquote + attribution across all pages — emits `Testimonial[]` with text, attribution, role, source-page back-reference.
 - [x] **EXTR-07
 **: `scripts/tiddlywiki/extractors/pages.ts` parses main content for non-exhibit pages (Home, Philosophy, Technologies index, Contact, Accessibility) — emits `PageContent[]` with title, heading hierarchy, body segments preserving semantic structure.
 - [ ] **EXTR-08**: `scripts/tiddlywiki/extractors/case-files-index.ts` parses the Case Files index page — emits `CaseFilesIndex` with exhibit list in source-page order (for wiki index-tiddler generation).

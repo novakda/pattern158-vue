@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: executing
-last_updated: "2026-04-22T05:53:13.451Z"
+last_updated: "2026-04-22T05:54:36.548Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
   total_plans: 34
-  completed_plans: 33
-  percent: 97
+  completed_plans: 34
+  percent: 100
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 ## Current Position
 
 Phase: 53 — dom-extraction — EXECUTING
-Plan: 5 of 10
+Plan: 7 of 10
 Status: Ready to execute
 Last activity: 2026-04-22
 
-Progress: [█████████░] 91%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -138,6 +138,8 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 53 Plan 06: V1 technology-split contract — tools cells with parenthesized inline notes split naively on paren-inner comma (Test 3 locks behavior); keeps extractor pure + dumb; Phase 54 atomic tiddler logic can post-process if needed
 - Phase 53 Plan 06: Literal-ampersand selector td[data-label="Technologies & Tools"] (not &amp;) — happy-dom decodes HTML entities in attribute values before querySelector evaluation
 - Phase 53 Plan 06: Wave-2 build-gate discovery — tsconfig.scripts.json missing allowImportingTsExtensions + vitest/globals types broke pnpm build across all 8 Wave-2 test files; out of Plan 53-06 scope; logged to deferred-items.md; RESOLVED during this wave by Plan 53-02 fix commit 619c82e
+- Phase 53 Plan 07: Unified 'blockquote.testimonial-quote, blockquote.exhibit-quote' selector with classList-based shape dispatch — one DOM pass, branch per shape via classList.contains(TESTIMONIAL_CLASS); preserves Testimonial total-shape contract across both DOM variants
+- Phase 53 Plan 07: :scope > p child-combinator in exhibit-quote text extraction prevents nested p capture; footer === null flow-sensitive narrowing avoids non-null assertion in firstNonRoleSpan call
 
 ### Pending Todos
 
@@ -149,7 +151,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T05:52:39.936Z
+Last session: 2026-04-22T05:54:22.125Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 
