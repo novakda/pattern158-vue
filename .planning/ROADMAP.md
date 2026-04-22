@@ -348,7 +348,7 @@ Abort notice: `.planning/v7.0-ABORT-NOTICE.md`
   5. Running `pnpm tiddlywiki:generate` twice in a row on unchanged captured HTML produces byte-identical tiddler file contents (idempotent).
 **Plans:** 8 plans
   - [ ] 54-01-PLAN.md — Shared types.ts + helpers.ts (truncateAtWordBoundary, formatExhibitTitle, wikiLink) + helpers.test.ts
-  - [ ] 54-02-PLAN.md — person.ts + person.test.ts with identity-keyed grouping (ATOM-01)
+  - [x] 54-02-PLAN.md — person.ts + person.test.ts with identity-keyed grouping (ATOM-01)
   - [ ] 54-03-PLAN.md — finding.ts + finding.test.ts with 60-char word-boundary truncation + severity/category slugs (ATOM-02)
   - [ ] 54-04-PLAN.md — technology.ts + technology.test.ts with case-insensitive merge + first-casing-wins display (ATOM-03)
   - [ ] 54-05-PLAN.md — testimonial.ts + testimonial.test.ts with 40-char attribution truncation + anonymous fallback (ATOM-04)

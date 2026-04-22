@@ -49,11 +49,15 @@ Structured parsers over captured HTML. Foundation for everything else.
 
 Decompose extracted data into per-entity tiddlers with cross-linking.
 
-- [ ] **ATOM-01**: Per-person tiddlers emitted with title `{Name}` (or `{Role} @ {Organization}` for anonymized), tags `person`, `[[{Client}]]`, `entry-type-{individual|group|anonymized}`; back-references list all exhibits the person appears in.
-- [ ] **ATOM-02**: Per-finding tiddlers emitted with title `{Exhibit Label} Finding: {truncated finding}`, tags `finding`, `severity-{level}`, `category-{slug}`, `[[{Exhibit Label}]]`; body contains finding + description + resolution + outcome.
-- [ ] **ATOM-03**: Per-technology tiddlers emitted with title `Tech: {Name}`, tags `technology`; body aggregates exhibit back-references with per-exhibit context blurbs.
+- [x] **ATOM-01
+**: Per-person tiddlers emitted with title `{Name}` (or `{Role} @ {Organization}` for anonymized), tags `person`, `[[{Client}]]`, `entry-type-{individual|group|anonymized}`; back-references list all exhibits the person appears in.
+- [x] **ATOM-02
+**: Per-finding tiddlers emitted with title `{Exhibit Label} Finding: {truncated finding}`, tags `finding`, `severity-{level}`, `category-{slug}`, `[[{Exhibit Label}]]`; body contains finding + description + resolution + outcome.
+- [x] **ATOM-03
+**: Per-technology tiddlers emitted with title `Tech: {Name}`, tags `technology`; body aggregates exhibit back-references with per-exhibit context blurbs.
 - [ ] **ATOM-04**: Per-testimonial tiddlers emitted with title `Testimonial: {Attribution truncated}`, tags `testimonial`, `[[{Source Page or Exhibit}]]`; body contains quote + attribution + role.
-- [ ] **ATOM-05**: Cross-link graph integrity — exhibit tiddlers list Personnel / Findings / Technologies / Testimonials as `[[...]]` wikitext links; every link resolves to an existing tiddler; integrity check runs as part of generate script.
+- [x] **ATOM-05
+**: Cross-link graph integrity — exhibit tiddlers list Personnel / Findings / Technologies / Testimonials as `[[...]]` wikitext links; every link resolves to an existing tiddler; integrity check runs as part of generate script.
 
 ### Wiki Theme (Pattern 158 brand)
 
@@ -109,7 +113,7 @@ Roadmap created 2026-04-21 (see `.planning/ROADMAP.md` Phase 53–59). Each REQ 
 | EXTR-06 | Phase 53 (DOM Extraction) | Pending |
 | EXTR-07 | Phase 53 (DOM Extraction) | Pending |
 | EXTR-08 | Phase 53 (DOM Extraction) | Pending |
-| ATOM-01 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-01 | Phase 54 (Atomic Tiddler Generation) | Complete |
 | ATOM-02 | Phase 54 (Atomic Tiddler Generation) | Pending |
 | ATOM-03 | Phase 54 (Atomic Tiddler Generation) | Pending |
 | ATOM-04 | Phase 54 (Atomic Tiddler Generation) | Pending |

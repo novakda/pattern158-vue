@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
-status: executing
-last_updated: "2026-04-22T07:13:40.678Z"
+status: verifying
+last_updated: "2026-04-22T07:20:56.185Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
   total_plans: 42
-  completed_plans: 35
-  percent: 83
+  completed_plans: 41
+  percent: 98
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 ## Current Position
 
 Phase: 53 — dom-extraction — EXECUTING
-Plan: 8 of 10
-Status: Ready to execute
+Plan: 10 of 10
+Status: Phase complete — ready for verification
 Last activity: 2026-04-22
 
-Progress: [████████░░] 83%
+Progress: [██████████] 98%
 
 ## Performance Metrics
 
@@ -65,6 +65,8 @@ Retained from v7.0 (still valid for v8.0 background):
 | Phase 49 P01 | 3min | 1 tasks | 1 files |
 | Phase 49 P04 | 5m 8s | 1 tasks | 1 files |
 | Phase 53 P01 | 4m 28s | 3 tasks | 3 files |
+| Phase 54 P01 | 2m25s | 3 tasks | 3 files |
+| Phase 54 P02 | 2m33s | 2 tasks | 2 files |
 
 ### Decisions
 
@@ -145,6 +147,14 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 54 Plan 01: truncateAtWordBoundary ellipsis is single codepoint '…' (U+2026), not three ASCII dots; reserves 1 char of budget for ellipsis (sliceBudget = maxLen - 1)
 - Phase 54 Plan 01: generators/types.ts uses 'export type { ... }' (not 'export { ... }') to avoid runtime edge-load of happy-dom Window imported by extractors/types.ts — generators never need happy-dom
 - Phase 54 Plan 01: formatExhibitTitle trims label argument so extractor edge cases ('  J  ') still produce canonical 'Exhibit J'; wikiLink is a pure [[...]] wrapper with no escaping
+- Phase 54 Plan 02 (ATOM-01): Identity key includes entryType so the same person listed anonymously in one exhibit and by name in another produces distinct tiddlers; name wins over entryType for title (anonymized != nameless)
+- Phase 54 Plan 02 (ATOM-01): Tag order LOCKED ['person', '[[{Client}]]', 'entry-type-{type}']; Client literally bracketed because tid-writer formatTagsField passes through unchanged (matches sources.ts exhibit-tiddler pattern)
+- Phase 54 Plan 02 (ATOM-01): Deterministic output via Array.from(buckets.keys()).sort() for bucket emission + Set→sorted-array exhibit-label rendering — byte-identical JSON.stringify across repeated calls (idempotency test locked)
+- Plan 54-06: Title-format constants duplicated from Plans 54-02..05 deliberately; Plan 54-07 integrity checker is the drift alarm
+- Plan 54-06: Technology case-insensitive merge (first-seen casing wins) runs inside cross-link producer so targets align with Plan 54-04 tiddler titles
+- Phase 54 Plan 04: technology tiddler bucket key = name.toLowerCase().trim(); first-seen casing wins for displayName/title
+- Phase 54 Plan 04: technology tiddler tags = ['technology'] exactly one element; exhibit back-refs go in body not tags
+- Phase 54 Plan 04: technology body aggregates '!! [[Exhibit X]]' headings + per-exhibit context blurbs, alphabetical by label, trailing \n
 
 ### Pending Todos
 
@@ -156,7 +166,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T07:13:31.783Z
+Last session: 2026-04-22T07:20:41.883Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 
