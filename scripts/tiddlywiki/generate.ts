@@ -32,6 +32,11 @@ import {
   faqItemsToTiddlers,
   siteMetaTiddlers,
 } from './sources.ts'
+import { emitPersonTiddlers } from './generators/person.ts'
+import { emitFindingTiddlers } from './generators/finding.ts'
+import { emitTechnologyTiddlers } from './generators/technology.ts'
+import { emitTestimonialTiddlers } from './generators/testimonial.ts'
+import { type PersonnelEntry } from './extractors/types.ts'
 import {
   type Tiddler,
   tiddlersToJson,
@@ -63,6 +68,32 @@ async function main(): Promise<void> {
     'src/data/json/faq.json',
   )
 
+  // Atomic tiddlers from Phase 54 generators.
+  // Person tiddlers require a client string per call (ATOM-01 tag format);
+  // group personnel entries by client via the bundle.exhibits lookup so
+  // each invocation tags its output with the correct [[{Client}]] value.
+  const clientByLabel = new Map<string, string>()
+  for (const ex of bundle.exhibits) clientByLabel.set(ex.label, ex.client)
+
+  const personnelByClient = new Map<string, PersonnelEntry[]>()
+  for (const p of bundle.personnelByExhibit) {
+    const client = clientByLabel.get(p.sourceExhibitLabel)
+    if (client === undefined) continue
+    const bucket = personnelByClient.get(client)
+    if (bucket === undefined) personnelByClient.set(client, [p])
+    else bucket.push(p)
+  }
+
+  const personTiddlers: Tiddler[] = []
+  for (const client of Array.from(personnelByClient.keys()).sort()) {
+    const entries = personnelByClient.get(client)!
+    personTiddlers.push(...emitPersonTiddlers(entries, { client }))
+  }
+
+  const findingTiddlers = emitFindingTiddlers(bundle.findingsByExhibit)
+  const technologyTiddlers = emitTechnologyTiddlers(bundle.technologiesByExhibit)
+  const testimonialTiddlers = emitTestimonialTiddlers(bundle.testimonials)
+
   const tiddlers: Tiddler[] = [
     ...siteMetaTiddlers(),
     ...pageContentToTiddlers(bundle.pages),
@@ -74,6 +105,10 @@ async function main(): Promise<void> {
       technologies: bundle.technologiesByExhibit,
       testimonials: bundle.testimonials,
     }),
+    ...personTiddlers,
+    ...findingTiddlers,
+    ...technologyTiddlers,
+    ...testimonialTiddlers,
     faqIndexTiddler(faqItems),
     ...faqItemsToTiddlers(faqItems),
   ]
@@ -97,6 +132,9 @@ async function main(): Promise<void> {
   )
   process.stdout.write(
     `                      ${metaCount} meta, ${pageCount} pages, ${exhibitCount} exhibits, ${faqCount} FAQ\n`,
+  )
+  process.stdout.write(
+    `                      ${personTiddlers.length} persons, ${findingTiddlers.length} findings, ${technologyTiddlers.length} technologies, ${testimonialTiddlers.length} testimonials\n`,
   )
   process.stdout.write(`                      JSON byproduct: ${JSON_BYPRODUCT}\n`)
   process.stdout.write(
