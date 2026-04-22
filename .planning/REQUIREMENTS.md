@@ -114,7 +114,7 @@ Roadmap created 2026-04-21 (see `.planning/ROADMAP.md` Phase 53–59). Each REQ 
 | EXTR-07 | Phase 53 (DOM Extraction) | Pending |
 | EXTR-08 | Phase 53 (DOM Extraction) | Pending |
 | ATOM-01 | Phase 54 (Atomic Tiddler Generation) | Complete |
-| ATOM-02 | Phase 54 (Atomic Tiddler Generation) | Pending |
+| ATOM-02 | Phase 54 (Atomic Tiddler Generation) | Complete |
 | ATOM-03 | Phase 54 (Atomic Tiddler Generation) | Pending |
 | ATOM-04 | Phase 54 (Atomic Tiddler Generation) | Pending |
 | ATOM-05 | Phase 54 (Atomic Tiddler Generation) | Pending |
