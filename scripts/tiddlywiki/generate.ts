@@ -6,6 +6,11 @@
 // SCAF-08 policy: no wall-clock reads, no instantiated dates, no parallel
 // iteration helpers.
 //
+// Exports composeAllTiddlers(input) as the pure, in-memory tiddler composer
+// — consumed both by main() here and by scripts/tiddlywiki/verify-integrity.ts
+// (Plan 55-07 smoke-gate integrity audit). Single source of truth for the
+// tiddler assembly order.
+//
 // Input sources (discovered via extractAll):
 //   - static-site/*.html (page + exhibit + case-files + faq HTML)
 //   - src/data/json/faq.json (FAQ fallback)
@@ -21,7 +26,7 @@
 import { promises as fsp } from 'node:fs'
 import * as nodePath from 'node:path'
 
-import { extractAll } from './extract-all.ts'
+import { extractAll, type ExtractedBundle } from './extract-all.ts'
 import { pageContentToTiddlers } from './page-content-to-tiddlers.ts'
 import {
   type ExhibitJson,
@@ -55,20 +60,15 @@ async function readJson<T>(relativePath: string): Promise<T> {
   return JSON.parse(raw) as T
 }
 
-async function main(): Promise<void> {
-  const bundle = await extractAll(PROJECT_ROOT)
+export interface ComposeInput {
+  readonly bundle: ExtractedBundle
+  readonly exhibitsJson: readonly ExhibitJson[]
+  readonly faqItemsJson: readonly FaqJsonItem[]
+}
 
-  // Exhibits + FAQ still driven by the JSON source-of-truth for iter-1
-  // tiddler generators (exhibitsToTiddlers / faqItemsToTiddlers consume the
-  // JSON shapes). Plans 55-03..06 will migrate each consumer incrementally.
-  const exhibits = await readJson<readonly ExhibitJson[]>(
-    'src/data/json/exhibits.json',
-  )
-  const faqItems = await readJson<readonly FaqJsonItem[]>(
-    'src/data/json/faq.json',
-  )
+export function composeAllTiddlers(input: ComposeInput): Tiddler[] {
+  const { bundle, exhibitsJson, faqItemsJson } = input
 
-  // Atomic tiddlers from Phase 54 generators.
   // Person tiddlers require a client string per call (ATOM-01 tag format);
   // group personnel entries by client via the bundle.exhibits lookup so
   // each invocation tags its output with the correct [[{Client}]] value.
@@ -94,11 +94,11 @@ async function main(): Promise<void> {
   const technologyTiddlers = emitTechnologyTiddlers(bundle.technologiesByExhibit)
   const testimonialTiddlers = emitTestimonialTiddlers(bundle.testimonials)
 
-  const tiddlers: Tiddler[] = [
+  return [
     ...siteMetaTiddlers(),
     ...pageContentToTiddlers(bundle.pages),
-    caseFilesIndexTiddler(exhibits),
-    ...exhibitsToTiddlers(exhibits, {
+    caseFilesIndexTiddler(exhibitsJson),
+    ...exhibitsToTiddlers(exhibitsJson, {
       extractedExhibits: bundle.exhibits,
       personnel: bundle.personnelByExhibit,
       findings: bundle.findingsByExhibit,
@@ -109,11 +109,23 @@ async function main(): Promise<void> {
     ...findingTiddlers,
     ...technologyTiddlers,
     ...testimonialTiddlers,
-    faqIndexTiddler(faqItems),
-    ...faqItemsToTiddlers(faqItems, {
+    faqIndexTiddler(faqItemsJson),
+    ...faqItemsToTiddlers(faqItemsJson, {
       exhibitLabels: bundle.exhibits.map((e) => e.label),
     }),
   ]
+}
+
+async function main(): Promise<void> {
+  const bundle = await extractAll(PROJECT_ROOT)
+  const exhibitsJson = await readJson<readonly ExhibitJson[]>(
+    'src/data/json/exhibits.json',
+  )
+  const faqItemsJson = await readJson<readonly FaqJsonItem[]>(
+    'src/data/json/faq.json',
+  )
+
+  const tiddlers = composeAllTiddlers({ bundle, exhibitsJson, faqItemsJson })
 
   await fsp.mkdir(TIDDLER_DIR, { recursive: true })
   await writeTiddlywikiInfo(OUTPUT_ROOT)
@@ -127,16 +139,13 @@ async function main(): Promise<void> {
 
   const metaCount = siteMetaTiddlers().length
   const pageCount = bundle.pages.length
-  const exhibitCount = exhibits.length + 1 // +1 for index
-  const faqCount = faqItems.length + 1 // +1 for index
+  const exhibitCount = exhibitsJson.length + 1 // +1 for index
+  const faqCount = faqItemsJson.length + 1 // +1 for index
   process.stdout.write(
     `[tiddlywiki:generate] Wrote ${tiddlers.length} tiddlers → ${TIDDLER_DIR}\n`,
   )
   process.stdout.write(
     `                      ${metaCount} meta, ${pageCount} pages, ${exhibitCount} exhibits, ${faqCount} FAQ\n`,
-  )
-  process.stdout.write(
-    `                      ${personTiddlers.length} persons, ${findingTiddlers.length} findings, ${technologyTiddlers.length} technologies, ${testimonialTiddlers.length} testimonials\n`,
   )
   process.stdout.write(`                      JSON byproduct: ${JSON_BYPRODUCT}\n`)
   process.stdout.write(
