@@ -30,10 +30,12 @@ Requirements grouped by category. Each maps to one roadmap phase.
 Structured parsers over captured HTML. Foundation for everything else.
 
 - [ ] **EXTR-01**: `scripts/tiddlywiki/extractors/faq.ts` parses `.faq-accordion-item` DOM from captured FAQ page — emits `FaqItem[]` with question, answer, categories, id. Fallback to `src/data/json/faq.json` if live capture is stale.
-- [ ] **EXTR-02**: `scripts/tiddlywiki/extractors/exhibit.ts` parses exhibit detail page DOM — emits structured `Exhibit` with label, client, date, title, exhibitType, context, sections (with nested subsections), impactTags, summary, role, emailCount.
+- [x] **EXTR-02
+**: `scripts/tiddlywiki/extractors/exhibit.ts` parses exhibit detail page DOM — emits structured `Exhibit` with label, client, date, title, exhibitType, context, sections (with nested subsections), impactTags, summary, role, emailCount.
 - [ ] **EXTR-03**: `scripts/tiddlywiki/extractors/personnel.ts` parses personnel tables/cards on exhibit pages — emits `PersonnelEntry[]` with name, title, role, organization, entryType (individual / group / anonymized) + source-exhibit back-reference.
 - [ ] **EXTR-04**: `scripts/tiddlywiki/extractors/findings.ts` parses findings sections on exhibit pages — emits `FindingEntry[]` with finding, description, resolution, outcome, category, severity + source-exhibit back-reference.
-- [ ] **EXTR-05**: `scripts/tiddlywiki/extractors/technologies.ts` parses technology sections — emits `TechnologyEntry[]` with name, context, aggregated exhibit cross-references.
+- [x] **EXTR-05
+**: `scripts/tiddlywiki/extractors/technologies.ts` parses technology sections — emits `TechnologyEntry[]` with name, context, aggregated exhibit cross-references.
 - [ ] **EXTR-06**: `scripts/tiddlywiki/extractors/testimonials.ts` parses blockquote + attribution across all pages — emits `Testimonial[]` with text, attribution, role, source-page back-reference.
 - [ ] **EXTR-07**: `scripts/tiddlywiki/extractors/pages.ts` parses main content for non-exhibit pages (Home, Philosophy, Technologies index, Contact, Accessibility) — emits `PageContent[]` with title, heading hierarchy, body segments preserving semantic structure.
 - [ ] **EXTR-08**: `scripts/tiddlywiki/extractors/case-files-index.ts` parses the Case Files index page — emits `CaseFilesIndex` with exhibit list in source-page order (for wiki index-tiddler generation).
