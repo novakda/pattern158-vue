@@ -80,8 +80,29 @@ export function tiddlersToJson(tiddlers: readonly Tiddler[]): string {
 }
 
 /**
- * Write the minimal tiddlywiki.info manifest so `npx tiddlywiki . --build index`
- * can render the wiki to a single-file HTML.
+ * Write the tiddlywiki.info manifest with three build targets (TZK-02):
+ *
+ *   - `index`        — backward-compat default; no publish filter. Renders
+ *                      every tiddler into `output/index.html`.
+ *   - `public-index` — applies `publishFilter=[!tag[private]]` via the
+ *                      $:/core/save/all `saveTiddlerFilter` variable so
+ *                      every private-tagged tiddler is excluded from the
+ *                      built HTML. Outputs to `output/index.html`.
+ *   - `all-index`    — no publish filter. Outputs to `output/all.html`.
+ *
+ * `$:/core/save/all` interpolates `$(publishFilter)$` into its internal
+ * saveTiddlerFilter, so passing a 5th/6th name/value pair to `--render`
+ * narrows the exported tiddler set without requiring a custom template.
+ * See TiddlyWiki core template `$:/core/save/all` (line with
+ * `$(publishFilter)$`). Passing empty-string template preserves the
+ * existing `render '$:/core/save/all' filename type` invocation shape.
+ *
+ * The `--output output` prefix is only needed for the public/all targets
+ * so the user running `pnpm tiddlywiki:build-public` from the project
+ * root lands files in `tiddlywiki/output/` rather than the TiddlyWiki
+ * edition default. The legacy `index` target is preserved without
+ * `--output` for backward compatibility with any pre-Phase-58 scripts or
+ * documentation (npx tiddlywiki tiddlywiki --build index).
  */
 export async function writeTiddlywikiInfo(outputDir: string): Promise<string> {
   const manifest = {
@@ -93,6 +114,25 @@ export async function writeTiddlywikiInfo(outputDir: string): Promise<string> {
         '--render',
         '$:/core/save/all',
         'index.html',
+        'text/plain',
+      ],
+      'public-index': [
+        '--output',
+        'output',
+        '--render',
+        '$:/core/save/all',
+        'index.html',
+        'text/plain',
+        '',
+        'publishFilter',
+        '[!tag[private]]',
+      ],
+      'all-index': [
+        '--output',
+        'output',
+        '--render',
+        '$:/core/save/all',
+        'all.html',
         'text/plain',
       ],
     },

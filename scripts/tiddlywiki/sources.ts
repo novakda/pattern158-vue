@@ -454,11 +454,15 @@ export function siteMetaTiddlers(): Tiddler[] {
       text: 'Pattern 158',
     },
     {
+      // Phase 58 follow-up to Phase 57 SUMMARY flag: generator used to emit
+      // "Dan Novak — Portfolio & Case Files" which overwrote the Phase 57
+      // Pattern-158-branded override on every regenerate. Aligning the source
+      // of truth here eliminates the override tiddler drift risk.
       title: '$:/SiteSubtitle',
       type: 'text/vnd.tiddlywiki',
       tags: [],
       fields: { created: TIMESTAMP, modified: TIMESTAMP },
-      text: 'Dan Novak — Portfolio & Case Files',
+      text: 'Evidence-Based Portfolio',
     },
     {
       title: '$:/DefaultTiddlers',
