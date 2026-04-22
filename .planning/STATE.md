@@ -175,6 +175,25 @@ None.
 
 None. Research complete, requirements defined, ready for roadmap.
 
+## Deferred Items
+
+Items acknowledged and deferred at v9.0 milestone close on 2026-04-22:
+
+| Category | Item | Status |
+|----------|------|--------|
+| quick_task | 260317-tl7-fix-ux-audit-findings-exhibitdetailpage- | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260317-ucm-review-copilot-pull-request-comments-on- | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260317-ujd-implement-all-triaged-copilot-pr-fixes-i | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260317-vrl-fix-6-new-copilot-pr-findings-philosophy | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260317-wd3-fix-3-new-copilot-findings-exhibit-h-div | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260318-vrb-fix-blockquote-text-spacing-that-is-too- | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260327-nnz-run-full-ux-accessibility-and-appearance | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260402-3b9-exhibitcard-has-lost-styling-on-the-exhi | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260402-45z-1-bug-caught-on-pattern158-solutions-log | legacy (SUMMARY present, no status frontmatter) |
+| quick_task | 260407-v5k-fix-dynamic-personnel-table-header-to-st | legacy (SUMMARY present, no status frontmatter) |
+
+All 10 items predate v9.0 (2026-03-17 to 2026-04-07) and have completed SUMMARY.md files — flagged by `audit-open` only because their frontmatter lacks a `status:` field. Not v9.0 scope; not reopening.
+
 ## Session Continuity
 
 Last session: 2026-04-22T09:30:00.000Z

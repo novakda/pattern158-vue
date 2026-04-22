@@ -4,7 +4,7 @@
 
 An evidence-based portfolio site for Dan Novak, built in Vue 3, serving three audiences: hiring managers evaluating fit, potential clients assessing trust, and as the foundation of the Pattern 158 brand identity. The code quality, component architecture, and engineering decisions are themselves portfolio artifacts — the site showcases Vue skills by being built with them.
 
-The site now features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture to eliminate content redundancy. v3.0 externalized all data to JSON with centralized TypeScript types, decoupling content from code for future CMS readiness. v4.0 normalized recurring exhibit table data (personnel, technologies, findings) into typed first-class arrays, eliminating 31 generic string[][] table sections.
+The site features a unified Case Files evidence section with two distinct exhibit types (Investigation Reports and Engineering Briefs), each with purpose-built detail layouts. v1.0–v1.1 completed the 11ty-to-Vue conversion; v2.0 restructured the information architecture; v3.0 externalized all data to JSON with centralized TypeScript types; v4.0 normalized recurring exhibit table data into typed first-class arrays; v5.x unified the findings schema and personnel data; v6.0 rebuilt the FAQ page as an accessible accordion; v8.0 built a Playwright-based live-site editorial capture pipeline; **v9.0 turned the site into a tzk-style living TiddlyWiki** with canonical-source-is-the-live-site architecture — structured DOM extractors feed atomic tiddlers into a Pattern 158-branded wiki with private/public publishing workflow.
 
 ## Core Value
 
@@ -96,41 +96,22 @@ Every page template should be scannable and self-documenting through well-named 
 - ✓ `document.ts` assembler (YAML frontmatter with provenance, ToC via github-slugger, per-route `## Route: /path` + omit-empty blockquote metadata, `---` separators), `write.ts` atomic temp+rename with PID suffix + optional `.planning/research/` mirror, `index.ts` orchestrator with per-route resilience (drives `capturePage` directly, not strict `captureRoutes`), stdout + stderr-JSON summary, exit-code preconditions (SHAP-01..07, WRIT-03..07) — v8.0
 - ✓ `emitFindingsScaffold` idempotent non-overwriting findings-template emission at `<vault>/career/website/site-editorial-findings.md` (EDIT-05) — v8.0
 - ✓ Live production run validated: 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown + 22 screenshots at `<vault>/career/website/site-editorial-capture.md` — v8.0
-- ✓ v8.0 milestone audit notice `.planning/v8.0-AUDIT-NOTICE.md` (AUDT-01), RETROSPECTIVE.md v8.0 entry (AUDT-05), PROJECT.md/MILESTONES.md/ROADMAP.md v8.0-complete updates (AUDT-04 partial — v9.0 scope pending human verdict) — v8.0
+- ✓ v8.0 milestone audit notice `.planning/milestones/v8.0-AUDIT-NOTICE.md` (AUDT-01), RETROSPECTIVE.md v8.0 entry (AUDT-05), PROJECT.md/MILESTONES.md/ROADMAP.md v8.0-complete updates (AUDT-04 partial — v9.0 verdict resolved out-of-band 2026-04-21) — v8.0
+
+- ✓ Eight DOM extractors under `scripts/tiddlywiki/extractors/` (FAQ, exhibit, personnel, findings, technologies, testimonials, pages, case-files-index) parse captured HTML into typed domain entities via pure `emit` functions over `happy-dom`-parsed input with inline-HTML fixture tests (EXTR-01..08) — v9.0
+- ✓ Six atomic tiddler generators decompose entities into per-person / per-finding / per-technology / per-testimonial tiddlers plus exhibit cross-link bundles and `verify-integrity.ts` orphan detector (ATOM-01..05) — v9.0
+- ✓ Iter-1 generator refactored (not rewritten): `exhibitsToTiddlers` subsection walker fix, `pageContentToTiddlers` replaces HTML→wikitext path for pages, FAQ footer enriched with siblings + exhibit callouts, Case Files Index as sortable TiddlyWiki table, Phase 55 HARD GATE enforcing 0 orphaned cross-links (FIX-01..04) — v9.0
+- ✓ Test coverage: 593 tests passing, hermetic e2e smoke (fixture http-server round-trip, 27 fixture tiddlers, 0 orphans), full-corpus integrity test (TEST-01..04) — v9.0
+- ✓ Pattern 158 brand theme: color tokens, typography, 4 type-specific ViewTemplates (exhibit/person/finding/default), badge/pill CSS passthrough, dark/light parity matching Vue site design tokens (THEME-01..05) — v9.0
+- ✓ Tzk-inspired structure: `public` default tag, `private` opt-out via `+[!tag[private]]` filter (canary-tiddler-locked), `pnpm tiddlywiki:build-public` + `pnpm tiddlywiki:build-all` targets producing 2.8 MB deploy-ready HTML, `tiddlywiki/` layout (`tiddlers/`/`output/`/`config/`/`build/`) (TZK-01..05) — v9.0
+- ✓ Documentation: three docs (4,919 words total) — `scripts/tiddlywiki/README.md` (architecture), `tiddlywiki/README.md` (tzk workflow), `tiddlywiki/CONTRIBUTING.md` (editing guide) (DOC-01..03) — v9.0
+- ✓ Phase 55 hotfix canonicalized exhibit tiddler title to short form (`"Exhibit A"`), resolving 267 orphaned cross-links and unlocking the integrity gate — v9.0
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
 
-**v9.0 Continue tiddlywiki intake and conversion** — see `.planning/REQUIREMENTS.md` for full REQ-ID list.
-
-**Canonical source reframe:** The live `pattern158.solutions` site is the single source of truth for tiddler generation — NOT the project's JSON files (`src/data/json/*.json`) or Obsidian vault content. The editorial-capture pipeline (Playwright DOM + screenshots) feeds everything downstream. What ships to production IS the wiki input.
-
-**DOM extraction (~6 extractors):** Structured parsers over captured HTML — FAQ items, exhibit sections, personnel rows, findings, technologies, testimonials, pages. Screenshots are the visual-fidelity fallback where DOM structure is lossy.
-
-**Atomic decomposition (~150-200 tiddlers):** ~66 personnel + ~45 findings + ~40-80 technologies become individual tiddlers with cross-exhibit linking. Iter 1's page + FAQ + exhibit-overview tiddlers continue; atomic types stack on top.
-
-**Tzk-style living wiki:** private/public tiddler split via tags, build pipeline, git-backed workflow, Pattern 158 brand theme matching the Vue site (colors, typography, layout).
-
-**Test coverage + iter-1 fixes:** extractor unit tests, fix empty exhibit sections rendering bug, improve page body conversion quality.
-
-**Key scoping decisions (locked 2026-04-21):**
-- Source of truth: **live pattern158.solutions via Playwright**, not JSON. Screenshots + DOM as needed for structure.
-- Out of scope for v9.0: career-vault intake, email-archive intake, Obsidian-broader intake. Live site only.
-- Iter 1's `scripts/tiddlywiki/generate.ts` remains but is refactored to consume captured HTML via new DOM-extractor layer.
-- Single-file wiki output continues (`npx tiddlywiki tiddlywiki --build index`). Tzk-style build pipeline augments but doesn't replace.
-
-## Current Milestone: v9.0 Continue tiddlywiki intake and conversion
-
-**Goal:** Turn `pattern158.solutions` into a tzk-style living TiddlyWiki: structured DOM extractors, atomic tiddlers for personnel/findings/technologies, Pattern 158 brand theme, private/public publishing workflow.
-
-**Target features:**
-- Canonical-source-is-the-live-site pipeline (DOM extractors over captured HTML + screenshots)
-- Atomic tiddler decomposition (personnel, findings, technologies)
-- Pattern 158 TiddlyWiki theme (brand-matched)
-- Tzk-style private/public tiddler split + build pipeline
-- Extractor test suite
-- Iter-1 rough-edge fixes
+_No active milestone. v9.0 shipped 2026-04-22. Next milestone TBD — use `/gsd:new-milestone` to define._
 
 ### Out of Scope
 
@@ -141,30 +122,37 @@ Every page template should be scannable and self-documenting through well-named 
 - SSR/SSG — SPA is sufficient for a portfolio site
 - New exhibit content creation — restructure existing content, don't write new exhibits
 - Search input for FAQ — category filtering is sufficient for ~27 items; search adds value at 50+
-- **v7.0 static markdown export pipeline (Phases 39-45)** — ABORTED 2026-04-19. Extractors (MAP-01, EXT-01..07, EXB-01..03), monolithic renderer (MONO-01..06), Obsidian vault renderer (VAULT-01..12, QA-01), writer + orchestrator (WRIT-01, ORCH-01), build integration + drift guard (INTG-01..04) are not being pursued. Source-module extraction misses the fidelity needed for editorial work (hardcoded component text, reading-order, composition, dynamic exhibits). Replaced by v8.0 live-site editorial capture. Phase 37 `src/content/*.ts` modules and Phase 38 IR primitives remain in place — harmless, may be reused if pipeline direction is ever resurfaced.
+- **v7.0 static markdown export pipeline (Phases 39-45)** — ABORTED 2026-04-19. Extractors (MAP-01, EXT-01..07, EXB-01..03), monolithic renderer (MONO-01..06), Obsidian vault renderer (VAULT-01..12, QA-01), writer + orchestrator (WRIT-01, ORCH-01), build integration + drift guard (INTG-01..04) are not being pursued. Source-module extraction misses the fidelity needed for editorial work. Replaced by v8.0 live-site editorial capture. Phase 37 `src/content/*.ts` modules and Phase 38 IR primitives remain in place — harmless, may be reused if pipeline direction is ever resurfaced.
+- **Career vault / Obsidian intake** (v9.0 exclusion) — canonical source is the live site only; vault content is editorial reference, not canonical.
+- **Email archive intake** (v9.0 exclusion) — archive content is a separate editorial surface; not in tiddlywiki scope.
+- **TW plugin authoring** (v9.0 exclusion) — stock TW5 + tzk-inspired patterns only.
+- **Auth / multi-user editing on the wiki** (v9.0 exclusion) — single-author wiki; re-evaluate if collaboration is ever needed.
 
 ## Current State
 
-**Shipped:** v8.0 Editorial Snapshot & Content Audit (2026-04-20) | **Shipped:** v6.0 (2026-04-08) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, see `.planning/v7.0-ABORT-NOTICE.md`) | **Active:** v9.0 Continue tiddlywiki intake and conversion (direction locked 2026-04-21, roadmap pending — see `.planning/v8.0-AUDIT-NOTICE.md` verdict)
+**Shipped:** v9.0 Continue tiddlywiki intake and conversion (2026-04-22, 34/34 REQs, see `.planning/milestones/v9.0-MILESTONE-AUDIT.md`) | **Prior:** v8.0 Editorial Snapshot & Content Audit (2026-04-20) | **Aborted:** v7.0 Static Markdown Export Pipeline (2026-04-19, `.planning/v7.0-ABORT-NOTICE.md`) | **Active:** none — next milestone pending
 
-v8.0 delivered the Playwright-based live-site editorial capture tool (`scripts/editorial/`) shipped and validated against production — 22/22 routes captured in ~42s, zero failures, ~186 KB Markdown artifact + 22 full-page screenshots at `<vault>/career/website/site-editorial-capture.md`. Tool uses headless Chromium + Turndown 7.2.4 + `@joplin/turndown-plugin-gfm` + happy-dom pre-sanitization, with Cloudflare mitigation, FAQ accordion pre-expansion, silent-SPA-404 detection, atomic `tmp+rename` writes, auto-emitted findings scaffold. 401 unit tests green across 24 test files. Milestone audit notice at `.planning/v8.0-AUDIT-NOTICE.md` records the completion; v9.0 direction verdict (static HTML / Vue rewrite / framework rebuild / other) and Dan's editorial findings (EDIT-01..04) are queued for human review.
+v9.0 turned pattern158.solutions into a tzk-style living TiddlyWiki. Eight DOM extractors parse captured HTML (from the v8.0 editorial pipeline) into typed entities; six atomic tiddler generators decompose them into per-person / per-finding / per-technology / per-testimonial tiddlers; the full pipeline produces 367 tiddlers composed into a single-file wiki with Pattern 158 brand theme and public/private build variants (2.8 MB each). 593 tests passing; 0 orphaned cross-links enforced by Phase 55 HARD GATE; hermetic e2e smoke locks correctness. Deploy-ready `tiddlywiki/output/index.html` (public) and `all.html` (authoring). Three contributor docs shipped (4,919 words).
 
-Prior shipped work still stands: all 11 data files externalized to JSON with thin TypeScript loaders; type definitions centralized with barrel exports; recurring exhibit table data (personnel, technologies, findings) promoted to typed first-class arrays; findings unified across 11 exhibits with NTSB-style diagnostic content; personnel data normalized with entryType. v7.0 retained output (Phase 37 `src/content/*.ts` prose modules + Phase 38 IR primitives in `scripts/markdown-export/`) remains in place — harmless and potentially reusable.
+Prior milestone output still stands: v8.0 editorial-capture tool operational (22 routes in ~42s, ~186 KB Markdown + 22 screenshots). v3.0–v6.0 data layer stable (JSON externalized, centralized types, personnel/technologies/findings as typed arrays, FAQ redesigned as accordion). v7.0 retained artifacts (`src/content/*.ts` prose, `scripts/markdown-export/` IR primitives) remain harmless.
+
+Known deferred from v8.0, still open, non-blocking: EDIT-01..04 (human editorial findings writeup). v9.0 direction verdict (AUDT-02/03) was resolved out-of-band 2026-04-21 via smart-discuss — decisions live in the v9.0 REQUIREMENTS archive header.
 
 ## Context
 
 - The 11ty site is published and live. The Vue version has diverged from 11ty structure intentionally as of v2.0.
+- As of v9.0, `pattern158.solutions` is also the canonical source for a generated TiddlyWiki deploy — structured DOM extractors + screenshots feed the wiki; project JSON files and Obsidian vault are not canonical for wiki content.
 - Dan has 28+ years of professional experience, deep Vue brownfield expertise, but this is his first greenfield Vue project built from scratch with his own design preferences.
 - Component extraction is driven by cognitive load management (ADHD-informed), not just reuse. A component is worth extracting if it names a concept, enforces a pattern, or makes a template scannable — even if it's only used once.
 - The CSS is a comprehensive design system (~3500+ lines) already using custom properties and cascade layers. Components should work with this system, not replace it.
-- Codebase: ~6,700 LOC Vue + TypeScript, 95 unit tests passing, clean production build.
-- Known human-verification pending: Storybook router decorator timing (Phase 4), badge visual on dark header (Phase 6), live browser slug resolution, Phase 9 badge colors and CTA text, Phase 11 border accent visual appearance, Phase 12 NavBar visual layout and browser redirect behavior. Non-blocking — all automated tests pass.
+- Codebase: Vue site + `scripts/editorial/` (v8.0 capture tool) + `scripts/tiddlywiki/` (v9.0 extractors + generators) + `tiddlywiki/` (TW5 edition with tiddlers/output/config/build); 593 scripts tests + existing Vue tests all passing; clean production build.
 
 ## Constraints
 
 - **Tech stack**: Vue 3 Composition API + TypeScript + Vite — already established, no changes
 - **Styling**: Existing CSS design token system — components should consume tokens, not introduce new styling approaches
 - **Complexity**: Favor clarity over cleverness — extract components for readability, not for abstraction points
+- **Determinism (v8.0+)**: `scripts/editorial/` and `scripts/tiddlywiki/` enforce SCAF-08 discipline (no wall-clock, no parallel iteration, no `@/` alias imports) via grep-based acceptance gates — producers are deterministic and idempotent.
 
 ## Key Decisions
 
@@ -192,8 +180,16 @@ Prior shipped work still stands: all 11 data files externalized to JSON with thi
 | `findingsHeading` for non-default headings | Custom findings headings (Exhibits J, L) stored as optional field; layout renders `findingsHeading \|\| 'Findings'` | ✓ Good — preserves original heading text without hardcoding |
 | NTSB-style findings only | Findings must be diagnostic discoveries (what went wrong, why) — not outcomes, observations, or achievements. Some exhibits (G) don't have natural findings — skip rather than force | ✓ Good — Exhibit G skipped, Exhibit K findings revised from 4→2 to remove outcome-style entries |
 | Severity only for diagnostic findings | Severity applies to technical/process issues, not observational content. Investigation-report types and diagnostic engineering-briefs get severity; pattern-recognition exhibits (E, M, N, O) don't | ✓ Good — consistent application across 11 exhibits with findings |
-| `entryType` discriminant for personnel rendering | Three-way classification (individual/group/anonymized) drives CSS class bindings for mobile cards and desktop table rows — no rendering logic in templates beyond class binding | ✓ Good — clean separation of data classification from visual treatment |
+| `entryType` discriminant for personnel rendering | Three-way classification (individual/group/anonymized) drives CSS class bindings — no rendering logic in templates beyond class binding | ✓ Good — clean separation of data classification from visual treatment |
 | Heading cascade `name → title → role` | First available field becomes card heading; dynamic `data-label` matches the field used — handles all personnel variants without separate template branches | ✓ Good — Exhibit L entries with no name correctly show title |
+| SCAF-08 discipline with grep-based acceptance gates (v8.0+) | Determinism/idempotency enforced by source+test grep for forbidden tokens (`Date.now`, `Promise.all`, `@/` alias, `setTimeout`) — comments and code both inspected | ✓ Good — pattern scaled cleanly across v8.0 editorial tool and v9.0 tiddlywiki pipeline |
+| Canonical source = live pattern158.solutions (v9.0) | Playwright DOM + screenshots feed the wiki; project JSON files and Obsidian vault are editorial reference, not canonical — prevents drift between shipped site and wiki | ✓ Good — editorial-capture pipeline + 8 DOM extractors produce 367-tiddler corpus with 0 orphaned links |
+| Atomic decomposition (v9.0) | Per-person / per-finding / per-technology / per-testimonial tiddlers alongside page + FAQ + exhibit-overview tiddlers — enables cross-linking at scale | ✓ Good — ~250 atomic tiddlers in 367-tiddler corpus, integrity gate enforces graph consistency |
+| Phase boundaries LOCKED: extractors (pure DOM parse) → generators (pure data transforms) → wiring in generate.ts (v9.0) | No cross-boundary modifications during extension work; each layer owns its own test surface | ✓ Good — clean refactor path preserved iter-1 through the migration |
+| happy-dom everywhere for HTML parsing (v9.0) | Single parser across editorial convert + tiddlywiki extractors — one dependency, one deprecation surface; pnpm-hoist safe via direct top-level dep | ✓ Good — no parser divergence; file-scoped `/// <reference lib="dom" />` pattern reused across both pipelines |
+| No JSDoc convention (v9.0) | `CONVENTIONS.md` codifies: line-comments only, no `/** */` blocks — avoids JSDoc `*/` end-marker hazard inside block comments during grep-based audits | ✓ Good — pattern survived 593 tests across the tiddlywiki codebase |
+| Exhibit tiddler title canonicalized to short form `"Exhibit A"` (v9.0 Phase 55 hotfix) | Long-form titles (`"Exhibit A: Meridian Legacy System"`) had drifted between producer sites — 267 orphaned cross-links surfaced only at corpus scale | ✓ Good — single-source constants + grep-based title canon lock means future drift trips CI |
+| Tzk `+[!tag[private]]` filter with `+` intersection prefix (v9.0 Phase 58) | Raw `[!tag[private]]` unions with `saveTiddlerFilter`; `+` narrows the set correctly — verified via canary-tiddler smoke test (sentinel absent from public, present in all) | ✓ Good — public/all build split correct; canary locks the contract |
 
 ## Evolution
 
@@ -213,4 +209,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-21 — v8.0 shipped, v9.0 direction locked (tzk-style living TiddlyWiki), roadmap pending. See `.planning/v8.0-AUDIT-NOTICE.md` (verdict) and `.planning/REQUIREMENTS.md` (v9.0 scope).*
+*Last updated: 2026-04-22 — v9.0 shipped (tzk-style living TiddlyWiki, 34/34 REQs, 367 tiddlers, 0 orphaned cross-links). See `.planning/milestones/v9.0-MILESTONE-AUDIT.md` (audit) and `.planning/milestones/v9.0-ROADMAP.md` / `v9.0-REQUIREMENTS.md` (archives).*

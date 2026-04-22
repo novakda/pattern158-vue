@@ -1,5 +1,26 @@
 # Milestones
 
+## v9.0 Continue tiddlywiki intake and conversion (Shipped: 2026-04-22)
+
+**Phases completed:** 7 phases (53-59), 34/34 requirements covered, 593 scripts tests passing
+
+**Key accomplishments:**
+
+- Eight DOM extractors under `scripts/tiddlywiki/extractors/` (FAQ, exhibit, personnel, findings, technologies, testimonials, pages, case-files-index) parse captured HTML into typed domain entities via pure `emit` functions over `happy-dom`-parsed input, with inline-HTML fixture tests covering shape, edge cases, and DOM-order preservation
+- Six atomic tiddler generators decompose entities into per-entity tiddlers — per-person, per-finding, per-technology, per-testimonial plus exhibit cross-link bundles and integrity-check orphan detector — producing ~250 atomic tiddlers inside the 367-tiddler corpus with locked title formats, tag lists, and deterministic byte-identical output
+- Iter-1 generator refactored (not rewritten) to route pages through the extractor pipeline while preserving JSON-source fallback; Case Files Index rendered as sortable TiddlyWiki table; FAQ footer enriched with sibling + exhibit callouts; exhibit subsection walker emits nested bodies instead of empty headings; Phase 55 HARD GATE (`verify-integrity.ts`) enforces 0 orphaned cross-links
+- Pattern 158 brand theme shipped — color tokens, typography, 4 type-specific ViewTemplates (exhibit, person, finding, default), badge/pill CSS passthrough, dark/light parity matching the Vue site design tokens
+- Tzk-inspired private/public structure — `public` default tag, `private` opt-out, `+[!tag[private]]` filter locked via canary-tiddler smoke test, `pnpm tiddlywiki:build-public` + `pnpm tiddlywiki:build-all` targets producing 2.8 MB deploy-ready HTML; `tiddlywiki/` directory with `tiddlers/`/`output/`/`config/`/`build/` layout
+- Phase 55 hotfix canonicalized exhibit tiddler title to short form (`"Exhibit A"`), resolving 267 orphaned cross-links and enabling the integrity gate
+- Hermetic e2e smoke (fixture http-server round-trip, 27 fixture tiddlers, 0 orphans) + full-corpus integrity test locks correctness before visual/publish phases
+- Three contributor docs (4,919 words total) — `scripts/tiddlywiki/README.md` (architecture), `tiddlywiki/README.md` (tzk workflow), `tiddlywiki/CONTRIBUTING.md` (editing guide)
+
+**Known deferred items at close:** 10 legacy quick-tasks (pre-v9.0 Mar-Apr dates, all have SUMMARY.md but no `status:` frontmatter) acknowledged in STATE.md Deferred Items table. v8.0 deferred items (EDIT-01..04 human editorial writeup; AUDT-02/03 verdict doc) also carried forward — v9.0 direction was resolved out-of-band 2026-04-21 via smart-discuss.
+
+**Milestone audit:** `.planning/milestones/v9.0-MILESTONE-AUDIT.md` (passed: 34/34 REQs, all gates green)
+
+---
+
 ## v8.0 Editorial Snapshot & Content Audit (Shipped: 2026-04-20)
 
 **Phases completed:** 7 phases (46-52), 24 plans, 401 tests
@@ -13,9 +34,9 @@
 - Live run against production captures all 22 non-excluded routes in ~42s with zero failures (~186 KB Markdown + 22 screenshots)
 - Auto-emitted findings scaffold at `<vault>/career/website/site-editorial-findings.md` (idempotent non-overwriting) to anchor the editorial review phase
 
-**Partial completion:** Editorial findings authorship (EDIT-01..04) and v9.0 direction verdict (AUDT-02/03) are intentionally manual and deferred to Dan's human review — tracked in `.planning/v8.0-AUDIT-NOTICE.md`.
+**Partial completion:** Editorial findings authorship (EDIT-01..04) and v9.0 direction verdict (AUDT-02/03) are intentionally manual and deferred to Dan's human review — tracked in `.planning/milestones/v8.0-AUDIT-NOTICE.md`.
 
-**Milestone notice:** `.planning/v8.0-AUDIT-NOTICE.md`
+**Milestone notice:** `.planning/milestones/v8.0-AUDIT-NOTICE.md`
 
 ---
 
