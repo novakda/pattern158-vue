@@ -45,5 +45,18 @@ Note `emitDeclarationOnly: true` + `allowImportingTsExtensions: true` is incompa
 - Other Wave-2 plans (53-02..53-09) have the same issue — they either documented the build failure as a deviation or ran their test-only gate.
 
 **Evidence:**
-- `pnpm build` 2>&1 output at HEAD shows identical error classes across `{personnel,findings,technologies,testimonials,pages}.test.ts` files.
+- `pnpm build` 2>&1 output at discovery-HEAD showed identical error classes across `{personnel,findings,technologies,testimonials,pages}.test.ts` files.
 - `git stash` + `pnpm build` at pre-Plan-53-06 HEAD reproduced the same errors — confirming Plan 53-06 did not introduce them.
+
+**RESOLUTION (appended by Plan 53-06 executor after fix landed):**
+
+Commit `619c82e` (`fix(53-02): add vitest/globals + allowImportingTsExtensions to scripts tsconfig`) landed from the Plan 53-02 executor during Plan 53-06 SUMMARY drafting. The fix applied exactly the proposed change above:
+- `allowImportingTsExtensions: true` added to compilerOptions
+- `noEmit: true` paired (declaration-emit removed)
+- `types: ["node", "vitest/globals"]` extended
+
+Post-fix verification (by Plan 53-06 executor, 2026-04-22):
+- `pnpm build` exits 0 (vue-tsc + vite + markdown-export all clean)
+- `pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` exits 0 (6/6 green)
+
+Plan 53-02 executor correctly scoped this as a Rule-3 auto-fix inside its own plan scope (FAQ extractor required the same config fix to compile). All Wave-2 plans benefit. This entry is kept in-repo as a historical record of the wave-coordination discovery pattern, not an open action item.

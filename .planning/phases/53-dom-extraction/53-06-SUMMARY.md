@@ -86,24 +86,23 @@ completed: 2026-04-22
 
 ## Deviations from Plan
 
-### Out-of-Scope Discoveries (NOT fixed — logged to deferred-items.md)
+### Out-of-Scope Discovery (logged and subsequently resolved by parallel executor)
 
-**1. [Rule: scope-boundary] `pnpm build` fails with pre-existing Wave-2 systemic TS errors**
+**1. [Rule: scope-boundary → RESOLVED by Plan 53-02] `pnpm build` failed with pre-existing Wave-2 systemic TS errors**
 
 - **Found during:** Task 2 acceptance gate (`pnpm build; test $? -eq 0`)
-- **Symptom:** `pnpm build` fails with two classes of TS errors in EVERY Wave-2 test file (all 8 sibling extractor `*.test.ts` files, including my `technologies.test.ts`):
+- **Symptom observed:** `pnpm build` failed with two classes of TS errors in EVERY Wave-2 test file (all 8 sibling extractor `*.test.ts` files, including my `technologies.test.ts`):
   - `TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled` — on `from './X.ts'` imports
   - `TS2593: Cannot find name 'describe' / 'it'` and `TS2304: Cannot find name 'expect'` — Vitest globals not in `tsconfig.scripts.json` `types: ["node"]`
-- **Verification this is pre-existing:** `git stash` of all my changes + `pnpm build` at the pre-Plan-53-06 HEAD reproduced identical errors across sibling plans. My changes introduce no new error classes.
-- **Why not fixed:** Plan 53-06 scope is strictly limited to `scripts/tiddlywiki/extractors/technologies.ts` + `technologies.test.ts`. Fixing this requires modifying `tsconfig.scripts.json` — which would touch every other Wave-2 plan's scope too. Per `<deviation_rules>` `SCOPE BOUNDARY`: "Only auto-fix issues DIRECTLY caused by the current task's changes. Pre-existing warnings, linting errors, or failures in unrelated files are out of scope. Log out-of-scope discoveries to `deferred-items.md` in the phase directory. Do NOT fix them."
-- **Impact on plan:** Task-level verification gate PASSES (`pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` exits 0, 6/6 green). Plan-level `<verification>` `pnpm build` gate FAILS due to the systemic config issue, not Plan 53-06 code. Tests for Plan 53-06's produced code execute correctly under Vitest (which uses its own tsconfig resolution, bypassing the broken composite-build graph).
-- **Action:** Logged to `.planning/phases/53-dom-extraction/deferred-items.md` with full reproduction steps, proposed fix (add `allowImportingTsExtensions: true` + `noEmit: true` + extend `types` with `vitest/globals`), recommended owner (Plan 53-10 iter-1-fixes-prep OR Phase 55 FIX-02).
-- **Files modified:** `.planning/phases/53-dom-extraction/deferred-items.md` (created, phase-level doc, not a Plan 53-06 file).
+- **Verification this was pre-existing:** `git stash` of all my changes + `pnpm build` at the pre-Plan-53-06 HEAD reproduced identical errors across sibling plans. My changes introduced no new error classes.
+- **Why Plan 53-06 did not fix:** Plan 53-06 scope is strictly limited to `scripts/tiddlywiki/extractors/technologies.ts` + `technologies.test.ts`. Fixing this required modifying `tsconfig.scripts.json` — which would touch every other Wave-2 plan's scope too. Per `<deviation_rules>` `SCOPE BOUNDARY`: out-of-scope discoveries log to `deferred-items.md`, do NOT auto-fix.
+- **Resolution:** While Plan 53-06 was drafting its SUMMARY, parallel executor landed commit `619c82e` (`fix(53-02): add vitest/globals + allowImportingTsExtensions to scripts tsconfig`) — Plan 53-02 executor applied exactly the fix documented in `deferred-items.md` as an in-scope auto-fix (Rule 3) within its own FAQ extractor plan. Post-fix, `pnpm build` exits 0 AND `pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` still exits 0 (6/6 green). Both Plan 53-06 gate requirements now met.
+- **Files modified by Plan 53-06:** `.planning/phases/53-dom-extraction/deferred-items.md` (created — kept in the repo as a historical record of the wave-coordination discovery; fix-ownership attribution for Plan 53-02 now appended in-file).
 
 ---
 
-**Total deviations:** 0 plan-code deviations; 1 out-of-scope infrastructure discovery logged.
-**Impact on plan:** Plan 53-06 code is correct and test-verified. Plan-level build gate blocked on out-of-scope infrastructure (not executor code).
+**Total deviations:** 0 plan-code deviations; 1 out-of-scope infrastructure discovery (logged; independently resolved by Plan 53-02 executor before Plan 53-06 SUMMARY finalized).
+**Impact on plan:** Plan 53-06 code is correct and test-verified. Plan-level `pnpm build` gate passes after Plan 53-02's concurrent `tsconfig.scripts.json` fix.
 
 ## TDD Gate Compliance
 
@@ -126,18 +125,18 @@ None — no external service configuration.
   - Idempotent JSON serialization across calls (locked by Test 6).
   - Paren-inner comma split is a KNOWN V1 behavior, not a bug — post-processing must handle it at the caller boundary if balanced-paren tokens are needed.
 
-- Wave-2 build-gate blocker (deferred-items.md entry 1) must be cleared before `pnpm build` exits 0 again. Currently, `pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` is the green gate for Plan 53-06's code.
+- Wave-2 build-gate blocker RESOLVED by commit `619c82e` (Plan 53-02 auto-fix): `tsconfig.scripts.json` now has `allowImportingTsExtensions: true` + `types: ["node", "vitest/globals"]`. `pnpm build` exits 0 at current HEAD.
 
-## Self-Check: PASSED (with out-of-scope caveat)
+## Self-Check: PASSED
 
 - `scripts/tiddlywiki/extractors/technologies.ts` — FOUND
 - `scripts/tiddlywiki/extractors/technologies.test.ts` — FOUND
 - `.planning/phases/53-dom-extraction/53-06-SUMMARY.md` — FOUND
-- `.planning/phases/53-dom-extraction/deferred-items.md` — FOUND
+- `.planning/phases/53-dom-extraction/deferred-items.md` — FOUND (historical record; issue resolved by Plan 53-02 `619c82e`)
 - Commit `57c2584` (Task 1 RED) — FOUND in git log
 - Commit `8c1c0b4` (Task 2 GREEN) — FOUND in git log
-- `pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` exit 0, 6 tests passed — verified pre-commit
-- `pnpm build` exit 0 — BLOCKED by out-of-scope systemic `tsconfig.scripts.json` infrastructure gap affecting all Wave-2 plans (see `deferred-items.md` entry 1); Plan 53-06 code itself is not the cause
+- `pnpm test:scripts --run scripts/tiddlywiki/extractors/technologies.test.ts` exit 0, 6 tests passed — re-verified post-619c82e
+- `pnpm build` exit 0 — re-verified post-619c82e (full build clean: vue-tsc composite + vite + markdown-export)
 
 ---
 *Phase: 53-dom-extraction*

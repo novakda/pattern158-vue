@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: executing
-last_updated: "2026-04-22T05:51:09.065Z"
+last_updated: "2026-04-22T05:53:13.451Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
   completed_phases: 5
   total_plans: 34
-  completed_plans: 30
-  percent: 88
+  completed_plans: 33
+  percent: 97
 ---
 
 # Project State
@@ -27,11 +27,11 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 ## Current Position
 
 Phase: 53 — dom-extraction — EXECUTING
-Plan: 4 of 10
+Plan: 5 of 10
 Status: Ready to execute
 Last activity: 2026-04-22
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
@@ -134,6 +134,10 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Plan 53-04: Row selector scoped to 'table.personnel-table tbody tr' to avoid cross-table leakage
 - Plan 53-04: deriveEntryType checks anonymized BEFORE group — identity protection wins over group-membership labeling when both classes present
 - 53-02: emitFaqItems returns readonly FaqItem[] via NodeList forEach; emitFaqItemsFromJson is the caller-invoked fallback sibling
+- Phase 53 Plan 08: TreeWalker with numeric filter 0x5 used for pages extractor — avoids happy-dom NodeFilter constant gaps; isInsideHeading parent-chain guard filters heading-descendant text from segment bodies
+- Phase 53 Plan 06: V1 technology-split contract — tools cells with parenthesized inline notes split naively on paren-inner comma (Test 3 locks behavior); keeps extractor pure + dumb; Phase 54 atomic tiddler logic can post-process if needed
+- Phase 53 Plan 06: Literal-ampersand selector td[data-label="Technologies & Tools"] (not &amp;) — happy-dom decodes HTML entities in attribute values before querySelector evaluation
+- Phase 53 Plan 06: Wave-2 build-gate discovery — tsconfig.scripts.json missing allowImportingTsExtensions + vitest/globals types broke pnpm build across all 8 Wave-2 test files; out of Plan 53-06 scope; logged to deferred-items.md; RESOLVED during this wave by Plan 53-02 fix commit 619c82e
 
 ### Pending Todos
 
@@ -145,7 +149,7 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T05:51:09.061Z
+Last session: 2026-04-22T05:52:39.936Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
 Resume file: None
 
