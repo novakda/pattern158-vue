@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: verifying
-last_updated: "2026-04-22T08:26:45.068Z"
+last_updated: "2026-04-22T09:30:00.000Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
-  completed_phases: 5
+  completed_phases: 6
   total_plans: 49
-  completed_plans: 47
-  percent: 96
+  completed_plans: 48
+  percent: 98
 ---
 
 # Project State
@@ -26,12 +26,12 @@ Prior milestone: v8.0 Editorial Snapshot & Content Audit (shipped 2026-04-20, `.
 
 ## Current Position
 
-Phase: 53 — dom-extraction — EXECUTING
-Plan: 10 of 10
+Phase: 58 — tzk-style-structure — COMPLETE
+Plan: End-to-end executed in one pass
 Status: Phase complete — ready for verification
 Last activity: 2026-04-22
 
-Progress: [██████████] 96%
+Progress: [██████████] 98%
 
 ## Performance Metrics
 
@@ -160,6 +160,12 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 54 Plan 03: Finding tiddler exhibit back-ref tag is a literal '[[Exhibit L]]' string (not wikiLink(formatExhibitTitle(...))) — matches ATOM-01 client-tag precedent and keeps tags a flat string[]
 - Phase 54 Plan 03: bodyFor uses parts[] accumulator with .length > 0 guards so empty finding fields collapse to omitted heading blocks — section order (finding → description → resolution → outcome) preserved regardless of which subset populated
 - Phase 55 Plan 06 (FIX-04): Case Files Index body is a 4-column TiddlyWiki table (|!Date |!Client |!Type |!Case |) sorted by label ascending via .slice().sort(compareByLabel); typeCellFor maps investigation-report->Investigation, engineering-brief->Brief, else passthrough; two module-scope helpers (typeCellFor, compareByLabel) live above caseFilesIndexTiddler; iter-1 JSDoc block dropped in favor of a single line-comment per codebase no-JSDoc convention
+- Phase 58 (TZK-01): withPublicTag transform lives at generate.ts composition layer (Phase 54 generators LOCKED); idempotent same-reference no-op when `public` or `private` already present; prepends `public` otherwise; frozen-tag-array safe via new Tiddler object construction
+- Phase 58 (TZK-02): publishFilter value REQUIRES `+` intersection prefix (`+[!tag[private]]`); raw `[!tag[private]]` unions with saveTiddlerFilter rather than narrowing — verified via canary-tiddler smoke test (sentinel absent from public build, present in all build)
+- Phase 58 (TZK-02): `--output tiddlywiki/output` resolves against CWD (pnpm runs from project root per TW core/language/en-GB/Help/output.tid), NOT the edition root; legacy `index` build target preserved `--output`-free for backward compatibility with pre-Phase-58 docs
+- Phase 58 (TZK-02): empty-string template slot in --render args preserves `$:/core/save/all`-as-filter invocation (render.js line 44 falls back to `template || title`); form is `[filter, filename, type, '', 'publishFilter', '+[!tag[private]]']`
+- Phase 58: tsconfig.scripts.json excludes (deferred from Phase 53 Plan 01) fully cleared — html-to-wikitext.ts `document.body as unknown as Node` cast at producer boundary mirrors extractors/types.ts parseHtml pattern; generate.ts + sources.ts + sources.test.ts + html-to-wikitext.ts + verify-integrity.ts now under project-references supervision
+- Phase 58 (Phase 57 follow-up): siteMetaTiddlers subtitle synced to "Evidence-Based Portfolio" at the generator source; eliminates the regenerate-drift risk flagged in 57-SUMMARY Deferred Issue #1 where manually-committed override got overwritten every generate run
 
 ### Pending Todos
 
@@ -171,8 +177,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T08:26:45.064Z
-Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
+Last session: 2026-04-22T09:30:00.000Z
+Current activity: Phase 58 (Tzk-Style Structure) executed end-to-end in one pass. Delivered withPublicTag transform (TZK-01), extended tiddlywiki.info with public-index + all-index build targets (TZK-02), added tiddlywiki devDep + pnpm build scripts (TZK-02+TZK-04), directory scaffolding + README (TZK-05), and closed the Phase 57 sources.ts subtitle follow-up. Six commits (6f75aa1, 0b0184f, f5c0a48, d3d7f23, 6d00f72, bbe212a). Canary-tiddler filter smoke test proved public/all split correct. All 593 scripts tests pass, build exits 0, generated tiddlers + output HTML (2.8MB each) committed.
 Resume file: None
 
-**Next step:** `/gsd:plan-phase 53` (DOM Extraction) — or `/gsd:discuss-phase 53` first if you want to surface gray areas before planning.
+**Next step:** Phase 59 — DOC-* requirements. Or `/gsd:verify-phase 58` to formalize completion.

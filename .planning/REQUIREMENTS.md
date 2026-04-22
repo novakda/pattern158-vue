@@ -71,11 +71,11 @@ Decompose extracted data into per-entity tiddlers with cross-linking.
 
 Private/public split, build pipeline, git-backed workflow — inspired by `sobjornstad/tzk`.
 
-- [ ] **TZK-01**: Tiddlers tagged `public` by default; `private` tag available for drafts/notes. Tag-based filter controls which tiddlers appear in the deployed wiki.
-- [ ] **TZK-02**: Build pipeline — `pnpm tiddlywiki:build-public` runs `tiddlywiki` with filter `[!tag[private]]` to produce `./tiddlywiki/output/index.html` containing only public tiddlers. `pnpm tiddlywiki:build-all` builds full wiki for local authoring.
-- [ ] **TZK-03**: Git-backed workflow — regeneration script (`pnpm tiddlywiki:generate`) re-reads captured HTML + emits fresh tiddlers to `./tiddlywiki/tiddlers/`; git diff surfaces what changed since last capture. Source-of-truth is git; tiddler files are committable.
-- [ ] **TZK-04**: Deploy-ready public wiki — `tiddlywiki/output/index.html` includes only public tiddlers, Pattern 158 theme, no draft/private content, suitable to publish at `pattern158.solutions/wiki/` or similar subpath.
-- [ ] **TZK-05**: Tzk-inspired directory structure — `./tiddlywiki/` gets `tiddlers/` (canonical source), `output/` (build artifacts, gitignored), `config/` (theme CSS, site-meta tiddlers), `build/` (build scripts), `README.md` (workflow doc).
+- [x] **TZK-01**: Tiddlers tagged `public` by default; `private` tag available for drafts/notes. Tag-based filter controls which tiddlers appear in the deployed wiki.
+- [x] **TZK-02**: Build pipeline — `pnpm tiddlywiki:build-public` runs `tiddlywiki` with filter `[!tag[private]]` to produce `./tiddlywiki/output/index.html` containing only public tiddlers. `pnpm tiddlywiki:build-all` builds full wiki for local authoring.
+- [x] **TZK-03**: Git-backed workflow — regeneration script (`pnpm tiddlywiki:generate`) re-reads captured HTML + emits fresh tiddlers to `./tiddlywiki/tiddlers/`; git diff surfaces what changed since last capture. Source-of-truth is git; tiddler files are committable.
+- [x] **TZK-04**: Deploy-ready public wiki — `tiddlywiki/output/index.html` includes only public tiddlers, Pattern 158 theme, no draft/private content, suitable to publish at `pattern158.solutions/wiki/` or similar subpath.
+- [x] **TZK-05**: Tzk-inspired directory structure — `./tiddlywiki/` gets `tiddlers/` (canonical source), `output/` (build artifacts, gitignored), `config/` (theme CSS, site-meta tiddlers), `build/` (build scripts), `README.md` (workflow doc).
 
 ### Iter-1 Fixes
 
