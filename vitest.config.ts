@@ -44,6 +44,7 @@ export default defineConfig({
           include: [
             'scripts/markdown-export/**/*.test.ts',
             'scripts/editorial/**/*.test.ts',
+            'scripts/tiddlywiki/**/*.test.ts',
           ],
           environment: 'node',
           globals: true,

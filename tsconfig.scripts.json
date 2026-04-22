@@ -18,5 +18,8 @@
     "paths": {},
     "baseUrl": "."
   },
-  "include": ["scripts/markdown-export/**/*.ts"]
+  "include": [
+    "scripts/markdown-export/**/*.ts",
+    "scripts/tiddlywiki/**/*.ts"
+  ]
 }
