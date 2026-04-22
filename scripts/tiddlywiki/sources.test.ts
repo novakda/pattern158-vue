@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  caseFilesIndexTiddler,
   exhibitsToTiddlers,
   faqItemsToTiddlers,
   type ExhibitJson,
@@ -291,5 +292,100 @@ describe('faqItemsToTiddlers — FAQ Index backlink always present', () => {
     ]
     const tiddlers = faqItemsToTiddlers(items)
     expect(tiddlers[0].text).toMatch(/\[\[FAQ Index\]\]\s*$/)
+  })
+})
+
+// ---- FIX-04: caseFilesIndexTiddler → sortable table ----
+
+describe('caseFilesIndexTiddler — header row', () => {
+  it('emits the canonical table header', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'Sample', exhibitType: 'investigation-report' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).toContain('|!Date |!Client |!Type |!Case |')
+  })
+})
+
+describe('caseFilesIndexTiddler — data row shape', () => {
+  it('emits a row with date, client, type-cell, and [[label — title]] link', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'Sample', exhibitType: 'investigation-report' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).toContain('|2024 |Acme |Investigation |[[A — Sample]] |')
+  })
+})
+
+describe('caseFilesIndexTiddler — type cell mapping', () => {
+  it('maps investigation-report to "Investigation" and engineering-brief to "Brief"', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'Inv', exhibitType: 'investigation-report' },
+      { label: 'B', client: 'Beta', date: '2025', title: 'Bri', exhibitType: 'engineering-brief' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).toContain('|2024 |Acme |Investigation |[[A — Inv]] |')
+    expect(t.text).toContain('|2025 |Beta |Brief |[[B — Bri]] |')
+  })
+})
+
+describe('caseFilesIndexTiddler — unknown type falls through', () => {
+  it('passes an unknown exhibitType through verbatim', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'X', client: 'Xco', date: '2020', title: 'Misc', exhibitType: 'other' as unknown as ExhibitJson['exhibitType'] },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).toContain('|2020 |Xco |other |[[X — Misc]] |')
+  })
+})
+
+describe('caseFilesIndexTiddler — sort order by label', () => {
+  it('sorts rows alphabetically by label regardless of input order', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'C', client: 'C', date: '2030', title: 'CC', exhibitType: 'engineering-brief' },
+      { label: 'A', client: 'A', date: '2020', title: 'AA', exhibitType: 'investigation-report' },
+      { label: 'B', client: 'B', date: '2025', title: 'BB', exhibitType: 'engineering-brief' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    const posA = t.text.indexOf('[[A — AA]]')
+    const posB = t.text.indexOf('[[B — BB]]')
+    const posC = t.text.indexOf('[[C — CC]]')
+    expect(posA).toBeGreaterThan(-1)
+    expect(posB).toBeGreaterThan(posA)
+    expect(posC).toBeGreaterThan(posB)
+  })
+})
+
+describe('caseFilesIndexTiddler — iter-1 bulleted format removed', () => {
+  it('does not emit the iter-1 "! Investigation Reports" / "! Engineering Briefs" section headings or bullet list', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'Sample', exhibitType: 'investigation-report' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).not.toContain('! Investigation Reports')
+    expect(t.text).not.toContain('! Engineering Briefs')
+    expect(t.text).not.toContain('* [[A — Sample]]')
+  })
+})
+
+describe('caseFilesIndexTiddler — caption', () => {
+  it('starts with the locked caption sentence', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'S', exhibitType: 'investigation-report' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.text).toMatch(/^All case files in a sortable table\./)
+  })
+})
+
+describe('caseFilesIndexTiddler — tiddler metadata preserved', () => {
+  it('keeps title "Case Files Index" and tags [page, case-files]', () => {
+    const exhibits: ExhibitJson[] = [
+      { label: 'A', client: 'Acme', date: '2024', title: 'S', exhibitType: 'investigation-report' },
+    ]
+    const t = caseFilesIndexTiddler(exhibits)
+    expect(t.title).toBe('Case Files Index')
+    expect(t.tags).toContain('page')
+    expect(t.tags).toContain('case-files')
   })
 })

@@ -311,26 +311,32 @@ export function exhibitsToTiddlers(
   })
 }
 
-/**
- * Generate a "Case Files Index" tiddler listing every exhibit by type.
- */
+function typeCellFor(exhibitType: string): string {
+  if (exhibitType === 'investigation-report') return 'Investigation'
+  if (exhibitType === 'engineering-brief') return 'Brief'
+  return exhibitType
+}
+
+function compareByLabel(a: ExhibitJson, b: ExhibitJson): number {
+  if (a.label < b.label) return -1
+  if (a.label > b.label) return 1
+  return 0
+}
+
+// Case Files Index tiddler — sortable table of every exhibit row (FIX-04).
 export function caseFilesIndexTiddler(
   exhibits: readonly ExhibitJson[],
 ): Tiddler {
-  const investigations: string[] = []
-  const briefs: string[] = []
-  for (const ex of exhibits) {
-    const title = `${ex.label} — ${ex.title}`
-    const line = `* [[${title}]] — //${ex.client}, ${ex.date}//`
-    if (ex.exhibitType === 'investigation-report') investigations.push(line)
-    else briefs.push(line)
+  const sorted = exhibits.slice().sort(compareByLabel)
+  const rows: string[] = []
+  for (const ex of sorted) {
+    const caseLink = `[[${ex.label} — ${ex.title}]]`
+    rows.push(`|${ex.date} |${ex.client} |${typeCellFor(ex.exhibitType)} |${caseLink} |`)
   }
   const text =
-    `All case files, organized by type. Each exhibit is its own tiddler — tagged with its exhibit type and client. Filter by tag to narrow.\n\n` +
-    `! Investigation Reports\n\n` +
-    investigations.join('\n') +
-    `\n\n! Engineering Briefs\n\n` +
-    briefs.join('\n') +
+    `All case files in a sortable table. Click a column header in TiddlyWiki to sort; filter by tag to narrow (tags: investigation-report, engineering-brief, {client}).\n\n` +
+    `|!Date |!Client |!Type |!Case |\n` +
+    rows.join('\n') +
     '\n'
   return {
     title: 'Case Files Index',
