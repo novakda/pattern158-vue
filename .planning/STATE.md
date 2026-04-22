@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v9.0
 milestone_name: Continue tiddlywiki intake and conversion
 status: executing
-last_updated: "2026-04-22T05:54:36.548Z"
+last_updated: "2026-04-22T05:54:58.363Z"
 last_activity: 2026-04-22
 progress:
   total_phases: 14
@@ -140,6 +140,8 @@ Historical decisions preserved. v8.0 decisions logged in PROJECT.md Key Decision
 - Phase 53 Plan 06: Wave-2 build-gate discovery — tsconfig.scripts.json missing allowImportingTsExtensions + vitest/globals types broke pnpm build across all 8 Wave-2 test files; out of Plan 53-06 scope; logged to deferred-items.md; RESOLVED during this wave by Plan 53-02 fix commit 619c82e
 - Phase 53 Plan 07: Unified 'blockquote.testimonial-quote, blockquote.exhibit-quote' selector with classList-based shape dispatch — one DOM pass, branch per shape via classList.contains(TESTIMONIAL_CLASS); preserves Testimonial total-shape contract across both DOM variants
 - Phase 53 Plan 07: :scope > p child-combinator in exhibit-quote text extraction prevents nested p capture; footer === null flow-sensitive narrowing avoids non-null assertion in firstNonRoleSpan call
+- Phase 53 Plan 05 (EXTR-04): DESCRIPTION_SPAN_SELECTOR uses child combinator to prevent finding-resolution inner spans from leaking into description field
+- Phase 53 Plan 05 (EXTR-04): severity and outcome emit empty string (no DOM hooks in current static-site HTML); forward-compat for Phase 54 ATOM-02 overlay from exhibits.json
 
 ### Pending Todos
 
@@ -151,8 +153,8 @@ None. Research complete, requirements defined, ready for roadmap.
 
 ## Session Continuity
 
-Last session: 2026-04-22T05:54:22.125Z
+Last session: 2026-04-22T05:54:50.699Z
 Current activity: v9.0 roadmap created — 7 phases (53–59) mapping all 34 REQs 1:1 by category. Phase order: DOM Extraction → Atomic Tiddler Generation → Iter-1 Fixes → Tests → Wiki Theme → Tzk Structure → Documentation. ROADMAP.md + REQUIREMENTS.md traceability + STATE.md updated together.
-Resume file: None
+Resume file: Parallel executor git race on f41d0f6 documented in 53-05-SUMMARY.md
 
 **Next step:** `/gsd:plan-phase 53` (DOM Extraction) — or `/gsd:discuss-phase 53` first if you want to surface gray areas before planning.

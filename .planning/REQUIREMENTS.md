@@ -35,7 +35,8 @@ Structured parsers over captured HTML. Foundation for everything else.
 **: `scripts/tiddlywiki/extractors/exhibit.ts` parses exhibit detail page DOM — emits structured `Exhibit` with label, client, date, title, exhibitType, context, sections (with nested subsections), impactTags, summary, role, emailCount.
 - [x] **EXTR-03
 **: `scripts/tiddlywiki/extractors/personnel.ts` parses personnel tables/cards on exhibit pages — emits `PersonnelEntry[]` with name, title, role, organization, entryType (individual / group / anonymized) + source-exhibit back-reference.
-- [ ] **EXTR-04**: `scripts/tiddlywiki/extractors/findings.ts` parses findings sections on exhibit pages — emits `FindingEntry[]` with finding, description, resolution, outcome, category, severity + source-exhibit back-reference.
+- [x] **EXTR-04
+**: `scripts/tiddlywiki/extractors/findings.ts` parses findings sections on exhibit pages — emits `FindingEntry[]` with finding, description, resolution, outcome, category, severity + source-exhibit back-reference.
 - [x] **EXTR-05
 **: `scripts/tiddlywiki/extractors/technologies.ts` parses technology sections — emits `TechnologyEntry[]` with name, context, aggregated exhibit cross-references.
 - [x] **EXTR-06
