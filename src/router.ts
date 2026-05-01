@@ -10,6 +10,7 @@ export const routes: RouteRecordRaw[] = [
   { path: '/testimonials', component: () => import('./pages/TestimonialsPage.vue') },
   { path: '/accessibility', component: () => import('./pages/AccessibilityPage.vue') },
   { path: '/review', component: () => import('./pages/ReviewPage.vue') },
+  { path: '/tools', component: () => import('./pages/ToolsPage.vue') },
   { path: '/exhibits/:slug', component: () => import('./pages/ExhibitDetailPage.vue') },
   { path: '/:pathMatch(.*)*', name: 'not-found', component: () => import('./pages/NotFoundPage.vue') },
 ]
