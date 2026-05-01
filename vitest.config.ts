@@ -11,6 +11,7 @@ export default defineConfig({
     },
   },
   test: {
+    passWithNoTests: true,
     projects: [
       {
         extends: true,
@@ -33,6 +34,19 @@ export default defineConfig({
             provider: playwright(),
             instances: [{ browser: 'chromium' }],
           },
+          globals: true,
+        },
+      },
+      {
+        extends: true,
+        test: {
+          name: 'scripts',
+          include: [
+            'scripts/markdown-export/**/*.test.ts',
+            'scripts/editorial/**/*.test.ts',
+            'scripts/tiddlywiki/**/*.test.ts',
+          ],
+          environment: 'node',
           globals: true,
         },
       },

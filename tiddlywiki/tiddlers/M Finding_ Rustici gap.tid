@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit M]]]]
+title: M Finding: Rustici gap
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Rustici gap
+
+! Description
+
+Rustici Engine's testing tools address package validation but lack reproducible debug states — the specific capability this tool provided
+

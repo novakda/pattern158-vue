@@ -1,0 +1,104 @@
+client: General Dynamics Electric Boat
+created: 20260421000000000
+email-count: 574 emails
+exhibit-date: 2015–2022
+exhibit-type: engineering-brief
+label: Exhibit A
+modified: 20260421000000000
+role: Cross-domain SCORM architecture, Flash remediation, 7-year embedded technical advisory
+tags: public exhibit engineering-brief [[General Dynamics Electric Boat]]
+title: Exhibit A
+type: text/vnd.tiddlywiki
+
+! Cross-Domain SCORM Resolution & Embedded Technical Advisory
+''Summary:'' Diagnosed and resolved cross-domain SCORM communication failures caused by Electric Boat's split LMS/content server architecture. Deployed custom SCORM wrapper using postMessage to bypass same-origin policy constraints, eliminating dependency on Cornerstone Network Player. Engagement evolved from a "quick win" troubleshooting request into a 7-year embedded advisory role spanning Flash remediation, Chrome 80 impact analysis, and SCORM 2004 extensions across 574 emails and 49 personnel.
+''Role:'' Cross-domain SCORM architecture, Flash remediation, 7-year embedded technical advisory
+''Date:'' 2015–2022
+''Email count:'' 574 emails
+
+! Context
+
+Seven-year embedded technical advisory relationship with General Dynamics Electric Boat (2017–2022), spanning formal investigation, two on-site deployments (August 2018, March–April 2019), and ongoing platform support. Engagement scope: 574 emails across 49 EB personnel.
+
+! Impact Tags
+
+* Client-Facing
+* Cross-Domain
+* Tooling
+* Defense & Aerospace
+* Flash-to-HTML5
+* 7-Year Engagement
+
+! Testimonials
+
+<<<
+I’d consider the last couple days a success, and I look forward to working with Dan in the future.
+<<<
+''— Chief of Learning Services, Metrics, Processes & Technology, Electric Boat''
+
+<<<
+Thank you Dan for working with us and listening to our ideas and problems!
+<<<
+''— Chief of Learning Services, Electric Boat'' — in summary email to EB leadership
+
+<<<
+Thanks for all of the great work you did out there. I heard about your work from several folks across the organization.
+<<<
+''— Director of Learning Technologies, GP Strategies'' — recognition relayed independently through three separate contacts
+
+<<<
+Dan’s technical expertise is tremendous… with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money.
+<<<
+''— Chief of Learning Services, Electric Boat'' — in recognition email to GP leadership
+
+
+---
+
+! Personnel
+
+* [[ @ GP Strategies]]
+* [[Collaborated on testing @ Electric Boat]]
+* [[Course content and technical data support @ Electric Boat]]
+* [[Dan Novak]]
+* [[EB account coordination @ GP Strategies]]
+* [[EB content development and testing @ Electric Boat]]
+* [[Multiple EB Personnel]]
+* [[Primary client contact and technical collaborator @ Electric Boat]]
+* [[QA testing and co-investigation @ GP Strategies]]
+
+! Findings
+
+* [[A Finding: Bulk SCORM import not available]]
+* [[A Finding: HTML5 courses failing under AICC protocol]]
+* [[A Finding: No tools to verify SCORM data flow]]
+* [[A Finding: Quiz bookmarking and reset failures]]
+* [[A Finding: SCORM courses dependent on Cornerstone Network Player]]
+
+! Technologies
+
+* [[Tech: AICC]]
+* [[Tech: Adobe Flash/ActionScript]]
+* [[Tech: Articulate Storyline]]
+* [[Tech: Chrome]]
+* [[Tech: Cornerstone OnDemand]]
+* [[Tech: ESM course JavaScript rewrites]]
+* [[Tech: EasyXDM)]]
+* [[Tech: Fiddler (network analysis)]]
+* [[Tech: Flash-to-HTML5 migration]]
+* [[Tech: HTML5]]
+* [[Tech: IE compatibility]]
+* [[Tech: JavaScript]]
+* [[Tech: PHP]]
+* [[Tech: SCORM 1.2]]
+* [[Tech: SCORM 2004]]
+* [[Tech: browser DevTools]]
+* [[Tech: bulk course import tooling]]
+* [[Tech: cross-domain communication (postMessage]]
+* [[Tech: same-origin policy workarounds]]
+* [[Tech: synchronous XHR deprecation]]
+
+! Testimonials
+
+* [[Testimonial: Chief of Learning Services, Electric…]]
+* [[Testimonial: Chief of Learning Services, Metrics,…]]
+* [[Testimonial: Director of Learning Technologies, GP…]]

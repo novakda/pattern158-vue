@@ -1,11 +1,5 @@
-export interface Stat {
-  number: string
-  label: string
-}
+import type { Stat } from '@/types'
+import statsData from './json/stats.json'
 
-export const stats: Stat[] = [
-  { number: '28+', label: 'Years' },
-  { number: '5,200+', label: 'Projects' },
-  { number: '40+', label: 'Clients' },
-  { number: '930+', label: 'Testimonials' },
-]
+export type { Stat }
+export const stats: Stat[] = statsData

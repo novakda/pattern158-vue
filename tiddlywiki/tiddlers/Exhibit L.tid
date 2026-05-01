@@ -1,0 +1,69 @@
+client: Enterprise Client (Confidential)
+created: 20260421000000000
+email-count: Recent engagement
+exhibit-date: 2025
+exhibit-type: investigation-report
+label: Exhibit L
+modified: 20260421000000000
+role: Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable
+tags: public exhibit investigation-report [[Enterprise Client (Confidential)]]
+title: Exhibit L
+type: text/vnd.tiddlywiki
+
+! Power Platform: Forensic Architecture Audit
+''Summary:'' Diagnosed enterprise-scale architectural failures after vendor departure and knowledge loss. AI-assisted methodology (GitHub Spec Kit baseline + convergent validation) surfaced five critical gaps: no data model, no version control, monolithic solution architecture, requirements degradation chain, and no decomposed user stories. Tool misuse at scale — citizen-developer methodology applied to enterprise platform. Findings validated through convergence: practical pain + Microsoft docs + AI analysis.
+''Role:'' Forensic architecture audit using AI-assisted analysis — diagnosis as deliverable
+''Date:'' 2025
+''Email count:'' Recent engagement
+
+! Investigation Summary
+
+An enterprise ERP modernization on Microsoft Power Platform where institutional knowledge was lost through organizational transitions. AI-assisted forensic analysis exposed five foundational gaps: no data model, no version control, monolithic architecture, atomized requirements without context, and no decomposed user stories. The diagnosis was the deliverable.
+
+! Impact Tags
+
+* Forensic Diagnosis
+* AI-Assisted Analysis
+* Architecture Audit
+* Diagnosis as Deliverable
+* 5 Foundational Gaps
+
+---
+
+! Personnel
+
+* [[Dan Novak]]
+* [[Lead developer on the existing Power Platform solution @ ]]
+* [[Original architects of the Power Platform solution @ ]]
+* [[Recipient of the findings deliverable @ ]]
+
+! Findings
+
+* [[L Finding: Monolithic solution architecture]]
+* [[L Finding: No data model]]
+* [[L Finding: No decomposed user stories]]
+* [[L Finding: No version control]]
+* [[L Finding: Requirements atomization without context]]
+
+! Technologies
+
+* [[Tech: Architecture audit protocols]]
+* [[Tech: Azure DevOps]]
+* [[Tech: Dataverse (table structure]]
+* [[Tech: GitHub Spec Kit (AI-assisted requirements analysis]]
+* [[Tech: Microsoft best practices comparison]]
+* [[Tech: Power Apps (model-driven]]
+* [[Tech: Power Automate]]
+* [[Tech: Power Platform Solutions]]
+* [[Tech: Requirement degradation chain analysis]]
+* [[Tech: Solution architecture (monolithic vs modular core)]]
+* [[Tech: baseline generation]]
+* [[Tech: canvas)]]
+* [[Tech: convergence validation]]
+* [[Tech: entity relationships)]]
+* [[Tech: epic vs story-level distinction]]
+* [[Tech: gap analysis]]
+* [[Tech: gap detection)]]
+* [[Tech: source control best practices)]]
+* [[Tech: user story decomposition]]
+* [[Tech: version control (git]]

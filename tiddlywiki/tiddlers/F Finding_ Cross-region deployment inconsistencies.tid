@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-environment [[[[Exhibit F]]]]
+title: F Finding: Cross-region deployment inconsistencies
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Cross-region deployment inconsistencies
+
+! Description
+
+Localized HTML5 courses failed to deploy correctly across HSBC's global SAP SuccessFactors instance spanning Mexico, India, and the Philippines. Diagnosis required navigating time zones, language barriers, and regional LMS configuration differences.
+
+! Resolution
+
+SCORM deployment issues diagnosed and fix coordinated across international stakeholders
+

@@ -1,0 +1,89 @@
+created: 20260421000000000
+modified: 20260421000000000
+source-html: static-site/index.html
+tags: public page
+title: Home
+type: text/vnd.tiddlywiki
+
+Senior Software Engineer | Systems Architect Available for new opportunities JavaScript Node.js Vue.js TypeScript SQL REST APIs AI Integration Power Platform I cheat, but I cheat fair. Get in Touch View Case Files
+
+!! I Reverse-Engineer Chaos Into Clarity
+
+After 28 years building and rescuing enterprise systems, I've learned that the best solutions aren't always the obvious ones—they're the elegant shortcuts that work properly.
+
+!!! Legacy System Rescue
+
+Forensic reverse-engineering of "black box" systems. Making undocumented legacy systems work when documentation doesn't exist.
+
+!!! Cross-Platform Integration
+
+Building bridges between systems that weren't designed to talk. SCORM, xAPI, AICC protocol expertise.
+
+!!! AI Implementation
+
+Thoughtful AI/LLM application. Understanding when to use generative AI vs. structured data for production systems.
+
+!!! Systems Architecture
+
+Building foundational systems that harmonize—like the diapason register that gives a pipe organ its character. 28+ Years 5,200+ Projects 40+ Clients 930+ Testimonials
+
+!! Five Core Influences
+
+Not abstract inspirations—specific sources that shaped how I solve problems. Full details → 1. Air Crash Investigation Applied to the GM course completion investigation : a 4x spike in incomplete rates traced to fragile LMS architecture, misleading navigation, and mismatched real-world usage patterns. 2. Speedrunning / TASBot Applied to build a SCORM debugging tool that reduced QA cycles from hours to minutes using emulator save-state methodology. 3. “You want to cheat, cheat fair—anything I hate is a crookin’ crook.” —Moe Howard, “Healthy, Wealthy and Dumb” (1938). The source of the tagline. If you’ve found an elegant shortcut, document it, share it, build it properly. Hoarding a clever solution is the real dishonesty. Full philosophy → 4. Mentour Pilot The model for AI as a force multiplier: domain expert + AI assistant = better analysis than either alone. 5. “I seek knowledge not for gain, but to better understand myself” A line from a Harry Potter fanfic that stuck. The motivation behind every deep investigation: understanding the system, not padding the resume.
+
+!! Featured Projects
+
+⚠ FINDING 1
+
+!!! Cross-Domain SCORM Framework
+
+2011-2016 | Status: 10+ years in production
+
+!!!! Analysis
+
+Energy utilities needed cross-domain SCORM delivery before browsers or LMS vendors supported it. Same-origin policy blocked the obvious solutions.
+
+!!!! Solution
+
+Engineered cross-domain communication using EasyXDM. Built SCORM API proxy for transparent AICC/SCORM protocol translation. Created automated package generation tooling.
+
+!!!! Outcome
+
+System served ~20 energy utilities (each drawing a curated subset from a ~2,000 course central library). Remained in production 10+ years. Built in 2011—five years before Rustici released Content Controller. Full investigation report → JavaScript EasyXDM SCORM AICC Groovy ⚠ FINDING 2
+
+!!! Legacy Courseware CMS Rescue
+
+2004-2016 | Status: Extended system lifespan 10+ years
+
+!!!! Analysis
+
+Inherited undocumented courseware CMS on Macromedia JRun platform when original developer left. No documentation, no source code access, production system serving clients.
+
+!!!! Solution
+
+Decompiled Java/JSP packages to understand system behavior. Built JavaScript workarounds where server-side refactoring wasn't practical. Maintained critical system beyond expected EOL.
+
+!!!! Outcome
+
+System remained operational 10+ years. Enabled company to continue serving clients while planning proper migration path. Java/JSP JavaScript Macromedia JRun Forensic Engineering ⚠ FINDING 3
+
+!!! Enterprise AI Training Agent
+
+2025-2026 | Status: Production
+
+!!!! Analysis
+
+Needed AI instructor agent in Copilot Studio. Prompt engineering alone couldn't establish reliable guardrails for progress tracking and navigation.
+
+!!!! Solution
+
+Built data pipeline converting eLearning course materials into structured JSON. Used AI code interpreter for content transformation, structured data for deterministic control. Created adaptive cards for navigation and assessments.
+
+!!!! Outcome
+
+Reliable course navigation and progress tracking. Demonstrated hybrid AI/structured data architecture pattern. Full investigation report → Microsoft Copilot Studio Adaptive Cards AI Code Interpreter JSON
+
+!! From the Field
+
+Direct feedback from engagements spanning 17 years Dan’s technical expertise is tremendous… with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money. This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended. Manager, Content Team On publishing automation built during 1,216-lesson refresh View All Case Files
+

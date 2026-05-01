@@ -1,0 +1,29 @@
+created: 20260421000000000
+faq-id: build-vs-buy
+modified: 20260421000000000
+tags: public faq approach
+title: How do you decide what to build vs. what to buy?
+type: text/vnd.tiddlywiki
+
+I evaluate tools by asking whether they solve a real problem I'm already working around, not whether they're popular. The SCORM debugger I built in Vue.js is the cleanest example. For years, diagnosing course tracking failures meant coordinating LMS access with client IT departments. Hours of overhead before investigation could even start.
+
+I built a tool that emulated both SCORM 1.2 and SCORM 2004 runtime environments locally, with real-time API call streaming via the BroadcastChannel API. Diagnostic time: hours to minutes. I chose Vue.js because the reactive data binding matched the live call stream. I chose BroadcastChannel over WebSockets because the tool was purely client-side, no server infrastructure to maintain.
+
+On the MLS Power Platform project, I applied the same logic at a different scale. The recommendation wasn't "adopt new tools," it was "use the platform's existing capabilities properly." Sometimes the right tool is already there.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

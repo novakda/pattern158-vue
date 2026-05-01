@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit E]]]]
+title: E Finding: Deployment revolution
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Deployment revolution
+
+! Description
+
+Stub packages (kilobytes) replaced full content packages (megabytes) on client LMS. Course updates deployed centrally, propagated instantly to all clients
+

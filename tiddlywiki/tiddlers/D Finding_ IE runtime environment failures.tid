@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit D]]]]
+title: D Finding: IE runtime environment failures
+type: text/vnd.tiddlywiki
+
+! Finding
+
+IE runtime environment failures
+
+! Description
+
+Wells Fargo's corporate browser standard was Internet Explorer, which introduced SCORM API communication quirks. Flash-based content exhibited completion tracking failures from a race condition in IE's COM SCORM adapter, exacerbated by Xyleme's thin package latency.
+
+! Resolution
+
+Root-caused to race condition in IE's COM SCORM adapter; fix deployed across Flash course portfolio
+

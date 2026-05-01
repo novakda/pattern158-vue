@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-process [[[[Exhibit M]]]]
+title: M Finding: QA time sink
+type: text/vnd.tiddlywiki
+
+! Finding
+
+QA time sink
+
+! Description
+
+Manual course navigation consumed hours per test cycle — multiply by hundreds of courses and dozens of test scenarios per course
+

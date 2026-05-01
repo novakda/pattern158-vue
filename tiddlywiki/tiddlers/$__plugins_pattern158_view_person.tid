@@ -1,0 +1,27 @@
+created: 20260421000000000
+list-after: $:/core/ui/ViewTemplate/title
+modified: 20260421000000000
+tags: $:/tags/ViewTemplate
+title: $:/plugins/pattern158/view/person
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$list filter="[all[current]tag[person]]" variable="ignore">
+<div class="p158-person-meta">
+<$list filter="[all[current]tag[entry-type-individual]]" variable="ignore">
+<span class="badge badge-deep">Individual</span>
+</$list>
+<$list filter="[all[current]tag[entry-type-group]]" variable="ignore">
+<span class="badge badge-working">Group</span>
+</$list>
+<$list filter="[all[current]tag[entry-type-anonymized]]" variable="ignore">
+<span class="badge badge-aware">Anonymized</span>
+</$list>
+<$list filter="[all[current]has[title-role]]" variable="ignore">
+&nbsp;<em><$view field="title-role"/></em>
+</$list>
+<$list filter="[all[current]has[organization]]" variable="ignore">
+&nbsp;@ <$view field="organization"/>
+</$list>
+</div>
+</$list>

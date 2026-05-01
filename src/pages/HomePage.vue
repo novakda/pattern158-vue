@@ -7,6 +7,7 @@ import FindingCard from '@/components/FindingCard.vue'
 import TestimonialQuote from '@/components/TestimonialQuote.vue'
 import { useBodyClass } from '@/composables/useBodyClass'
 import { useSeo } from '@/composables/useSeo'
+import { intro, featuredProjectsHeading, fieldReportsHeading, teaserQuotes } from '@/content/home'
 import { techPills } from '@/data/techPills'
 import { specialties } from '@/data/specialties'
 import { stats } from '@/data/stats'
@@ -19,17 +20,6 @@ useSeo({
   description: 'Dan Novak - Systems architect with 28+ years rescuing enterprise systems. Specializing in legacy system integration, cross-platform solutions, and AI implementation.',
   path: '/',
 })
-
-const teaserQuotes = [
-  {
-    quote: 'Dan\u2019s technical expertise is tremendous\u2026 with his help, we were able to solve two large technical issues we were having, one that will have a direct impact on the Flash conversion process and save a lot of time and money.',
-  },
-  {
-    quote: 'This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended.',
-    cite: 'Manager, Content Team',
-    context: 'On publishing automation built during 1,216-lesson refresh',
-  },
-]
 </script>
 
 <template>
@@ -37,8 +27,8 @@ const teaserQuotes = [
 
   <section class="intro">
     <div class="container">
-      <h2>I Reverse-Engineer Chaos Into Clarity</h2>
-      <p>After 28 years building and rescuing enterprise systems, I've learned that the best solutions aren't always the obvious ones&#x2014;they're the elegant shortcuts that work properly.</p>
+      <h2>{{ intro.heading }}</h2>
+      <p>{{ intro.body }}</p>
 
       <div class="specialties">
         <SpecialtyCard
@@ -55,17 +45,17 @@ const teaserQuotes = [
 
   <InfluencesList :influences="influences" />
 
-  <section class="findings" id="work">
+  <section class="findings" :id="featuredProjectsHeading.id">
     <div class="container">
-      <h2>Featured Projects</h2>
+      <h2>{{ featuredProjectsHeading.title }}</h2>
       <FindingCard v-for="f in findings" :key="f.number" :finding="f" />
     </div>
   </section>
 
   <section class="field-reports-teaser">
     <div class="container">
-      <h2>From the Field</h2>
-      <p class="section-subtitle">Direct feedback from engagements spanning 17 years</p>
+      <h2>{{ fieldReportsHeading.title }}</h2>
+      <p class="section-subtitle">{{ fieldReportsHeading.subtitle }}</p>
 
       <div class="teaser-quotes">
         <TestimonialQuote
@@ -77,7 +67,7 @@ const teaserQuotes = [
         />
       </div>
 
-      <router-link to="/testimonials" class="btn btn-primary">View All Field Reports</router-link>
+      <router-link to="/case-files" class="btn btn-primary">View All Case Files</router-link>
     </div>
   </section>
 </template>

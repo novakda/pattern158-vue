@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Legacy System Rescue",
+    "description": "Forensic reverse-engineering of \"black box\" systems. Making undocumented legacy systems work when documentation doesn't exist."
+  },
+  {
+    "title": "Cross-Platform Integration",
+    "description": "Building bridges between systems that weren't designed to talk. SCORM, xAPI, AICC protocol expertise."
+  },
+  {
+    "title": "AI Implementation",
+    "description": "Thoughtful AI/LLM application. Understanding when to use generative AI vs. structured data for production systems."
+  },
+  {
+    "title": "Systems Architecture",
+    "description": "Building foundational systems that harmonize\u2014like the diapason register that gives a pipe organ its character."
+  }
+]

@@ -1,0 +1,16 @@
+created: 20260421000000000
+list-after: $:/core/ui/ViewTemplate/title
+modified: 20260421000000000
+tags: $:/tags/ViewTemplate
+title: $:/plugins/pattern158/view/testimonial
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$list filter="[all[current]tag[testimonial]]" variable="ignore">
+<div class="p158-testimonial-badge">
+<span class="badge badge-working">Testimonial</span>
+<$list filter="[all[current]has[attribution]]" variable="ignore">
+&nbsp;— <cite><$view field="attribution"/></cite>
+</$list>
+</div>
+</$list>

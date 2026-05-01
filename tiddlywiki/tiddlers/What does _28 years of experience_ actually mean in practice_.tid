@@ -1,0 +1,34 @@
+created: 20260421000000000
+faq-id: twenty-eight-years-experience
+modified: 20260421000000000
+tags: public faq expertise approach
+title: What does "28 years of experience" actually mean in practice?
+type: text/vnd.tiddlywiki
+
+It means I've seen most failure modes before, and more importantly, I've learned what questions to ask before building, not after shipping.
+
+The work spans five distinct engineering roles across 24+ Fortune 500 clients in energy, defense, banking, automotive, healthcare, and aerospace. Each engagement brought a new set of system boundaries, integration constraints, and failure modes. The CSBB Dispatch Framework ran through energy sector clients (FPL, Exelon, NRG, BP). The same cross-domain pattern extended into classified defense environments at General Dynamics Electric Boat. Accessibility methodology tested across global banking at HSBC, PNC, and TD Bank.
+
+What accumulates isn't just technical breadth, it's pattern recognition. The obvious diagnosis is usually incomplete. The first stakeholder framing is usually wrong. The thing that looks like a tracking bug is usually a UI architecture failure. Experience means knowing which questions to ask before you've written a single line of code.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What industries have you worked in?]]
+* [[What technologies do you specialize in?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

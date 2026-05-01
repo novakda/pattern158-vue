@@ -1,0 +1,27 @@
+created: 20260421000000000
+faq-id: push-back-technical-decisions
+modified: 20260421000000000
+tags: public faq collaboration
+title: How do you push back on technical decisions you disagree with?
+type: text/vnd.tiddlywiki
+
+I make the case with evidence, not authority. When I designed the CSBB Dispatch Framework, the conventional approach was a reverse proxy. I argued for client-side cross-domain messaging instead. The disagreement was real, a reverse proxy was the familiar pattern and some people were skeptical that browser-based messaging could handle production SCORM traffic.
+
+I made the case on operational grounds: a reverse proxy would put delivery reliability outside our control, dependent on each client IT department's responsiveness. The client-side approach kept operational complexity on our side.
+
+I didn't just argue the point, I built it and demonstrated that it worked. The framework ran in production for 10+ years across 7+ enterprise energy clients. That track record settled the debate more effectively than any presentation. The pattern is consistent: build the evidence, show the results, let the work speak.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Are you comfortable working independently?]]
+* [[Do you work well with distributed teams?]]
+* [[Do you write documentation?]]
+* [[How do you handle communication?]]
+* [[How do you work with stakeholders who have conflicting priorities?]]
+
+[[FAQ Index]]
+

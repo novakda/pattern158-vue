@@ -1,0 +1,158 @@
+[
+  {
+    "id": "available-new-projects",
+    "question": "Are you available for new projects?",
+    "answer": "Yes, I'm available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI'm interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA+), and AI-assisted development tooling.",
+    "categories": ["hiring"]
+  },
+  {
+    "id": "work-arrangement-preference",
+    "question": "What's your work arrangement preference?",
+    "answer": "Remote is ideal. I'm also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically). I have 28+ years of experience working effectively with distributed teams across time zones.\n\nI'm comfortable with async communication (email, Slack, documentation) and sync collaboration (video calls, pair programming) depending on what the project needs.",
+    "categories": ["hiring"]
+  },
+  {
+    "id": "contract-rates",
+    "question": "What are your contract rates?",
+    "answer": "For contract work, rates vary based on project scope, duration, and technical complexity. Let's discuss your specific needs \u2014 contact me with project details and we can work out terms that make sense for both of us.",
+    "categories": ["hiring"]
+  },
+  {
+    "id": "technology-specializations",
+    "question": "What technologies do you specialize in?",
+    "answer": "Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA)",
+    "categories": ["expertise"]
+  },
+  {
+    "id": "industry-experience",
+    "question": "What industries have you worked in?",
+    "answer": "Banking (PNC, JPMorgan Chase, Kmart Credit), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Retail (GM, Kmart), Healthcare (Cornell Medical), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another.",
+    "categories": ["expertise"]
+  },
+  {
+    "id": "twenty-eight-years-experience",
+    "question": "What does \"28 years of experience\" actually mean in practice?",
+    "answer": "It means I've seen most failure modes before, and more importantly, I've learned what questions to ask before building, not after shipping.\n\nThe work spans five distinct engineering roles across 24+ Fortune 500 clients in energy, defense, banking, automotive, healthcare, and aerospace. Each engagement brought a new set of system boundaries, integration constraints, and failure modes. The CSBB Dispatch Framework ran through energy sector clients (FPL, Exelon, NRG, BP). The same cross-domain pattern extended into classified defense environments at General Dynamics Electric Boat. Accessibility methodology tested across global banking at HSBC, PNC, and TD Bank.\n\nWhat accumulates isn't just technical breadth, it's pattern recognition. The obvious diagnosis is usually incomplete. The first stakeholder framing is usually wrong. The thing that looks like a tracking bug is usually a UI architecture failure. Experience means knowing which questions to ask before you've written a single line of code.",
+    "categories": ["expertise", "approach"]
+  },
+  {
+    "id": "problem-solving-methodology",
+    "question": "What's your actual problem-solving methodology?",
+    "answer": "I use what I call NTSB-style forensic methodology, the same discipline aviation accident investigators use. Start with the evidence, not the hypothesis. Capture the actual data flow first. Map the system boundaries. Identify where the contract between systems breaks down. Build the evidence chain before you present a diagnosis.\n\nThe clearest example: General Motors reported a spike in incomplete course records. Everyone assumed backend tracking bug. I captured HTTP traffic with Fiddler, reverse-engineered the LMS integration, and found something no one expected. SCORM state was held in volatile memory with no autosave. Any browser interruption lost the entire session. Wrong hypothesis, wrong investigation, zero results. Right methodology: trace the data, then talk.",
+    "categories": ["approach"],
+    "exhibitNote": "Exhibit J: GM Course Completion Investigation",
+    "exhibitUrl": "/exhibits/exhibit-j"
+  },
+  {
+    "id": "build-vs-buy",
+    "question": "How do you decide what to build vs. what to buy?",
+    "answer": "I evaluate tools by asking whether they solve a real problem I'm already working around, not whether they're popular. The SCORM debugger I built in Vue.js is the cleanest example. For years, diagnosing course tracking failures meant coordinating LMS access with client IT departments. Hours of overhead before investigation could even start.\n\nI built a tool that emulated both SCORM 1.2 and SCORM 2004 runtime environments locally, with real-time API call streaming via the BroadcastChannel API. Diagnostic time: hours to minutes. I chose Vue.js because the reactive data binding matched the live call stream. I chose BroadcastChannel over WebSockets because the tool was purely client-side, no server infrastructure to maintain.\n\nOn the MLS Power Platform project, I applied the same logic at a different scale. The recommendation wasn't \"adopt new tools,\" it was \"use the platform's existing capabilities properly.\" Sometimes the right tool is already there.",
+    "categories": ["approach"],
+    "exhibitNote": "Exhibit M: SCORM Debugger",
+    "exhibitUrl": "/exhibits/exhibit-m"
+  },
+  {
+    "id": "missing-information-upfront",
+    "question": "What happens when you don't have all the information upfront?",
+    "answer": "Missing information is the default state, not an exception. In 28 years of consulting work, I've almost never started a problem with complete information. Clients often don't know what's wrong. Documentation is missing or inaccurate. The person who built the system is long gone.\n\nMy approach: build the information I need through systematic investigation. Observe the system. Form a hypothesis from observable behavior. Test the hypothesis against data. Iterate. Don't wait for someone to hand you the answer, go find it.\n\nThis same discipline applied when I designed the accessibility testing methodology for HSBC, PNC, and TD Bank. No established framework existed for testing interactive, JavaScript-driven eLearning. I couldn't look it up. So I built it from first principles: WCAG 2.1 as the baseline, ARIA Authoring Practices for interactive patterns, and hands-on JAWS/NVDA testing as the ground truth.",
+    "categories": ["approach"]
+  },
+  {
+    "id": "ramp-up-unfamiliar-technology",
+    "question": "How do you ramp up on an unfamiliar technology or codebase quickly?",
+    "answer": "My pattern: map the platform's boundaries, figure out where the abstractions leak, and build around the constraints. This is the same approach whether it's a new platform, an inherited codebase with no docs, or a protocol I've never worked with before.\n\nOn ContentAIQ, I joined an existing React/TypeScript codebase with Jest tests and Azure DevOps CI pipelines and had to get productive fast in their specific patterns and conventions while shipping features alongside the existing team. On MCAPS, I dove into Copilot Studio documentation and started building immediately, learning through the work itself. On Ready2Role, I had a running production system I couldn't read and had to reconstruct from compiled artifacts.\n\nThe throughline: trace the data flow, find the boundaries, and build from there. Don't wait until you understand everything. Build something small that tests your assumptions, and let the system tell you where you're wrong.",
+    "categories": ["approach", "expertise"]
+  },
+  {
+    "id": "troubleshooting-approach",
+    "question": "How do you approach troubleshooting?",
+    "answer": "Systems thinking first. I look for patterns, examine different angles (technical, UX, user behavior), and verify hypotheses with evidence. I document findings clearly so others can follow the reasoning.\n\nI'm methodical: reproduce the issue, isolate variables, test hypotheses, fix root cause (not symptoms), verify the fix, and document for future reference.",
+    "categories": ["approach"]
+  },
+  {
+    "id": "typical-workflow",
+    "question": "What's your typical workflow?",
+    "answer": "The pattern repeats across my career:\n\n1. Deconstruct the Chaos: Forensic investigation to understand the system \u2014 map dependencies, identify patterns, document what exists\n2. Build the Tool: Create reusable frameworks to solve root causes, not symptoms \u2014 automate repetitive tasks, standardize processes\n3. Empower the User: Hand off robust, documented tools that make complex processes simple \u2014 clear READMEs, inline comments, training materials\n\nThis pattern shows up whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools.",
+    "categories": ["approach"]
+  },
+  {
+    "id": "cross-system-integration",
+    "question": "How do you approach cross-system integration? What does that actually look like?",
+    "answer": "Integration architecture is where most of my career impact has landed. The core discipline: understand each system on its own terms, then find the reliable path between them.\n\nThe CSBB Dispatch Framework is the largest example. Energy utilities like FPL, Exelon, NRG, and Calpine each ran different LMS platforms with different SCORM versions. GP Strategies needed one content catalog to work everywhere. I built a SCORM API proxy with a plugin model, separate adapters for SCORM 1.2, SCORM 2004, and AICC, so the proxy detected the client runtime and routed calls to the right adapter. ACL-based tenant isolation meant competing utilities could share hosting infrastructure. The Generator toolchain automated client onboarding. That architecture ran in production for 10+ years across 20+ clients.\n\nI independently arrived at the same architectural pattern Rustici later commercialized as SCORM Dispatch, five years before their product launched.",
+    "categories": ["architecture"],
+    "exhibitNote": "Exhibit E: CSBB Dispatch Framework",
+    "exhibitUrl": "/exhibits/exhibit-e"
+  },
+  {
+    "id": "architecture-trade-offs",
+    "question": "How do you handle architecture decisions when there are real trade-offs with no clean answer?",
+    "answer": "I make the trade-off explicit and accept it deliberately. With the CSBB Dispatch Framework, I chose centralization over distribution. A centralized host meant one update reached all 20+ clients simultaneously, version consistency guaranteed. The downside was a single point of failure. I accepted that because the alternative, distributing content to each client, meant losing version control and coordinating bug fixes across 20 separate IT departments with their own change windows.\n\nAt AICPA, I saw the other side of the same decision: a webhook-driven sync service where PostgreSQL tracked per-subaccount sync state as an idempotency layer, designed to tolerate upstream schema changes without breaking downstream integrations. Different constraints, different answer.\n\nSame discipline: document the trade-offs in writing, make the constraints visible to everyone, and let each group see why the others' priorities matter.",
+    "categories": ["architecture"]
+  },
+  {
+    "id": "rescue-legacy-system",
+    "question": "Can you actually rescue a legacy system with no documentation and no original developer?",
+    "answer": "Yes. It's most of what I did for two decades.\n\nThe Ready2Role CMS at GP Strategies is the clearest example. Original developer built a Java/JSP content management system, then left with zero documentation and zero handoff. Running production system. Actively serving client courses. No source repository, just compiled artifacts and a live application.\n\nI decompiled the deployed packages and reconstructed the system's behavior through analysis alone: mapping data flows from the JSP frontend through SQL Server stored procedures, understanding the authoring workflows, identifying which pieces were load-bearing. Where server-side refactoring was impractical, and without documentation or tests, most of it was, I built JavaScript workarounds to extend functionality from the client side.\n\nThat system ran in production for 10+ years beyond its expected end of life. It produced roughly 1,200 courses, about 60% of the organization's catalog. Reverse-engineering is not just reading code; it's building a mental model of a system from its observable behavior when no one can tell you how it works.",
+    "categories": ["legacy", "expertise"]
+  },
+  {
+    "id": "replace-vs-stabilize-legacy",
+    "question": "When should you replace a legacy system vs. stabilize it?",
+    "answer": "The Ready2Role story taught me the most important lesson: sometimes the right answer is not to replace a legacy system but to stabilize it and keep it producing value while you invest new development effort elsewhere.\n\nReplace when: the system can't be understood, can't be safely modified, and its failure modes are unpredictable. Stabilize when: you can understand the failure modes, extension is possible from the outside, and replacement would disrupt more than it solves.\n\nDocumentation is the real lesson underneath this. A single developer leaving without a handoff created years of unnecessary risk and technical debt. The cost of that knowledge loss compounded for over a decade. Write the documentation as if the person who needs it most is someone who's never seen the system, because that person is future-you, or it's whoever inherits this from you.",
+    "categories": ["legacy"]
+  },
+  {
+    "id": "conflicting-stakeholder-priorities",
+    "question": "How do you work with stakeholders who have conflicting priorities?",
+    "answer": "I document the trade-offs in writing, make the constraints visible to everyone, and let each group see why the others' priorities matter. The technique that's worked consistently across engagements: don't negotiate between stakeholders, surface the shared constraints so each group understands the others' reality.\n\nThe UTC legacy branding project is a clean example. Project leadership wanted speed. The manual review team needed clear criteria. The technical team needed automation that wouldn't produce false positives and undermine trust in the process. I coordinated a multi-disciplinary team, delivered 75% automation coverage, cataloged 450+ branded elements, and got there by having honest conversations about the 25% that required human judgment.\n\nOver seven years at General Dynamics Electric Boat, I sustained 571 documented interactions across IT security, network engineers, LMS administrators, content developers, and project management, by keeping the constraints visible and never asking one group to accept risk that belonged to another.",
+    "categories": ["collaboration"],
+    "exhibitNote": "Exhibit D: General Dynamics Electric Boat",
+    "exhibitUrl": "/exhibits/exhibit-d"
+  },
+  {
+    "id": "push-back-technical-decisions",
+    "question": "How do you push back on technical decisions you disagree with?",
+    "answer": "I make the case with evidence, not authority. When I designed the CSBB Dispatch Framework, the conventional approach was a reverse proxy. I argued for client-side cross-domain messaging instead. The disagreement was real, a reverse proxy was the familiar pattern and some people were skeptical that browser-based messaging could handle production SCORM traffic.\n\nI made the case on operational grounds: a reverse proxy would put delivery reliability outside our control, dependent on each client IT department's responsiveness. The client-side approach kept operational complexity on our side.\n\nI didn't just argue the point, I built it and demonstrated that it worked. The framework ran in production for 10+ years across 7+ enterprise energy clients. That track record settled the debate more effectively than any presentation. The pattern is consistent: build the evidence, show the results, let the work speak.",
+    "categories": ["collaboration"]
+  },
+  {
+    "id": "enterprise-accessibility-work",
+    "question": "What does enterprise accessibility work actually involve beyond running automated tools?",
+    "answer": "Automated tools catch maybe 30% of real accessibility issues. The rest require using the content the way a screen reader user would.\n\nI designed an enterprise accessibility testing methodology from scratch because the one I needed didn't exist. Existing WCAG guidelines assumed static pages, not interactive, JavaScript-driven content with drag-and-drop, timed assessments, audio players, and branching navigation.\n\nThe methodology I built works in three layers: WCAG 2.1 and Section 508 as the baseline (focus management, keyboard navigation, semantic structure, color contrast). ARIA Authoring Practices for the interactive patterns WCAG doesn't cover well, custom widgets, live regions for dynamic content updates, role assignments for non-standard UI components. And hands-on screen reader testing with both JAWS and NVDA as the ground truth.\n\nI applied this across roughly 100 courses for HSBC, PNC, and TD Bank. Colleagues adopted the methodology for their own projects. Accessibility is a design constraint you build around from the start, not a remediation pass at the end.",
+    "categories": ["expertise"],
+    "exhibitNote": "Exhibit I: Enterprise Accessibility Methodology",
+    "exhibitUrl": "/exhibits/exhibit-i"
+  },
+  {
+    "id": "ai-assisted-development-experience",
+    "question": "What's your experience with AI-assisted development and LLM integration?",
+    "answer": "I see AI as a new category of integration problem, connecting language models to structured data, managing state across conversational sessions, building reliable workflows on top of non-deterministic components. Same discipline I've applied to SCORM protocols, webhook-driven sync services, and cross-domain messaging for two decades.\n\nIn late 2025, I rebuilt Microsoft's AI-Led Training agent as a Copilot Studio implementation for their MCAPS global sales organization. I'd never worked in Copilot Studio before. The challenge was that the platform sits at an intersection of LLM conversational routing, adaptive cards for deterministic UI rendering, and structured data for managing learner state. I designed a hybrid architecture that used each technology for what it does well, adaptive cards for structured interactions where you need predictable UI, the LLM layer for conversational routing where natural language makes sense.\n\nThe tools change. The engineering discipline of tracing data flow, understanding failure modes, and building reliable boundaries between systems stays the same.",
+    "categories": ["ai-tooling", "expertise"],
+    "exhibitNote": "Exhibit K: Microsoft MCAPS AILT",
+    "exhibitUrl": "/exhibits/exhibit-k"
+  },
+  {
+    "id": "communication-style",
+    "question": "How do you handle communication?",
+    "answer": "I provide clear, documented communication. I'm comfortable with async (email, Slack, documentation) and sync (video calls, pair programming) depending on what the project needs.\n\nI'm in US Pacific timezone (Portland, OR). I respond to messages during business hours and document key decisions so distributed teams can stay aligned.",
+    "categories": ["collaboration"]
+  },
+  {
+    "id": "distributed-teams",
+    "question": "Do you work well with distributed teams?",
+    "answer": "Yes. I've spent 28 years working with distributed teams across time zones. I understand the importance of documentation, clear handoffs, and async-first workflows.\n\nI'm experienced with collaborative tools (Jira, Confluence, GitHub, Teams, Slack) and know how to keep projects moving when team members are in different locations.",
+    "categories": ["collaboration"]
+  },
+  {
+    "id": "independent-work",
+    "question": "Are you comfortable working independently?",
+    "answer": "Yes. I've often been \u201cthe engineer\u201d on projects \u2014 the one who figures problems out, builds the tool, and hands off documentation. I'm self-directed but also collaborate well when the project calls for it.\n\nI thrive in situations where requirements are unclear, documentation is missing, or the problem hasn't been solved before. Give me a complex puzzle and I'll map it, solve it, and document it.",
+    "categories": ["collaboration"]
+  },
+  {
+    "id": "documentation-practices",
+    "question": "Do you write documentation?",
+    "answer": "Yes, extensively. I believe tools are as good as their documentation. I write clear READMEs, inline code comments, architecture decision records (ADRs), and handoff guides.\n\nDocumentation isn't an afterthought \u2014 it's part of the deliverable. If I build it, I document it so the next person (or future me) can understand and maintain it.",
+    "categories": ["approach", "collaboration"]
+  }
+]

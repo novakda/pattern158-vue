@@ -1,0 +1,36 @@
+[
+  {
+    "title": "1. Provider of Clarity",
+    "label": "The outcome.",
+    "description": "Enter chaos, deliver understanding. Legacy systems, undefined requirements, failing courses \u2014 hand Dan a mess, get back clarity."
+  },
+  {
+    "title": "2. I Cheat, But I Cheat Fair",
+    "label": "The method.",
+    "description": "Build tools that skip tedium through proper engineering \u2014 documented, maintainable, ethical optimization.",
+    "sourceNote": "The Three Stooges, \u201cHealthy, Wealthy and Dumb,\u201d 1938"
+  },
+  {
+    "title": "3. Don\u2019t Fix the Bug, Build the Tool",
+    "label": "The approach.",
+    "description": "Don\u2019t solve individual problems; prevent entire categories of problems."
+  },
+  {
+    "title": "4. I Seek Knowledge Not for Gain, But to Better Understand Myself",
+    "label": "The motivation.",
+    "description": "Learn to understand systems and your own thinking, not to pad a resume.",
+    "sourceNote": "Harry Potter fanfic \u2014 password to the Department of Mysteries"
+  },
+  {
+    "title": "5. The Machine to Undo Time After Disaster",
+    "label": "The role.",
+    "description": "Tier 3 escalation \u2014 forensic engineering to understand what went wrong, then build the tool that prevents it again.",
+    "sourceNote": "Same fanfic \u2014 the artifact guarded behind the password"
+  },
+  {
+    "title": "6. TASBot for [Domain]",
+    "label": "The creative application.",
+    "description": "Tool-assisted optimization applied to professional work \u2014 understand the rules deeply, then build tools that operate beyond manual precision.",
+    "sourceNote": "Tool-Assisted Speedrunning culture"
+  }
+]

@@ -1,0 +1,58 @@
+client: BP (via Leo Learning / GP Strategies)
+created: 20260421000000000
+email-count: Recent engagement
+exhibit-date: 2024
+exhibit-type: investigation-report
+label: Exhibit N
+modified: 20260421000000000
+role: Rebranding lead / troubleshooter — direct Rustici Content Controller integration experience
+tags: public exhibit investigation-report [[BP (via Leo Learning / GP Strategies)]]
+title: Exhibit N
+type: text/vnd.tiddlywiki
+
+! BP Learning Platform: Federated System Integration
+''Summary:'' Existing React/GraphQL platform acting as a federated facade over Rustici Content Controller, PeopleFluent LMS, Watershed LRS (xAPI), and Amazon Cognito. Dan’s primary work: large-scale multi-tenant rebranding navigating an undocumented Material UI theming system — scoped as one week, expanded to months as interrelated style dependencies emerged. Also: bug fixes, Cognito troubleshooting via log analysis, reverse-engineering Watershed LRS queries. Same federated integration pattern Dan built independently as CSBB Dispatch a decade earlier.
+''Role:'' Rebranding lead / troubleshooter — direct Rustici Content Controller integration experience
+''Date:'' 2024
+''Email count:'' Recent engagement
+
+! Investigation Summary
+
+Worked on BP’s React/GraphQL learning platform integrating Rustici Content Controller, PeopleFluent LMS, Watershed LRS, and Amazon Cognito. Recognized the federated integration pattern from CSBB Dispatch — a decade of pattern evolution from custom-built to commercial ecosystem.
+
+! Impact Tags
+
+* Federated Integration
+* Pattern Recognition
+* Cross-System Debugging
+
+---
+
+! Personnel
+
+* [[Dan Novak]]
+* [[Leo Learning Team]]
+
+! Findings
+
+* [[N Finding: Cross-system debugging]]
+* [[N Finding: Familiar pattern]]
+* [[N Finding: Federated architecture]]
+* [[N Finding: Scope estimation challenge]]
+* [[N Finding: Undocumented theming]]
+
+! Technologies
+
+* [[Tech: Amazon Cognito]]
+* [[Tech: Cognito authentication flow analysis]]
+* [[Tech: Federated facade pattern]]
+* [[Tech: GraphQL query tracing]]
+* [[Tech: GraphQL]]
+* [[Tech: Material UI]]
+* [[Tech: PeopleFluent LMS]]
+* [[Tech: React]]
+* [[Tech: Rustici Content Controller]]
+* [[Tech: Watershed LRS]]
+* [[Tech: cross-system state management]]
+* [[Tech: multi-tenant theming]]
+* [[Tech: xAPI statement debugging]]

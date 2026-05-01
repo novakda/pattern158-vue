@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit F]]]]
+title: F Finding: SCORM API wrapper bug
+type: text/vnd.tiddlywiki
+
+! Finding
+
+SCORM API wrapper bug
+
+! Description
+
+The SCORM API wrapper used across HSBC courseware contained a hardcoded exit value that conflicted with SuccessFactors' completion detection logic. Silent failure — no console errors, no visible indication — persisted undetected across multiple LMS migrations.
+
+! Resolution
+
+Incorrect exit value fixed; completion tracking restored across affected courses
+

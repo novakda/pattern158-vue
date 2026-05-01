@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-environment [[[[Exhibit J]]]]
+title: J Finding: Mobile workforce / poor WiFi
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Mobile workforce / poor WiFi
+
+! Description
+
+GM sales reps were always on the road, working on intermittent WiFi connections. The system had no recovery mechanism for connection drops, making every session a gamble.
+

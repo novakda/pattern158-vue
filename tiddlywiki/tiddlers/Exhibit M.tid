@@ -1,0 +1,44 @@
+client: GP Strategies (Internal Tooling)
+created: 20260421000000000
+email-count: Developer tooling
+exhibit-date: ~2019–2020
+exhibit-type: investigation-report
+label: Exhibit M
+modified: 20260421000000000
+role: Creator — speedrunning methodology applied to eLearning QA
+tags: public exhibit investigation-report [[GP Strategies (Internal Tooling)]]
+title: Exhibit M
+type: text/vnd.tiddlywiki
+
+! SCORM Debugger: TASBot-Inspired QA Automation
+''Summary:'' Vue.js wrapper with fake SCORM API providing emulator save-state functionality for eLearning QA: save course state at any point, restore instantly, edit SCORM values directly, jump to any section. Reduced testing cycles from hours to minutes for gated content. Addresses a gap in commercial SCORM tools — reproducible debug states and session state inspection are not first-class features in SCORM Cloud or SCORM Engine.
+''Role:'' Creator — speedrunning methodology applied to eLearning QA
+''Date:'' ~2019–2020
+''Email count:'' Developer tooling
+
+! Investigation Summary
+
+Created a Vue.js SCORM debugging tool inspired by TASBot/speedrunning save states. Reduced QA testing cycles from hours to minutes by enabling instant state capture and restore across gated eLearning courses. The approach that Rustici Engine’s testing tools would later address commercially.
+
+! Impact Tags
+
+* QA Automation
+* Hours to Minutes
+* Vue.js
+* SCORM Testing
+* TASBot Methodology
+
+---
+
+! Personnel
+
+* [[Dan Novak]]
+* [[Max Glick]]
+
+! Findings
+
+* [[M Finding: Adoption barrier]]
+* [[M Finding: QA time sink]]
+* [[M Finding: Rustici gap]]
+* [[M Finding: State management parallel]]
+* [[M Finding: Tool effectiveness]]

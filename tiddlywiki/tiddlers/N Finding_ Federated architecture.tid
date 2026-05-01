@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit N]]]]
+title: N Finding: Federated architecture
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Federated architecture
+
+! Description
+
+The platform was a facade over four independent systems — no single system owned the learner record; cross-system state management was implicit
+

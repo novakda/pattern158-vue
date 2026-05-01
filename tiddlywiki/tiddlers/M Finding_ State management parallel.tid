@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit M]]]]
+title: M Finding: State management parallel
+type: text/vnd.tiddlywiki
+
+! Finding
+
+State management parallel
+
+! Description
+
+TASBot/speedrunning emulator save states enable instant reproduction of arbitrary game state — the same approach applied to SCORM session data
+

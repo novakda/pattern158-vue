@@ -1,0 +1,80 @@
+client: GP Strategies — Content Team
+created: 20260421000000000
+email-count: 2,554 emails
+exhibit-date: December 2015
+exhibit-type: engineering-brief
+label: Exhibit C
+modified: 20260421000000000
+role: Core platform developer — 9-year foundation work across power and energy sector
+tags: public exhibit engineering-brief [[GP Strategies — Content Team]]
+title: Exhibit C
+type: text/vnd.tiddlywiki
+
+! 1,216-Lesson Content Refresh: Automation Saves 600+ Hours
+''Summary:'' Long-term technical architect for proprietary LMS platform serving energy utilities (BP, Calpine, FPL, Exelon, BASF). Custom content server (CSBB), SCORM-to-AICC wrapper development, course packaging automation. Reverse-engineered Xyleme publishing API using Fiddler network analysis, saved 600+ hours through batch automation. 2,554 emails document sustained platform engineering across hundreds of courses and client deployments.
+''Role:'' Core platform developer — 9-year foundation work across power and energy sector
+''Date:'' December 2015
+''Email count:'' 2,554 emails
+
+! Context
+
+Part of a comprehensive team recognition email celebrating the completion of a 1,216-lesson content refresh. Each of 15 team members received a unique title and individual recognition. Dan’s callout focused on tooling and automation that enabled the project to complete on schedule. The automation tool was also used by a colleague to publish every lesson at least three times during the refresh cycle. Full testimonial details available in the investigation report.
+
+! Impact Tags
+
+* 600+ Hours Saved
+* Automation
+* Xyleme
+* Fiddler
+* 1,216 Lessons
+* API Reverse Engineering
+* Enterprise Course Library
+
+! Testimonials
+
+<<<
+Dan Novak “The Fiddler” (Automation) — Dan gets this name not only because he makes extensive use of the Fiddler application to help us troubleshoot communications errors for customers, but because he fiddles with stuff until we get a tool that makes things… possible. He also used Fiddler to figure out how to automate the publishing process out of Xyleme. This resulted in a savings of about 600 hours of labor by allowing us to publish large batches of lessons unattended.
+<<<
+''— Manager, Content Team, GP Strategies''
+
+<<<
+Page after page, lesson after lesson, week after week, the team took the task at hand and worked it until it was done — and then asked for more. Relentless forward motion towards our goal.
+<<<
+''— Manager, Content Team, GP Strategies'' — describing the team in the recognition email
+
+<<<
+We appreciate your information and troubleshooting help when problems occur.
+<<<
+''— GP Strategies (Internal)''
+
+
+---
+
+! Personnel
+
+* [[15+ Team Members]]
+* [[Colleague ("The Slacker")]]
+* [[Dan Novak]]
+* [[Led the overall refresh project @ GP Strategies]]
+
+! Technologies
+
+* [[Tech: API integration]]
+* [[Tech: Batch publishing scripts]]
+* [[Tech: Fiddler (HTTP traffic capture and analysis)]]
+* [[Tech: HTML5 output]]
+* [[Tech: Responsive skin development]]
+* [[Tech: XML-based content storage]]
+* [[Tech: Xyleme API inspection]]
+* [[Tech: Xyleme LCMS (Learning Content Management System)]]
+* [[Tech: browser DevTools]]
+* [[Tech: content delivery framework]]
+* [[Tech: custom code auto-integration]]
+* [[Tech: enterprise course library management]]
+* [[Tech: multi-channel publishing]]
+* [[Tech: unattended publishing workflows]]
+
+! Testimonials
+
+* [[Testimonial: GP Strategies (Internal)]]
+* [[Testimonial: Manager, Content Team, GP Strategies]]

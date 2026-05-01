@@ -1,0 +1,27 @@
+created: 20260421000000000
+faq-id: conflicting-stakeholder-priorities
+modified: 20260421000000000
+tags: public faq collaboration
+title: How do you work with stakeholders who have conflicting priorities?
+type: text/vnd.tiddlywiki
+
+I document the trade-offs in writing, make the constraints visible to everyone, and let each group see why the others' priorities matter. The technique that's worked consistently across engagements: don't negotiate between stakeholders, surface the shared constraints so each group understands the others' reality.
+
+The UTC legacy branding project is a clean example. Project leadership wanted speed. The manual review team needed clear criteria. The technical team needed automation that wouldn't produce false positives and undermine trust in the process. I coordinated a multi-disciplinary team, delivered 75% automation coverage, cataloged 450+ branded elements, and got there by having honest conversations about the 25% that required human judgment.
+
+Over seven years at General Dynamics Electric Boat, I sustained 571 documented interactions across IT security, network engineers, LMS administrators, content developers, and project management, by keeping the constraints visible and never asking one group to accept risk that belonged to another.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Are you comfortable working independently?]]
+* [[Do you work well with distributed teams?]]
+* [[Do you write documentation?]]
+* [[How do you handle communication?]]
+* [[How do you push back on technical decisions you disagree with?]]
+
+[[FAQ Index]]
+

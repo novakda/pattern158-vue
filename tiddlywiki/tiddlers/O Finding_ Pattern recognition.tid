@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit O]]]]
+title: O Finding: Pattern recognition
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Pattern recognition
+
+! Description
+
+Same architectural pattern across contexts: CSBB Dispatch (2011) → BP Learning Platform (2024) — federated integration layers making multiple systems behave as one. Dan recognized the 2024 version because he'd built his own in 2011
+

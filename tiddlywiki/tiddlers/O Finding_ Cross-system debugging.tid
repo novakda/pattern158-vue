@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit O]]]]
+title: O Finding: Cross-system debugging
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Cross-system debugging
+
+! Description
+
+All three projects required tracing issues across system boundaries: GraphQL → backend services, webhook → database → REST API, frontend → AI pipeline
+

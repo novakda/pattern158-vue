@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit E]]]]
+title: E Finding: Automation at scale
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Automation at scale
+
+! Description
+
+CSBB Generator tooling (Groovy, Access, Windows Forms) automated package creation for a ~2,000 course library across ~20 clients — global deployments without touching individual systems
+

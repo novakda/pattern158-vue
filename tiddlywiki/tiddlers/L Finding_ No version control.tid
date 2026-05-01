@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-process [[[[Exhibit L]]]]
+title: L Finding: No version control
+type: text/vnd.tiddlywiki
+
+! Finding
+
+No version control
+
+! Description
+
+No git, no source control of any kind. The only method of versioning was solution exports kept by the lead developer. No rollback capability, no change tracking, no collaborative development safety net.
+

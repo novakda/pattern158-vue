@@ -1,229 +1,241 @@
-# Project Research Summary
+# v8.0 Research Synthesis — Editorial Snapshot & Content Audit
 
-**Project:** Pattern 158 Vue — Portfolio Site Conversion
-**Domain:** Vue 3 SPA conversion from 11ty static HTML; senior engineer portfolio
-**Researched:** 2026-03-16
-**Confidence:** HIGH
-
-## Executive Summary
-
-This is a conversion project, not a greenfield build. The 11ty site at pattern158.solutions is live and published, and the Vue 3 scaffold (Vue 3 + TypeScript 5.7 + Vite 6 + Vue Router 4 + Storybook 10 + Vitest 4) is already in place and correct. The goal is feature parity: port all 9 pages, extract Vue components to demonstrate composition thinking, and produce a codebase that serves as a portfolio artifact for technical reviewers as much as it serves visitors reading the site. Two pages are fully ported (PhilosophyPage, TechnologiesPage); one is partial (ContactPage); six remain as TODO stubs.
-
-The recommended approach is port-first, extract-second. Content must be in the page before component APIs can be designed correctly. The extraction criterion is deliberate: extract when a component (a) is reused across pages, (b) names a concept that makes the template scannable, or (c) enforces a design pattern that must stay consistent. Everything else stays inline. The target is page templates that read like outlines in under 30 seconds — this is the core design philosophy and the primary differentiator for technical reviewers.
-
-The top risks are all well-defined and avoidable. Raw `<a href="*.html">` links surviving copy-paste from the HTML source is the most pervasive ongoing risk and must be a gate condition on every page. History-mode routing requires a server-side `_redirects` configuration before the Vue site can replace the 11ty site on its hosting environment. A missing 404 route is already a known gap and creates silent broken-link failures from the four exhibit links in PhilosophyPage. All three are low-effort fixes — the risk is forgetting them, not solving them.
+**Date:** 2026-04-19
+**Inputs:** STACK.md, FEATURES.md, ARCHITECTURE.md, PITFALLS.md (+ PROJECT.md, v7.0-ABORT-NOTICE.md for context)
+**Overall confidence:** HIGH — all 4 researchers converge on the same mental model; verified against codebase and live upstream registries on research day.
 
 ---
 
-## Key Findings
+## 1. Milestone Framing
 
-### Recommended Stack
+v8.0 is a **disposable, ~500-LOC, Playwright-driven capture tool** (`scripts/editorial/`) that visits every route on the live pattern158.solutions site, converts each page's rendered `<main>` to Markdown, and assembles one monolithic document for an editorial review pass. Output lives in the Obsidian vault at `career/website/site-editorial-capture.md`, is read and annotated by Dan, then feeds a `FINDINGS.md` doc and a milestone audit that decides v9.0's rebuild direction.
 
-The full stack is installed and verified. The one missing piece is `vitest-browser-vue` (the official Vitest-maintained package for rendering Vue components in real browser mode), which is not yet in `package.json`. All other packages — Vitest 4, @vitest/browser-playwright, Storybook 10, @storybook/addon-vitest, @storybook/addon-a11y — are confirmed correct and version-compatible.
-
-The deliberate exclusions are as important as the inclusions: no Pinia (no shared mutable state exists), no Nuxt (SSR/SSG is out of scope), no CSS-in-JS utilities (they conflict with the 3955-line CSS token system), no Jest (Vitest shares the Vite pipeline and is dramatically faster), and no jsdom/happy-dom for component tests (simulation misses real browser behavior).
-
-**Core technologies:**
-- Vue 3 + `<script setup lang="ts">`: UI framework — Composition API is the current standard; Options API is explicitly legacy
-- TypeScript 5.7 (strict mode): Type safety — catches prop contract violations at compile time; `defineProps<{}>()` generic form is the portfolio-quality pattern
-- Vite 6: Build tool — near-instant HMR for Vue SFCs; ESM-native; lazy-loaded routes via dynamic import reduce initial bundle
-- Vue Router 4 (`createWebHistory`): Client-side routing — clean URLs; requires server redirect config on deploy
-- @unhead/vue: Head management — reactive `<title>`, meta, OG tags, canonical URLs per-route via `useSeo` composable
-- Storybook 10 + @storybook/vue3-vite: Component workshop — ESM-only, shares Vite config; stories are portfolio artifacts and test doubles
-- Vitest 4 + @vitest/browser-playwright: Testing — real Chromium for component tests; stories with play functions become tests via @storybook/addon-vitest
-- **vitest-browser-vue** (NOT YET INSTALLED): Required for rendering Vue components in Vitest browser mode — `npm install -D vitest-browser-vue`
-
-### Expected Features
-
-This is a conversion project. "Features" are the existing 11ty site's content and structure, implemented correctly in Vue. The question is not what to build but what to port, what to extract, and what to defer.
-
-**Must have (table stakes — v1 conversion complete):**
-- All 9 pages fully ported with complete content — no TODO stubs remain
-- HeroMinimal component adopted consistently on all inner pages (already exists; ContactPage uses it; 5 remaining pages use raw `<section class="hero-minimal">` and need the import + tag swap during port)
-- All internal `<a href>` links converted to `<router-link to="...">` with no `.html` extensions
-- Component extraction for template readability — pages read as outlines, not 200-line HTML walls
-- TypeScript props on all extracted components (`defineProps<{}>()` generic form)
-- Storybook stories current for all components and their variants
-- Visual parity with live 11ty site at 375px/768px/1280px, light and dark themes
-- Accessibility audit passes — skip link, ARIA labels, semantic HTML, color contrast
-
-**Should have (signals Vue mastery to technical reviewers):**
-- Named concepts extracted as components: `FindingCard`, `SpecialtyCard`, `StatItem`, `FaqItem`
-- Structured content in `src/data/` TypeScript files: `testimonials.ts`, `portfolio.ts`, `faq.ts`
-- Composable usage consistent and documented via Storybook
-
-**Defer to v2+:**
-- Page transition animations (scope creep; accessibility risk with `prefers-reduced-motion`)
-- Vitest unit tests for composables (valuable but not required for conversion milestone)
-- TypeScript data files for all content (only if content maintenance burden justifies it)
-- Visual regression via Chromatic (Chromatic addon already installed; activate if CI is added)
-
-**Deliberately excluded (anti-features):**
-- Pinia state management — no shared reactive state exists in a static portfolio
-- Nuxt SSR/SSG — architectural pivot, out of scope
-- Contact form with server-side submission — not in the 11ty site
-- Blog/article system — scope creep
-- WebGL hero, scroll parallax, particle backgrounds — over-engineering; hurts accessibility
-
-### Architecture Approach
-
-The architecture is a four-layer SPA: browser entry (index.html with FOUC-prevention script) → App shell (App.vue with NavBar, router-view, FooterBar) → Page layer (one component per route, lazy-loaded) → Component + Composable layer (reusable atoms, layout components, data files, side-effect composables). Data flows in one direction: `src/data/*.ts` → page component → section components → DOM. No state management library is needed or appropriate. Two pages (PhilosophyPage, TechnologiesPage) serve as the canonical reference implementations.
-
-**Major components:**
-1. **App.vue** — Shell that persists nav and footer across all routes; wraps `<router-view>` in `<main id="main-content">`
-2. **Page components** — Route-level orchestrators: call `useSeo()`, call `useBodyClass()`, import data files, compose section components
-3. **HeroMinimal, TestimonialQuote, TechCard, ExpertiseBadge** — Existing reusable components with typed props
-4. **FindingCard, SpecialtyCard, StatItem, FaqItem** — Components to extract; currently inline HTML in page templates
-5. **src/data/*.ts** — Typed static content modules (technologies.ts exists; testimonials.ts, portfolio.ts, faq.ts to create)
-6. **useSeo, useBodyClass** — Side-effect composables called at top of every page's `<script setup>`
-
-**Key known bug:** `TechnologiesPage.vue` and `ContactPage.vue` both have a nested `<main>` inside App.vue's outer `<main id="main-content">`. Nested `<main>` is invalid HTML and breaks accessibility. Inner `<main>` tags must be replaced with `<div>` wrappers.
-
-### Critical Pitfalls
-
-1. **Raw `href` links surviving copy-paste** — `HomePage.vue` already has `href="/contact.html"`, `href="/portfolio.html"` etc. Apply as a gate condition on every page: `grep '\.html"' src/pages/PageName.vue` must return zero results before marking a page done.
-
-2. **Non-existent router destinations** — `PhilosophyPage.vue` already has four `<router-link>` tags pointing to exhibit routes that don't exist in `router.ts`. No catch-all 404 route exists, so failures are silent. Add `NotFoundPage.vue` with `/:pathMatch(.*)*` catch-all in the foundation phase, before any page conversions.
-
-3. **Component extraction at wrong granularity** — Two failure modes: under-extraction (200-line HTML walls; fails as a portfolio artifact) and over-extraction (every `<dt>/<dd>` becomes a component; navigation overhead exceeds clarity benefit). The three-criterion rule governs: extract when (a) reused, (b) names a concept, or (c) enforces a pattern. The test is whether the page template reads as an outline in 30 seconds.
-
-4. **Visual parity assumed, not verified** — The 3955-line CSS cascade layer system means a missing class or wrong nesting can break rendering without an obvious error. Gate condition: side-by-side comparison with the live 11ty site at three viewports and both themes before marking any page done.
-
-5. **Deployment 404s from history mode routing** — `createWebHistory` (correctly used) requires server-side redirect config. No `public/_redirects` or `netlify.toml` exists yet. Must be in place before the Vue site replaces the 11ty site. Add it in the deployment readiness phase.
+The milestone explicitly replaces aborted v7.0. v7.0 extracted *source* modules as canonical truth; v8.0 treats the *rendered live site* as canonical truth for editorial judgment. Three-stage lifecycle — Capture → Editorial → Audit — is a pipeline feeding a human decision, not a product. `scripts/editorial/` shares zero imports with `scripts/markdown-export/` so the v7.0 retention boundary stays clean.
 
 ---
 
-## Implications for Roadmap
+## 2. Stack Decisions (Locked)
 
-Based on the combined research, the conversion has clear dependency ordering: infrastructure fixes must precede page conversions, page content must exist before components can be extracted from it, and deployment config must be verified before go-live.
+### Add (3 new devDependencies)
 
-### Phase 1: Foundation Fixes
+| Package | Version | Role |
+|---------|---------|------|
+| `turndown` | `^7.2.4` | HTML→Markdown engine. Active again as of 2026-04-03. Embedded `@mixmark-io/domino` DOM means no jsdom. |
+| `@joplin/turndown-plugin-gfm` | `^1.0.64` | GFM tables (essential for personnel/technologies/findings). |
+| `@types/turndown` | `^5.0.6` | TS types (upstream ships no types). DefinitelyTyped. |
 
-**Rationale:** Three known defects exist in the current codebase that will compound during conversion if not fixed first: missing 404 route, nested `<main>` invalid HTML in two pages, and missing `vitest-browser-vue` dependency. Fix these before adding more pages.
+### Bump
 
-**Delivers:** Clean baseline — no silent broken links, no accessibility violations in existing pages, complete testing stack
+- `playwright` 1.58.2 → `^1.59.1` (recommended; minor, transparent, one-time fresh chromium download).
 
-**Addresses:**
-- Pitfall: Non-existent router destinations (add `NotFoundPage.vue` + catch-all route)
-- Pitfall: Nested `<main>` in `TechnologiesPage.vue` and `ContactPage.vue` (replace with `<div>`)
-- Stack gap: Install `vitest-browser-vue`
-- Architecture: Confirm `router.ts` has `scrollBehavior: { top: 0 }` for new navigations
+### Reuse (already installed)
 
-**Research flags:** None — all well-documented, straightforward fixes.
+- `playwright` (transitive via `vitest-browser-vue`), `tsx` 4.21.0, `yaml`, `github-slugger`.
 
----
+### Rejected
 
-### Phase 2: Homepage Completion + Component Extraction
-
-**Rationale:** `HomePage.vue` is the most visible page, has the most complex layout, and already contains the inline HTML that needs extracting into `FindingCard`, `SpecialtyCard`, and `StatItem` components. It also has the stale `.html` href links. Completing it establishes the extraction pattern for all subsequent pages.
-
-**Delivers:** Fully ported and componentized `HomePage.vue`; three new reusable components; Storybook stories for each; `router-link` correctness confirmed
-
-**Addresses:**
-- Feature: All pages ported (completes one of seven remaining)
-- Feature: Component extraction (`FindingCard`, `SpecialtyCard`, `StatItem`)
-- Pitfall: Raw href links — gate condition applied
-- Pitfall: Visual parity verification at three viewports and both themes
-
-**Uses:** `src/data/` pattern (may extract to data files if homepage content is repetitive enough); TypeScript props on all extracted components
-
-**Research flags:** None — `PhilosophyPage.vue` and `TechnologiesPage.vue` serve as direct reference implementations.
+| Rejected | Why |
+|---|---|
+| `@playwright/test` | Test-runner flavor — we're writing a script, not a suite. |
+| `playwright-core` | Loses `playwright install` UX; second install path. |
+| `turndown-plugin-gfm` (original) | Dead since 2017; 8+ years stale. |
+| `node-html-markdown` | Smaller ecosystem, narrower rule API than Turndown's `addRule()`. |
+| `@mozilla/readability` + `jsdom` | Heuristic for unknown pages; we already know `<main>`. |
+| `cheerio` / standalone `jsdom` | Playwright already owns the DOM — re-parsing is waste. |
+| `pandoc` | External native binary, platform-coupled, overkill. |
+| `marked` / `remark` / `unified` | Wrong direction (MD→HTML). |
 
 ---
 
-### Phase 3: Content Pages — Port Remaining 5 TODO Pages
+## 3. Feature Scope
 
-**Rationale:** With the extraction pattern established via Homepage, the five remaining TODO pages (FaqPage, PortfolioPage, TestimonialsPage, AccessibilityPage, ReviewPage) follow the same sequence: port content, adopt HeroMinimal, convert links to router-link, verify parity, write stories. FaqPage and TestimonialsPage have the most structural repetition and will benefit from data file extraction.
+### IN — Table-stakes (ship this)
 
-**Delivers:** All 9 pages fully ported; visual parity confirmed; HeroMinimal used consistently; no `.html` hrefs remaining
+**Capture (12):** Route list from typed sources (C1); headless sequential Chromium (C2); selector-based page-ready via `#main-content` (C3); HTTP status recording (C4); `<main>` scope only (C5); hydrated DOM via `page.locator('main').innerHTML()` (C6); **pre-expand FAQ accordions + set "All" filter (C7)**; fixed 1280×800 viewport (C8); fixed light theme (C9); skip redirect routes (C10); skip `/diag/*` and `/review` (C11); console-error capture to run log (C18).
 
-**Addresses:**
-- Feature: All 9 pages ported with content (the primary conversion milestone)
-- Feature: HeroMinimal adoption on all inner pages (quick win per page)
-- Architecture: `src/data/faq.ts`, `src/data/testimonials.ts`, `src/data/portfolio.ts` created
+**Conversion (11):** Turndown (V1); GFM tables plugin (V2); Obsidian-friendly config (V3); badge/pill passthrough (V4); image→alt-only (V5); preserve heading levels (V6); skip `aria-hidden` (V7); DOM-order reading preservation (V9); collapse 3+ blank lines (V10); strip script/style/noscript (V11); preserve link hrefs (V12).
 
-**New components to extract during this phase:**
-- `FaqItem.vue` — `<details>/<summary>` disclosure pattern (FaqPage)
-- `FindingCard.vue` reused on PortfolioPage
-- No extraction needed on AccessibilityPage or ReviewPage (prose-heavy; inline HTML is readable)
+**Document shape (7):** Single concatenated file (D1); frontmatter with provenance (D2); per-route `##` headings + demote page H1 (D3); auto-ToC (D4); per-page metadata block (D5); `---` separators (D6); ordered home → static → exhibits A–O (D7).
 
-**Research flags:** None — pattern is established. Apply the three-criterion extraction rule per page.
+**Output (5):** Configurable path via CLI/env (O1); idempotent overwrite (O2); stdout summary (O5); loud non-200 warnings (O7); continue past per-route failures (O8).
 
----
+**Editorial (6):** Obsidian-based read (E1); in-place annotation (E2); separate findings doc (E3); structured findings sections — Inconsistencies / Structural / Copy / Alignment / Open Questions (E4); cross-reference to career positioning docs (E5); blocker / should-fix / nice-to-have prioritization (E6).
 
-### Phase 4: Quality Pass + Deployment Readiness
+**Audit (6):** Decision record artifact (A1); v7.0-ABORT-style structure (A2); explicit go/no-go per v9.0 candidate (A3); signals that informed the decision (A4); Rosetta Stone alignment check (A5); evolve PROJECT.md + MILESTONES.md (A6).
 
-**Rationale:** With all pages ported, a systematic quality pass catches the "looks done but isn't" issues before go-live. Deployment config must be in place before the Vue site replaces the 11ty site.
+### CONSIDER — Differentiators
 
-**Delivers:** Deployment-ready Vue site that can replace the live 11ty site
+- **C13 screenshots per route** — trivial, real value for layout sanity checks. Recommend: include.
+- **C14 SEO metadata capture** — trivial; surfaces stale meta descriptions. Recommend: include.
+- **O3 dual-write mirror to `.planning/research/`** — trivial convenience. Recommend: include.
+- **E7 scaffold empty findings template** — trivial ergonomics. Recommend: include.
+- **V13 rewrite internal links to in-doc anchors** — moderate effort; defer if budget tight.
 
-**Addresses:**
-- Pitfall: Deployment 404s — add `public/_redirects` (Netlify: `/* /index.html 200`) or `netlify.toml`
-- Post-launch polish: `<script setup>` audit for any accidental Options API
-- Post-launch polish: Final `router-link` audit across all pages
-- Security: Move hardcoded `BASE_URL` and email in `useSeo.ts` to `.env` variables; create `.env.example`
-- UX: External links audit — `rel="noopener" target="_blank"` on all outbound `<a>` tags
+### OUT — Anti-features
 
-**Research flags:** Deployment hosting configuration — if the site is not on Netlify, the redirect mechanism differs (Apache `.htaccess`, nginx `try_files`, Cloudflare Pages `_redirects`). Confirm hosting target before this phase.
+Readability.js content extraction (V8); multi-file output (D8); HTML sidecar (D9); in-tool Markdown diff (D10); JSON run-report (O6); network trace log (C15); retry/backoff (C16); auth/session (C17); NotFoundPage capture (C12); automated copy linter (E8); automated inconsistency detection (E9).
 
 ---
 
-### Phase Ordering Rationale
+## 4. Architecture Summary
 
-- **Foundation before content:** The 404 route and nested `<main>` fixes are load-bearing for accessibility and correctness. Shipping more pages before fixing these makes the problem worse.
-- **Homepage before other pages:** It has the highest visual complexity and most components to extract. Completing it calibrates the extraction pattern for the remaining five pages.
-- **Port-first, extract-second per page:** You cannot design `FindingCard`'s slot API correctly until the full finding card HTML is in front of you. This ordering is the key dependency from FEATURES.md.
-- **Deployment config as its own phase:** It is easy to forget and creates a visible outage window on a live portfolio site if missed.
+### Directory layout (flat, ~300–580 LOC total)
 
-### Research Flags
+```
+scripts/editorial/
+├── index.ts         # CLI entry — orchestrates phases, exit codes
+├── config.ts        # argv + env → typed EditorialConfig
+├── routes.ts        # buildRouteList(exhibits) — pure
+├── capture.ts       # Playwright: launch → for-each-route → innerHTML
+├── convert.ts       # Turndown + custom rules — pure
+├── write.ts         # preflight + atomic write
+├── types.ts         # Route, CapturedPage, EditorialConfig
+└── __tests__/
+    ├── routes.test.ts
+    ├── convert.test.ts
+    └── config.test.ts
+```
 
-Phases with well-documented patterns (no additional research needed):
-- **Phase 1 (Foundation Fixes):** All fixes are unambiguous — add a route, remove a tag, install a package
-- **Phase 2 (Homepage):** `PhilosophyPage.vue` and `TechnologiesPage.vue` are direct reference implementations
-- **Phase 3 (Content Pages):** Repeats established pattern; `technologies.ts` is the reference for data file structure
+### TypeScript integration
 
-Phases that may need targeted investigation:
-- **Phase 4 (Deployment):** Confirm hosting provider before writing redirect config. If Netlify, `public/_redirects` is straightforward. If another provider, the mechanism differs.
+- **New `tsconfig.editorial.json`** — near-copy of `tsconfig.scripts.json`, `"include": ["scripts/editorial/**/*.ts"]`, `"outDir": ".tsbuildinfo-editorial"`. `"paths": {}` for forbidden-pattern isolation.
+- **Add to root `tsconfig.json` `references`** — `vue-tsc -b` picks it up during `pnpm build`.
+- **Forbidden patterns extended:** no `@/` aliases; no `Date.now()`/`new Date()` for deterministic fields; no `os.EOL`; no `Promise.all` over ordered capture; no postinstall hooks.
+
+### Vitest integration
+
+**Extend the existing `scripts` Vitest project `include` array** to cover `scripts/editorial/**/*.test.ts`. No 4th project.
+
+### Data flow
+
+```
+exhibits.json ─→ routes.ts (pure buildRouteList)
+                      │
+CLI/env args ─────────┤
+                      ▼
+              Route[] (ordered)
+                      ▼
+              capture.ts (Playwright chromium.launch, sequential)
+                      ▼
+              CapturedPage[] { route, title, html, status, error? }
+                      ▼
+              convert.ts (Turndown + GFM + custom rules)
+                      ▼
+              write.ts (validateOutputPath → atomic tmp+rename)
+                      ▼
+    <vault>/career/website/site-editorial-capture.md
+```
+
+Preflight runs BEFORE browser launch — fail fast on `ENOENT`/permissions.
+
+### Phase-count recommendation
+
+**Seven phases (A–G):** A Scaffold → B Config+Routes (pure logic) → C Capture (Playwright IO) → D Convert (Turndown) → E Write+Preflight+Integration → F Editorial review (manual, no code) → G Milestone audit + v9.0 decision doc. Strictly sequential.
 
 ---
 
-## Confidence Assessment
+## 5. Critical Pitfalls & Required Mitigations
+
+| # | Pitfall | Prevention |
+|---|---------|------------|
+| **CRIT-01** | FAQ answers behind accordion captured as empty (`:hidden="!isOpen \|\| undefined"`) | Pre-capture hook clicks every `[aria-expanded="false"]` in `.faq-accordion-item`; use `innerHTML` not `innerText`; assert answer count == `faq.json` length. |
+| **CRIT-02** | FAQ filter bar excludes most questions from DOM | Click `[data-filter="all"]` before capture; assert rendered count == `totalCount`. |
+| **CRIT-03** | SPA navigation "complete" before Vue router/Suspense/data resolve | Per-route known-good `waitForSelector`; content-length sanity check before Turndown. |
+| **CRIT-04** | Exhibit slug 404 silently renders `NotFoundPage` with HTTP 200 | Post-nav selector assertion (`.exhibit-detail h1`); NotFoundPage signature detection; captured-count summary. |
+| **CRIT-05** | Cloudflare edge cache serves stale content | Cache-buster query + `Cache-Control: no-cache` headers; log `cf-cache-status`; embed git SHA in frontmatter. |
+| **CRIT-06** | Cloudflare bot detection serves interstitial instead of content | Headful option available; realistic UA; rate-limit 1 req/2-5s; detect `"Just a moment"` / response size < 200 bytes. |
+| **CRIT-07** | Non-deterministic Markdown → run-to-run diffs useless | Strip `<script>`, `<style>`, `data-v-*`, analytics BEFORE Turndown; no body-embedded timestamps; double-run diff as self-test. |
+
+**Project-specific CRITICAL warnings:**
+- **P158-01** FAQ accordion — 27 items, densest prose — MUST open all + filter "All".
+- **P158-03** Never fall back to reading JSON directly for exhibit content — that is the v7.0 failure mode this milestone exists to correct.
+- **P158-05** SPA 404 = HTTP 200 → DOM-based validation is the only reliable signal.
+
+---
+
+## 6. Consolidated Open Questions for Dan
+
+### A. Output & invocation (load-bearing)
+
+- **Q-OUT-1** Output path mechanism. **Recommend: CLI `--output` primary, `EDITORIAL_OUT_PATH` env fallback, fail-loud if neither.**
+- **Q-OUT-2** Primary vault location — user specified `career/website/site-editorial-capture.md`. Confirmed.
+- **Q-OUT-3** Dual-write mirror to `.planning/research/`? Recommend yes (trivial).
+- **Q-OUT-4** Re-run + annotation handling — recommend captures stay raw; annotations in separate `EDITORIAL-NOTES.md`.
+
+### B. Capture behavior (load-bearing)
+
+- **Q-CAP-1** Base URL — `https://pattern158.solutions` production default, `--base-url` override.
+- **Q-CAP-2** Confirm FAQ pre-expand + "All" filter strategy (CRIT-01 / CRIT-02 / P158-01 mitigation).
+- **Q-CAP-3** Confirm `/diag/personnel` and `/review` are excluded.
+- **Q-CAP-4** Playwright bump 1.58.2 → 1.59.1 now? Recommend yes.
+- **Q-CAP-5** Headful vs. headless — headless default, headful flag for Cloudflare interstitial fallback?
+
+### C. Output shape
+
+- **Q-SHAPE-1** Single monolithic file — milestone framing decided this.
+- **Q-SHAPE-2** Heading level strategy — demote page H1 under per-route `##`, OR keep original levels with `---` separators?
+- **Q-SHAPE-3** Screenshots per route — include? Recommend yes.
+- **Q-SHAPE-4** Internal link rewriting (V13) — recommend defer.
+
+### D. Build & integration
+
+- **Q-BLD-1** Add `tsconfig.editorial.json` to root `references`? Recommend yes.
+- **Q-BLD-2** Full `@joplin/turndown-plugin-gfm` vs. tables-only cherry-pick? Recommend full plugin.
+- **Q-BLD-3** Tool committed vs. throwaway post-v9.0? Recommend keep.
+
+### E. Findings & audit
+
+- **Q-AUDIT-1** Auto-emit empty findings doc template (E7)? Recommend yes.
+
+---
+
+## 7. Recommended Phase Breakdown (7 phases, sequential)
+
+| Phase | Name | Scope |
+|-------|------|-------|
+| **A (46)** | Scaffold | `tsconfig.editorial.json`, root `references` update, Vitest `scripts` include update, `.gitignore` entry, pnpm script `editorial:capture`, install 3 devDeps, placeholder `index.ts` |
+| **B (47)** | Config + Routes (pure) | `types.ts`, `config.ts` (`parseArgs` + env fallback), `routes.ts` (`loadExhibits` + `buildRouteList`) + unit tests |
+| **C (48)** | Capture (Playwright IO) | `capture.ts` — chromium launch, per-route selector manifest, `waitForSelector` + content-length check, `innerHTML()`, FAQ pre-expand + filter-all hooks, cache-buster + no-cache headers, analytics block, error-per-route recording |
+| **D (49)** | Convert (Turndown) | `convert.ts` — Turndown v7 + GFM plugin, custom rules (strip `data-v-*`, aria-hidden, chrome selectors, image→alt, badge passthrough), heading-offset rule, whitespace collapse; fixture unit tests |
+| **E (50)** | Write + Preflight + Orchestration | `write.ts` (validate → temp → atomic rename), `index.ts` wiring, exit codes, stdout summary, ToC generation, frontmatter (`captured_at`, `source_url`, `site_version_sha`, `tool_version`), optional dual-write + screenshots |
+| **F (51)** | Editorial Review | Dan reads capture; produces `career/website/site-editorial-findings.md` — Inconsistencies / Structural / Copy / Alignment / Open Questions; cross-referenced to career positioning docs; prioritized |
+| **G (52)** | Milestone Audit → v9.0 Direction | Decision doc mirroring `v7.0-ABORT-NOTICE.md` structure; v9.0 direction locked |
+
+---
+
+## 8. Cross-Researcher Conflicts
+
+Two minor conflicts; neither load-bearing.
+
+### Conflict 1: `"lib": ["ES2022", "DOM"]` vs. `"lib": ["ES2022"]`
+
+Resolution: start with `["ES2022"]` (stricter), add DOM only if Phase C surfaces unresolvable `page.evaluate()` callback typing errors. Cheap to flip.
+
+### Conflict 2: pnpm script name (`editorial:capture` vs. `capture:editorial`)
+
+Resolution: existing repo convention is verb-first (`build:markdown`, `test:scripts`). Recommend **`editorial:capture`** (milestone-first namespacing); lock in Phase A.
+
+### No conflicts on
+
+Directory layout, Turndown + Joplin GFM + types stack, rejection of Readability/cheerio/jsdom/`@playwright/test`, Vitest `scripts` project extension, separate `tsconfig.editorial.json`, FAQ pre-expand + filter "All" mitigation, production URL default, CLI + env var output path, seven-phase strictly-sequential build order.
+
+---
+
+## 9. Confidence Assessment
 
 | Area | Confidence | Notes |
-|------|------------|-------|
-| Stack | HIGH | Core stack non-negotiable and already installed; version compatibility verified against official release posts; single gap (vitest-browser-vue) is clear |
-| Features | HIGH | Derived from direct codebase inspection + existing live site as source of truth; no ambiguity about what needs to be ported |
-| Architecture | HIGH | Two fully-ported pages serve as proven reference implementations; patterns are already working in production code |
-| Pitfalls | HIGH | Most pitfalls sourced from direct codebase inspection of existing bugs (not speculative); raw href links and nested `<main>` are already present in current code |
+|------|-----------|-------|
+| Stack | HIGH | Versions verified against npm registry 2026-04-19. |
+| Features | HIGH | Route list verified from `src/router.ts` + `exhibits.json`. |
+| Architecture | HIGH | Mirrors `scripts/markdown-export/` Phase 38 pattern. |
+| Pitfalls | HIGH | Vue/Playwright/Turndown behavior documented; FAQ accordion verified in codebase. |
+| Cloudflare bot/cache | MEDIUM | Zone-level settings should be verified in dashboard before Phase C. |
+| Turndown on nested lists / complex tables | MEDIUM | Phase D fixture tests will confirm against actual site markup. |
 
-**Overall confidence:** HIGH
+### Gaps to address during phase planning
 
-### Gaps to Address
-
-- **Hosting environment:** `PITFALLS.md` identifies that history-mode redirect config is hosting-specific. The correct file format (Netlify `_redirects` vs. other providers) needs confirmation before Phase 4. Netlify is assumed based on the site being a static SPA portfolio, but not confirmed in any research file.
-- **Exhibit routes:** `PhilosophyPage.vue` has four links to `/exhibits/exhibit-j`, `/exhibits/exhibit-e`, `/exhibits/exhibit-m`, `/exhibits/exhibit-l` that point to non-existent routes. Whether these exhibit pages are ever planned is not addressed in research. During Phase 4, make a decision: either build stub exhibit pages, disable the links, or add a code comment marking them as future scope.
-- **ContactPage partial state:** ContactPage is "partially done" per `ARCHITECTURE.md`. The extent of what's missing is not quantified in research. Treat it as a full port during Phase 3.
-
----
-
-## Sources
-
-### Primary (HIGH confidence)
-- Direct codebase analysis — `src/pages/`, `src/components/`, `src/App.vue`, `src/data/technologies.ts` (codebase inspection)
-- `.planning/PROJECT.md` — extraction criteria, project constraints, key decisions
-- `.planning/codebase/CONCERNS.md` — known issues audit from 2026-03-15
-- Storybook 10 release blog — ESM-only, Vitest 4 support, Vue 3 portable stories
-- Vitest 4.0 announcement — browser mode stable, provider packages
-- vitest-browser-vue npm/GitHub — v2.1.0 requires Vitest 4+, official Vitest package
-- Vue Router official docs — history mode and server configuration requirements
-- Vue.js official testing guide — Vitest + vitest-browser-vue as recommended stack
-
-### Secondary (MEDIUM confidence)
-- Vue Best Practices in 2026 — One Horizon (third-party blog)
-- Good practices and Design Patterns for Vue Composables — DEV Community
-- "How I Fixed 404 Errors in My Vue Project Deployed on Netlify" — dev.to
-- Nuxt SEO — SPA and SEO pitfalls — nuxtseo.com
-
----
-*Research completed: 2026-03-16*
-*Ready for roadmap: yes*
+1. Cloudflare zone settings verification (Bot Fight Mode off, cache-bypass works).
+2. DOM audit per route — not every page may have consistent `<main>`.
+3. Turndown custom-rule scope for badges/pills/cards — unknown until Phase C output inspected.
+4. Mojibake risk on WSL2 write — post-write `â€` grep in Phase E verification.
+5. Obsidian file-lock race — atomic temp+rename mitigates; Phase E test should exercise "Obsidian has file open" case.

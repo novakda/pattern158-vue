@@ -1,0 +1,65 @@
+created: 20260421000000000
+modified: 20260421000000000
+source-html: static-site/philosophy.html
+tags: public page
+title: Philosophy
+type: text/vnd.tiddlywiki
+
+How I think about engineering problems
+
+!! Pattern 158
+
+Near the end of Myst, the brothers Sirrus and Achenar whisper a clue through their prison books: “The final page is in the fireplace... Pattern 158.” You find the pattern book in the library, enter the code on the fireplace grid, and a wall rotates open to reveal a hidden chamber. It works. You've solved the puzzle. Except you haven't. The brothers are manipulating you. They want you to retrieve their final pages so they can escape. The obvious answer — the red and blue pages — is a trap. The real solution is the green book sitting right next to them. Their father Atrus is inside it. He knows what they did. And the entire puzzle was designed to stop you from seeing that. Pattern 158 = the code that reveals both the trap and the true solution. That's how I approach engineering problems. The obvious answer is often a trap. The real problem is usually sitting right next to the stated problem — you have to see through the framing to find it. Every forensic investigation I've run has had this shape: what the client reported and what was actually happening were related, but not the same thing.
+
+!! This Is What Design Thinking Looks Like When It's a Personality, Not a Process
+
+Design thinking was invented to teach people who don't naturally do certain things to do them systematically. Empathize before you solve. Define the real problem before you build. Iterate through failure without shame. I didn't learn this from a framework. I absorbed it from air crash investigators, speedrunners, and a Three Stooges short from 1938. The result is the same disposition — but without the scaffolding, because the scaffolding was never load-bearing for me. The fish doesn't have a water strategy. What I do have is a three-step pattern that has repeated across every significant project in 28 years:
+
+!!! 1. Deconstruct the Chaos
+
+Forensic engineering before solution engineering. Understand the actual system — not the documented one, not the stated one, not the one someone remembers from three years ago. The real one, running in production, behaving the way it behaves. Never blame the human first. When a system fails, the system designed the conditions for that failure. The Swiss cheese model: disasters require contributing factors to align. The person who clicked the wrong button is almost never the root cause. This is empathy with teeth. It's not about being charitable — it's about being accurate.
+
+!!! 2. Build the Tool
+
+Once you understand the real problem, don't fix the instance. Fix the category. A one-time fix is technical debt in disguise. A tool is a permanent reduction in the problem surface. The SCORM Debugger didn't fix one testing cycle — it eliminated hours of manual clicking from every testing cycle, permanently, for everyone who used it. The cross-domain SCORM framework didn't solve one client's delivery problem — it solved the structural impossibility that was blocking all cross-domain delivery, five years before the vendor community caught up. The goal is always the tool, never the ticket.
+
+!!! 3. Empower the User
+
+A tool that requires its creator to operate it is a dependency, not a solution. Everything I build is documented, maintainable, and designed to outlast my involvement. This is the hardest part to get right, and the part most engineers skip. You haven't solved the problem until someone else can own the solution.
+
+!! The Moral Spine
+
+The three-step pattern is how I work. This is why : “You want to cheat, cheat fair — anything I hate is a crookin' crook.” — Moe Howard, Healthy, Wealthy and Dumb , 1938 Every tool I build is a cheat. Automating a manual process is cheating. Jumping to any course state in seconds instead of clicking through every section is cheating. Building a framework that eliminates a class of problem is cheating. But cheating fair means the output is proper, documented, and maintainable. It means you could hand it to another engineer and they could understand, extend, and improve it. Hoarding a clever solution — keeping the elegant shortcut to yourself — is the real dishonesty. The knowledge isn't yours. It came from everyone who documented the problem before you, and it belongs to everyone who'll encounter it after you. Clever shortcuts and corner-cutting look identical from the outside. The difference is in the craftsmanship.
+
+!! Five Sources That Shaped the Method
+
+These aren't abstract inspirations. They're specific sources I can point to and say: this changed how I solve problems.
+
+!!! Air Crash Investigation
+
+Sources: Mayday / Air Crash Investigation (TV), Mentour Pilot (YouTube), 74 Gear (YouTube) The NTSB doesn’t arrive at a crash site and blame the pilot. They reconstruct the full causal chain — what the system allowed, what the design encouraged, what the training didn’t cover, what the weather added. The finding is almost never a single cause. It’s a pattern of contributing factors that aligned. I run every significant investigation the same way. The GM course completion spike — a 4x increase in incomplete rates across a major client — looked like a tracking bug. It wasn’t. Technical forensics (Fiddler, browser debugging), UX analysis, and user interviews revealed three contributing factors: fragile architecture, confusing navigation, and sales reps taking training on poor WiFi between customer meetings. All three had to align for the failure to occur. Fix only one, and you’ve addressed a symptom. The method: reconstruct before you diagnose. Diagnose before you fix.
+
+!!! Speedrunning / TASBot Culture
+
+Sources: TASBot demonstrations, tool-assisted speedruns, emulator save states A Tool-Assisted Speedrun uses emulator save states and frame-perfect input to understand a game at a level no human can reach in real time. It’s not cheating in the pejorative sense — it’s systematic mastery. You understand the rules so completely that you can build tools that operate beyond what the rules were designed to allow. The SCORM Debugger is TASBot for eLearning. Testing a gated course meant manually advancing through every section to reach the one you needed to test. Hours per cycle. I built a Vue.js wrapper with a fake SCORM API: save course state at any point, restore it instantly, edit SCORM values directly, jump anywhere. Testing cycles dropped from hours to seconds. The methodology is identical — save state, manipulate, replay, optimize.
+
+!!! “I Seek Knowledge Not for Gain, But to Better Understand Myself”
+
+Sources: Harry Potter fanfic — password to the Department of Mysteries I don’t reverse-engineer a legacy CMS to fix bugs. I do it to understand the mind of the engineer who built it. I don’t study SCORM specifications to bill more hours. I study them to understand why LMS vendors interpret the same spec differently — what assumptions were baked into each implementation, what the authors of the spec meant vs. what the market heard. The knowledge isn’t the goal. The understanding is. And the understanding of a system is inseparable from the understanding of the people who built it, used it, and broke it.
+
+!!! Mentour Pilot’s AI Application
+
+Sources: ~2022–2023, commercial airline pilot building an AI assistant for aviation procedures A domain expert using AI as a force multiplier — not AI hype, but practical utility. His expertise became more accessible and more useful because he understood both the domain and the tool’s actual capabilities. This was the seed for how I approach AI implementation. Domain knowledge isn’t replaceable by AI. AI is replaceable by better AI. The combination — expert judgment augmented by systematic analysis — is what produces results. The Power Platform engagement: undefined requirements, departed vendors, three weeks to specification. AI as a pressure-testing partner, not an answer machine. GitHub Spec Kit emerged from that model.
+
+!! On AI and This Site
+
+The same philosophy applies to how this site was written. I write in streams of consciousness. What comes out is tangled, recursive, full of half-finished thoughts that loop back on themselves. It's accurate. It's complete. It's also exhausting to read. For years, the solution was to agonize — wordsmith the sentence, spend twenty minutes sounding “professional,” which usually meant sounding like everyone else: fine, forgettable, friction-filled to produce. I brain-dump now, hand it to an AI, and review what comes back. The ideas are mine. The AI's job is to make it readable — to do what a good editor does, which is get out of the way of the meaning. This isn't laziness. It's the same philosophy I apply to code. Good code is self-documenting. When I inherit a codebase that requires a novel of inline comments to navigate, that's a smell — the code is failing to communicate. Professional writing has the same failure mode. The friction of converting thought to readable prose was never adding value to the thinking itself. “AI wrote it” is a mischaracterization. AI clarified it. The thinking, the investigation, the conclusions — those are mine. What I'm outsourcing is the translation friction. My prime directive is clarity. If an AI can take a tangled first draft and make it immediately readable — and I can review it, own it, and stand behind every word — the communication succeeded. The question isn't “did AI touch this.” The question is: does the reader understand what I meant to say? Much of this site was built with AI assistance — content, code, and design. The thinking behind it is mine. The clarity is the point. That's Provider of Clarity applied to its own medium.
+
+!! The Six Brand Elements
+
+Six patterns extracted from 28 years of actual work — not marketing slogans, but recurring themes from real projects. 1. Provider of Clarity The outcome. Enter chaos, deliver understanding. Legacy systems, undefined requirements, failing courses — hand Dan a mess, get back clarity. 2. I Cheat, But I Cheat Fair The method. Build tools that skip tedium through proper engineering — documented, maintainable, ethical optimization. The Three Stooges, “Healthy, Wealthy and Dumb,” 1938 3. Don’t Fix the Bug, Build the Tool The approach. Don’t solve individual problems; prevent entire categories of problems. 4. I Seek Knowledge Not for Gain, But to Better Understand Myself The motivation. Learn to understand systems and your own thinking, not to pad a resume. Harry Potter fanfic — password to the Department of Mysteries 5. The Machine to Undo Time After Disaster The role. Tier 3 escalation — forensic engineering to understand what went wrong, then build the tool that prevents it again. Same fanfic — the artifact guarded behind the password 6. TASBot for [Domain] The creative application. Tool-assisted optimization applied to professional work — understand the rules deeply, then build tools that operate beyond manual precision. Tool-Assisted Speedrunning culture
+
+!! What Colleagues Say
+
+Thank you so much for Dan for putting time into thinking this through and writing it up. Program Manager, Microsoft Account GP Strategies — on a SCORM architecture analysis document Dan, thank you for being such a team player with the GP team and the client, and thank you for your incredible knowledge and expertise. Account Manager, GP Strategies Entergy engagement — on cross-team collaboration Pattern 158: I cheat, but I cheat fair.
+

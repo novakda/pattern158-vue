@@ -1,0 +1,263 @@
+created: 20260421000000000
+modified: 20260421000000000
+source-html: static-site/technologies.html
+tags: public page
+title: Technologies
+type: text/vnd.tiddlywiki
+
+Production-proven expertise across modern engineering and eLearning systems Curated expertise spanning modern software development and deep domain knowledge in eLearning platforms. Each technology below reflects real production work—not aspirational skills. Proficiency levels (Deep/Working/Aware) are honest self-assessments based on actual engagement depth, not marketing speak. Project counts and client tags come from verified email archive data.
+
+!! Languages & Frameworks
+
+!!! JavaScript
+
+Deep Primary language across full career. SCORM runtime APIs, cross-browser debugging, modern ES6+ features, Vue.js component architecture, Node.js tooling. Daily driver for 28 years. jQuery era to modern frameworks. 1998–present PNC Nalco Hilton Cigna BMS
+
+!!! HTML/CSS
+
+Deep Semantic HTML5, WCAG AA-compliant accessibility implementation, responsive design, CSS Grid/Flexbox, custom properties, dark mode theming. Production sites pass WAVE/axe validation. 1998–present PNC HSBC GDEB Nalco Entergy
+
+!!! Node.js
+
+Deep Build pipelines, SCORM package assembly, CLI tooling, server-side generation. npm ecosystem expertise. Used across website generation, data processing, and development tooling. ~2015–present GP Strategies
+
+!!! Vue.js
+
+Deep Preferred framework. Component architecture, state management, reactive data binding. Production experience with complex review apps and data visualization interfaces. ~2018–present GP Strategies HSBC
+
+!!! React
+
+Working Production experience across BP Learning Platform, ContentAIQ, and AICPA projects. Component development, hooks, state management, Material UI theming. Solid contributor with growing architectural ownership. 2022–2025 BP AICPA ContentAIQ
+
+!!! TypeScript
+
+Deep Core production language for all modern projects. Full type system fluency: generics, discriminated unions, strict mode. BP Learning Platform, ContentAIQ, and portfolio site all TypeScript-first. 2022–present BP ContentAIQ
+
+!!! Python
+
+Working Data pipelines, DB operations, website generators, CLI tools. sqlite3, Click framework, structured data processing. Current project's primary scripting language.
+
+!!! Bash/Shell
+
+Working WSL2/Linux daily use. Build automation, git workflows, system administration. Comfortable with piping, regex, and common Unix utilities.
+
+!!! C#/.NET
+
+Aware Exposure through platform work and legacy system integration. Familiar with .NET ecosystem and ASP.NET patterns. 2009–2016 SunTrust GP Strategies
+
+!!! GraphQL
+
+Aware Exposure through BP Learning Platform, which uses Apollo Federation for its GraphQL API layer. 2022–2025 BP
+
+!!! Material UI
+
+Working Component library used in BP Learning Platform. Theming, custom component composition, and responsive layout implementation in a production React codebase. 2022–2025 BP
+
+!!! Tailwind CSS
+
+Working Utility-first CSS framework used in ContentAIQ project. Responsive design, custom configuration, and component styling in a production Next.js codebase. 2024–2025 ContentAIQ
+
+!!! Next.js
+
+Aware Application framework underlying the ContentAIQ project. Familiar with file-based routing, API routes, and server-side rendering patterns. 2024–2025 ContentAIQ
+
+!! Data & APIs
+
+!!! SQLite
+
+Deep Extensive deep work on relational schema design, complex joins, migration patterns, data integrity constraints. Current project uses SQLite as the primary data store with 6,600+ records. 2024–present
+
+!!! SQL
+
+Deep SQL Server, Oracle, and other relational databases. Complex queries, performance optimization, stored procedures, indexing strategies. Production experience across multiple DB platforms. ~2000–present PNC SunTrust GDEB
+
+!!! XML
+
+Deep SCORM manifests (imsmanifest.xml), AICC HACP packets, legacy data formats. Schema validation, transformation, and debugging. 2009–2020 Nalco BMS Exelon
+
+!!! Regular Expressions
+
+Working Diagnostic tool for SCORM debugging, data extraction, and text processing. Complex pattern matching, capture groups, lookaheads across JavaScript, Python, and shell workflows.
+
+!!! REST APIs
+
+Deep API design, reverse-engineering, and integration across LMS and enterprise platforms. Xyleme LCMS API analysis, SunTrust platform API consultation, SCORM Cloud API automation, and Microsoft Graph API integration. HTTP debugging with Fiddler as a core diagnostic skill applied across client engagements. 2010–present SunTrust
+
+!! AI & Automation
+
+!!! Claude Code
+
+Deep Primary AI development tool. Full project execution with Claude: architecture, implementation, testing, documentation. Current project built 95% with AI assistance.
+
+!!! GitHub Copilot
+
+Working Supplementary AI tool for inline code completions and boilerplate generation. Used alongside Claude Code for complementary strengths.
+
+!!! Power Platform
+
+Deep Year-long production development on model-driven apps and Dataverse. Self-taught under production conditions with no onboarding. Developed sufficient platform fluency to conduct forensic architecture audit identifying 5 foundational gaps. Power Apps (model-driven, canvas), Dataverse, Power Automate, PowerFX, solution architecture. 2024–2025 Microsoft Enterprise Client
+
+!!! Copilot Studio
+
+Deep Designed hybrid AI/structured-data architecture for Microsoft training agent. Separated deterministic operations (JSON state) from intelligence operations (LLM). Zero to functional POC in ~4 weeks. Reusable pattern for stateful AI workflows. 2024 Microsoft
+
+!!! Dataverse
+
+Working Production experience with table structure, entity relationships, and schema design patterns. Identified ad-hoc table creation and missing data model as critical architectural gaps during forensic audit. 2025 Enterprise Client
+
+!! Diagnostic & Analysis
+
+Forensic debugging mindset—not just tools, but methodology for solving complex technical issues.
+
+!!! Fiddler
+
+Deep HTTP traffic analysis, API debugging, performance profiling. Essential tool for SCORM/AICC communication diagnostics. Deep expertise in request/response inspection and manipulation. 2011–2022 Exelon SunTrust Hilton GDEB AEP
+
+!!! SCORM Cloud
+
+Deep Primary diagnostic platform for eLearning content validation. Reference implementation testing, conformance verification, cross-LMS comparison. 2011–2022 PNC Exelon HSBC
+
+!!! Chrome DevTools
+
+Deep Core diagnostic tool. Network panel, console debugging, Elements inspector, Performance profiling, Application storage. Daily debugging workflow.
+
+!!! Postman
+
+Working API testing and exploration. Request building, environment variables, test scripting. Used for LMS API integration work.
+
+!! Platforms & DevOps
+
+!!! Git/GitHub
+
+Deep Adopted Git personally before transitioning team projects at GP Strategies. Branching strategies, PR workflows, conflict resolution, CI/CD with GitHub Actions. Current projects use advanced workflows including worktrees and automated commit conventions. Earlier career used Visual SourceSafe and Subversion. ~2018–present GP Strategies
+
+!!! Azure DevOps
+
+Working Work item tracking, source control, build pipeline coordination. Team collaboration on enterprise projects. 2020–2025 GP Strategies
+
+!!! Docker
+
+Aware Development environment containerization. Running and configuring containers, basic docker-compose. Used for local development tooling.
+
+!!! SharePoint
+
+Working Collaboration platform administration, document library management, workflow automation. Enterprise content management. 2010–2022
+
+!!! Linux
+
+Working WSL2 daily use, command-line fluency, system administration basics, shell scripting, package management.
+
+!!! npm
+
+Working Package management ecosystem. Dependency management, script automation, version resolution, package.json configuration.
+
+!!! AWS
+
+Working Cloud platform for LMS and application hosting. S3 storage, EC2 instances, Cognito authentication (BP project). Infrastructure exposure across PNC, HSBC, and TD Bank client environments. 2020–2025 PNC Microsoft HUP TD Bank HSBC
+
+!!! Apache
+
+Aware Web server configuration and troubleshooting. .htaccess rules, virtual hosts, SSL setup. 2010–2019 Hilton AEP GP Strategies
+
+!!! Oracle
+
+Working Underlying database and LMS platform across several enterprise clients. Oracle SQL familiarity, PL/SQL patterns, Oracle iLearn/Saba administration. Platform-level troubleshooting, not deep DBA work. 2010–2022 PNC HSBC UOB
+
+!!! Webpack
+
+Working Module bundler configured and maintained across multiple projects. Build pipeline setup, loader configuration, and optimization for production eLearning and web application builds.
+
+!!! Jira
+
+Working Daily project management and issue tracking tool across client engagements. Sprint planning, backlog management, and workflow configuration in enterprise environments. 2010–2025
+
+!! Practices & Competencies
+
+!!! WCAG/Accessibility
+
+Deep Developed enterprise accessibility testing methodology for interactive eLearning where no established standards existed. WCAG 2.1 AA and Section 508 compliance across 4 banking clients (PNC, HSBC, TD Bank, UOB). JAWS and NVDA screen reader testing, ARIA implementation, and reusable testing templates used as reference across subsequent client engagements. 2021–present PNC HSBC TD Bank UOB
+
+!!! Technical Writing
+
+Deep Defining professional skill spanning entire career. 14 documented case studies, enterprise methodology documentation, API specifications, and troubleshooting guides. Career-long pattern of turning complex technical work into structured, reusable documentation that becomes organizational reference material.
+
+!! eLearning Domain Expertise
+
+20+ years deep in eLearning standards, platforms, and authoring tools. This domain knowledge differentiates from general web development.
+
+!!! SCORM
+
+Deep Primary technical authority on SCORM 1.2 and 2004. API implementation, manifest construction, sequencing and navigation, cross-platform troubleshooting. Recognized expert. 2002–present PNC HSBC Cigna UOB Nalco
+
+!!! AICC
+
+Deep Deep understanding of HACP protocol. Led Chrome 80 SameSite cookie impact analysis. Key advisor on AICC-to-SCORM migration strategies. 2009–2022 AEP BMS Exelon Nalco FPL
+
+!!! xAPI (Tin Can)
+
+Working Next-generation learning standard. Evaluated for VR/non-traditional learning environments. Statement design, LRS integration patterns. 2015–present
+
+!!! GPiLEARN
+
+Deep Custom SCORM-to-AICC wrapper platform. Deep involvement in architecture, troubleshooting, and client implementations. 2009–2020 FPL Entergy NRG Nalco AEP
+
+!!! Cornerstone OnDemand
+
+Deep SCORM/AICC integration expert. Deep knowledge of platform APIs, content import workflows, and troubleshooting common issues. 2010–2022 PNC GDEB NRG
+
+!!! SuccessFactors
+
+Deep Deepest LMS platform experience. Originally Plateau LMS, acquired by SAP and rebranded as SuccessFactors Learning. Platform configuration, content integration, SCORM troubleshooting across dozens of client deployments. 2009–2022 HSBC Corning GPiLEARN
+
+!!! Saba/SumTotal
+
+Working Platform integration and troubleshooting across multiple client deployments. Content upload workflows, SCORM compatibility testing, vendor coordination. 2009–2022
+
+!!! Articulate Storyline
+
+Deep Package internals, JavaScript customization, SCORM implementation details. Storyline 1, 2, 3, 360, and legacy Articulate '09. Troubleshooting expert. 2009–2022 HSBC PNC Cigna MetLife
+
+!!! Adobe Captivate
+
+Working SCORM completion tracking, quiz results processing, package structure analysis. Troubleshooting and customization work. 2009–2022
+
+!!! Xyleme
+
+Deep Deep platform expertise: API reverse-engineering, R2R-to-XML conversion pipelines, content mapping, LCMS evaluation. 280 project touchpoints across content authoring and publishing workflows. Exhibit G documents 1,216-lesson content operation using Xyleme pipeline automation. 2010–2020 Nalco BMS Exelon
+
+!!! Ready2Role
+
+Deep LCMS platform maintained at deep level. Custom development, system administration, client support. Early career through recent years. 2009–2019 Nalco Entergy
+
+!!! QuickBase
+
+Working Production applications for project tracking and data management across multiple clients. Custom app development, workflow automation, reporting dashboards. 2010–2022 Hilton BASF FPL
+
+!!! Lectora
+
+Working eLearning authoring tool with significant project footprint. SCORM package troubleshooting, content customization, and cross-LMS compatibility testing across enterprise client deployments. 2009–2022
+
+!! Historical Technologies
+
+Technologies from earlier career phases, no longer in active use but part of the professional foundation.
+
+!!! Flash/ActionScript
+
+Deep Led Flash-to-HTML5 transition projects. ActionScript debugging, Flash content package troubleshooting. Legacy platform expertise. ~2002–2020 BMS Entergy
+
+!!! XAML
+
+Working Microsoft UI markup language from earlier era. WPF and Silverlight experience. 2009–2016
+
+!!! Java
+
+Aware Exposure through Java-based LMS platform work. Familiar with J2EE patterns and deployment. 2010–2022
+
+!!! EasyXDM
+
+Deep Cross-domain messaging library that was core to the CSBB Dispatch Framework (Exhibit E). Enabled secure iframe-to-parent communication for SCORM content delivery across domain boundaries. 197 career graph mentions reflecting central role in the GPiLEARN platform architecture. ~2009–2016 FPL Entergy NRG
+
+!!! jQuery
+
+Working Foundational JavaScript library used extensively in pre-framework era. DOM manipulation, AJAX patterns, and plugin ecosystem across eLearning and enterprise web projects. Superseded by modern frameworks but 231 career graph mentions reflect its ubiquity in earlier work. ~2007–2018
+

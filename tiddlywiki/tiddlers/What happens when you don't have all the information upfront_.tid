@@ -1,0 +1,29 @@
+created: 20260421000000000
+faq-id: missing-information-upfront
+modified: 20260421000000000
+tags: public faq approach
+title: What happens when you don't have all the information upfront?
+type: text/vnd.tiddlywiki
+
+Missing information is the default state, not an exception. In 28 years of consulting work, I've almost never started a problem with complete information. Clients often don't know what's wrong. Documentation is missing or inaccurate. The person who built the system is long gone.
+
+My approach: build the information I need through systematic investigation. Observe the system. Form a hypothesis from observable behavior. Test the hypothesis against data. Iterate. Don't wait for someone to hand you the answer, go find it.
+
+This same discipline applied when I designed the accessibility testing methodology for HSBC, PNC, and TD Bank. No established framework existed for testing interactive, JavaScript-driven eLearning. I couldn't look it up. So I built it from first principles: WCAG 2.1 as the baseline, ARIA Authoring Practices for interactive patterns, and hands-on JAWS/NVDA testing as the ground truth.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

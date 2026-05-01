@@ -15,6 +15,8 @@ vi.mock('@unhead/vue', () => ({
 
 import { useRoute } from 'vue-router'
 import ExhibitDetailPage from './ExhibitDetailPage.vue'
+import InvestigationReportLayout from '@/components/exhibit/InvestigationReportLayout.vue'
+import EngineeringBriefLayout from '@/components/exhibit/EngineeringBriefLayout.vue'
 
 describe('ExhibitDetailPage', () => {
   beforeEach(() => {
@@ -45,7 +47,7 @@ describe('ExhibitDetailPage', () => {
     expect(wrapper.text()).toContain('Exhibit A')
   })
 
-  it('renders a Back to Portfolio link', () => {
+  it('renders a Back to Case Files link', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-a' },
     } as any)
@@ -55,8 +57,8 @@ describe('ExhibitDetailPage', () => {
     })
 
     // RouterLink is stubbed as router-link-stub — find by rendered element
-    const portfolioLink = wrapper.find('[to="/portfolio"]')
-    expect(portfolioLink.exists()).toBe(true)
+    const caseFilesLink = wrapper.find('[to="/case-files"]')
+    expect(caseFilesLink.exists()).toBe(true)
   })
 
   it('calls router.replace with not-found for unknown slug', () => {
@@ -71,7 +73,7 @@ describe('ExhibitDetailPage', () => {
     expect(mockReplace).toHaveBeenCalledWith({ name: 'not-found' })
   })
 
-  it('renders Investigation Report badge for exhibit with investigationReport: true', () => {
+  it('renders Investigation Report badge for investigation-report exhibit', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-j' },
     } as any)
@@ -81,9 +83,10 @@ describe('ExhibitDetailPage', () => {
     })
 
     expect(wrapper.text()).toContain('Investigation Report')
+    expect(wrapper.find('.exhibit-type-badge.badge-aware').exists()).toBe(true)
   })
 
-  it('does not render Investigation Report badge for exhibit without investigationReport flag', () => {
+  it('renders Engineering Brief badge for engineering-brief exhibit', () => {
     vi.mocked(useRoute).mockReturnValue({
       params: { slug: 'exhibit-a' },
     } as any)
@@ -92,6 +95,66 @@ describe('ExhibitDetailPage', () => {
       global: { stubs: { RouterLink: true, TechTags: true } },
     })
 
-    expect(wrapper.find('.exhibit-investigation-badge').exists()).toBe(false)
+    expect(wrapper.text()).toContain('Engineering Brief')
+    expect(wrapper.find('.exhibit-type-badge.badge-deep').exists()).toBe(true)
+  })
+
+  it('dispatches to InvestigationReportLayout for investigation-report exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-j' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(InvestigationReportLayout).exists()).toBe(true)
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(false)
+  })
+
+  it('dispatches to EngineeringBriefLayout for engineering-brief exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-a' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(true)
+    expect(wrapper.findComponent(InvestigationReportLayout).exists()).toBe(false)
+  })
+
+  it('does not render EngineeringBriefLayout for investigation-report exhibit', () => {
+    vi.mocked(useRoute).mockReturnValue({
+      params: { slug: 'exhibit-j' },
+    } as any)
+
+    const wrapper = mount(ExhibitDetailPage, {
+      global: {
+        stubs: {
+          RouterLink: true,
+          TechTags: true,
+          InvestigationReportLayout: true,
+          EngineeringBriefLayout: true,
+        },
+      },
+    })
+
+    expect(wrapper.findComponent(EngineeringBriefLayout).exists()).toBe(false)
   })
 })

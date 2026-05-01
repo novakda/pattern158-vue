@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit L]]]]
+title: L Finding: No data model
+type: text/vnd.tiddlywiki
+
+! Finding
+
+No data model
+
+! Description
+
+No fully defined data model existed. Dataverse tables were being created ad hoc during development without a schema design phase. Entity relationships, data types, and constraints were improvised.
+

@@ -1,0 +1,28 @@
+created: 20260421000000000
+faq-id: ai-assisted-development-experience
+modified: 20260421000000000
+tags: public faq ai-tooling expertise
+title: What's your experience with AI-assisted development and LLM integration?
+type: text/vnd.tiddlywiki
+
+I see AI as a new category of integration problem, connecting language models to structured data, managing state across conversational sessions, building reliable workflows on top of non-deterministic components. Same discipline I've applied to SCORM protocols, webhook-driven sync services, and cross-domain messaging for two decades.
+
+In late 2025, I rebuilt Microsoft's AI-Led Training agent as a Copilot Studio implementation for their MCAPS global sales organization. I'd never worked in Copilot Studio before. The challenge was that the platform sits at an intersection of LLM conversational routing, adaptive cards for deterministic UI rendering, and structured data for managing learner state. I designed a hybrid architecture that used each technology for what it does well, adaptive cards for structured interactions where you need predictable UI, the LLM layer for conversational routing where natural language makes sense.
+
+The tools change. The engineering discipline of tracing data flow, understanding failure modes, and building reliable boundaries between systems stays the same.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What industries have you worked in?]]
+* [[What technologies do you specialize in?]]
+
+[[FAQ Index]]
+

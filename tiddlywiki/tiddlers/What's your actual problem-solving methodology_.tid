@@ -1,0 +1,27 @@
+created: 20260421000000000
+faq-id: problem-solving-methodology
+modified: 20260421000000000
+tags: public faq approach
+title: What's your actual problem-solving methodology?
+type: text/vnd.tiddlywiki
+
+I use what I call NTSB-style forensic methodology, the same discipline aviation accident investigators use. Start with the evidence, not the hypothesis. Capture the actual data flow first. Map the system boundaries. Identify where the contract between systems breaks down. Build the evidence chain before you present a diagnosis.
+
+The clearest example: General Motors reported a spike in incomplete course records. Everyone assumed backend tracking bug. I captured HTTP traffic with Fiddler, reverse-engineered the LMS integration, and found something no one expected. SCORM state was held in volatile memory with no autosave. Any browser interruption lost the entire session. Wrong hypothesis, wrong investigation, zero results. Right methodology: trace the data, then talk.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

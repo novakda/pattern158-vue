@@ -1,0 +1,31 @@
+created: 20260421000000000
+faq-id: typical-workflow
+modified: 20260421000000000
+tags: public faq approach
+title: What's your typical workflow?
+type: text/vnd.tiddlywiki
+
+The pattern repeats across my career:
+
+1. Deconstruct the Chaos: Forensic investigation to understand the system — map dependencies, identify patterns, document what exists
+2. Build the Tool: Create reusable frameworks to solve root causes, not symptoms — automate repetitive tasks, standardize processes
+3. Empower the User: Hand off robust, documented tools that make complex processes simple — clear READMEs, inline comments, training materials
+
+This pattern shows up whether I'm debugging SCORM packages, reverse-engineering legacy systems, or building automation tools.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Do you write documentation?]]
+* [[How do you approach troubleshooting?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What's your actual problem-solving methodology?]]
+
+[[FAQ Index]]
+

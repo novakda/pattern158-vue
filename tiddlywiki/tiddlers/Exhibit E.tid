@@ -1,0 +1,85 @@
+client: GP Strategies (Energy Utility Clients)
+created: 20260421000000000
+email-count: 10+ years in production
+exhibit-date: 2011–2016+
+exhibit-type: engineering-brief
+label: Exhibit E
+modified: 20260421000000000
+role: Architect — built in 2011, five years before Rustici Content Controller
+tags: public exhibit engineering-brief [[GP Strategies (Energy Utility Clients)]]
+title: Exhibit E
+type: text/vnd.tiddlywiki
+
+! CSBB Dispatch: Cross-Domain Content Delivery — Built 5 Years Before Content Controller
+''Summary:'' Centralized cross-domain content delivery: lightweight stub packages (kilobytes) deployed to client LMS platforms, actual content served from GP servers. EasyXDM cross-domain communication layer with transparent SCORM/AICC protocol translation. Package generation tooling (Groovy, Access, Windows Forms) automated global deployments across ~20 energy utility clients. ~2,000 course library (curated subsets per client), 10+ years in production. Architecture later adapted for General Dynamics Electric Boat defense sector.
+''Role:'' Architect — built in 2011, five years before Rustici Content Controller
+''Date:'' 2011–2016+
+''Email count:'' 10+ years in production
+
+! Context
+
+Architected a cross-domain content delivery system serving ~20 energy utility clients through a centralized SCORM dispatch layer — each drawing a curated subset from a ~2,000 course central library. Eliminated the manual zip-and-email deployment cycle. Built in 2011 — five years before Rustici released Content Controller to solve the same problem.
+
+! Impact Tags
+
+* Cross-Domain Architecture
+* ~20 Clients Served
+* SCORM
+* GPiLEARN
+* Rustici Precursor
+* 10+ Years in Production
+* Protocol Translation
+
+! Testimonials
+
+<<<
+Built in 2011 — five years before Rustici released Content Controller to solve the same problem.
+<<<
+''— GP Strategies (Energy Sector)''
+
+
+---
+
+! Personnel
+
+* [[Dan Novak]]
+* [[GPiLEARN program management and client coordination @ ]]
+* [[Primary development collaborator; GPiLEARN platform engineering @ ]]
+* [[Technical direction and hosting infrastructure @ ]]
+
+! Findings
+
+* [[E Finding: Automation at scale]]
+* [[E Finding: Cross-domain architecture]]
+* [[E Finding: Cross-industry reuse]]
+* [[E Finding: Deployment revolution]]
+* [[E Finding: Protocol agnostic]]
+
+! Technologies
+
+* [[Tech: AICC (HACP protocol)]]
+* [[Tech: BP]]
+* [[Tech: CORS]]
+* [[Tech: Calpine]]
+* [[Tech: Colorado Springs Utilities]]
+* [[Tech: EasyXDM (cross-domain messaging library)]]
+* [[Tech: Exelon]]
+* [[Tech: FPL]]
+* [[Tech: GP Strategies content servers]]
+* [[Tech: General Dynamics Electric Boat]]
+* [[Tech: Groovy (scripting)]]
+* [[Tech: HTML5]]
+* [[Tech: JavaScript (ES5)]]
+* [[Tech: Microsoft Access (database/UI)]]
+* [[Tech: NRG]]
+* [[Tech: Puget Sound Energy]]
+* [[Tech: SCORM 1.2]]
+* [[Tech: SCORM-to-AICC protocol translation]]
+* [[Tech: SQL (content metadata)]]
+* [[Tech: Windows Forms (tooling UI)]]
+* [[Tech: client LMS platforms]]
+* [[Tech: postMessage]]
+
+! Testimonials
+
+* [[Testimonial: GP Strategies (Energy Sector)]]

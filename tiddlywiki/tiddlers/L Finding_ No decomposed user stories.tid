@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-process [[[[Exhibit L]]]]
+title: L Finding: No decomposed user stories
+type: text/vnd.tiddlywiki
+
+! Finding
+
+No decomposed user stories
+
+! Description
+
+No user stories with acceptance criteria. No definition of done. No way to verify whether built features matched business intent.
+

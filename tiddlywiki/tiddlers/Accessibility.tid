@@ -1,0 +1,45 @@
+created: 20260421000000000
+modified: 20260421000000000
+source-html: static-site/accessibility.html
+tags: public page
+title: Accessibility
+type: text/vnd.tiddlywiki
+
+Pattern 158 Solutions is committed to ensuring digital accessibility for all users.
+
+!! Commitment to Accessibility
+
+Pattern 158 Solutions is dedicated to making this website accessible to the widest possible audience, including individuals with disabilities. We strive to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA standard.
+
+!! Standards and Conformance
+
+This website has been designed and tested to meet the following accessibility standards: WCAG 2.1 Level AA — Web Content Accessibility Guidelines version 2.1, conformance level AA Semantic HTML5 — Proper use of landmark elements, heading hierarchy, and ARIA attributes Keyboard Navigation — All functionality accessible via keyboard without mouse Screen Reader Compatibility — Tested for compatibility with common assistive technologies
+
+!! Accessibility Testing
+
+We employ multiple testing methodologies to ensure accessibility compliance: Automated Testing axe-core automated accessibility engine running on all 22 pages in both light and dark themes. Tests cover WCAG 2.1 Level A and AA success criteria. Manual Testing Keyboard navigation testing of all interactive elements. Visual inspection of color contrast, heading hierarchy, and semantic structure. Cross-Browser Validation Functional testing on Chromium-based browsers (Chrome, Edge) and Firefox to ensure consistent experience across browsers. Viewport Testing Responsive design validated at desktop (1200px) and mobile (375px) viewports with full screenshot evidence.
+
+!! Current Status
+
+Last Verified: February 21, 2026 Test Results: Dark mode: 21/21 pages pass all WCAG 2.1 AA automated tests (100% compliance) Light mode: Substantially compliant with minor cosmetic exceptions Semantic structure: 100% compliant across all pages Keyboard navigation: 100% compliant across all pages Cross-browser: Validated on Chromium and Firefox
+
+!! Browsers and Assistive Technologies
+
+This website has been tested with the following browsers: Chrome (latest version) Microsoft Edge (latest version) Firefox (latest version) The site is designed to work with assistive technologies including: Screen readers (NVDA, JAWS, VoiceOver) Keyboard-only navigation Voice control software Browser zoom and text resizing up to 200%
+
+!! Accessibility Features
+
+This website includes the following accessibility features: Skip to main content link at the top of every page for keyboard users Semantic HTML landmarks (header, nav, main, footer) for screen reader navigation Proper heading hierarchy (h1 → h2 → h3) with no skipped levels Alternative text for all meaningful images High contrast ratios between text and background (minimum 4.5:1 for normal text) Visible focus indicators for keyboard navigation (4.5:1 contrast ratio) Dark mode support respecting system preferences and manual toggle Responsive design that works on mobile devices and tablets Clear link purpose with descriptive link text (no "click here") Consistent navigation across all pages
+
+!! Known Issues
+
+We continuously work to improve accessibility. Currently identified issues include: Some decorative badge elements on the Technologies page and select exhibits have color contrast slightly below 4.5:1 in light mode. These are cosmetic elements that do not impact access to core content. These issues are documented and scheduled for remediation.
+
+!! Feedback and Contact
+
+We welcome feedback on the accessibility of Pattern 158 Solutions. If you encounter accessibility barriers on this website, please contact us: Email: dan@pattern158.solutions Contact Page: Contact Dan Novak We aim to respond to accessibility feedback within 5 business days.
+
+!! Technical Specifications
+
+This website's accessibility relies on the following technologies: HTML5 CSS3 JavaScript (for theme toggle and navigation; core content accessible without JavaScript) ARIA (Accessible Rich Internet Applications) attributes for enhanced semantics
+

@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-architecture [[[[Exhibit N]]]]
+title: N Finding: Undocumented theming
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Undocumented theming
+
+! Description
+
+Material UI component relationships were not documented — visual changes cascaded in unexpected ways, requiring archaeological investigation of the component tree
+

@@ -1,0 +1,25 @@
+created: 20260421000000000
+modified: 20260421000000000
+tags: public page case-files
+title: Case Files Index
+type: text/vnd.tiddlywiki
+
+All case files in a sortable table. Click a column header in TiddlyWiki to sort; filter by tag to narrow (tags: investigation-report, engineering-brief, {client}).
+
+|!Date |!Client |!Type |!Case |!Title |
+|2015–2022 |General Dynamics Electric Boat |Brief |[[Exhibit A]] |Cross-Domain SCORM Resolution & Embedded Technical Advisory |
+|2018–2019 |GP Strategies Leadership |Brief |[[Exhibit B]] |Leadership Recognition Chain: A Repeatable Pattern |
+|December 2015 |GP Strategies — Content Team |Brief |[[Exhibit C]] |1,216-Lesson Content Refresh: Automation Saves 600+ Hours |
+|August 2018 |Wells Fargo |Brief |[[Exhibit D]] |Sales Conversion Migration: 100+ Course Technical Lead |
+|2011–2016+ |GP Strategies (Energy Utility Clients) |Brief |[[Exhibit E]] |CSBB Dispatch: Cross-Domain Content Delivery — Built 5 Years Before Content Controller |
+|2015–2022 |HSBC |Brief |[[Exhibit F]] |Cross-Platform SCORM Forensics & Legacy Recovery |
+|2015–2018 |SunTrust (now Truist) |Brief |[[Exhibit G]] |AWARE Platform: Custom SCORM-to-API Integration |
+|October 2019 |Internal — Cross-Functional |Brief |[[Exhibit H]] |Metal Additive Manufacturing Course: Rapid Diagnosis |
+|2021–2024 |TD Bank (via GP Strategies) |Brief |[[Exhibit I]] |Enterprise Accessibility Initiative: Methodology Creation |
+|2017–2018 |General Motors |Investigation |[[Exhibit J]] |GM Learning Portal: Course Completion Anomaly Investigation |
+|2025–2026 |Microsoft (MCAPS) |Investigation |[[Exhibit K]] |Microsoft MCAPS: AI-Led Training Agent |
+|2025 |Enterprise Client (Confidential) |Investigation |[[Exhibit L]] |Power Platform: Forensic Architecture Audit |
+|~2019–2020 |GP Strategies (Internal Tooling) |Investigation |[[Exhibit M]] |SCORM Debugger: TASBot-Inspired QA Automation |
+|2024 |BP (via Leo Learning / GP Strategies) |Investigation |[[Exhibit N]] |BP Learning Platform: Federated System Integration |
+|2024–2025 |GP Strategies (Internal Product) |Brief |[[Exhibit O]] |ContentAIQ — The Integration Thread: Pattern Recognition Across Three Projects |
+

@@ -1,0 +1,19 @@
+created: 20260421000000000
+list-after: $:/core/ui/ViewTemplate/title
+modified: 20260421000000000
+tags: $:/tags/ViewTemplate
+title: $:/plugins/pattern158/view/finding
+type: text/vnd.tiddlywiki
+
+\whitespace trim
+<$list filter="[all[current]tag[finding]]" variable="ignore">
+<div class={{{ [all[current]tags[]prefix[severity-]addprefix[p158-finding-header ]] }}}>
+<strong>Finding</strong>
+<$list filter="[all[current]tags[]prefix[severity-]]" variable="sev">
+&nbsp;<span class={{{ [<sev>addprefix[badge ]] }}}><$text text=<<sev>>/></span>
+</$list>
+<$list filter="[all[current]tags[]prefix[category-]]" variable="cat">
+&nbsp;<span class={{{ [<cat>addprefix[pill ]] }}}><$text text=<<cat>>/></span>
+</$list>
+</div>
+</$list>

@@ -1,0 +1,16 @@
+tags: public finding severity-unknown category-protocol [[[[Exhibit A]]]]
+title: A Finding: HTML5 courses failing under AICC protocol
+type: text/vnd.tiddlywiki
+
+! Finding
+
+HTML5 courses failing under AICC protocol
+
+! Description
+
+HTML5 is the modern publishing format replacing Flash. EB's HTML5 AICC courses threw errors at launch and could not communicate with the LMS, preventing completion recording.
+
+! Resolution
+
+Converted AICC courses to SCORM HTML5 using the cross-domain wrapper. Courses performed better than they had under the previous AICC configuration.
+

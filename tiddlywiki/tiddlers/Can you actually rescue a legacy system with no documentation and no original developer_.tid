@@ -1,0 +1,31 @@
+created: 20260421000000000
+faq-id: rescue-legacy-system
+modified: 20260421000000000
+tags: public faq legacy expertise
+title: Can you actually rescue a legacy system with no documentation and no original developer?
+type: text/vnd.tiddlywiki
+
+Yes. It's most of what I did for two decades.
+
+The Ready2Role CMS at GP Strategies is the clearest example. Original developer built a Java/JSP content management system, then left with zero documentation and zero handoff. Running production system. Actively serving client courses. No source repository, just compiled artifacts and a live application.
+
+I decompiled the deployed packages and reconstructed the system's behavior through analysis alone: mapping data flows from the JSP frontend through SQL Server stored procedures, understanding the authoring workflows, identifying which pieces were load-bearing. Where server-side refactoring was impractical, and without documentation or tests, most of it was, I built JavaScript workarounds to extend functionality from the client side.
+
+That system ran in production for 10+ years beyond its expected end of life. It produced roughly 1,200 courses, about 60% of the organization's catalog. Reverse-engineering is not just reading code; it's building a mental model of a system from its observable behavior when no one can tell you how it works.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What industries have you worked in?]]
+* [[What technologies do you specialize in?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+* [[When should you replace a legacy system vs. stabilize it?]]
+
+[[FAQ Index]]
+

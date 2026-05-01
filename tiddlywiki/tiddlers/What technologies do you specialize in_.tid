@@ -1,0 +1,26 @@
+created: 20260421000000000
+faq-id: technology-specializations
+modified: 20260421000000000
+tags: public faq expertise
+title: What technologies do you specialize in?
+type: text/vnd.tiddlywiki
+
+Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL
+
+Specialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA)
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Can you actually rescue a legacy system with no documentation and no original developer?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What does enterprise accessibility work actually involve beyond running automated tools?]]
+* [[What industries have you worked in?]]
+* [[What's your experience with AI-assisted development and LLM integration?]]
+
+[[FAQ Index]]
+

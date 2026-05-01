@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-tooling [[[[Exhibit N]]]]
+title: N Finding: Cross-system debugging
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Cross-system debugging
+
+! Description
+
+Bugs required tracing across GraphQL queries, backend API responses, LRS xAPI statements, and Cognito authentication flows simultaneously
+

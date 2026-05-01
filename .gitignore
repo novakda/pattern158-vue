@@ -5,3 +5,25 @@ dist
 
 *storybook.log
 storybook-static
+.claude/worktrees/
+.claude/
+
+# Vitest browser-mode runtime artifacts
+.vitest-attachments/
+src/pages/__screenshots__/
+
+# TypeScript project-references build artifacts (scripts project)
+.tsbuildinfo-scripts/
+tsconfig.scripts.tsbuildinfo
+*.tsbuildinfo
+
+# TypeScript project-references build artifacts (editorial project)
+.tsbuildinfo-editorial/
+tsconfig.editorial.tsbuildinfo
+
+# v9.0 static-site generator output (captured via pnpm editorial:capture — regenerable)
+/static-site/
+
+# v9.0 tiddlywiki generator artifacts
+/tiddlywiki/output/
+/tiddlywiki/tiddlers/$__StoryList.tid

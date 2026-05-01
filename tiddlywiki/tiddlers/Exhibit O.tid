@@ -1,0 +1,41 @@
+client: GP Strategies (Internal Product)
+created: 20260421000000000
+email-count: AI product work
+exhibit-date: 2024–2025
+exhibit-type: engineering-brief
+label: Exhibit O
+modified: 20260421000000000
+role: Full-stack evolution across three GP projects — integration expertise as the organic path to AI product work
+tags: public exhibit engineering-brief [[GP Strategies (Internal Product)]]
+title: Exhibit O
+type: text/vnd.tiddlywiki
+
+! ContentAIQ — The Integration Thread: Pattern Recognition Across Three Projects
+''Summary:'' Pattern recognition across a three-project arc: BP Learning Platform (federated React/GraphQL facade), AICPA Bridge Adapter (webhook sync pipeline), and ContentAIQ (AI-powered content creation platform). Dan was one of several frontend developers building the Next.js interface surfacing LLM capabilities — not the AI pipeline itself, but the UX users interact with. Same integration thread across all three, evolving from Material UI to Tailwind CSS, React to Next.js. Pilot-stage product work with rapid iteration cycles, design-to-code translation from Adobe XD mockups, and enterprise-scale multitenant SaaS architecture.
+''Role:'' Full-stack evolution across three GP projects — integration expertise as the organic path to AI product work
+''Date:'' 2024–2025
+''Email count:'' AI product work
+
+! Context
+
+Integration expertise forms the connective thread across three GP Strategies projects spanning federated LMS facades, webhook sync pipelines, and AI product interfaces. The progression demonstrates pattern recognition across thirteen years, from CSBB Dispatch (2011) through modern multitenant SaaS architecture. All three projects required coordinating across system boundaries and debugging failures spanning multiple platforms.
+
+! Impact Tags
+
+* AI Product Frontend
+* Multitenant Architecture
+* Design Translation
+* Integration Patterns
+* Pattern Recognition
+* Cross-System Coordination
+* Federated Systems
+
+---
+
+! Findings
+
+* [[O Finding: Cross-system debugging]]
+* [[O Finding: Design-to-code pragmatism]]
+* [[O Finding: Inherited code stewardship]]
+* [[O Finding: Organic evolution]]
+* [[O Finding: Pattern recognition]]

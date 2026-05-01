@@ -1,94 +1,16 @@
-export interface FaqItem {
-  question: string
-  answer: string
-  category: 'hiring' | 'expertise' | 'style' | 'process'
-}
+import type { FaqItem, FaqCategory } from '@/types'
+import faqItemsData from './json/faq.json'
+
+export type { FaqItem, FaqCategory }
 
 export const faqCategories = [
   { id: 'hiring' as const, heading: 'Hiring Logistics', intro: 'Availability, rates, and work arrangements' },
   { id: 'expertise' as const, heading: 'Technical Expertise', intro: 'Technologies, specializations, and domain knowledge' },
-  { id: 'style' as const, heading: 'Working Style', intro: 'Communication, collaboration, and approach' },
-  { id: 'process' as const, heading: 'Process & Methodology', intro: 'How Dan works in practice' },
-]
+  { id: 'approach' as const, heading: 'Approach & Methodology', intro: 'How problems get diagnosed, solved, and documented' },
+  { id: 'architecture' as const, heading: 'Architecture & Systems', intro: 'System design, integration patterns, and technical strategy' },
+  { id: 'legacy' as const, heading: 'Legacy Modernization', intro: 'Rescuing, reverse-engineering, and upgrading aging systems' },
+  { id: 'collaboration' as const, heading: 'Collaboration & Communication', intro: 'Working style, distributed teams, and stakeholder engagement' },
+  { id: 'ai-tooling' as const, heading: 'AI & Tooling', intro: 'AI-assisted development, automation, and developer tooling' },
+] as const satisfies readonly FaqCategory[]
 
-export const faqItems: FaqItem[] = [
-  // Hiring Logistics
-  {
-    category: 'hiring',
-    question: 'Are you available for new projects?',
-    answer: 'Yes, I\'m available for contract, contract-to-hire, or full-time positions. I was laid off from GP Strategies in January 2026 and am actively seeking new opportunities.\n\nI\'m interested in roles involving legacy system modernization, LMS/SCORM integration, enterprise system architecture, accessibility remediation (WCAG 2.1 AA+), and AI-assisted development tooling.',
-  },
-  {
-    category: 'hiring',
-    question: 'What\'s your work arrangement preference?',
-    answer: 'Remote is ideal. I\'m also open to hybrid arrangements in the Portland, OR area (Vancouver, WA specifically). I have 28+ years of experience working effectively with distributed teams across time zones.\n\nI\'m comfortable with async communication (email, Slack, documentation) and sync collaboration (video calls, pair programming) depending on what the project needs.',
-  },
-  {
-    category: 'hiring',
-    question: 'What are your contract rates?',
-    answer: 'For contract work, rates vary based on project scope, duration, and technical complexity. Let\'s discuss your specific needs — contact me with project details and we can work out terms that make sense for both of us.',
-  },
-  // Technical Expertise
-  {
-    category: 'expertise',
-    question: 'What technologies do you specialize in?',
-    answer: 'Primary stack: JavaScript, TypeScript, Vue.js, Node.js, HTML5/CSS3, SQL\n\nSpecialized domains: Learning Management Systems (LMS), SCORM/AICC/xAPI, eLearning technologies, accessibility remediation (WCAG 2.1 AA/AAA)',
-  },
-  {
-    category: 'expertise',
-    question: 'Do you work with legacy systems?',
-    answer: 'Yes, legacy system modernization is a core specialty. I\'ve rescued undocumented systems, reverse-engineered abandoned codebases, and integrated legacy platforms with modern architectures.\n\nSee the portfolio for examples like the legacy CMS rescue and cross-domain SCORM framework.',
-  },
-  {
-    category: 'expertise',
-    question: 'Are you experienced with AI and automation?',
-    answer: 'Yes. I\'ve designed agentic workflows using GitHub Spec Kit, built Copilot Studio agents for enterprise clients, and use AI-assisted development extensively (GitHub Copilot, Claude Code).\n\nI focus on practical applications - tools that solve real problems, not hype. AI is most valuable for documentation generation, code review, and rapid prototyping.',
-  },
-  {
-    category: 'expertise',
-    question: 'What industries have you worked in?',
-    answer: 'Banking (PNC, JPMorgan Chase, Kmart Credit), Defense (GDEB Electric Boat), Energy (7+ utilities including FPL, NRG, Exelon), Retail (GM, Kmart), Healthcare (Cornell Medical), and Enterprise software (Microsoft, BP).\n\nThis cross-industry experience helps me recognize patterns and apply solutions from one domain to another.',
-  },
-  // Working Style
-  {
-    category: 'style',
-    question: 'How do you handle communication?',
-    answer: 'I provide clear, documented communication. I\'m comfortable with async (email, Slack, documentation) and sync (video calls, pair programming) depending on what the project needs.\n\nI\'m in US Pacific timezone (Portland, OR). I respond to messages during business hours and document key decisions so distributed teams can stay aligned.',
-  },
-  {
-    category: 'style',
-    question: 'Do you work well with distributed teams?',
-    answer: 'Yes. I\'ve spent 28 years working with distributed teams across time zones. I understand the importance of documentation, clear handoffs, and async-first workflows.\n\nI\'m experienced with collaborative tools (Jira, Confluence, GitHub, Teams, Slack) and know how to keep projects moving when team members are in different locations.',
-  },
-  {
-    category: 'style',
-    question: 'What\'s your approach to unclear requirements?',
-    answer: 'I treat it as a forensic investigation. When requirements are undefined or contradictory, I document what exists, map the gaps, and propose solutions grounded in evidence.\n\nSee the featured projects for examples of how I approach undocumented systems and rebuild them systematically. If you have an unclear situation, let\'s talk — this is the kind of problem I\'m good at solving.',
-  },
-  {
-    category: 'style',
-    question: 'Are you comfortable working independently?',
-    answer: 'Yes. I\'ve often been "the engineer" on projects — the one who figures problems out, builds the tool, and hands off documentation. I\'m self-directed but also collaborate well when the project calls for it.\n\nI thrive in situations where requirements are unclear, documentation is missing, or the problem hasn\'t been solved before. Give me a complex puzzle and I\'ll map it, solve it, and document it.',
-  },
-  // Process & Methodology
-  {
-    category: 'process',
-    question: 'What\'s your typical workflow?',
-    answer: 'The pattern repeats across my career:\n\n1. Deconstruct the Chaos: Forensic investigation to understand the system — map dependencies, identify patterns, document what exists\n2. Build the Tool: Create reusable frameworks to solve root causes, not symptoms — automate repetitive tasks, standardize processes\n3. Empower the User: Hand off robust, documented tools that make complex processes simple — clear READMEs, inline comments, training materials\n\nThis pattern shows up whether I\'m debugging SCORM packages, reverse-engineering legacy systems, or building automation tools.',
-  },
-  {
-    category: 'process',
-    question: 'How do you approach troubleshooting?',
-    answer: 'Systems thinking first. I look for patterns, examine different angles (technical, UX, user behavior), and verify hypotheses with evidence. I document findings clearly so others can follow the reasoning.\n\nI\'m methodical: reproduce the issue, isolate variables, test hypotheses, fix root cause (not symptoms), verify the fix, and document for future reference.',
-  },
-  {
-    category: 'process',
-    question: 'Do you write documentation?',
-    answer: 'Yes, extensively. I believe tools are as good as their documentation. I write clear READMEs, inline code comments, architecture decision records (ADRs), and handoff guides.\n\nDocumentation isn\'t an afterthought — it\'s part of the deliverable. If I build it, I document it so the next person (or future me) can understand and maintain it.',
-  },
-  {
-    category: 'process',
-    question: 'What\'s your philosophy on tool selection?',
-    answer: '"Right tool for the job." I\'m pragmatic — native solutions over frameworks when possible, established libraries over hand-rolled, simple over clever.\n\nI assess tools based on: Does it solve the actual problem? Will the team be able to maintain it? Is it overengineered? I\'d rather use a boring, reliable solution than chase the latest trend. See the philosophy page for more on this approach.',
-  },
-]
+export const faqItems: FaqItem[] = faqItemsData as FaqItem[]

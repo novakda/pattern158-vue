@@ -1,0 +1,27 @@
+created: 20260421000000000
+faq-id: troubleshooting-approach
+modified: 20260421000000000
+tags: public faq approach
+title: How do you approach troubleshooting?
+type: text/vnd.tiddlywiki
+
+Systems thinking first. I look for patterns, examine different angles (technical, UX, user behavior), and verify hypotheses with evidence. I document findings clearly so others can follow the reasoning.
+
+I'm methodical: reproduce the issue, isolate variables, test hypotheses, fix root cause (not symptoms), verify the fix, and document for future reference.
+
+---
+
+!! See also
+
+! Related questions
+
+* [[Do you write documentation?]]
+* [[How do you decide what to build vs. what to buy?]]
+* [[How do you ramp up on an unfamiliar technology or codebase quickly?]]
+* [[What does "28 years of experience" actually mean in practice?]]
+* [[What happens when you don't have all the information upfront?]]
+* [[What's your actual problem-solving methodology?]]
+* [[What's your typical workflow?]]
+
+[[FAQ Index]]
+

@@ -1,0 +1,12 @@
+tags: public finding severity-unknown category-environment [[[[Exhibit J]]]]
+title: J Finding: Short-burst usage pattern
+type: text/vnd.tiddlywiki
+
+! Finding
+
+Short-burst usage pattern
+
+! Description
+
+System was designed for hour-long desktop sessions. Actual users took training in 5-minute bursts between customer meetings. Each improper close triggered the cache vulnerability, dumping all progress.
+
